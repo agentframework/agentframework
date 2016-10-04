@@ -1,7 +1,7 @@
 Agent Framework for TypeScript 2
 --------------------------------
 
-Before
+### Without 'Agent Framework'
 
 ```typescript
 class Kernel {
@@ -31,7 +31,7 @@ class Kernel {
 
 ```
 
-After
+### Implement with 'Agent Framework - State Machine'
 
 ```typescript
 @agent('OneStack')
