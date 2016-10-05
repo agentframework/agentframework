@@ -1,6 +1,10 @@
 Agent Framework for TypeScript 2
 --------------------------------
 
+### Get me to the source
+
+[Agent Framework powered NPM library](https://github.com/e2tox/onestack/tree/2.1-typescript/src/lib/agent)
+
 ### Without 'Agent Framework'
 
 ```typescript
