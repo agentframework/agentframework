@@ -1,19 +1,15 @@
 import { IAttribute, IInterceptor, IInvocation, decorateClassMembers } from '../core';
 
 
-export function output(replaced: any) {
-  return decorateClassMembers(new OutputAttribute(replaced));
+export function output() {
+  return decorateClassMembers(new OutputAttribute());
 }
 
 class OutputAttribute implements IAttribute, IInterceptor {
   
   static type: string = 'agent.framework.output';
   
-  constructor(private _value: any) {
-  }
-
-  get value(): boolean {
-    return this._value
+  constructor() {
   }
   
   beforeDecorate(target: Object|Function, targetKey?: string|symbol, descriptor?: PropertyDescriptor): boolean {
@@ -30,10 +26,9 @@ class OutputAttribute implements IAttribute, IInterceptor {
   
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
     try {
-      const result = invocation.invoke(parameters);
-      return { result, error: null };
+      return { result: invocation.invoke(parameters), error: null };
     }
-    catch(err) {
+    catch (err) {
       return { result: null, error: err };
     }
   }
