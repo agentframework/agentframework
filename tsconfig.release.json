@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016",
+      "scripthost"
+    ],
+    "module": "commonjs",
+    "newLine": "LF",
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "lib",
+    "pretty": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules/**/*.ts",
+    "tools/**/*.ts",
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ]
+}

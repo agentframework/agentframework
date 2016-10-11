@@ -1,0 +1,9 @@
+.idea/
+node_modules/
+coverage/
+lib/
+bin/
+*.log
+*.js
+*.js.map
+*.d.ts

@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016",
+      "scripthost"
+    ],
+    "declaration": false,
+    "module": "commonjs",
+    "removeComments": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "sourceMap": false,
+    "typeRoots": [
+      "node_modules/@types/"
+    ],
+    "types": [
+      "jasmine",
+      "node"
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "tools/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.d.ts"
+  ]
+}

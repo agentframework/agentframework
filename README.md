@@ -1,6 +1,17 @@
 Agent Framework for TypeScript 2
 --------------------------------
 
+### What's this?
+- AOP for TypeScript
+- Custom your own interceptor with elegance design pattern
+- Require ES6 and TypeScript 2.x
+
+### Install and usage
+
+```bash
+  npm install --save agentframework@latest
+```
+
 ### Without 'Agent Framework'
 
 ```typescript
@@ -27,6 +38,15 @@ class Kernel {
     }
     return this._root.resolve(relativePath);
   }
+  
+  public getRoot(): string {
+    try {
+      return this._root.path;
+    }
+    catch(err) {
+      return null;
+    }
+  }
 }
 
 ```
@@ -34,6 +54,8 @@ class Kernel {
 ### Implement with 'Agent Framework - State Machine'
 
 ```typescript
+import { agent, prerequisite, success, failure } from 'agentframework'
+
 @agent('OneStack')
 class Kernel {
   
@@ -52,6 +74,11 @@ class Kernel {
   @prerequisite('initialized', true, 'OneStack not initialized. Please call init() first!')
   public resolve(relativePath): Directory {
     return this._root.resolve(relativePath);
+  }
+  
+  @failure(null)
+  public getRoot(): string {
+    return this._root.path;
   }
 }
 ```
