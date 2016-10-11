@@ -54,7 +54,7 @@ export class Reflection {
                              targetKey?: string | symbol,
                              descriptor?: PropertyDescriptor) {
     let reflection = Reflection.getOwnInstance(target, targetKey);
-    if (reflection === null) {
+    if (!reflection) {
       reflection = new Reflection(target, targetKey, descriptor);
       Reflection.metadata.saveOwn(reflection, target, targetKey);
     }
