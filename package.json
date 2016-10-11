@@ -1,11 +1,11 @@
 {
   "name": "agentframework",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Agent Oriented Programming for TypeScript",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "build": "npm run build:clean && npm run build:webpack",
+    "build": "npm run build:clean && npm run build:tsc",
     "build:clean": "rm -f ./bin/*.js",
     "build:tsc": "node_modules/.bin/tsc -p tsconfig.release.json",
     "build:webpack": "node_modules/.bin/webpack --display-error-details --config tools/webpack.config.ts"
