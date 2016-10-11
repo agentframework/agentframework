@@ -1,7 +1,6 @@
 .idea/
 node_modules/
 coverage/
-lib/
 bin/
 *.log
 *.js
