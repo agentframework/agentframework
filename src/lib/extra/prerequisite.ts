@@ -16,9 +16,7 @@ export function prerequisite(key: string, value: any, message: string|Error) {
  * PrerequisiteAttribute
  */
 class PrerequisiteAttribute implements IAttribute, IInterceptor {
-  
-  static type: string = 'agent.framework.prerequisite';
-  
+
   constructor(private _key: string, private _value: any, private _message: string|Error) {
   }
   
@@ -36,10 +34,6 @@ class PrerequisiteAttribute implements IAttribute, IInterceptor {
   
   beforeDecorate(target: Object|Function, targetKey?: string|symbol, descriptor?: PropertyDescriptor): boolean {
     return true;
-  }
-  
-  getType(): string {
-    return PrerequisiteAttribute.type
   }
   
   getInterceptor(): IInterceptor {

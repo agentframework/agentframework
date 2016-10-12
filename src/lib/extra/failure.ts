@@ -14,9 +14,6 @@ export function failure(replaced: any) {
  */
 class FailureAttribute implements IAttribute, IInterceptor {
 
-  
-  static type: string = 'agent.framework.failure';
-  
   constructor(private _value: any) {
   }
 
@@ -26,10 +23,6 @@ class FailureAttribute implements IAttribute, IInterceptor {
   
   beforeDecorate(target: Object|Function, targetKey?: string|symbol, descriptor?: PropertyDescriptor): boolean {
     return true;
-  }
-  
-  getType(): string {
-    return FailureAttribute.type
   }
   
   getInterceptor(): IInterceptor {

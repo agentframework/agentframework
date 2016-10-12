@@ -14,8 +14,6 @@ export function agent(identifier: string) {
  */
 class AgentAttribute implements IAttribute, IInterceptor {
   
-  static type: string = 'agent.framework.agent';
-  
   constructor(private _identifier: string) {
   }
   
@@ -27,16 +25,12 @@ class AgentAttribute implements IAttribute, IInterceptor {
     return true;
   }
   
-  getType(): string {
-    return AgentAttribute.type
-  }
-  
   getInterceptor(): IInterceptor {
     return this;
   }
   
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
-    // console.log('create new ', invocation.target, parameters);
+    // TODO: register this agent with domain
     return invocation.invoke(parameters);
   }
   

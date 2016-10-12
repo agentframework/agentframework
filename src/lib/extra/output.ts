@@ -7,17 +7,11 @@ export function output() {
 
 class OutputAttribute implements IAttribute, IInterceptor {
   
-  static type: string = 'agent.framework.output';
-  
   constructor() {
   }
   
   beforeDecorate(target: Object|Function, targetKey?: string|symbol, descriptor?: PropertyDescriptor): boolean {
     return true;
-  }
-  
-  getType(): string {
-    return OutputAttribute.type
   }
   
   getInterceptor(): IInterceptor {

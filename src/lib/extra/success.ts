@@ -15,9 +15,6 @@ export function success(key: string, value: any) {
  */
 class SuccessAttribute implements IAttribute, IInterceptor {
 
-  
-  static type: string = 'agent.framework.success';
-  
   constructor(private _key: string, private _value: any) {
   }
 
@@ -31,10 +28,6 @@ class SuccessAttribute implements IAttribute, IInterceptor {
   
   beforeDecorate(target: Object|Function, targetKey?: string|symbol, descriptor?: PropertyDescriptor): boolean {
     return true;
-  }
-  
-  getType(): string {
-    return SuccessAttribute.type
   }
   
   getInterceptor(): IInterceptor {

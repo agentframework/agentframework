@@ -15,11 +15,6 @@ export interface IAttribute {
   beforeDecorate(target: Object|Function, targetKey?: string|symbol, descriptor?: PropertyDescriptor): boolean
   
   /**
-   * Get unique type name for this attribute
-   */
-  getType(): string
-  
-  /**
    * Get interceptor for this _invocation
    */
   getInterceptor(): IInterceptor
