@@ -22,6 +22,17 @@ Agent Framework for TypeScript 2
 
 - [@failure()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/failure.ts)  Always return specified value if any `throw` happen in the intercepted method.
 
+### Development
+
+Generate code coverage report
+```bash
+npm test
+```
+
+Start development workflow - monitoring .ts file changes and run unit test against the changes
+```bash
+npm start
+```
 
 ### Without 'Agent Framework'
 
