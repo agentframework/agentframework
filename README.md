@@ -12,6 +12,17 @@ Agent Framework for TypeScript 2
   npm install --save agentframework@latest
 ```
 
+### Examples
+
+- [@prerequisite()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/prerequisite.ts) `throw` an error if `prerequistite()` not met
+
+- [@output()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/output.ts) Capture `throw` in the method and modify the return value to this object `{ result, error }` 
+
+- [@success()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/success.ts) Change the specified class property value when this method run success (without `throw`)
+
+- [@failure()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/failure.ts)  Always return specified value if any `throw` happen in the intercepted method.
+
+
 ### Without 'Agent Framework'
 
 ```typescript
