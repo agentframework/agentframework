@@ -43,7 +43,7 @@ class Kernel {
   private _root: Directory;
   
   public static getInstance(): Kernel {
-    return new Kernel());
+    return new Kernel();
   }
   
   public init(configDir: string = process.cwd()): void {
