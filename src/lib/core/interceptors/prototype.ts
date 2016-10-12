@@ -25,12 +25,12 @@ export function AddPrototypeInterceptor<Constructor extends Function>(target: Co
       if (!IsUndefined(descriptor.value)) {
         descriptor.value = InterceptorFactory.createFunctionInterceptor(attributes, descriptor.value);
       }
-      if (!IsUndefined(descriptor.get)) {
-        descriptor.get = InterceptorFactory.createFunctionInterceptor(attributes, descriptor.get);
-      }
-      if (!IsUndefined(descriptor.set)) {
-        descriptor.set = InterceptorFactory.createFunctionInterceptor(attributes, descriptor.set);
-      }
+      // if (!IsUndefined(descriptor.get)) {
+      //   descriptor.get = InterceptorFactory.createFunctionInterceptor(attributes, descriptor.get);
+      // }
+      // if (!IsUndefined(descriptor.set)) {
+      //   descriptor.set = InterceptorFactory.createFunctionInterceptor(attributes, descriptor.set);
+      // }
       
       return {key, descriptor};
       
