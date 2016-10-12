@@ -14,6 +14,10 @@ export function IsString(x: any): boolean {
   return typeof x === 'string';
 }
 
+export function IsNumber(x: any): boolean {
+  return typeof x === 'number';
+}
+
 export function IsFunction(x: any): boolean {
   return typeof x === 'function'
 }

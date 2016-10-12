@@ -1,4 +1,5 @@
 import { decorateClass, IAttribute, IInterceptor, IInvocation } from './core';
+import { AddProxyInterceptor } from './core/interceptors/proxy';
 
 /**
  * Define an agent
@@ -30,8 +31,13 @@ class AgentAttribute implements IAttribute, IInterceptor {
   }
   
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
+    
     // TODO: register this agent with domain
-    return invocation.invoke(parameters);
+    const agent = invocation.invoke(parameters);
+    
+    // Proxy the current agent object
+    return AddProxyInterceptor(agent);
+    
   }
   
 }

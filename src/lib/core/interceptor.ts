@@ -1,4 +1,4 @@
-import { IInvocation, ConstructInvocation, IInvoke } from './invocation';
+import { IInvocation, ConstructInvocation, IInvoke, GetterInvocation, SetterInvocation } from './invocation';
 import { IAttribute } from './attribute';
 import { createInvocationChainFromAttribute } from './chain';
 
@@ -16,6 +16,23 @@ export class InterceptorFactory {
                                               receiver: any): IInvocation {
     
     const invocation = new ConstructInvocation(target, receiver);
+    return createInvocationChainFromAttribute(invocation, attributes);
+  }
+  
+  
+  public static createGetterInterceptor(attributes: Array<IAttribute>,
+                                        target: any,
+                                        propertyKey: PropertyKey,
+                                        receiver: any): IInvocation {
+    const invocation = new GetterInvocation(target, propertyKey, receiver);
+    return createInvocationChainFromAttribute(invocation, attributes);
+  }
+  
+  public static createSetterInterceptor(attributes: Array<IAttribute>,
+                                        target: any,
+                                        propertyKey: PropertyKey,
+                                        receiver: any) {
+    const invocation = new SetterInvocation(target, propertyKey, receiver);
     return createInvocationChainFromAttribute(invocation, attributes);
   }
   

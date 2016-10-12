@@ -4,16 +4,28 @@ import { output } from './output';
 @agent('OutputAgent')
 class TestOutputAgentClass {
   
-  @output()
-  testProperty: any = 1103;
+  private _testProperty: any;
   
   @output()
-  test(): any {
+  testPropertyWithValue: any = 1102;
+  
+  constructor() {
+    this._testProperty = 1000;
+    this.testPropertyWithValue = 2000;
+  }
+  
+  @output()
+  get test(): any {
+    return this._testProperty;
+  }
+
+  @output()
+  testOutput(): any {
     return 1102
   }
   
   @output()
-  testError(): any {
+  testOutputError(): any {
     throw new Error('october')
   }
   
@@ -25,20 +37,24 @@ describe('@output', () => {
     
     it('get result', () => {
       const outputAgent = new TestOutputAgentClass();
-      expect(outputAgent.test()).toBeDefined();
-      expect(outputAgent.test()).toEqual({result: 1102, error: null});
+      expect(outputAgent.testOutput()).toBeDefined();
+      expect(outputAgent.testOutput()).toEqual({result: 1102, error: null});
     });
     
-    // it('get result from field', () => {
-    //   const outputAgent = new TestOutputAgentClass();
-    //   expect(outputAgent.testProperty).toBeDefined();
-    //   expect(outputAgent.testProperty).toEqual({result: 1103, error: null});
-    // });
+    it('get result from field', () => {
+      const outputAgent = new TestOutputAgentClass();
+      expect(outputAgent.test).toEqual({result: 1000, error: null});
+    });
+    
+    it('get result from initialized field', () => {
+      const outputAgent = new TestOutputAgentClass();
+      expect(outputAgent.testPropertyWithValue).toEqual({result: 2000, error: null});
+    });
 
     it('get error', () => {
       const outputAgent = new TestOutputAgentClass();
-      expect(outputAgent.testError()).toBeDefined();
-      expect(outputAgent.testError()).toEqual({result: null, error: new Error('october')});
+      expect(outputAgent.testOutputError()).toBeDefined();
+      expect(outputAgent.testOutputError()).toEqual({result: null, error: new Error('october')});
     });
     
   });

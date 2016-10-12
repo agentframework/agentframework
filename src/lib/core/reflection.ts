@@ -17,7 +17,7 @@ export class Reflection {
     this._attributes = [];
   }
   
-  private static getInstance(target: Object | Function,
+  public static getInstance(target: Object | Function,
                             targetKey?: string | symbol): Reflection | null {
     if (!IsObject(target)) {
       throw new TypeError();
