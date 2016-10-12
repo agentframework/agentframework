@@ -1,0 +1,22 @@
+language: node_js
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change
+
+script:
+  - npm install $TYPESCRIPT --force
+  - npm run testBool-on-travis
+
+env:
+  - TYPESCRIPT=typescript@2
+  - TYPESCRIPT=typescript@latest
+  - TYPESCRIPT=typescript@beta
+  - TYPESCRIPT=typescript@rc
+  - TYPESCRIPT=typescript@next
+
+node_js:
+  - "6"
+
+after_script: "npm install coveralls@2 && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"

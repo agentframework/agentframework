@@ -19,6 +19,7 @@ class OutputAttribute implements IAttribute, IInterceptor {
   }
   
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
+    console.log('output', invocation.target, 'method',invocation.method)
     try {
       return { result: invocation.invoke(parameters), error: null };
     }
