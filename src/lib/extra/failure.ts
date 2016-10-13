@@ -1,4 +1,4 @@
-import { IAttribute, IInterceptor, IInvocation, decorateClassMembers } from '../core';
+import { IAttribute, IInterceptor, IInvocation, decorateClassMember } from '../core';
 
 /**
  * Return pre-defined value when catch an exception
@@ -6,7 +6,7 @@ import { IAttribute, IInterceptor, IInvocation, decorateClassMembers } from '../
  * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
  */
 export function failure(replaced: any) {
-  return decorateClassMembers(new FailureAttribute(replaced));
+  return decorateClassMember(new FailureAttribute(replaced));
 }
 
 /**

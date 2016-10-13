@@ -1,4 +1,4 @@
-import { IAttribute, IInterceptor, IInvocation, decorateClassMembers } from '../core';
+import { IAttribute, IInterceptor, IInvocation, decorateClassMember } from '../core';
 import { IsEqual, IsString } from '../core/utils';
 
 /**
@@ -9,7 +9,7 @@ import { IsEqual, IsString } from '../core/utils';
  * @returns {(target:any, propertyKey:string, descriptor:PropertyDescriptor)=>undefined}
  */
 export function prerequisite(key: string, value: any, message: string|Error) {
-  return decorateClassMembers(new PrerequisiteAttribute(key, value, message));
+  return decorateClassMember(new PrerequisiteAttribute(key, value, message));
 }
 
 /**

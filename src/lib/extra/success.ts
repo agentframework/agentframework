@@ -1,4 +1,4 @@
-import { IAttribute, IInterceptor, IInvocation, decorateClassMembers } from '../core';
+import { IAttribute, IInterceptor, IInvocation, decorateClassMember } from '../core';
 
 /**
  * Define a prerequisite
@@ -7,7 +7,7 @@ import { IAttribute, IInterceptor, IInvocation, decorateClassMembers } from '../
  * @returns {(target:any, propertyKey:string, descriptor:PropertyDescriptor)=>undefined}
  */
 export function success(key: string, value: any) {
-  return decorateClassMembers(new SuccessAttribute(key, value));
+  return decorateClassMember(new SuccessAttribute(key, value));
 }
 
 /**

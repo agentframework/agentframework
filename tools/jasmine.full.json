@@ -4,6 +4,6 @@
     "src/**/*.spec.ts",
     "test/**/*.test.ts"
   ],
-  "stopSpecOnExpectationFailure": true,
+  "stopSpecOnExpectationFailure": false,
   "random": false
 }

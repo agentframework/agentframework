@@ -6,24 +6,11 @@ import { AddConstructProxyInterceptor } from './interceptors/construct';
 const ORIGIN_CONSTRUCTOR = Symbol('agent.framework.origin.constructor');
 
 /**
- * Decorate class members
- * @param attribute
- * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
- */
-export function decorateClassMembers(attribute: IAttribute) {
-  return (target: Object, propertyKey: string | symbol, descriptor?: PropertyDescriptor): void => {
-    if (attribute.beforeDecorate(target, propertyKey, descriptor)) {
-      Reflection.addAttribute(attribute, target, propertyKey, descriptor)
-    }
-  }
-}
-
-/**
  * Decorate class
  * @param attribute
  * @returns {(target:Constructor)=>(void|Constructor)}
  */
-export function decorateClass(attribute: IAttribute) {
+export function decorateClass(attribute: IAttribute): ClassDecorator {
   
   // upgrade prototype
   return <Constructor extends Function>(target: Constructor): Constructor | void => {
@@ -41,3 +28,50 @@ export function decorateClass(attribute: IAttribute) {
     return target;
   }
 }
+
+/**
+ * Decorate class members
+ * @param attribute
+ * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
+ */
+export function decorateClassMember(attribute: IAttribute) {
+  return (target: Object, propertyKey: string | symbol, descriptor?: PropertyDescriptor): void => {
+    if (attribute.beforeDecorate(target, propertyKey, descriptor)) {
+      Reflection.addAttribute(attribute, target, propertyKey, descriptor)
+    }
+  }
+}
+
+/**
+ * Decorate class property
+ * @param attribute
+ * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
+ */
+export function decorateClassMethod(attribute: IAttribute): MethodDecorator {
+  return (target: Object, propertyKey: string | symbol, descriptor: PropertyDescriptor): void => {
+    if (!descriptor) {
+      throw new TypeError(`${Reflect.getPrototypeOf(attribute).constructor.name} can only decorate on class method`);
+    }
+    if (attribute.beforeDecorate(target, propertyKey, descriptor)) {
+      Reflection.addAttribute(attribute, target, propertyKey, descriptor)
+    }
+  }
+}
+
+/**
+ * Decorate class field
+ * @param attribute
+ * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
+ */
+export function decorateClassProperty(attribute: IAttribute): PropertyDecorator {
+  // IDE did not report error from here
+  return (target: Object, propertyKey: string | symbol, descriptor?: PropertyDescriptor): void => {
+    if (descriptor) {
+      throw new TypeError(`${Reflect.getPrototypeOf(attribute).constructor.name} can only decorate on class property`);
+    }
+    if (attribute.beforeDecorate(target, propertyKey)) {
+      Reflection.addAttribute(attribute, target, propertyKey)
+    }
+  }
+}
+

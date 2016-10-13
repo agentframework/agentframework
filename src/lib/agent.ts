@@ -4,10 +4,10 @@ import { Reflection } from './core/reflection';
 
 /**
  * Define an agent
- * @param identifier
+
  * @returns {(target:Constructor)=>(void|Constructor)}
  */
-export function agent(identifier: string) {
+export function agent(identifier?:any) {
   return decorateClass(new AgentAttribute(identifier));
 }
 
@@ -16,11 +16,11 @@ export function agent(identifier: string) {
  */
 class AgentAttribute implements IAttribute, IInterceptor {
   
-  constructor(private _identifier: string) {
+  constructor(private _identifier?:any) {
   }
   
-  get identifier(): string {
-    return this._identifier
+  get identifier():any {
+    return this._identifier;
   }
   
   beforeDecorate(target: Object|Function, targetKey?: string|symbol, descriptor?: PropertyDescriptor): boolean {

@@ -1,11 +1,11 @@
-import { IAttribute, IInterceptor, IInvocation, decorateClassMembers } from '../core';
+import { IAttribute, IInterceptor, IInvocation, decorateClassMember } from '../core';
 
 /**
  * Normalize the result { ok: 1, result: '', message: '' }
  * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
  */
 export function normalize() {
-  return decorateClassMembers(new NormalizeAttribute());
+  return decorateClassMember(new NormalizeAttribute());
 }
 
 class NormalizeAttribute implements IAttribute, IInterceptor {
