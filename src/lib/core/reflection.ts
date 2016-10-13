@@ -28,7 +28,7 @@ export class Reflection {
     return Reflection.metadata.get(target, targetKey);
   }
   
-  private static getOwnInstance(target: Object | Function,
+  public static getOwnInstance(target: Object | Function,
                                targetKey?: string | symbol): Reflection {
     if (!IsObjectOrFunction(target)) {
       throw new TypeError();
