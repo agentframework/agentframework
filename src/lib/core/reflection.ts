@@ -1,5 +1,5 @@
 import { IAttribute } from './attribute';
-import { IsObject, IsUndefined, ToPropertyKey } from './utils';
+import { IsObjectOrFunction, IsUndefined, ToPropertyKey } from './utils';
 import { Metadata } from './metadata';
 
 /**
@@ -19,7 +19,7 @@ export class Reflection {
   
   public static getInstance(target: Object | Function,
                             targetKey?: string | symbol): Reflection | null {
-    if (!IsObject(target)) {
+    if (!IsObjectOrFunction(target)) {
       throw new TypeError();
     }
     if (!IsUndefined(targetKey)) {
@@ -30,7 +30,7 @@ export class Reflection {
   
   private static getOwnInstance(target: Object | Function,
                                targetKey?: string | symbol): Reflection {
-    if (!IsObject(target)) {
+    if (!IsObjectOrFunction(target)) {
       throw new TypeError();
     }
     if (!IsUndefined(targetKey)) {

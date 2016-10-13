@@ -2,7 +2,7 @@ export function IsUndefined(x: any): boolean {
   return x === undefined
 }
 
-export function IsObject(x: any): boolean {
+export function IsObjectOrFunction(x: any): boolean {
   return typeof x === 'object' ? x !== null : typeof x === 'function'
 }
 
@@ -16,10 +16,6 @@ export function IsString(x: any): boolean {
 
 export function IsNumber(x: any): boolean {
   return typeof x === 'number';
-}
-
-export function IsFunction(x: any): boolean {
-  return typeof x === 'function'
 }
 
 export function ToPropertyKey(value: any): string | symbol {

@@ -79,7 +79,7 @@ function ProxySetInterceptor<T>(target: T, p: PropertyKey, value: any, receiver:
   
   // ignore property without attributes
   if (!reflection) {
-    return Reflect.get(target, p, receiver);
+    return Reflect.set(target, p, value, receiver);
   }
   
   const customAttributes = reflection.getAttributes();

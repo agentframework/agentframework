@@ -1,7 +1,6 @@
 import { decorateClass, IAttribute, IInterceptor, IInvocation } from './core';
 import { AddProxyInterceptor } from './core/interceptors/proxy';
 import { Reflection } from './core/reflection';
-import { IsUndefined } from './core/utils';
 
 /**
  * Define an agent
@@ -50,7 +49,11 @@ class AgentAttribute implements IAttribute, IInterceptor {
         agent = AddProxyInterceptor(agent);
       }
     }
+    
     // TODO: register this agent with domain
+    
+    // console.log(`DEBUG: registering agent ${this.identifier}...`);
+    
     return agent;
   }
   
