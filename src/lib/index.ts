@@ -1,3 +1,3 @@
 export { decorateClass, IAttribute, IInterceptor, IInvocation } from './core'
 export { agent } from './agent'
-export { failure, prerequisite, success, output } from './extra'
+export { failure, prerequisite, success, normalize } from './extra'

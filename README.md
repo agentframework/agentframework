@@ -19,7 +19,7 @@ Agent Framework for TypeScript 2
 
 - [@prerequisite()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/prerequisite.ts) `throw` an error if `prerequistite()` not met
 
-- [@output()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/output.ts) Capture `throw` in the method and modify the return value to this object `{ result, error }` 
+- [@normalize()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/normalize.ts) Capture `throw` in the method and modify the return value to this object `{ ok: 1|0, result?: any = return object, results?: any = return array, message?: string = err.message }` 
 
 - [@success()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/success.ts) Change the specified class property value when this method run success (without `throw`)
 
@@ -27,7 +27,7 @@ Agent Framework for TypeScript 2
 
 ### Development
 
-Generate code coverage report
+Run tests with coverage report
 ```bash
 npm test
 ```
