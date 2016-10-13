@@ -1,7 +1,20 @@
 import { IAttribute, IInterceptor, decorateClassMember } from '../../src/lib';
+import { decorateClass, decorateClassMethod, decorateClassProperty } from '../../src/lib/core/decorator';
 
-export function fakeDecorator() {
+export function fakeClassMemberDecorator() {
   return decorateClassMember(new PropertyDecoratorAttribute());
+}
+
+export function fakeClassDecorator() {
+  return decorateClass(new PropertyDecoratorAttribute());
+}
+
+export function fakeClassMethodDecorator() {
+  return decorateClassMethod(new PropertyDecoratorAttribute());
+}
+
+export function fakeClassPropertyDecorator() {
+  return decorateClassProperty(new PropertyDecoratorAttribute());
 }
 
 class PropertyDecoratorAttribute implements IAttribute {

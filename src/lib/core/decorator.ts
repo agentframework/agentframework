@@ -49,9 +49,6 @@ export function decorateClassMember(attribute: IAttribute) {
  */
 export function decorateClassMethod(attribute: IAttribute): MethodDecorator {
   return (target: Object, propertyKey: string | symbol, descriptor: PropertyDescriptor): void => {
-    if (!descriptor) {
-      throw new TypeError(`${Reflect.getPrototypeOf(attribute).constructor.name} can only decorate on class method`);
-    }
     if (attribute.beforeDecorate(target, propertyKey, descriptor)) {
       Reflection.addAttribute(attribute, target, propertyKey, descriptor)
     }
@@ -64,8 +61,8 @@ export function decorateClassMethod(attribute: IAttribute): MethodDecorator {
  * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
  */
 export function decorateClassProperty(attribute: IAttribute): PropertyDecorator {
-  // IDE did not report error from here
   return (target: Object, propertyKey: string | symbol, descriptor?: PropertyDescriptor): void => {
+    // TypeScript is not smart enough to identify the PropertyDescriptor on method
     if (descriptor) {
       throw new TypeError(`${Reflect.getPrototypeOf(attribute).constructor.name} can only decorate on class property`);
     }
