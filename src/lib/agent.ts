@@ -1,5 +1,7 @@
 import { decorateClass, IAttribute, IInterceptor, IInvocation } from './core';
 import { AddProxyInterceptor } from './core/interceptors/proxy';
+import { Reflection } from './core/reflection';
+import { IsUndefined } from './core/utils';
 
 /**
  * Define an agent
@@ -32,12 +34,24 @@ class AgentAttribute implements IAttribute, IInterceptor {
   
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
     
+    let agent = invocation.invoke(parameters);
+    
+    // NOTE: In order to improve the performance, do not proxy if no field interceptors detected
+    const interceptorDefinitions = Reflection.metadata.getAll(invocation.target.prototype);
+    if (interceptorDefinitions) {
+      
+      const fieldInterceptors = [...interceptorDefinitions.values()]
+        .filter(reflection=>!reflection.descriptor)
+        .filter(reflection=>reflection.hasAttributes());
+    
+      // do not proxy if no field interceptors detected
+      if (fieldInterceptors.length) {
+        // Proxy the current agent object
+        agent = AddProxyInterceptor(agent);
+      }
+    }
     // TODO: register this agent with domain
-    const agent = invocation.invoke(parameters);
-    
-    // Proxy the current agent object
-    return AddProxyInterceptor(agent);
-    
+    return agent;
   }
   
 }

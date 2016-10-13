@@ -14,7 +14,6 @@ export function AddPrototypeInterceptor<Constructor extends Function>(target: Co
   const keys = Reflect.ownKeys(target.prototype);
   
   const propertyDescriptors = keys
-    .filter(key => key[0] !== '_')
     .filter(key => IsString(key))
     .filter(key => Reflection.hasAttributes(target.prototype, key))
     .map(key => {

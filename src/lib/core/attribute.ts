@@ -1,6 +1,6 @@
 import { IInterceptor } from './interceptor';
 import { Reflection } from './reflection';
-import { AddConstructInterceptor } from './interceptors/construct';
+import { AddConstructProxyInterceptor } from './interceptors/construct';
 import { AddPrototypeInterceptor } from './interceptors/prototype';
 
 export interface IAttribute {

@@ -1,7 +1,7 @@
 import { IAttribute } from './attribute';
 import { Reflection } from './reflection';
 import { AddPrototypeInterceptor } from './interceptors/prototype';
-import { AddConstructInterceptor } from './interceptors/construct';
+import { AddConstructProxyInterceptor } from './interceptors/construct';
 
 const ORIGIN_CONSTRUCTOR = Symbol('agent.framework.origin.constructor');
 
@@ -33,10 +33,11 @@ export function decorateClass(attribute: IAttribute) {
     if (attribute.beforeDecorate(originTarget)) {
       Reflection.addAttribute(attribute, originTarget);
       const upgradedTarget = AddPrototypeInterceptor(originTarget);
-      const upgradedConstructor = AddConstructInterceptor(upgradedTarget);
+      const upgradedConstructor = AddConstructProxyInterceptor(upgradedTarget);
       upgradedConstructor[ORIGIN_CONSTRUCTOR] = originTarget;
       return upgradedConstructor;
     }
     
+    return target;
   }
 }

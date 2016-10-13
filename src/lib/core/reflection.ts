@@ -7,8 +7,8 @@ import { Metadata } from './metadata';
  */
 export class Reflection {
   
-  private static metadata: Metadata = new Metadata();
   private _attributes: Array<IAttribute>;
+  static metadata: Metadata = new Metadata();
   
   private constructor(private _target: Object, private _targetKey?: string | symbol, private _descriptor?: PropertyDescriptor) {
     if (IsUndefined(_descriptor) && !IsUndefined(_targetKey)) {

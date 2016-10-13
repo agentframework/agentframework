@@ -10,6 +10,15 @@ export class Metadata {
     return this._metadata;
   }
   
+  public getAll(target: Object | Function): Map<string | symbol, Reflection> {
+    if (this.metadata.has(target)) {
+      return this.metadata.get(target);
+    }
+    else {
+      return null;
+    }
+  }
+  
   public get(target: Object | Function, method?: string | symbol): Reflection {
     if (this.metadata.has(target)) {
       return this.metadata.get(target).get(IsUndefined(method) ? '': method);

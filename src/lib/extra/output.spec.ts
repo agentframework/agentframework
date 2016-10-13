@@ -4,19 +4,19 @@ import { output } from './output';
 @agent('OutputAgent')
 class TestOutputAgentClass {
   
-  private _testProperty: any;
+  private _testField: any;
   
   @output()
-  testPropertyWithValue: any = 1102;
+  testFieldWithValue: any = 1102;
   
   constructor() {
-    this._testProperty = 1000;
-    this.testPropertyWithValue = 2000;
+    this._testField = 1000;
+    this.testFieldWithValue = 2000;
   }
   
   @output()
   get test(): any {
-    return this._testProperty;
+    return this._testField;
   }
 
   @output()
@@ -48,7 +48,7 @@ describe('@output', () => {
     
     it('get result from initialized field', () => {
       const outputAgent = new TestOutputAgentClass();
-      expect(outputAgent.testPropertyWithValue).toEqual({result: 2000, error: null});
+      expect(outputAgent.testFieldWithValue).toEqual({result: 2000, error: null});
     });
 
     it('get error', () => {

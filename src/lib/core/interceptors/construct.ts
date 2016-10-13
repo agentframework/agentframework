@@ -1,7 +1,7 @@
 import { Reflection } from '../reflection';
 import { InterceptorFactory } from '../interceptor';
 
-export function AddConstructInterceptor<Constructor extends Function>(target: Constructor) {
+export function AddConstructProxyInterceptor<Constructor extends Function>(target: Constructor) {
   const typeProxyHandler = {
     construct: ConstructInterceptor
   };
