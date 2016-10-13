@@ -26,23 +26,11 @@ export function AddProxyInterceptor<T>(target: T) {
  */
 function ProxyGetInterceptor<T>(target: T, p: PropertyKey, receiver: any): any {
   
-  // ignore indexing
-  if (IsNumber(p)) {
-    return Reflect.get(target, p, receiver);
-  }
-  
   const propertyKey = ToPropertyKey(p);
   const reflection = Reflection.getInstance(target, propertyKey);
 
   // ignore property without attributes
   if (!reflection) {
-    return Reflect.get(target, p, receiver);
-  }
-  
-  const customAttributes = reflection.getAttributes();
-  
-  // ignore property without attributes
-  if (!customAttributes.length) {
     return Reflect.get(target, p, receiver);
   }
   
@@ -52,7 +40,7 @@ function ProxyGetInterceptor<T>(target: T, p: PropertyKey, receiver: any): any {
   }
   
   // create field getter interceptor on the fly
-  const invocation = InterceptorFactory.createGetterInterceptor(customAttributes, target, propertyKey, receiver);
+  const invocation = InterceptorFactory.createGetterInterceptor(reflection.getAttributes(), target, propertyKey, receiver);
   
   // call getter
   return invocation.invoke([]);
@@ -69,23 +57,11 @@ function ProxyGetInterceptor<T>(target: T, p: PropertyKey, receiver: any): any {
  */
 function ProxySetInterceptor<T>(target: T, p: PropertyKey, value: any, receiver: any): boolean {
   
-  // ignore indexing
-  if (IsNumber(p)) {
-    return Reflect.set(target, p, value, receiver);
-  }
-  
   const propertyKey = ToPropertyKey(p);
   const reflection = Reflection.getInstance(target, propertyKey);
   
   // ignore property without attributes
   if (!reflection) {
-    return Reflect.set(target, p, value, receiver);
-  }
-  
-  const customAttributes = reflection.getAttributes();
-  
-  // ignore property without attributes
-  if (!customAttributes.length) {
     return Reflect.set(target, p, value, receiver);
   }
   
@@ -95,7 +71,7 @@ function ProxySetInterceptor<T>(target: T, p: PropertyKey, value: any, receiver:
   }
   
   // create field setter interceptor on the fly
-  const invocation = InterceptorFactory.createSetterInterceptor(customAttributes, target, propertyKey, receiver);
+  const invocation = InterceptorFactory.createSetterInterceptor(reflection.getAttributes(), target, propertyKey, receiver);
   
   // call the interceptors
   return invocation.invoke([value]);
