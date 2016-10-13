@@ -14,10 +14,6 @@ export function IsString(x: any): boolean {
   return typeof x === 'string';
 }
 
-export function IsNumber(x: any): boolean {
-  return typeof x === 'number';
-}
-
 export function ToPropertyKey(value: any): string | symbol {
   return IsSymbol(value) ? value as symbol : String(value)
 }
