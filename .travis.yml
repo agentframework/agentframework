@@ -7,7 +7,7 @@ notifications:
 
 script:
   - npm install $TYPESCRIPT --force
-  - npm run testBool-on-travis
+  - npm run test-on-travis
 
 env:
   - TYPESCRIPT=typescript@2
