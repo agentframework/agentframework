@@ -16,6 +16,10 @@ class PropertyDecoratorAttribute implements IAttribute, IInterceptor {
   }
   
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
+    console.log('invocation', Reflect.getPrototypeOf(invocation).constructor.name);
+    if (!invocation.target) {
+      throw new Error('Target must not null')
+    }
     return invocation.invoke(parameters);
   }
   

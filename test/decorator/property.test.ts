@@ -7,6 +7,8 @@ class TestPropertyDecoratorAgentClass {
   @propertyDecorator()
   private _activated: boolean = true;
   
+  @propertyDecorator()
+  @propertyDecorator()
   test: string = 'test';
   
   _unused: number = 999;
@@ -66,7 +68,19 @@ describe('PropertyDecorator', () => {
           }
         }
       }).toThrowError('PropertyDecoratorAttribute can only decorate on class property');
-    })
+    });
+    it('decorate on setter twice', () => {
+      expect(()=> {
+        @agent()
+        class TestDecoratePropertyDecoratorToClassSetterAgentClass {
+          _method:string;
+          @propertyDecorator()
+          set method(value:string) {
+            this._method = value;
+          }
+        }
+      }).toThrowError('PropertyDecoratorAttribute can only decorate on class property');
+    });
   });
   
   describe('# should able to', () => {
