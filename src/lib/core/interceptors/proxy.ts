@@ -46,12 +46,12 @@ function ProxyGetInterceptor<T>(target: T, p: PropertyKey, receiver: any): any {
     return Reflect.get(target, p, receiver);
   }
   
-  // ignore prototype interceptors
+  // ignore prototype interceptors and getter/setter
   if (!IsUndefined(reflection.descriptor)) {
     return Reflect.get(target, p, receiver);
   }
   
-  // create getter interceptor on the fly
+  // create field getter interceptor on the fly
   const invocation = InterceptorFactory.createGetterInterceptor(customAttributes, target, propertyKey, receiver);
   
   // call getter
@@ -89,12 +89,12 @@ function ProxySetInterceptor<T>(target: T, p: PropertyKey, value: any, receiver:
     return Reflect.set(target, p, value, receiver);
   }
   
-  // ignore prototype interceptors
+  // ignore prototype interceptors and getter/setter
   if (!IsUndefined(reflection.descriptor)) {
     return Reflect.set(target, p, value, receiver);
   }
   
-  // create setter interceptor on the fly
+  // create field setter interceptor on the fly
   const invocation = InterceptorFactory.createSetterInterceptor(customAttributes, target, propertyKey, receiver);
   
   // call the interceptors

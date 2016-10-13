@@ -5,12 +5,24 @@ import { timestamp } from './timestamp';
 @agent('TimestampAgent')
 class TestTimestampAgentClass {
   
+  private _activated: boolean = true;
+  private _status: boolean = this._activated;
+  
   @timestamp()
   name: string;
   
   homepage: string;
   
+  get activated(): boolean {
+    return this._activated;
+  }
+  
+  set activated(value) {
+    this._activated = value
+  }
+  
   timestamp: number;
+  
   
 }
 
@@ -30,6 +42,13 @@ describe('@timestamp', () => {
       timestampAgent[0] = 'agentframework';
       expect(timestampAgent.timestamp).toBeUndefined();
       expect(timestampAgent[0]).toEqual('agentframework');
+    });
+    
+    it('read timestamp of changing non-timestamp getter/setter', () => {
+      const timestampAgent = new TestTimestampAgentClass();
+      timestampAgent.activated = true;
+      expect(timestampAgent.timestamp).toBeUndefined();
+      expect(timestampAgent.activated).toEqual(true);
     });
     
   });
