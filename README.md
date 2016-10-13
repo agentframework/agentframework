@@ -6,7 +6,7 @@ Agent Framework for TypeScript 2+
 
 ### What's this?
 - AOP for TypeScript
-- Decorate your class with interceptors using elegance design pattern
+- Elegant design pattern to decorate your class with interceptors 
 - 100% TypeScript implementation! No dependencies!!!
 - Require ES6 and TypeScript 2+
 
