@@ -1,18 +1,19 @@
-Agent Framework for TypeScript 2
---------------------------------
+Agent Framework for TypeScript 2+
+---------------------------------
 
 [![Build Status](https://travis-ci.org/agentframework/agentframework.svg?branch=master)](https://travis-ci.org/agentframework/agentframework)
 [![Coverage Status](https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=master)](https://coveralls.io/github/agentframework/agentframework?branch=master)
 
 ### What's this?
 - AOP for TypeScript
-- Custom your own interceptor with elegance design pattern
-- Require ES6 and TypeScript 2.x
+- Decorate your class with interceptors using elegance design pattern
+- 100% TypeScript implementation! No dependencies!!!
+- Require ES6 and TypeScript 2+
 
 ### Install and usage
 
 ```bash
-  npm install --save agentframework@latest
+  npm install --save agentframework
 ```
 
 ### Examples
@@ -24,6 +25,8 @@ Agent Framework for TypeScript 2
 - [@success()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/success.ts) Change the specified class property value when this method run success (without `throw`)
 
 - [@failure()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/failure.ts)  Always return specified value if any `throw` happen in the intercepted method.
+
+- [@timestamp()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/timestamp.ts)  Update timestamp field after changes the field value
 
 ### Development
 
