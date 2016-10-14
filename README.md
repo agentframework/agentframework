@@ -15,6 +15,10 @@ Agent Framework for TypeScript 2+
 ```bash
   npm install --save agentframework
 ```
+or
+```bash
+  yarn add agentframework
+```
 
 ### Examples
 
