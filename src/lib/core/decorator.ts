@@ -17,7 +17,7 @@ export function decorateClass(attribute: IAttribute): ClassDecorator {
     
     const originTarget = target[ORIGIN_CONSTRUCTOR] || target;
     
-    if (attribute.beforeDecorate(originTarget)) {
+    if (!attribute.beforeDecorate || attribute.beforeDecorate(originTarget)) {
       Reflection.addAttribute(attribute, originTarget);
       const upgradedTarget = AddPrototypeInterceptor(originTarget);
       const upgradedConstructor = AddConstructProxyInterceptor(upgradedTarget);
@@ -36,7 +36,7 @@ export function decorateClass(attribute: IAttribute): ClassDecorator {
  */
 export function decorateClassMember(attribute: IAttribute) {
   return (target: Object, propertyKey: string | symbol, descriptor?: PropertyDescriptor): void => {
-    if (attribute.beforeDecorate(target, propertyKey, descriptor)) {
+    if (!attribute.beforeDecorate || attribute.beforeDecorate(target, propertyKey, descriptor)) {
       Reflection.addAttribute(attribute, target, propertyKey, descriptor)
     }
   }
@@ -49,7 +49,7 @@ export function decorateClassMember(attribute: IAttribute) {
  */
 export function decorateClassMethod(attribute: IAttribute): MethodDecorator {
   return (target: Object, propertyKey: string | symbol, descriptor: PropertyDescriptor): void => {
-    if (attribute.beforeDecorate(target, propertyKey, descriptor)) {
+    if (!attribute.beforeDecorate || attribute.beforeDecorate(target, propertyKey, descriptor)) {
       Reflection.addAttribute(attribute, target, propertyKey, descriptor)
     }
   }
@@ -66,7 +66,7 @@ export function decorateClassProperty(attribute: IAttribute): PropertyDecorator 
     if (descriptor) {
       throw new TypeError(`${Reflect.getPrototypeOf(attribute).constructor.name} can only decorate on class property`);
     }
-    if (attribute.beforeDecorate(target, propertyKey)) {
+    if (!attribute.beforeDecorate || attribute.beforeDecorate(target, propertyKey)) {
       Reflection.addAttribute(attribute, target, propertyKey)
     }
   }

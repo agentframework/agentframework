@@ -28,6 +28,8 @@ Agent Framework for TypeScript 2+
 
 - [@timestamp()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/timestamp.ts)  Update timestamp field after changes the field value
 
+- [@cache()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/cache.ts)  Simple but useful memory cache implementation
+
 ### Development
 
 Run tests with coverage report
