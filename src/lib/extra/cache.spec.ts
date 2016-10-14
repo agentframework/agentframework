@@ -9,7 +9,7 @@ class TestAgentClass {
   @cache()
   heavyOperation(): any {
     let x = 2;
-    while (x < 100000) {
+    while (x < 100000000000) {
       x = x * x;
     }
     this.numberOfCalls++;
