@@ -1,7 +1,7 @@
 {
   "spec_dir": "./",
   "spec_files": [
-    "src/**/cache.spec.ts"
+    "src/**/*.spec.ts"
   ],
   "stopSpecOnExpectationFailure": false,
   "random": false

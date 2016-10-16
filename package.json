@@ -1,6 +1,9 @@
 {
   "name": "agentframework",
-  "version": "0.2.9",
+  "version": "0.2.10",
+  "engines" : {
+    "node" : ">=6.0.0"
+  },
   "description": "Agent Oriented Programming for TypeScript",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
