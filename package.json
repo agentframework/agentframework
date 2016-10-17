@@ -55,8 +55,5 @@
     "typescript": "latest",
     "typescript-standard": "latest",
     "webpack": "beta"
-  },
-  "dependencies": {
-    "typescript-standard": "^0.3.4"
   }
 }
