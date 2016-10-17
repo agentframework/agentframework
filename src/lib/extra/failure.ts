@@ -20,20 +20,20 @@ class FailureAttribute implements IAttribute, IInterceptor {
   get value(): boolean {
     return this._value
   }
-  
-  beforeDecorate(target: Object|Function, targetKey?: string|symbol, descriptor?: PropertyDescriptor): boolean {
+
+  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
     return true;
   }
-  
+
   getInterceptor(): IInterceptor {
     return this;
   }
-  
+
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
     try {
       return invocation.invoke(parameters);
     }
-    catch(err) {
+    catch (err) {
       return this.value;
     }
   }

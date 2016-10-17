@@ -21,19 +21,19 @@ class SuccessAttribute implements IAttribute, IInterceptor {
   get key(): string {
     return this._key
   }
-  
+
   get value(): boolean {
     return this._value
   }
-  
-  beforeDecorate(target: Object|Function, targetKey?: string|symbol, descriptor?: PropertyDescriptor): boolean {
+
+  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
     return true;
   }
-  
+
   getInterceptor(): IInterceptor {
     return this;
   }
-  
+
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
     const result = invocation.invoke(parameters);
     // debug(`SuccessAttribute updating target value ${this.key}='${this.value}'`);

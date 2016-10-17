@@ -1,8 +1,8 @@
 {
   "name": "agentframework",
   "version": "0.2.10",
-  "engines" : {
-    "node" : ">=6.0.0"
+  "engines": {
+    "node": ">=6.0.0"
   },
   "description": "Agent Oriented Programming for TypeScript",
   "main": "lib/index.js",
@@ -55,5 +55,8 @@
     "typescript": "latest",
     "typescript-standard": "latest",
     "webpack": "beta"
+  },
+  "dependencies": {
+    "typescript-standard": "^0.3.4"
   }
 }

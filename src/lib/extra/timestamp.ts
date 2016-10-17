@@ -9,23 +9,23 @@ export function timestamp() {
 }
 
 class TimestampAttribute implements IAttribute, IInterceptor {
-  
+
   constructor() {
   }
-  
-  beforeDecorate(target: Object|Function, targetKey?: string|symbol, descriptor?: PropertyDescriptor): boolean {
+
+  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
     return true;
   }
-  
+
   getInterceptor(): IInterceptor {
     return this;
   }
-  
+
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
     const value = invocation.invoke(parameters);
     // update timestamp field with current datetime
     Reflect.set(invocation.target, 'timestamp', Date.now());
     return value;
   }
-  
+
 }

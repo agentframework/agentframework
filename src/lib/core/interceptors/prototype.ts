@@ -9,18 +9,18 @@ import { InterceptorFactory } from '../interceptor';
  * @constructor
  */
 export function AddPrototypeInterceptor<Constructor extends Function>(target: Constructor) {
-  
+
   // get the prototype of function
   const keys = Reflect.ownKeys(target.prototype);
-  
+
   const propertyDescriptors = keys
     .filter(key => IsString(key))
     .filter(key => Reflection.hasAttributes(target.prototype, key))
     .map(key => {
-      
+
       const descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
       const attributes = Reflection.getAttributes(target.prototype, key);
-      
+
       if (!IsUndefined(descriptor.value)) {
         descriptor.value = InterceptorFactory.createFunctionInterceptor(attributes, descriptor.value);
       }
@@ -30,15 +30,15 @@ export function AddPrototypeInterceptor<Constructor extends Function>(target: Co
       if (!IsUndefined(descriptor.set)) {
         descriptor.set = InterceptorFactory.createFunctionInterceptor(attributes, descriptor.set);
       }
-      
-      return {key, descriptor};
-      
+
+      return { key, descriptor };
+
     }).reduce((map, item) => {
       map[item.key] = item.descriptor;
       return map;
     }, {});
-  
+
   Object.defineProperties(target.prototype, propertyDescriptors);
-  
+
   return target;
 }

@@ -6,20 +6,20 @@ export function propertyDecorator() {
 }
 
 class PropertyDecoratorAttribute implements IAttribute, IInterceptor {
-  
-  beforeDecorate(target: Object|Function, targetKey?: string|symbol, descriptor?: PropertyDescriptor): boolean {
+
+  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
     return true;
   }
-  
+
   getInterceptor(): IInterceptor {
     return this;
   }
-  
+
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
     if (!invocation.target) {
       throw new Error('Target must not null')
     }
     return invocation.invoke(parameters);
   }
-  
+
 }

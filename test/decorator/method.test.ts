@@ -2,13 +2,13 @@ import { agent } from '../../src/lib';
 import { methodDecorator } from './method';
 
 describe('Method Decorator', () => {
-    
+
   describe('# should able to', () => {
-  
+
     it('decorate on method', () => {
       @agent()
       class TestMethodDecoratorAtClassMethod {
-        _testMethod:string = 'test';
+        _testMethod: string = 'test';
         @methodDecorator()
         testMethod() {
           return this._testMethod;
@@ -17,11 +17,11 @@ describe('Method Decorator', () => {
       const test = new TestMethodDecoratorAtClassMethod();
       expect(test.testMethod()).toEqual('test');
     });
-  
+
     it('decorate on getter', () => {
       @agent()
       class TestMethodDecoratorAtPropertyGetter {
-        _testMethod:string = 'test';
+        _testMethod: string = 'test';
         @methodDecorator()
         get testMethod() {
           return this._testMethod;
@@ -30,11 +30,11 @@ describe('Method Decorator', () => {
       const test = new TestMethodDecoratorAtPropertyGetter();
       expect(test.testMethod).toEqual('test');
     });
-  
+
     it('decorate on setter', () => {
       @agent()
       class TestMethodDecoratorAtPropertySetter {
-        _testMethod:string;
+        _testMethod: string;
         @methodDecorator()
         set testMethod(value) {
           this._testMethod = value;
@@ -44,7 +44,7 @@ describe('Method Decorator', () => {
       test.testMethod = 123;
       expect(test._testMethod).toEqual(123);
     });
-    
+
   });
-  
+
 });

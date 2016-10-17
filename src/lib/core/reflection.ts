@@ -6,19 +6,19 @@ import { Metadata } from './metadata';
  * Reflection
  */
 export class Reflection {
-  
+
   private _attributes: Array<IAttribute>;
   static metadata: Metadata = new Metadata();
-  
+
   private constructor(private _target: Object, private _targetKey?: string | symbol, private _descriptor?: PropertyDescriptor) {
     if (IsUndefined(_descriptor) && !IsUndefined(_targetKey)) {
       this._descriptor = Object.getOwnPropertyDescriptor(_target, _targetKey);
     }
     this._attributes = [];
   }
-  
+
   public static getInstance(target: Object | Function,
-                            targetKey?: string | symbol): Reflection | null {
+    targetKey?: string | symbol): Reflection | null {
     if (!IsObjectOrFunction(target)) {
       throw new TypeError();
     }
@@ -27,9 +27,9 @@ export class Reflection {
     }
     return Reflection.metadata.get(target, targetKey);
   }
-  
+
   public static getOwnInstance(target: Object | Function,
-                               targetKey?: string | symbol): Reflection {
+    targetKey?: string | symbol): Reflection {
     if (!IsObjectOrFunction(target)) {
       throw new TypeError();
     }
@@ -38,21 +38,21 @@ export class Reflection {
     }
     return Reflection.metadata.getOwn(target, targetKey);
   }
-  
+
   public static getAttributes(target: Object | Function, targetKey?: any): Array<IAttribute> {
     const reflection = Reflection.getInstance(target, targetKey);
     return reflection ? reflection.getAttributes() : [];
   }
-  
+
   public static hasAttributes(target: Object | Function, targetKey?: any): boolean {
     const reflection = Reflection.getInstance(target, targetKey);
     return reflection ? reflection.hasAttributes() : false;
   }
-  
+
   public static addAttribute(attribute: IAttribute,
-                             target: Object | Function,
-                             targetKey?: string | symbol,
-                             descriptor?: PropertyDescriptor) {
+    target: Object | Function,
+    targetKey?: string | symbol,
+    descriptor?: PropertyDescriptor) {
     let reflection = Reflection.getOwnInstance(target, targetKey);
     if (!reflection) {
       reflection = new Reflection(target, targetKey, descriptor);
@@ -60,29 +60,29 @@ export class Reflection {
     }
     reflection.addAttribute(attribute);
   }
-  
+
   getAttributes(): Array<IAttribute> {
     return this._attributes;
   }
-  
+
   hasAttributes(): boolean {
     return this._attributes.length > 0
   }
-  
+
   addAttribute(attr: IAttribute): void {
     this._attributes.push(attr);
   }
-  
+
   get target(): Object | Function {
     return this._target;
   }
-  
+
   get targetKey(): string | symbol {
     return this._targetKey;
   }
-  
+
   get descriptor(): PropertyDescriptor | null {
     return this._descriptor;
   }
-  
+
 }

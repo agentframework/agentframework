@@ -18,13 +18,13 @@ export function fakeClassPropertyDecorator() {
 }
 
 class PropertyDecoratorAttribute implements IAttribute {
-  
-  beforeDecorate(target: Object|Function, targetKey?: string|symbol, descriptor?: PropertyDescriptor): boolean {
+
+  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
     return false;
   }
-  
+
   getInterceptor(): IInterceptor {
     throw new TypeError('Fake decorator do not have interceptor')
   }
-  
+
 }

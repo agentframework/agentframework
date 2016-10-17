@@ -12,17 +12,17 @@ export function cache() {
  * PrerequisiteAttribute
  */
 class CacheAttribute implements IAttribute, IInterceptor {
-  
+
   cache = new MemoryCache();
-  
+
   static normalizeParameters(parameters: ArrayLike<any>): string {
-    return Array.from(parameters).map(value=>value.toString()).join('|');
+    return Array.from(parameters).map(value => value.toString()).join('|');
   }
-  
+
   getInterceptor(): IInterceptor {
     return this;
   }
-  
+
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
     const normalized = CacheAttribute.normalizeParameters(parameters);
     const hit = this.cache.get(normalized);

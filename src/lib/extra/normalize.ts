@@ -9,18 +9,18 @@ export function normalize() {
 }
 
 class NormalizeAttribute implements IAttribute, IInterceptor {
-  
+
   constructor() {
   }
-  
-  beforeDecorate(target: Object|Function, targetKey?: string|symbol, descriptor?: PropertyDescriptor): boolean {
+
+  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
     return true;
   }
-  
+
   getInterceptor(): IInterceptor {
     return this;
   }
-  
+
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
     try {
       const value = invocation.invoke(parameters);
@@ -35,5 +35,5 @@ class NormalizeAttribute implements IAttribute, IInterceptor {
       return { ok: 0, message: err.message };
     }
   }
-  
+
 }

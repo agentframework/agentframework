@@ -11,12 +11,12 @@ const ORIGIN_CONSTRUCTOR = Symbol('agent.framework.origin.constructor');
  * @returns {(target:Constructor)=>(void|Constructor)}
  */
 export function decorateClass(attribute: IAttribute): ClassDecorator {
-  
+
   // upgrade prototype
   return <Constructor extends Function>(target: Constructor): Constructor | void => {
-    
+
     const originTarget = target[ORIGIN_CONSTRUCTOR] || target;
-    
+
     if (!attribute.beforeDecorate || attribute.beforeDecorate(originTarget)) {
       Reflection.addAttribute(attribute, originTarget);
       const upgradedTarget = AddPrototypeInterceptor(originTarget);
@@ -24,7 +24,7 @@ export function decorateClass(attribute: IAttribute): ClassDecorator {
       upgradedConstructor[ORIGIN_CONSTRUCTOR] = originTarget;
       return upgradedConstructor;
     }
-    
+
     return target;
   }
 }
