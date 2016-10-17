@@ -4,7 +4,6 @@ import { Reflection } from './core/reflection';
 
 /**
  * Define an agent
-
  * @returns {(target:Constructor)=>(void|Constructor)}
  */
 export function agent(identifier?: any) {
