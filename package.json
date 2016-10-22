@@ -1,6 +1,6 @@
 {
   "name": "agentframework",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -9,7 +9,7 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "start": "NODE_ENV=test node_modules/.bin/nodemon --config tools/testmon.json && exit 0",
-    "test": "npm run lint && npm run build && npm run test:coverage",
+    "test": "npm run lint && npm run test:coverage",
     "cov": "npm run test:coverage",
     "test:unit": "node_modules/.bin/ts-node tools/jasmine.ts",
     "test:coverage": "node_modules/.bin/ts-node node_modules/.bin/istanbul cover --config=tools/istanbul.yml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.full.json",
@@ -54,6 +54,6 @@
     "ts-node": "latest",
     "typescript": "latest",
     "typescript-standard": "latest",
-    "webpack": "beta"
+    "webpack": "latest"
   }
 }

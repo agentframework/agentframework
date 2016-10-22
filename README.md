@@ -22,7 +22,9 @@ or
 
 ### Examples
 
-- [@prerequisite()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/prerequisite.ts) `throw` an error if `prerequistite()` not met
+- [@prerequisite()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/prerequisite.ts) Do not run the method body and `throw` an error when `prerequistite()` not met
+
+- [@conditional()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/conditional.ts) Likes `prerequistite()` but not throw error
 
 - [@normalize()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/normalize.ts) Capture `throw` in the method and modify the return value to this object `{ ok: 1|0, result?: any = return object, results?: any = return array, message?: string = err.message }` 
 
