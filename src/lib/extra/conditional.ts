@@ -3,12 +3,12 @@ import { IsEqual } from '../core/utils';
 
 /**
  * Define a conditional
- * @param key
- * @param value
+ * @param field
+ * @param expect
  * @returns {(target:any, propertyKey:string, descriptor:PropertyDescriptor)=>undefined}
  */
-export function conditional(key: string, value: any) {
-  return decorateClassMember(new ConditionalAttribute(key, value));
+export function conditional(field: string, expect: any) {
+  return decorateClassMember(new ConditionalAttribute(field, expect));
 }
 
 /**
@@ -16,15 +16,15 @@ export function conditional(key: string, value: any) {
  */
 export class ConditionalAttribute implements IAttribute, IInterceptor {
 
-  constructor(private _key: string, private _value: any) {
+  constructor(private _field: string, private _expect: any) {
   }
 
-  get key(): string {
-    return this._key
+  get field(): string {
+    return this._field
   }
 
-  get value(): boolean {
-    return this._value
+  get expect(): boolean {
+    return this._expect
   }
 
   beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
@@ -36,11 +36,8 @@ export class ConditionalAttribute implements IAttribute, IInterceptor {
   }
 
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
-
-    const actualValue = Reflect.get(invocation.target, this.key);
-
-    // console.log(`actual: ${actualValue}  expect: ${this.value}`);
-    if (IsEqual(actualValue, this.value)) {
+    const actualValue = Reflect.get(invocation.target, this.field);
+    if (IsEqual(actualValue, this.expect)) {
       return invocation.invoke(parameters);
     }
     return undefined;

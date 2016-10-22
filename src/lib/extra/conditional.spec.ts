@@ -22,23 +22,19 @@ class TestAgentClass {
 describe('@prerequisite', () => {
 
   describe('# should not able to', () => {
-
     it('change value', () => {
       const conditionalAgent = new TestAgentClass();
       conditionalAgent.notMet();
       expect(conditionalAgent.value).toEqual(0);
     });
-
   });
 
   describe('# should able to', () => {
-
     it('change value', () => {
       const conditionalAgent = new TestAgentClass();
       conditionalAgent.met();
       expect(conditionalAgent.value).toEqual(200);
     });
-
   });
 
 });
