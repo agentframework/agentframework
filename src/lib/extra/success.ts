@@ -13,7 +13,7 @@ export function success(key: string, value: any) {
 /**
  * PrerequisiteAttribute
  */
-class SuccessAttribute implements IAttribute, IInterceptor {
+export class SuccessAttribute implements IAttribute, IInterceptor {
 
   constructor(private _key: string, private _value: any) {
   }

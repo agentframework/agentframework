@@ -12,7 +12,7 @@ export function failure(replaced: any) {
 /**
  * PrerequisiteAttribute
  */
-class FailureAttribute implements IAttribute, IInterceptor {
+export class FailureAttribute implements IAttribute, IInterceptor {
 
   constructor(private _value: any) {
   }

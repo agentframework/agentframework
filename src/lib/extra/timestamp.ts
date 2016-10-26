@@ -8,7 +8,7 @@ export function timestamp() {
   return decorateClassMember(new TimestampAttribute());
 }
 
-class TimestampAttribute implements IAttribute, IInterceptor {
+export class TimestampAttribute implements IAttribute, IInterceptor {
 
   constructor() {
   }

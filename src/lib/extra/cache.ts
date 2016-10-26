@@ -11,7 +11,7 @@ export function cache() {
 /**
  * PrerequisiteAttribute
  */
-class CacheAttribute implements IAttribute, IInterceptor {
+export class CacheAttribute implements IAttribute, IInterceptor {
 
   cache = new MemoryCache();
 
@@ -35,7 +35,7 @@ class CacheAttribute implements IAttribute, IInterceptor {
   }
 }
 
-class MemoryCache {
+export class MemoryCache {
   expires: number = 60000;
   store: Map<string, ICached> = new Map<string, ICached>();
   set(key: string, value: any) {
@@ -55,7 +55,7 @@ class MemoryCache {
   }
 }
 
-interface ICached {
+export interface ICached {
   expires: number,
   value: any;
 }

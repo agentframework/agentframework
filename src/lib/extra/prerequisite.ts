@@ -15,7 +15,7 @@ export function prerequisite(key: string, value: any, message: string | Error) {
 /**
  * PrerequisiteAttribute
  */
-class PrerequisiteAttribute implements IAttribute, IInterceptor {
+export class PrerequisiteAttribute implements IAttribute, IInterceptor {
 
   constructor(private _key: string, private _value: any, private _message: string | Error) {
   }

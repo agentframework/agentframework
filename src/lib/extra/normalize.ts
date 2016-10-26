@@ -8,7 +8,7 @@ export function normalize() {
   return decorateClassMember(new NormalizeAttribute());
 }
 
-class NormalizeAttribute implements IAttribute, IInterceptor {
+export class NormalizeAttribute implements IAttribute, IInterceptor {
 
   constructor() {
   }

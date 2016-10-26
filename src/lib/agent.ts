@@ -13,7 +13,7 @@ export function agent(identifier?: any) {
 /**
  * AgentAttribute
  */
-class AgentAttribute implements IAttribute, IInterceptor {
+export class AgentAttribute implements IAttribute, IInterceptor {
 
   constructor(private _identifier?: any) {
   }
