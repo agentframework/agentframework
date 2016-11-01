@@ -13,7 +13,7 @@ fs.readdirSync(path.join(projectRoot, 'node_modules'))
   });
 
 export default {
-  target: 'es6',
+  target: 'node',
   entry: {
     index: path.resolve(projectRoot, 'src/lib/index.ts')
   },
@@ -27,7 +27,7 @@ export default {
   },
   externals: externalNodeModules,
   resolve: {
-    extensions: ['.ts']
+    extensions: ['','.ts']
   },
   module: {
     loaders: [

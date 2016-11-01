@@ -18,7 +18,7 @@
     "build:tsc": "node_modules/.bin/tsc -p tsconfig.release.json --noEmit",
     "release": "npm run release:clean && npm run release:tsc && npm run release:webpack && npm run release:npm",
     "release:clean": "rm -rf ./release",
-    "release:tsc": "node_modules/.bin/tsc -p tsconfig.release.json",
+    "release:tsc": "node_modules/.bin/tsc -p tsconfig.release.json && find release -type f -name '*.js*' -delete",
     "release:webpack": "node_modules/.bin/webpack --display-error-details --config tools/webpack.config.ts",
     "release:npm": "cp LICENSE ./release && cp README.md ./release && cp package.release.json ./release/package.json && cd ./release && npm publish",
     "test-on-travis": "npm run test",
@@ -44,6 +44,9 @@
     "@types/jasmine": "latest",
     "@types/node": "latest",
     "@types/webpack": "latest",
+    "babel-core": "latest",
+    "babel-loader": "latest",
+    "babel-preset-babili": "latest",
     "istanbul": "next",
     "jasmine": "latest",
     "jasmine-spec-reporter": "latest",
@@ -52,9 +55,6 @@
     "ts-node": "latest",
     "typescript": "latest",
     "typescript-standard": "latest",
-    "webpack": "latest",
-    "babel-core": "latest",
-    "babel-loader": "latest",
-    "babel-preset-babili": "latest"
+    "webpack": "latest"
   }
 }

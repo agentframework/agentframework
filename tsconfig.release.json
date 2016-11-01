@@ -12,7 +12,7 @@
     "newLine": "LF",
     "experimentalDecorators": true,
     "sourceMap": true,
-    "outFile": "release/lib/index.js",
+    "outDir": "release/lib",
     "typeRoots": [
       "node_modules/@types/"
     ],
