@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "es6",
     "lib": [
-      "es2015",
       "es2016"
     ],
     "declaration": true,
@@ -11,16 +10,8 @@
     "moduleResolution": "node",
     "newLine": "LF",
     "experimentalDecorators": true,
-    "sourceMap": true,
-    "outDir": "release/lib",
-    "typeRoots": [
-      "node_modules/@types/"
-    ],
-    "types": [
-      "jasmine",
-      "node",
-      "webpack"
-    ]
+    "sourceMap": false,
+    "outDir": "release/lib"
   },
   "include": [
     "src/**/*.ts"

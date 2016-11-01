@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "es6",
     "lib": [
-      "es2015",
       "es2016"
     ],
     "declaration": false,
