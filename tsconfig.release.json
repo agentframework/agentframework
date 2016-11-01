@@ -2,16 +2,25 @@
   "compilerOptions": {
     "target": "es6",
     "lib": [
-      "es6"
+      "es2015",
+      "es2016"
     ],
     "declaration": true,
-    "module": "commonjs",
-    "newLine": "LF",
+    "module": "amd",
     "removeComments": true,
+    "moduleResolution": "node",
+    "newLine": "LF",
     "experimentalDecorators": true,
     "sourceMap": true,
-    "outDir": "lib",
-    "pretty": true
+    "outFile": "release/lib/index.js",
+    "typeRoots": [
+      "node_modules/@types/"
+    ],
+    "types": [
+      "jasmine",
+      "node",
+      "webpack"
+    ]
   },
   "include": [
     "src/**/*.ts"

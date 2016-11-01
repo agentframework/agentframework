@@ -1,0 +1,31 @@
+{
+  "name": "agentframework",
+  "version": "0.2.18",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "description": "Agent Oriented Programming for TypeScript",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agentframework/agentframework.git"
+  },
+  "keywords": [
+    "aop",
+    "typescript",
+    "es6",
+    "proxy"
+  ],
+  "author": "Ling Zhang",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/agentframework/agentframework/issues"
+  },
+  "homepage": "https://github.com/agentframework/agentframework#readme"
+}

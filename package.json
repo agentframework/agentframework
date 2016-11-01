@@ -1,31 +1,29 @@
 {
   "name": "agentframework",
-  "version": "0.2.13",
+  "version": "0.0.0",
+  "private": true,
   "engines": {
     "node": ">=6.0.0"
   },
   "description": "Agent Oriented Programming for TypeScript",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "src/lib/index.ts",
   "scripts": {
     "start": "NODE_ENV=test node_modules/.bin/nodemon --config tools/testmon.json && exit 0",
-    "test": "npm run lint && npm run test:coverage",
+    "test": "npm run lint && npm run build && npm run test:coverage",
     "cov": "npm run test:coverage",
     "test:unit": "node_modules/.bin/ts-node tools/jasmine.ts",
     "test:coverage": "node_modules/.bin/ts-node node_modules/.bin/istanbul cover --config=tools/istanbul.yml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.full.json",
     "lint": "standard --pretty",
-    "build": "npm run build:clean && npm run build:tsc",
-    "build:clean": "rm -rf ./lib",
-    "build:tsc": "node_modules/.bin/tsc -p tsconfig.release.json",
-    "build:webpack": "node_modules/.bin/webpack --display-error-details --config tools/webpack.config.ts",
-    "test-on-travis": "npm run lint && npm run test:coverage",
+    "build": "npm run build:tsc",
+    "build:tsc": "node_modules/.bin/tsc -p tsconfig.release.json --noEmit",
+    "release": "npm run release:clean && npm run release:tsc && npm run release:webpack && npm run release:npm",
+    "release:clean": "rm -rf ./release",
+    "release:tsc": "node_modules/.bin/tsc -p tsconfig.release.json",
+    "release:webpack": "node_modules/.bin/webpack --display-error-details --config tools/webpack.config.ts",
+    "release:npm": "cp LICENSE ./release && cp README.md ./release && cp package.release.json ./release/package.json && cd ./release && npm publish",
+    "test-on-travis": "npm run test",
     "test-on-teamcity": "exit 1"
   },
-  "files": [
-    "lib",
-    "README.md",
-    "LICENSE"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/agentframework/agentframework.git"
@@ -54,6 +52,9 @@
     "ts-node": "latest",
     "typescript": "latest",
     "typescript-standard": "latest",
-    "webpack": "latest"
+    "webpack": "latest",
+    "babel-core": "latest",
+    "babel-loader": "latest",
+    "babel-preset-babili": "latest"
   }
 }

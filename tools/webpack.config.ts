@@ -1,8 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs'
-import * as webpack from 'webpack'
 
-declare var __dirname;
+declare var __dirname: string;
 const projectRoot = path.resolve(__dirname, '..');
 let externalNodeModules = Object.create(null);
 
@@ -16,10 +15,10 @@ fs.readdirSync(path.join(projectRoot, 'node_modules'))
 export default {
   target: 'es6',
   entry: {
-    index: path.join(projectRoot, 'src/lib/index.ts')
+    index: path.resolve(projectRoot, 'src/lib/index.ts')
   },
   output: {
-    path: path.join(projectRoot, 'lib'),
+    path: path.resolve(projectRoot, 'release/lib'),
     filename: '[name].js',
     libraryTarget: 'commonjs'
   },
@@ -32,14 +31,10 @@ export default {
   },
   module: {
     loaders: [
-      { test: /\.ts$/, loader: 'ts-loader' }
-    ]
-  },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
+      {
+        test: /\.ts$/,
+        loaders: ['babel-loader?presets[]=babili', 'ts-loader']
       }
-    })
-  ]
+    ]
+  }
 }

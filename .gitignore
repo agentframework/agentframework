@@ -2,6 +2,7 @@
 node_modules/
 coverage/
 bin/
+release/
 *.log
 *.js
 *.js.map

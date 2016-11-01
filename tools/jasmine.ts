@@ -1,7 +1,7 @@
 const path = require('path');
 const engine = require('jasmine');
 const reporter = require('jasmine-spec-reporter');
-declare var __dirname;
+declare var __dirname: string;
 const runner = new engine();
 runner.env.clearReporters();
 runner.env.addReporter(new reporter({
