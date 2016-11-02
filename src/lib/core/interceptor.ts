@@ -4,11 +4,14 @@ import { createInvocationChainFromAttribute } from './chain';
 
 const ORIGIN = Symbol('agent.framework.origin.method');
 
-
 export interface IInterceptor {
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any;
 }
 
+// TODO: add cache to improve performance
+// 1. create a hash based CacheMap
+// 2. implement the hash for attributes/prototype/describer
+// 3. replace InterceptorFactory with CachedInterceptorFactory
 export class InterceptorFactory {
 
   public static createConstructInterceptor<T>(attributes: Array<IAttribute>,
@@ -37,7 +40,6 @@ export class InterceptorFactory {
   }
 
   public static createFunctionInterceptor(attributes: Array<IAttribute>, method: IInvoke) {
-
     const originMethod = method[ORIGIN] || method;
     const origin: IInvocation = {
       invoke: function (parameters: ArrayLike<any>) {

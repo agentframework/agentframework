@@ -1,6 +1,5 @@
-import { IAttribute } from './attribute';
+import { IAttribute, CanDecorate } from './attribute';
 import { Reflection } from './reflection';
-import { AddPrototypeInterceptor } from './interceptors/prototype';
 import { AddConstructProxyInterceptor } from './interceptors/construct';
 
 const ORIGIN_CONSTRUCTOR = Symbol('agent.framework.origin.constructor');
@@ -15,13 +14,31 @@ export function decorateClass(attribute: IAttribute): ClassDecorator {
   // upgrade prototype
   return <Constructor extends Function>(target: Constructor): Constructor | void => {
 
+    // // check the parents
+    // let upgrade = true;
+    // for (let current = target; !!current.name; current = Object.getPrototypeOf(current)) {
+    //   console.log('check ====> name   :', current.name);
+    //   console.log('            symbols:', Object.getOwnPropertySymbols(current));
+    //   console.log('            props  :', Object.getOwnPropertyNames(current));
+    //   const origin = current[ORIGIN_CONSTRUCTOR];
+    //   if (origin) {
+    //     console.log('            ORIGIN :', origin.name, '(do not upgrade)');
+    //     upgrade = true;
+    //     break;
+    //   }
+    // }
+
     const originTarget = target[ORIGIN_CONSTRUCTOR] || target;
 
-    if (!attribute.beforeDecorate || attribute.beforeDecorate(originTarget)) {
-      Reflection.addAttribute(attribute, originTarget);
-      const upgradedTarget = AddPrototypeInterceptor(originTarget);
-      const upgradedConstructor = AddConstructProxyInterceptor(upgradedTarget);
+    if (CanDecorate(attribute, target)) {
+      Reflection.addAttribute(attribute, target);
+
+      const upgradedConstructor = AddConstructProxyInterceptor(target);
       upgradedConstructor[ORIGIN_CONSTRUCTOR] = originTarget;
+
+      // intercept by overloading ES5 prototype (static intercept)
+      // AddPrototypeInterceptor(upgradedConstructor);
+
       return upgradedConstructor;
     }
 
@@ -36,7 +53,7 @@ export function decorateClass(attribute: IAttribute): ClassDecorator {
  */
 export function decorateClassMember(attribute: IAttribute) {
   return (target: Object, propertyKey: string | symbol, descriptor?: PropertyDescriptor): void => {
-    if (!attribute.beforeDecorate || attribute.beforeDecorate(target, propertyKey, descriptor)) {
+    if (CanDecorate(attribute, target, propertyKey, descriptor)) {
       Reflection.addAttribute(attribute, target, propertyKey, descriptor)
     }
   }
@@ -49,7 +66,7 @@ export function decorateClassMember(attribute: IAttribute) {
  */
 export function decorateClassMethod(attribute: IAttribute): MethodDecorator {
   return (target: Object, propertyKey: string | symbol, descriptor: PropertyDescriptor): void => {
-    if (!attribute.beforeDecorate || attribute.beforeDecorate(target, propertyKey, descriptor)) {
+    if (CanDecorate(attribute, target, propertyKey, descriptor)) {
       Reflection.addAttribute(attribute, target, propertyKey, descriptor)
     }
   }
@@ -66,7 +83,7 @@ export function decorateClassProperty(attribute: IAttribute): PropertyDecorator 
     if (descriptor) {
       throw new TypeError(`${Reflect.getPrototypeOf(attribute).constructor.name} can only decorate on class property`);
     }
-    if (!attribute.beforeDecorate || attribute.beforeDecorate(target, propertyKey)) {
+    if (CanDecorate(attribute, target, propertyKey)) {
       Reflection.addAttribute(attribute, target, propertyKey)
     }
   }

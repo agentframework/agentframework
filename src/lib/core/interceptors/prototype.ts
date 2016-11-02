@@ -3,21 +3,23 @@ import { Reflection } from '../reflection';
 import { InterceptorFactory } from '../interceptor';
 
 /**
- * Add prototype interceptor
+ * Add prototype interceptor (es5)
  * @param target
  * @returns {Constructor}
  * @constructor
  */
-export function AddPrototypeInterceptor<Constructor extends Function>(target: Constructor) {
+export function AddPrototypeInterceptor<Constructor extends Function>(target: Constructor): void {
 
   // get the prototype of function
-  const keys = Reflect.ownKeys(target.prototype);
+  const keys = Reflect.ownKeys(target.prototype)
+    .filter(key => key !== 'constructor')
+    .filter(key => IsString(key))
+    .filter(key => Reflection.hasAttributes(target.prototype, key));
+
+  // console.log('hooking', target.name, keys);
 
   const propertyDescriptors = keys
-    .filter(key => IsString(key))
-    .filter(key => Reflection.hasAttributes(target.prototype, key))
     .map(key => {
-
       const descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
       const attributes = Reflection.getAttributes(target.prototype, key);
 
@@ -40,5 +42,4 @@ export function AddPrototypeInterceptor<Constructor extends Function>(target: Co
 
   Object.defineProperties(target.prototype, propertyDescriptors);
 
-  return target;
 }

@@ -1,5 +1,5 @@
 import { IInvocation } from './invocation';
-import { IAttribute } from './attribute';
+import { IAttribute, GetInterceptor } from './attribute';
 import { IInterceptor } from './interceptor';
 
 export function createInvocationChainFromAttribute(origin: IInvocation, attributes: Array<IAttribute>) {
@@ -8,8 +8,10 @@ export function createInvocationChainFromAttribute(origin: IInvocation, attribut
 
   // make invocation chain of interceptors
   attributes.forEach(function (attribute) {
-    const interceptor = attribute.getInterceptor();
-    invocation = new InceptionInvocation(invocation, interceptor);
+    const interceptor = GetInterceptor(attribute);
+    if (interceptor) {
+      invocation = new InceptionInvocation(invocation, interceptor);
+    }
   });
 
   return invocation;
@@ -20,7 +22,7 @@ export function createInvocationChainFromAttribute(origin: IInvocation, attribut
 /**
  * InceptionInvocation will call next interceptor in the chain
  */
-class InceptionInvocation implements IInvocation {
+export class InceptionInvocation implements IInvocation {
 
   constructor(private _invocation: IInvocation, private _interceptor: IInterceptor) {
   }

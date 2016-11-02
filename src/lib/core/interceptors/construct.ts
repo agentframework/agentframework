@@ -8,7 +8,7 @@ export function AddConstructProxyInterceptor<Constructor extends Function>(targe
   return new Proxy(target, typeProxyHandler);
 }
 
-function ConstructInterceptor<T>(target: T, argArray: ArrayLike<any>, receiver: any): any {
+export function ConstructInterceptor<T>(target: T, argArray: ArrayLike<any>, receiver: any): any {
 
   const customAttributes = Reflection.getAttributes(target);
 

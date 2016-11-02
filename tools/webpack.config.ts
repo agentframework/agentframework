@@ -27,7 +27,7 @@ export default {
   },
   externals: externalNodeModules,
   resolve: {
-    extensions: ['','.ts']
+    extensions: ['', '.ts']
   },
   module: {
     loaders: [
