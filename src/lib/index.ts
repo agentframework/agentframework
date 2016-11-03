@@ -10,5 +10,5 @@ export {
   decorateClassProperty
 } from './core'
 
-export { agent, AgentAttribute } from './agent'
+export { agent, Agent, AgentAttribute } from './agent'
 export { prerequisite, success, failure, normalize, timestamp, cache, conditional } from './extra'

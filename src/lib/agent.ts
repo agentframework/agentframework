@@ -4,6 +4,8 @@ import { Reflection } from './core/reflection';
 
 const PROXIED = Symbol('agent.framework.proxy');
 
+export type Agent = new <TFunction extends Function>(...parameters: Array<any>) => TFunction;
+
 /**
  * Define an agent
  * @returns {(target:Constructor)=>(void|Constructor)}
