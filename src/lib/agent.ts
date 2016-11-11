@@ -1,6 +1,8 @@
 import { decorateClass, IAttribute, IInterceptor, IInvocation } from './core';
 import { AddProxyInterceptor } from './core/interceptors/proxy';
+import { Domain, DOMAIN } from './domain';
 import { Reflection } from './core/reflection';
+import { InjectAttribute } from './extra/inject';
 
 const PROXIED = Symbol('agent.framework.proxy');
 
@@ -12,6 +14,22 @@ export type Agent = new <TFunction extends Function>(...parameters: Array<any>) 
  */
 export function agent(identifier?: any) {
   return decorateClass(new AgentAttribute(identifier));
+}
+
+export class AgentBased {
+  constructor(parameters) {
+    console.log('calling agent based');
+  }
+}
+
+export class AgentBase extends AgentBased {
+  
+  _id = Math.random();
+  
+  constructor(target, parameters) {
+    super(parameters);
+    console.log('calling agent base');
+  }
 }
 
 /**
@@ -26,18 +44,62 @@ export class AgentAttribute implements IAttribute, IInterceptor {
     return this._identifier;
   }
 
-  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
-    return true;
-  }
-
   getInterceptor(): IInterceptor {
     return this;
   }
 
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
 
-    let agent = invocation.invoke(parameters);
+    let domain: Domain<any>;
+    let agent;
 
+    if (parameters.length && parameters[0] instanceof Domain) {
+      domain = parameters[0] as Domain<any>;
+    }
+    else {
+      domain = new Domain();
+    }
+  
+    agent = Reflect.construct(invocation.target, parameters);
+    
+    // agent = Reflect.construct(, parameters, AgentBase);
+    // agent = invocation.invoke(parameters);
+
+    // find metadata
+    const metadata = Reflection.metadata.getAll(Reflect.getPrototypeOf(agent));
+    
+    // injector attributes for this class
+    if (metadata) {
+      metadata.forEach((attributes: Reflection, key: string) => {
+
+        const injectors = attributes.getAttributes()
+          .filter(attribute => attribute instanceof InjectAttribute);
+
+        if (injectors.length) {
+          const injector = injectors[0] as InjectAttribute;
+          // console.log('injecting', injector.typeOrIdentifier, 'to', key);
+          if (typeof injector.typeOrIdentifier === 'string') {
+            // lookup from domain
+            if (domain.hasAgent(injector.typeOrIdentifier)) {
+              const injected = domain.getAgent(injector.typeOrIdentifier);
+              Reflect.set(agent, key, injected);
+            }
+            else {
+              throw new TypeError(`${injector.typeOrIdentifier} not found`);
+            }
+          }
+          else {
+            // create a new instance
+            const injected = Reflect.construct(injector.typeOrIdentifier, []);
+            // console.log('inject', injected);
+            Reflect.set(agent, key, injected);
+          }
+        }
+        
+      });
+    }
+    
+    //
     // // NOTE: In order to improve the performance, do not proxy if no field interceptors detected
     // // intercept by overloading ES5 prototype (static intercept)
     // const interceptorDefinitions = Reflection.metadata.getAll(invocation.target.prototype);
@@ -52,6 +114,7 @@ export class AgentAttribute implements IAttribute, IInterceptor {
     //     // Proxy the current agent object
     //     agent = AddProxyInterceptor(agent);
     //   }
+    //
     // }
 
     // only proxy one time
@@ -61,9 +124,19 @@ export class AgentAttribute implements IAttribute, IInterceptor {
       Reflect.set(agent, PROXIED, true);
     }
 
-    // console.log(`DEBUG: registering agent ${invocation.target.name} (${this.identifier})...`);
-
-    // TODO: register this agent with domain
+    // register this agent with domain
+    // do not register to domain if no identifier found
+    if (this.identifier) {
+      if (domain.hasAgent(this.identifier)) {
+        throw new TypeError(`Duplicate agent identifier: ${this.identifier}`);
+      }
+      else {
+        // console.log(`DEBUG: registering agent ${invocation.target.name} (${this.identifier})...`);
+        // register service to directory for future use
+        domain.addAgent(this.identifier, agent);
+        Reflect.set(agent, DOMAIN, domain);
+      }
+    }
 
     return agent;
   }

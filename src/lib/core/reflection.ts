@@ -28,8 +28,7 @@ export class Reflection {
     return Reflection.metadata.get(target, targetKey);
   }
 
-  public static getOwnInstance(target: Object | Function,
-    targetKey?: string | symbol): Reflection {
+  public static getOwnInstance(target: Object | Function, targetKey?: string | symbol): Reflection {
     if (!IsObjectOrFunction(target)) {
       throw new TypeError();
     }
@@ -40,11 +39,13 @@ export class Reflection {
   }
 
   public static getAttributes(target: Object | Function, targetKey?: any): Array<IAttribute> {
+    // const prototype = target['prototype'] || target;
     const reflection = Reflection.getInstance(target, targetKey);
     return reflection ? reflection.getAttributes() : [];
   }
 
   public static hasAttributes(target: Object | Function, targetKey?: any): boolean {
+    // const prototype = target['prototype'] || target;
     const reflection = Reflection.getInstance(target, targetKey);
     return reflection ? reflection.hasAttributes() : false;
   }
@@ -53,6 +54,9 @@ export class Reflection {
     target: Object | Function,
     targetKey?: string | symbol,
     descriptor?: PropertyDescriptor) {
+
+    const prototype = target['prototype'] || target;
+    // console.log('addAttribute', target, 'key', targetKey, 'prototype', prototype);
     let reflection = Reflection.getOwnInstance(target, targetKey);
     if (!reflection) {
       reflection = new Reflection(target, targetKey, descriptor);

@@ -5,10 +5,10 @@
 //  * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
 //  */
 // export function stream() {
-//   return decorateClassMember(new StreamAttribute());
+//   return decorateClassMember(new InjectAttribute());
 // }
 //
-// export class StreamAttribute implements IAttribute, IInterceptor {
+// export class InjectAttribute implements IAttribute, IInterceptor {
 //
 //   constructor() {
 //   }
