@@ -1,7 +1,7 @@
 {
   "spec_dir": "./",
   "spec_files": [
-    "src/**/agent.spec.ts"
+    "src/**/inject.spec.ts"
   ],
   "stopSpecOnExpectationFailure": false,
   "random": false

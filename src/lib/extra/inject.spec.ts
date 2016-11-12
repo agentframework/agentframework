@@ -21,6 +21,7 @@ class TestServiceAgent {
   @inject('Util')
   util: UtilAgent;
 
+
   constructor() {
     console.log('calling TestServiceAgent ctor');
   }
@@ -43,6 +44,14 @@ class TestAgent {
 
 }
 
+@agent('Test2')
+class TestAgent2 {
+
+  @inject('Util2')
+  util2: UtilAgent;
+
+}
+
 describe('@inject', () => {
 
   describe('# should able to', () => {
@@ -56,4 +65,13 @@ describe('@inject', () => {
 
   });
 
+  describe('# should not able to', () => {
+
+    it('non-exist agent', () => {
+      expect(() => {
+        const test = new TestAgent2();
+      }).toThrowError('Util2 not found');
+    });
+
+  });
 });

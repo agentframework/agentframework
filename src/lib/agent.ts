@@ -16,22 +16,6 @@ export function agent(identifier?: any) {
   return decorateClass(new AgentAttribute(identifier));
 }
 
-export class AgentBased {
-  constructor(parameters) {
-    console.log('calling agent based');
-  }
-}
-
-export class AgentBase extends AgentBased {
-
-  _id = Math.random();
-
-  constructor(target, parameters) {
-    super(parameters);
-    console.log('calling agent base');
-  }
-}
-
 /**
  * AgentAttribute
  */
