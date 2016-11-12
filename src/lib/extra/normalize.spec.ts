@@ -1,7 +1,7 @@
 import { agent } from '../agent'
 import { normalize } from './normalize';
 
-@agent('NormalizeAgent')
+@agent()
 class TestNormalizeAgentClass {
 
   private _testField: any;

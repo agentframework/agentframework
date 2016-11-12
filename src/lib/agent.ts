@@ -1,6 +1,6 @@
 import { decorateClass, IAttribute, IInterceptor, IInvocation } from './core';
 import { AddProxyInterceptor } from './core/interceptors/proxy';
-import { Domain, DOMAIN } from './domain';
+import { Domain, DOMAIN, LocalDomain } from './domain';
 import { Reflection } from './core/reflection';
 import { InjectAttribute } from './extra/inject';
 
@@ -23,9 +23,9 @@ export class AgentBased {
 }
 
 export class AgentBase extends AgentBased {
-  
+
   _id = Math.random();
-  
+
   constructor(target, parameters) {
     super(parameters);
     console.log('calling agent base');
@@ -57,17 +57,14 @@ export class AgentAttribute implements IAttribute, IInterceptor {
       domain = parameters[0] as Domain<any>;
     }
     else {
-      domain = new Domain();
+      domain = LocalDomain;
     }
-  
-    agent = Reflect.construct(invocation.target, parameters);
-    
-    // agent = Reflect.construct(, parameters, AgentBase);
-    // agent = invocation.invoke(parameters);
+
+    agent = invocation.invoke(parameters);
 
     // find metadata
     const metadata = Reflection.metadata.getAll(Reflect.getPrototypeOf(agent));
-    
+
     // injector attributes for this class
     if (metadata) {
       metadata.forEach((attributes: Reflection, key: string) => {
@@ -80,8 +77,8 @@ export class AgentAttribute implements IAttribute, IInterceptor {
           // console.log('injecting', injector.typeOrIdentifier, 'to', key);
           if (typeof injector.typeOrIdentifier === 'string') {
             // lookup from domain
-            if (domain.hasAgent(injector.typeOrIdentifier)) {
-              const injected = domain.getAgent(injector.typeOrIdentifier);
+            const injected = domain.getAgent(injector.typeOrIdentifier);
+            if (injected != null) {
               Reflect.set(agent, key, injected);
             }
             else {
@@ -95,11 +92,10 @@ export class AgentAttribute implements IAttribute, IInterceptor {
             Reflect.set(agent, key, injected);
           }
         }
-        
+
       });
     }
-    
-    //
+
     // // NOTE: In order to improve the performance, do not proxy if no field interceptors detected
     // // intercept by overloading ES5 prototype (static intercept)
     // const interceptorDefinitions = Reflection.metadata.getAll(invocation.target.prototype);
@@ -128,7 +124,7 @@ export class AgentAttribute implements IAttribute, IInterceptor {
     // do not register to domain if no identifier found
     if (this.identifier) {
       if (domain.hasAgent(this.identifier)) {
-        throw new TypeError(`Duplicate agent identifier: ${this.identifier}`);
+        console.log(`WARN: Duplicate agent identifier: ${this.identifier}`);
       }
       else {
         // console.log(`DEBUG: registering agent ${invocation.target.name} (${this.identifier})...`);

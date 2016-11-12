@@ -1,6 +1,8 @@
 import { IAttribute, CanDecorate } from './attribute';
 import { Reflection } from './reflection';
 import { AddConstructProxyInterceptor } from './interceptors/construct';
+import { LocalDomain } from '../domain';
+import { AgentAttribute, Agent } from '../agent';
 
 const ORIGIN_CONSTRUCTOR = Symbol('agent.framework.origin.constructor');
 
@@ -12,7 +14,7 @@ const ORIGIN_CONSTRUCTOR = Symbol('agent.framework.origin.constructor');
 export function decorateClass(attribute: IAttribute): ClassDecorator {
 
   // upgrade prototype
-  return <Constructor extends Function>(target: Constructor): Constructor | void => {
+  return <Constructor extends Agent>(target: Constructor): Constructor | void => {
 
     // // check the parents
     // let upgrade = true;
@@ -38,6 +40,10 @@ export function decorateClass(attribute: IAttribute): ClassDecorator {
 
       // intercept by overloading ES5 prototype (static intercept)
       // AddPrototypeInterceptor(upgradedConstructor);
+
+      if (attribute instanceof AgentAttribute) {
+        LocalDomain.registerAgent(target);
+      }
 
       return upgradedConstructor;
     }

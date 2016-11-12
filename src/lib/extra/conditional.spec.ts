@@ -1,7 +1,7 @@
 import { agent } from '../agent'
 import { conditional } from './conditional';
 
-@agent('ConditionalAgent')
+@agent()
 class TestAgentClass {
 
   bool: boolean = true;
@@ -19,7 +19,7 @@ class TestAgentClass {
 
 }
 
-describe('@prerequisite', () => {
+describe('@conditional', () => {
 
   describe('# should not able to', () => {
     it('change value', () => {

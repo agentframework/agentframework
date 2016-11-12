@@ -1,7 +1,7 @@
 import { agent } from '../agent'
 import { success } from './success';
 
-@agent('SuccessAgent')
+@agent()
 class TestSuccessAgentClass {
 
   bool: boolean = false;

@@ -1,7 +1,7 @@
 import { agent } from './agent'
 import { success } from './extra/success';
 
-@agent('Agent')
+@agent()
 class Agent {
 
   @success('count1', 100)
@@ -14,7 +14,7 @@ class Agent {
   }
 }
 
-@agent('AnotherAgent')
+@agent()
 class AnotherAgent extends Agent {
 
   @success('count2', 200)
@@ -30,7 +30,6 @@ class AnotherAgent extends Agent {
     return this.test();
   }
 }
-
 
 describe('@agent', () => {
 
@@ -48,6 +47,7 @@ describe('@agent', () => {
       const agent = new AnotherAgent();
       expect(Reflect.getPrototypeOf(agent)).toBe(AnotherAgent.prototype);
       expect(agent instanceof AnotherAgent).toBe(true);
+      expect(typeof agent.ready).toBe('function');
       expect(agent.ready()).toBe(true);
       expect(agent['isready']).toBe(true);
     });

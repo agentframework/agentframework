@@ -1,7 +1,7 @@
 import { agent } from '../agent'
 import { prerequisite } from './prerequisite';
 
-@agent('PrerequisiteAgent')
+@agent()
 class TestPrerequisiteAgentClass {
 
   bool: boolean = true;

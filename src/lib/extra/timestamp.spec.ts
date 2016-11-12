@@ -1,12 +1,8 @@
 import { agent } from '../agent'
-import { success } from './success';
 import { timestamp } from './timestamp';
 
-@agent('TimestampAgent')
+@agent()
 class TestTimestampAgentClass {
-
-  private _activated: boolean = true;
-  private _status: boolean = this._activated;
 
   @timestamp()
   name: string;
@@ -32,6 +28,8 @@ class TestTimestampAgentClass {
 
   timestamp: number;
 
+  private _activated: boolean = true;
+  private _status: boolean = this._activated;
 
 }
 

@@ -1,7 +1,7 @@
 import { agent } from '../agent'
 import { failure } from './failure'
 
-@agent('FailureAgent')
+@agent()
 class TestFailureAgentClass {
 
   @failure(null)
