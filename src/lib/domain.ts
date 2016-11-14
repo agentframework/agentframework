@@ -52,7 +52,7 @@ export class Domain<T> extends EventEmitter implements IDomain<T> {
           throw new TypeError(`Duplicated agent identifier ${identifier} is not allowed`);
         }
         else {
-          console.log(`Agent type ${agentType.name} registered as ${identifier}`);
+          // console.log(`Agent type ${agentType.name} registered as ${identifier}`);
           this._types.set(identifier, agentType);
         }
       });

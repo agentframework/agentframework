@@ -108,7 +108,7 @@ export class AgentAttribute implements IAttribute, IInterceptor {
     // do not register to domain if no identifier found
     if (this.identifier) {
       if (domain.hasAgent(this.identifier)) {
-        console.log(`WARN: Duplicate agent identifier: ${this.identifier}`);
+        throw new TypeError(`Duplicate agent identifier: ${this.identifier}`);
       }
       else {
         // console.log(`DEBUG: registering agent ${invocation.target.name} (${this.identifier})...`);
