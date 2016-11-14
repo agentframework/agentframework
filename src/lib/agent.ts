@@ -111,8 +111,8 @@ export class AgentAttribute implements IAttribute, IInterceptor {
         throw new TypeError(`Duplicate agent identifier: ${this.identifier}`);
       }
       else {
-        // console.log(`DEBUG: registering agent ${invocation.target.name} (${this.identifier})...`);
         // register service to directory for future use
+        // console.log(`DEBUG: registering agent ${invocation.target.name} (${this.identifier})...`);
         domain.addAgent(this.identifier, agent);
         Reflect.set(agent, DOMAIN, domain);
       }
