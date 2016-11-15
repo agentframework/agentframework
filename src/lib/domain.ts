@@ -6,7 +6,25 @@ import { Reflection } from './core/reflection';
  * Domain interface
  */
 export interface IDomain<T> {
-  getAgent(agentType: string): Object | null;
+  /**
+   * Add an agent to domain
+   * @param agentType
+   */
+  addAgent(agentType: Agent): void;
+  
+  /**
+   * Create an agent and added to domain
+   * @param agentType
+   * @param parameters
+   */
+  createAgent(agentType: Agent, ...parameters: Array<any>): Object;
+  
+  /**
+   * Get the agent from domain or create previous added agent. Throw error if identifier not found.
+   * @param typeOrIdentifier
+   */
+  getAgent(typeOrIdentifier: Agent | string): Object;
+  
 }
 
 /**
@@ -14,39 +32,51 @@ export interface IDomain<T> {
  */
 export class Domain<T> extends EventEmitter implements IDomain<T> {
 
-  private _types: Map<string, Agent> = new Map<string, Agent>();
-  private _agents: Map<string, Object> = new Map<string, Object>();
+  protected types: Map<string, Agent> = new Map<string, Agent>();
+  protected agents: Map<string, Object> = new Map<string, Object>();
 
-  public registerAgentType(agentAttribute: AgentAttribute, agentType: Agent) {
+  registerAgentType(agentAttribute: AgentAttribute, agentType: Agent) {
     if (!agentAttribute.identifier) {
       return;
     }
-    else if (this._types.has(agentAttribute.identifier)) {
+    else if (this.types.has(agentAttribute.identifier)) {
       throw new TypeError(`Duplicated agent type identifier ${agentAttribute.identifier} is not allowed`);
     }
     else {
       // console.log(`Agent type ${agentType.name} registered as ${agentAttribute.identifier}`);
-      this._types.set(agentAttribute.identifier, agentType);
+      this.types.set(agentAttribute.identifier, agentType);
     }
   }
 
-  public registerAgent(agentAttribute: AgentAttribute, agent: Object) {
+  registerAgent(agentAttribute: AgentAttribute, agent: Object) {
     if (!agentAttribute.identifier) {
       return;
     }
-    else if (this._agents.has(agentAttribute.identifier)) {
+    else if (this.agents.has(agentAttribute.identifier)) {
       throw new TypeError(`Duplicated agent identifier ${agentAttribute.identifier} is not allowed`);
     }
     else {
       // console.log(`Agent ${agentType.name} registered as ${identifier}`);
-      this._agents.set(agentAttribute.identifier, agent);
+      this.agents.set(agentAttribute.identifier, agent);
     }
+  }
+
+  public addAgent(agentType: Agent): void {
+    const attributes = this.extractAgentAttributes(agentType);
+    attributes.forEach(attribute => {
+      if (this.agents.has(attribute.identifier)) {
+        throw new TypeError(`Can not add agent type. Duplicated agent type identifier ${attribute.identifier} is not allowed`);
+      }
+    });
+    attributes.forEach(attribute => {
+      this.registerAgentType(attribute, agentType);
+    });
   }
 
   public createAgent(agentType: Agent, ...parameters: Array<any>): any {
     const identifiers = this.extractIdentifiers(agentType);
     identifiers.forEach(identifier => {
-      if (this._agents.has(identifier)) {
+      if (this.agents.has(identifier)) {
         throw new TypeError(`Can not create agent. Duplicated agent identifier ${identifier} is not allowed`);
       }
     });
@@ -55,11 +85,11 @@ export class Domain<T> extends EventEmitter implements IDomain<T> {
 
   public getAgent(typeOrIdentifier: Agent | string): Object {
     if (typeof typeOrIdentifier === 'string') {
-      if (this._agents.has(typeOrIdentifier)) {
-        return this._agents.get(typeOrIdentifier);
+      if (this.agents.has(typeOrIdentifier)) {
+        return this.agents.get(typeOrIdentifier);
       }
-      else if (this._types.has(typeOrIdentifier)) {
-        const agentType = this._types.get(typeOrIdentifier);
+      else if (this.types.has(typeOrIdentifier)) {
+        const agentType = this.types.get(typeOrIdentifier);
         return this.createAgent(agentType);
       }
       else {
@@ -71,9 +101,13 @@ export class Domain<T> extends EventEmitter implements IDomain<T> {
     }
   }
 
-  private extractIdentifiers(agentType: Agent) {
+  private extractAgentAttributes(agentType: Agent): Array<AgentAttribute> {
     return Reflection.getAttributes(agentType)
-      .filter(a => a instanceof AgentAttribute)
+      .filter(a => a instanceof AgentAttribute) as Array<AgentAttribute>;
+  }
+
+  private extractIdentifiers(agentType: Agent) {
+    return this.extractAgentAttributes(agentType)
       .map(a => (a as AgentAttribute).identifier)
       .filter(a => a != null);
   }
