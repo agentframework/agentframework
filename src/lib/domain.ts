@@ -11,20 +11,20 @@ export interface IDomain<T> {
    * @param agentType
    */
   addAgent(agentType: Agent): void;
-  
+
   /**
    * Create an agent and added to domain
    * @param agentType
    * @param parameters
    */
   createAgent(agentType: Agent, ...parameters: Array<any>): Object;
-  
+
   /**
    * Get the agent from domain or create previous added agent. Throw error if identifier not found.
    * @param typeOrIdentifier
    */
   getAgent(typeOrIdentifier: Agent | string): Object;
-  
+
 }
 
 /**
