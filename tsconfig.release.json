@@ -11,7 +11,15 @@
     "newLine": "LF",
     "experimentalDecorators": true,
     "sourceMap": false,
-    "outDir": "release/lib"
+    "outDir": "release/lib",
+    "typeRoots": [
+      "node_modules/@types/"
+    ],
+    "types": [
+      "jasmine",
+      "node",
+      "webpack"
+    ]
   },
   "include": [
     "src/**/*.ts"

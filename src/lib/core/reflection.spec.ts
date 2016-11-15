@@ -45,9 +45,9 @@ describe('Reflection', () => {
       expect(attributes.length).toEqual(2);
     });
 
-    it('add attribute multiple times', () => {
+    it('add get target', () => {
       const reflection = Reflection.getOwnInstance(Test);
-      expect(reflection.target).toEqual(Test);
+      expect(reflection.target).toEqual(Test.prototype);
       expect(reflection.targetKey).toBeUndefined();
     });
 

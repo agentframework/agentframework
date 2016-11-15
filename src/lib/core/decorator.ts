@@ -3,8 +3,8 @@ import { Reflection } from './reflection';
 import { AddConstructProxyInterceptor } from './interceptors/construct';
 import { LocalDomain } from '../domain';
 import { AgentAttribute, Agent } from '../agent';
+import { ORIGIN_CONSTRUCTOR } from './utils';
 
-const ORIGIN_CONSTRUCTOR = Symbol('agent.framework.origin.constructor');
 
 /**
  * Decorate class
@@ -30,22 +30,33 @@ export function decorateClass(attribute: IAttribute): ClassDecorator {
     //   }
     // }
 
-    const originTarget = target[ORIGIN_CONSTRUCTOR] || target;
+    const proxied = Reflect.has(target, ORIGIN_CONSTRUCTOR);
+    const originalTarget = proxied ? Reflect.get(target, ORIGIN_CONSTRUCTOR) : target;
 
-    if (CanDecorate(attribute, target)) {
-      Reflection.addAttribute(attribute, target);
+    if (CanDecorate(attribute, originalTarget)) {
+      Reflection.addAttribute(attribute, originalTarget);
 
-      const upgradedConstructor = AddConstructProxyInterceptor(target);
-      upgradedConstructor[ORIGIN_CONSTRUCTOR] = originTarget;
+      let upgradedTarget;
+
+      if (proxied) {
+        upgradedTarget = target;
+      }
+      else {
+        // intercept by implement ES6 proxy (dynamic intercept)
+        upgradedTarget = AddConstructProxyInterceptor(target);
+        Reflect.set(upgradedTarget, ORIGIN_CONSTRUCTOR, originalTarget);
+      }
+      // console.log('add class', typeof originTarget, typeof originTarget.prototype);
 
       // intercept by overloading ES5 prototype (static intercept)
       // AddPrototypeInterceptor(upgradedConstructor);
 
+      // always register agent type in LocalDomain
       if (attribute instanceof AgentAttribute) {
-        LocalDomain.registerAgent(target);
+        LocalDomain.registerAgentType(attribute, upgradedTarget);
       }
 
-      return upgradedConstructor;
+      return upgradedTarget;
     }
 
     return target;
@@ -95,3 +106,6 @@ export function decorateClassProperty(attribute: IAttribute): PropertyDecorator 
   }
 }
 
+export function getDecoratingClass(type: any): any {
+  return type[ORIGIN_CONSTRUCTOR] || type;
+}

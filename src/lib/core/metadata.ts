@@ -3,6 +3,8 @@ import { IsUndefined } from './utils';
 
 export class Metadata {
 
+  static EMPTY_METADATA = new Map<string | symbol, Reflection>();
+
   constructor(private _metadata = new Map<Object | Function, Map<string | symbol, Reflection>>()) {
   }
 
@@ -15,7 +17,7 @@ export class Metadata {
       return this.metadata.get(target);
     }
     else {
-      return null;
+      return Metadata.EMPTY_METADATA;
     }
   }
 

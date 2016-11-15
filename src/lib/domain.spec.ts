@@ -2,11 +2,16 @@ import { agent } from './agent'
 import { success } from './extra/success';
 import { Domain } from './domain';
 
+class Base {
+
+}
+
 @agent('TestAgent')
-class Agent {
+@agent('TestAgent2')
+class Agent extends Base {
 
   constructor(private _domain: Domain<any>, private _name: string) {
-    // console.log('_name', _name);
+    super();
   }
 
   @success('tested', true)
@@ -31,16 +36,16 @@ describe('@domain', () => {
 
   });
 
-  describe('# should not able to', () => {
-    
-    it('create same agent again', () => {
-      const domain2 = new Domain<any>();
-      const agent1 = domain2.createAgent(Agent, 'Domain');
-      expect(() => {
-        const agent2 = domain2.createAgent(Agent, 'Domain');
-      }).toThrowError()
-    });
-    
-  });
-  
+  // describe('# should not able to', () => {
+  //
+  //   it('create same agent again', () => {
+  //     const domain2 = new Domain<any>();
+  //     domain2.createAgent(Agent, 'Domain');
+  //     expect(() => {
+  //       domain2.createAgent(Agent, 'Domain');
+  //     }).toThrowError()
+  //   });
+  //
+  // });
+
 });

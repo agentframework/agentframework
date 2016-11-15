@@ -5,7 +5,7 @@ import { inject } from './inject';
 class UtilAgent {
 
   constructor() {
-    console.log('calling UtilAgent ctor');
+    // console.log('calling UtilAgent ctor');
   }
 
   format(str: string, name: string) {
@@ -23,7 +23,7 @@ class TestServiceAgent {
 
 
   constructor() {
-    console.log('calling TestServiceAgent ctor');
+    // console.log('calling TestServiceAgent ctor');
   }
 
   hello() {
@@ -38,8 +38,11 @@ class TestAgent {
   @inject(TestServiceAgent)
   serviceAgent: TestServiceAgent;
 
+  @inject('TestService')
+  serviceAgentById: TestServiceAgent;
+
   constructor() {
-    console.log('calling Test ctor', this.serviceAgent);
+    // console.log('calling Test ctor', this.serviceAgent);
   }
 
 }
@@ -60,6 +63,7 @@ describe('@inject', () => {
       const test = new TestAgent();
       // console.log('test', Object.getPrototypeOf(test), test);
       expect(test.serviceAgent).toBeDefined();
+      expect(test.serviceAgent).toEqual(test.serviceAgentById);
       expect(test.serviceAgent.hello()).toEqual('Hello,Name');
     });
 
@@ -70,7 +74,7 @@ describe('@inject', () => {
     it('non-exist agent', () => {
       expect(() => {
         const test = new TestAgent2();
-      }).toThrowError('Util2 not found');
+      }).toThrowError('Agent Util2 not found');
     });
 
   });

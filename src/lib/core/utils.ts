@@ -1,3 +1,13 @@
+export const ORIGIN_INSTANCE = Symbol('agent.framework.origin.instance');
+
+export const ORIGIN_CONSTRUCTOR = Symbol('agent.framework.origin.constructor');
+
+export const AGENT_DOMAIN = Symbol('agent.framework.domain');
+
+export function IsFunction(x: any): boolean {
+  return typeof x === 'function';
+}
+
 export function IsUndefined(x: any): boolean {
   return x === undefined
 }

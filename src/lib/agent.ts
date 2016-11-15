@@ -1,12 +1,8 @@
 import { decorateClass, IAttribute, IInterceptor, IInvocation } from './core';
 import { AddProxyInterceptor } from './core/interceptors/proxy';
-import { Domain, DOMAIN, LocalDomain } from './domain';
-import { Reflection } from './core/reflection';
-import { InjectAttribute } from './extra/inject';
+import { ORIGIN_INSTANCE, AGENT_DOMAIN } from './core/utils';
 
-const PROXIED = Symbol('agent.framework.proxy');
-
-export type Agent = new <TFunction extends Function>(...parameters: Array<any>) => TFunction;
+export type Agent = new <Constructor extends Function>(...parameters: Array<any>) => Constructor;
 
 /**
  * Define an agent
@@ -21,10 +17,10 @@ export function agent(identifier?: any) {
  */
 export class AgentAttribute implements IAttribute, IInterceptor {
 
-  constructor(private _identifier?: any) {
+  constructor(private _identifier?: string) {
   }
 
-  get identifier(): any {
+  get identifier(): string | null {
     return this._identifier;
   }
 
@@ -34,51 +30,7 @@ export class AgentAttribute implements IAttribute, IInterceptor {
 
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
 
-    let domain: Domain<any>;
-    let agent;
-
-    if (parameters.length && parameters[0] instanceof Domain) {
-      domain = parameters[0] as Domain<any>;
-    }
-    else {
-      domain = LocalDomain;
-    }
-
-    agent = invocation.invoke(parameters);
-
-    // find metadata
-    const metadata = Reflection.metadata.getAll(Reflect.getPrototypeOf(agent));
-
-    // injector attributes for this class
-    if (metadata) {
-      metadata.forEach((attributes: Reflection, key: string) => {
-
-        const injectors = attributes.getAttributes()
-          .filter(attribute => attribute instanceof InjectAttribute);
-
-        if (injectors.length) {
-          const injector = injectors[0] as InjectAttribute;
-          // console.log('injecting', injector.typeOrIdentifier, 'to', key);
-          if (typeof injector.typeOrIdentifier === 'string') {
-            // lookup from domain
-            const injected = domain.getAgent(injector.typeOrIdentifier);
-            if (injected != null) {
-              Reflect.set(agent, key, injected);
-            }
-            else {
-              throw new TypeError(`${injector.typeOrIdentifier} not found`);
-            }
-          }
-          else {
-            // create a new instance
-            const injected = Reflect.construct(injector.typeOrIdentifier, []);
-            // console.log('inject', injected);
-            Reflect.set(agent, key, injected);
-          }
-        }
-
-      });
-    }
+    let originalAgent = invocation.invoke(parameters);
 
     // // NOTE: In order to improve the performance, do not proxy if no field interceptors detected
     // // intercept by overloading ES5 prototype (static intercept)
@@ -98,27 +50,16 @@ export class AgentAttribute implements IAttribute, IInterceptor {
     // }
 
     // only proxy one time
-    if (!Reflect.get(agent, PROXIED)) {
+    if (!Reflect.has(originalAgent, ORIGIN_INSTANCE)) {
       // intercept by implement ES6 proxy (dynamic intercept)
-      agent = AddProxyInterceptor(agent);
-      Reflect.set(agent, PROXIED, true);
+      const domain = Reflect.get(originalAgent, AGENT_DOMAIN);
+      const upgradedAgent = AddProxyInterceptor(originalAgent);
+      Reflect.set(upgradedAgent, ORIGIN_INSTANCE, originalAgent);
+      Reflect.set(upgradedAgent, AGENT_DOMAIN, domain);
+      return upgradedAgent;
     }
 
-    // register this agent with domain
-    // do not register to domain if no identifier found
-    if (this.identifier) {
-      if (domain.hasAgent(this.identifier)) {
-        throw new TypeError(`Duplicate agent identifier: ${this.identifier}`);
-      }
-      else {
-        // register service to directory for future use
-        // console.log(`DEBUG: registering agent ${invocation.target.name} (${this.identifier})...`);
-        domain.addAgent(this.identifier, agent);
-        Reflect.set(agent, DOMAIN, domain);
-      }
-    }
-
-    return agent;
+    return originalAgent;
   }
 
 }
