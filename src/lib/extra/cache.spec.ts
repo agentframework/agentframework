@@ -34,7 +34,7 @@ describe('@cache', () => {
     it('cache the result for heavyOperation', () => {
       const tester = new TestAgentClass();
       const first = tester.heavyOperation();
-      for (let n = 0; n < 1000000; n++) {
+      for (let n = 0; n < 10000; n++) {
         const val = tester.heavyOperation();
         expect(val).toEqual(first);
       }
@@ -44,7 +44,7 @@ describe('@cache', () => {
     it('cache the result for heavyOperationWithArguments', () => {
       const tester = new TestAgentClass();
       const first = tester.heavyOperationWithArguments('ling', 55);
-      for (let n = 0; n < 1000000; n++) {
+      for (let n = 0; n < 10000; n++) {
         const val = tester.heavyOperationWithArguments('ling', 55);
         expect(val).toEqual(first);
       }
