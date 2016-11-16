@@ -10,7 +10,7 @@ class Base {
 @agent('TestAgent2')
 class Agent extends Base {
 
-  constructor(private _domain: Domain<any>, private _name: string) {
+  constructor(private _domain: Domain, private _name: string) {
     super();
   }
 
@@ -26,7 +26,7 @@ describe('@domain', () => {
   describe('# should able to', () => {
 
     it('create new instance', () => {
-      const domain1 = new Domain<any>();
+      const domain1 = new Domain();
       const agent1 = domain1.createAgent(Agent, 'Domain');
       expect(Reflect.getPrototypeOf(agent1)).toBe(Agent.prototype);
       expect(agent1 instanceof Agent).toBe(true);

@@ -15,10 +15,10 @@ export function AddConstructProxyInterceptor<Constructor extends Function>(targe
 export function ConstructInterceptor<T>(target: T, parameters: ArrayLike<any>, receiver: any): any {
 
   const customAttributes = Reflection.getAttributes(target);
-  let domain: Domain<any>;
+  let domain: Domain;
 
   if (parameters.length && parameters[0] instanceof Domain) {
-    domain = parameters[0] as Domain<any>;
+    domain = parameters[0] as Domain;
   }
   else {
     domain = LocalDomain;
