@@ -5,7 +5,7 @@ import { Reflection } from './core/reflection';
 /**
  * Domain interface
  */
-export interface IDomain<T> {
+export interface IDomain {
   /**
    * Add an agent to domain
    * @param agentType
@@ -30,7 +30,7 @@ export interface IDomain<T> {
 /**
  * Domain
  */
-export class Domain<T> extends EventEmitter implements IDomain<T> {
+export class Domain extends EventEmitter implements IDomain {
 
   protected types: Map<string, Agent> = new Map<string, Agent>();
   protected agents: Map<string, Object> = new Map<string, Object>();

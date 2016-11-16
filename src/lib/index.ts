@@ -12,3 +12,4 @@ export {
 
 export { agent, Agent, AgentAttribute } from './agent'
 export { prerequisite, success, failure, normalize, timestamp, cache, conditional } from './extra'
+export { Domain, IDomain } from './domain'
