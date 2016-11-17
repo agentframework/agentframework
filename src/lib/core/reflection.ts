@@ -1,7 +1,8 @@
 import { IAttribute } from './attribute';
 import { IsObjectOrFunction, IsUndefined, ToPropertyKey, IsFunction } from './utils';
-import { Metadata } from './metadata';
 import { getDecoratingClass } from './decorator';
+import { Metadata } from './metadata';
+
 
 /**
  * Reflection
@@ -9,7 +10,6 @@ import { getDecoratingClass } from './decorator';
 export class Reflection {
 
   private _attributes: Array<IAttribute>;
-  static metadata: Metadata = new Metadata();
 
   private constructor(private _target: Object, private _targetKey?: string | symbol, private _descriptor?: PropertyDescriptor) {
     if (IsUndefined(_descriptor) && !IsUndefined(_targetKey)) {
@@ -25,12 +25,12 @@ export class Reflection {
     if (!IsUndefined(targetKey)) {
       const instance = IsFunction(target) ? target['prototype'] : target;
       targetKey = ToPropertyKey(targetKey);
-      return Reflection.metadata.get(instance, targetKey);
+      return Metadata.get(instance, targetKey);
     }
     else {
       const originTarget = getDecoratingClass(target);
       const instance = IsFunction(originTarget) ? originTarget['prototype'] : originTarget;
-      return Reflection.metadata.get(instance);
+      return Metadata.get(instance);
     }
   }
 
@@ -41,12 +41,12 @@ export class Reflection {
     if (!IsUndefined(targetKey)) {
       const instance = IsFunction(target) ? target['prototype'] : target;
       targetKey = ToPropertyKey(targetKey);
-      return Reflection.metadata.getOwn(instance, targetKey);
+      return Metadata.getOwn(instance, targetKey);
     }
     else {
       const originTarget = getDecoratingClass(target);
       const instance = IsFunction(originTarget) ? originTarget['prototype'] : originTarget;
-      return Reflection.metadata.getOwn(instance);
+      return Metadata.getOwn(instance);
     }
   }
 
@@ -75,7 +75,7 @@ export class Reflection {
     let reflection = Reflection.getOwnInstance(instance, targetKey);
     if (!reflection) {
       reflection = new Reflection(instance, targetKey, descriptor);
-      Reflection.metadata.saveOwn(reflection, instance, targetKey);
+      Metadata.saveOwn(reflection, instance, targetKey);
     }
     reflection.addAttribute(attribute);
   }

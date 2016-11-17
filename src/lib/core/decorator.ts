@@ -34,7 +34,7 @@ export function decorateClass(attribute: IAttribute): ClassDecorator {
     const originalTarget = proxied ? Reflect.get(target, ORIGIN_CONSTRUCTOR) : target;
 
     if (CanDecorate(attribute, originalTarget)) {
-      
+
       Reflection.addAttribute(attribute, originalTarget);
 
       let upgradedTarget;

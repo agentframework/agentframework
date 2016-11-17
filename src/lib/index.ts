@@ -7,7 +7,8 @@ export {
   decorateClass,
   decorateClassMember,
   decorateClassMethod,
-  decorateClassProperty
+  decorateClassProperty,
+  Metadata
 } from './core'
 
 export { agent, Agent, AgentAttribute } from './agent'

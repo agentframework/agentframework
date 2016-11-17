@@ -4,6 +4,7 @@ import { Domain, LocalDomain } from '../../domain';
 import { InjectAttribute } from '../../extra/inject';
 import { AgentAttribute } from '../../agent';
 import { AGENT_DOMAIN } from '../utils';
+import { Metadata } from '../metadata';
 
 export function AddConstructProxyInterceptor<Constructor extends Function>(target: Constructor) {
   const typeProxyHandler = {
@@ -32,7 +33,7 @@ export function ConstructInterceptor<T>(target: T, parameters: ArrayLike<any>, r
   const rawAgent = agentTypeConstructor.invoke(parameters);
 
   // find metadata
-  Reflection.metadata.getAll(Reflect.getPrototypeOf(rawAgent)).forEach((reflection: Reflection, key: string) => {
+  Metadata.getAll(Reflect.getPrototypeOf(rawAgent)).forEach((reflection: Reflection, key: string) => {
     reflection.getAttributes(InjectAttribute).forEach((injector: InjectAttribute) => {
       let injected = domain.getAgent(injector.typeOrIdentifier);
       Reflect.set(rawAgent, key, injected);
