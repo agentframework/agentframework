@@ -13,7 +13,7 @@
     "test": "npm run lint && npm run build && npm run test:coverage",
     "cov": "npm run test:coverage",
     "test:unit": "node_modules/.bin/ts-node tools/jasmine.ts || exit 0",
-    "test:coverage": "node_modules/.bin/ts-node node_modules/.bin/istanbul cover --config=tools/istanbul.yml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.full.json || exit 0",
+    "test:coverage": "node_modules/.bin/ts-node node_modules/.bin/istanbul cover --config=tools/istanbul.yaml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.full.json || exit 0",
     "lint": "standard --pretty",
     "build": "npm run build:tsc",
     "build:tsc": "node_modules/.bin/tsc -p tsconfig.release.json --noEmit",
