@@ -1,6 +1,9 @@
 import { decorateClass, IAttribute, IInterceptor, IInvocation } from './core';
 import { AddProxyInterceptor } from './core/interceptors/proxy';
 import { ORIGIN_INSTANCE, AGENT_DOMAIN } from './core/utils';
+import { ReadyAttribute } from './extra/ready';
+import { Reflection } from './core/reflection';
+import { Metadata } from './core/metadata';
 
 export type Agent = new <Constructor extends Function>(...parameters: Array<any>) => Constructor;
 
@@ -51,11 +54,32 @@ export class AgentAttribute implements IAttribute, IInterceptor {
 
     // only proxy one time
     if (!Reflect.has(originalAgent, ORIGIN_INSTANCE)) {
+
       // intercept by implement ES6 proxy (dynamic intercept)
       const domain = Reflect.get(originalAgent, AGENT_DOMAIN);
       const upgradedAgent = AddProxyInterceptor(originalAgent);
       Reflect.set(upgradedAgent, ORIGIN_INSTANCE, originalAgent);
       Reflect.set(upgradedAgent, AGENT_DOMAIN, domain);
+
+      const readyList = [];
+
+      // find metadata
+      Metadata.getAll(Reflect.getPrototypeOf(originalAgent)).forEach((reflection: Reflection, key: string) => {
+        if (reflection.getAttributes(ReadyAttribute).length) {
+          readyList.push(key);
+        }
+      });
+
+      // execute agent hook: -> READY
+      if (readyList.length) {
+        readyList.forEach(ready => {
+          const readyFn = Reflect.get(upgradedAgent, ready);
+          if (typeof readyFn === 'function') {
+            Reflect.apply(readyFn, upgradedAgent, []);
+          }
+        });
+      }
+
       return upgradedAgent;
     }
 
