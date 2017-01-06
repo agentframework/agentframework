@@ -13,7 +13,7 @@ const globalSymbols = Object.getOwnPropertySymbols(global);
 // ensure all version using the same instance
 if (globalSymbols.indexOf(key) === -1) {
   Reflect.set(global, key, new Map<Object | Function, Map<string | symbol, Reflection>>()); // Object.freeze(kernel); - this will break istanbul test
-  console.log('metadata store not found, create new metadata store')
+  // console.log('metadata store not found, create new metadata store')
 }
 
 

@@ -13,7 +13,7 @@ if (typeof Reflect !== 'object' || typeof Proxy !== 'function') {
 
 // ===========================================
 // ES2016
-if (typeof Reflect['metadata'] !== "function") {
+if (typeof Reflect['metadata'] !== 'function') {
 
   // Install Reflect.metadata for tsc only
   // tsc will add following code to the generated js file. in order to utilize these information.
@@ -31,9 +31,9 @@ if (typeof Reflect['metadata'] !== "function") {
 }
 
 // ES2017
-if (typeof Reflect['metadata'] === "function") {
-  // very good
-}
+//else {
+// very good
+//}
 
 // ===========================================
 

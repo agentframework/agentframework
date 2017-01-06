@@ -1,4 +1,3 @@
-import { Reflection } from './core/reflection';
 export {
   IAttribute,
   IBeforeDecorateAttribute,
