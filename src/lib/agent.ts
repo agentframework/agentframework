@@ -14,27 +14,18 @@ if (typeof Reflect !== 'object' || typeof Proxy !== 'function') {
 // ===========================================
 // ES2016
 if (typeof Reflect['metadata'] !== 'function') {
-
   // Install Reflect.metadata for tsc only
   // tsc will add following code to the generated js file. in order to utilize these information.
   // we create and method of Reflect.metadata to inject these information to Reflection object
   //     Reflect.metadata("design:type", Function),
   //     Reflect.metadata("design:paramtypes", []),
   //     Reflect.metadata("design:returntype", String)
-
   Reflect['metadata'] = function (key: string, value: any) {
     return function (target: Object | Function, propertyKey?: string | symbol, descriptor?: PropertyDescriptor | number): void {
       Reflection.addMetadata(key, value, target, propertyKey, descriptor);
     }
   };
-
 }
-
-// ES2017
-//else {
-// very good
-//}
-
 // ===========================================
 
 

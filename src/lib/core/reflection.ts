@@ -100,7 +100,11 @@ export class Reflection {
   }
 
   getMetadata(key: string): any | null {
-    return this._metadata.get(key);
+    let metadata;
+    if (typeof Reflect['getMetadata'] === 'function') {
+      metadata = Reflect['getMetadata'](key, this.target, this.targetKey);
+    }
+    return metadata || this._metadata.get(key);
   }
 
   addMetadata(key: string, value: any) {
@@ -113,15 +117,15 @@ export class Reflection {
   }
 
   get type(): any {
-    return this._metadata.get('design:type');
+    return this.getMetadata('design:type');
   }
 
   get paramtypes(): Array<any> {
-    return this._metadata.get('design:paramtypes');
+    return this.getMetadata('design:paramtypes');
   }
 
   get returntype(): any {
-    return this._metadata.get('design:returntype');
+    return this.getMetadata('design:returntype');
   }
 
   get targetKey(): string | symbol {
