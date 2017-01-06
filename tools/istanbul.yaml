@@ -7,7 +7,7 @@ instrumentation:
     excludes: [
       "*.d.ts",
       "*.spec.ts",
-      "*.testBool.ts"
+      "*.test.ts"
     ]
     embed-source: false
     variable: __coverage__
