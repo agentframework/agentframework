@@ -15,7 +15,12 @@ if (globalSymbols.indexOf(key) === -1) {
   Reflect.set(global, key, new Map<Object | Function, Map<string | symbol, Reflection>>()); // Object.freeze(kernel); - this will break istanbul test
   // console.log('metadata store not found, create new metadata store')
 }
+const globalSymbols2 = Object.getOwnPropertySymbols(global);
 
+// ensure all version using the same instance
+if (globalSymbols2.indexOf(key) === -1) {
+  console.log('second')
+}
 
 export class Metadata {
 

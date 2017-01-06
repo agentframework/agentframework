@@ -2379,8 +2379,8 @@ tsconfig@^5.0.2:
     strip-json-comments "^2.0.0"
 
 tslint@latest:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/tslint/-/tslint-4.2.0.tgz#b9f5c5b871b784ab2f4809e704ade42d62f523ad"
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/tslint/-/tslint-4.3.0.tgz#4d5f41dfa63e2a9626895c03452eaa4e69e1535e"
   dependencies:
     babel-code-frame "^6.20.0"
     colors "^1.1.2"

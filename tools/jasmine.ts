@@ -1,27 +1,33 @@
 const path = require('path');
 const engine = require('jasmine');
-const reporter = require('jasmine-spec-reporter');
+import { SpecReporter } from 'jasmine-spec-reporter';
 declare var __dirname: string;
 const runner = new engine();
 runner.env.clearReporters();
-runner.env.addReporter(new reporter({
-  displayStacktrace: 'none',
-  displayFailuresSummary: true,
-  displayPendingSummary: true,
-  displaySuccessesSummary: false,
-  displaySuccessfulSpec: true,
-  displayFailedSpec: true,
-  displayPendingSpec: true,
-  displaySpecDuration: false,
-  displaySuiteNumber: false,
+runner.env.addReporter(new SpecReporter({
+  suite: {
+    displayNumber: false
+  },
+  spec: {
+    displayStacktrace: false,
+    displaySuccessful: true,
+    displayFailed: true,
+    displayPending: true,
+    displayDuration: false
+  },
+  summary: {
+    displaySuccessful: true,
+    displayFailed: true,
+    displayPending: true
+  },
   colors: {
-    success: 'green',
-    failure: 'red',
+    successful: 'green',
+    failed: 'red',
     pending: 'yellow'
   },
   prefixes: {
-    success: '✓ ',
-    failure: '✗ ',
+    successful: '✓ ',
+    failed: '✗ ',
     pending: '* '
   },
   customProcessors: []
