@@ -19,7 +19,9 @@
     "types": [
       "jasmine",
       "node",
-      "webpack"
+      "webpack",
+      "uglify-js",
+      "tapable"
     ]
   },
   "include": [
