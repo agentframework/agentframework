@@ -8,6 +8,7 @@
     "module": "commonjs",
     "removeComments": true,
     "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": false,
     "typeRoots": [
@@ -23,7 +24,6 @@
     "**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "**/*.d.ts"
+    "node_modules"
   ]
 }

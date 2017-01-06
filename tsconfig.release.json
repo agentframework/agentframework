@@ -9,6 +9,7 @@
     "removeComments": true,
     "moduleResolution": "node",
     "newLine": "LF",
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": false,
     "outDir": "release/lib",

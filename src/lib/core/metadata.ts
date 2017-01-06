@@ -13,7 +13,9 @@ const globalSymbols = Object.getOwnPropertySymbols(global);
 // ensure all version using the same instance
 if (globalSymbols.indexOf(key) === -1) {
   Reflect.set(global, key, new Map<Object | Function, Map<string | symbol, Reflection>>()); // Object.freeze(kernel); - this will break istanbul test
+  console.log('metadata store not found, create new metadata store')
 }
+
 
 export class Metadata {
 
@@ -29,7 +31,7 @@ export class Metadata {
     }
   }
 
-  public static get(target: Object | Function, method?: string | symbol): Reflection {
+  public static get(target: Object | Function, method?: string | symbol): Reflection | null {
     if (this._metadata.has(target)) {
       return this._metadata.get(target).get(IsUndefined(method) ? '' : method);
     }
@@ -44,7 +46,7 @@ export class Metadata {
     }
   }
 
-  public static getOwn(target: Object | Function, method?: string | symbol): Reflection {
+  public static getOwn(target: Object | Function, method?: string | symbol): Reflection | null {
     if (this._metadata.has(target)) {
       return this._metadata.get(target).get(IsUndefined(method) ? '' : method);
     }
@@ -53,7 +55,7 @@ export class Metadata {
     }
   }
 
-  public static saveOwn(reflection: Reflection, target: Object | Function, method?: string | symbol) {
+  public static saveOwn(reflection: Reflection, target: Object | Function, method?: string | symbol): void {
     if (!this._metadata.has(target)) {
       this._metadata.set(target, new Map<string | symbol, Reflection>());
     }

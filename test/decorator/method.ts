@@ -1,6 +1,5 @@
 import { IAttribute, IInterceptor, IInvocation, decorateClassMethod } from '../../src/lib';
 
-
 export function methodDecorator() {
   return decorateClassMethod(new MethodDecoratorAttribute());
 }

@@ -10,12 +10,14 @@ import { Metadata } from './metadata';
 export class Reflection {
 
   private _attributes: Array<IAttribute>;
+  private _metadata: Map<string, any>;
 
   private constructor(private _target: Object, private _targetKey?: string | symbol, private _descriptor?: PropertyDescriptor) {
     if (IsUndefined(_descriptor) && !IsUndefined(_targetKey)) {
       this._descriptor = Object.getOwnPropertyDescriptor(_target, _targetKey);
     }
     this._attributes = [];
+    this._metadata = new Map<string, any>();
   }
 
   public static getInstance(target: Object | Function, targetKey?: string | symbol): Reflection | null {
@@ -34,7 +36,7 @@ export class Reflection {
     }
   }
 
-  public static getOwnInstance(target: Object | Function, targetKey?: string | symbol): Reflection {
+  public static getOwnInstance(target: Object | Function, targetKey?: string | symbol): Reflection | null {
     if (!IsObjectOrFunction(target)) {
       throw new TypeError();
     }
@@ -60,24 +62,24 @@ export class Reflection {
     return reflection ? reflection.hasAttributes() : false;
   }
 
-  public static addAttribute(attribute: IAttribute,
-    target: Object | Function,
-    targetKey?: string | symbol,
-    descriptor?: PropertyDescriptor) {
+  public static addAttribute(attribute: IAttribute, target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
+    const reflection = Reflection.getOrCreateOwnInstance(target, targetKey, descriptor);
+    reflection.addAttribute(attribute);
+  }
 
+  public static addMetadata(key: string, value: any, target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
+    const reflection = Reflection.getOrCreateOwnInstance(target, targetKey, descriptor);
+    reflection.addMetadata(key, value);
+  }
+
+  private static getOrCreateOwnInstance(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): Reflection {
     const instance = IsFunction(target) ? target['prototype'] : target;
-
-    // if (!targetKey) {
-    //   console.log('target', typeof target, target, Object.getPrototypeOf(instance));
-    // }
-
-    // console.log('addAttribute', target, 'key', targetKey, 'prototype', prototype);
     let reflection = Reflection.getOwnInstance(instance, targetKey);
     if (!reflection) {
       reflection = new Reflection(instance, targetKey, descriptor);
       Metadata.saveOwn(reflection, instance, targetKey);
     }
-    reflection.addAttribute(attribute);
+    return reflection;
   }
 
   getAttributes<A extends IAttribute>(type?): Array<A> {
@@ -97,8 +99,29 @@ export class Reflection {
     this._attributes.push(attr);
   }
 
+  getMetadata(key: string): any | null {
+    return this._metadata.get(key);
+  }
+
+  addMetadata(key: string, value: any) {
+    // console.log('added design for ', this._target, '.', this._targetKey, '->', key, '=', value);
+    this._metadata.set(key, value);
+  }
+
   get target(): Object | Function {
     return this._target;
+  }
+
+  get type(): any {
+    return this._metadata.get('design:type');
+  }
+
+  get paramtypes(): Array<any> {
+    return this._metadata.get('design:paramtypes');
+  }
+
+  get returntype(): any {
+    return this._metadata.get('design:returntype');
   }
 
   get targetKey(): string | symbol {

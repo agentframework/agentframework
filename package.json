@@ -16,7 +16,7 @@
     "test:coverage": "node_modules/.bin/ts-node node_modules/.bin/istanbul cover --config=tools/istanbul.yaml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.full.json || exit 0",
     "lint": "standard --pretty",
     "build": "npm run build:tsc",
-    "build:tsc": "node_modules/.bin/tsc -p tsconfig.release.json --noEmit",
+    "build:tsc": "node_modules/.bin/tsc -p tsconfig.release.json",
     "release": "npm run release:clean && npm run release:tsc && npm run release:webpack && npm run release:npm",
     "release:clean": "rm -rf ./release",
     "release:tsc": "node_modules/.bin/tsc -p tsconfig.release.json && find release -type f -name '*.js' -delete",

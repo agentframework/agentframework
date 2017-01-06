@@ -1,7 +1,7 @@
 {
   "spec_dir": "./",
   "spec_files": [
-    "src/**/ready.spec.ts"
+    "src/**/conditional.spec.ts"
   ],
   "stopSpecOnExpectationFailure": false,
   "random": false
