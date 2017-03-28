@@ -7,4 +7,4 @@
 - [ ] Share metadata across different agentframework library of same application
 - [x] Beta test & feedback
 - [ ] Domain API
-- [ ] Move @inject attribute into core module
+- [ ] Move @inject and @ready decorator into core module
