@@ -34,7 +34,7 @@ describe('Method Decorator', () => {
     it('decorate on setter', () => {
       @agent()
       class TestMethodDecoratorAtPropertySetter {
-        _testMethod: string;
+        _testMethod: number;
         @methodDecorator()
         set testMethod(value) {
           this._testMethod = value;

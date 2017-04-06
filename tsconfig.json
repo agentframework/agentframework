@@ -16,8 +16,7 @@
     ],
     "types": [
       "jasmine",
-      "node",
-      "webpack"
+      "node"
     ]
   },
   "include": [

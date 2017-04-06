@@ -7,12 +7,14 @@ import { Metadata } from './core/metadata';
 
 // ===========================================
 // ES2015 or before
+// ===========================================
 if (typeof Reflect !== 'object' || typeof Proxy !== 'function') {
   throw new Error('Agent Framework requires ES2016 support');
 }
 
 // ===========================================
 // ES2016
+// ===========================================
 if (typeof Reflect['metadata'] !== 'function') {
   // Install Reflect.metadata for tsc only
   // tsc will add following code to the generated js file. in order to utilize these information.
@@ -26,7 +28,11 @@ if (typeof Reflect['metadata'] !== 'function') {
     }
   };
 }
-// ===========================================
+else {
+  // ===========================================
+  // ES2017 - no need any hack
+  // ===========================================
+}
 
 
 export type Agent = new <Constructor extends Function>(...parameters: Array<any>) => Constructor;

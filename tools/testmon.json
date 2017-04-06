@@ -1,5 +1,14 @@
 {
   "exec": "npm run test:unit",
-  "ext": "spec.ts",
-  "watch" : "./src"
+  "env": {
+    "NODE_ENV": "test"
+  },
+  "events": {
+    "restart": "echo 'FILE: '$FILENAME' was changed'"
+  },
+  "watch": [
+    "src",
+    "test",
+    "tools"
+  ]
 }

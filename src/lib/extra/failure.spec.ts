@@ -10,12 +10,12 @@ class TestFailureAgentClass {
   }
 
   @failure(0)
-  testZero() {
+  testZero(): number {
     throw new Error()
   }
 
   @failure('')
-  testEmptyString() {
+  testEmptyString(): string {
     throw new Error()
   }
 
@@ -27,7 +27,7 @@ describe('@failure', () => {
 
     it('get null when throw', () => {
       const failureAgent = new TestFailureAgentClass();
-      expect(failureAgent.testNull()).toBe(null);
+      expect(failureAgent.testNull()).toBeNull();
     });
 
     it('get 0 when throw', () => {
