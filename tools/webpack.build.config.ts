@@ -22,7 +22,7 @@ export default[
       loaders: [
         {
           test: /\.ts$/,
-          loaders: ['ts-loader'] //
+          loaders: ['ts-loader?configFileName=tsconfig.json']
         }
       ]
     }
@@ -47,7 +47,7 @@ export default[
       loaders: [
         {
           test: /\.ts$/,
-          loaders: ['babel-loader?presets[]=babili', 'ts-loader'] //
+          loaders: ['babel-loader?presets[]=babili', 'ts-loader?configFileName=tsconfig.json'] //
         }
       ]
     }

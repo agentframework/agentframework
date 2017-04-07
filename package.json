@@ -5,7 +5,7 @@
   "engines": {
     "node": ">=6.0.0"
   },
-  "description": "Agent Oriented Programming for TypeScript",
+  "description": "Agent-Oriented Programming for TypeScript",
   "main": "src/lib/index.ts",
   "typings": "src/lib/index.ts",
   "scripts": {

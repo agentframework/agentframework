@@ -1,5 +1,6 @@
 {
   "exec": "npm run test:unit",
+  "ext": "spec.ts test.ts json yaml",
   "env": {
     "NODE_ENV": "test"
   },
