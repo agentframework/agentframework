@@ -26,7 +26,7 @@ export class Metadata {
 
   private static _metadata: Map<Object | Function, Map<string | symbol, Reflection>> = Reflect.get(global, key);
   private static _empty: Map<string | symbol, Reflection> = new Map<string | symbol, Reflection>();
-  
+
   public static getAll(target: Object | Function): Map<string | symbol, Reflection> {
     if (this._metadata.has(target)) {
       return this._metadata.get(target);

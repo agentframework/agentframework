@@ -1,6 +1,6 @@
 import { getExternalModules, resolve } from './webpack.utils';
 
-export default[
+export default [
   // Build UMD module into `dist` folder
   {
     entry: {
