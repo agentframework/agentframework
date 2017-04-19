@@ -4,6 +4,7 @@ import { ORIGIN_INSTANCE, AGENT_DOMAIN } from './core/utils';
 import { ReadyAttribute } from './extra/ready';
 import { Reflection } from './core/reflection';
 import { Metadata } from './core/metadata';
+import { Lookup } from './core/lookup';
 
 // ===========================================
 // ES2015 or before
@@ -23,7 +24,9 @@ if (typeof Reflect['metadata'] !== 'function') {
   //     Reflect.metadata("design:paramtypes", []),
   //     Reflect.metadata("design:returntype", String)
   Reflect['metadata'] = function (key: string, value: any) {
-    return function (target: Object | Function, propertyKey?: string | symbol, descriptor?: PropertyDescriptor | number): void {
+    return function (target: Object | Function, propertyKey?: string | symbol, descriptor?:
+      PropertyDescriptor
+      | number): void {
       Reflection.addMetadata(key, value, target, propertyKey, descriptor);
     }
   };
@@ -49,22 +52,22 @@ export function agent(identifier?: any) {
  * AgentAttribute
  */
 export class AgentAttribute implements IAttribute, IInterceptor {
-
+  
   constructor(private _identifier?: string) {
   }
-
+  
   get identifier(): string | null {
     return this._identifier;
   }
-
+  
   getInterceptor(): IInterceptor {
     return this;
   }
-
+  
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
-
+    
     let originalAgent = invocation.invoke(parameters);
-
+    
     // // NOTE: In order to improve the performance, do not proxy if no field interceptors detected
     // // intercept by overloading ES5 prototype (static intercept)
     // const interceptorDefinitions = Reflection.metadata.getAll(invocation.target.prototype);
@@ -81,25 +84,33 @@ export class AgentAttribute implements IAttribute, IInterceptor {
     //   }
     //
     // }
-
+    
     // only proxy one time
     if (!Reflect.has(originalAgent, ORIGIN_INSTANCE)) {
-
+      
       // intercept by implement ES6 proxy (dynamic intercept)
       const domain = Reflect.get(originalAgent, AGENT_DOMAIN);
       const upgradedAgent = AddProxyInterceptor(originalAgent);
       Reflect.set(upgradedAgent, ORIGIN_INSTANCE, originalAgent);
       Reflect.set(upgradedAgent, AGENT_DOMAIN, domain);
-
+      
       const readyList = [];
-
-      // find metadata
-      Metadata.getAll(Reflect.getPrototypeOf(originalAgent)).forEach((reflection: Reflection, key: string) => {
-        if (reflection.getAttributes(ReadyAttribute).length) {
-          readyList.push(key);
-        }
-      });
-
+      
+      // find @ready in own properties
+      // Metadata.getAll(Reflect.getPrototypeOf(originalAgent)).forEach((reflection: Reflection, key: string) => {
+      //   if (reflection.getAttributes(ReadyAttribute).length) {
+      //     readyList.push(key);
+      //   }
+      // });
+  
+      // find @ready in all properties
+      Lookup.attributes<ReadyAttribute>(originalAgent, ReadyAttribute)
+        .forEach((value: Array<ReadyAttribute>, key: string) => {
+          if (value.length) {
+            readyList.push(key);
+          }
+        });
+      
       // execute agent hook: -> READY
       if (readyList.length) {
         readyList.forEach(ready => {
@@ -109,12 +120,12 @@ export class AgentAttribute implements IAttribute, IInterceptor {
           }
         });
       }
-
+      
       return upgradedAgent;
     }
-
+    
     return originalAgent;
   }
-
+  
 }
 
