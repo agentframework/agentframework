@@ -9,11 +9,11 @@ class ReadyUtilAgent {
   constructor() {
     // console.log('calling UtilAgent ctor');
   }
-  
+
   ReadyUtilAgent() {
-  
+
   }
-  
+
   format(str: string, name: string) {
     return str + name;
   }

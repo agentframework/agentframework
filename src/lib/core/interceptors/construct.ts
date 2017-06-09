@@ -15,25 +15,25 @@ export function AddConstructProxyInterceptor<Constructor extends Function>(targe
 }
 
 export function ConstructInterceptor<T extends Agent>(target: T, parameters: ArrayLike<any>, receiver: any): any {
-  
+
   const customAttributes = Reflection.getAttributes(target);
   let domain: Domain;
-  
+
   if (parameters.length && parameters[0] instanceof Domain) {
     domain = parameters[0] as Domain;
   }
   else {
     domain = LocalDomain;
   }
-  
+
   // if (customAttributes.length > 1) {
   //   throw new TypeError('Not Support Multiple Agent Decoration');
   // }
-  
+
   const agentTypeConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, target, receiver);
-  
+
   const rawAgent = agentTypeConstructor.invoke(parameters);
-  
+
   // register this agent to domain
   // do not register to domain if no identifier found
   customAttributes.forEach(attribute => {
@@ -41,9 +41,9 @@ export function ConstructInterceptor<T extends Agent>(target: T, parameters: Arr
       domain.registerAgent(attribute, rawAgent);
     }
   });
-  
+
   Reflect.set(rawAgent, AGENT_DOMAIN, domain);
-  
+
   // injection
   Lookup.attributes<InjectAttribute>(target, InjectAttribute)
     .forEach((value: Array<InjectAttribute>, key: string) => {
@@ -52,7 +52,7 @@ export function ConstructInterceptor<T extends Agent>(target: T, parameters: Arr
         Reflect.set(rawAgent, key, injected);
       });
     });
-  
+
   // invoke @ready
   Lookup.attributes<ReadyAttribute>(target, ReadyAttribute)
     .forEach((value: Array<ReadyAttribute>, key: string) => {
@@ -63,8 +63,8 @@ export function ConstructInterceptor<T extends Agent>(target: T, parameters: Arr
         }
       }
     });
-  
+
   // return the new class constructor
   return rawAgent;
-  
+
 }

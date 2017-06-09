@@ -66,9 +66,9 @@ export class AgentAttribute implements IAttribute, IInterceptor {
   }
 
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
-    
+
     const originalAgent = invocation.invoke(parameters);
-    
+
     // // NOTE: In order to improve the performance, do not proxy if no field interceptors detected
     // // intercept by overloading ES5 prototype (static intercept)
     // const interceptorDefinitions = Reflection.metadata.getAll(invocation.target.prototype);
@@ -94,7 +94,7 @@ export class AgentAttribute implements IAttribute, IInterceptor {
       const upgradedAgent = AddProxyInterceptor(originalAgent);
       Reflect.set(upgradedAgent, ORIGIN_INSTANCE, originalAgent);
       Reflect.set(upgradedAgent, AGENT_DOMAIN, domain);
-      
+
       return upgradedAgent;
     }
 
