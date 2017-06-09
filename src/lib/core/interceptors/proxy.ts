@@ -8,7 +8,7 @@ import { ToPropertyKey, IsUndefined } from '../utils';
  * @returns {T}
  * @constructor
  */
-export function AddProxyInterceptor<T>(target: T) {
+export function AddProxyInterceptor<T extends object>(target: T) {
   const instanceProxyHandler: ProxyHandler<T> = {
     get: ProxyGetInterceptor,
     set: ProxySetInterceptor
@@ -25,7 +25,7 @@ export function AddProxyInterceptor<T>(target: T) {
  * @returns {any}
  * @constructor
  */
-export function ProxyGetInterceptor<T>(target: T, p: PropertyKey, receiver: any): any {
+export function ProxyGetInterceptor<T extends object>(target: T, p: PropertyKey, receiver: any): any {
 
   const propertyKey = ToPropertyKey(p);
   const reflection = Reflection.getInstance(target, propertyKey);
@@ -64,7 +64,7 @@ export function ProxyGetInterceptor<T>(target: T, p: PropertyKey, receiver: any)
  * @returns {boolean}
  * @constructor
  */
-export function ProxySetInterceptor<T>(target: T, p: PropertyKey, value: any, receiver: any): boolean {
+export function ProxySetInterceptor<T extends object>(target: T, p: PropertyKey, value: any, receiver: any): boolean {
 
   const propertyKey = ToPropertyKey(p);
   const reflection = Reflection.getInstance(target, propertyKey);
