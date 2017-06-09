@@ -1,5 +1,5 @@
-Agent Framework for TypeScript 2+
----------------------------------
+Agent Framework for TypeScript 2.2+
+-----------------------------------
 
 [![Build Status](https://travis-ci.org/agentframework/agentframework.svg?branch=master)](https://travis-ci.org/agentframework/agentframework)
 [![Coverage Status](https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=master)](https://coveralls.io/github/agentframework/agentframework?branch=master)
@@ -8,7 +8,7 @@ Agent Framework for TypeScript 2+
 - AOP for TypeScript
 - Elegant design pattern to decorate your class with interceptors 
 - 100% TypeScript implementation! No dependencies!!!
-- Require ES6 and TypeScript 2+
+- Require ES6 and TypeScript 2.2+
 
 ### Install and usage
 
