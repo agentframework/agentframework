@@ -14,7 +14,7 @@ import { ORIGIN_CONSTRUCTOR } from './utils';
 export function decorateClass(attribute: IAttribute): ClassDecorator {
 
   // upgrade prototype
-  return <Constructor extends Agent>(target: Constructor): Constructor | void => {
+  return <T extends Function>(target: T): T | void => {
 
     // // check the parents
     // let upgrade = true;
