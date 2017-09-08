@@ -10,6 +10,12 @@ Agent Framework for TypeScript 2.2+
 - 100% TypeScript implementation! No dependencies!!!
 - Require ES6 and TypeScript 2.2+
 
+### Why use Agent Framework?
+
+- You need a powerful method to pre-process, post-process or modify system behaviors without touching existing code.
+- You want to build an abstract layer for a specific business domain in your organization.
+- You want to remove duplicated code and keep project codebase small and clean.
+
 ### Install and usage
 
 ```bash
@@ -21,6 +27,44 @@ or
 ```
 
 ### Examples
+
+With Agent Framework
+
+```typescript
+import { agent, failure } from 'agentframework'
+
+@agent()
+class ExampleAgent {
+  
+  public text: string;
+  
+  @failure('')
+  public getLowerCase(): string {
+    return this.text.toLowerCase();
+  }
+ 
+}
+```
+
+Without Agent Framework
+
+```typescript
+class ExampleAgent {
+  
+  public text: string;
+  
+  public getLowerCase(): string {
+    try {
+      return this.text.toLowerCase();
+    }
+    catch(err) {
+      return '';
+    }
+  }
+}
+```
+
+**Attributes in AgentFramework 0.x**
 
 - [@prerequisite()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/prerequisite.ts) Do not run the method body and `throw` an error when `prerequistite()` not met
 
@@ -36,85 +80,30 @@ or
 
 - [@cache()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/cache.ts)  Simple but useful memory cache implementation
 
-### Development
+**More Examples**
+- Calculate the execution time of methods
+- Check user group before the operations
+- Add log for request and response
+- Catch all error and normalize a response
+- Create Singleton instance
+- Create a ORM library
+- Prevent Mongodb injection
+- Create a scheduler
 
-Run tests with coverage report
-```bash
-npm test
-```
+### Concepts in Agent Framework
 
-Start development workflow - monitoring .ts file changes and run unit test against the changes
-```bash
-npm start
-```
+- Attribute (associating declarative information with TypeScript code, e.g classes, methods and fields)
+- Reflection (access the associated declarative information from classes, method or fields)
+- Agent (A class which decorated with attributes)
+- Domain (A host environment for agents)
 
-### Without 'Agent Framework'
+### The Future of Agent Framework
 
-```typescript
-class Kernel {
-  
-  private _initialized: boolean;
-  private _root: Directory;
-  
-  public static getInstance(): Kernel {
-    return new Kernel();
-  }
-  
-  public init(configDir: string = process.cwd()): void {
-    if(!this._initialized) {
-    	throw new TypeError('Kernel already initialized')
-    }
-    this._root = Directory.withReadPermission(configDir);
-    this._initialized = true
-  }
-  
-  public resolve(relativePath): Directory {
-    if(!this._initialized) {
-    	throw new TypeError('Kernel already initialized')
-    }
-    return this._root.resolve(relativePath);
-  }
-  
-  public getRoot(): string {
-    try {
-      return this._root.path;
-    }
-    catch(err) {
-      return null;
-    }
-  }
-}
+The goal of Agent Framework is to build the first AaaS cloud which implement [Agent Oriented Programming](https://en.wikipedia.org/wiki/Agent-oriented_programming).
 
-```
+It's different to any of the clouds today, the major different are:
 
-### Implement with 'Agent Framework - State Machine'
-
-```typescript
-import { agent, prerequisite, success, failure } from 'agentframework'
-
-@agent('OneStack')
-class Kernel {
-  
-  private _root: Directory;
-  
-  public static getInstance(): Kernel {
-    return Domain.createAgentFromType(Kernel);
-  }
-  
-  @prerequisite('initialized', false, 'OneStack already initialized')
-  @success('initialized', true)
-  public init(configDir: string = process.cwd()): void {
-    this._root = Directory.withReadPermission(configDir);
-  }
-  
-  @prerequisite('initialized', true, 'OneStack not initialized. Please call init() first!')
-  public resolve(relativePath): Directory {
-    return this._root.resolve(relativePath);
-  }
-  
-  @failure(null)
-  public getRoot(): string {
-    return this._root.path;
-  }
-}
-```
+- AaaS is a distributed cloud network which doesn't have a central database
+- IPv6 is mandatory for an agent live in AaaS cloud
+- Agent will use digital currency to collaborate with other agent or pay the rent to the host
+- The host also an agent which have power, storage and computing resource
