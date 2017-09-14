@@ -80,7 +80,7 @@ class ExampleAgent {
 
 - [@cache()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/cache.ts)  Simple but useful memory cache implementation
 
-**More Examples**
+**More Examples (WIP) **
 - Calculate the execution time of methods
 - Check user group before the operations
 - Add log for request and response
@@ -89,6 +89,12 @@ class ExampleAgent {
 - Create a ORM library
 - Prevent Mongodb injection
 - Create a scheduler
+
+**Advanced Examples (WIP) **
+- Integrate with MongoDB
+- Integrate with Protobuf
+- Integrate with Express
+- Integrate with Restify
 
 ### Concepts in Agent Framework
 
