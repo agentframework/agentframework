@@ -2,7 +2,7 @@ import { IAttribute, CanDecorate } from './attribute';
 import { Reflection } from './reflection';
 import { AddConstructProxyInterceptor } from './interceptors/construct';
 import { LocalDomain } from '../domain';
-import { AgentAttribute, Agent } from '../agent';
+import { AgentAttribute } from '../agent';
 import { ORIGIN_CONSTRUCTOR } from './utils';
 
 
@@ -31,34 +31,29 @@ export function decorateClass(attribute: IAttribute): ClassDecorator {
     // }
 
     const proxied = Reflect.has(target, ORIGIN_CONSTRUCTOR);
-    const originalTarget = proxied ? Reflect.get(target, ORIGIN_CONSTRUCTOR) : target;
+    const originConstructor = proxied ? Reflect.get(target, ORIGIN_CONSTRUCTOR) : target;
 
-    if (CanDecorate(attribute, originalTarget)) {
+    if (CanDecorate(attribute, originConstructor)) {
 
-      Reflection.addAttribute(attribute, originalTarget);
+      // Attribute should always add to originalConstructor
+      Reflection.addAttribute(attribute, originConstructor);
 
-      let upgradedTarget;
+      let proxiedConstructor;
 
-      // create only one proxy for one class even they got more than one agent attribute
-      if (proxied) {
-        upgradedTarget = target;
-      }
-      else {
-        // intercept by implement ES6 proxy (dynamic intercept)
-        upgradedTarget = AddConstructProxyInterceptor(target);
-        Reflect.set(upgradedTarget, ORIGIN_CONSTRUCTOR, originalTarget);
-      }
-      // console.log('add class', typeof originTarget, typeof originTarget.prototype);
+      // intercept by implement ES6 proxy (dynamic proxy + pre-compiled constructor interceptor)
+      proxiedConstructor = AddConstructProxyInterceptor(target, [attribute]);
+      Reflect.set(proxiedConstructor, ORIGIN_CONSTRUCTOR, originConstructor);
 
       // intercept by overloading ES5 prototype (static intercept)
       // AddPrototypeInterceptor(upgradedConstructor);
 
       // register the agent class in LocalDomain for dependence injection
       if (attribute instanceof AgentAttribute) {
-        LocalDomain.registerAgentType(attribute, upgradedTarget);
+        // Register class attribute with proxied class constructor
+        LocalDomain.registerAgentType(attribute, proxiedConstructor);
       }
 
-      return upgradedTarget;
+      return proxiedConstructor;
     }
 
     return target;

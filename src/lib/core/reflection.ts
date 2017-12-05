@@ -72,17 +72,17 @@ export class Reflection {
     const reflection = Reflection.getOrCreateOwnInstance(target, targetKey, descriptor);
     reflection.addMetadata(key, value);
   }
-  
+
   public static findPropertyAttributes(typeOrInstance: Agent): Map<string, Array<IAttribute>> {
-    
+
     const result = new Map<string, Array<IAttribute>>();
-    
+
     const prototypes = ToPrototypeArray(typeOrInstance);
-    
+
     prototypes.reverse().forEach(proto => {
-      
+
       const reflections = Metadata.getAll(proto);
-      
+
       // register all params config or middleware config
       reflections.forEach((reflection: Reflection, methodName: string) => {
         // property don't have a descriptor
@@ -91,13 +91,13 @@ export class Reflection {
           result.set(methodName, reflection.getAttributes());
         }
       });
-      
+
     });
-    
+
     return result;
-    
+
   }
-  
+
   private static getOrCreateOwnInstance(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): Reflection {
     const instance = IsFunction(target) ? target['prototype'] : target;
     let reflection = Reflection.getOwnInstance(instance, targetKey);
@@ -107,7 +107,7 @@ export class Reflection {
     }
     return reflection;
   }
-  
+
   getAttributes<A extends IAttribute>(type?): Array<A> {
     if (type) {
       return this._attributes.filter(a => a instanceof type) as Array<A>;

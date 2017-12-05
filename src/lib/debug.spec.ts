@@ -8,27 +8,27 @@ class Manager {
 }
 
 @agent()
-class Agent {
+class Developer {
 
   @inject('Manager')
   manager: Manager;
-  
+
   @inject('Manager')
   get supervisor(): Manager {
-    return <Manager>{};
+    return {} as Manager;
   }
-  
+
   constructor() {
     // The filed already been inject before constructor!!!
     console.log(`Your manager is ${this.manager.name}`);
     // console.log(`Your manager is ${this.supervisor.name}`);
   }
-  
+
   @failure('n/a')
   name() {
     return this.manager.name;
   }
-  
+
 }
 
 
@@ -37,11 +37,11 @@ describe('@agent', () => {
   describe('# should able to inject before constructor', () => {
 
     it('create instance with @inject', () => {
-      
-      const agent = new Agent();
-      console.log('supervisor', agent.supervisor);
-      expect(agent instanceof Agent).toBe(true);
-      
+
+      const developer = new Developer();
+      console.log('supervisor', developer.supervisor);
+      expect(developer instanceof Developer).toBe(true);
+
     });
 
   });

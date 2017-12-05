@@ -79,11 +79,12 @@ console.log('Is it true?', agent instanceof Agent);
 - [x] Move @inject and @ready decorator into core module
 - [x] Provide access to intercepted property value in constructor
 - [ ] Pre-compile class member interceptors to improve method call performance
-- [ ] Pre-compile class constructor interceptors to improve new class performance
+- [x] Pre-compile class constructor interceptors to improve new class performance
 - [ ] Revise Domain Interface
 - [ ] Revise Reflection Interface
 - [ ] Agent should works in extended classes
-- [ ] Remove interceptor for @agent attribute to improve performance
+- [x] Remove interceptor for @agent attribute to improve performance
+- [ ] Do not add proxy if the agent don't have interceptor
 
 
 **Attributes in AgentFramework 0.x**

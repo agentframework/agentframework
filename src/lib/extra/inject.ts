@@ -9,15 +9,15 @@ export function inject(typeOrIdentifier: Agent | string) {
 }
 
 export class InjectAttribute implements IAttribute, IInterceptor {
-  
+
   constructor(private _typeOrIdentifier: Agent | string) {
   }
-  
+
   beforeDecorate?(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
     // TODO: inject attribute should only define once for a property
     return true;
   }
-  
+
   get typeOrIdentifier() {
     return this._typeOrIdentifier;
   }
@@ -25,9 +25,9 @@ export class InjectAttribute implements IAttribute, IInterceptor {
   getInterceptor(): IInterceptor {
     return this;
   }
-  
+
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
     return LocalDomain.getAgent(this.typeOrIdentifier);
   }
-  
+
 }

@@ -16,8 +16,7 @@ export class InterceptorFactory {
 
   public static createConstructInterceptor<T>(attributes: Array<IAttribute>,
     target: T,
-    receiver: any): IInvocation {
-
+    receiver?: any): IInvocation {
     const invocation = new ConstructInvocation(target, receiver);
     return createInvocationChainFromAttribute(invocation, attributes);
   }

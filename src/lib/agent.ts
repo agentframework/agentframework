@@ -2,7 +2,7 @@ import { decorateClass, IAttribute, IInterceptor, IInvocation } from './core';
 import { AddProxyInterceptor } from './core/interceptors/proxy';
 import { ORIGIN_INSTANCE, AGENT_DOMAIN } from './core/utils';
 import { Reflection } from './core/reflection';
-import { InMemoryDomain } from './domain';
+import { IDomain, InMemoryDomain } from './domain';
 
 // ===========================================
 // ES2015 or before
@@ -41,7 +41,7 @@ else {
 }
 
 export interface Agent extends Function {
-  new(domain?: InMemoryDomain);
+  new(domain?: IDomain);
 }
 
 /**
@@ -55,7 +55,7 @@ export function agent(identifier?: any) {
 /**
  * AgentAttribute
  */
-export class AgentAttribute implements IAttribute, IInterceptor {
+export class AgentAttribute implements IAttribute {
 
   constructor(private _identifier?: string) {
   }
@@ -65,43 +65,7 @@ export class AgentAttribute implements IAttribute, IInterceptor {
   }
 
   getInterceptor(): IInterceptor {
-    return this;
-  }
-
-  intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
-
-    const originalAgent = invocation.invoke(parameters);
-
-    // // NOTE: In order to improve the performance, do not proxy if no field interceptors detected
-    // // intercept by overloading ES5 prototype (static intercept)
-    // const interceptorDefinitions = Reflection.metadata.getAll(invocation.target.prototype);
-    // if (interceptorDefinitions) {
-    //
-    //   const fieldInterceptors = [...interceptorDefinitions.values()]
-    //     .filter(reflection => !reflection.descriptor)
-    //     .filter(reflection => reflection.hasAttributes());
-    //
-    //   // do not proxy if no field interceptors detected
-    //   if (fieldInterceptors.length) {
-    //     // Proxy the current agent object
-    //     agent = AddProxyInterceptor(agent);
-    //   }
-    //
-    // }
-
-    // only proxy one time for multiple agent attributes on same class
-    if (!Reflect.has(originalAgent, ORIGIN_INSTANCE)) {
-
-      // intercept by implement ES6 proxy (dynamic intercept)
-      const domain = Reflect.get(originalAgent, AGENT_DOMAIN);
-      const upgradedAgent = AddProxyInterceptor(originalAgent);
-      Reflect.set(upgradedAgent, ORIGIN_INSTANCE, originalAgent);
-      Reflect.set(upgradedAgent, AGENT_DOMAIN, domain);
-
-      return upgradedAgent;
-    }
-
-    return originalAgent;
+    return null;
   }
 
 }

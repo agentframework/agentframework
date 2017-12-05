@@ -6,7 +6,7 @@ import { IsFunction, ToPrototypeArray } from './utils';
 import { InjectAttribute } from '../extra/inject';
 
 export class Lookup {
-  
+
   /**
    * Find one type of attribute
    * @param {Agent} typeOrInstance

@@ -32,5 +32,5 @@ runner.env.addReporter(new SpecReporter({
   },
   customProcessors: []
 }));
-runner.loadConfigFile(path.resolve(__dirname, 'jasmine.' + (process.env.TARGET || 'unit') +  '.json'));
+runner.loadConfigFile(path.resolve(__dirname, 'jasmine.' + (process.env.TARGET || 'unit') + '.json'));
 runner.execute();

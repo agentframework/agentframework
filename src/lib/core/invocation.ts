@@ -1,4 +1,6 @@
 import { Reflection } from './reflection';
+import { AGENT_DOMAIN, ORIGIN_INSTANCE } from './utils';
+import { AddProxyInterceptor } from './interceptors/proxy';
 
 
 export interface IInvoke {
@@ -8,32 +10,34 @@ export interface IInvoke {
 export interface IInvocation {
   target?: any;
   method?: IInvoke;
-  
+
   invoke(parameters: ArrayLike<any>): any;
 }
 
 export class ConstructInvocation implements IInvocation {
-  
-  constructor(private _target: any, private _receiver: any) {
+
+  constructor(private _target: any, private _receiver?: any) {
   }
-  
+
   get target(): any {
     return this._target;
   }
-  
+
   /**
    * Run property interceptor if have
    * @param {ArrayLike<any>} parameters
    * @returns {any}
    */
   invoke(parameters: ArrayLike<any>): any {
-    
+
     const results = Reflection.findPropertyAttributes(this._target);
-    
+    let agent;
+    let bag;
+
     if (results.size > 0) {
-      
-      const bag = new Map<string,any>();
-      
+
+      bag = new Map<string, any>();
+
       for (const [key, value] of results) {
         let injected = false;
         let interceptedResult = null;
@@ -46,69 +50,82 @@ export class ConstructInvocation implements IInvocation {
             interceptedResult = interceptor.intercept(interceptedResult, parameters);
           }
         }
-        
+
         if (injected) {
           bag.set(key, interceptedResult);
         }
       }
-      
-      if (bag.size) {
-        
-        // create transparent layer for property injector
-        class DynamicAgent extends this._receiver {
-        }
-  
-        for (const [key, value] of bag) {
-          Reflect.defineProperty(DynamicAgent.prototype, key, {
-            // true if and only if the value associated with the property may be changed (data descriptors only).
-            writable: true,
-            // true if and only if the type of this property descriptor may be changed and if the property may be deleted from the corresponding object.
-            configurable: true,
-            // true if and only if this property shows up during enumeration of the properties on the corresponding object.
-            enumerable: true,
-            // The value associated with the property (data descriptors only).
-            value
-          });
-        }
-        
-        return Reflect.construct(this._target, parameters, DynamicAgent);
-      }
-      
     }
-    
-    // default
-    return Reflect.construct(this._target, parameters, this._receiver);
-    
+
+    // EPIC: inject the required properties before construct the object
+    if (bag && bag.size) {
+
+      // create transparent layer for property injector
+      class DynamicAgent extends this._target {
+      }
+
+      for (const [key, value] of bag) {
+        Reflect.defineProperty(DynamicAgent.prototype, key, {
+          // true if and only if the value associated with the property may be changed (data descriptors only).
+          writable: true,
+          // true if and only if the type of this property descriptor may be changed and if the property may be deleted from the corresponding object.
+          configurable: true,
+          // true if and only if this property shows up during enumeration of the properties on the corresponding object.
+          enumerable: true,
+          // The value associated with the property (data descriptors only).
+          value
+        });
+      }
+
+      agent = Reflect.construct(this._target, parameters, DynamicAgent);
+    }
+    else if (this._receiver) {
+      agent = Reflect.construct(this._target, parameters, this._receiver);
+    }
+    else {
+      agent = Reflect.construct(this._target, parameters);
+    }
+
+    // Add proxy for this agent instance
+
+    // TODO: check interceptors and do not add proxy if no interceptors
+    const proxiedAgent = AddProxyInterceptor(agent);
+
+    // mark origin instance
+    // Reflect.set(proxiedAgent, ORIGIN_INSTANCE, agent);
+
+    return proxiedAgent;
+
   }
-  
+
 }
 
 export class GetterInvocation implements IInvocation {
-  
+
   constructor(private _target: any, private _propertyKey: PropertyKey, private _receiver: any) {
   }
-  
+
   get target(): any {
     return this._target;
   }
-  
+
   invoke(parameters: ArrayLike<any>): any {
     return Reflect.get(this._target, this._propertyKey, this._receiver);
   }
-  
+
 }
 
 export class SetterInvocation implements IInvocation {
-  
+
   constructor(private _target: any, private _propertyKey: PropertyKey, private _receiver: any) {
   }
-  
+
   get target(): any {
     return this._target;
   }
-  
+
   invoke(parameters: ArrayLike<any>): any {
     return Reflect.set(this._target, this._propertyKey, parameters[0], this._receiver);
   }
-  
+
 }

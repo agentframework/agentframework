@@ -1,66 +1,58 @@
 import { Reflection } from '../reflection';
 import { InterceptorFactory } from '../interceptor';
 import { InMemoryDomain, IDomain, LocalDomain } from '../../domain';
-import { Agent, AgentAttribute } from '../../agent';
-import { AGENT_DOMAIN } from '../utils';
+import { AgentAttribute } from '../../agent';
 import { IAttribute } from '../attribute';
 
 
 /**
  * Create a proxied constructor (es6)
  * @param {Constructor} target
- * @returns {Constructor}
+ * @param {Array<IAttribute>} attributes
+ * @returns {Function}
  * @constructor
  */
-export function AddConstructProxyInterceptor<Constructor extends Agent>(target: Constructor) {
-  const typeProxyHandler = {
-    construct: ConstructInterceptor
-  };
-  return new Proxy(target, typeProxyHandler);
-}
+export function AddConstructProxyInterceptor<Constructor extends Function>(target: Constructor, attributes?: Array<IAttribute>) {
 
+  const customAttributes = attributes || Reflection.getAttributes(target);
 
-/**
- * Main function to create an agent
- */
-export function ConstructInterceptor(target: Agent, parameters: any, receiver: any): object {
-
-  const customAttributes = Reflection.getAttributes(target);
-  let domain: IDomain;
-
-  if (parameters.length && parameters[0] instanceof InMemoryDomain) {
-    domain = parameters[0] as IDomain;
-  }
-  else {
-    domain = LocalDomain;
-  }
-
-  // [Valuable Feature] Support multiple agent decoration on same class
+  // MVP: Support multiple agent decoration on same class
   // if (customAttributes.length > 1) {
   //   throw new TypeError('Not Support Multiple Agent Decoration');
   // }
 
-  // TODO: [Most Valuable Feature] Can we inject the required fields before construct the object?
-  
   // build a chain of constructors from decorated agent attributes
   // [ 1. User Defined, 2. User Defined, ... last. Origin Constructor ]
-  const agentTypeConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, target, receiver);
+  // Pre-compile constructor interceptor to improve the performance
+  const agentTypeConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, target);
 
-  // invoke this chain
-  const rawAgent = agentTypeConstructor.invoke(parameters);
-  
-  // remember the domain of this agent, to implement some advanced features
-  Reflect.set(rawAgent, AGENT_DOMAIN, domain);
-  
-  // register this agent to domain
-  // do not register to domain if no identifier found
-  customAttributes.forEach(attribute => {
-    if (attribute instanceof AgentAttribute) {
-      domain.registerAgent(attribute, rawAgent);
+  const typeProxyHandler = {
+    construct: (target: Function, parameters: any, receiver: any): object => {
+
+      let domain: IDomain;
+
+      if (parameters.length && parameters[0] instanceof InMemoryDomain) {
+        domain = parameters[0] as IDomain;
+      }
+      else {
+        domain = LocalDomain;
+      }
+
+      // invoke the cached chain
+      const createdAgent = agentTypeConstructor.invoke(parameters);
+
+      // register this agent to domain
+      // do not register to domain if no identifier found
+      customAttributes.forEach(attribute => {
+        if (attribute instanceof AgentAttribute) {
+          domain.registerAgent(attribute, createdAgent);
+        }
+      });
+
+      // return the new created instance
+      return createdAgent;
+
     }
-  });
-
-  // return the new created instance
-  return rawAgent;
-
+  };
+  return new Proxy(target, typeProxyHandler);
 }
