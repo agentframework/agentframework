@@ -75,7 +75,7 @@ console.log('Is it true?', agent instanceof Agent);
 
 ```
 
-### Milestone to 1.0
+### Milestone to v1.0
 
 - [x] Metadata only attribute (no interceptor required)
 - [x] Apply design metadata from tsc
@@ -91,6 +91,7 @@ console.log('Is it true?', agent instanceof Agent);
 - [ ] Agent should works in extended classes
 - [x] Remove interceptor for @agent attribute to improve performance
 - [x] Do not add proxy if the agent don't have interceptor
+- [ ] Do not add constructor proxy if the class don't have interceptor
 
 
 **Attributes in AgentFramework 0.x**
