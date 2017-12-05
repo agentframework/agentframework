@@ -16,6 +16,13 @@ Agent Framework for TypeScript 2.2+
 - You want to build an abstract layer for a specific business domain in your organization.
 - You want to remove duplicated code and keep project codebase small and clean.
 
+### Use Cases
+- Dependency Injection
+- Data Access Layer
+- Application Framework
+- Serverless Architecture
+
+
 ### Install and usage
 
 ```bash
@@ -26,42 +33,37 @@ or
   yarn add agentframework
 ```
 
-### Examples
-
-With Agent Framework
+### Show me the code
 
 ```typescript
-import { agent, failure } from 'agentframework'
+import { agent, inject } from 'agentframework'
+
+@agent('Manager')
+class Manager {
+  name = 'Peter';
+}
 
 @agent()
-class ExampleAgent {
-  
-  public text: string;
-  
-  @failure('')
-  public getLowerCase(): string {
-    return this.text.toLowerCase();
-  }
- 
-}
-```
+class Agent {
 
-Without Agent Framework
-
-```typescript
-class ExampleAgent {
+  @inject('Manager')
+  manager: Manager;
   
-  public text: string;
-  
-  public getLowerCase(): string {
-    try {
-      return this.text.toLowerCase();
-    }
-    catch(err) {
-      return '';
-    }
+  constructor() {
+    // The filed already been inject before constructor!!!
+    console.log(`Your manager is ${this.manager.name}`);
   }
+  
 }
+
+const agent = new Agent();
+
+console.log('Is it true?', agent instanceof Agent);
+
+// Results:
+// > Your manager is Peter
+// > Is it true? true
+
 ```
 
 **Attributes in AgentFramework 0.x**

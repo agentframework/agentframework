@@ -3,7 +3,8 @@ import { Reflection } from '../reflection';
 import { InterceptorFactory } from '../interceptor';
 
 /**
- * Add prototype interceptor (es5)
+ * Add prototype interceptor (es5 and before)
+ * This method modifying old school PropertyDescriptor to implement interceptor.
  * @param target
  * @returns {Constructor}
  * @constructor

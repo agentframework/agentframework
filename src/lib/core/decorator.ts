@@ -39,6 +39,7 @@ export function decorateClass(attribute: IAttribute): ClassDecorator {
 
       let upgradedTarget;
 
+      // create only one proxy for one class even they got more than one agent attribute
       if (proxied) {
         upgradedTarget = target;
       }
@@ -52,7 +53,7 @@ export function decorateClass(attribute: IAttribute): ClassDecorator {
       // intercept by overloading ES5 prototype (static intercept)
       // AddPrototypeInterceptor(upgradedConstructor);
 
-      // always register agent type in LocalDomain
+      // register the agent class in LocalDomain for dependence injection
       if (attribute instanceof AgentAttribute) {
         LocalDomain.registerAgentType(attribute, upgradedTarget);
       }
@@ -91,7 +92,24 @@ export function decorateClassMethod(attribute: IAttribute): MethodDecorator {
 }
 
 /**
- * Decorate class field
+ * Decorate class property or getter
+ * @param attribute
+ * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
+ */
+export function decorateClassPropertyOrGetter(attribute: IAttribute): PropertyDecorator {
+  return (target: Object, propertyKey: string | symbol, descriptor?: PropertyDescriptor): void => {
+    // TypeScript is not smart enough to identify the PropertyDescriptor on method
+    if (descriptor && !descriptor.get) {
+      throw new TypeError(`${Reflect.getPrototypeOf(attribute).constructor.name} can only decorate on class property or getter`);
+    }
+    if (CanDecorate(attribute, target, propertyKey)) {
+      Reflection.addAttribute(attribute, target, propertyKey)
+    }
+  }
+}
+
+/**
+ * Decorate class property
  * @param attribute
  * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
  */

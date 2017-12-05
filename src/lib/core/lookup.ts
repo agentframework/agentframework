@@ -2,10 +2,17 @@ import { Reflection } from './reflection';
 import { Agent } from '../agent';
 import { Metadata } from './metadata';
 import { IAttribute } from './attribute';
-import { IsFunction } from './utils';
+import { IsFunction, ToPrototypeArray } from './utils';
+import { InjectAttribute } from '../extra/inject';
 
 export class Lookup {
-
+  
+  /**
+   * Find one type of attribute
+   * @param {Agent} typeOrInstance
+   * @param attributeType
+   * @returns {Map<string, Array<A extends IAttribute>>}
+   */
   static attributes<A extends IAttribute>(typeOrInstance: Agent, attributeType?): Map<string, Array<A>> {
 
     let map = new Map<string, Array<A>>();

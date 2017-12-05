@@ -1,13 +1,8 @@
 import { decorateClass, IAttribute, IInterceptor, IInvocation } from './core';
 import { AddProxyInterceptor } from './core/interceptors/proxy';
 import { ORIGIN_INSTANCE, AGENT_DOMAIN } from './core/utils';
-import { ReadyAttribute } from './extra/ready';
 import { Reflection } from './core/reflection';
-import { Metadata } from './core/metadata';
-import { Lookup } from './core/lookup';
-import { InjectAttribute } from './extra/inject';
-import { Domain } from './domain';
-import { isNumber } from 'util';
+import { InMemoryDomain } from './domain';
 
 // ===========================================
 // ES2015 or before
@@ -28,15 +23,14 @@ if (typeof Reflect['metadata'] !== 'function') {
   //     Reflect.metadata("design:returntype", String)
   Reflect['metadata'] = function (key: string, value: any) {
     return function (target: Object | Function,
-                     propertyKey?: string | symbol,
-                     descriptor?: PropertyDescriptor | number): void {
+      propertyKey?: string | symbol,
+      descriptor?: PropertyDescriptor | number): void {
       if (typeof descriptor === 'number') {
         Reflection.addMetadata(key, value, target, propertyKey);
       }
       else {
         Reflection.addMetadata(key, value, target, propertyKey, descriptor);
       }
-      
     }
   };
 }
@@ -47,7 +41,7 @@ else {
 }
 
 export interface Agent extends Function {
-  new (domain?: Domain);
+  new(domain?: InMemoryDomain);
 }
 
 /**
@@ -62,22 +56,22 @@ export function agent(identifier?: any) {
  * AgentAttribute
  */
 export class AgentAttribute implements IAttribute, IInterceptor {
-  
+
   constructor(private _identifier?: string) {
   }
-  
+
   get identifier(): string | null {
     return this._identifier;
   }
-  
+
   getInterceptor(): IInterceptor {
     return this;
   }
-  
+
   intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
-    
+
     const originalAgent = invocation.invoke(parameters);
-    
+
     // // NOTE: In order to improve the performance, do not proxy if no field interceptors detected
     // // intercept by overloading ES5 prototype (static intercept)
     // const interceptorDefinitions = Reflection.metadata.getAll(invocation.target.prototype);
@@ -94,21 +88,21 @@ export class AgentAttribute implements IAttribute, IInterceptor {
     //   }
     //
     // }
-    
-    // only proxy one time
+
+    // only proxy one time for multiple agent attributes on same class
     if (!Reflect.has(originalAgent, ORIGIN_INSTANCE)) {
-      
+
       // intercept by implement ES6 proxy (dynamic intercept)
       const domain = Reflect.get(originalAgent, AGENT_DOMAIN);
       const upgradedAgent = AddProxyInterceptor(originalAgent);
       Reflect.set(upgradedAgent, ORIGIN_INSTANCE, originalAgent);
       Reflect.set(upgradedAgent, AGENT_DOMAIN, domain);
-      
+
       return upgradedAgent;
     }
-    
+
     return originalAgent;
   }
-  
+
 }
 

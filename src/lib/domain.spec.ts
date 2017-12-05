@@ -1,6 +1,6 @@
 import { agent } from './agent'
 import { success } from './extra/success';
-import { Domain } from './domain';
+import { InMemoryDomain } from './domain';
 
 class Base {
 
@@ -10,7 +10,7 @@ class Base {
 @agent('TestAgent2')
 class Agent extends Base {
 
-  constructor(private _domain: Domain, private _name?: string) {
+  constructor(private _domain: InMemoryDomain, private _name?: string) {
     super();
   }
 
@@ -26,7 +26,7 @@ describe('@domain', () => {
   describe('# should able to', () => {
 
     it('create new instance', () => {
-      const domain1 = new Domain();
+      const domain1 = new InMemoryDomain();
       const agent1 = domain1.createAgent(Agent, 'Domain');
       expect(Reflect.getPrototypeOf(agent1)).toBe(Agent.prototype);
       expect(agent1 instanceof Agent).toBe(true);
@@ -35,7 +35,7 @@ describe('@domain', () => {
     });
 
     it('add agent', () => {
-      const domain1 = new Domain();
+      const domain1 = new InMemoryDomain();
       domain1.addAgent(Agent);
       const a1 = domain1.getAgent('TestAgent');
       const a2 = domain1.getAgent('TestAgent2');
@@ -47,7 +47,7 @@ describe('@domain', () => {
   describe('# should not able to', () => {
 
     it('create same agent again', () => {
-      const domain2 = new Domain();
+      const domain2 = new InMemoryDomain();
       domain2.createAgent(Agent, 'Domain');
       expect(() => {
         domain2.createAgent(Agent, 'Domain');
@@ -55,7 +55,7 @@ describe('@domain', () => {
     });
 
     it('add agent twice', () => {
-      const domain1 = new Domain();
+      const domain1 = new InMemoryDomain();
       domain1.addAgent(Agent);
       expect(() => {
         domain1.addAgent(Agent);
@@ -64,7 +64,7 @@ describe('@domain', () => {
     });
 
     it('create same agent again', () => {
-      const domain1 = new Domain();
+      const domain1 = new InMemoryDomain();
       domain1.addAgent(Agent);
       const a1 = domain1.getAgent('TestAgent');
       const a2 = domain1.getAgent('TestAgent2');
@@ -75,7 +75,7 @@ describe('@domain', () => {
     });
 
     it('add same agent again', () => {
-      const domain1 = new Domain();
+      const domain1 = new InMemoryDomain();
       domain1.createAgent(Agent);
       expect(() => {
         domain1.addAgent(Agent);
@@ -83,7 +83,7 @@ describe('@domain', () => {
     });
 
     it('add same agent and new again', () => {
-      const domain1 = new Domain();
+      const domain1 = new InMemoryDomain();
       domain1.createAgent(Agent);
       expect(() => {
         const a1 = new Agent(domain1);

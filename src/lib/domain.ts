@@ -1,11 +1,11 @@
 import { Agent, AgentAttribute } from './agent';
-import { EventEmitter } from 'events';
 import { Reflection } from './core/reflection';
 
 /**
  * Domain interface
  */
 export interface IDomain {
+
   /**
    * Add an agent to domain
    * @param agentType
@@ -25,12 +25,26 @@ export interface IDomain {
    */
   getAgent(typeOrIdentifier: Agent | string): Object;
 
+  /**
+   * Register agent with provided agent attribute
+   * @param {AgentAttribute} agentAttribute
+   * @param {Object} agent
+   */
+  registerAgent(agentAttribute: AgentAttribute, agent: Object);
+
+  /**
+   * Register agent type with provided agent attribute
+   * @param {AgentAttribute} agentAttribute
+   * @param {Agent} agentType
+   */
+  registerAgentType(agentAttribute: AgentAttribute, agentType: Agent);
+
 }
 
 /**
  * Domain
  */
-export class Domain extends EventEmitter implements IDomain {
+export class InMemoryDomain implements IDomain {
 
   protected types: Map<string, Agent> = new Map<string, Agent>();
   protected agents: Map<string, Object> = new Map<string, Object>();
@@ -114,4 +128,5 @@ export class Domain extends EventEmitter implements IDomain {
 
 }
 
-export let LocalDomain = new Domain();
+
+export let LocalDomain = new InMemoryDomain();

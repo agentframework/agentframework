@@ -1,8 +1,9 @@
-.idea/
-node_modules/
-coverage/
-bin/
-release/
+/.idea/
+/.rpt2_cache/
+/node_modules/
+/coverage/
+/bin/
+/release/
 *.log
 *.js
 *.js.map

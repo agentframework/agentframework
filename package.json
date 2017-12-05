@@ -12,14 +12,15 @@
     "start": "NODE_ENV=test node_modules/.bin/nodemon --config tools/testmon.json",
     "test": "npm run lint && npm run test:build && npm run test:coverage",
     "cov": "npm run test:coverage",
+    "debug": "NODE_ENV=test node_modules/.bin/nodemon --config tools/debugmon.json",
+    "test:debug": "TARGET=debug node_modules/.bin/ts-node --inspect-brk tools/jasmine.ts || exit 0",
     "test:build": "node_modules/.bin/tsc -p tsconfig.release.json --noEmit",
     "test:unit": "node_modules/.bin/ts-node tools/jasmine.ts || exit 0",
     "test:coverage": "node_modules/.bin/ts-node node_modules/.bin/istanbul cover --config=tools/istanbul.yaml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.full.json || exit 0",
     "lint": "node_modules/.bin/standard --pretty",
-    "build": "npm run build:clean && npm run build:tsc && npm run build:webpack && npm run build:npm",
+    "build": "npm run build:clean && npm run build:rollup && npm run build:npm",
     "build:clean": "rm -rf ./release",
-    "build:tsc": "node_modules/.bin/tsc -p tsconfig.release.json",
-    "build:webpack": "node_modules/.bin/webpack --display-error-details --config tools/webpack.build.config.ts",
+    "build:rollup": "node_modules/.bin/rollup -c tools/rollup.config.ts",
     "build:npm": "cp LICENSE ./release && cp README.md ./release && cp package.release.json ./release/package.json",
     "release": "npm run build && npm run release:npm",
     "release:npm": "cd ./release && npm publish",
@@ -45,17 +46,15 @@
   "devDependencies": {
     "@types/jasmine": "~2",
     "@types/node": "~6",
-    "babel-core": "~6",
-    "babel-loader": "~6",
-    "babel-preset-babili": "~0",
     "istanbul": "next",
     "jasmine": "~2",
     "jasmine-spec-reporter": "~3",
     "nodemon": "~1",
-    "ts-loader": "~2",
+    "rollup": "^0.52.0",
+    "rollup-plugin-typescript2": "^0.8.4",
     "ts-node": "~3",
     "typescript": "~2",
-    "typescript-standard": "~0",
-    "webpack": "~2"
-  }
+    "typescript-standard": "~0"
+  },
+  "dependencies": {}
 }

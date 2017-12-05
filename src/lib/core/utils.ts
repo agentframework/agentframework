@@ -60,3 +60,25 @@ export function IsEqual(x: any, y: any): boolean {
 
   return false;
 }
+
+
+/**
+ * array = [
+ *  [this.prototype]
+ *  [this.prototype.prototype]
+ *  [this.prototype.prototype.prototype]
+ *  ...
+ * ]
+ * @param typeOrInstance
+ * @returns {Array<any>}
+ * @constructor
+ */
+export function ToPrototypeArray(typeOrInstance: any): Array<any> {
+  const prototypes = [];
+  let p = IsFunction(typeOrInstance) ? typeOrInstance.prototype : Reflect.getPrototypeOf(typeOrInstance);
+  while (p) {
+    prototypes.push(p);
+    p = Reflect.getPrototypeOf(p);
+  }
+  return prototypes;
+}
