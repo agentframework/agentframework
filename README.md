@@ -16,13 +16,16 @@ Agent Framework for TypeScript 2.2+
 - You want to build an abstract layer for a specific business domain in your organization.
 - You want to remove duplicated code and keep project codebase small and clean.
 
-### User Scenario
+
+### User Scenarios
 
 - Dependency Injection
 - Data Access Layer
 - Application Framework
 - Service
 - Validation
+- Tracking / Monitoring
+- Utilities
 
 
 ### Install and usage
@@ -40,16 +43,19 @@ or
 ```typescript
 import { agent, inject } from 'agentframework'
 
-@agent('Manager')
-class Manager {
+interface IManager {
+  name: string
+}
+
+class Manager implements IManager {
   name = 'Peter';
 }
 
 @agent()
 class Agent {
 
-  @inject('Manager')
-  manager: Manager;
+  @inject(Manager)
+  manager: IManager;
   
   constructor() {
     // The manager field already been injected!!!
@@ -75,7 +81,7 @@ console.log('Is it true?', agent instanceof Agent);
 - [x] Apply design metadata from tsc
 - [x] Add design information for Reflection object
 - [x] Add transparent support for ES2017 Reflect.metadata
-- [ ] Share metadata across different agentframework library of same application
+- [ ] Share metadata across different agentframework library of same application (need create test script)
 - [x] Move @inject and @ready decorator into core module
 - [x] Provide access to intercepted property value in constructor
 - [ ] Pre-compile class member interceptors to improve method call performance
@@ -84,7 +90,7 @@ console.log('Is it true?', agent instanceof Agent);
 - [ ] Revise Reflection Interface
 - [ ] Agent should works in extended classes
 - [x] Remove interceptor for @agent attribute to improve performance
-- [ ] Do not add proxy if the agent don't have interceptor
+- [x] Do not add proxy if the agent don't have interceptor
 
 
 **Attributes in AgentFramework 0.x**
