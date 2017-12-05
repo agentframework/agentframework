@@ -64,9 +64,6 @@ export class AgentAttribute implements IAttribute {
     return this._identifier;
   }
 
-  getInterceptor(): IInterceptor {
-    return null;
-  }
 
 }
 

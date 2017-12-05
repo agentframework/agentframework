@@ -1,4 +1,4 @@
-import { IAttribute, CanDecorate } from './attribute';
+import { IAttribute, CanDecorate, IAgentAttribute } from './attribute';
 import { Reflection } from './reflection';
 import { AddConstructProxyInterceptor } from './interceptors/construct';
 import { LocalDomain } from '../domain';
@@ -11,7 +11,7 @@ import { ORIGIN_CONSTRUCTOR } from './utils';
  * @param attribute
  * @returns {(target:Constructor)=>(void|Constructor)}
  */
-export function decorateClass(attribute: IAttribute): ClassDecorator {
+export function decorateClass(attribute: IAgentAttribute): ClassDecorator {
 
   // upgrade prototype
   return <T extends Function>(target: T): T | void => {
@@ -39,19 +39,19 @@ export function decorateClass(attribute: IAttribute): ClassDecorator {
       Reflection.addAttribute(attribute, originConstructor);
 
       let proxiedConstructor;
-
-      // intercept by implement ES6 proxy (dynamic proxy + pre-compiled constructor interceptor)
-      proxiedConstructor = AddConstructProxyInterceptor(target, [attribute]);
-      Reflect.set(proxiedConstructor, ORIGIN_CONSTRUCTOR, originConstructor);
-
-      // intercept by overloading ES5 prototype (static intercept)
-      // AddPrototypeInterceptor(upgradedConstructor);
-
-      // register the agent class in LocalDomain for dependence injection
-      if (attribute instanceof AgentAttribute) {
-        // Register class attribute with proxied class constructor
-        LocalDomain.registerAgentType(attribute, proxiedConstructor);
+  
+      if (!proxied) {
+        // intercept by implement ES6 proxy (dynamic proxy + pre-compiled constructor interceptor)
+        proxiedConstructor = AddConstructProxyInterceptor(target);
+        Reflect.set(proxiedConstructor, ORIGIN_CONSTRUCTOR, originConstructor);
       }
+      else {
+        // only proxy once for one class, no matter how many @agent() attribute we found
+        proxiedConstructor = target;
+      }
+
+      // Register the agent class in LocalDomain for dependence injection
+      LocalDomain.registerAgentType(attribute, proxiedConstructor);
 
       return proxiedConstructor;
     }

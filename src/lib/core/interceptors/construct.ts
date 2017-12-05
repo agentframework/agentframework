@@ -1,8 +1,7 @@
 import { Reflection } from '../reflection';
 import { InterceptorFactory } from '../interceptor';
-import { InMemoryDomain, IDomain, LocalDomain } from '../../domain';
-import { AgentAttribute } from '../../agent';
 import { IAttribute } from '../attribute';
+import { INTERCEPTOR_CONSTRUCTOR } from '../utils';
 
 
 /**
@@ -13,46 +12,43 @@ import { IAttribute } from '../attribute';
  * @constructor
  */
 export function AddConstructProxyInterceptor<Constructor extends Function>(target: Constructor, attributes?: Array<IAttribute>) {
-
-  const customAttributes = attributes || Reflection.getAttributes(target);
-
+  
   // MVP: Support multiple agent decoration on same class
   // if (customAttributes.length > 1) {
   //   throw new TypeError('Not Support Multiple Agent Decoration');
   // }
-
+  
   // build a chain of constructors from decorated agent attributes
   // [ 1. User Defined, 2. User Defined, ... last. Origin Constructor ]
   // Pre-compile constructor interceptor to improve the performance
-  const agentTypeConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, target);
-
+  
   const typeProxyHandler = {
     construct: (target: Function, parameters: any, receiver: any): object => {
-
-      let domain: IDomain;
-
-      if (parameters.length && parameters[0] instanceof InMemoryDomain) {
-        domain = parameters[0] as IDomain;
+      
+      let chainedInterceptor;
+      
+      if (Reflect.has(target, INTERCEPTOR_CONSTRUCTOR)) {
+        chainedInterceptor = Reflect.get(target, INTERCEPTOR_CONSTRUCTOR);
       }
       else {
-        domain = LocalDomain;
+        // search all attributes on this class constructor
+        const customAttributes = attributes || Reflection.getAttributes(target);
+  
+        // create a interceptor chain from the found attributes
+        chainedInterceptor = InterceptorFactory.createConstructInterceptor(customAttributes, target);
+  
+        // cache the chain for later use
+        Reflect.set(target, INTERCEPTOR_CONSTRUCTOR, chainedInterceptor);
       }
-
+      
       // invoke the cached chain
-      const createdAgent = agentTypeConstructor.invoke(parameters);
-
-      // register this agent to domain
-      // do not register to domain if no identifier found
-      customAttributes.forEach(attribute => {
-        if (attribute instanceof AgentAttribute) {
-          domain.registerAgent(attribute, createdAgent);
-        }
-      });
-
+      const createdAgent = chainedInterceptor.invoke(parameters);
+      
       // return the new created instance
       return createdAgent;
-
+      
     }
   };
+  
   return new Proxy(target, typeProxyHandler);
 }

@@ -1,7 +1,12 @@
 import { IInterceptor } from './interceptor';
 
 export interface IAttribute {
-
+  
+  /**
+   * Identity of this attribute
+   */
+  identifier?: string;
+  
   /**
    * Fired before decoration of this attribute
    * @param target
@@ -12,10 +17,16 @@ export interface IAttribute {
   /**
    * Get interceptor for this _invocation
    */
-  getInterceptor(): IInterceptor
+  getInterceptor?(): IInterceptor
 
 }
 
+/**
+ * This attribute is for agent / domain management
+ */
+export interface IAgentAttribute extends IAttribute {
+  identifier: string;
+}
 
 export interface IBeforeDecorateAttribute extends IAttribute {
 
@@ -34,12 +45,12 @@ export function CanDecorate(attribute: IAttribute, target: Object | Function, ta
 }
 
 export function GetInterceptor(attribute: IAttribute): IInterceptor | undefined {
-  const interceptor = attribute.getInterceptor();
-  // do not intercept when got false, null, ''
-  if (!!interceptor && typeof interceptor.intercept === 'function' && interceptor.intercept.length === 2) {
-    return interceptor;
+  if (attribute.getInterceptor) {
+    const interceptor = attribute.getInterceptor();
+    // do not intercept when got false, null, ''
+    if (!!interceptor && typeof interceptor.intercept === 'function' && interceptor.intercept.length === 2) {
+      return interceptor;
+    }
   }
-  else {
-    return undefined;
-  }
+  return undefined;
 }

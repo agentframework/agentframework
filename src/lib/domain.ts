@@ -1,5 +1,6 @@
 import { Agent, AgentAttribute } from './agent';
 import { Reflection } from './core/reflection';
+import { IAgentAttribute } from './core/attribute';
 
 /**
  * Domain interface
@@ -49,7 +50,7 @@ export class InMemoryDomain implements IDomain {
   protected types: Map<string, Agent> = new Map<string, Agent>();
   protected agents: Map<string, Object> = new Map<string, Object>();
 
-  registerAgentType(agentAttribute: AgentAttribute, agentType: Agent) {
+  registerAgentType(agentAttribute: IAgentAttribute, agentType: Agent) {
     if (!agentAttribute.identifier) {
       return;
     }
