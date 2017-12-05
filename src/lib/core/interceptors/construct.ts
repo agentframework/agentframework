@@ -3,6 +3,7 @@ import { InterceptorFactory } from '../interceptor';
 import { InMemoryDomain, IDomain, LocalDomain } from '../../domain';
 import { Agent, AgentAttribute } from '../../agent';
 import { AGENT_DOMAIN } from '../utils';
+import { IAttribute } from '../attribute';
 
 
 /**
@@ -11,17 +12,18 @@ import { AGENT_DOMAIN } from '../utils';
  * @returns {Constructor}
  * @constructor
  */
-export function AddConstructProxyInterceptor<Constructor extends Function>(target: Constructor) {
+export function AddConstructProxyInterceptor<Constructor extends Agent>(target: Constructor) {
   const typeProxyHandler = {
     construct: ConstructInterceptor
   };
   return new Proxy(target, typeProxyHandler);
 }
 
+
 /**
  * Main function to create an agent
  */
-export function ConstructInterceptor<T extends Agent>(target: T, parameters: ArrayLike<any>, receiver: any): any {
+export function ConstructInterceptor(target: Agent, parameters: any, receiver: any): object {
 
   const customAttributes = Reflection.getAttributes(target);
   let domain: IDomain;

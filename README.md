@@ -16,11 +16,13 @@ Agent Framework for TypeScript 2.2+
 - You want to build an abstract layer for a specific business domain in your organization.
 - You want to remove duplicated code and keep project codebase small and clean.
 
-### Use Cases
+### User Scenario
+
 - Dependency Injection
 - Data Access Layer
 - Application Framework
-- Serverless Architecture
+- Service
+- Validation
 
 
 ### Install and usage
@@ -50,21 +52,39 @@ class Agent {
   manager: Manager;
   
   constructor() {
-    // The filed already been inject before constructor!!!
+    // The manager field already been injected!!!
     console.log(`Your manager is ${this.manager.name}`);
   }
   
 }
 
+console.log('Creating agent');
 const agent = new Agent();
-
 console.log('Is it true?', agent instanceof Agent);
 
 // Results:
+// > Creating agent
 // > Your manager is Peter
 // > Is it true? true
 
 ```
+
+### Milestone to 1.0
+
+- [x] Metadata only attribute (no interceptor required)
+- [x] Apply design metadata from tsc
+- [x] Add design information for Reflection object
+- [x] Add transparent support for ES2017 Reflect.metadata
+- [ ] Share metadata across different agentframework library of same application
+- [x] Move @inject and @ready decorator into core module
+- [x] Provide access to intercepted property value in constructor
+- [ ] Pre-compile class member interceptors to improve method call performance
+- [ ] Pre-compile class constructor interceptors to improve new class performance
+- [ ] Revise Domain Interface
+- [ ] Revise Reflection Interface
+- [ ] Agent should works in extended classes
+- [ ] Remove interceptor for @agent attribute to improve performance
+
 
 **Attributes in AgentFramework 0.x**
 

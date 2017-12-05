@@ -1,4 +1,3 @@
-import { IAttribute } from './attribute';
 import { Reflection } from './reflection';
 
 
@@ -22,38 +21,63 @@ export class ConstructInvocation implements IInvocation {
     return this._target;
   }
   
+  /**
+   * Run property interceptor if have
+   * @param {ArrayLike<any>} parameters
+   * @returns {any}
+   */
   invoke(parameters: ArrayLike<any>): any {
     
-    const attributes = Reflection.findPropertyAttributes(this._target);
+    const results = Reflection.findPropertyAttributes(this._target);
     
-    if (attributes.size > 0) {
+    if (results.size > 0) {
       
-      // the soul of Agent
-      class Agent extends this._target {
+      const bag = new Map<string,any>();
+      
+      for (const [key, value] of results) {
+        let injected = false;
+        let interceptedResult = null;
+        // one property may have more than one interceptor.
+        // we will call them one by one. passing the result of previous interceptor to the new interceptor
+        for (const attribute of value) {
+          const interceptor = attribute.getInterceptor();
+          if (interceptor) {
+            injected = true;
+            interceptedResult = interceptor.intercept(interceptedResult, parameters);
+          }
+        }
+        
+        if (injected) {
+          bag.set(key, interceptedResult);
+        }
       }
       
-      // intercept fields
-      attributes.forEach((value: Array<IAttribute>, key: string) => {
-        value.forEach(attr => {
-          const interceptor = attr.getInterceptor();
-          if (interceptor) {
-            Reflect.defineProperty(Agent.prototype, key, {
-              writable: true,
-              configurable: true,
-              value: interceptor.intercept(null, [])
-            });
-          }
-        });
-      });
+      if (bag.size) {
+        
+        // create transparent layer for property injector
+        class DynamicAgent extends this._receiver {
+        }
+  
+        for (const [key, value] of bag) {
+          Reflect.defineProperty(DynamicAgent.prototype, key, {
+            // true if and only if the value associated with the property may be changed (data descriptors only).
+            writable: true,
+            // true if and only if the type of this property descriptor may be changed and if the property may be deleted from the corresponding object.
+            configurable: true,
+            // true if and only if this property shows up during enumeration of the properties on the corresponding object.
+            enumerable: true,
+            // The value associated with the property (data descriptors only).
+            value
+          });
+        }
+        
+        return Reflect.construct(this._target, parameters, DynamicAgent);
+      }
       
-      // System default
-      const asGod = Reflect.construct(this._target, parameters, Agent);
-      return asGod;
-    }
-    else {
-      return Reflect.construct(this._target, parameters, this._receiver);
     }
     
+    // default
+    return Reflect.construct(this._target, parameters, this._receiver);
     
   }
   

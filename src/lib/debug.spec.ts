@@ -4,7 +4,7 @@ import { failure } from './extra/failure';
 
 @agent('Manager')
 class Manager {
-  name = 'Peter';
+  name = 'Mgmt. Peter';
 }
 
 @agent()
@@ -14,17 +14,14 @@ class Agent {
   manager: Manager;
   
   @inject('Manager')
-  get supervisor() {
-    return 'ling';
-  }
-  
-  set supervisor(value) {
-    console.log('supervisor is', value);
+  get supervisor(): Manager {
+    return <Manager>{};
   }
   
   constructor() {
     // The filed already been inject before constructor!!!
     console.log(`Your manager is ${this.manager.name}`);
+    // console.log(`Your manager is ${this.supervisor.name}`);
   }
   
   @failure('n/a')
@@ -40,8 +37,11 @@ describe('@agent', () => {
   describe('# should able to inject before constructor', () => {
 
     it('create instance with @inject', () => {
+      
       const agent = new Agent();
+      console.log('supervisor', agent.supervisor);
       expect(agent instanceof Agent).toBe(true);
+      
     });
 
   });

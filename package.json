@@ -44,17 +44,17 @@
   },
   "homepage": "https://github.com/agentframework/agentframework#readme",
   "devDependencies": {
-    "@types/jasmine": "~2",
-    "@types/node": "~6",
+    "@types/jasmine": "latest",
+    "@types/node": "latest",
     "istanbul": "next",
-    "jasmine": "~2",
-    "jasmine-spec-reporter": "~3",
-    "nodemon": "~1",
-    "rollup": "^0.52.0",
-    "rollup-plugin-typescript2": "^0.8.4",
-    "ts-node": "~3",
-    "typescript": "~2",
-    "typescript-standard": "~0"
+    "jasmine": "latest",
+    "jasmine-spec-reporter": "latest",
+    "nodemon": "latest",
+    "rollup": "latest",
+    "rollup-plugin-typescript2": "latest",
+    "ts-node": "latest",
+    "typescript": "latest",
+    "typescript-standard": "latest"
   },
   "dependencies": {}
 }

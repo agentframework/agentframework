@@ -1,6 +1,6 @@
 {
   "exec": "npm run test:debug",
-  "ext": "spec.ts test.ts json yaml",
+  "ext": "ts spec.ts test.ts json yaml",
   "env": {
     "NODE_ENV": "test"
   },
@@ -9,7 +9,6 @@
   },
   "watch": [
     "src",
-    "test",
     "tools"
   ]
 }
