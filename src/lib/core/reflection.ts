@@ -1,6 +1,6 @@
 import { IAttribute } from './attribute';
 import { IsObjectOrFunction, IsUndefined, ToPropertyKey, IsFunction, ToPrototypeArray } from './utils';
-import { getDecoratingClass } from './decorator';
+import { getOriginConstructor } from './decorator';
 import { Metadata } from './metadata';
 import { Agent } from '../agent';
 
@@ -19,6 +19,15 @@ export class Reflection {
     }
     this._attributes = [];
     this._metadata = new Map<string, any>();
+    
+    // MVP: Add support for ES2017 Reflect.metadata
+    if (Reflect['getMetadata'] && typeof Reflect['getMetadata'] === 'function') {
+      this.getMetadata = function (key: string) {
+        let metadata = Reflect['getMetadata'](key, this.target, this.targetKey);
+        return metadata || this._metadata.get(key);
+      }
+    }
+    
   }
 
   public static getInstance(target: Object | Function, targetKey?: string | symbol): Reflection | null {
@@ -31,7 +40,7 @@ export class Reflection {
       return Metadata.get(instance, targetKey);
     }
     else {
-      const originTarget = getDecoratingClass(target);
+      const originTarget = getOriginConstructor(target);
       const instance = IsFunction(originTarget) ? originTarget['prototype'] : originTarget;
       return Metadata.get(instance);
     }
@@ -47,7 +56,7 @@ export class Reflection {
       return Metadata.getOwn(instance, targetKey);
     }
     else {
-      const originTarget = getDecoratingClass(target);
+      const originTarget = getOriginConstructor(target);
       const instance = IsFunction(originTarget) ? originTarget['prototype'] : originTarget;
       return Metadata.getOwn(instance);
     }
@@ -73,9 +82,9 @@ export class Reflection {
     reflection.addMetadata(key, value);
   }
 
-  public static findPropertyAttributes(typeOrInstance: Agent): Map<string, Array<IAttribute>> {
+  public static findPropertyReflections(typeOrInstance: Agent): Map<string, Reflection> {
 
-    const result = new Map<string, Array<IAttribute>>();
+    const result = new Map<string, Reflection>();
 
     const prototypes = ToPrototypeArray(typeOrInstance);
 
@@ -88,7 +97,7 @@ export class Reflection {
         // property don't have a descriptor
         if (methodName && !reflection.descriptor) {
           // reflection without descriptor must a field
-          result.set(methodName, reflection.getAttributes());
+          result.set(methodName, reflection);
         }
       });
 
@@ -126,11 +135,7 @@ export class Reflection {
   }
 
   getMetadata(key: string): any | null {
-    let metadata;
-    if (typeof Reflect['getMetadata'] === 'function') {
-      metadata = Reflect['getMetadata'](key, this.target, this.targetKey);
-    }
-    return metadata || this._metadata.get(key);
+    return this._metadata.get(key);
   }
 
   addMetadata(key: string, value: any) {

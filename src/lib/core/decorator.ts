@@ -2,7 +2,6 @@ import { IAttribute, CanDecorate, IAgentAttribute } from './attribute';
 import { Reflection } from './reflection';
 import { AddConstructProxyInterceptor } from './interceptors/construct';
 import { LocalDomain } from '../domain';
-import { AgentAttribute } from '../agent';
 import { ORIGIN_CONSTRUCTOR } from './utils';
 
 
@@ -39,7 +38,7 @@ export function decorateClass(attribute: IAgentAttribute): ClassDecorator {
       Reflection.addAttribute(attribute, originConstructor);
 
       let proxiedConstructor;
-  
+
       if (!proxied) {
         // intercept by implement ES6 proxy (dynamic proxy + pre-compiled constructor interceptor)
         proxiedConstructor = AddConstructProxyInterceptor(target);
@@ -120,6 +119,11 @@ export function decorateClassProperty(attribute: IAttribute): PropertyDecorator 
   }
 }
 
-export function getDecoratingClass(type: any): any {
+/**
+ * Return origin constructor for a giving constructor
+ * @param type
+ * @returns {any}
+ */
+export function getOriginConstructor(type: any): any {
   return type[ORIGIN_CONSTRUCTOR] || type;
 }

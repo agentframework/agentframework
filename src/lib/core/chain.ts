@@ -4,9 +4,9 @@ import { IInterceptor } from './interceptor';
 
 
 export function createInvocationChainFromAttribute(origin: IInvocation, attributes: Array<IAttribute>) {
-  
+
   let invocation: IInvocation = origin;
-  
+
   // make invocation chain of interceptors
   attributes.forEach(function (attribute) {
     const interceptor = GetInterceptor(attribute);
@@ -14,9 +14,9 @@ export function createInvocationChainFromAttribute(origin: IInvocation, attribut
       invocation = new InceptionInvocation(invocation, interceptor);
     }
   });
-  
+
   return invocation;
-  
+
 }
 
 

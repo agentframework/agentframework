@@ -1,7 +1,7 @@
 # Agent Framework 0.9.x ChangeLog
 
-0.9.x is the last version before 1.0. Since the MVP features are already in place. 
-The goal of this version is to improve performance and revise API interfaces.
+0.9.x is the last version before 1.0. Since the MVP/EPIC features are already in place. 
+The goal of this version is to improve performance and revise API interfaces for backward compatibility.
 
 ## 2017-12-05, Version 0.9.0 (Current), @e2tox
 

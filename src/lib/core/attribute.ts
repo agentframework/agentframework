@@ -1,12 +1,12 @@
 import { IInterceptor } from './interceptor';
 
 export interface IAttribute {
-  
+
   /**
    * Identity of this attribute
    */
   identifier?: string;
-  
+
   /**
    * Fired before decoration of this attribute
    * @param target

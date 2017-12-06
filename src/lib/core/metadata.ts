@@ -12,14 +12,14 @@ const globalSymbols = Object.getOwnPropertySymbols(global);
 
 // ensure all version using the same instance
 if (globalSymbols.indexOf(key) === -1) {
+  // create metadata store only if the global symbol not exits
   Reflect.set(global, key, new Map<Object | Function, Map<string | symbol, Reflection>>()); // Object.freeze(kernel); - this will break istanbul test
-  // console.log('metadata store not found, create new metadata store')
 }
-const globalSymbols2 = Object.getOwnPropertySymbols(global);
 
+const testGlobalSymbols = Object.getOwnPropertySymbols(global);
 // ensure all version using the same instance
-if (globalSymbols2.indexOf(key) === -1) {
-  console.log('second')
+if (testGlobalSymbols.indexOf(key) === -1) {
+  throw new Error('Unable to create Agent Framework Metadata')
 }
 
 export class Metadata {

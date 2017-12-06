@@ -24,12 +24,17 @@ export function AddPrototypeInterceptor<Constructor extends Function>(target: Co
       const descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
       const attributes = Reflection.getAttributes(target.prototype, key);
 
+      // property (function or field)
       if (!IsUndefined(descriptor.value)) {
         descriptor.value = InterceptorFactory.createFunctionInterceptor(attributes, descriptor.value);
       }
+      
+      // getter
       if (!IsUndefined(descriptor.get)) {
         descriptor.get = InterceptorFactory.createFunctionInterceptor(attributes, descriptor.get);
       }
+      
+      // setter
       if (!IsUndefined(descriptor.set)) {
         descriptor.set = InterceptorFactory.createFunctionInterceptor(attributes, descriptor.set);
       }

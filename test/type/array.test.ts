@@ -8,8 +8,10 @@ describe('Array', () => {
 
       @agent()
       class ArrayClass extends Array {
+
         @timestamp()
         name: string = 'test';
+
         timestamp: number;
       }
 

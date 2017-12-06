@@ -15,7 +15,7 @@ class Developer {
 
   @inject('Manager')
   get supervisor(): Manager {
-    return {} as Manager;
+    throw new Error('Supervisor not injected');
   }
 
   constructor() {

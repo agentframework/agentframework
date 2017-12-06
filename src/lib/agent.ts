@@ -1,8 +1,7 @@
-import { decorateClass, IAttribute, IInterceptor, IInvocation } from './core';
-import { AddProxyInterceptor } from './core/interceptors/proxy';
-import { ORIGIN_INSTANCE, AGENT_DOMAIN } from './core/utils';
+import { decorateClass } from './core';
 import { Reflection } from './core/reflection';
-import { IDomain, InMemoryDomain } from './domain';
+import { IDomain } from './domain';
+import { IAgentAttribute } from './core/attribute';
 
 // ===========================================
 // ES2015 or before
@@ -55,7 +54,7 @@ export function agent(identifier?: any) {
 /**
  * AgentAttribute
  */
-export class AgentAttribute implements IAttribute {
+export class AgentAttribute implements IAgentAttribute {
 
   constructor(private _identifier?: string) {
   }
@@ -63,7 +62,6 @@ export class AgentAttribute implements IAttribute {
   get identifier(): string | null {
     return this._identifier;
   }
-
-
+  
 }
 

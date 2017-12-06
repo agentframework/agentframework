@@ -5,10 +5,12 @@ Agent Framework for TypeScript 2.2+
 [![Coverage Status](https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=master)](https://coveralls.io/github/agentframework/agentframework?branch=master)
 
 ### What's this?
+
 - AOP for TypeScript
-- Elegant design pattern to decorate your class with interceptors 
+- Elegant design pattern to decorate your class with metadata and interceptors 
 - 100% TypeScript implementation! No dependencies!!!
 - Require ES6 and TypeScript 2.2+
+- Work in both node and browser
 
 ### Why use Agent Framework?
 
@@ -16,16 +18,19 @@ Agent Framework for TypeScript 2.2+
 - You want to build an abstract layer for a specific business domain in your organization.
 - You want to remove duplicated code and keep project codebase small and clean.
 
+### When use Agent Framework?
 
-### User Scenarios
+Agent Framework will help you on following areas: (which I did in other projects)
 
 - Dependency Injection
 - Data Access Layer
 - Application Framework
-- Service
+- Service Hosting and Communication
 - Validation
 - Tracking / Monitoring
 - Utilities
+- ...
+- **And there's a new octoverse out there that is waiting to be explored**
 
 
 ### Install and usage
@@ -43,73 +48,60 @@ or
 ```typescript
 import { agent, inject } from 'agentframework'
 
-interface IManager {
+interface IHaveName {
   name: string
 }
 
-class Manager implements IManager {
-  name = 'Peter';
+class Project implements IHaveName {
+  name = 'Agent Framework';
 }
 
 @agent()
-class Agent {
+class Developer {
 
-  @inject(Manager)
-  manager: IManager;
+  @inject(Project)
+  project: IHaveName;
   
   constructor() {
-    // The manager field already been injected!!!
-    console.log(`Your manager is ${this.manager.name}`);
+    // EPIC: access the injected variable inside constructor
+    console.log(`WOW! You working on project ${this.project.name}!`);
   }
   
 }
 
-console.log('Creating agent');
-const agent = new Agent();
-console.log('Is it true?', agent instanceof Agent);
+// EPIC: create interceptable agent as easy as construct a new class
+const you = new Developer();
+console.log('Is it create from the Developer class?', you instanceof Developer);
 
 // Results:
-// > Creating agent
-// > Your manager is Peter
-// > Is it true? true
+// > WOW! You working on project Agent Framework!
+// > Is it create from the Developer class? true
 
 ```
 
-### Milestone to v1.0
+**Examples**
 
-- [x] Metadata only attribute (no interceptor required)
-- [x] Apply design metadata from tsc
-- [x] Add design information for Reflection object
-- [x] Add transparent support for ES2017 Reflect.metadata
-- [ ] Share metadata across different agentframework library of same application (need create test script)
-- [x] Move @inject and @ready decorator into core module
-- [x] Provide access to intercepted property value in constructor
-- [ ] Pre-compile class member interceptors to improve method call performance
-- [x] Pre-compile class constructor interceptors to improve new class performance
-- [ ] Revise Domain Interface
-- [ ] Revise Reflection Interface
-- [ ] Agent should works in extended classes
-- [x] Remove interceptor for @agent attribute to improve performance
-- [x] Do not add proxy if the agent don't have interceptor
+- [@prerequisite()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/prerequisite.spec.ts) Do not run the method body and `throw` an error when `prerequistite()` not met
 
+- [@conditional()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/conditional.spec.ts) Likes `prerequistite()` but not throw error
 
-**Attributes in AgentFramework 0.x**
+- [@normalize()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/normalize.spec.ts) Capture `throw` in the method and modify the return value to this object `{ ok: 1|0, result?: any = return object, results?: any = return array, message?: string = err.message }` 
 
-- [@prerequisite()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/prerequisite.ts) Do not run the method body and `throw` an error when `prerequistite()` not met
+- [@success()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/success.spec.ts) Change the specified class property value when this method run success (without `throw`)
 
-- [@conditional()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/conditional.ts) Likes `prerequistite()` but not throw error
+- [@failure()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/failure.spec.ts)  Always return specified value if any `throw` happen in the intercepted method.
 
-- [@normalize()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/normalize.ts) Capture `throw` in the method and modify the return value to this object `{ ok: 1|0, result?: any = return object, results?: any = return array, message?: string = err.message }` 
+- [@timestamp()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/timestamp.spec.ts)  Update timestamp field after changes the field value
 
-- [@success()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/success.ts) Change the specified class property value when this method run success (without `throw`)
+- [@cache()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/cache.spec.ts)  Simple but useful memory cache implementation
 
-- [@failure()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/failure.ts)  Always return specified value if any `throw` happen in the intercepted method.
+- [@inject()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/inject.spec.ts)  Dependence injection
 
-- [@timestamp()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/timestamp.ts)  Update timestamp field after changes the field value
+- [@timestamp()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/timestamp.spec.ts)  Update timestamp field after changes the field value
 
-- [@cache()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/cache.ts)  Simple but useful memory cache implementation
+- [@cache()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/cache.spec.ts)  Simple but useful memory cache implementation
 
-**More Examples (WIP) **
+**Advanced Examples (will be available after release 1.0)**
 - Calculate the execution time of methods
 - Check user group before the operations
 - Add log for request and response
@@ -119,11 +111,25 @@ console.log('Is it true?', agent instanceof Agent);
 - Prevent Mongodb injection
 - Create a scheduler
 
-**Advanced Examples (WIP) **
-- Integrate with MongoDB
-- Integrate with Protobuf
-- Integrate with Express
-- Integrate with Restify
+### Road to v1.0
+
+- [x] MVP: Reflection can access type information generated by tsc. `tsc --emitDecoratorMetadata`
+- [x] MVP: Reflection support both ES6 and ES2017 (Reflect.metadata)
+- [x] MVP: Share metadata across different agentframework library of same application
+- [x] MVP: Add interceptor support for IAttribute and IClassAttribute
+- [x] MVP: Both agent or normal class can be used for dependence injection
+- [x] EPIC: Create agent without domain
+- [x] EPIC: Provide access to intercepted property value in constructor
+- [x] PERFORMANCE: Metadata only attribute, attribute without interceptor
+- [ ] PERFORMANCE: Pre-compile class member interceptors to improve method call performance
+- [x] PERFORMANCE: Cache class constructor interceptors to faster initialize new class instance staring from second time.
+- [x] PERFORMANCE: Remove interceptor for @agent attribute to improve performance
+- [x] PERFORMANCE: Do not add proxy if the agent don't have interceptor
+- [x] COMPATIBILITY: Move @inject and @ready decorator out from core
+- [ ] COMPATIBILITY: GetPrototypeOf should return origin prototype
+- [ ] COMPATIBILITY: Revise Domain Interface
+- [ ] COMPATIBILITY: Revise Reflection Interface
+- [ ] COMPATIBILITY: Agent should works in extended classes
 
 ### Concepts in Agent Framework
 
@@ -138,7 +144,8 @@ The goal of Agent Framework is to build the first AaaS cloud which implement [Ag
 
 It's different to any of the clouds today, the major different are:
 
-- AaaS is a distributed cloud network which doesn't have a central database
-- IPv6 is mandatory for an agent live in AaaS cloud
-- Agent will use digital currency to collaborate with other agent or pay the rent to the host
-- The host also an agent which have power, storage and computing resource
+- AaaS is a distributed cloud network which doesn't have a central database. 
+- IPv6 is mandatory for an agent live in AaaS cloud.
+- Agent will use digital currency to collaborate with other agent or pay the rent to the host.
+- The host(a domain) which have power, storage and it providing computing resource to run agents.
+- Agent can decide migrate from one domain to another without human interaction.
