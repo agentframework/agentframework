@@ -147,16 +147,8 @@ export function decorateClass(attribute: IAttribute): ClassDecorator {
   // upgrade prototype
   return <T extends Function>(target: T): T | void => {
     
-    // Reflect.has will check all base classes
-    const originTarget = Reflect.get(target, ORIGIN_CONSTRUCTOR);
-    
     if (!attribute) {
       throw new TypeError(`Attribute to decorate on class ${target.prototype.constructor.name} must not be null`);
-    }
-    
-    if (originTarget) {
-      const proto = Reflect.getPrototypeOf(attribute);
-      throw new TypeError(`Attribute ${proto.constructor.name} must decorated below the agent decoration of class ${originTarget.name}`);
     }
     
     if (CanDecorate(attribute, target)) {
@@ -165,6 +157,7 @@ export function decorateClass(attribute: IAttribute): ClassDecorator {
     }
     
     return target;
+    
   }
   
 }
