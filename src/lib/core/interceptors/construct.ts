@@ -1,7 +1,7 @@
 import { Reflection } from '../reflection';
-import { InterceptorFactory } from '../interceptor';
 import { INTERCEPTED_CONSTRUCTOR, PROXY_PROTOTYPE } from '../utils';
 import { AgentOptions } from '../decorator';
+import { InterceptorFactory } from './factory';
 
 export interface Constructor extends Function {
   new (...params: Array<any>): any;

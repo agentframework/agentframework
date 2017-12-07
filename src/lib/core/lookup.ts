@@ -2,8 +2,7 @@ import { Reflection } from './reflection';
 import { Agent } from '../agent';
 import { Metadata } from './metadata';
 import { IAttribute } from './attribute';
-import { IsFunction, ToPrototypeArray } from './utils';
-import { InjectAttribute } from '../extra/inject';
+import { IsFunction, GetPrototypeArray } from './utils';
 
 export class Lookup {
 
@@ -17,13 +16,7 @@ export class Lookup {
 
     let map = new Map<string, Array<A>>();
 
-    const prototypes = [];
-
-    let p = IsFunction(typeOrInstance) ? typeOrInstance.prototype : Reflect.getPrototypeOf(typeOrInstance);
-    while (p) {
-      prototypes.push(p);
-      p = Reflect.getPrototypeOf(p);
-    }
+    const prototypes = GetPrototypeArray(typeOrInstance);
 
     prototypes.reverse().forEach(proto => {
 

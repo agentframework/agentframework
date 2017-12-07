@@ -1,9 +1,7 @@
 export const ORIGIN_INSTANCE = Symbol('agent.framework.origin.instance');
 export const ORIGIN_CONSTRUCTOR = Symbol('agent.framework.origin.constructor');
 export const PROXY_PROTOTYPE = Symbol('agent.framework.proxy.prototype');
-
 export const INTERCEPTED_CONSTRUCTOR = Symbol('agent.framework.interceptor.constructor');
-
 export const AGENT_DOMAIN = Symbol('agent.framework.domain');
 
 export function IsFunction(x: any): boolean {
@@ -75,7 +73,7 @@ export function IsEqual(x: any, y: any): boolean {
  * @returns {Array<any>}
  * @constructor
  */
-export function ToPrototypeArray(typeOrInstance: any): Array<any> {
+export function GetPrototypeArray(typeOrInstance: any): Array<any> {
   const prototypes = [];
   let p = IsFunction(typeOrInstance) ? typeOrInstance.prototype : Reflect.getPrototypeOf(typeOrInstance);
   while (p) {
@@ -85,11 +83,11 @@ export function ToPrototypeArray(typeOrInstance: any): Array<any> {
   return prototypes;
 }
 
-export function assignProperties(target: any, source: any) {
-  const name = Reflect.getOwnPropertyDescriptor(source, 'name');
-  Reflect.defineProperty(target, 'name', name);
-  for(const name of Object.getOwnPropertyNames(source.prototype)) {
-    // console.log('copy', name, Reflect.getOwnPropertyDescriptor(from.prototype, name));
-    Reflect.defineProperty(target.prototype, name, Reflect.getOwnPropertyDescriptor(source.prototype, name));
-  }
-}
+// export function assignProperties(target: any, source: any) {
+//   const name = Reflect.getOwnPropertyDescriptor(source, 'name');
+//   Reflect.defineProperty(target, 'name', name);
+//   for(const name of Object.getOwnPropertyNames(source.prototype)) {
+//     // console.log('copy', name, Reflect.getOwnPropertyDescriptor(from.prototype, name));
+//     Reflect.defineProperty(target.prototype, name, Reflect.getOwnPropertyDescriptor(source.prototype, name));
+//   }
+// }

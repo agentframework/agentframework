@@ -1,6 +1,6 @@
 import { Reflection } from '../reflection';
-import { InterceptorFactory } from '../interceptor';
 import { ToPropertyKey, IsUndefined, ORIGIN_INSTANCE, PROXY_PROTOTYPE } from '../utils';
+import { InterceptorFactory } from './factory';
 
 /**
  * Add proxy interceptor

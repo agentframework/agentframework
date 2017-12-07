@@ -1,8 +1,8 @@
-import { AgentOptions } from './decorator';
-import { AddProxyInterceptor } from './interceptors/proxy';
-import { ORIGIN_INSTANCE } from './utils';
-import { Constructor } from './interceptors/construct';
-import { IInvocation } from './invocation';
+import { AgentOptions } from '../decorator';
+import { AddProxyInterceptor } from './proxy';
+import { ORIGIN_INSTANCE } from '../utils';
+import { Constructor } from './construct';
+import { IInvocation } from '../invocation';
 
 //region CreatePlainInstanceInvoker
 /**

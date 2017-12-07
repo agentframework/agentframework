@@ -1,5 +1,5 @@
 import { IAttribute } from './attribute';
-import { IsObjectOrFunction, IsUndefined, ToPropertyKey, IsFunction, ToPrototypeArray } from './utils';
+import { IsObjectOrFunction, IsUndefined, ToPropertyKey, IsFunction, GetPrototypeArray } from './utils';
 import { getOriginConstructor } from './decorator';
 import { Metadata } from './metadata';
 import { Agent } from '../agent';
@@ -90,7 +90,7 @@ export class Reflection {
 
     const result = new Map<string, Reflection>();
 
-    const prototypes = ToPrototypeArray(typeOrInstance);
+    const prototypes = GetPrototypeArray(typeOrInstance);
 
     prototypes.reverse().forEach(proto => {
 
@@ -113,7 +113,7 @@ export class Reflection {
   public static findInterceptors(typeOrInstance: Agent): Map<string, Reflection> {
     
     const results = new Map<string, Reflection>();
-    const prototypes = ToPrototypeArray(typeOrInstance);
+    const prototypes = GetPrototypeArray(typeOrInstance);
     
     for (const proto of prototypes.reverse()) {
       const reflections = Metadata.getAll(proto);
@@ -132,7 +132,7 @@ export class Reflection {
   public static findInitializers(typeOrInstance: Agent): Map<string, Reflection> {
     
     const results = new Map<string, Reflection>();
-    const prototypes = ToPrototypeArray(typeOrInstance);
+    const prototypes = GetPrototypeArray(typeOrInstance);
     
     for (const proto of prototypes.reverse()) {
       const reflections = Metadata.getAll(proto);
