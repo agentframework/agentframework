@@ -1,7 +1,8 @@
 export const ORIGIN_INSTANCE = Symbol('agent.framework.origin.instance');
 export const ORIGIN_CONSTRUCTOR = Symbol('agent.framework.origin.constructor');
+export const PROXY_PROTOTYPE = Symbol('agent.framework.proxy.prototype');
 
-export const INTERCEPTOR_CONSTRUCTOR = Symbol('agent.framework.interceptor.constructor');
+export const INTERCEPTED_CONSTRUCTOR = Symbol('agent.framework.interceptor.constructor');
 
 export const AGENT_DOMAIN = Symbol('agent.framework.domain');
 
@@ -82,4 +83,13 @@ export function ToPrototypeArray(typeOrInstance: any): Array<any> {
     p = Reflect.getPrototypeOf(p);
   }
   return prototypes;
+}
+
+export function assignProperties(target: any, source: any) {
+  const name = Reflect.getOwnPropertyDescriptor(source, 'name');
+  Reflect.defineProperty(target, 'name', name);
+  for(const name of Object.getOwnPropertyNames(source.prototype)) {
+    // console.log('copy', name, Reflect.getOwnPropertyDescriptor(from.prototype, name));
+    Reflect.defineProperty(target.prototype, name, Reflect.getOwnPropertyDescriptor(source.prototype, name));
+  }
 }

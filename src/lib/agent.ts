@@ -1,7 +1,7 @@
-import { decorateClass } from './core';
 import { Reflection } from './core/reflection';
 import { IDomain } from './domain';
-import { IAgentAttribute } from './core/attribute';
+import { IAttribute } from './core/attribute';
+import { AgentInterceptorBuildType, decorateAgent } from './core/decorator';
 
 // ===========================================
 // ES2015 or before
@@ -22,8 +22,8 @@ if (typeof Reflect['metadata'] !== 'function') {
   //     Reflect.metadata("design:returntype", String)
   Reflect['metadata'] = function (key: string, value: any) {
     return function (target: Object | Function,
-      propertyKey?: string | symbol,
-      descriptor?: PropertyDescriptor | number): void {
+                     propertyKey?: string | symbol,
+                     descriptor?: PropertyDescriptor | number): void {
       if (typeof descriptor === 'number') {
         Reflection.addMetadata(key, value, target, propertyKey);
       }
@@ -47,19 +47,20 @@ export interface Agent extends Function {
  * Define an agent
  * @returns {(target:Constructor)=>(void|Constructor)}
  */
-export function agent(identifier?: any) {
-  return decorateClass(new AgentAttribute(identifier));
+export function agent(identifier?: any, boot?: AgentInterceptorBuildType) {
+  return decorateAgent({ attribute: new AgentAttribute(identifier), build: boot });
 }
 
 /**
  * AgentAttribute
  */
-export class AgentAttribute implements IAgentAttribute {
-
-  constructor(private _identifier?: string) {
+export class AgentAttribute implements IAttribute {
+  
+  constructor(private _identifier?: any) {
+  
   }
-
-  get identifier(): string | null {
+  
+  get identifier(): any {
     return this._identifier;
   }
   

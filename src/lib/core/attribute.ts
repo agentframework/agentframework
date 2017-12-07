@@ -1,12 +1,12 @@
 import { IInterceptor } from './interceptor';
 
 export interface IAttribute {
-
+  
   /**
-   * Identity of this attribute
+   * Attribute identifier
    */
   identifier?: string;
-
+  
   /**
    * Fired before decoration of this attribute
    * @param target
@@ -41,7 +41,7 @@ export interface IBeforeDecorateAttribute extends IAttribute {
 
 
 export function CanDecorate(attribute: IAttribute, target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
-  return !attribute.beforeDecorate || attribute.beforeDecorate(target, targetKey, descriptor);
+  return !attribute || !attribute.beforeDecorate || attribute.beforeDecorate(target, targetKey, descriptor);
 }
 
 export function GetInterceptor(attribute: IAttribute): IInterceptor | undefined {

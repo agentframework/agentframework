@@ -1,4 +1,8 @@
-import { IAttribute, IInterceptor, IInvocation, decorateClassMember } from '../core';
+import { decorateClassMember } from '../core/decorator';
+import { IAttribute } from '../core/attribute';
+import { IInterceptor } from '../core/interceptor';
+import { IInvocation } from '../core/invocation';
+
 
 /**
  * Normalize the result { ok: 1, result: '', message: '' }

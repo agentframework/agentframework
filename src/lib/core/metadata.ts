@@ -1,30 +1,27 @@
 import { Reflection } from './reflection';
 import { IsUndefined } from './utils';
 
-// createGetterInterceptor a unique, global symbol name
+// create a unique, global symbol name
 // -----------------------------------
-const key = Symbol.for('agent.framework.metadata');
+const METADATA_KEY = Symbol.for('agent.framework.metadata');
 
 // check if the global object has this symbol
 // add it if it does not have the symbol, yet
 // ------------------------------------------
-const globalSymbols = Object.getOwnPropertySymbols(global);
-
-// ensure all version using the same instance
-if (globalSymbols.indexOf(key) === -1) {
+if (!Reflect.has(global, METADATA_KEY)) {
   // create metadata store only if the global symbol not exits
-  Reflect.set(global, key, new Map<Object | Function, Map<string | symbol, Reflection>>()); // Object.freeze(kernel); - this will break istanbul test
+  Reflect.set(global, METADATA_KEY, new Map<Object | Function, Map<string | symbol, Reflection>>()); // Object.freeze(kernel); - this will break istanbul test
 }
 
-const testGlobalSymbols = Object.getOwnPropertySymbols(global);
-// ensure all version using the same instance
-if (testGlobalSymbols.indexOf(key) === -1) {
+// ensure the metadata can be access
+// ---------------------------------
+if (!Reflect.has(global, METADATA_KEY)) {
   throw new Error('Unable to create Agent Framework Metadata')
 }
 
 export class Metadata {
 
-  private static _metadata: Map<Object | Function, Map<string | symbol, Reflection>> = Reflect.get(global, key);
+  private static _metadata: Map<Object | Function, Map<string | symbol, Reflection>> = Reflect.get(global, METADATA_KEY);
   private static _empty: Map<string | symbol, Reflection> = new Map<string | symbol, Reflection>();
 
   public static getAll(target: Object | Function): Map<string | symbol, Reflection> {

@@ -8,15 +8,15 @@ export function createInvocationChainFromAttribute(origin: IInvocation, attribut
   let invocation: IInvocation = origin;
 
   // make invocation chain of interceptors
-  attributes.forEach(function (attribute) {
+  for(const attribute of attributes) {
     const interceptor = GetInterceptor(attribute);
     if (interceptor) {
       invocation = new InceptionInvocation(invocation, interceptor);
     }
-  });
+  }
 
   return invocation;
-
+  
 }
 
 
@@ -37,3 +37,4 @@ export class InceptionInvocation implements IInvocation {
   }
 
 }
+

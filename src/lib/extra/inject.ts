@@ -1,8 +1,10 @@
-import { IAttribute, IInterceptor } from '../core';
-import { decorateClassPropertyOrGetter } from '../core/decorator';
-import { Agent } from '../agent';
+import { decorateClassMember, decorateClassPropertyOrGetter } from '../core/decorator';
+import { IAttribute } from '../core/attribute';
+import { IInterceptor } from '../core/interceptor';
 import { IInvocation } from '../core/invocation';
+import { Agent } from '../agent';
 import { LocalDomain } from '../domain';
+
 
 export function inject(typeOrIdentifier: Agent | string) {
   return decorateClassPropertyOrGetter(new InjectAttribute(typeOrIdentifier));

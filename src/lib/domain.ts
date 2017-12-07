@@ -6,50 +6,104 @@ import { IAgentAttribute } from './core/attribute';
  * Domain interface
  */
 export interface IDomain {
-
+  
+  /**
+   *
+   */
+  identifier(): string;
+  
+  /**
+   * Register created agent type with user type
+   * @param userType
+   * @param agentType
+   */
+  register(userType: any, agentType: any): void;
+  
   /**
    * Add an agent to domain
    * @param agentType
    */
   addAgent(agentType: Agent): void;
-
+  
   /**
    * Create an agent and added to domain
    * @param agentType
    * @param parameters
    */
   createAgent(agentType: Agent, ...parameters: Array<any>): Object;
-
+  
   /**
    * Get the agent from domain or create previous added agent. Throw error if identifier not found.
    * @param typeOrIdentifier
    */
   getAgent(typeOrIdentifier: Agent | string): Object;
-
+  
   /**
    * Register agent with provided agent attribute
    * @param {AgentAttribute} agentAttribute
    * @param {Object} agent
    */
   registerAgent(agentAttribute: AgentAttribute, agent: Object);
-
+  
   /**
    * Register agent type with provided agent attribute
    * @param {AgentAttribute} agentAttribute
    * @param {Agent} agentType
    */
   registerAgentType(agentAttribute: AgentAttribute, agentType: Agent);
-
+  
 }
 
 /**
  * Domain
  */
 export class InMemoryDomain implements IDomain {
-
+  
+  protected _identifier: string;
+  
+  /**
+   * Key: dynamic generated agent type
+   * Value: user class
+   */
+  protected userTypes: WeakMap<any, any> = new WeakMap<any, any>();
+  
+  /**
+   * Key: user class
+   * Value: dynamic generated agent type
+   */
+  protected agentTypes: WeakMap<any, any> = new WeakMap<any, any>();
+  
+  
   protected types: Map<string, Agent> = new Map<string, Agent>();
   protected agents: Map<string, Object> = new Map<string, Object>();
-
+  
+  constructor(identifier: string) {
+    this._identifier = identifier;
+  }
+  
+  /**
+   * Identifier of this domain
+   */
+  identifier(): string {
+    return this._identifier;
+  }
+  
+  /**
+   * Register created agent type with origin type
+   * @param userType
+   * @param agentType
+   */
+  register(userType: any, agentType: any) {
+    if (this.userTypes.has(agentType)) {
+      throw new Error(`Agent ${agentType.prototype.constructor.name} already registered with domain ${this._identifier}`)
+    }
+    if (this.agentTypes.has(userType)) {
+      throw new Error(`Class ${userType.prototype.constructor.name} already registered with domain ${this._identifier}`)
+    }
+    this.userTypes.set(agentType, userType);
+    this.agentTypes.set(userType, agentType);
+  };
+  
   registerAgentType(agentAttribute: IAgentAttribute, agentType: Agent) {
     if (!agentAttribute.identifier) {
       return;
@@ -62,7 +116,7 @@ export class InMemoryDomain implements IDomain {
       this.types.set(agentAttribute.identifier, agentType);
     }
   }
-
+  
   registerAgent(agentAttribute: AgentAttribute, agent: Object) {
     if (!agentAttribute.identifier) {
       return;
@@ -75,7 +129,7 @@ export class InMemoryDomain implements IDomain {
       this.agents.set(agentAttribute.identifier, agent);
     }
   }
-
+  
   public addAgent(agentType: Agent): void {
     const attributes = this.extractAgentAttributes(agentType);
     attributes.forEach(attribute => {
@@ -87,7 +141,7 @@ export class InMemoryDomain implements IDomain {
       this.registerAgentType(attribute, agentType);
     });
   }
-
+  
   public createAgent(agentType: Agent, ...parameters: Array<any>): any {
     const identifiers = this.extractIdentifiers(agentType);
     identifiers.forEach(identifier => {
@@ -97,7 +151,7 @@ export class InMemoryDomain implements IDomain {
     });
     return Reflect.construct(agentType, [this, ...parameters]);
   }
-
+  
   public getAgent(typeOrIdentifier: Agent | string): Object {
     if (typeof typeOrIdentifier === 'string') {
       if (this.agents.has(typeOrIdentifier)) {
@@ -115,19 +169,19 @@ export class InMemoryDomain implements IDomain {
       return this.createAgent(typeOrIdentifier);
     }
   }
-
+  
   private extractAgentAttributes(agentType: Agent): Array<AgentAttribute> {
     return Reflection.getAttributes(agentType)
       .filter(a => a instanceof AgentAttribute) as Array<AgentAttribute>;
   }
-
+  
   private extractIdentifiers(agentType: Agent) {
     return this.extractAgentAttributes(agentType)
       .map(a => (a as AgentAttribute).identifier)
       .filter(a => a != null);
   }
-
+  
 }
 
 
-export let LocalDomain = new InMemoryDomain();
+export let LocalDomain = new InMemoryDomain('local');

@@ -1,68 +1,177 @@
-import { IAttribute, CanDecorate, IAgentAttribute } from './attribute';
+import { IAttribute, CanDecorate } from './attribute';
 import { Reflection } from './reflection';
-import { AddConstructProxyInterceptor } from './interceptors/construct';
-import { LocalDomain } from '../domain';
+import {
+  Constructor,
+  CreateLazyFunctionConstructorInterceptor,
+  CreateLazyClassConstructorInterceptor,
+  CreateLazyProxyConstructorInterceptor,
+  CreateStaticFunctionConstructorInterceptor,
+  CreateStaticClassConstructorInterceptor,
+  CreateStaticProxyConstructorInterceptor,
+  CreateDynamicFunctionConstructorInterceptor,
+  CreateDynamicClassConstructorInterceptor,
+  CreateDynamicProxyConstructorInterceptor
+} from './interceptors/construct';
 import { ORIGIN_CONSTRUCTOR } from './utils';
+import { IDomain, LocalDomain } from '../domain';
 
+export enum AgentInterceptorType {
+  Disable           = 0,
+  BeforeConstructor = 1,
+  AfterConstructor  = 2
+}
 
-/**
- * Decorate class
- * @param attribute
- * @returns {(target:Constructor)=>(void|Constructor)}
- */
-export function decorateClass(attribute: IAgentAttribute): ClassDecorator {
+export enum AgentInterceptorBuildType {
+  StaticFunction  = 1,
+  StaticClass     = 2,
+  StaticProxy     = 3,
+  LazyFunction    = 4,
+  LazyClass       = 5,
+  LazyProxy       = 6,
+  DynamicFunction = 7,
+  DynamicClass    = 8,
+  DynamicProxy    = 9,
+}
 
-  // upgrade prototype
-  return <T extends Function>(target: T): T | void => {
+export enum AgentInterceptorInvokeType {
+  StaticFunction  = 1,
+  StaticClass     = 2,
+  StaticProxy     = 3,
+  LazyFunction    = 4,
+  LazyClass       = 5,
+  LazyProxy       = 6,
+  DynamicFunction = 7,
+  DynamicClass    = 8,
+  DynamicProxy    = 9,
+}
 
-    // // check the parents
-    // let upgrade = true;
-    // for (let current = target; !!current.name; current = Object.getPrototypeOf(current)) {
-    //   console.log('check ====> name   :', current.name);
-    //   console.log('            symbols:', Object.getOwnPropertySymbols(current));
-    //   console.log('            props  :', Object.getOwnPropertyNames(current));
-    //   const origin = current[ORIGIN_CONSTRUCTOR];
-    //   if (origin) {
-    //     console.log('            ORIGIN :', origin.name, '(do not upgrade)');
-    //     upgrade = true;
-    //     break;
-    //   }
-    // }
-
-    const proxied = Reflect.has(target, ORIGIN_CONSTRUCTOR);
-    const originConstructor = proxied ? Reflect.get(target, ORIGIN_CONSTRUCTOR) : target;
-
-    if (CanDecorate(attribute, originConstructor)) {
-
-      // Attribute should always add to originalConstructor
-      Reflection.addAttribute(attribute, originConstructor);
-
-      let proxiedConstructor;
-
-      if (!proxied) {
-        // intercept by implement ES6 proxy (dynamic proxy + pre-compiled constructor interceptor)
-        proxiedConstructor = AddConstructProxyInterceptor(target);
-        Reflect.set(proxiedConstructor, ORIGIN_CONSTRUCTOR, originConstructor);
-      }
-      else {
-        // only proxy once for one class, no matter how many @agent() attribute we found
-        proxiedConstructor = target;
-      }
-
-      // Register the agent class in LocalDomain for dependence injection
-      LocalDomain.registerAgentType(attribute, proxiedConstructor);
-
-      return proxiedConstructor;
-    }
-
-    return target;
-  }
+export interface AgentOptions {
+  attribute: IAttribute,
+  domain: IDomain,
+  intercept: AgentInterceptorType,
+  build: AgentInterceptorBuildType,
+  invoke: AgentInterceptorInvokeType,
+  customConstructor: Constructor
 }
 
 /**
+ * Decorate an agent
+ */
+export function decorateAgent(options: Partial<AgentOptions>): ClassDecorator {
+  
+  options = options || {};
+  
+  // We will use `Lazy` method to create agent
+  // please refer to ADR-0004
+  options.build = options.build || AgentInterceptorBuildType.LazyFunction;
+  options.invoke = options.invoke || AgentInterceptorInvokeType.LazyFunction;
+  options.intercept = options.intercept || AgentInterceptorType.BeforeConstructor;
+  
+  return <T extends Function>(target: T): T | void => {
+    
+    const attribute = options.attribute;
+    
+    // Reflect.has will check all base classes
+    const isAgent = target[ORIGIN_CONSTRUCTOR];
+    if (isAgent) {
+      throw new TypeError(`Unable to decorate as agent more than one time for class '${target.name}'`);
+    }
+    
+    if (CanDecorate(attribute, target)) {
+      
+      // Attribute should always add to originalConstructor
+      if (attribute) {
+        Reflection.addAttribute(attribute, target);
+      }
+      
+      // intercept by implement function proxy (lazy-compile interceptors at first call)
+      let proxiedConstructor;
+      
+      if (AgentInterceptorBuildType.LazyFunction === options.build) {
+        proxiedConstructor = CreateLazyFunctionConstructorInterceptor<T>(target, options)
+      }
+      else if (AgentInterceptorBuildType.LazyClass === options.build) {
+        proxiedConstructor = CreateLazyClassConstructorInterceptor<T>(target as any as Constructor, options);
+      }
+      else if (AgentInterceptorBuildType.LazyProxy === options.build) {
+        proxiedConstructor = CreateLazyProxyConstructorInterceptor<T>(target, options);
+      }
+      else if (AgentInterceptorBuildType.StaticFunction === options.build) {
+        proxiedConstructor = CreateStaticFunctionConstructorInterceptor<T>(target, options);
+      }
+      else if (AgentInterceptorBuildType.StaticClass === options.build) {
+        proxiedConstructor = CreateStaticClassConstructorInterceptor<T>(target as any as Constructor, options);
+      }
+      else if (AgentInterceptorBuildType.StaticProxy === options.build) {
+        proxiedConstructor = CreateStaticProxyConstructorInterceptor<T>(target, options);
+      }
+      else if (AgentInterceptorBuildType.DynamicFunction === options.build) {
+        proxiedConstructor = CreateDynamicFunctionConstructorInterceptor<T>(target, options);
+      }
+      else if (AgentInterceptorBuildType.DynamicClass === options.build) {
+        proxiedConstructor = CreateDynamicClassConstructorInterceptor<T>(target as any as Constructor, options);
+      }
+      else if (AgentInterceptorBuildType.DynamicProxy === options.build) {
+        proxiedConstructor = CreateDynamicProxyConstructorInterceptor<T>(target, options);
+      }
+      else {
+        throw new Error(`Not supported agent build type: ${options.build} on type ${target.prototype.constructor.name}`);
+      }
+      
+      const domain = options.domain || LocalDomain;
+      
+      // register this agent with domain
+      domain.register(target, proxiedConstructor);
+      
+      // proxiedConstructor = AddConstructInterceptor(target as any as Constructor<T>);
+      Reflect.set(proxiedConstructor, ORIGIN_CONSTRUCTOR, target);
+      
+      return proxiedConstructor;
+      
+    }
+    else {
+      
+      return target;
+      
+    }
+    
+  };
+  
+}
+
+/**
+ * Decorate class with attribute
+ */
+export function decorateClass(attribute: IAttribute): ClassDecorator {
+  
+  // upgrade prototype
+  return <T extends Function>(target: T): T | void => {
+    
+    // Reflect.has will check all base classes
+    const originTarget = Reflect.get(target, ORIGIN_CONSTRUCTOR);
+    
+    if (!attribute) {
+      throw new TypeError(`Attribute to decorate on class ${target.prototype.constructor.name} must not be null`);
+    }
+    
+    if (originTarget) {
+      const proto = Reflect.getPrototypeOf(attribute);
+      throw new TypeError(`Attribute ${proto.constructor.name} must decorated below the agent decoration of class ${originTarget.name}`);
+    }
+    
+    if (CanDecorate(attribute, target)) {
+      // Attribute should always add to originalConstructor
+      Reflection.addAttribute(attribute, target);
+    }
+    
+    return target;
+  }
+  
+}
+
+
+/**
  * Decorate class members
- * @param attribute
- * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
  */
 export function decorateClassMember(attribute: IAttribute) {
   return (target: Object, propertyKey: string | symbol, descriptor?: PropertyDescriptor): void => {
@@ -74,8 +183,6 @@ export function decorateClassMember(attribute: IAttribute) {
 
 /**
  * Decorate class property
- * @param attribute
- * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
  */
 export function decorateClassMethod(attribute: IAttribute): MethodDecorator {
   return (target: Object, propertyKey: string | symbol, descriptor: PropertyDescriptor): void => {
@@ -87,8 +194,6 @@ export function decorateClassMethod(attribute: IAttribute): MethodDecorator {
 
 /**
  * Decorate class property or getter
- * @param attribute
- * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
  */
 export function decorateClassPropertyOrGetter(attribute: IAttribute): PropertyDecorator {
   return (target: Object, propertyKey: string | symbol, descriptor?: PropertyDescriptor): void => {
@@ -104,8 +209,6 @@ export function decorateClassPropertyOrGetter(attribute: IAttribute): PropertyDe
 
 /**
  * Decorate class property
- * @param attribute
- * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
  */
 export function decorateClassProperty(attribute: IAttribute): PropertyDecorator {
   return (target: Object, propertyKey: string | symbol, descriptor?: PropertyDescriptor): void => {

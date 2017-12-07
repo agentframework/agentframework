@@ -46,6 +46,7 @@
   "devDependencies": {
     "@types/jasmine": "latest",
     "@types/node": "latest",
+    "benchmark": "^2.1.4",
     "istanbul": "next",
     "jasmine": "latest",
     "jasmine-spec-reporter": "latest",

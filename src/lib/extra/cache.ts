@@ -1,7 +1,11 @@
-import { IAttribute, IInterceptor, IInvocation, decorateClassMethod } from '../core';
+import { decorateClassMethod } from '../core/decorator';
+import { IAttribute } from '../core/attribute';
+import { IInterceptor } from '../core/interceptor';
+import { IInvocation } from '../core/invocation';
+
 
 /**
- * Define a prerequisite
+ * Define a cache
  * @returns {(target:any, propertyKey:string, descriptor:PropertyDescriptor)=>undefined}
  */
 export function cache() {

@@ -1,6 +1,6 @@
 import { Reflection } from '../reflection';
 import { InterceptorFactory } from '../interceptor';
-import { ToPropertyKey, IsUndefined, ORIGIN_INSTANCE } from '../utils';
+import { ToPropertyKey, IsUndefined, ORIGIN_INSTANCE, PROXY_PROTOTYPE } from '../utils';
 
 /**
  * Add proxy interceptor
@@ -13,40 +13,44 @@ export function AddProxyInterceptor<T extends object>(target: T) {
     get: ProxyGetInterceptor,
     set: ProxySetInterceptor,
     has(target: T, p: PropertyKey): boolean {
-      throw new Error('Not supported');
+      throw new Error('has Not supported');
     },
     getPrototypeOf(target: T): object | null {
-      throw new Error('Not supported');
+      let origin;
+      if (Reflect.has(target, PROXY_PROTOTYPE)) {
+        origin = Reflect.get(target, PROXY_PROTOTYPE);
+      }
+      return origin || Reflect.getPrototypeOf(target);
     },
     setPrototypeOf(target: T, v: any): boolean {
-      throw new Error('Not supported');
+      throw new Error('setPrototypeOf Not supported');
     },
     isExtensible(target: T): boolean {
-      throw new Error('Not supported');
+      throw new Error('isExtensible Not supported');
     },
     preventExtensions(target: T): boolean {
-      throw new Error('Not supported');
+      throw new Error('preventExtensions Not supported');
     },
-    getOwnPropertyDescriptor(target: T, p: PropertyKey): PropertyDescriptor | undefined {
-      throw new Error('Not supported');
-    },
+    // getOwnPropertyDescriptor(target: T, p: PropertyKey): PropertyDescriptor | undefined {
+    //   throw new Error('getOwnPropertyDescriptor Not supported');
+    // },
     deleteProperty(target: T, p: PropertyKey): boolean {
-      throw new Error('Not supported');
+      throw new Error('deleteProperty Not supported');
     },
-    defineProperty(target: T, p: PropertyKey, attributes: PropertyDescriptor): boolean {
-      throw new Error('Not supported');
-    },
+    // defineProperty(target: T, p: PropertyKey, attributes: PropertyDescriptor): boolean {
+    //   throw new Error('defineProperty Not supported');
+    // },
     enumerate(target: T): PropertyKey[] {
-      throw new Error('Not supported');
+      throw new Error('enumerate Not supported');
     },
     ownKeys(target: T): PropertyKey[] {
-      throw new Error('Not supported');
+      throw new Error('ownKeys Not supported');
     },
     apply(target: T, thisArg: any, argArray?: any): any {
-      throw new Error('Not supported');
+      throw new Error('apply Not supported');
     },
     construct(target: T, argArray: any, newTarget?: any): object {
-      throw new Error('Not supported');
+      throw new Error('construct Not supported');
     }
   };
   // console.log('create proxy for ', target);

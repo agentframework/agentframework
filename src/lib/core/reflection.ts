@@ -12,6 +12,7 @@ export class Reflection {
 
   private _attributes: Array<IAttribute>;
   private _metadata: Map<string, any>;
+  private _hasInjectors: boolean;
 
   private constructor(private _target: Object, private _targetKey?: string | symbol, private _descriptor?: PropertyDescriptor) {
     if (IsUndefined(_descriptor) && !IsUndefined(_targetKey)) {
@@ -19,6 +20,7 @@ export class Reflection {
     }
     this._attributes = [];
     this._metadata = new Map<string, any>();
+    this._hasInjectors = false;
     
     // MVP: Add support for ES2017 Reflect.metadata
     if (Reflect['getMetadata'] && typeof Reflect['getMetadata'] === 'function') {
@@ -82,7 +84,7 @@ export class Reflection {
     reflection.addMetadata(key, value);
   }
 
-  public static findPropertyReflections(typeOrInstance: Agent): Map<string, Reflection> {
+  public static findReflections(typeOrInstance: Agent): Map<string, Reflection> {
 
     const result = new Map<string, Reflection>();
 
@@ -104,7 +106,21 @@ export class Reflection {
     });
 
     return result;
-
+  }
+  
+  public static findOwnInjectors(typeOrInstance: any): Map<string, Reflection> {
+    const proto = IsFunction(typeOrInstance) ? typeOrInstance.prototype : Reflect.getPrototypeOf(typeOrInstance);
+    const reflections = Metadata.getAll(proto);
+    const results = new Map<string, Reflection>();
+    // register all params config or middleware config
+    reflections.forEach((reflection: Reflection, methodName: string) => {
+      // property don't have a descriptor
+      if (methodName && reflection.hasInjectors()) {
+        // reflection without descriptor must a field
+        results.set(methodName, reflection);
+      }
+    });
+    return results;
   }
 
   private static getOrCreateOwnInstance(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): Reflection {
@@ -129,9 +145,17 @@ export class Reflection {
   hasAttributes(): boolean {
     return this._attributes.length > 0
   }
-
+  
+  hasInjectors(): boolean {
+    return this._hasInjectors;
+  }
+  
   addAttribute(attr: IAttribute): void {
     this._attributes.push(attr);
+    // if the attribute provide a getInterceptor, that means this property may need inject
+    if (attr.getInterceptor) {
+      this._hasInjectors = true;
+    }
   }
 
   getMetadata(key: string): any | null {

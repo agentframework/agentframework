@@ -126,7 +126,7 @@ console.log('Is it create from the Developer class?', you instanceof Developer);
 - [x] PERFORMANCE: Remove interceptor for @agent attribute to improve performance
 - [x] PERFORMANCE: Do not add proxy if the agent don't have interceptor
 - [x] COMPATIBILITY: Move @inject and @ready decorator out from core
-- [ ] COMPATIBILITY: GetPrototypeOf should return origin prototype
+- [x] COMPATIBILITY: GetPrototypeOf should return origin prototype
 - [ ] COMPATIBILITY: Revise Domain Interface
 - [ ] COMPATIBILITY: Revise Reflection Interface
 - [ ] COMPATIBILITY: Agent should works in extended classes

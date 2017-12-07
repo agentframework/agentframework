@@ -17,10 +17,12 @@
     "url": "git+https://github.com/agentframework/agentframework.git"
   },
   "keywords": [
+    "agent",
     "aop",
     "typescript",
     "es6",
-    "proxy"
+    "proxy",
+    "interceptor"
   ],
   "author": "Ling Zhang",
   "license": "Apache-2.0",
