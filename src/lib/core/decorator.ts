@@ -51,7 +51,8 @@ export interface AgentOptions {
   intercept: AgentInterceptorType,
   build: AgentInterceptorBuildType,
   invoke: AgentInterceptorInvokeType,
-  customConstructor: Constructor
+  // TODO: user can customize the constructor to use OR provide IOverwritter to replace methods & constructor
+  // customConstructor: Constructor
 }
 
 /**
@@ -69,22 +70,23 @@ export function decorateAgent(options: Partial<AgentOptions>): ClassDecorator {
   
   return <T extends Function>(target: T): T | void => {
     
-    const attribute = options.attribute;
-    
     // Reflect.has will check all base classes
     const isAgent = target[ORIGIN_CONSTRUCTOR];
     if (isAgent) {
       throw new TypeError(`Unable to decorate as agent more than one time for class '${target.name}'`);
     }
     
-    if (CanDecorate(attribute, target)) {
+    const attribute = options.attribute;
+  
+    // when attribute is not null. check the attribute before upgrading class to agent
+    if (!attribute || CanDecorate(attribute, target)) {
       
-      // Attribute should always add to originalConstructor
+      // not adding to reflection if attribute is null
       if (attribute) {
         Reflection.addAttribute(attribute, target);
       }
       
-      // intercept by implement function proxy (lazy-compile interceptors at first call)
+      // make a new constructor from chained interceptors which defined in class attributes
       let proxiedConstructor;
       
       if (AgentInterceptorBuildType.LazyFunction === options.build) {
@@ -118,6 +120,7 @@ export function decorateAgent(options: Partial<AgentOptions>): ClassDecorator {
         throw new Error(`Not supported agent build type: ${options.build} on type ${target.prototype.constructor.name}`);
       }
       
+      // use LocalDomain if domain is not specified in the options
       const domain = options.domain || LocalDomain;
       
       // register this agent with domain
@@ -129,37 +132,22 @@ export function decorateAgent(options: Partial<AgentOptions>): ClassDecorator {
       return proxiedConstructor;
       
     }
-    else {
-      
-      return target;
-      
-    }
     
   };
   
 }
 
+
 /**
  * Decorate class with attribute
  */
 export function decorateClass(attribute: IAttribute): ClassDecorator {
-  
   // upgrade prototype
-  return <T extends Function>(target: T): T | void => {
-    
-    if (!attribute) {
-      throw new TypeError(`Attribute to decorate on class ${target.prototype.constructor.name} must not be null`);
-    }
-    
+  return <T extends Function>(target: T): void => {
     if (CanDecorate(attribute, target)) {
-      // Attribute should always add to originalConstructor
       Reflection.addAttribute(attribute, target);
     }
-    
-    return target;
-    
   }
-  
 }
 
 

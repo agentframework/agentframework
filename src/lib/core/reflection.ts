@@ -3,6 +3,7 @@ import { IsObjectOrFunction, IsUndefined, ToPropertyKey, IsFunction, ToPrototype
 import { getOriginConstructor } from './decorator';
 import { Metadata } from './metadata';
 import { Agent } from '../agent';
+import { isString } from 'util';
 
 
 /**
@@ -12,7 +13,7 @@ export class Reflection {
 
   private _attributes: Array<IAttribute>;
   private _metadata: Map<string, any>;
-  private _hasInjectors: boolean;
+  private _hasInterceptor: boolean;
 
   private constructor(private _target: Object, private _targetKey?: string | symbol, private _descriptor?: PropertyDescriptor) {
     if (IsUndefined(_descriptor) && !IsUndefined(_targetKey)) {
@@ -20,7 +21,7 @@ export class Reflection {
     }
     this._attributes = [];
     this._metadata = new Map<string, any>();
-    this._hasInjectors = false;
+    this._hasInterceptor = false;
     
     // MVP: Add support for ES2017 Reflect.metadata
     if (Reflect['getMetadata'] && typeof Reflect['getMetadata'] === 'function') {
@@ -69,9 +70,9 @@ export class Reflection {
     return reflection ? reflection.getAttributes() : [];
   }
 
-  public static hasAttributes(target: Object | Function, targetKey?: any): boolean {
+  public static hasAttribute(target: Object | Function, targetKey?: any): boolean {
     const reflection = Reflection.getInstance(target, targetKey);
-    return reflection ? reflection.hasAttributes() : false;
+    return reflection ? reflection.hasAttribute() : false;
   }
 
   public static addAttribute(attribute: IAttribute, target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
@@ -108,18 +109,38 @@ export class Reflection {
     return result;
   }
   
-  public static findOwnInjectors(typeOrInstance: any): Map<string, Reflection> {
+  
+  public static findInterceptors(typeOrInstance: Agent): Map<string, Reflection> {
+    
+    const results = new Map<string, Reflection>();
+    const prototypes = ToPrototypeArray(typeOrInstance);
+    
+    for (const proto of prototypes.reverse()) {
+      const reflections = Metadata.getAll(proto);
+      for (const [key, reflection] of reflections) {
+        // property don't have a descriptor
+        if (key && isString(key) && reflection.hasInterceptor()) {
+          // reflection without descriptor must a field
+          results.set(key, reflection);
+        }
+      }
+    }
+    
+    return results;
+  }
+  
+  public static findOwnInterceptors(typeOrInstance: any): Map<string, Reflection> {
     const proto = IsFunction(typeOrInstance) ? typeOrInstance.prototype : Reflect.getPrototypeOf(typeOrInstance);
     const reflections = Metadata.getAll(proto);
     const results = new Map<string, Reflection>();
     // register all params config or middleware config
-    reflections.forEach((reflection: Reflection, methodName: string) => {
+    for (const [key, reflection] of reflections) {
       // property don't have a descriptor
-      if (methodName && reflection.hasInjectors()) {
+      if (key && isString(key) && reflection.hasInterceptor()) {
         // reflection without descriptor must a field
-        results.set(methodName, reflection);
+        results.set(key, reflection);
       }
-    });
+    }
     return results;
   }
 
@@ -142,19 +163,22 @@ export class Reflection {
     }
   }
 
-  hasAttributes(): boolean {
+  hasAttribute(): boolean {
     return this._attributes.length > 0
   }
   
-  hasInjectors(): boolean {
-    return this._hasInjectors;
+  hasInterceptor(): boolean {
+    return this._hasInterceptor;
   }
   
   addAttribute(attr: IAttribute): void {
+    if (!attr) {
+      throw new TypeError(`Invalid attribute to decorate`);
+    }
     this._attributes.push(attr);
     // if the attribute provide a getInterceptor, that means this property may need inject
     if (attr.getInterceptor) {
-      this._hasInjectors = true;
+      this._hasInterceptor = true;
     }
   }
 

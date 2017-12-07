@@ -1,4 +1,7 @@
-import { IInvocation, ConstructInvocation, IInvoke, GetterInvocation, SetterInvocation } from './invocation';
+import {
+  IInvocation, ConstructInvocation, IInvoke, GetterInvocation, SetterInvocation,
+  ValueInvocation
+} from './invocation';
 import { IAttribute } from './attribute';
 import { createInvocationChainFromAttribute } from './chain';
 import { AgentOptions } from './decorator';
@@ -34,12 +37,19 @@ export class InterceptorFactory {
   public static createSetterInterceptor(attributes: Array<IAttribute>,
                                         target: any,
                                         propertyKey: PropertyKey,
-                                        receiver: any) {
+                                        receiver: any): IInvocation {
     const invocation = new SetterInvocation(target, propertyKey, receiver);
     return createInvocationChainFromAttribute(invocation, attributes);
   }
   
-  public static createFunctionInterceptor(attributes: Array<IAttribute>, method: IInvoke) {
+  public static createValueInterceptor(attributes: Array<IAttribute>,
+                                       target: any,
+                                       propertyKey: PropertyKey): IInvocation {
+    const invocation = new ValueInvocation(target, propertyKey);
+    return createInvocationChainFromAttribute(invocation, attributes);
+  }
+  
+  public static createFunctionInterceptor(attributes: Array<IAttribute>, method: IInvoke): Function {
     const originMethod = method[ORIGIN] || method;
     const origin: IInvocation = {
       invoke: function (parameters: ArrayLike<any>) {

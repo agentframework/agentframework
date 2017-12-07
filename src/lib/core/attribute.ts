@@ -9,13 +9,21 @@ export interface IAttribute {
   
   /**
    * Fired before decoration of this attribute
-   * @param target
-   * @param targetKey
+   * @param {Object | Function} target
+   * @param {string | symbol} targetKey
+   * @param {PropertyDescriptor} descriptor
+   * @returns {boolean}
    */
   beforeDecorate?(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean
-
+  
   /**
-   * Get interceptor for this _invocation
+   * Get a overwritter for current target, replace the property or replace the class constructor
+   */
+  // TODO: the interceptor to initialize the properties. both field and methods
+  // getInitilizer?(): IInitilizer
+  
+  /**
+   * Get interceptor for current target
    */
   getInterceptor?(): IInterceptor
 
@@ -29,11 +37,13 @@ export interface IAgentAttribute extends IAttribute {
 }
 
 export interface IBeforeDecorateAttribute extends IAttribute {
-
+  
   /**
    * Fired before decoration of this attribute
-   * @param target
-   * @param targetKey
+   * @param {Object | Function} target
+   * @param {string | symbol} targetKey
+   * @param {PropertyDescriptor} descriptor
+   * @returns {boolean}
    */
   beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean
 
@@ -41,7 +51,7 @@ export interface IBeforeDecorateAttribute extends IAttribute {
 
 
 export function CanDecorate(attribute: IAttribute, target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
-  return !attribute || !attribute.beforeDecorate || attribute.beforeDecorate(target, targetKey, descriptor);
+  return !attribute.beforeDecorate || attribute.beforeDecorate(target, targetKey, descriptor);
 }
 
 export function GetInterceptor(attribute: IAttribute): IInterceptor | undefined {

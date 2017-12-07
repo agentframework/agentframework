@@ -1,6 +1,10 @@
 import { Reflection } from './reflection';
 import { AgentInterceptorType, AgentOptions } from './decorator';
-import { CreatePlainInstance, CreatePostInterceptedInstance, CreatePreInterceptedInstance } from './injector';
+import {
+  CreatePlainInstanceInvoker,
+  CreatePostInterceptedInstanceInvoker,
+  CreatePreInterceptedInstanceInvoker
+} from './invoker';
 
 
 export interface IInvoke {
@@ -16,21 +20,18 @@ export interface IInvocation {
 
 export class ConstructInvocation implements IInvocation {
   
-  hasInterceptor: boolean;
-  reflections: Map<string | symbol, Reflection>;
-  
   constructor(private _target: any, private _options: Partial<AgentOptions>) {
     if (AgentInterceptorType.BeforeConstructor === _options.intercept) {
       // user defined interceptors will run before constructor
-      this.invoke = CreatePreInterceptedInstance(this._target, this._options);
+      this.invoke = CreatePreInterceptedInstanceInvoker(this._target, this._options);
     }
     else if (AgentInterceptorType.AfterConstructor === _options.intercept) {
       // user defined interceptors will run after constructor
-      this.invoke = CreatePostInterceptedInstance(this._target, this._options);
+      this.invoke = CreatePostInterceptedInstanceInvoker(this._target, this._options);
     }
     else if (AgentInterceptorType.Disable === _options.intercept) {
       // user defined interceptors will be disabled, this is good for metadata only class
-      this.invoke = CreatePlainInstance(this._target, this._options);
+      this.invoke = CreatePlainInstanceInvoker(this._target, this._options);
     }
     else {
       this.invoke = function () {
@@ -78,6 +79,24 @@ export class SetterInvocation implements IInvocation {
   
   invoke(parameters: ArrayLike<any>): any {
     return Reflect.set(this._target, this._propertyKey, parameters[0], this._receiver);
+  }
+  
+}
+
+export class ValueInvocation implements IInvocation {
+  
+  constructor(private _target: any, private _propertyKey: PropertyKey) {
+  }
+  
+  get target(): any {
+    return this._target;
+  }
+  
+  invoke(parameters: ArrayLike<any>): any {
+    if (!this._target) {
+      return this._target;
+    }
+    return this._target[this._propertyKey];
   }
   
 }

@@ -3,7 +3,7 @@ import { IAttribute, GetInterceptor } from './attribute';
 import { IInterceptor } from './interceptor';
 
 
-export function createInvocationChainFromAttribute(origin: IInvocation, attributes: Array<IAttribute>) {
+export function createInvocationChainFromAttribute(origin: IInvocation, attributes: Array<IAttribute>): IInvocation {
 
   let invocation: IInvocation = origin;
 
