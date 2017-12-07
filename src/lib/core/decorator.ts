@@ -33,16 +33,10 @@ export enum AgentInterceptorBuildType {
   DynamicProxy    = 9,
 }
 
-export enum AgentInterceptorInvokeType {
-  StaticFunction  = 1,
-  StaticClass     = 2,
-  StaticProxy     = 3,
-  LazyFunction    = 4,
-  LazyClass       = 5,
-  LazyProxy       = 6,
-  DynamicFunction = 7,
-  DynamicClass    = 8,
-  DynamicProxy    = 9,
+export enum AgentCompileType {
+  Static  = 1,
+  Lazy    = 2,
+  Dynamic = 3,
 }
 
 export interface AgentOptions {
@@ -50,7 +44,7 @@ export interface AgentOptions {
   domain: IDomain,
   intercept: AgentInterceptorType,
   build: AgentInterceptorBuildType,
-  invoke: AgentInterceptorInvokeType,
+  compile: AgentCompileType,
   // TODO: user can customize the constructor to use OR provide IOverwritter to replace methods & constructor
   // customConstructor: Constructor
 }
@@ -65,7 +59,7 @@ export function decorateAgent(options: Partial<AgentOptions>): ClassDecorator {
   // We will use `Lazy` method to create agent
   // please refer to ADR-0004
   options.build = options.build || AgentInterceptorBuildType.LazyFunction;
-  options.invoke = options.invoke || AgentInterceptorInvokeType.LazyFunction;
+  options.compile = options.compile || AgentCompileType.Lazy;
   options.intercept = options.intercept || AgentInterceptorType.BeforeConstructor;
   
   return <T extends Function>(target: T): T | void => {
@@ -77,7 +71,7 @@ export function decorateAgent(options: Partial<AgentOptions>): ClassDecorator {
     }
     
     const attribute = options.attribute;
-  
+    
     // when attribute is not null. check the attribute before upgrading class to agent
     if (!attribute || CanDecorate(attribute, target)) {
       

@@ -38,7 +38,7 @@ export function CreateLazyFunctionConstructorInterceptor<T extends Function>(tar
     // invoke the cached chain
     const createdAgent = interceptedConstructor.invoke(arguments);
     
-    Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
+    // Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
     
     // return the new created instance
     return createdAgent;
@@ -92,7 +92,7 @@ export function CreateLazyClassConstructorInterceptor<T extends Function>(target
       const createdAgent = interceptedConstructor.invoke(arguments);
       
       
-      Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
+      // Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
       
       // return the new created instance
       return createdAgent;
@@ -137,7 +137,7 @@ export function CreateLazyProxyConstructorInterceptor<T extends Function>(target
       const createdAgent = interceptedConstructor.invoke(arguments);
       
       
-      Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
+      // Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
       
       // return the new created instance
       return createdAgent;
@@ -178,7 +178,7 @@ export function CreateStaticClassConstructorInterceptor<T extends Function>(targ
       // invoke the cached chain
       const createdAgent = interceptedConstructor.invoke(arguments);
   
-      Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
+      // Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
   
       // return the new created instance
       return createdAgent;
@@ -211,7 +211,7 @@ export function CreateStaticFunctionConstructorInterceptor<T extends Function>(t
     // invoke the cached chain
     const createdAgent = interceptedConstructor.invoke(arguments);
     
-    Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
+    // Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
     
     // return the new created instance
     return createdAgent;
@@ -249,7 +249,7 @@ export function CreateStaticProxyConstructorInterceptor<T extends Function>(targ
       // invoke the cached chain
       const createdAgent = interceptedConstructor.invoke(arguments);
       
-      Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
+      // Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
       
       // return the new created instance
       return createdAgent;
@@ -290,7 +290,7 @@ export function CreateDynamicClassConstructorInterceptor<T extends Function>(tar
       // invoke the cached chain
       const createdAgent = interceptedConstructor.invoke(arguments);
       
-      Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
+      // Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
       
       // return the new created instance
       return createdAgent;
@@ -323,7 +323,7 @@ export function CreateDynamicFunctionConstructorInterceptor<T extends Function>(
     // invoke the cached chain
     const createdAgent = interceptedConstructor.invoke(arguments);
     
-    Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
+    // Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
     
     // return the new created instance
     return createdAgent;
@@ -360,7 +360,7 @@ export function CreateDynamicProxyConstructorInterceptor<T extends Function>(tar
       // invoke the cached chain
       const createdAgent = interceptedConstructor.invoke(arguments);
       
-      Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
+      // Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
       
       // return the new created instance
       return createdAgent;

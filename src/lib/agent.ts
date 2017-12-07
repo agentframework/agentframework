@@ -40,7 +40,9 @@ else {
 }
 
 export interface Agent extends Function {
+  new();
   new(domain?: IDomain);
+  new(...parameters: Array<any>);
 }
 
 /**

@@ -1,8 +1,7 @@
-import { IsString, IsUndefined } from '../utils';
 import { Reflection } from '../reflection';
 import { InterceptorFactory } from '../interceptor';
 import { IInvocation } from '../invocation';
-import { InceptionInvocation } from '../chain';
+import { InitializationInvocation } from '../chain';
 import { IAttribute } from '../attribute';
 
 /**
@@ -52,46 +51,79 @@ import { IAttribute } from '../attribute';
 //   Object.defineProperties(target.prototype, propertyDescriptors);
 //
 // }
+//
+// export function CreateMemberInterceptors(target: any) {
+//
+//   const reflections: Map<string, Reflection> = Reflection.findInitializers(target);
+//   let fieldInterceptors: Map<string, IInvocation>;
+//   let methodInterceptors: Map<string, IInvocation>;
+//
+//   if (reflections.size > 0) {
+//
+//     fieldInterceptors = new Map<string, IInvocation>();
+//     methodInterceptors = new Map<string, IInvocation>();
+//
+//     for (const [key, reflection] of reflections) {
+//
+//       const attributes = reflection.getAttributes<IAttribute>();
+//
+//       if (reflection.descriptor) {
+//
+//         // TODO: New feature, user can define IOverwritter to replace the origin function
+//         // build and invoke IOverwritter
+//
+//       }
+//       else {
+//
+//         // one property may have more than one interceptor.
+//         // we will call them one by one. passing the result of previous interceptor to the new interceptor
+//         const invocation = InterceptorFactory.createValueInterceptor(attributes, null, key);
+//
+//         // InceptionInvocation means at least one interceptor in the attributes
+//         // do nothing if no interceptor found
+//         if (invocation instanceof InceptionInvocation) {
+//           fieldInterceptors.set(key, invocation);
+//         }
+//
+//       }
+//     }
+//   }
+//
+//   return {
+//     fieldInterceptors,
+//     methodInterceptors
+//   }
+// }
 
-export function CreateMemberInterceptors(target: any) {
+export function CreatePropertyInitializers(target: any): Map<string, IInvocation> {
   
-  const reflections: Map<string, Reflection> = Reflection.findInterceptors(target);
-  let fieldInterceptors: Map<string, IInvocation>;
-  let methodInterceptors: Map<string, IInvocation>;
+  const reflections: Map<string, Reflection> = Reflection.findInitializers(target);
+  let propertyInitializers: Map<string, IInvocation>;
   
   if (reflections.size > 0) {
     
-    fieldInterceptors = new Map<string, IInvocation>();
-    methodInterceptors = new Map<string, IInvocation>();
+    propertyInitializers = new Map<string, IInvocation>();
     
     for (const [key, reflection] of reflections) {
       
       const attributes = reflection.getAttributes<IAttribute>();
+      
+      if (!reflection.descriptor) {
   
-      if (reflection.descriptor) {
-    
-        // TODO: New feature, user can define IOverwritter to replace the origin function
-        // build and invoke IOverwritter
-        
-      }
-      else {
-    
         // one property may have more than one interceptor.
         // we will call them one by one. passing the result of previous interceptor to the new interceptor
-        const invocation = InterceptorFactory.createValueInterceptor(attributes, null, key);
-    
+        const invocation = InterceptorFactory.createValueInitializer(attributes, target, key);
+  
         // InceptionInvocation means at least one interceptor in the attributes
         // do nothing if no interceptor found
-        if (invocation instanceof InceptionInvocation) {
-          fieldInterceptors.set(key, invocation);
+        if (invocation instanceof InitializationInvocation) {
+          propertyInitializers.set(key, invocation);
         }
         
       }
+      
     }
   }
   
-  return {
-    fieldInterceptors,
-    methodInterceptors
-  }
+  return propertyInitializers;
 }

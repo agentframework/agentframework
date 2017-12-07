@@ -1,9 +1,9 @@
 import {
   IInvocation, ConstructInvocation, IInvoke, GetterInvocation, SetterInvocation,
-  ValueInvocation
+  ValueInitializer
 } from './invocation';
 import { IAttribute } from './attribute';
-import { createInvocationChainFromAttribute } from './chain';
+import { createInitializationChainFromAttribute, createInvocationChainFromAttribute } from './chain';
 import { AgentOptions } from './decorator';
 
 const ORIGIN = Symbol('agent.framework.origin.method');
@@ -42,13 +42,6 @@ export class InterceptorFactory {
     return createInvocationChainFromAttribute(invocation, attributes);
   }
   
-  public static createValueInterceptor(attributes: Array<IAttribute>,
-                                       target: any,
-                                       propertyKey: PropertyKey): IInvocation {
-    const invocation = new ValueInvocation(target, propertyKey);
-    return createInvocationChainFromAttribute(invocation, attributes);
-  }
-  
   public static createFunctionInterceptor(attributes: Array<IAttribute>, method: IInvoke): Function {
     const originMethod = method[ORIGIN] || method;
     const origin: IInvocation = {
@@ -65,6 +58,13 @@ export class InterceptorFactory {
     };
     upgradedMethod[ORIGIN] = originMethod;
     return upgradedMethod;
+  }
+  
+  public static createValueInitializer(attributes: Array<IAttribute>,
+                                       target: any,
+                                       propertyKey: PropertyKey): IInvocation {
+    const invocation = new ValueInitializer(target, propertyKey);
+    return createInitializationChainFromAttribute(invocation, attributes);
   }
   
 }

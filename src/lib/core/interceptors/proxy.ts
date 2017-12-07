@@ -15,13 +15,13 @@ export function AddProxyInterceptor<T extends object>(target: T) {
     has(target: T, p: PropertyKey): boolean {
       throw new Error('has Not supported');
     },
-    getPrototypeOf(target: T): object | null {
-      let origin;
-      if (Reflect.has(target, PROXY_PROTOTYPE)) {
-        origin = Reflect.get(target, PROXY_PROTOTYPE);
-      }
-      return origin || Reflect.getPrototypeOf(target);
-    },
+    // getPrototypeOf(target: T): object | null {
+    //   let origin;
+    //   if (Reflect.has(target, PROXY_PROTOTYPE)) {
+    //     origin = Reflect.get(target, PROXY_PROTOTYPE);
+    //   }
+    //   return origin || Reflect.getPrototypeOf(target);
+    // },
     setPrototypeOf(target: T, v: any): boolean {
       throw new Error('setPrototypeOf Not supported');
     },
@@ -31,15 +31,15 @@ export function AddProxyInterceptor<T extends object>(target: T) {
     preventExtensions(target: T): boolean {
       throw new Error('preventExtensions Not supported');
     },
-    // getOwnPropertyDescriptor(target: T, p: PropertyKey): PropertyDescriptor | undefined {
-    //   throw new Error('getOwnPropertyDescriptor Not supported');
-    // },
+    getOwnPropertyDescriptor(target: T, p: PropertyKey): PropertyDescriptor | undefined {
+      throw new Error('getOwnPropertyDescriptor Not supported');
+    },
     deleteProperty(target: T, p: PropertyKey): boolean {
       throw new Error('deleteProperty Not supported');
     },
-    // defineProperty(target: T, p: PropertyKey, attributes: PropertyDescriptor): boolean {
-    //   throw new Error('defineProperty Not supported');
-    // },
+    defineProperty(target: T, p: PropertyKey, attributes: PropertyDescriptor): boolean {
+      throw new Error('defineProperty Not supported');
+    },
     enumerate(target: T): PropertyKey[] {
       throw new Error('enumerate Not supported');
     },

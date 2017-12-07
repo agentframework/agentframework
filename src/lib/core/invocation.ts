@@ -1,10 +1,11 @@
 import { Reflection } from './reflection';
-import { AgentInterceptorType, AgentOptions } from './decorator';
+import { AgentCompileType, AgentInterceptorType, AgentOptions } from './decorator';
 import {
   CreatePlainInstanceInvoker,
   CreatePostInterceptedInstanceInvoker,
-  CreatePreInterceptedInstanceInvoker
+  CreateInitializedInstanceInvoker
 } from './invoker';
+import { CreatePropertyInitializers } from './interceptors/prototype';
 
 
 export interface IInvoke {
@@ -20,10 +21,17 @@ export interface IInvocation {
 
 export class ConstructInvocation implements IInvocation {
   
+  _initializers: Map<string, IInvocation>;
+  
   constructor(private _target: any, private _options: Partial<AgentOptions>) {
+  
+    if (_options.compile === AgentCompileType.Static) {
+      this._initializers = CreatePropertyInitializers(_target);
+    }
+    
     if (AgentInterceptorType.BeforeConstructor === _options.intercept) {
       // user defined interceptors will run before constructor
-      this.invoke = CreatePreInterceptedInstanceInvoker(this._target, this._options);
+      this.invoke = CreateInitializedInstanceInvoker(this._target, this._options);
     }
     else if (AgentInterceptorType.AfterConstructor === _options.intercept) {
       // user defined interceptors will run after constructor
@@ -33,22 +41,25 @@ export class ConstructInvocation implements IInvocation {
       // user defined interceptors will be disabled, this is good for metadata only class
       this.invoke = CreatePlainInstanceInvoker(this._target, this._options);
     }
-    else {
-      this.invoke = function () {
-        throw new TypeError(`Unsupported AgentInjectType ${this._options.intercept} on class ${this._target.prototype.constructor.name}`)
-      };
-    }
+    
   }
   
   get target(): any {
     return this._target;
   }
   
+  get initializers(): Map<string, IInvocation> {
+    if (!this._initializers) {
+      this._initializers = CreatePropertyInitializers(this._target);
+    }
+    return this._initializers;
+  }
+  
   /**
    * Run property interceptor if have
    */
   invoke() {
-    throw new TypeError(`Unsupported AgentInjectType ${this._options.intercept} on class ${this._target.prototype.constructor.name}`)
+    throw new TypeError(`Unsupported AgentInterceptorType ${this._options.intercept} on class ${this._target.prototype.constructor.name}`)
   };
   
 }
@@ -83,7 +94,7 @@ export class SetterInvocation implements IInvocation {
   
 }
 
-export class ValueInvocation implements IInvocation {
+export class ValueInitializer implements IInvocation {
   
   constructor(private _target: any, private _propertyKey: PropertyKey) {
   }
@@ -93,10 +104,7 @@ export class ValueInvocation implements IInvocation {
   }
   
   invoke(parameters: ArrayLike<any>): any {
-    if (!this._target) {
-      return this._target;
-    }
-    return this._target[this._propertyKey];
+    return this._target.prototype[this._propertyKey];
   }
   
 }

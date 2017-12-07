@@ -14,6 +14,7 @@ export class Reflection {
   private _attributes: Array<IAttribute>;
   private _metadata: Map<string, any>;
   private _hasInterceptor: boolean;
+  private _hasInitializer: boolean;
 
   private constructor(private _target: Object, private _targetKey?: string | symbol, private _descriptor?: PropertyDescriptor) {
     if (IsUndefined(_descriptor) && !IsUndefined(_targetKey)) {
@@ -109,7 +110,6 @@ export class Reflection {
     return result;
   }
   
-  
   public static findInterceptors(typeOrInstance: Agent): Map<string, Reflection> {
     
     const results = new Map<string, Reflection>();
@@ -120,6 +120,25 @@ export class Reflection {
       for (const [key, reflection] of reflections) {
         // property don't have a descriptor
         if (key && isString(key) && reflection.hasInterceptor()) {
+          // reflection without descriptor must a field
+          results.set(key, reflection);
+        }
+      }
+    }
+    
+    return results;
+  }
+  
+  public static findInitializers(typeOrInstance: Agent): Map<string, Reflection> {
+    
+    const results = new Map<string, Reflection>();
+    const prototypes = ToPrototypeArray(typeOrInstance);
+    
+    for (const proto of prototypes.reverse()) {
+      const reflections = Metadata.getAll(proto);
+      for (const [key, reflection] of reflections) {
+        // property don't have a descriptor
+        if (key && isString(key) && reflection.hasInitializer()) {
           // reflection without descriptor must a field
           results.set(key, reflection);
         }
@@ -167,6 +186,10 @@ export class Reflection {
     return this._attributes.length > 0
   }
   
+  hasInitializer(): boolean {
+    return this._hasInitializer;
+  }
+  
   hasInterceptor(): boolean {
     return this._hasInterceptor;
   }
@@ -179,6 +202,9 @@ export class Reflection {
     // if the attribute provide a getInterceptor, that means this property may need inject
     if (attr.getInterceptor) {
       this._hasInterceptor = true;
+    }
+    if (attr.getInitializer) {
+      this._hasInitializer = true;
     }
   }
 

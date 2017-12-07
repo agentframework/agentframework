@@ -1,4 +1,5 @@
 import { IInterceptor } from './interceptor';
+import { IInitializer } from './initializer';
 
 export interface IAttribute {
   
@@ -17,10 +18,9 @@ export interface IAttribute {
   beforeDecorate?(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean
   
   /**
-   * Get a overwritter for current target, replace the property or replace the class constructor
+   * Get initializer for current target, replace the property or replace the class constructor
    */
-  // TODO: the interceptor to initialize the properties. both field and methods
-  // getInitilizer?(): IInitilizer
+  getInitializer?(): IInitializer
   
   /**
    * Get interceptor for current target
@@ -60,6 +60,17 @@ export function GetInterceptor(attribute: IAttribute): IInterceptor | undefined 
     // do not intercept when got false, null, ''
     if (!!interceptor && typeof interceptor.intercept === 'function' && interceptor.intercept.length === 2) {
       return interceptor;
+    }
+  }
+  return undefined;
+}
+
+export function GetInitializer(attribute: IAttribute): IInitializer | undefined {
+  if (attribute.getInitializer) {
+    const initializer = attribute.getInitializer();
+    // do not intercept when got false, null, ''
+    if (!!initializer && typeof initializer.initialize === 'function' && initializer.initialize.length === 2) {
+      return initializer;
     }
   }
   return undefined;

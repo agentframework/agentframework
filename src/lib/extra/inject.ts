@@ -4,13 +4,14 @@ import { IInterceptor } from '../core/interceptor';
 import { IInvocation } from '../core/invocation';
 import { Agent } from '../agent';
 import { LocalDomain } from '../domain';
+import { IInitializer } from '../core/initializer';
 
 
 export function inject(typeOrIdentifier: Agent | string) {
   return decorateClassPropertyOrGetter(new InjectAttribute(typeOrIdentifier));
 }
 
-export class InjectAttribute implements IAttribute, IInterceptor {
+export class InjectAttribute implements IAttribute, IInitializer {
 
   constructor(private _typeOrIdentifier: Agent | string) {
   }
@@ -23,12 +24,12 @@ export class InjectAttribute implements IAttribute, IInterceptor {
   get typeOrIdentifier() {
     return this._typeOrIdentifier;
   }
-
-  getInterceptor(): IInterceptor {
+  
+  getInitializer(): IInitializer {
     return this;
   }
-
-  intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
+  
+  public initialize(invocation: IInvocation, parameters: ArrayLike<any>): any {
     return LocalDomain.getAgent(this.typeOrIdentifier);
   }
 
