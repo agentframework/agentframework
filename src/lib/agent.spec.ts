@@ -1,5 +1,6 @@
-import { agent } from './agent'
+import { agent, AgentAttribute } from './agent'
 import { success } from './extra/success';
+import { Reflection } from './core/reflection';
 
 class Base {
   
@@ -10,7 +11,7 @@ class Base {
   }
 }
 
-@agent()
+@agent('TheOne')
 class TheAgent extends Base {
 
   @success('isready', true)
@@ -48,6 +49,17 @@ describe('@agent', () => {
     it('construct agent', () => {
       const agent = Reflect.construct(TheAgent, []);
       expect(agent instanceof Base).toBe(true);
+    });
+  
+    it('get agent attribute', () => {
+      
+      const results = Reflection.findAttributes<AgentAttribute>(TheAgent, AgentAttribute);
+      
+      for (const [key, attributes] of results) {
+        if (key != '') continue;
+        expect(key).toBe('');
+        expect(attributes[0].identifier).toBe('TheOne');
+      }
     });
   });
 

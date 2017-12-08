@@ -23,7 +23,7 @@ export class Manager extends Employee {
   name: string = 'Peter';
 }
 
-@agent({ compile: AgentCompileType.LazyFunction })
+@agent({ compile: AgentCompileType.LazyClass })
 class Developer extends Employee {
 
   current: Project;
@@ -71,7 +71,6 @@ describe('@debug', () => {
       const developer = new Developer('ling');
       const prototype = Reflect.getPrototypeOf(developer);
 
-      typeof Developer
 
       expect(developer instanceof Developer).toBe(true);
       expect(prototype).toBe(Developer.prototype);

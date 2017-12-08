@@ -133,6 +133,7 @@ console.log('Is it create from the Developer class?', you instanceof Developer);
 - [x] COMPATIBILITY: Move @inject and @ready decorator out from core
 - [x] COMPATIBILITY: GetPrototypeOf should return origin prototype
 - [x] COMPATIBILITY: Agent should works in extended classes
+- [ ] COMPATIBILITY: instanceOf should works when compile to class 
 - [ ] COMPATIBILITY: Revise IInvocation Interface
 - [ ] COMPATIBILITY: Revise IInitializer Interface
 - [ ] COMPATIBILITY: Revise IInterceptor Interface
