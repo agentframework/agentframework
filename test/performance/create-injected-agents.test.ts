@@ -1,4 +1,4 @@
-import { AgentInterceptorBuildType } from '../../src/lib/core/decorator';
+import { AgentCompileType } from '../../src/lib/core/decorator';
 import { agent } from '../../src/lib/agent';
 import { inject } from '../../src/lib/extra/inject';
 const Benchmark = require('benchmark');
@@ -14,39 +14,39 @@ class Base {
 }
 
 
-@agent(null, AgentInterceptorBuildType.LazyFunction)
+@agent(null, AgentCompileType.LazyFunction)
 class LazyFunction extends Base {
 }
 
-@agent(null, AgentInterceptorBuildType.LazyClass)
+@agent(null, AgentCompileType.LazyClass)
 class LazyClass extends Base {
 }
 
-@agent(null, AgentInterceptorBuildType.LazyProxy)
+@agent(null, AgentCompileType.LazyProxy)
 class LazyProxy extends Base {
 }
 
-@agent(null, AgentInterceptorBuildType.StaticFunction)
+@agent(null, AgentCompileType.StaticFunction)
 class StaticFunction extends Base {
 }
 
-@agent(null, AgentInterceptorBuildType.StaticClass)
+@agent(null, AgentCompileType.StaticClass)
 class StaticClass extends Base {
 }
 
-@agent(null, AgentInterceptorBuildType.StaticProxy)
+@agent(null, AgentCompileType.StaticProxy)
 class StaticProxy extends Base {
 }
 
-@agent(null, AgentInterceptorBuildType.DynamicFunction)
+@agent(null, AgentCompileType.DynamicFunction)
 class DynamicFunction extends Base {
 }
 
-@agent(null, AgentInterceptorBuildType.DynamicClass)
+@agent(null, AgentCompileType.DynamicClass)
 class DynamicClass extends Base {
 }
 
-@agent(null, AgentInterceptorBuildType.DynamicProxy)
+@agent(null, AgentCompileType.DynamicProxy)
 class DynamicProxy extends Base {
 }
 

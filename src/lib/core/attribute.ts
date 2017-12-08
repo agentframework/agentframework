@@ -2,12 +2,12 @@ import { IInterceptor } from './interceptor';
 import { IInitializer } from './initializer';
 
 export interface IAttribute {
-  
+
   /**
    * Attribute identifier
    */
   identifier?: string;
-  
+
   /**
    * Fired before decoration of this attribute
    * @param {Object | Function} target
@@ -16,12 +16,12 @@ export interface IAttribute {
    * @returns {boolean}
    */
   beforeDecorate?(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean
-  
+
   /**
    * Get initializer for current target, replace the property or replace the class constructor
    */
   getInitializer?(): IInitializer
-  
+
   /**
    * Get interceptor for current target
    */
@@ -37,7 +37,7 @@ export interface IAgentAttribute extends IAttribute {
 }
 
 export interface IBeforeDecorateAttribute extends IAttribute {
-  
+
   /**
    * Fired before decoration of this attribute
    * @param {Object | Function} target

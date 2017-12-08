@@ -15,120 +15,110 @@ import {
 import { ORIGIN_CONSTRUCTOR } from './utils';
 import { IDomain, LocalDomain } from '../domain';
 
-export enum AgentInterceptorType {
-  Disable           = 0,
-  BeforeConstructor = 1,
-  AfterConstructor  = 2
-}
-
-export enum AgentInterceptorBuildType {
-  StaticFunction  = 1,
-  StaticClass     = 2,
-  StaticProxy     = 3,
-  LazyFunction    = 4,
-  LazyClass       = 5,
-  LazyProxy       = 6,
-  DynamicFunction = 7,
-  DynamicClass    = 8,
-  DynamicProxy    = 9,
+export enum AgentFeatures {
+  Disabled = 0,
+  Initializer = 1,
+  Interceptor = 2
 }
 
 export enum AgentCompileType {
-  Static  = 1,
-  Lazy    = 2,
-  Dynamic = 3,
+  StaticFunction = 1,
+  StaticClass = 2,
+  StaticProxy = 3,
+  LazyFunction = 21,
+  LazyClass = 22,
+  LazyProxy = 23,
+  DynamicFunction = 31,
+  DynamicClass = 32,
+  DynamicProxy = 33
 }
 
 export interface AgentOptions {
   attribute: IAttribute,
   domain: IDomain,
-  intercept: AgentInterceptorType,
-  build: AgentInterceptorBuildType,
-  compile: AgentCompileType,
-  // TODO: user can customize the constructor to use OR provide IOverwritter to replace methods & constructor
-  // customConstructor: Constructor
+  features: AgentFeatures,
+  compile: AgentCompileType
 }
 
 /**
  * Decorate an agent
  */
 export function decorateAgent(options: Partial<AgentOptions>): ClassDecorator {
-  
+
   options = options || {};
-  
+
   // We will use `Lazy` method to create agent
   // please refer to ADR-0004
-  options.build = options.build || AgentInterceptorBuildType.LazyFunction;
-  options.compile = options.compile || AgentCompileType.Lazy;
-  options.intercept = options.intercept || AgentInterceptorType.BeforeConstructor;
-  
+  options.compile = options.compile || AgentCompileType.LazyFunction;
+  options.features = options.features || (AgentFeatures.Initializer ^ AgentFeatures.Interceptor);
+
   return <T extends Function>(target: T): T | void => {
-    
+
     // Reflect.has will check all base classes
     const isAgent = target[ORIGIN_CONSTRUCTOR];
     if (isAgent) {
       throw new TypeError(`Unable to decorate as agent more than one time for class '${target.name}'`);
     }
-    
+
     const attribute = options.attribute;
-    
+
     // when attribute is not null. check the attribute before upgrading class to agent
     if (!attribute || CanDecorate(attribute, target)) {
-      
+
       // not adding to reflection if attribute is null
       if (attribute) {
         Reflection.addAttribute(attribute, target);
       }
-      
+
       // make a new constructor from chained interceptors which defined in class attributes
       let proxiedConstructor;
-      
-      if (AgentInterceptorBuildType.LazyFunction === options.build) {
+
+      if (AgentCompileType.LazyFunction === options.compile) {
         proxiedConstructor = CreateLazyFunctionConstructorInterceptor<T>(target, options)
       }
-      else if (AgentInterceptorBuildType.LazyClass === options.build) {
+      else if (AgentCompileType.LazyClass === options.compile) {
         proxiedConstructor = CreateLazyClassConstructorInterceptor<T>(target as any as Constructor, options);
       }
-      else if (AgentInterceptorBuildType.LazyProxy === options.build) {
+      else if (AgentCompileType.LazyProxy === options.compile) {
         proxiedConstructor = CreateLazyProxyConstructorInterceptor<T>(target, options);
       }
-      else if (AgentInterceptorBuildType.StaticFunction === options.build) {
+      else if (AgentCompileType.StaticFunction === options.compile) {
         proxiedConstructor = CreateStaticFunctionConstructorInterceptor<T>(target, options);
       }
-      else if (AgentInterceptorBuildType.StaticClass === options.build) {
+      else if (AgentCompileType.StaticClass === options.compile) {
         proxiedConstructor = CreateStaticClassConstructorInterceptor<T>(target as any as Constructor, options);
       }
-      else if (AgentInterceptorBuildType.StaticProxy === options.build) {
+      else if (AgentCompileType.StaticProxy === options.compile) {
         proxiedConstructor = CreateStaticProxyConstructorInterceptor<T>(target, options);
       }
-      else if (AgentInterceptorBuildType.DynamicFunction === options.build) {
+      else if (AgentCompileType.DynamicFunction === options.compile) {
         proxiedConstructor = CreateDynamicFunctionConstructorInterceptor<T>(target, options);
       }
-      else if (AgentInterceptorBuildType.DynamicClass === options.build) {
+      else if (AgentCompileType.DynamicClass === options.compile) {
         proxiedConstructor = CreateDynamicClassConstructorInterceptor<T>(target as any as Constructor, options);
       }
-      else if (AgentInterceptorBuildType.DynamicProxy === options.build) {
+      else if (AgentCompileType.DynamicProxy === options.compile) {
         proxiedConstructor = CreateDynamicProxyConstructorInterceptor<T>(target, options);
       }
       else {
-        throw new Error(`Not supported agent build type: ${options.build} on type ${target.prototype.constructor.name}`);
+        throw new Error(`Not supported agent build type: ${options.compile} on type ${target.prototype.constructor.name}`);
       }
-      
+
       // use LocalDomain if domain is not specified in the options
       const domain = options.domain || LocalDomain;
-      
+
       // register this agent with domain
       domain.register(target, proxiedConstructor);
-      
+
       // proxiedConstructor = AddConstructInterceptor(target as any as Constructor<T>);
       Reflect.set(proxiedConstructor, ORIGIN_CONSTRUCTOR, target);
-      
+
       return proxiedConstructor;
-      
+
     }
-    
+
   };
-  
+
 }
 
 

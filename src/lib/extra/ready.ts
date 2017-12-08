@@ -1,5 +1,7 @@
-import { IAttribute, IInterceptor } from '../core';
+import { IAttribute } from '../core/attribute';
+import { IInterceptor } from '../core/interceptor';
 import { decorateClassMethod } from '../core/decorator';
+
 
 export function ready() {
   return decorateClassMethod(new ReadyAttribute());

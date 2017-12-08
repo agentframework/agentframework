@@ -71,27 +71,27 @@ class Manager implements IHaveName {
 
 @agent()
 class Developer {
-  
+
   @inject(Manager)
   manager: IHaveName;
-  
+
   @inject(Manager)
   get supervisor(): IHaveName {
     throw new Error('Supervisor not injected');
   }
-  
+
   constructor() {
     // The filed already been inject before constructor!!!
     if (this.manager.name !== 'Peter') {
       throw new Error('Unable to access injected property')
     }
   }
-  
+
   @failure('n/a')
   name() {
     return this.manager.name;
   }
-  
+
 }
 
 
@@ -118,12 +118,12 @@ describe('@inject', () => {
     });
 
   });
-  
+
   describe('# should able to access injected property in constructor', () => {
-    
+
     it('new instance', () => {
       const developer = new Developer();
-      
+
       expect(developer instanceof Developer).toBe(true);
       expect(Reflect.getPrototypeOf(developer)).toBe(Developer.prototype);
       expect(Reflect.getPrototypeOf(Developer)).toBe(Function.prototype);
@@ -131,10 +131,10 @@ describe('@inject', () => {
       expect(developer.manager.name).toBe('Peter');
       expect(developer.supervisor.name).toBe('Peter');
     });
-    
+
     it('construct instance', () => {
       const developer = Reflect.construct(Developer, []);
-      
+
       expect(developer instanceof Developer).toBe(true);
       expect(Reflect.getPrototypeOf(developer)).toBe(Developer.prototype);
       expect(Reflect.getPrototypeOf(Developer)).toBe(Function.prototype);
@@ -142,6 +142,6 @@ describe('@inject', () => {
       expect(developer.manager.name).toBe('Peter');
       expect(developer.supervisor.name).toBe('Peter');
     });
-    
+
   });
 });

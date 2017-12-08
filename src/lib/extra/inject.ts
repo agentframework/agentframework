@@ -24,12 +24,13 @@ export class InjectAttribute implements IAttribute, IInitializer {
   get typeOrIdentifier() {
     return this._typeOrIdentifier;
   }
-  
+
   getInitializer(): IInitializer {
     return this;
   }
-  
-  public initialize(invocation: IInvocation, parameters: ArrayLike<any>): any {
+
+  public initialize(target: IInvocation, parameters: ArrayLike<any>): any {
+    const origin = target.invoke(parameters);
     return LocalDomain.getAgent(this.typeOrIdentifier);
   }
 

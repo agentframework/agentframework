@@ -23,7 +23,7 @@ export class Reflection {
     this._attributes = [];
     this._metadata = new Map<string, any>();
     this._hasInterceptor = false;
-    
+
     // MVP: Add support for ES2017 Reflect.metadata
     if (Reflect['getMetadata'] && typeof Reflect['getMetadata'] === 'function') {
       this.getMetadata = function (key: string) {
@@ -31,7 +31,7 @@ export class Reflection {
         return metadata || this._metadata.get(key);
       }
     }
-    
+
   }
 
   public static getInstance(target: Object | Function, targetKey?: string | symbol): Reflection | null {
@@ -109,12 +109,12 @@ export class Reflection {
 
     return result;
   }
-  
+
   public static findInterceptors(typeOrInstance: Agent): Map<string, Reflection> {
-    
+
     const results = new Map<string, Reflection>();
     const prototypes = GetPrototypeArray(typeOrInstance);
-    
+
     for (const proto of prototypes.reverse()) {
       const reflections = Metadata.getAll(proto);
       for (const [key, reflection] of reflections) {
@@ -125,15 +125,15 @@ export class Reflection {
         }
       }
     }
-    
+
     return results;
   }
-  
+
   public static findInitializers(typeOrInstance: Agent): Map<string, Reflection> {
-    
+
     const results = new Map<string, Reflection>();
     const prototypes = GetPrototypeArray(typeOrInstance);
-    
+
     for (const proto of prototypes.reverse()) {
       const reflections = Metadata.getAll(proto);
       for (const [key, reflection] of reflections) {
@@ -144,10 +144,10 @@ export class Reflection {
         }
       }
     }
-    
+
     return results;
   }
-  
+
   public static findOwnInterceptors(typeOrInstance: any): Map<string, Reflection> {
     const proto = IsFunction(typeOrInstance) ? typeOrInstance.prototype : Reflect.getPrototypeOf(typeOrInstance);
     const reflections = Metadata.getAll(proto);
@@ -185,15 +185,15 @@ export class Reflection {
   hasAttribute(): boolean {
     return this._attributes.length > 0
   }
-  
+
   hasInitializer(): boolean {
     return this._hasInitializer;
   }
-  
+
   hasInterceptor(): boolean {
     return this._hasInterceptor;
   }
-  
+
   addAttribute(attr: IAttribute): void {
     if (!attr) {
       throw new TypeError(`Invalid attribute to decorate`);

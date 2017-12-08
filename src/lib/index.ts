@@ -1,9 +1,10 @@
 export { IAttribute, IBeforeDecorateAttribute } from './core/attribute'
 export { IInterceptor } from './core/interceptor'
+export { IInitializer } from './core/initializer'
 export { IInvocation } from './core/invocation'
 export { Reflection } from './core/reflection'
 export {
-  AgentInterceptorBuildType,
+  AgentCompileType,
   AgentOptions,
   decorateAgent,
   decorateClass,

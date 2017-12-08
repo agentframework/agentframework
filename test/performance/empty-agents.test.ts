@@ -1,40 +1,40 @@
-import { AgentInterceptorBuildType } from '../../src/lib/core/decorator';
+import { AgentCompileType } from '../../src/lib/core/decorator';
 import { agent } from '../../src/lib/agent';
 const Benchmark = require('benchmark');
 
-@agent(null, AgentInterceptorBuildType.LazyFunction)
+@agent(null, AgentCompileType.LazyFunction)
 class LazyFunction {
 }
 
-@agent(null, AgentInterceptorBuildType.LazyClass)
+@agent(null, AgentCompileType.LazyClass)
 class LazyClass {
 }
 
-@agent(null, AgentInterceptorBuildType.LazyProxy)
+@agent(null, AgentCompileType.LazyProxy)
 class LazyProxy {
 }
 
-@agent(null, AgentInterceptorBuildType.StaticFunction)
+@agent(null, AgentCompileType.StaticFunction)
 class StaticFunction {
 }
 
-@agent(null, AgentInterceptorBuildType.StaticClass)
+@agent(null, AgentCompileType.StaticClass)
 class StaticClass {
 }
 
-@agent(null, AgentInterceptorBuildType.StaticProxy)
+@agent(null, AgentCompileType.StaticProxy)
 class StaticProxy {
 }
 
-@agent(null, AgentInterceptorBuildType.DynamicFunction)
+@agent(null, AgentCompileType.DynamicFunction)
 class DynamicFunction {
 }
 
-@agent(null, AgentInterceptorBuildType.DynamicClass)
+@agent(null, AgentCompileType.DynamicClass)
 class DynamicClass {
 }
 
-@agent(null, AgentInterceptorBuildType.DynamicProxy)
+@agent(null, AgentCompileType.DynamicProxy)
 class DynamicProxy {
 }
 

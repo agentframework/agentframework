@@ -5,6 +5,6 @@ export interface IInvoke {
 export interface IInvocation {
   target?: any;
   method?: IInvoke;
-  
+
   invoke(parameters: ArrayLike<any>): any;
 }
