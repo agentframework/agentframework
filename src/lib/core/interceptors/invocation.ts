@@ -107,7 +107,7 @@ export class ConstructInvocation implements IInvocation {
 
       // EPIC: inject the intercepted value before construct a new instance
       if (compileOption === AgentCompileType.StaticFunction) {
-
+        /* istanbul ignore next */
         DynamicAgent = function () {
         };
         DynamicAgent.prototype = Object.create(target.prototype);

@@ -1,7 +1,8 @@
 {
   "spec_dir": ".",
   "spec_files": [
-    "src/lib/agent.debug.ts",
+    "src/lib/core/interceptors/invocation.spec.ts",
+    "src/lib/a/agent.debug.ts",
     "src/lib/a/**/*.spec.ts"
   ],
   "stopSpecOnExpectationFailure": false,
