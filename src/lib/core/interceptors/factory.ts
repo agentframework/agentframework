@@ -4,7 +4,7 @@ import { AgentOptions } from '../decorator';
 import { IInvocation, IInvoke } from '../invocation';
 import { ConstructInvocation, GetterInvocation, InterceptorInvocation, SetterInvocation } from './invocation';
 
-const ORIGIN = Symbol('agent.framework.origin.method');
+// const ORIGIN = Symbol('agent.framework.origin.method');
 
 export function createInterceptionChainFromAttribute(origin: IInvocation, attributes: Array<IAttribute>): IInvocation {
 
@@ -56,12 +56,12 @@ export class InterceptorFactory {
 
 
   public static createFunctionInterceptor(attributes: Array<IAttribute>, method: IInvoke): Function {
-    const originMethod = method[ORIGIN] || method;
+    const originMethod = method; // method[ORIGIN] || method;
     const origin: IInvocation = {
       invoke: function (parameters: ArrayLike<any>) {
         return Reflect.apply(originMethod, this.target, parameters);
-      },
-      method: originMethod
+      }
+      // method: originMethod
     };
     const chain = createInterceptionChainFromAttribute(origin, attributes);
     if (chain instanceof InterceptorInvocation) {
@@ -69,7 +69,7 @@ export class InterceptorFactory {
         origin.target = this;
         return chain.invoke(arguments);
       };
-      upgradedMethod[ORIGIN] = originMethod;
+      // upgradedMethod[ORIGIN] = originMethod;
       return upgradedMethod;
     }
     else {

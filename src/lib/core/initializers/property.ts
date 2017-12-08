@@ -5,11 +5,12 @@ import { InitializerFactory } from './factory';
 import { InitializerInvocation } from './invocation';
 import { createInterceptionChainFromAttribute } from '../interceptors/factory';
 import { InterceptorInvocation } from '../interceptors/invocation';
+import { Lookup } from '../lookup';
 
 
 export function CreatePropertyInitializers(target: any): Map<string, IInvocation> {
 
-  const reflections: Map<string, Reflection> = Reflection.findInitializers(target);
+  const reflections: Map<string, Reflection> = Lookup.findInitializers(target);
   let propertyInitializers: Map<string, IInvocation>;
 
   if (reflections.size > 0) {

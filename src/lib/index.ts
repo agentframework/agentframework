@@ -18,4 +18,3 @@ export { agent, Agent, AgentAttribute } from './agent'
 export { InMemoryDomain, IDomain } from './domain'
 export { Lookup } from './core/lookup'
 export * from './extra'
-export { Employee } from './debug.spec';

@@ -34,18 +34,6 @@ export class ConstructInvocation implements IInvocation {
       };
     }
 
-    // if ((AgentFeatures.Initializer & _options.features) > 0) {
-    //   // user defined interceptors will run before constructor
-    //   this.invoke = CreateFeaturedInstanceInvoker(this._target, this._options);
-    // }
-    // else if ((AgentFeatures.Interceptor & _options.features) > 0) {
-    //   // user defined interceptors will run after constructor
-    //   this.invoke = CreateFeaturedInstanceInvoker(this._target, this._options);
-    // }
-    // else if (AgentFeatures.Disabled === _options.features) {
-    //   // user defined interceptors will be disabled, this is good for metadata only class
-    //   this.invoke = CreatePlainInstanceInvoker(this._target, this._options);
-    // }
   }
 
   get target(): any {
@@ -85,19 +73,22 @@ export class ConstructInvocation implements IInvocation {
     let bag: PropertyDescriptorMap, hook: PropertyDescriptorMap;
 
     if ((this._options.features & AgentFeatures.Initializer) > 0) {
+
       const initializers: Map<string, IInvocation> = this.initializers;
+
       // invoke all initializers to generate default value bag
       if (initializers && initializers.size) {
         // bag = new Map<string, any>();
-        bag = {};
         for (const [key, initializer] of initializers) {
           const initializedValue = (initializer as IInvocation).invoke(arguments);
           if (initializedValue != null) {
+            bag = bag || {};
             // bag.set(key, { value: initializedValue });
             bag[key] = { value: initializedValue };
           }
         }
       }
+
     }
 
     if ((this._options.features & AgentFeatures.Interceptor) > 0) {
@@ -106,22 +97,6 @@ export class ConstructInvocation implements IInvocation {
 
     // Do not create dynamic agent if no initializers or interceptors
     if (bag || hook) {
-
-      // // Use closure
-      // const keys = bag.keys();
-      // class DynamicAgent extends target {
-      //   constructor(...parameters:Array<any>){
-      //     super(parameters);
-      //     for (const key of keys) {
-      //       this[key] = this[key];
-      //     }
-      //   }
-      // }
-      // for (const [key, value] of bag) {
-      //   DynamicAgent.prototype[key] = value.value;
-      // }
-      // agent = Reflect.construct(DynamicAgent, arguments);
-      // Object.setPrototypeOf(agent, target.prototype);
 
       // ===============================================================
       // introduce DynamicAgent for interceptors
@@ -153,7 +128,6 @@ export class ConstructInvocation implements IInvocation {
       }
 
       // call constructor on target with DynamicAgent.prototype
-
       // const applies = new Map<string, PropertyDescriptor>();
       //
       // // Skip if user called defineProperty
@@ -201,7 +175,12 @@ export class GetterInvocation implements IInvocation {
   }
 
   invoke(parameters: ArrayLike<any>): any {
-    return Reflect.get(this._target, this._propertyKey, this._receiver);
+    if (this._receiver) {
+      return Reflect.get(this._target, this._propertyKey, this._receiver);
+    }
+    else {
+      return this._target[this._propertyKey];
+    }
   }
 
 }

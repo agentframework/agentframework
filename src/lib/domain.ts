@@ -77,7 +77,7 @@ export class InMemoryDomain implements IDomain {
   protected types: Map<string, Agent> = new Map<string, Agent>();
   protected agents: Map<string, Object> = new Map<string, Object>();
 
-  constructor(identifier: string) {
+  constructor(identifier?: string) {
     this._identifier = identifier;
   }
 

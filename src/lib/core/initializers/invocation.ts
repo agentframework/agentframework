@@ -14,7 +14,7 @@ export class ValueInvocation implements IInvocation {
   }
 
   invoke(parameters: ArrayLike<any>): any {
-    return this._target.prototype[this._propertyKey];
+    return this._propertyKey;
   }
 
 }

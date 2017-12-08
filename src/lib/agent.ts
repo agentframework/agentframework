@@ -2,6 +2,7 @@ import { Reflection } from './core/reflection';
 import { IDomain } from './domain';
 import { IAttribute } from './core/attribute';
 import { AgentCompileType, AgentOptions, decorateAgent } from './core/decorator';
+import { isString } from 'util';
 
 // ===========================================
 // ES2015 or before
@@ -41,7 +42,6 @@ else {
 
 export interface Agent extends Function {
   new();
-  new(domain?: IDomain);
   new(...parameters: Array<any>);
 }
 
@@ -49,8 +49,13 @@ export interface Agent extends Function {
  * Define an agent
  * @returns {(target:Constructor)=>(void|Constructor)}
  */
-export function agent(identifier?: any) {
-  return decorateAgent({ attribute: new AgentAttribute(identifier) });
+export function agent(identifierOrOptions?: any) {
+  if (isString(identifierOrOptions)) {
+    return decorateAgent({ attribute: new AgentAttribute(identifierOrOptions) });
+  }
+  else {
+    return decorateAgent(identifierOrOptions)
+  }
 }
 
 /**

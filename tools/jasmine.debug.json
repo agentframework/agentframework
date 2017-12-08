@@ -1,8 +1,8 @@
 {
   "spec_dir": ".",
   "spec_files": [
-    "src/lib/debug.spec.ts",
-    "src/lib/other/**/*.spec.ts"
+    "src/lib/agent.debug.ts",
+    "src/lib/a/**/*.spec.ts"
   ],
   "stopSpecOnExpectationFailure": false,
   "random": false

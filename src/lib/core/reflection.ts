@@ -86,9 +86,9 @@ export class Reflection {
     reflection.addMetadata(key, value);
   }
 
-  public static findReflections(typeOrInstance: Agent): Map<string, Reflection> {
+  public static findAttributes<A extends IAttribute>(typeOrInstance: Agent, attributeType?): Map<string, Array<A>> {
 
-    const result = new Map<string, Reflection>();
+    const results = new Map<string, Array<A>>();
 
     const prototypes = GetPrototypeArray(typeOrInstance);
 
@@ -98,68 +98,14 @@ export class Reflection {
 
       // register all params config or middleware config
       reflections.forEach((reflection: Reflection, methodName: string) => {
-        // property don't have a descriptor
-        if (methodName && !reflection.descriptor) {
-          // reflection without descriptor must a field
-          result.set(methodName, reflection);
-        }
+
+        // reflection without descriptor must a field
+        results.set(methodName, reflection.getAttributes(attributeType));
+
       });
 
     });
 
-    return result;
-  }
-
-  public static findInterceptors(typeOrInstance: Agent): Map<string, Reflection> {
-
-    const results = new Map<string, Reflection>();
-    const prototypes = GetPrototypeArray(typeOrInstance);
-
-    for (const proto of prototypes.reverse()) {
-      const reflections = Metadata.getAll(proto);
-      for (const [key, reflection] of reflections) {
-        // property don't have a descriptor
-        if (key && isString(key) && reflection.hasInterceptor()) {
-          // reflection without descriptor must a field
-          results.set(key, reflection);
-        }
-      }
-    }
-
-    return results;
-  }
-
-  public static findInitializers(typeOrInstance: Agent): Map<string, Reflection> {
-
-    const results = new Map<string, Reflection>();
-    const prototypes = GetPrototypeArray(typeOrInstance);
-
-    for (const proto of prototypes.reverse()) {
-      const reflections = Metadata.getAll(proto);
-      for (const [key, reflection] of reflections) {
-        // property don't have a descriptor
-        if (key && isString(key) && reflection.hasInitializer()) {
-          // reflection without descriptor must a field
-          results.set(key, reflection);
-        }
-      }
-    }
-
-    return results;
-  }
-
-  public static findOwnInterceptors(typeOrInstance: any): Map<string, Reflection> {
-    const proto = IsFunction(typeOrInstance) ? typeOrInstance.prototype : Reflect.getPrototypeOf(typeOrInstance);
-    const reflections = Metadata.getAll(proto);
-    const results = new Map<string, Reflection>();
-    // register all params config or middleware config
-    for (const [key, reflection] of reflections) {
-      // property don't have a descriptor
-      if (key && isString(key) && reflection.hasInterceptor()) {
-        // reflection without descriptor must a field
-        results.set(key, reflection);
-      }
-    }
     return results;
   }
 

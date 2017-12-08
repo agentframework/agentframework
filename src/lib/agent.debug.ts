@@ -1,37 +1,19 @@
 import { agent } from './agent'
-import { AgentCompileType, decorateClass } from './core/decorator';
+import { AgentCompileType } from './core/decorator';
 import { inject } from './extra/inject';
 import { failure } from './extra/failure';
 import { normalize } from './extra/normalize';
 
 
-export function id(identifier?: any) {
-  return decorateClass(new IdAttribute(identifier));
-}
-
-export class IdAttribute {
-  constructor(private _identifier?: any) {
-  }
-
-  get identifier() {
-    return this._identifier;
-  }
-}
-
-export interface IHaveName {
-  name: string
-}
-
 export class Project {
   name = 'Agent Framework';
 }
 
-
-export class Employee implements IHaveName {
+export class Employee {
 
   @inject(Project)
   @normalize()
-  project: IHaveName;
+  project: Project;
 
   name: string;
 
@@ -41,13 +23,13 @@ export class Manager extends Employee {
   name: string = 'Peter';
 }
 
-@agent(null, AgentCompileType.LazyFunction)
+@agent({ compile: AgentCompileType.LazyFunction })
 class Developer extends Employee {
 
-  friend: IHaveName;
+  current: Project;
 
   @inject(Manager)
-  manager: IHaveName;
+  manager: Manager;
 
   @failure('not found')
   get supervisor(): string {
@@ -67,7 +49,7 @@ class Developer extends Employee {
   constructor(name: string) {
     super();
     this.name = name;
-    this.friend = { name: 'Tox' };
+    this.current = { name: 'Tox' };
 
     console.log(`Create new Developer instance`);
     console.log(`Your manager is ${this.manager.name}`);
@@ -89,11 +71,11 @@ describe('@debug', () => {
       const developer = new Developer('ling');
       const prototype = Reflect.getPrototypeOf(developer);
 
-      expect(developer instanceof Developer).toBe(true);
-      // expect(prototype).toBe(Developer.prototype);
+      typeof Developer
 
-      // expect(Reflect.getPrototypeOf(Manager)).toBe(Function.prototype);
-      // expect(Reflect.getPrototypeOf(Creature)).toBe(Function.prototype);
+      expect(developer instanceof Developer).toBe(true);
+      expect(prototype).toBe(Developer.prototype);
+
     });
 
 

@@ -3,37 +3,46 @@ import { Agent } from '../agent';
 import { Metadata } from './metadata';
 import { IAttribute } from './attribute';
 import { IsFunction, GetPrototypeArray } from './utils';
+import { isString } from 'util';
 
 export class Lookup {
 
-  /**
-   * Find one type of attribute
-   * @param {Agent} typeOrInstance
-   * @param attributeType
-   * @returns {Map<string, Array<A extends IAttribute>>}
-   */
-  static attributes<A extends IAttribute>(typeOrInstance: Agent, attributeType?): Map<string, Array<A>> {
+  public static findInterceptors(typeOrInstance: Agent): Map<string, Reflection> {
 
-    let map = new Map<string, Array<A>>();
-
+    const results = new Map<string, Reflection>();
     const prototypes = GetPrototypeArray(typeOrInstance);
 
-    prototypes.reverse().forEach(proto => {
-
+    for (const proto of prototypes.reverse()) {
       const reflections = Metadata.getAll(proto);
+      for (const [key, reflection] of reflections) {
+        // property don't have a descriptor
+        if (key && isString(key) && reflection.hasInterceptor()) {
+          // reflection without descriptor must a field
+          results.set(key, reflection);
+        }
+      }
+    }
 
-      // register all params config or middleware config
-      reflections.forEach((reflection: Reflection, methodName: string) => {
+    return results;
+  }
 
-        const attrs = reflection.getAttributes<A>(attributeType);
-        map.set(methodName, reflection.getAttributes<A>(attributeType));
+  public static findInitializers(typeOrInstance: Agent): Map<string, Reflection> {
 
-      });
+    const results = new Map<string, Reflection>();
+    const prototypes = GetPrototypeArray(typeOrInstance);
 
-    });
+    for (const proto of prototypes.reverse()) {
+      const reflections = Metadata.getAll(proto);
+      for (const [key, reflection] of reflections) {
+        // property don't have a descriptor
+        if (key && isString(key) && reflection.hasInitializer()) {
+          // reflection without descriptor must a field
+          results.set(key, reflection);
+        }
+      }
+    }
 
-    return map;
-
+    return results;
   }
 
 }

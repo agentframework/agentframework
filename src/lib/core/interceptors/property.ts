@@ -1,11 +1,12 @@
 import { Reflection } from '../reflection';
 import { IAttribute } from '../attribute';
 import { InterceptorFactory } from './factory';
+import { Lookup } from '../lookup';
 
 
 export function CreatePropertyInterceptors(target: any): PropertyDescriptorMap {
 
-  const reflections: Map<string, Reflection> = Reflection.findInterceptors(target);
+  const reflections: Map<string, Reflection> = Lookup.findInterceptors(target);
   let propertyInterceptors: PropertyDescriptorMap;
 
   if (!reflections.size) {
@@ -20,7 +21,14 @@ export function CreatePropertyInterceptors(target: any): PropertyDescriptorMap {
     const descriptor = reflection.descriptor;
 
     if (!descriptor) {
-      continue;
+
+      if (reflection.hasInitializer()) {
+        // Interceptor can works with Initializer
+        continue;
+      }
+      else {
+        throw new Error(`Class: ${target.prototype.constructor.name}; Property: ${reflection.targetKey}; Unable to decorate Interceptor on field property.`)
+      }
     }
 
     propertyInterceptors[key] = Object.create(descriptor);

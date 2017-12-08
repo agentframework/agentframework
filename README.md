@@ -120,8 +120,8 @@ console.log('Is it create from the Developer class?', you instanceof Developer);
 - [x] MVP: Reflection support both ES6 and ES2017 (Reflect.metadata)
 - [x] MVP: Share metadata across different agentframework library of same application
 - [x] MVP: Both agent or normal class can be used for dependence injection
-- [ ] MVP: Add IInitializer to init a field property or setter property
-- [ ] MVP: Interceptor can work with Initializer during dependence injection
+- [x] MVP: Add IInitializer to init a field property
+- [x] MVP: Interceptor can work with Initializer during dependence injection
 - [x] EPIC: Create agent without domain
 - [x] EPIC: Provide access to intercepted property value in constructor
 - [x] PERFORMANCE: Metadata only attribute, attribute without interceptor

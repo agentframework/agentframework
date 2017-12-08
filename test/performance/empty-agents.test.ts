@@ -1,64 +1,95 @@
 import { AgentCompileType } from '../../src/lib/core/decorator';
 import { agent } from '../../src/lib/agent';
+import { inject } from '../../src/lib/extra/inject';
 const Benchmark = require('benchmark');
 
-@agent(null, AgentCompileType.LazyFunction)
-class LazyFunction {
+class InjectableClass {
+  constructor() {
+  }
 }
 
-@agent(null, AgentCompileType.LazyClass)
-class LazyClass {
+class InjectClass {
+
+  injected: any = new InjectableClass();
+
 }
 
-@agent(null, AgentCompileType.LazyProxy)
-class LazyProxy {
+@agent({ compile: AgentCompileType.LazyFunction })
+class LazyFunction extends InjectClass {
 }
 
-@agent(null, AgentCompileType.StaticFunction)
-class StaticFunction {
+@agent({ compile: AgentCompileType.LazyClass })
+class LazyClass extends InjectClass {
 }
 
-@agent(null, AgentCompileType.StaticClass)
-class StaticClass {
+@agent({ compile: AgentCompileType.LazyProxy })
+class LazyProxy extends InjectClass {
 }
 
-@agent(null, AgentCompileType.StaticProxy)
-class StaticProxy {
+@agent({ compile: AgentCompileType.StaticFunction })
+class StaticFunction extends InjectClass {
 }
 
-@agent(null, AgentCompileType.DynamicFunction)
-class DynamicFunction {
+@agent({ compile:AgentCompileType.StaticClass })
+class StaticClass extends InjectClass {
 }
 
-@agent(null, AgentCompileType.DynamicClass)
-class DynamicClass {
+@agent({ compile: AgentCompileType.StaticProxy })
+class StaticProxy extends InjectClass {
 }
 
-@agent(null, AgentCompileType.DynamicProxy)
-class DynamicProxy {
+@agent({ compile:AgentCompileType.DynamicFunction })
+class DynamicFunction extends InjectClass {
 }
 
-const suite = new Benchmark.Suite;
-suite.add('LazyFunction', function () {
-  new LazyFunction();
-}).add('LazyClass', function () {
-  new LazyClass()
-}).add('LazyProxy', function () {
-  new LazyProxy()
-}).add('StaticFunction', function () {
-  new StaticFunction();
-}).add('StaticClass', function () {
-  new StaticClass()
-}).add('StaticProxy', function () {
-  new StaticProxy()
-}).add('DynamicFunction', function () {
-  new StaticFunction();
-}).add('DynamicClass', function () {
-  new StaticClass()
-}).add('DynamicProxy', function () {
-  new StaticProxy()
-}).on('cycle', function (event) {
-  console.log(String(event.target));
-}).on('complete', function () {
-  console.log('Fastest is ' + this.filter('fastest').map('name'));
-}).run();
+@agent({ compile: AgentCompileType.DynamicClass })
+class DynamicClass extends InjectClass {
+}
+
+@agent({ compile: AgentCompileType.DynamicProxy })
+class DynamicProxy extends InjectClass {
+}
+
+
+describe('@benchmark', () => {
+
+  describe('# should able to', () => {
+
+    this.timeout(60000);
+
+    it('create new instance with hardcode inject', (done) => {
+
+      const suite = new Benchmark.Suite;
+
+      suite.add('LazyFunction', function () {
+        new LazyFunction();
+      }).add('LazyClass', function () {
+        new LazyClass()
+      }).add('LazyProxy', function () {
+        new LazyProxy()
+      }).add('StaticFunction', function () {
+        new StaticFunction();
+      }).add('StaticClass', function () {
+        new StaticClass()
+      }).add('StaticProxy', function () {
+        new StaticProxy()
+      }).add('DynamicFunction', function () {
+        new StaticFunction();
+      }).add('DynamicClass', function () {
+        new StaticClass()
+      }).add('DynamicProxy', function () {
+        new StaticProxy()
+      }).on('cycle', function (event) {
+        console.log(String(event.target));
+      }).on('complete', function () {
+        // console.log('Fastest is ' + this.filter('fastest').map('name'));
+        done();
+      }).run();
+
+
+    });
+
+  });
+
+});
+
