@@ -3,10 +3,17 @@ import { timestamp } from './timestamp';
 
 @agent()
 class TestTimestampAgentClass {
-
+  
+  _name: string;
+  
   @timestamp()
-  name: string;
-
+  get name(): string {
+    return this._name;
+  }
+  set name(value) {
+    this._name = value;
+  }
+  
   homepage: string;
 
   @timestamp()

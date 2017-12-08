@@ -8,11 +8,18 @@ describe('Array', () => {
 
       @agent()
       class ArrayClass extends Array {
-
-        @timestamp()
-        name: string = 'test';
+  
+        _name: string = 'test';
 
         timestamp: number;
+  
+        @timestamp()
+        get name() {
+          return this._name;
+        }
+        set name(name) {
+          this._name = name;
+        }
       }
 
       const test = new ArrayClass();

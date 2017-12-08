@@ -31,9 +31,9 @@ class TestPropertyDecoratorAgentClass {
 }
 
 describe('PropertyDecorator', () => {
-
+  
   describe('# should not able to', () => {
-
+    
     // TSC is not smart enough to check @PropertyDecorator() errors
     it('decorate on method', () => {
       expect(() => {
@@ -81,30 +81,31 @@ describe('PropertyDecorator', () => {
         }
       }).toThrowError('PropertyDecoratorAttribute can only decorate on class property');
     });
+    
   });
-
+  
   describe('# should able to', () => {
-
+    
     it('call decorated class member', () => {
       const agent = new TestPropertyDecoratorAgentClass();
       expect(agent.activated).toEqual(true);
     });
-
+    
     it('call decorated prototype member', () => {
       const agent = new TestPropertyDecoratorAgentClass();
       expect(agent.test).toEqual('test');
     });
-
+    
     it('call undecorated class member', () => {
       const agent = new TestPropertyDecoratorAgentClass();
       expect(agent.activated).toEqual(true);
     });
-
+    
     it('call undecorated prototype member', () => {
       const agent = new TestPropertyDecoratorAgentClass();
       expect(agent.undecorated()).toEqual(999);
     });
-
+    
   });
-
+  
 });

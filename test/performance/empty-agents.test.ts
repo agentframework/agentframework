@@ -51,45 +51,45 @@ class DynamicProxy extends InjectClass {
 }
 
 
-describe('@benchmark', () => {
-
-  describe('# should able to', () => {
-
-    this.timeout(60000);
-
-    it('create new instance with hardcode inject', (done) => {
-
-      const suite = new Benchmark.Suite;
-
-      suite.add('LazyFunction', function () {
-        new LazyFunction();
-      }).add('LazyClass', function () {
-        new LazyClass()
-      }).add('LazyProxy', function () {
-        new LazyProxy()
-      }).add('StaticFunction', function () {
-        new StaticFunction();
-      }).add('StaticClass', function () {
-        new StaticClass()
-      }).add('StaticProxy', function () {
-        new StaticProxy()
-      }).add('DynamicFunction', function () {
-        new StaticFunction();
-      }).add('DynamicClass', function () {
-        new StaticClass()
-      }).add('DynamicProxy', function () {
-        new StaticProxy()
-      }).on('cycle', function (event) {
-        console.log(String(event.target));
-      }).on('complete', function () {
-        // console.log('Fastest is ' + this.filter('fastest').map('name'));
-        done();
-      }).run();
-
-
-    });
-
-  });
-
-});
-
+// describe.skip('@benchmark', () => {
+//
+//   describe('# should able to', () => {
+//
+//     // this.setTimeout(60000);
+//
+//     it('create new instance with hardcode inject', (done) => {
+//
+//       const suite = new Benchmark.Suite;
+//
+//       suite.add('LazyFunction', function () {
+//         new LazyFunction();
+//       }).add('LazyClass', function () {
+//         new LazyClass()
+//       }).add('LazyProxy', function () {
+//         new LazyProxy()
+//       }).add('StaticFunction', function () {
+//         new StaticFunction();
+//       }).add('StaticClass', function () {
+//         new StaticClass()
+//       }).add('StaticProxy', function () {
+//         new StaticProxy()
+//       }).add('DynamicFunction', function () {
+//         new StaticFunction();
+//       }).add('DynamicClass', function () {
+//         new StaticClass()
+//       }).add('DynamicProxy', function () {
+//         new StaticProxy()
+//       }).on('cycle', function (event) {
+//         console.log(String(event.target));
+//       }).on('complete', function () {
+//         // console.log('Fastest is ' + this.filter('fastest').map('name'));
+//         done();
+//       }).run();
+//
+//
+//     });
+//
+//   });
+//
+// });
+//
