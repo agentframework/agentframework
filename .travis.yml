@@ -9,6 +9,7 @@ script:
   - ls -ahl node_modules/.bin/
   - npm install $TYPESCRIPT --force
   - node_modules/.bin/standard --pretty
+  - npx -v
   - npm run test-on-travis
 
 env:
