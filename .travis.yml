@@ -10,7 +10,6 @@ script:
   - npm run test-on-travis
 
 env:
-  - TYPESCRIPT=typescript@2.6.0
   - TYPESCRIPT=typescript@latest
 
 node_js:
