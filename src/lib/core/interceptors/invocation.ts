@@ -172,46 +172,46 @@ export class ConstructInvocation implements IInvocation {
 
 }
 
-/**
- * Get using origin getter
- */
-export class GetterInvocation implements IInvocation {
+// /**
+//  * Get using origin getter
+//  */
+// export class GetterInvocation implements IInvocation {
+//
+//   constructor(private _target: any, private _propertyKey: PropertyKey, private _receiver: any) {
+//   }
+//
+//   get target(): any {
+//     return this._target;
+//   }
+//
+//   invoke(parameters: ArrayLike<any>): any {
+//     if (this._receiver) {
+//       return Reflect.get(this._target, this._propertyKey, this._receiver);
+//     }
+//     else {
+//       return this._target[this._propertyKey];
+//     }
+//   }
+//
+// }
 
-  constructor(private _target: any, private _propertyKey: PropertyKey, private _receiver: any) {
-  }
-
-  get target(): any {
-    return this._target;
-  }
-
-  invoke(parameters: ArrayLike<any>): any {
-    if (this._receiver) {
-      return Reflect.get(this._target, this._propertyKey, this._receiver);
-    }
-    else {
-      return this._target[this._propertyKey];
-    }
-  }
-
-}
-
-/**
- * Set using origin setter
- */
-export class SetterInvocation implements IInvocation {
-
-  constructor(private _target: any, private _propertyKey: PropertyKey, private _receiver: any) {
-  }
-
-  get target(): any {
-    return this._target;
-  }
-
-  invoke(parameters: ArrayLike<any>): any {
-    return Reflect.set(this._target, this._propertyKey, parameters[0], this._receiver);
-  }
-
-}
+// /**
+//  * Set using origin setter
+//  */
+// export class SetterInvocation implements IInvocation {
+//
+//   constructor(private _target: any, private _propertyKey: PropertyKey, private _receiver: any) {
+//   }
+//
+//   get target(): any {
+//     return this._target;
+//   }
+//
+//   invoke(parameters: ArrayLike<any>): any {
+//     return Reflect.set(this._target, this._propertyKey, parameters[0], this._receiver);
+//   }
+//
+// }
 
 /**
  * Invocation for an interceptor, it call next interceptor in chain

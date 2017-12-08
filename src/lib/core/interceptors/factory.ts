@@ -2,7 +2,7 @@
 import { GetInterceptor, IAttribute } from '../attribute';
 import { AgentOptions } from '../decorator';
 import { IInvocation, IInvoke } from '../invocation';
-import { ConstructInvocation, GetterInvocation, InterceptorInvocation, SetterInvocation } from './invocation';
+import { ConstructInvocation, InterceptorInvocation } from './invocation';
 
 // const ORIGIN = Symbol('agent.framework.origin.method');
 
@@ -37,22 +37,22 @@ export class InterceptorFactory {
   }
 
 
-  public static createGetterInterceptor(attributes: Array<IAttribute>,
-    target: any,
-    propertyKey: PropertyKey,
-    receiver: any): IInvocation {
-    const invocation = new GetterInvocation(target, propertyKey, receiver);
-    return createInterceptionChainFromAttribute(invocation, attributes);
-  }
-
-
-  public static createSetterInterceptor(attributes: Array<IAttribute>,
-    target: any,
-    propertyKey: PropertyKey,
-    receiver: any): IInvocation {
-    const invocation = new SetterInvocation(target, propertyKey, receiver);
-    return createInterceptionChainFromAttribute(invocation, attributes);
-  }
+  // public static createGetterInterceptor(attributes: Array<IAttribute>,
+  //   target: any,
+  //   propertyKey: PropertyKey,
+  //   receiver: any): IInvocation {
+  //   const invocation = new GetterInvocation(target, propertyKey, receiver);
+  //   return createInterceptionChainFromAttribute(invocation, attributes);
+  // }
+  //
+  //
+  // public static createSetterInterceptor(attributes: Array<IAttribute>,
+  //   target: any,
+  //   propertyKey: PropertyKey,
+  //   receiver: any): IInvocation {
+  //   const invocation = new SetterInvocation(target, propertyKey, receiver);
+  //   return createInterceptionChainFromAttribute(invocation, attributes);
+  // }
 
 
   public static createFunctionInterceptor(attributes: Array<IAttribute>, method: IInvoke): Function {
