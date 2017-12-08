@@ -6,7 +6,7 @@ class TestAgentClass {
 
   numberOfCalls: number = 0;
 
-  @cache()
+  @cache(10)
   heavyOperation(): any {
     let x = 2;
     while (x < 100000000000) {
@@ -16,7 +16,7 @@ class TestAgentClass {
     return x;
   }
 
-  @cache()
+  @cache(10)
   heavyOperationWithArguments(name: string, score: number): any {
     let x = 2 + score + name.toString().length;
     while (x < 100000) {
@@ -38,7 +38,7 @@ describe('@cache', () => {
         const val = tester.heavyOperation();
         expect(val).toEqual(first);
       }
-      expect(tester.numberOfCalls).toEqual(1);
+      expect(tester.numberOfCalls).toBeLessThan(10000);
     });
 
     it('cache the result for heavyOperationWithArguments', () => {
@@ -48,7 +48,7 @@ describe('@cache', () => {
         const val = tester.heavyOperationWithArguments('ling', 55);
         expect(val).toEqual(first);
       }
-      expect(tester.numberOfCalls).toEqual(1);
+      expect(tester.numberOfCalls).toBeLessThan(10000);
     });
 
   });

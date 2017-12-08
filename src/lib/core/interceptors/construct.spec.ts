@@ -51,38 +51,47 @@ describe('@construct', () => {
   describe('# should able to', () => {
     
     it('create LazyFunction agent', () => {
+      new LazyFunction();
       const agent = new LazyFunction();
       expect(agent instanceof LazyFunction).toBe(true);
     });
     it('create LazyClass agent', () => {
+      new LazyClass();
       const agent = new LazyClass();
       expect(agent instanceof LazyClass).toBe(false);
     });
     it('create LazyProxy agent', () => {
+      new LazyProxy();
       const agent = new LazyProxy();
       expect(agent instanceof LazyProxy).toBe(true);
     });
     it('create StaticFunction agent', () => {
+      new StaticFunction();
       const agent = new StaticFunction();
       expect(agent instanceof StaticFunction).toBe(true);
     });
     it('create StaticClass agent', () => {
+      new StaticClass();
       const agent = new StaticClass();
       expect(agent instanceof StaticClass).toBe(false);
     });
     it('create StaticProxy agent', () => {
+      new StaticProxy();
       const agent = new StaticProxy();
       expect(agent instanceof StaticProxy).toBe(true);
     });
     it('create DynamicFunction agent', () => {
+      new DynamicFunction();
       const agent = new DynamicFunction();
       expect(agent instanceof DynamicFunction).toBe(true);
     });
     it('create DynamicClass agent', () => {
+      new DynamicClass();
       const agent = new DynamicClass();
       expect(agent instanceof DynamicClass).toBe(false);
     });
     it('create DynamicProxy agent', () => {
+      new DynamicProxy();
       const agent = new DynamicProxy();
       expect(agent instanceof DynamicProxy).toBe(true);
     });

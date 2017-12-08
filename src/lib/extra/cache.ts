@@ -8,8 +8,8 @@ import { IInvocation } from '../core/invocation';
  * Define a cache
  * @returns {(target:any, propertyKey:string, descriptor:PropertyDescriptor)=>undefined}
  */
-export function cache() {
-  return decorateClassMethod(new CacheAttribute());
+export function cache(expires?: number) {
+  return decorateClassMethod(new CacheAttribute(expires));
 }
 
 /**
@@ -17,12 +17,16 @@ export function cache() {
  */
 export class CacheAttribute implements IAttribute, IInterceptor {
 
-  cache = new MemoryCache();
+  cache;
 
   static normalizeParameters(parameters: ArrayLike<any>): string {
     return Array.from(parameters).map(value => value.toString()).join('|');
   }
 
+  constructor(expires? : number) {
+    this.cache = new MemoryCache(expires || 60000);
+  }
+  
   getInterceptor(): IInterceptor {
     return this;
   }
@@ -42,6 +46,11 @@ export class CacheAttribute implements IAttribute, IInterceptor {
 export class MemoryCache {
   expires: number = 60000;
   store: Map<string, ICached> = new Map<string, ICached>();
+  
+  constructor(expires: number) {
+    this.expires = expires;
+  }
+  
   set(key: string, value: any) {
     this.store.set(key, { expires: Date.now() + this.expires, value });
   }

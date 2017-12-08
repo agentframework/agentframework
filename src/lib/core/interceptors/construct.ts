@@ -64,6 +64,7 @@ export function CreateLazyClassConstructorInterceptor<T extends Function>(target
     constructor() {
 
       // do not call super constructor since we don't access this from this method
+      /* istanbul ignore if  */
       if (0) {
         super();
       }
@@ -171,6 +172,7 @@ export function CreateStaticClassConstructorInterceptor<T extends Function>(targ
     constructor() {
 
       // do not call super constructor since we don't access this from this method
+      /* istanbul ignore if  */
       if (0) {
         super();
       }
@@ -274,6 +276,7 @@ export function CreateDynamicClassConstructorInterceptor<T extends Function>(tar
     constructor() {
 
       // do not call super constructor since we don't access this from this method
+      /* istanbul ignore if  */
       if (0) {
         super();
       }
