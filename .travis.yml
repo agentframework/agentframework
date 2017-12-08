@@ -8,6 +8,7 @@ notifications:
 script:
   - ls -ahl node_modules/.bin/
   - npm install $TYPESCRIPT --force
+  - node_modules/.bin/standard --pretty
   - npm run test-on-travis
 
 env:
