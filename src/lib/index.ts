@@ -4,8 +4,6 @@ export { IInitializer } from './core/initializer'
 export { IInvocation } from './core/invocation'
 export { Reflection } from './core/reflection'
 export {
-  AgentCompileType,
-  AgentOptions,
   decorateAgent,
   decorateClass,
   decorateClassMember,
@@ -16,5 +14,4 @@ export { Metadata } from './core/metadata'
 export { IsFunction, IsUndefined, IsObjectOrFunction, IsSymbol, IsString, ToPropertyKey, IsEqual } from './core/utils'
 export { agent, Agent, AgentAttribute } from './agent'
 export { InMemoryDomain, IDomain } from './domain'
-export { Lookup } from './core/lookup'
 export * from './extra'

@@ -6,12 +6,8 @@ class TestNormalizeAgentClass {
 
   private _testField: any;
 
-  @normalize()
-  testFieldWithValue: any = 1102;
-
   constructor() {
     this._testField = 1000;
-    this.testFieldWithValue = 2000;
   }
 
   @normalize()
@@ -55,11 +51,6 @@ describe('@normalize', () => {
     it('get result from field', () => {
       const outputAgent = new TestNormalizeAgentClass();
       expect(outputAgent.test).toEqual({ ok: 1, result: 1000 });
-    });
-
-    it('get result from initialized field', () => {
-      const outputAgent = new TestNormalizeAgentClass();
-      expect(outputAgent.testFieldWithValue).toEqual({ ok: 1, result: 2000 });
     });
 
     it('get error', () => {

@@ -2,7 +2,6 @@ import { IInvocation } from '../invocation';
 import { AgentCompileType, AgentFeatures, AgentOptions } from '../decorator';
 import { CreatePropertyInitializers } from '../initializers/property';
 import { IInterceptor } from '../interceptor';
-import { AddProxyInterceptor } from './proxy';
 import { CreatePropertyInterceptors } from './property';
 
 /**
@@ -155,7 +154,18 @@ export class ConstructInvocation implements IInvocation {
     else {
       agent = Reflect.construct(target, arguments);
     }
-
+  
+    // // invoke @ready
+    // Reflection.getAttributes<ReadyAttribute>(target, ReadyAttribute)
+    //   .forEach((value: Array<ReadyAttribute>, key: string) => {
+    //     if (value.length) {
+    //       const readyFn = agent[key];
+    //       if (readyFn && IsFunction(readyFn)) {
+    //         Reflect.apply(readyFn, agent, arguments);
+    //       }
+    //     }
+    //   });
+    
     return agent;
 
   }
