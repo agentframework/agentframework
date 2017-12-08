@@ -93,14 +93,13 @@ describe('@factory', () => {
     
       }
       
-      new InterceptorAgent();
       new InitializerAgent();
       new DisabledAgent();
+      const fa =  new InterceptorAgent();
       
-      const fa = new DisabledAgent();
       console.log('sum:', fa.test());
       
-      expect(fa instanceof DisabledAgent).toBe(true);
+      expect(fa instanceof InterceptorAgent).toBe(true);
     });
     
   });
