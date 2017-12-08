@@ -38,6 +38,7 @@ export function CreatePropertyInterceptors(target: any): PropertyDescriptorMap {
     const setter = reflection.descriptor.set;
 
     if (value) {
+      /* istanbul ignore else  */
       if (typeof value === 'function') {
         propertyInterceptors[key].value = InterceptorFactory.createFunctionInterceptor(attributes, value);
       }

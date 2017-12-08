@@ -7,6 +7,7 @@ import { isString } from 'util';
 // ===========================================
 // ES2015 or before
 // ===========================================
+/* istanbul ignore if  */
 if (typeof Reflect !== 'object' || typeof Proxy !== 'function') {
   throw new Error('Agent Framework requires ES2016 support');
 }
