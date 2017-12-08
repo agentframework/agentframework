@@ -6,7 +6,7 @@ notifications:
     on_failure: change
 
 script:
-  - npm install $TYPESCRIPT
+  - yarn add $TYPESCRIPT
   - npm run test-on-travis
 
 env:

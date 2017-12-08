@@ -54,7 +54,7 @@
     "rollup": "latest",
     "rollup-plugin-typescript2": "latest",
     "ts-node": "latest",
-    "typescript": "latest",
+    "typescript": "2.6.1",
     "typescript-standard": "latest"
   },
   "dependencies": {}
