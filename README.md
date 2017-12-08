@@ -1,4 +1,4 @@
-Agent Framework for TypeScript 2.2+
+Agent Framework for TypeScript 2.6+
 -----------------------------------
 
 [![Build Status](https://travis-ci.org/agentframework/agentframework.svg?branch=master)](https://travis-ci.org/agentframework/agentframework)
@@ -9,7 +9,7 @@ Agent Framework for TypeScript 2.2+
 - AOP for TypeScript
 - Elegant design pattern to decorate your class with metadata and interceptors 
 - 100% TypeScript implementation! No dependencies!!!
-- Require ES6 and TypeScript 2.2+
+- Require ES6 and TypeScript 2.6+
 - Work in both node and browser
 
 ### Why use Agent Framework?

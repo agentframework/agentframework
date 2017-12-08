@@ -10,12 +10,12 @@ script:
   - npm run test-on-travis
 
 env:
-  - TYPESCRIPT=typescript@2.2.2
-  - TYPESCRIPT=typescript@2.3.0
+  - TYPESCRIPT=typescript@2.6.0
   - TYPESCRIPT=typescript@latest
 
 node_js:
   - "6"
   - "7"
+  - "8"
 
 after_script: "npm install coveralls@2 && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
