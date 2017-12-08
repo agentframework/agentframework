@@ -3,9 +3,9 @@ import { timestamp } from './timestamp';
 
 @agent()
 class TestTimestampAgentClass {
-  
+
   _name: string;
-  
+
   @timestamp()
   get name(): string {
     return this._name;
@@ -13,7 +13,7 @@ class TestTimestampAgentClass {
   set name(value) {
     this._name = value;
   }
-  
+
   homepage: string;
 
   @timestamp()

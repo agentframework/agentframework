@@ -17,10 +17,10 @@ class Manager implements IHaveName {
 
 @agent()
 class Supervisor {
-  
+
   @inject('Supervisor')
   manager;
-  
+
 }
 
 @agent()
@@ -28,7 +28,7 @@ class Developer {
 
   @inject(Manager)
   manager: IHaveName;
-  
+
   get supervisor(): IHaveName {
     throw new Error('Supervisor not injected');
   }

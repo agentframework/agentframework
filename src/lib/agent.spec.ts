@@ -3,7 +3,7 @@ import { success } from './extra/success';
 import { Reflection } from './core/reflection';
 
 class Base {
-  
+
   @success('tested', true)
   test(): boolean {
     return true;
@@ -45,18 +45,18 @@ describe('@agent', () => {
       expect(Reflect.getPrototypeOf(base)).toBe(Base.prototype);
       expect(base instanceof Base).toBe(true);
     });
-    
+
     it('construct agent', () => {
       const agent = Reflect.construct(TheAgent, []);
       expect(agent instanceof Base).toBe(true);
     });
-  
+
     it('get agent attribute', () => {
-      
+
       const results = Reflection.findAttributes<AgentAttribute>(TheAgent, AgentAttribute);
-      
+
       for (const [key, attributes] of results) {
-        if (key != '') continue;
+        if (key != '') { continue; }
         expect(key).toBe('');
         expect(attributes[0].identifier).toBe('TheOne');
       }

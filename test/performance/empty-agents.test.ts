@@ -30,7 +30,7 @@ class LazyProxy extends InjectClass {
 class StaticFunction extends InjectClass {
 }
 
-@agent({ compile:AgentCompileType.StaticClass })
+@agent({ compile: AgentCompileType.StaticClass })
 class StaticClass extends InjectClass {
 }
 
@@ -38,7 +38,7 @@ class StaticClass extends InjectClass {
 class StaticProxy extends InjectClass {
 }
 
-@agent({ compile:AgentCompileType.DynamicFunction })
+@agent({ compile: AgentCompileType.DynamicFunction })
 class DynamicFunction extends InjectClass {
 }
 

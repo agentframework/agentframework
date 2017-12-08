@@ -10,9 +10,9 @@ import { IInitializer } from '../initializer';
 
 
 describe('@factory', () => {
-  
+
   describe('# should able to', () => {
-    
+
     it('create agent', () => {
 
       class FakeInterceptorAttribute implements IAttribute, IInterceptor, IInitializer {
@@ -29,7 +29,7 @@ describe('@factory', () => {
           return this;
         }
       }
-      
+
       class FakeInitializerAttribute implements IAttribute, IInterceptor, IInitializer {
         initialize(target: IInvocation, parameters: ArrayLike<any>): any {
           return null;
@@ -44,7 +44,7 @@ describe('@factory', () => {
           return this;
         }
       }
-      
+
       class IncreaseValueAttribute implements IAttribute, IInterceptor {
         intercept(target: IInvocation, parameters: ArrayLike<any>): any {
           Object.keys(target.target);
@@ -54,7 +54,7 @@ describe('@factory', () => {
           return this;
         }
       }
-      
+
       class ConsoleClassAttribute implements IAttribute, IInterceptor {
         intercept(target: IInvocation, parameters: ArrayLike<any>): any {
           Object.keys(target.target);
@@ -64,44 +64,44 @@ describe('@factory', () => {
           return this;
         }
       }
-      
+
       class InjectClass {
         @decorateClassProperty(new FakeInterceptorAttribute())
         hijack: any;
-        
+
         @decorateClassProperty(new FakeInitializerAttribute())
         notInitialed: any;
-  
+
         @decorateClassMethod(new IncreaseValueAttribute())
         @decorateClassMethod(new IncreaseValueAttribute())
         test() {
           return 10000;
         }
       }
-      
+
       @agent({ features: AgentFeatures.Disabled, compile: AgentCompileType.LazyFunction })
       class DisabledAgent extends InjectClass {
-    
+
       }
       @agent({ features: AgentFeatures.Initializer, compile: AgentCompileType.StaticClass })
       class InitializerAgent extends InjectClass {
-    
+
       }
-      
+
       @agent({ features: AgentFeatures.Interceptor, compile: AgentCompileType.DynamicProxy, attribute: new ConsoleClassAttribute() })
       class InterceptorAgent extends InjectClass {
-    
+
       }
-      
+
       new InitializerAgent();
       new DisabledAgent();
-      const fa =  new InterceptorAgent();
-      
+      const fa = new InterceptorAgent();
+
       console.log('sum:', fa.test());
-      
+
       expect(fa instanceof InterceptorAgent).toBe(true);
     });
-    
+
   });
-  
+
 });

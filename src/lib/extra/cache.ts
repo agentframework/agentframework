@@ -23,10 +23,10 @@ export class CacheAttribute implements IAttribute, IInterceptor {
     return Array.from(parameters).map(value => value.toString()).join('|');
   }
 
-  constructor(expires? : number) {
+  constructor(expires?: number) {
     this.cache = new MemoryCache(expires || 60000);
   }
-  
+
   getInterceptor(): IInterceptor {
     return this;
   }
@@ -46,11 +46,11 @@ export class CacheAttribute implements IAttribute, IInterceptor {
 export class MemoryCache {
   expires: number = 60000;
   store: Map<string, ICached> = new Map<string, ICached>();
-  
+
   constructor(expires: number) {
     this.expires = expires;
   }
-  
+
   set(key: string, value: any) {
     this.store.set(key, { expires: Date.now() + this.expires, value });
   }

@@ -26,7 +26,7 @@ class LazyProxy extends InjectClass {
 class StaticFunction extends InjectClass {
 }
 
-@agent({ compile:AgentCompileType.StaticClass })
+@agent({ compile: AgentCompileType.StaticClass })
 class StaticClass extends InjectClass {
 }
 
@@ -34,7 +34,7 @@ class StaticClass extends InjectClass {
 class StaticProxy extends InjectClass {
 }
 
-@agent({ compile:AgentCompileType.DynamicFunction })
+@agent({ compile: AgentCompileType.DynamicFunction })
 class DynamicFunction extends InjectClass {
 }
 
@@ -47,9 +47,9 @@ class DynamicProxy extends InjectClass {
 }
 
 describe('@construct', () => {
-  
+
   describe('# should able to', () => {
-    
+
     it('create LazyFunction agent', () => {
       new LazyFunction();
       const agent = new LazyFunction();
@@ -96,5 +96,5 @@ describe('@construct', () => {
       expect(agent instanceof DynamicProxy).toBe(true);
     });
   });
-  
+
 });

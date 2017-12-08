@@ -154,7 +154,7 @@ export class ConstructInvocation implements IInvocation {
     else {
       agent = Reflect.construct(target, arguments);
     }
-  
+
     // // invoke @ready
     // Reflection.getAttributes<ReadyAttribute>(target, ReadyAttribute)
     //   .forEach((value: Array<ReadyAttribute>, key: string) => {
@@ -165,7 +165,7 @@ export class ConstructInvocation implements IInvocation {
     //       }
     //     }
     //   });
-    
+
     return agent;
 
   }

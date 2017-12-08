@@ -17,21 +17,21 @@ import { IDomain, LocalDomain } from '../domain';
 import { isUndefined } from 'util';
 
 export enum AgentFeatures {
-  Disabled    = 0,
+  Disabled = 0,
   Initializer = 1,
   Interceptor = 2
 }
 
 export enum AgentCompileType {
-  StaticFunction  = 1,
-  StaticClass     = 2,
-  StaticProxy     = 3,
-  LazyFunction    = 21,
-  LazyClass       = 22,
-  LazyProxy       = 23,
+  StaticFunction = 1,
+  StaticClass = 2,
+  StaticProxy = 3,
+  LazyFunction = 21,
+  LazyClass = 22,
+  LazyProxy = 23,
   DynamicFunction = 31,
-  DynamicClass    = 32,
-  DynamicProxy    = 33
+  DynamicClass = 32,
+  DynamicProxy = 33
 }
 
 export interface AgentOptions {
@@ -45,35 +45,35 @@ export interface AgentOptions {
  * Decorate an agent
  */
 export function decorateAgent(options: Partial<AgentOptions>): ClassDecorator {
-  
+
   options = options || {};
-  
+
   // We will use `Lazy` method to create agent
   // please refer to ADR-0004
   options.compile = options.compile || AgentCompileType.LazyFunction;
   options.features = options.features == null ? (AgentFeatures.Initializer ^ AgentFeatures.Interceptor) : options.features;
-  
+
   return <T extends Function>(target: T): T | void => {
-    
+
     // Reflect.has will check all base classes
     const isAgent = target[ORIGIN_CONSTRUCTOR];
     if (isAgent) {
       throw new TypeError(`Unable to decorate as agent more than one time for class '${target.name}'`);
     }
-    
+
     const attribute = options.attribute;
-    
+
     // when attribute is not null. check the attribute before upgrading class to agent
     if (!attribute || CanDecorate(attribute, target)) {
-      
+
       // not adding to reflection if attribute is null
       if (attribute) {
         Reflection.addAttribute(attribute, target);
       }
-      
+
       // make a new constructor from chained interceptors which defined in class attributes
       let proxiedConstructor;
-      
+
       if (AgentCompileType.LazyFunction === options.compile) {
         proxiedConstructor = CreateLazyFunctionConstructorInterceptor<T>(target, options)
       }
@@ -104,22 +104,22 @@ export function decorateAgent(options: Partial<AgentOptions>): ClassDecorator {
       else {
         throw new Error(`Not supported agent build type: ${options.compile} on type ${target.prototype.constructor.name}`);
       }
-      
+
       // use LocalDomain if domain is not specified in the options
       const domain = options.domain || LocalDomain;
-      
+
       // register this agent with domain
       domain.register(target, proxiedConstructor);
-      
+
       // proxiedConstructor = AddConstructInterceptor(target as any as Constructor<T>);
       Reflect.set(proxiedConstructor, ORIGIN_CONSTRUCTOR, target);
-      
+
       return proxiedConstructor;
-      
+
     }
-    
+
   };
-  
+
 }
 
 

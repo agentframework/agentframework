@@ -10,12 +10,12 @@ import { IInitializer } from '../initializer';
 
 
 describe('interceptor / property', () => {
-  
+
   describe('# should not able to', () => {
-    
+
     it('decorate interceptor on field property', () => {
 
-      
+
       class InterceptorAttribute implements IAttribute, IInterceptor {
         intercept(target: IInvocation, parameters: ArrayLike<any>): any {
           Object.keys(target.target);
@@ -25,29 +25,29 @@ describe('interceptor / property', () => {
           return this;
         }
       }
-      
+
       class Base {
-  
+
       }
-      
+
       @agent()
       class IncorrectAgent extends Base {
-        
+
         @decorateClassProperty(new InterceptorAttribute())
         hijack: any;
-        
+
       }
-      
-      expect(()=>{
-        
+
+      expect(() => {
+
         new IncorrectAgent();
-        
+
       }).toThrowError('Class: IncorrectAgent; Property: hijack; Unable to decorate Interceptor on field property.')
     });
-    
+
     it('decorate interceptor on field property', () => {
-    
-    
+
+
       class InterceptorAttribute implements IAttribute, IInterceptor {
         intercept(target: IInvocation, parameters: ArrayLike<any>): any {
           Object.keys(target.target);
@@ -57,30 +57,30 @@ describe('interceptor / property', () => {
           return this;
         }
       }
-    
-    
+
+
       class Base {
-      
+
         @decorateClassProperty(new InterceptorAttribute())
         field = function () {
           console.log('nice')
         };
-        
+
       }
-    
+
       @agent()
       class IncorrectAgent extends Base {
-      
-      
+
+
       }
-    
-      expect(()=>{
-      
+
+      expect(() => {
+
         new IncorrectAgent();
-      
+
       }).toThrowError('Class: IncorrectAgent; Property: field; Unable to decorate Interceptor on field property.')
     });
-    
+
   });
-  
+
 });
