@@ -2,7 +2,7 @@ import { Reflection } from './core/reflection';
 import { IDomain } from './domain';
 import { IAttribute } from './core/attribute';
 import { AgentCompileType, AgentOptions, decorateAgent } from './core/decorator';
-import { isString } from 'util';
+import { IsString } from './core/utils';
 
 // ===========================================
 // ES2015 or before
@@ -46,7 +46,7 @@ else {
  * @returns {(target:Constructor)=>(void|Constructor)}
  */
 export function agent(identifierOrOptions?: any) {
-  if (isString(identifierOrOptions)) {
+  if (IsString(identifierOrOptions)) {
     return decorateAgent({ attribute: new AgentAttribute(identifierOrOptions) });
   }
   else {
@@ -60,7 +60,6 @@ export function agent(identifierOrOptions?: any) {
 export class AgentAttribute implements IAttribute {
 
   constructor(private _identifier?: any) {
-
   }
 
   get identifier(): any {

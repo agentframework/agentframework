@@ -1,7 +1,6 @@
 import { Reflection } from './reflection';
 import { Metadata } from './metadata';
-import { IsFunction, GetPrototypeArray } from './utils';
-import { isString } from 'util';
+import { IsFunction, GetPrototypeArray, IsString } from './utils';
 import { Constructor } from './constructor';
 
 export class Lookup {
@@ -21,10 +20,10 @@ export class Lookup {
       for (const [key, reflection] of reflections) {
         
         // property don't have a descriptor
-        if (key && isString(key) && reflection.hasInterceptor()) {
+        if (key && IsString(key) && reflection.hasInterceptor()) {
           
           // reflection without descriptor must a field
-          results.set(key, reflection);
+          results.set(String(key), reflection);
           
         }
         
@@ -44,9 +43,9 @@ export class Lookup {
       const reflections = Metadata.getAll(proto);
       for (const [key, reflection] of reflections) {
         // property don't have a descriptor
-        if (key && isString(key) && reflection.hasInitializer()) {
+        if (key && IsString(key) && reflection.hasInitializer()) {
           // reflection without descriptor must a field
-          results.set(key, reflection);
+          results.set(String(key), reflection);
         }
       }
     }
