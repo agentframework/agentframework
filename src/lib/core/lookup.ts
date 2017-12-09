@@ -1,16 +1,15 @@
 import { Reflection } from './reflection';
-import { Agent } from '../agent';
 import { Metadata } from './metadata';
-import { IAttribute } from './attribute';
 import { IsFunction, GetPrototypeArray } from './utils';
 import { isString } from 'util';
+import { Constructor } from './constructor';
 
 export class Lookup {
   
   /**
    * Find all attribute with interceptor
    */
-  public static findInterceptors(typeOrInstance: Agent): Map<string, Reflection> {
+  public static findInterceptors(typeOrInstance: Constructor): Map<string, Reflection> {
 
     const results = new Map<string, Reflection>();
     const prototypes = GetPrototypeArray(typeOrInstance);
@@ -36,7 +35,7 @@ export class Lookup {
     return results;
   }
 
-  public static findInitializers(typeOrInstance: Agent): Map<string, Reflection> {
+  public static findInitializers(typeOrInstance: Constructor): Map<string, Reflection> {
 
     const results = new Map<string, Reflection>();
     const prototypes = GetPrototypeArray(typeOrInstance);

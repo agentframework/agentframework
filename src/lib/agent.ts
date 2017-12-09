@@ -41,11 +41,6 @@ else {
   // ===========================================
 }
 
-export interface Agent extends Function {
-  new();
-  new(...parameters: Array<any>);
-}
-
 /**
  * Define an agent
  * @returns {(target:Constructor)=>(void|Constructor)}

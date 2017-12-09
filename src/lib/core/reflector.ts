@@ -1,12 +1,14 @@
-import { Reflection } from './reflection';
+import { Constructor } from './constructor';
+import { Registry, Type } from './type';
+
 
 /**
- * Reflector is the interface to access reflection data from class or instance
- * @param instanceOrType
- * @returns {Reflection} Return a Reflection instance on giving type
+ * Reflector is the interface to access type data from class or instance
+ * @param {Object | Constructor} instanceOrType
+ * @returns {Type}
  * @constructor
  */
-export function Reflector(instanceOrType: Object | Function): Reflection {
+export function Reflector(instanceOrType: Object | Constructor): Type {
   
   if (new.target) {
     throw new SyntaxError(`Not allow calling new Reflector`);
@@ -32,10 +34,5 @@ export function Reflector(instanceOrType: Object | Function): Reflection {
     throw new TypeError();
   }
   
-
-  // create or generate
-  
-  throw new Error('not implemented');
-  
+  return Registry.getType(prototype, true);
 }
-

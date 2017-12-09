@@ -2,10 +2,7 @@ import { Reflection } from '../reflection';
 import { INTERCEPTED_CONSTRUCTOR, PROXY_PROTOTYPE } from '../utils';
 import { AgentOptions } from '../decorator';
 import { InterceptorFactory } from './factory';
-
-export interface Constructor extends Function {
-  new(...params: Array<any>): any;
-}
+import { Constructor } from '../constructor';
 
 //region CreateLazyFunctionConstructorInterceptor
 /**
@@ -57,9 +54,11 @@ export function CreateLazyFunctionConstructorInterceptor<T extends Function>(tar
 /**
  * Create lazy constructor using class
  */
-export function CreateLazyClassConstructorInterceptor<T extends Function>(target: Constructor, options: Partial<AgentOptions>): any {
+export function CreateLazyClassConstructorInterceptor<T extends Function>(target: Function, options: Partial<AgentOptions>): any {
 
-  return class extends target {
+  const type = <Constructor><any>target;
+  
+  return class extends type {
 
     constructor() {
 
@@ -91,8 +90,7 @@ export function CreateLazyClassConstructorInterceptor<T extends Function>(target
 
       // invoke the cached chain
       const createdAgent = interceptedConstructor.invoke(arguments);
-
-
+      
       // Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
 
       // return the new created instance
@@ -156,7 +154,7 @@ export function CreateLazyProxyConstructorInterceptor<T extends Function>(target
 /**
  * Create static constructor using class
  */
-export function CreateStaticClassConstructorInterceptor<T extends Function>(target: Constructor, options: Partial<AgentOptions>): any {
+export function CreateStaticClassConstructorInterceptor<T extends Function>(target: T,  options: Partial<AgentOptions>): any {
 
   const proto = target.prototype;
   const originConstructor = proto.constructor;
@@ -166,8 +164,10 @@ export function CreateStaticClassConstructorInterceptor<T extends Function>(targ
 
   // create a interceptor chain from the found attributes
   const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
-
-  return class extends target {
+  
+  const type = <Constructor><any>target;
+  
+  return class extends type {
 
     constructor() {
 
@@ -269,9 +269,12 @@ export function CreateStaticProxyConstructorInterceptor<T extends Function>(targ
 /**
  * Create dynamic constructor using class
  */
-export function CreateDynamicClassConstructorInterceptor<T extends Function>(target: Constructor, options: Partial<AgentOptions>): any {
+export function CreateDynamicClassConstructorInterceptor<T extends Function>(target: T, options: Partial<AgentOptions>): any {
+  
+  const type = <Constructor><any>target;
+  
+  return class extends type {
 
-  return class extends target {
 
     constructor() {
 

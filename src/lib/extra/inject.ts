@@ -1,19 +1,19 @@
 import { decorateClassMember, decorateClassPropertyOrGetter } from '../core/decorator';
 import { IAttribute } from '../core/attribute';
-import { IInterceptor } from '../core/interceptor';
 import { IInvocation } from '../core/invocation';
-import { Agent } from '../agent';
 import { LocalDomain } from '../domain';
 import { IInitializer } from '../core/initializer';
+import { Constructor } from '../core/constructor';
 
 
-export function inject(typeOrIdentifier: Agent | string) {
+
+export function inject(typeOrIdentifier: Constructor | string) {
   return decorateClassPropertyOrGetter(new InjectAttribute(typeOrIdentifier));
 }
 
 export class InjectAttribute implements IAttribute, IInitializer {
 
-  constructor(private _typeOrIdentifier: Agent | string) {
+  constructor(private _typeOrIdentifier: Constructor | string) {
   }
 
   beforeDecorate?(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {

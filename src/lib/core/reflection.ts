@@ -2,8 +2,7 @@ import { IAttribute } from './attribute';
 import { IsObjectOrFunction, IsUndefined, ToPropertyKey, IsFunction, GetPrototypeArray } from './utils';
 import { getOriginConstructor } from './decorator';
 import { Metadata } from './metadata';
-import { Agent } from '../agent';
-import { isString } from 'util';
+import { Constructor } from './constructor';
 
 /**
  *
@@ -11,12 +10,12 @@ import { isString } from 'util';
  *
  */
 export class Reflection {
-
+  
   private _attributes: Array<IAttribute>;
   private _metadata: Map<string, any>;
   private _hasInterceptor: boolean;
   private _hasInitializer: boolean;
-
+  
   private constructor(private _target: Object, private _targetKey?: string | symbol, private _descriptor?: PropertyDescriptor) {
     
     if (IsUndefined(_descriptor) && !IsUndefined(_targetKey)) {
@@ -25,7 +24,7 @@ export class Reflection {
     
     this._attributes = [];
     this._metadata = new Map<string, any>();
-
+    
     // MVP: Add support for ES2017 Reflect.metadata
     if (Reflect['getMetadata'] && typeof Reflect['getMetadata'] === 'function') {
       this.getMetadata = function (key: string) {
@@ -33,7 +32,7 @@ export class Reflection {
         return metadata || this._metadata.get(key);
       }
     }
-
+    
   }
   
   public static addAttribute(attribute: IAttribute, target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
@@ -61,7 +60,7 @@ export class Reflection {
       return Metadata.get(instance);
     }
   }
-
+  
   public static getOwnInstance(target: Object | Function, targetKey?: string | symbol): Reflection | null {
     if (!IsObjectOrFunction(target)) {
       throw new TypeError();
@@ -77,27 +76,27 @@ export class Reflection {
       return Metadata.getOwn(instance);
     }
   }
-
+  
   public static getAttributes(target: Object | Function, targetKey?: any): Array<IAttribute> {
     const reflection = Reflection.getInstance(target, targetKey);
     return reflection ? reflection.getAttributes() : [];
   }
-
+  
   public static hasAttribute(target: Object | Function, targetKey?: any): boolean {
     const reflection = Reflection.getInstance(target, targetKey);
     return reflection ? reflection.hasAttribute() : false;
   }
-
-  public static findAttributes<A extends IAttribute>(typeOrInstance: Agent, attributeType?): Map<string, Array<A>> {
-
+  
+  public static findAttributes<A extends IAttribute>(typeOrInstance: Constructor, attributeType?): Map<string, Array<A>> {
+    
     const results = new Map<string, Array<A>>();
-
+    
     const prototypes = GetPrototypeArray(typeOrInstance);
-
+    
     prototypes.reverse().forEach(proto => {
-
+      
       const reflections = Metadata.getAll(proto);
-
+      
       // register all params config or middleware config
       reflections.forEach((reflection: Reflection, methodName: string) => {
         
@@ -107,10 +106,10 @@ export class Reflection {
       });
       
     });
-
+    
     return results;
   }
-
+  
   private static getOrCreateOwnInstance(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): Reflection {
     const instance = IsFunction(target) ? target['prototype'] : target;
     let reflection = Reflection.getOwnInstance(instance, targetKey);
@@ -120,7 +119,7 @@ export class Reflection {
     }
     return reflection;
   }
-
+  
   getAttributes<A extends IAttribute>(type?): Array<A> {
     if (type) {
       return this._attributes.filter(a => a instanceof type) as Array<A>;
@@ -129,19 +128,19 @@ export class Reflection {
       return this._attributes.slice(0) as Array<A>;
     }
   }
-
+  
   hasAttribute(): boolean {
     return this._attributes.length > 0
   }
-
+  
   hasInitializer(): boolean {
     return this._hasInitializer;
   }
-
+  
   hasInterceptor(): boolean {
     return this._hasInterceptor;
   }
-
+  
   addAttribute(attr: IAttribute): void {
     if (!attr) {
       throw new TypeError(`Invalid attribute to decorate`);
@@ -155,38 +154,39 @@ export class Reflection {
       this._hasInitializer = true;
     }
   }
-
+  
   getMetadata(key: string): any | null {
     return this._metadata.get(key);
   }
-
+  
   addMetadata(key: string, value: any) {
     // console.log('added design for ', this._target, '.', this._targetKey, '->', key, '=', value);
     this._metadata.set(key, value);
   }
-
+  
   get target(): Object | Function {
     return this._target;
   }
-
+  
   get type(): any {
     return this.getMetadata('design:type');
   }
-
+  
   get paramtypes(): Array<any> {
     return this.getMetadata('design:paramtypes');
   }
-
+  
   get returntype(): any {
     return this.getMetadata('design:returntype');
   }
-
+  
   get targetKey(): string | symbol {
     return this._targetKey;
   }
-
+  
   get descriptor(): PropertyDescriptor | null {
     return this._descriptor;
   }
-
+  
 }
+

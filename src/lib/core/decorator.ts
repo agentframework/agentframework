@@ -1,7 +1,6 @@
 import { IAttribute, CanDecorate } from './attribute';
 import { Reflection } from './reflection';
 import {
-  Constructor,
   CreateLazyFunctionConstructorInterceptor,
   CreateLazyClassConstructorInterceptor,
   CreateLazyProxyConstructorInterceptor,
@@ -14,7 +13,7 @@ import {
 } from './interceptors/construct';
 import { ORIGIN_CONSTRUCTOR } from './utils';
 import { IDomain, LocalDomain } from '../domain';
-import { isUndefined } from 'util';
+
 
 export enum AgentFeatures {
   Disabled = 0,
@@ -78,7 +77,7 @@ export function decorateAgent(options: Partial<AgentOptions>): ClassDecorator {
         proxiedConstructor = CreateLazyFunctionConstructorInterceptor<T>(target, options)
       }
       else if (AgentCompileType.LazyClass === options.compile) {
-        proxiedConstructor = CreateLazyClassConstructorInterceptor<T>(target as any as Constructor, options);
+        proxiedConstructor = CreateLazyClassConstructorInterceptor<T>(target, options);
       }
       else if (AgentCompileType.LazyProxy === options.compile) {
         proxiedConstructor = CreateLazyProxyConstructorInterceptor<T>(target, options);
@@ -87,7 +86,7 @@ export function decorateAgent(options: Partial<AgentOptions>): ClassDecorator {
         proxiedConstructor = CreateStaticFunctionConstructorInterceptor<T>(target, options);
       }
       else if (AgentCompileType.StaticClass === options.compile) {
-        proxiedConstructor = CreateStaticClassConstructorInterceptor<T>(target as any as Constructor, options);
+        proxiedConstructor = CreateStaticClassConstructorInterceptor<T>(target, options);
       }
       else if (AgentCompileType.StaticProxy === options.compile) {
         proxiedConstructor = CreateStaticProxyConstructorInterceptor<T>(target, options);
@@ -96,7 +95,7 @@ export function decorateAgent(options: Partial<AgentOptions>): ClassDecorator {
         proxiedConstructor = CreateDynamicFunctionConstructorInterceptor<T>(target, options);
       }
       else if (AgentCompileType.DynamicClass === options.compile) {
-        proxiedConstructor = CreateDynamicClassConstructorInterceptor<T>(target as any as Constructor, options);
+        proxiedConstructor = CreateDynamicClassConstructorInterceptor<T>(target, options);
       }
       else if (AgentCompileType.DynamicProxy === options.compile) {
         proxiedConstructor = CreateDynamicProxyConstructorInterceptor<T>(target, options);
