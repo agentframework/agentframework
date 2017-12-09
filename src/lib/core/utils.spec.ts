@@ -3,28 +3,67 @@ import { GetPrototypeArray, IsEqual, ToPropertyKey } from './utils';
 
 describe('Utils', () => {
   
-  describe('# should able to', () => {
+  describe('ToPropertyKey', () => {
     
-    it('ToPropertyKey ', () => {
+    it('should able handle symbol', () => {
       const key = ToPropertyKey(Symbol.for('test'));
       expect(key).toEqual(Symbol.for('test'));
     });
     
-    it('GetPrototypeArray', () => {
-      
+    it('should convert number to string', () => {
+      const key = ToPropertyKey(100);
+      expect(key).toEqual('100');
+    });
+    
+  });
+  
+  describe('GetPrototypeArray' , ()=> {
+  
+    it('for instance', () => {
+    
       class A {
       }
-      
+    
       class B extends A {
       }
-      
+    
       class C extends B {
       }
-      
+    
       const c = new C();
+    
       const array = GetPrototypeArray(c);
+    
+      expect(array.length).toEqual(4);
+    
+      expect(array[0]).toEqual(C.prototype);
+      expect(array[1]).toEqual(B.prototype);
+      expect(array[2]).toEqual(A.prototype);
+      expect(array[3]).toEqual(Object.prototype);
+    
+    });
+    
+    it('for class', () => {
+    
+      class X {
+      }
+    
+      class Y extends X {
+      }
+    
+      class Z extends Y {
+      }
+    
+      const array = GetPrototypeArray(Z);
+    
+      expect(array.length).toEqual(4);
+    
+      expect(array[0]).toEqual(Z.prototype);
+      expect(array[1]).toEqual(Y.prototype);
+      expect(array[2]).toEqual(Z.prototype);
+      expect(array[3]).toEqual(Object.prototype);
+    
       
-      expect(array.length).toEqual(4)
     });
     
   });
