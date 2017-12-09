@@ -5,9 +5,10 @@ import { Metadata } from './metadata';
 import { Agent } from '../agent';
 import { isString } from 'util';
 
-
 /**
- * Reflection
+ *
+ *
+ *
  */
 export class Reflection {
 
@@ -17,12 +18,13 @@ export class Reflection {
   private _hasInitializer: boolean;
 
   private constructor(private _target: Object, private _targetKey?: string | symbol, private _descriptor?: PropertyDescriptor) {
+    
     if (IsUndefined(_descriptor) && !IsUndefined(_targetKey)) {
       this._descriptor = Object.getOwnPropertyDescriptor(_target, _targetKey);
     }
+    
     this._attributes = [];
     this._metadata = new Map<string, any>();
-    this._hasInterceptor = false;
 
     // MVP: Add support for ES2017 Reflect.metadata
     if (Reflect['getMetadata'] && typeof Reflect['getMetadata'] === 'function') {
@@ -33,7 +35,17 @@ export class Reflection {
     }
 
   }
-
+  
+  public static addAttribute(attribute: IAttribute, target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
+    const reflection = Reflection.getOrCreateOwnInstance(target, targetKey, descriptor);
+    reflection.addAttribute(attribute);
+  }
+  
+  public static addMetadata(key: string, value: any, target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
+    const reflection = Reflection.getOrCreateOwnInstance(target, targetKey, descriptor);
+    reflection.addMetadata(key, value);
+  }
+  
   public static getInstance(target: Object | Function, targetKey?: string | symbol): Reflection | null {
     if (!IsObjectOrFunction(target)) {
       throw new TypeError();
@@ -76,16 +88,6 @@ export class Reflection {
     return reflection ? reflection.hasAttribute() : false;
   }
 
-  public static addAttribute(attribute: IAttribute, target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
-    const reflection = Reflection.getOrCreateOwnInstance(target, targetKey, descriptor);
-    reflection.addAttribute(attribute);
-  }
-
-  public static addMetadata(key: string, value: any, target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
-    const reflection = Reflection.getOrCreateOwnInstance(target, targetKey, descriptor);
-    reflection.addMetadata(key, value);
-  }
-
   public static findAttributes<A extends IAttribute>(typeOrInstance: Agent, attributeType?): Map<string, Array<A>> {
 
     const results = new Map<string, Array<A>>();
@@ -98,12 +100,12 @@ export class Reflection {
 
       // register all params config or middleware config
       reflections.forEach((reflection: Reflection, methodName: string) => {
-
+        
         // reflection without descriptor must a field
         results.set(methodName, reflection.getAttributes(attributeType));
-
+        
       });
-
+      
     });
 
     return results;

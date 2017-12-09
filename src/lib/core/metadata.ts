@@ -19,11 +19,27 @@ if (!Reflect.has(global, METADATA_KEY)) {
   throw new Error('Unable to create Agent Framework Metadata')
 }
 
+
+// Reflect.defineMetadata(metadataKey, metadataValue, C.prototype, "method");
+// let metadataValue = Reflect.getMetadata(metadataKey, obj, "method");
+
+
+/**
+ * Internal Metadata store
+ *
+ * Reflection -> Access Metadata
+ *
+ * < prototype: <key: Reflection> >
+ *
+ */
 export class Metadata {
 
   private static _metadata: Map<Object | Function, Map<string | symbol, Reflection>> = Reflect.get(global, METADATA_KEY);
   private static _empty: Map<string | symbol, Reflection> = new Map<string | symbol, Reflection>();
 
+  constructor() {
+  }
+  
   public static getAll(target: Object | Function): Map<string | symbol, Reflection> {
     if (this._metadata.has(target)) {
       return this._metadata.get(target);

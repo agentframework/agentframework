@@ -2,6 +2,8 @@ import { Reflection } from './reflection';
 import { IAttribute } from './attribute';
 import { IInterceptor } from './interceptor';
 
+
+
 class Test {
 }
 
@@ -15,6 +17,7 @@ class TestAttribute implements IAttribute {
 }
 
 describe('Reflection', () => {
+  
   describe('# should not able to', () => {
 
     it('get reflection on non-object', () => {
@@ -30,6 +33,7 @@ describe('Reflection', () => {
         console.log('[SHOULD_NEVER_SEEM_THIS]', instance);
       }).toThrowError();
     });
+    
   });
 
   describe('# should able to', () => {
@@ -52,4 +56,5 @@ describe('Reflection', () => {
     });
 
   });
+  
 });

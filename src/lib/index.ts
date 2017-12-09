@@ -10,7 +10,7 @@ export {
   decorateClassMethod,
   decorateClassProperty
 } from './core/decorator'
-export { IsFunction, IsUndefined, IsObjectOrFunction, IsSymbol, IsString, ToPropertyKey, IsEqual } from './core/utils'
+export { IsObject, IsFunction, IsUndefined, IsObjectOrFunction, IsSymbol, IsString, ToPropertyKey, IsEqual } from './core/utils'
 export { agent, Agent, AgentAttribute } from './agent'
 export { InMemoryDomain, IDomain } from './domain'
 export * from './extra'

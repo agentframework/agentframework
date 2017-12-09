@@ -4,6 +4,10 @@ export const PROXY_PROTOTYPE = Symbol('agent.framework.proxy.prototype');
 export const INTERCEPTED_CONSTRUCTOR = Symbol('agent.framework.interceptor.constructor');
 export const AGENT_DOMAIN = Symbol('agent.framework.domain');
 
+export function IsObject(x: any): boolean {
+  return typeof x === 'function';
+}
+
 export function IsFunction(x: any): boolean {
   return typeof x === 'function';
 }
