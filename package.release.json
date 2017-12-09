@@ -22,7 +22,8 @@
     "typescript",
     "es6",
     "proxy",
-    "interceptor"
+    "interceptor",
+    "database"
   ],
   "author": "Ling Zhang",
   "license": "Apache-2.0",
