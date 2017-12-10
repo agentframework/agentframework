@@ -1,8 +1,8 @@
-import { Reflection } from './core/agent';
-
 /**
  * Domain interface
  */
+import { Reflection } from './core/reflection';
+
 export interface IDomain {
   
   /**
