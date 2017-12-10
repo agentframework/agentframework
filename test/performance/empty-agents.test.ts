@@ -1,6 +1,5 @@
 import { AgentCompileType } from '../../src/lib/core/decorator';
 import { agent } from '../../src/lib/agent';
-import { inject } from '../../src/lib/extra/inject';
 const Benchmark = require('benchmark');
 
 class InjectableClass {
@@ -9,9 +8,7 @@ class InjectableClass {
 }
 
 class InjectClass {
-
   injected: any = new InjectableClass();
-
 }
 
 @agent({ compile: AgentCompileType.LazyFunction })

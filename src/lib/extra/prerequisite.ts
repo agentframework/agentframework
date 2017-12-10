@@ -1,4 +1,4 @@
-import { decorateClassMember } from '../core/decorator';
+import { decorateClassMethod } from '../core/decorator';
 import { IAttribute } from '../core/attribute';
 import { IInterceptor } from '../core/interceptor';
 import { IInvocation } from '../core/invocation';
@@ -12,7 +12,7 @@ import { IsEqual, IsString } from '../core/utils';
  * @returns {(target:any, propertyKey:string, descriptor:PropertyDescriptor)=>undefined}
  */
 export function prerequisite(key: string, value: any, message: string | Error) {
-  return decorateClassMember(new PrerequisiteAttribute(key, value, message));
+  return decorateClassMethod(new PrerequisiteAttribute(key, value, message));
 }
 
 /**

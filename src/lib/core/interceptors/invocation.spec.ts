@@ -1,7 +1,7 @@
 import { agent } from '../../agent'
 import {
   AgentCompileType, AgentFeatures, decorateAgent, decorateClassMethod,
-  decorateClassProperty
+  decorateClassField
 } from '../decorator';
 import { IAttribute } from '../attribute';
 import { IInterceptor } from '../interceptor';
@@ -9,56 +9,16 @@ import { IInvocation } from '../invocation';
 import { IInitializer } from '../initializer';
 
 
-describe('@factory', () => {
+describe('core.interceptors.invocation', () => {
 
   describe('# should able to', () => {
 
     it('create agent', () => {
-
-      class FakeInterceptorAttribute implements IAttribute, IInterceptor, IInitializer {
-        initialize(target: IInvocation, parameters: ArrayLike<any>): any {
-          return 10;
-        }
-        intercept(target: IInvocation, parameters: ArrayLike<any>): any {
-          throw new Error('Not support');
-        }
-        getInterceptor() {
-          return null;
-        }
-        getInitializer() {
-          return this;
-        }
-      }
-
-      class FakeInitializerAttribute implements IAttribute, IInterceptor, IInitializer {
-        initialize(target: IInvocation, parameters: ArrayLike<any>): any {
-          return null;
-        }
-        intercept(target: IInvocation, parameters: ArrayLike<any>): any {
-          throw new Error('Not support');
-        }
-        getInterceptor() {
-          return null;
-        }
-        getInitializer() {
-          return this;
-        }
-      }
-
+      
       class IncreaseValueAttribute implements IAttribute, IInterceptor {
         intercept(target: IInvocation, parameters: ArrayLike<any>): any {
           Object.keys(target.target);
-          return target.invoke(parameters) + 50000;
-        }
-        getInterceptor() {
-          return this;
-        }
-      }
-
-      class ConsoleClassAttribute implements IAttribute, IInterceptor {
-        intercept(target: IInvocation, parameters: ArrayLike<any>): any {
-          Object.keys(target.target);
-          return target.invoke(parameters);
+          return target.invoke(parameters) + 5000;
         }
         getInterceptor() {
           return this;
@@ -66,40 +26,40 @@ describe('@factory', () => {
       }
 
       class InjectClass {
-        @decorateClassProperty(new FakeInterceptorAttribute())
-        hijack: any;
-
-        @decorateClassProperty(new FakeInitializerAttribute())
-        notInitialed: any;
-
+        
         @decorateClassMethod(new IncreaseValueAttribute())
         @decorateClassMethod(new IncreaseValueAttribute())
         test() {
           return 10000;
         }
+        
       }
 
       @agent({ features: AgentFeatures.Disabled, compile: AgentCompileType.LazyFunction })
-      class DisabledAgent extends InjectClass {
+      class Tester01 extends InjectClass {
 
       }
+      
       @agent({ features: AgentFeatures.Initializer, compile: AgentCompileType.StaticClass })
-      class InitializerAgent extends InjectClass {
+      class Tester02 extends InjectClass {
 
       }
 
-      @agent({ features: AgentFeatures.Interceptor, compile: AgentCompileType.DynamicProxy, attribute: new ConsoleClassAttribute() })
-      class InterceptorAgent extends InjectClass {
+      @agent({ features: AgentFeatures.Interceptor, compile: AgentCompileType.DynamicProxy })
+      class Tester03 extends InjectClass {
 
       }
-
-      new InitializerAgent();
-      new DisabledAgent();
-      const fa = new InterceptorAgent();
-
-      console.log('sum:', fa.test());
-
-      expect(fa instanceof InterceptorAgent).toBe(true);
+  
+      const tester01 = new Tester01();
+      expect(tester01.test()).toBe(10000);
+  
+      const tester02 = new Tester02();
+      expect(tester02.test()).toBe(10000);
+      
+      const tester03 = new Tester03();
+      expect(tester03.test()).toBe(20000);
+      expect(tester03 instanceof Tester03).toBe(true);
+      
     });
 
   });

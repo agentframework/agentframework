@@ -12,6 +12,7 @@
     "README.md",
     "LICENSE"
   ],
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/agentframework/agentframework.git"

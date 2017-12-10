@@ -1,5 +1,5 @@
 import { IsEqual } from '../core/utils';
-import { decorateClassMember } from '../core/decorator';
+import { decorateClassMember, decorateClassMethod } from '../core/decorator';
 import { IAttribute } from '../core/attribute';
 import { IInterceptor } from '../core/interceptor';
 import { IInvocation } from '../core/invocation';
@@ -12,7 +12,7 @@ import { IInvocation } from '../core/invocation';
  * @returns {(target:any, propertyKey:string, descriptor:PropertyDescriptor)=>undefined}
  */
 export function conditional(field: string, expect: any) {
-  return decorateClassMember(new ConditionalAttribute(field, expect));
+  return decorateClassMethod(new ConditionalAttribute(field, expect));
 }
 
 /**

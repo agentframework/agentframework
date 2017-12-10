@@ -1,14 +1,13 @@
-import { decorateClassMember, decorateClassPropertyOrGetter } from '../core/decorator';
+import { decorateClassField } from '../core/decorator';
 import { IAttribute } from '../core/attribute';
 import { IInvocation } from '../core/invocation';
-import { LocalDomain } from '../domain';
 import { IInitializer } from '../core/initializer';
 import { Constructor } from '../core/constructor';
-
+import { IsFunction } from '../core/utils';
 
 
 export function inject(typeOrIdentifier: Constructor | string) {
-  return decorateClassPropertyOrGetter(new InjectAttribute(typeOrIdentifier));
+  return decorateClassField(new InjectAttribute(typeOrIdentifier));
 }
 
 export class InjectAttribute implements IAttribute, IInitializer {
@@ -30,8 +29,12 @@ export class InjectAttribute implements IAttribute, IInitializer {
   }
 
   public initialize(target: IInvocation, parameters: ArrayLike<any>): any {
-    const origin = target.invoke(parameters);
-    return LocalDomain.getAgent(this.typeOrIdentifier);
+    if (IsFunction(this.typeOrIdentifier)) {
+      return Reflect.construct(<Constructor>this.typeOrIdentifier, []);
+    }
+    else {
+      throw new Error(`Agent ${this.typeOrIdentifier} not found`);
+    }
   }
 
 }

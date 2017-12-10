@@ -10,7 +10,7 @@ import { CreatePropertyInterceptors } from './property';
 export class ConstructInvocation implements IInvocation {
 
   // _compiledTarget: any;
-  _initializers: Map<string, IInvocation>;
+  _initializers: Map<string | symbol, IInvocation>;
   _interceptors: PropertyDescriptorMap;
 
   // This constructor will be called during upgrade agent constructor
@@ -46,7 +46,7 @@ export class ConstructInvocation implements IInvocation {
   //   return this._compiledTarget;
   // }
 
-  get initializers(): Map<string, IInvocation> {
+  get initializers(): Map<string | symbol, IInvocation> {
     if (!this._initializers) {
       // Lazy compile
       this._initializers = CreatePropertyInitializers(this._target);
@@ -73,7 +73,7 @@ export class ConstructInvocation implements IInvocation {
 
     if ((this._options.features & AgentFeatures.Initializer) > 0) {
 
-      const initializers: Map<string, IInvocation> = this.initializers;
+      const initializers: Map<string | symbol, IInvocation> = this.initializers;
 
       // invoke all initializers to generate default value bag
       if (initializers && initializers.size) {

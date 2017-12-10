@@ -19,7 +19,7 @@
     "test:coverage": "node_modules/.bin/ts-node node_modules/.bin/istanbul cover --config=tools/istanbul.yaml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.full.json || exit 0",
     "lint": "node_modules/.bin/standard --pretty",
     "build": "npm run build:clean && npm run build:rollup && npm run build:npm",
-    "build:clean": "rm -rf ./release",
+    "build:clean": "rm -rf ./release && find ./src/ -depth -name \"*.js\"  -exec rm -f {} \\;",
     "build:rollup": "node_modules/.bin/rollup -c tools/rollup.config.ts",
     "build:npm": "cp LICENSE ./release && cp README.md ./release && cp package.release.json ./release/package.json",
     "release": "npm run build && npm run release:npm",
@@ -57,7 +57,7 @@
     "rollup": "latest",
     "rollup-plugin-typescript2": "latest",
     "ts-node": "latest",
-    "typescript": "2.6.1",
+    "typescript": "latest",
     "typescript-standard": "latest"
   },
   "dependencies": {}

@@ -44,7 +44,7 @@ describe('PropertyDecorator', () => {
             return 'test';
           }
         }
-      }).toThrowError('PropertyDecoratorAttribute can only decorate on class property');
+      }).toThrowError('PropertyDecoratorAttribute can only decorate on class field property');
     });
     it('decorate on getter', () => {
       expect(() => {
@@ -55,7 +55,7 @@ describe('PropertyDecorator', () => {
             return 'test';
           }
         }
-      }).toThrowError('PropertyDecoratorAttribute can only decorate on class property');
+      }).toThrowError('PropertyDecoratorAttribute can only decorate on class field property');
     });
     it('decorate on setter', () => {
       expect(() => {
@@ -67,7 +67,7 @@ describe('PropertyDecorator', () => {
             this._method = value;
           }
         }
-      }).toThrowError('PropertyDecoratorAttribute can only decorate on class property');
+      }).toThrowError('PropertyDecoratorAttribute can only decorate on class field property');
     });
     it('decorate on setter twice', () => {
       expect(() => {
@@ -79,7 +79,7 @@ describe('PropertyDecorator', () => {
             this._method = value;
           }
         }
-      }).toThrowError('PropertyDecoratorAttribute can only decorate on class property');
+      }).toThrowError('PropertyDecoratorAttribute can only decorate on class field property');
     });
 
   });

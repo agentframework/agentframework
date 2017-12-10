@@ -1,21 +1,18 @@
 import { agent } from '../../agent'
-import { AgentCompileType, decorateAgent, decorateClassMethod, decorateClassProperty } from '../decorator';
+import { AgentCompileType, decorateAgent, decorateClassMethod, decorateClassField } from '../decorator';
 import { IAttribute } from '../attribute';
 import { IInterceptor } from '../interceptor';
 import { IInvocation } from '../invocation';
 
 
-describe('@factory', () => {
+describe('core.interceptors.factory', () => {
 
   describe('# should able to', () => {
 
-    it('create agent', () => {
-
-      function fake() {
-        return decorateClassMethod(new FakeInjectAttribute())
-      }
-
-      class FakeInjectAttribute implements IAttribute, IInterceptor {
+    it('create agent with fake interceptor', () => {
+      
+      class FakeInterceptorAttribute implements IAttribute, IInterceptor {
+        
         intercept(target: IInvocation, parameters: ArrayLike<any>): any {
           throw new Error('Not support');
         }
@@ -23,23 +20,27 @@ describe('@factory', () => {
         getInterceptor() {
           return null;
         }
+        
       }
 
-      class InjectClass {
-        @fake()
+      class Base {
+        
+        @decorateClassMethod(new FakeInterceptorAttribute())
         hijack(): any {
 
         }
+        
       }
 
       @agent({ compile: AgentCompileType.LazyFunction })
-      class FakeAgent extends InjectClass {
+      class Tester01 extends Base {
 
       }
-
-      new FakeAgent();
-      const fa = new FakeAgent();
-      expect(fa instanceof FakeAgent).toBe(true);
+      
+      const instance = new Tester01();
+      expect(instance instanceof Tester01).toBeTruthy();
+      
+      
     });
 
   });

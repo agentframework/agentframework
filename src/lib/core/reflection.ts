@@ -1,171 +1,84 @@
-import { IAttribute } from './attribute';
-import { IsObjectOrFunction, IsUndefined, ToPropertyKey, IsFunction, GetPrototypeArray } from './utils';
-import { getOriginConstructor } from './decorator';
-import { Metadata } from './metadata';
-import { Constructor } from './constructor';
-
 /**
- *
- *
- *
+ * Filters the classes represented in an array of Type objects.
  */
-export class Reflection {
+import { AgentFeatures } from './decorator';
+import { Decoratable } from './decoratable';
+import { IsFunction } from './utils';
+
+
+export class Parameter extends Decoratable {
+
+}
+
+
+export class Method extends Decoratable {
   
-  private _attributes: Array<IAttribute>;
-  private _metadata: Map<string, any>;
-  private _hasInterceptor: boolean;
-  private _hasInitializer: boolean;
+  _maxParameters: number;
+  _parameters: Map<number, Parameter>;
   
-  private constructor(private _target: Object, private _targetKey?: string | symbol, private _descriptor?: PropertyDescriptor) {
-    
-    if (IsUndefined(_descriptor) && !IsUndefined(_targetKey)) {
-      this._descriptor = Object.getOwnPropertyDescriptor(_target, _targetKey);
-    }
-    
-    this._attributes = [];
-    this._metadata = new Map<string, any>();
-    
-    // MVP: Add support for ES2017 Reflect.metadata
-    if (Reflect['getMetadata'] && typeof Reflect['getMetadata'] === 'function') {
-      this.getMetadata = function (key: string) {
-        let metadata = Reflect['getMetadata'](key, this.target, this.targetKey);
-        return metadata || this._metadata.get(key);
-      }
-    }
-    
-  }
-  
-  public static addAttribute(attribute: IAttribute, target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
-    const reflection = Reflection.getOrCreateOwnInstance(target, targetKey, descriptor);
-    reflection.addAttribute(attribute);
-  }
-  
-  public static addMetadata(key: string, value: any, target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
-    const reflection = Reflection.getOrCreateOwnInstance(target, targetKey, descriptor);
-    reflection.addMetadata(key, value);
-  }
-  
-  public static getInstance(target: Object | Function, targetKey?: string | symbol): Reflection | null {
-    if (!IsObjectOrFunction(target)) {
-      throw new TypeError();
-    }
-    if (!IsUndefined(targetKey)) {
-      const instance = IsFunction(target) ? target['prototype'] : target;
-      targetKey = ToPropertyKey(targetKey);
-      return Metadata.get(instance, targetKey);
-    }
-    else {
-      const originTarget = getOriginConstructor(target);
-      const instance = IsFunction(originTarget) ? originTarget['prototype'] : originTarget;
-      return Metadata.get(instance);
+  constructor(maxParameters: number) {
+    super();
+    // do not create the map if this method don't have parameter
+    // to save memory usage
+    if (maxParameters) {
+      this._maxParameters = maxParameters;
+      this._parameters = new Map<number, Parameter>();
     }
   }
   
-  public static getOwnInstance(target: Object | Function, targetKey?: string | symbol): Reflection | null {
-    if (!IsObjectOrFunction(target)) {
-      throw new TypeError();
+  parameters(index: number): Parameter {
+    if (!this._maxParameters || index > this._maxParameters) {
+      throw new TypeError(`Invalid parameter index: ${index}`)
     }
-    if (!IsUndefined(targetKey)) {
-      const instance = IsFunction(target) ? target['prototype'] : target;
-      targetKey = ToPropertyKey(targetKey);
-      return Metadata.getOwn(instance, targetKey);
+    let parameter = this._parameters.get(index);
+    if (!parameter) {
+      parameter = new Parameter();
+      this._parameters.set(index, parameter);
     }
-    else {
-      const originTarget = getOriginConstructor(target);
-      const instance = IsFunction(originTarget) ? originTarget['prototype'] : originTarget;
-      return Metadata.getOwn(instance);
-    }
+    return parameter;
   }
   
-  public static getAttributes(target: Object | Function, targetKey?: any): Array<IAttribute> {
-    const reflection = Reflection.getInstance(target, targetKey);
-    return reflection ? reflection.getAttributes() : [];
+}
+
+
+export class Property extends Decoratable {
+  
+  _methods: Map<string, Method>;
+  
+  constructor(private _key: string | symbol, private _descriptor?: PropertyDescriptor) {
+    super();
+    this._methods = new Map<string, Method>();
+    this._methods.set('set', new Method(1));
+    this._methods.set('get', new Method(0));
+    
+    let maxFunctionParameters = 0; // field don't have parameter
+    if (_descriptor && _descriptor.value && IsFunction(_descriptor.value)) {
+      maxFunctionParameters = _descriptor.value.length;
+    }
+    this._methods.set('value', new Method(maxFunctionParameters));
   }
   
-  public static hasAttribute(target: Object | Function, targetKey?: any): boolean {
-    const reflection = Reflection.getInstance(target, targetKey);
-    return reflection ? reflection.hasAttribute() : false;
+  value(): Method {
+    return this._methods.get('value');
   }
   
-  public static findAttributes<A extends IAttribute>(typeOrInstance: Constructor, attributeType?): Map<string, Array<A>> {
-    
-    const results = new Map<string, Array<A>>();
-    
-    const prototypes = GetPrototypeArray(typeOrInstance);
-    
-    prototypes.reverse().forEach(proto => {
-      
-      const reflections = Metadata.getAll(proto);
-      
-      // register all params config or middleware config
-      reflections.forEach((reflection: Reflection, methodName: string) => {
-        
-        // reflection without descriptor must a field
-        results.set(methodName, reflection.getAttributes(attributeType));
-        
-      });
-      
-    });
-    
+  setter(): Method {
+    return this._methods.get('set');
+  }
+  
+  getter(): Method {
+    return this._methods.get('get');
+  }
+  
+  hasFeatures(features: AgentFeatures) {
+    let results;
+    if ((features & AgentFeatures.Initializer) === AgentFeatures.Initializer) {
+      results = this.hasInitializer() || this.setter().hasInitializer() || this.value().hasInitializer();
+    }
+    if ((features & AgentFeatures.Interceptor) === AgentFeatures.Interceptor) {
+      results = results || this.hasInterceptors() ||this.getter().hasInterceptors() || this.value().hasInterceptors();
+    }
     return results;
-  }
-  
-  private static getOrCreateOwnInstance(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): Reflection {
-    const instance = IsFunction(target) ? target['prototype'] : target;
-    let reflection = Reflection.getOwnInstance(instance, targetKey);
-    if (!reflection) {
-      reflection = new Reflection(instance, targetKey, descriptor);
-      Metadata.saveOwn(reflection, instance, targetKey);
-    }
-    return reflection;
-  }
-  
-  getAttributes<A extends IAttribute>(type?): Array<A> {
-    if (type) {
-      return this._attributes.filter(a => a instanceof type) as Array<A>;
-    }
-    else {
-      return this._attributes.slice(0) as Array<A>;
-    }
-  }
-  
-  hasAttribute(): boolean {
-    return this._attributes.length > 0
-  }
-  
-  hasInitializer(): boolean {
-    return this._hasInitializer;
-  }
-  
-  hasInterceptor(): boolean {
-    return this._hasInterceptor;
-  }
-  
-  addAttribute(attr: IAttribute): void {
-    if (!attr) {
-      throw new TypeError(`Invalid attribute to decorate`);
-    }
-    this._attributes.push(attr);
-    // if the attribute provide a getInterceptor, that means this property may need inject
-    if (attr.getInterceptor) {
-      this._hasInterceptor = true;
-    }
-    if (attr.getInitializer) {
-      this._hasInitializer = true;
-    }
-  }
-  
-  getMetadata(key: string): any | null {
-    return this._metadata.get(key);
-  }
-  
-  addMetadata(key: string, value: any) {
-    // console.log('added design for ', this._target, '.', this._targetKey, '->', key, '=', value);
-    this._metadata.set(key, value);
-  }
-  
-  get target(): Object | Function {
-    return this._target;
   }
   
   get type(): any {
@@ -181,12 +94,74 @@ export class Reflection {
   }
   
   get targetKey(): string | symbol {
-    return this._targetKey;
+    return this._key;
   }
   
   get descriptor(): PropertyDescriptor | null {
     return this._descriptor;
   }
+}
+
+/**
+ * Represents a callback function that is used to filter a list of behavior represented in a map of Behavior objects.
+ */
+export interface PropertyFilter {
+  /**
+   * @param {Property} value The Behavior object to which the filter is applied.
+   * @param filterCriteria An arbitrary object used to filter the list.
+   * @returns {boolean} `true` to include the behavior in the filtered list; otherwise false.
+   */
+  (value: Property, filterCriteria?: any): boolean
+}
+
+/**
+ *
+ */
+export class Reflection extends Decoratable {
+  
+  _prototype: object;
+  _properties: Map<string | symbol, Property>;
+  
+  constructor(prototype: object) {
+    super();
+    this._prototype = prototype;
+    this._properties = new Map<string | symbol, Property>();
+  }
+  
+  get origin(): Object | Function {
+    return this._prototype;
+  }
+  
+  
+  property(key: string | symbol, descriptor?: PropertyDescriptor): Property {
+    if (!this._properties.has(key)) {
+      descriptor = descriptor || Object.getOwnPropertyDescriptor(this.origin, key);
+      this._properties.set(key, new Property(key, descriptor))
+    }
+    return this._properties.get(key);
+  }
+  
+  /**
+   * Returns a filtered array of Property objects.
+   * @param {PropertyFilter} filter
+   * @param filterCriteria
+   * @returns {Property[]}
+   */
+  findProperties(filter: PropertyFilter, filterCriteria?: any): Property[] {
+    const properties: Array<Property> = [];
+    for (const pair of this._properties.entries()) {
+      if (filter(pair[1], filterCriteria)) {
+        properties.push(pair[1]);
+      }
+    }
+    return properties;
+  }
+  
+  getProperties(): IterableIterator<Property> {
+    return this._properties.values();
+  }
+  
   
 }
+
 

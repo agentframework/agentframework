@@ -53,7 +53,7 @@ export interface IBeforeDecorateAttribute {
 
 
 export function CanDecorate(attribute: IAttribute, target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
-  return !attribute.beforeDecorate || attribute.beforeDecorate(target, targetKey, descriptor);
+  return !attribute || !attribute.beforeDecorate || attribute.beforeDecorate(target, targetKey, descriptor);
 }
 
 export function GetInterceptor(attribute: IAttribute): IInterceptor | undefined {

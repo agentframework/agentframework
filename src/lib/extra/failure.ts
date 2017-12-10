@@ -1,4 +1,4 @@
-import { decorateClassMember } from '../core/decorator';
+import { decorateClassMember, decorateClassMethod } from '../core/decorator';
 import { IAttribute } from '../core/attribute';
 import { IInterceptor } from '../core/interceptor';
 import { IInvocation } from '../core/invocation';
@@ -10,7 +10,7 @@ import { IInvocation } from '../core/invocation';
  * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
  */
 export function failure(replaced: any) {
-  return decorateClassMember(new FailureAttribute(replaced));
+  return decorateClassMethod(new FailureAttribute(replaced));
 }
 
 /**

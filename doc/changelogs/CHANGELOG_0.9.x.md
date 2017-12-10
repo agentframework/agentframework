@@ -3,7 +3,20 @@
 0.9.x is the last version before 1.0. Since the MVP/EPIC features are already in place. 
 The goal of this version is to improve performance and revise API interfaces for backward compatibility.
 
-## 2017-12-05, Version 0.9.0 (Current), @e2tox
+## 2017-12-10, Version 0.9.1 (Current), @e2tox
+
+**Notable Changes**
+
+- Introduce Reflector() method to access Reflection metadata from an instance or a constructor
+- Attribute now can decorate on getter, setter
+- Agent can be compiled into function, class or Proxy
+- Revised Reflection API
+
+**Others**
+- Added more test cases
+
+
+## 2017-12-05, Version 0.9.0, @e2tox
 
 **Notable Changes**
 

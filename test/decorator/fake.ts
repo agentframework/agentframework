@@ -1,5 +1,5 @@
 import { IAttribute, IInterceptor, decorateClassMember } from '../../src/lib';
-import { decorateClass, decorateClassMethod, decorateClassProperty } from '../../src/lib/core/decorator';
+import { decorateClass, decorateClassMethod, decorateClassField } from '../../src/lib/core/decorator';
 
 export function fakeClassMemberDecorator() {
   return decorateClassMember(new PropertyDecoratorAttribute());
@@ -14,10 +14,10 @@ export function fakeClassMethodDecorator() {
 }
 
 export function fakeClassPropertyDecorator() {
-  return decorateClassProperty(new PropertyDecoratorAttribute());
+  return decorateClassField(new PropertyDecoratorAttribute());
 }
 
-class PropertyDecoratorAttribute implements IAttribute {
+export class PropertyDecoratorAttribute implements IAttribute {
 
   beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
     return false;
