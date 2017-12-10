@@ -1,4 +1,6 @@
-export { IAttribute, IBeforeDecorateAttribute } from './core/attribute'
+import { IsString, IsNullOrUndefined } from './core/utils';
+import { decorateAgent } from './core/decorator';
+export { IAttribute } from './core/attribute'
 export { IInterceptor } from './core/interceptor'
 export { IInitializer } from './core/initializer'
 export { IInvocation } from './core/invocation'
@@ -8,9 +10,12 @@ export {
   decorateClass,
   decorateClassMember,
   decorateClassMethod,
-  decorateClassProperty
+  decorateClassField
 } from './core/decorator'
-export { IsFunction, IsUndefined, IsObjectOrFunction, IsSymbol, IsString, ToPropertyKey, IsEqual } from './core/utils'
-export { agent, Agent, AgentAttribute } from './agent'
-export { InMemoryDomain, IDomain } from './domain'
+export { Constructor } from './core/constructor';
+export { IsObject, IsFunction, IsNullOrUndefined, IsObjectOrFunction, IsSymbol, IsString, ToPropertyKey, IsEqual } from './core/utils'
+
+export { agent } from './agent';
+
+export { IDomain } from './domain'
 export * from './extra'

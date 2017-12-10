@@ -2,8 +2,6 @@ import { agent } from '../../agent'
 import { AgentCompileType } from '../decorator';
 
 class InjectableClass {
-  constructor() {
-  }
 }
 
 class InjectClass {

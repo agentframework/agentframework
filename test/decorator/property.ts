@@ -1,8 +1,8 @@
-import { IAttribute, IInterceptor, IInvocation, decorateClassProperty } from '../../src/lib';
+import { IAttribute, IInterceptor, IInvocation, decorateClassField } from '../../src/lib';
 
 
 export function propertyDecorator() {
-  return decorateClassProperty(new PropertyDecoratorAttribute());
+  return decorateClassField(new PropertyDecoratorAttribute());
 }
 
 class PropertyDecoratorAttribute implements IAttribute {

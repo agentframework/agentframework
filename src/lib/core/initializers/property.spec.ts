@@ -1,104 +1,68 @@
 import { agent } from '../../agent'
-import {
-  AgentCompileType, AgentFeatures, decorateAgent, decorateClassMethod,
-  decorateClassProperty
-} from '../decorator';
+import { decorateClassField, decorateClassMember, decorateClassMethod } from '../decorator';
 import { IAttribute } from '../attribute';
 import { IInterceptor } from '../interceptor';
 import { IInvocation } from '../invocation';
+import { CreatePropertyInitializers } from './property';
 import { IInitializer } from '../initializer';
 
-class InterceptorAttribute implements IAttribute, IInterceptor {
-  intercept(target: IInvocation, parameters: ArrayLike<any>): any {
-    Object.keys(target.target);
-    return target.invoke(parameters);
-  }
-  getInterceptor() {
-    return this;
-  }
-}
 
-class InitializerAttribute implements IAttribute, IInitializer {
-  public initialize(target: IInvocation, parameters: ArrayLike<any>): any {
-    Object.keys(target.target);
-    return target.invoke(parameters);
-  }
-  getInitializer() {
-    return this;
-  }
-}
-
-class Base {
-
-}
-
-describe('interceptor / property', () => {
-
-  describe('# should not able to', () => {
-
-    it('decorate interceptor on field property', () => {
-
-      @agent()
-      class IncorrectAgent extends Base {
-
-        @decorateClassMethod(new InitializerAttribute())
-        @decorateClassMethod(new InterceptorAttribute())
-        test() {
+describe('core.initializers.property', () => {
+  
+  describe('# should able to', () => {
+    
+    it('decorate more than one interceptor on method', () => {
+      
+      class DefaultValueAttribute implements IAttribute, IInitializer {
+        
+        initialize(target: IInvocation, parameters: ArrayLike<any>): any {
+          const def = target.invoke(parameters);
+          console.log('keys', Object.keys(target.target), 'def', def);
+          return 10;
         }
-
-      }
-
-      expect(() => {
-
-        new IncorrectAgent();
-
-      }).toThrowError('Class: IncorrectAgent; Property: test; Initializer can only decorate on field property.')
-
-    });
-
-    it('decorate interceptor on field property', () => {
-
-
-      @agent()
-      class GoodAgent extends Base {
-
-        @decorateClassProperty(new InitializerAttribute())
-        @decorateClassProperty(new InterceptorAttribute())
-        field
-
-      }
-
-      const instance = new GoodAgent();
-
-
-      expect(instance instanceof GoodAgent).toBeTruthy();
-
-    });
-
-    it('unable to decorate interceptor', () => {
-
-
-      class FakeInitializerAttribute implements IAttribute {
-
+        
         getInitializer() {
-          return null;
+          return this;
+        }
+        
+      }
+      
+      class IncreaseValueAttribute implements IAttribute, IInterceptor {
+        
+        intercept(target: IInvocation, parameters: ArrayLike<any>): any {
+          console.log('keys', Object.keys(target.target));
+          return target.invoke(parameters) + 10;
+        }
+        
+        getInterceptor() {
+          return this;
         }
       }
-
-      class Base {
-      }
-
+      
       @agent()
-      class FakeAgent extends Base {
-        @decorateClassProperty(new FakeInitializerAttribute())
-        field;
+      class Tester01 {
+        
+        @decorateClassField(new IncreaseValueAttribute())
+        @decorateClassField(new IncreaseValueAttribute())
+        @decorateClassMember(new IncreaseValueAttribute())
+        @decorateClassMember(new IncreaseValueAttribute())
+        @decorateClassField(new DefaultValueAttribute())
+        total;
+        
       }
-
-      const instance = new FakeAgent();
-      expect(instance instanceof FakeAgent).toBeTruthy();
-
+      
+      
+      // should able to create the class with null initializer
+      const interceptorBag: Map<string | symbol, IInvocation> = CreatePropertyInitializers(Tester01);
+      
+      const num = interceptorBag.get('total').invoke([]);
+      
+      expect(num).toBe(50);
+      
     });
-
+    
+    
   });
-
+  
+  
 });

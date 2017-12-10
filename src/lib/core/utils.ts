@@ -1,19 +1,10 @@
-export const ORIGIN_INSTANCE = Symbol('agent.framework.origin.instance');
-export const ORIGIN_CONSTRUCTOR = Symbol('agent.framework.origin.constructor');
-export const PROXY_PROTOTYPE = Symbol('agent.framework.proxy.prototype');
-export const INTERCEPTED_CONSTRUCTOR = Symbol('agent.framework.interceptor.constructor');
-export const AGENT_DOMAIN = Symbol('agent.framework.domain');
+
+export function IsObject(x: any): boolean {
+  return typeof x === 'object' && x != null;
+}
 
 export function IsFunction(x: any): boolean {
   return typeof x === 'function';
-}
-
-export function IsUndefined(x: any): boolean {
-  return x === undefined
-}
-
-export function IsObjectOrFunction(x: any): boolean {
-  return typeof x === 'object' ? x !== null : typeof x === 'function'
 }
 
 export function IsSymbol(x: any): boolean {
@@ -22,6 +13,18 @@ export function IsSymbol(x: any): boolean {
 
 export function IsString(x: any): boolean {
   return typeof x === 'string';
+}
+
+export function IsNumber(x: any): boolean {
+  return typeof x === 'number' && !isNaN(x);
+}
+
+export function IsNullOrUndefined(x: any): boolean {
+  return x == null
+}
+
+export function IsObjectOrFunction(x: any): boolean {
+  return typeof x === 'object' ? x !== null : typeof x === 'function'
 }
 
 export function ToPropertyKey(value: any): string | symbol {

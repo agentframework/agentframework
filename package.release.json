@@ -1,6 +1,6 @@
 {
   "name": "agentframework",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -12,6 +12,7 @@
     "README.md",
     "LICENSE"
   ],
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/agentframework/agentframework.git"

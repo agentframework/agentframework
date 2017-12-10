@@ -1,11 +1,8 @@
-import { Reflection } from '../reflection';
-import { INTERCEPTED_CONSTRUCTOR, PROXY_PROTOTYPE } from '../utils';
+import { INTERCEPTED_CONSTRUCTOR } from '../symbol';
 import { AgentOptions } from '../decorator';
 import { InterceptorFactory } from './factory';
-
-export interface Constructor extends Function {
-  new(...params: Array<any>): any;
-}
+import { Constructor } from '../constructor';
+import { Reflector } from '../reflector';
 
 //region CreateLazyFunctionConstructorInterceptor
 /**
@@ -24,7 +21,7 @@ export function CreateLazyFunctionConstructorInterceptor<T extends Function>(tar
       const originConstructor = proto.constructor;
 
       // search all attributes on this class constructor
-      const customAttributes = Reflection.getAttributes(originConstructor);
+      const customAttributes = Reflector(originConstructor).getInterceptors();
 
       // create a interceptor chain from the found attributes
       interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
@@ -53,13 +50,16 @@ export function CreateLazyFunctionConstructorInterceptor<T extends Function>(tar
 }
 //endregion
 
+
 //region CreateLazyClassConstructorInterceptor
 /**
  * Create lazy constructor using class
  */
-export function CreateLazyClassConstructorInterceptor<T extends Function>(target: Constructor, options: Partial<AgentOptions>): any {
+export function CreateLazyClassConstructorInterceptor<T extends Function>(target: Function, options: Partial<AgentOptions>): any {
 
-  return class extends target {
+  const type = <Constructor><any>target;
+  
+  return class extends type {
 
     constructor() {
 
@@ -78,7 +78,7 @@ export function CreateLazyClassConstructorInterceptor<T extends Function>(target
         const originConstructor = proto.constructor;
 
         // search all attributes on this class constructor
-        const customAttributes = Reflection.getAttributes(originConstructor);
+        const customAttributes = Reflector(originConstructor).getInterceptors();
 
         // create a interceptor chain from the found attributes
         interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
@@ -91,8 +91,7 @@ export function CreateLazyClassConstructorInterceptor<T extends Function>(target
 
       // invoke the cached chain
       const createdAgent = interceptedConstructor.invoke(arguments);
-
-
+      
       // Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
 
       // return the new created instance
@@ -123,7 +122,7 @@ export function CreateLazyProxyConstructorInterceptor<T extends Function>(target
         const originConstructor = proto.constructor;
 
         // search all attributes on this class constructor
-        const customAttributes = Reflection.getAttributes(originConstructor);
+        const customAttributes = Reflector(originConstructor).getInterceptors();
 
         // create a interceptor chain from the found attributes
         interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
@@ -156,18 +155,20 @@ export function CreateLazyProxyConstructorInterceptor<T extends Function>(target
 /**
  * Create static constructor using class
  */
-export function CreateStaticClassConstructorInterceptor<T extends Function>(target: Constructor, options: Partial<AgentOptions>): any {
+export function CreateStaticClassConstructorInterceptor<T extends Function>(target: T,  options: Partial<AgentOptions>): any {
 
   const proto = target.prototype;
   const originConstructor = proto.constructor;
 
   // search all attributes on this class constructor
-  const customAttributes = Reflection.getAttributes(originConstructor);
+  const customAttributes = Reflector(originConstructor).getInterceptors();
 
   // create a interceptor chain from the found attributes
   const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
-
-  return class extends target {
+  
+  const type = <Constructor><any>target;
+  
+  return class extends type {
 
     constructor() {
 
@@ -202,7 +203,7 @@ export function CreateStaticFunctionConstructorInterceptor<T extends Function>(t
   const originConstructor = proto.constructor;
 
   // search all attributes on this class constructor
-  const customAttributes = Reflection.getAttributes(originConstructor);
+  const customAttributes = Reflector(originConstructor).getInterceptors();
 
   // create a interceptor chain from the found attributes
   const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
@@ -238,7 +239,7 @@ export function CreateStaticProxyConstructorInterceptor<T extends Function>(targ
   const originConstructor = proto.constructor;
 
   // search all attributes on this class constructor
-  const customAttributes = Reflection.getAttributes(originConstructor);
+  const customAttributes = Reflector(originConstructor).getInterceptors();
 
   // create a interceptor chain from the found attributes
   const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
@@ -269,9 +270,12 @@ export function CreateStaticProxyConstructorInterceptor<T extends Function>(targ
 /**
  * Create dynamic constructor using class
  */
-export function CreateDynamicClassConstructorInterceptor<T extends Function>(target: Constructor, options: Partial<AgentOptions>): any {
+export function CreateDynamicClassConstructorInterceptor<T extends Function>(target: T, options: Partial<AgentOptions>): any {
+  
+  const type = <Constructor><any>target;
+  
+  return class extends type {
 
-  return class extends target {
 
     constructor() {
 
@@ -285,7 +289,7 @@ export function CreateDynamicClassConstructorInterceptor<T extends Function>(tar
       const originConstructor = proto.constructor;
 
       // search all attributes on this class constructor
-      const customAttributes = Reflection.getAttributes(originConstructor);
+      const customAttributes = Reflector(originConstructor).getInterceptors();
 
       // create a interceptor chain from the found attributes
       const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
@@ -318,7 +322,7 @@ export function CreateDynamicFunctionConstructorInterceptor<T extends Function>(
     const originConstructor = proto.constructor;
 
     // search all attributes on this class constructor
-    const customAttributes = Reflection.getAttributes(originConstructor);
+    const customAttributes = Reflector(originConstructor).getInterceptors();
 
     // create a interceptor chain from the found attributes
     const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
@@ -355,7 +359,7 @@ export function CreateDynamicProxyConstructorInterceptor<T extends Function>(tar
       const originConstructor = proto.constructor;
 
       // search all attributes on this class constructor
-      const customAttributes = Reflection.getAttributes(originConstructor);
+      const customAttributes = Reflector(originConstructor).getInterceptors();
 
       // create a interceptor chain from the found attributes
       const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);

@@ -3,8 +3,9 @@ import {
   fakeClassMemberDecorator,
   fakeClassDecorator,
   fakeClassMethodDecorator,
-  fakeClassPropertyDecorator
+  fakeClassPropertyDecorator, PropertyDecoratorAttribute
 } from './fake';
+import { decorateParameter } from '../../src/lib/core/decorator';
 
 
 describe('Fake Decorator', () => {
@@ -15,15 +16,16 @@ describe('Fake Decorator', () => {
 
       @agent()
       class TestClass {
-        _testMethod: string = 'test';
+        
         @fakeClassMemberDecorator()
-        testMethod() {
-          return this._testMethod;
+        testMethod(@decorateParameter() first: boolean, @decorateParameter() second: TestClass): TestClass {
+          return this;
         }
+        
       }
 
       const test = new TestClass();
-      expect(test.testMethod()).toEqual('test');
+      expect(test.testMethod(null, null)).toEqual(test);
     });
 
     it('decorate on class', () => {

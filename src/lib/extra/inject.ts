@@ -1,19 +1,18 @@
-import { decorateClassMember, decorateClassPropertyOrGetter } from '../core/decorator';
+import { decorateClassField } from '../core/decorator';
 import { IAttribute } from '../core/attribute';
-import { IInterceptor } from '../core/interceptor';
 import { IInvocation } from '../core/invocation';
-import { Agent } from '../agent';
-import { LocalDomain } from '../domain';
 import { IInitializer } from '../core/initializer';
+import { Constructor } from '../core/constructor';
+import { IsFunction } from '../core/utils';
 
 
-export function inject(typeOrIdentifier: Agent | string) {
-  return decorateClassPropertyOrGetter(new InjectAttribute(typeOrIdentifier));
+export function inject(typeOrIdentifier: Constructor | string) {
+  return decorateClassField(new InjectAttribute(typeOrIdentifier));
 }
 
 export class InjectAttribute implements IAttribute, IInitializer {
 
-  constructor(private _typeOrIdentifier: Agent | string) {
+  constructor(private _typeOrIdentifier: Constructor | string) {
   }
 
   beforeDecorate?(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
@@ -30,8 +29,12 @@ export class InjectAttribute implements IAttribute, IInitializer {
   }
 
   public initialize(target: IInvocation, parameters: ArrayLike<any>): any {
-    const origin = target.invoke(parameters);
-    return LocalDomain.getAgent(this.typeOrIdentifier);
+    if (IsFunction(this.typeOrIdentifier)) {
+      return Reflect.construct(<Constructor>this.typeOrIdentifier, []);
+    }
+    else {
+      throw new Error(`Agent ${this.typeOrIdentifier} not found`);
+    }
   }
 
 }
