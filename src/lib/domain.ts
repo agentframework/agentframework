@@ -1,4 +1,4 @@
-import { Reflection } from './core/agent';
+import { Reflection } from './core/reflection';
 
 /**
  * Domain interface
