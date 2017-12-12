@@ -30,7 +30,7 @@ export class InjectAttribute implements IAttribute, IInitializer {
 
   public initialize(target: IInvocation, parameters: ArrayLike<any>): any {
     if (IsFunction(this.typeOrIdentifier)) {
-      return Reflect.construct(<Constructor>this.typeOrIdentifier, []);
+      return Reflect.construct(this.typeOrIdentifier as Constructor, []);
     }
     else {
       throw new Error(`Agent ${this.typeOrIdentifier} not found`);

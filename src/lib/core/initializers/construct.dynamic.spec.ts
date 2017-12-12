@@ -23,7 +23,7 @@ class DynamicProxy extends InjectClass {
 describe('core.initializers.construct.dynamic', () => {
 
   describe('# should able to', () => {
-    
+
     it('create DynamicFunction agent', () => {
       new DynamicFunction();
       const agent = new DynamicFunction();
@@ -31,7 +31,7 @@ describe('core.initializers.construct.dynamic', () => {
       // not support
       // expect(Reflect.getPrototypeOf(agent)).toBe(DynamicFunction.prototype);
     });
-    
+
     it('create DynamicClass agent', () => {
       new DynamicClass();
       const agent = new DynamicClass();
@@ -39,14 +39,14 @@ describe('core.initializers.construct.dynamic', () => {
       // expect(agent instanceof DynamicClass).toBe(false);
       // expect(Reflect.getPrototypeOf(agent)).toBe(DynamicClass.prototype);
     });
-    
+
     it('create DynamicProxy agent', () => {
       new DynamicProxy();
       const agent = new DynamicProxy();
       expect(agent instanceof DynamicProxy).toBe(true);
       expect(Reflect.getPrototypeOf(agent)).toBe(DynamicProxy.prototype);
     });
-    
+
   });
 
 });

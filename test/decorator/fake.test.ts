@@ -16,12 +16,12 @@ describe('Fake Decorator', () => {
 
       @agent()
       class TestClass {
-        
+
         @fakeClassMemberDecorator()
-        testMethod(@decorateParameter() first: boolean, @decorateParameter() second: TestClass): TestClass {
+        testMethod( @decorateParameter() first: boolean, @decorateParameter() second: TestClass): TestClass {
           return this;
         }
-        
+
       }
 
       const test = new TestClass();

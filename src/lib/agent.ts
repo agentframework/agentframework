@@ -8,7 +8,7 @@ import { AgentAttribute } from './core/agent';
 // ES2015 or before
 // ===========================================
 /* istanbul ignore if  */
-if (typeof Reflect !== "object") {
+if (typeof Reflect !== 'object') {
   throw new Error('Agent Framework requires ES2016 support');
 }
 
@@ -24,16 +24,16 @@ if (typeof Reflect['metadata'] !== 'function') {
   //     Reflect.metadata("design:returntype", String)
   Reflect['metadata'] = function (key: string, value: any) {
     return function (target: Object | Function,
-                     propertyKey?: string | symbol,
-                     descriptor?: PropertyDescriptor): void {
-      
+      propertyKey?: string | symbol,
+      descriptor?: PropertyDescriptor): void {
+
       if (IsNullOrUndefined(propertyKey)) {
         Reflector(target).addMetadata(key, value);
       }
       else {
         Reflector(target).property(propertyKey, descriptor).addMetadata(key, value);
       }
-      
+
     }
   };
 }

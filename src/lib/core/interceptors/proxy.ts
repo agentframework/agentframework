@@ -1,4 +1,4 @@
-import { ToPropertyKey, IsNullOrUndefined} from '../utils';
+import { ToPropertyKey, IsNullOrUndefined } from '../utils';
 import { InterceptorFactory } from './factory';
 import { ORIGIN_INSTANCE, PROXY_PROTOTYPE } from '../symbol';
 

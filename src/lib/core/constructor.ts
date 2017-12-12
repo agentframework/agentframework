@@ -1,3 +1,3 @@
 export interface Constructor extends Function {
-  new (...args);
+  new(...args);
 }

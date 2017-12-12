@@ -11,7 +11,7 @@
     "newLine": "LF",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "outDir": "release/lib",
     "typeRoots": [
       "node_modules/@types/"

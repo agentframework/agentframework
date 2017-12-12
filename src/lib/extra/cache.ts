@@ -1,4 +1,4 @@
-import { decorateClassMethod } from '../core/decorator';
+import { decorateClassMember } from '../core/decorator';
 import { IAttribute } from '../core/attribute';
 import { IInterceptor } from '../core/interceptor';
 import { IInvocation } from '../core/invocation';
@@ -9,7 +9,7 @@ import { IInvocation } from '../core/invocation';
  * @returns {(target:any, propertyKey:string, descriptor:PropertyDescriptor)=>undefined}
  */
 export function cache(expires?: number) {
-  return decorateClassMethod(new CacheAttribute(expires));
+  return decorateClassMember(new CacheAttribute(expires));
 }
 
 /**

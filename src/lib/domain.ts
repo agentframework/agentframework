@@ -4,7 +4,7 @@ import { Reflection } from './core/reflection';
  * Domain interface
  */
 export interface IDomain {
-  
+
   /**
    *
    * @param filter
@@ -12,7 +12,7 @@ export interface IDomain {
    * @returns {Reflection[]}
    */
   findTypes(filter, filterCriteria: any): Reflection[];
-  
+
   /**
    * Return the type information for this prototype
    * @param {Object} prototype
@@ -20,19 +20,19 @@ export interface IDomain {
    * @returns {Reflection[]}
    */
   getType(prototype: object, throwOnError?: boolean): Reflection;
-  
+
   /**
    * Returns all the types defined within this registry.
    * @returns {Reflection[]}
    */
   getTypes(): Reflection[];
-  
+
   /**
    * Resolve a type from a hash key
    * @returns {Reflection}
    */
   resolveType(hash: string): Reflection;
-  
+
   // /**
   //  *
   //  */

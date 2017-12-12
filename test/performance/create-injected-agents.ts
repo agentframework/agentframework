@@ -11,11 +11,11 @@ class InjectableClass {
 }
 
 class InjectClass {
-  
+
   @inject(InjectableClass)
   @normalize()
   injected: any;
-  
+
   assigned: any;
 }
 

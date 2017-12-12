@@ -9,10 +9,10 @@ export class Parameter extends Decoratable {
 
 
 export class Method extends Decoratable {
-  
+
   _maxParameters: number;
   _parameters: Map<number, Parameter>;
-  
+
   constructor(maxParameters: number) {
     super();
     // do not create the map if this method don't have parameter
@@ -22,7 +22,7 @@ export class Method extends Decoratable {
       this._parameters = new Map<number, Parameter>();
     }
   }
-  
+
   parameters(index: number): Parameter {
     if (!this._maxParameters || index > this._maxParameters) {
       throw new TypeError(`Invalid parameter index: ${index}`)
@@ -34,39 +34,39 @@ export class Method extends Decoratable {
     }
     return parameter;
   }
-  
+
 }
 
 
 export class Property extends Decoratable {
-  
+
   _methods: Map<string, Method>;
-  
+
   constructor(private _key: string | symbol, private _descriptor?: PropertyDescriptor) {
     super();
     this._methods = new Map<string, Method>();
     this._methods.set('set', new Method(1));
     this._methods.set('get', new Method(0));
-    
+
     let maxFunctionParameters = 0; // field don't have parameter
     if (_descriptor && _descriptor.value && IsFunction(_descriptor.value)) {
       maxFunctionParameters = _descriptor.value.length;
     }
     this._methods.set('value', new Method(maxFunctionParameters));
   }
-  
+
   value(): Method {
     return this._methods.get('value');
   }
-  
+
   setter(): Method {
     return this._methods.get('set');
   }
-  
+
   getter(): Method {
     return this._methods.get('get');
   }
-  
+
   hasFeatures(features: AgentFeatures) {
     let results;
     if ((features & AgentFeatures.Initializer) === AgentFeatures.Initializer) {
@@ -77,23 +77,23 @@ export class Property extends Decoratable {
     }
     return results;
   }
-  
+
   get type(): any {
     return this.getMetadata('design:type');
   }
-  
+
   get paramtypes(): Array<any> {
     return this.getMetadata('design:paramtypes');
   }
-  
+
   get returntype(): any {
     return this.getMetadata('design:returntype');
   }
-  
+
   get targetKey(): string | symbol {
     return this._key;
   }
-  
+
   get descriptor(): PropertyDescriptor | null {
     return this._descriptor;
   }
@@ -115,16 +115,16 @@ export interface PropertyFilter {
  * Reflection information for user class
  */
 export class Reflection extends Decoratable {
-  
+
   _prototype: object;
   _properties: Map<string | symbol, Property>;
-  
+
   constructor(prototype: object) {
     super();
     this._prototype = prototype;
     this._properties = new Map<string | symbol, Property>();
   }
-  
+
   /**
    * Return the prototype of reflecting class
    * @returns {Object | Function}
@@ -132,7 +132,7 @@ export class Reflection extends Decoratable {
   get type(): object {
     return this._prototype;
   }
-  
+
   /**
    * Return the constructor of reflecting class
    * @returns {any}
@@ -140,7 +140,7 @@ export class Reflection extends Decoratable {
   get target(): any {
     return this._prototype.constructor;
   }
-  
+
   /**
    * Return property info for specified property key
    * @param {string | symbol} key
@@ -154,7 +154,7 @@ export class Reflection extends Decoratable {
     }
     return this._properties.get(key);
   }
-  
+
   /**
    * Returns a filtered array of Property objects.
    * @param {PropertyFilter} filter
@@ -170,7 +170,7 @@ export class Reflection extends Decoratable {
     }
     return properties;
   }
-  
+
   /**
    * Return all properties
    * @returns {IterableIterator<Property>}
@@ -178,8 +178,7 @@ export class Reflection extends Decoratable {
   getProperties(): IterableIterator<Property> {
     return this._properties.values();
   }
-  
-  
-}
 
+
+}
 

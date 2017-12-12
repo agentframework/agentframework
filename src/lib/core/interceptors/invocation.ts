@@ -8,19 +8,20 @@ import { Compiler } from '../compiler';
  * Invoke the origin constructor
  */
 export class ConstructInvocation implements IInvocation {
-  
+
   _target: any;
   _compiledTarget: any;
   _options: Partial<AgentOptions>;
   _compilerOptions: Partial<CompilerOptions>;
   _targetProxy: boolean;
-  
+  _targetConstructor: boolean;
+
   // This constructor will be called during upgrade agent constructor
   constructor(target: any, options: Partial<AgentOptions>) {
-    
+
     this._target = target;
     this._options = options;
-    
+
     // make compiler options
     const compilerOptions: Partial<CompilerOptions> = {
       features: this._options.features,
@@ -35,47 +36,67 @@ export class ConstructInvocation implements IInvocation {
     }
     this._compilerOptions = compilerOptions;
     this._targetProxy = compilerOptions.target === 'proxy';
-    
+    this._targetConstructor = (options.features & AgentFeatures.Constructor) === AgentFeatures.Constructor;
+
     if (AgentFeatures.Disabled === options.features) {
       // user defined interceptors will be disabled, this is good for metadata only class
       this.invoke = function () {
         return Reflect.construct(target, arguments);
       };
     }
-    
+
   }
-  
+
   get target(): any {
     return this._target;
   }
-  
-  
+
+
   invoke() {
-    
+
     const target = this._target;
-    
+    let agent;
+
     if (!this._compiledTarget) {
       this._compiledTarget = (new Compiler(this._compilerOptions)).compile(target, arguments);
     }
-    
-    const agent = Reflect.construct(target, arguments, this._compiledTarget);
-    
-    if (this._targetProxy) {
 
-      return new Proxy(agent, {
+    // if (this._targetConstructor) {
+
+    agent = Reflect.construct(target, arguments, this._compiledTarget);
+
+    if (this._targetProxy) {
+      agent = new Proxy(agent, {
         getPrototypeOf(instance: any): object | null {
           return target.prototype;
         }
       });
-      
     }
-    else {
-      return agent;
-    }
-    
+
+    // }
+    // else {
+    //
+    //   agent = Reflect.construct(target, arguments);
+    //
+    //   if (this._targetProxy) {
+    //
+    //
+    //   }
+    //   else {
+    //
+    //     //
+    //
+    //   }
+    //
+    //   // fire @ready events
+    //
+    // }
+
+    return agent;
+
   }
-  
-  
+
+
   /**
    * This function will be called when creating a new instance of current agent
    */
@@ -202,7 +223,7 @@ export class ConstructInvocation implements IInvocation {
   //   return agent;
   //
   // }
-  
+
 }
 
 // /**
@@ -250,17 +271,17 @@ export class ConstructInvocation implements IInvocation {
  * Invocation for an interceptor, it call next interceptor in chain
  */
 export class InterceptorInvocation implements IInvocation {
-  
+
   constructor(private _invocation: IInvocation, private _interceptor: IInterceptor) {
   }
-  
+
   get target(): any {
     return this._invocation.target;
   }
-  
+
   invoke(parameters: ArrayLike<any>): any {
     return this._interceptor.intercept(this._invocation, parameters);
   }
-  
+
 }
 

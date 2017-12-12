@@ -3,7 +3,7 @@ import { Property } from './reflection';
 
 
 export class PropertyFilters {
-  
+
   // /**
   //  * Filters the classes represented in an array of Type objects.
   //  */
@@ -11,11 +11,11 @@ export class PropertyFilters {
   //   const results = behavior.getAttributes(filterCriteria);
   //   return results.length > 0;
   // }
-  
+
   static FilterFeatures(property: Property, filterCriteria?: AgentFeatures): boolean {
     return property.hasFeatures(filterCriteria);
   }
-  
+
   // static FilterName(value: Property, filterCriteria?: any): boolean {
   //   return true;
   // }
@@ -23,5 +23,5 @@ export class PropertyFilters {
   // static FilterNameIgnoreCase(value: Property, filterCriteria?: any): boolean {
   //   return true;
   // }
-  
+
 }

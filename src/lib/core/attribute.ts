@@ -6,9 +6,9 @@ import { AgentOptions } from './agent';
  *
  */
 export interface IAttribute {
-  
+
   identifier?: string;
-  
+
   /**
    * Fired before decoration of this attribute
    * @param {Object | Function} target
@@ -34,9 +34,9 @@ export interface IAttribute {
  * This attribute is for agent / domain management
  */
 export interface IAgentAttribute extends IAttribute {
-  
+
   options: AgentOptions;
-  
+
   /**
    * Fired before decoration of this attribute
    * @param {Object | Function} target
@@ -45,8 +45,8 @@ export interface IAgentAttribute extends IAttribute {
    * @returns {boolean}
    */
   beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean
-  
-  
+
+
 }
 
 

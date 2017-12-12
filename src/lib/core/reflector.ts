@@ -10,7 +10,7 @@ import { IsFunction } from './utils';
  * @constructor
  */
 export function Reflector(target: object | Constructor): Reflection {
-  
+
   if (new.target) {
     // NOTE: in AgentFramework 1.0, the reflection data can only set on Type.
     // At present, we didn't found any use case to access reflection data on instance.
@@ -21,15 +21,15 @@ export function Reflector(target: object | Constructor): Reflection {
   if (!target) {
     throw new TypeError(`Reflection target is null`);
   }
-  
+
   const type = typeof target;
   let prototype;
-  
+
   if (type === 'function') {
-    prototype = (<Function>target).prototype;
+    prototype = (target as Function).prototype;
   }
   else if (type === 'object') {
-    
+
     // do not call Object.getPrototypeOf() if target is a prototype
     // because Object.getPrototypeOf(Object.prototype) will return null
     const constructor = Object.getOwnPropertyDescriptor(target, 'constructor');
@@ -40,7 +40,7 @@ export function Reflector(target: object | Constructor): Reflection {
     else {
       prototype = target['__proto__'];
     }
-    
+
   }
   else {
     // number, boolean
@@ -50,6 +50,6 @@ export function Reflector(target: object | Constructor): Reflection {
   if (!Reflections.has(prototype)) {
     Reflections.set(prototype, new Reflection(prototype));
   }
-  
+
   return Reflections.get(prototype);
 }

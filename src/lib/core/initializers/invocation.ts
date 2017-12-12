@@ -24,22 +24,22 @@ export class ValueInvocation implements IInvocation {
 }
 
 export class AgentInitializerInvocation implements IInvocation {
-  
+
   constructor(private _target: any, private _attribute: IAgentAttribute) {
   }
-  
+
   get target(): any {
     return this._target;
   }
-  
+
   get attribute(): IAgentAttribute {
     return this._attribute;
   }
-  
+
   invoke(parameters: ArrayLike<any>): any {
     throw new Error('Not supported');
   }
-  
+
 }
 
 /**

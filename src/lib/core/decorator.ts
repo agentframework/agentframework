@@ -13,11 +13,11 @@ import { IInvocation } from './invocation';
  * @returns {ClassDecorator}
  */
 export function decorateAgent(initializer: IAgentAttribute, interceptors?: IAttribute[], attributes?: IAttribute[]): ClassDecorator {
-  
+
   // upgrade target constructor to agent
   // this method will be called
   return <T extends Function>(target: T): void => {
-    
+
     // the attributes to initialize agent instance
     if (attributes && attributes.length) {
       const reflection = Reflector(target);
@@ -27,20 +27,20 @@ export function decorateAgent(initializer: IAgentAttribute, interceptors?: IAttr
         }
       }
     }
-    
+
     // the attributes to initialize agent constructor
     // current only support only one initializer, multiple interceptors
     if (CanDecorate(initializer, target)) {
-      
+
       // start the pipeline
-      let invocation:IInvocation = new AgentInitializerInvocation(target, initializer);
+      let invocation: IInvocation = new AgentInitializerInvocation(target, initializer);
       invocation = new InitializerInvocation(invocation, initializer.getInitializer());
-      
+
       // add interceptor into pipeline, if have
       if (initializer.getInterceptor) {
         invocation = new InterceptorInvocation(invocation, initializer.getInterceptor());
       }
-      
+
       // extend pipeline from extra interceptors
       if (interceptors && interceptors.length) {
         for (const attribute of interceptors) {
@@ -50,11 +50,11 @@ export function decorateAgent(initializer: IAgentAttribute, interceptors?: IAttr
           }
         }
       }
-      
+
       // run this pipeline to generate a new constructor for this giving type
       return invocation.invoke(arguments);
     }
-    
+
   }
 }
 
@@ -117,13 +117,4 @@ export function decorateParameter(attribute?: IAttribute): ParameterDecorator {
       Reflector(target).property(propertyKey).value().parameters(parameterIndex).addAttribute(attribute);
     }
   }
-}
-
-/**
- * Return origin constructor for a giving constructor
- * @param type
- * @returns {any}
- */
-export function getOriginConstructor(type: any): any {
-  return type[ORIGIN_CONSTRUCTOR] || type;
 }
