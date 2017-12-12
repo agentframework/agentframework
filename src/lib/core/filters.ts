@@ -1,8 +1,12 @@
-import { AgentFeatures } from './decorator';
+import { AgentFeatures } from './compiler';
 import { Property } from './reflection';
+
 
 export class PropertyFilters {
   
+  // /**
+  //  * Filters the classes represented in an array of Type objects.
+  //  */
   // static FilterAttribute(behavior: Property, filterCriteria?: any): boolean {
   //   const results = behavior.getAttributes(filterCriteria);
   //   return results.length > 0;

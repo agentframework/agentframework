@@ -1,6 +1,6 @@
 
 import { GetInterceptor, IAttribute } from '../attribute';
-import { AgentOptions } from '../decorator';
+import { AgentOptions } from '../agent';
 import { IInvocation, IInvoke } from '../invocation';
 import { ConstructInvocation, InterceptorInvocation } from './invocation';
 

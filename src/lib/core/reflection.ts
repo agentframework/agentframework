@@ -1,7 +1,4 @@
-/**
- * Filters the classes represented in an array of Type objects.
- */
-import { AgentFeatures } from './decorator';
+import { AgentFeatures } from './compiler';
 import { Decoratable } from './decoratable';
 import { IsFunction } from './utils';
 
@@ -76,7 +73,7 @@ export class Property extends Decoratable {
       results = this.hasInitializer() || this.setter().hasInitializer() || this.value().hasInitializer();
     }
     if ((features & AgentFeatures.Interceptor) === AgentFeatures.Interceptor) {
-      results = results || this.hasInterceptors() ||this.getter().hasInterceptors() || this.value().hasInterceptors();
+      results = results || this.hasInterceptors() || this.getter().hasInterceptors() || this.value().hasInterceptors();
     }
     return results;
   }
@@ -115,7 +112,7 @@ export interface PropertyFilter {
 }
 
 /**
- *
+ * Reflection information for user class
  */
 export class Reflection extends Decoratable {
   
@@ -128,14 +125,31 @@ export class Reflection extends Decoratable {
     this._properties = new Map<string | symbol, Property>();
   }
   
-  get origin(): Object | Function {
+  /**
+   * Return the prototype of reflecting class
+   * @returns {Object | Function}
+   */
+  get type(): object {
     return this._prototype;
   }
   
+  /**
+   * Return the constructor of reflecting class
+   * @returns {any}
+   */
+  get target(): any {
+    return this._prototype.constructor;
+  }
   
+  /**
+   * Return property info for specified property key
+   * @param {string | symbol} key
+   * @param {PropertyDescriptor} descriptor
+   * @returns {Property}
+   */
   property(key: string | symbol, descriptor?: PropertyDescriptor): Property {
     if (!this._properties.has(key)) {
-      descriptor = descriptor || Object.getOwnPropertyDescriptor(this.origin, key);
+      descriptor = descriptor || Object.getOwnPropertyDescriptor(this.type, key);
       this._properties.set(key, new Property(key, descriptor))
     }
     return this._properties.get(key);
@@ -157,6 +171,10 @@ export class Reflection extends Decoratable {
     return properties;
   }
   
+  /**
+   * Return all properties
+   * @returns {IterableIterator<Property>}
+   */
   getProperties(): IterableIterator<Property> {
     return this._properties.values();
   }

@@ -3,7 +3,14 @@
 0.9.x is the last version before 1.0. Since the MVP/EPIC features are already in place. 
 The goal of this version is to improve performance and revise API interfaces for backward compatibility.
 
-## 2017-12-10, Version 0.9.1 (Current), @e2tox
+## 2017-12-10, Version 0.9.2 (Current), @e2tox
+
+**Notable Changes**
+
+- Introduce agent compiler
+- Added compiler cache to increase the performance of creating agent instance using new()
+
+## 2017-12-10, Version 0.9.1, @e2tox
 
 **Notable Changes**
 

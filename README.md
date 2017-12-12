@@ -8,7 +8,7 @@ Agent Framework for TypeScript 2.2+
 
 | Date       | Version                                      | Status      |
 | ---------- | -------------------------------------------- | ----------- |
-| 2017-12-11 | [0.9.1](doc/changelogs/CHANGELOG_0.9.x.md)   | Latest      |
+| 2017-12-12 | [0.9.2](doc/changelogs/CHANGELOG_0.9.x.md)   | Latest      |
 | 2017-06-30 | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md)  | Stable      |
 | 2017-01-06 | [0.4.4](doc/changelogs/CHANGELOG_0.4.x.md)   |             |
 | 2016-11-20 | [0.3.12](doc/changelogs/CHANGELOG_0.3.x.md)  |             |
@@ -144,14 +144,15 @@ console.log('Is it create from the Developer class?', you instanceof Developer);
 - [x] COMPATIBILITY: Move @inject and @ready decorator out from core
 - [x] COMPATIBILITY: GetPrototypeOf should return origin prototype
 - [x] COMPATIBILITY: Agent should works in extended classes
-- [ ] COMPATIBILITY: instanceOf should works when compile to class 
-- [ ] COMPATIBILITY: Revise IInvocation Interface
-- [ ] COMPATIBILITY: Revise IInitializer Interface
-- [ ] COMPATIBILITY: Revise IInterceptor Interface
+- [x] COMPATIBILITY: instanceOf should works when compile to proxy 
+- [x] COMPATIBILITY: Revise IInvocation Interface
+- [x] COMPATIBILITY: Revise IInitializer Interface
+- [x] COMPATIBILITY: Revise IInterceptor Interface
 - [ ] COMPATIBILITY: Revise IAttribute Interface
+- [ ] COMPATIBILITY: Revise Reflection Interface
+- [x] COMPATIBILITY: Revise Reflector Interface
 - [ ] COMPATIBILITY: Revise Agent Options
 - [ ] COMPATIBILITY: Revise Domain Interface
-- [ ] COMPATIBILITY: Revise Reflection Interface
 
 
 ### Concepts in Agent Framework

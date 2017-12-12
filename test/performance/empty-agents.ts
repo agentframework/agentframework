@@ -1,4 +1,4 @@
-import { AgentCompileType } from '../../src/lib/core/decorator';
+import { AgentCompileType } from '../../src/lib/core/compiler';
 import { agent } from '../../src/lib/agent';
 const Benchmark = require('benchmark');
 
@@ -47,6 +47,23 @@ class DynamicClass extends InjectClass {
 class DynamicProxy extends InjectClass {
 }
 
+const suite = new Benchmark.Suite;
+
+suite.add('LazyFunction', function () {
+  const agent = new LazyFunction();
+  const same = Object.getPrototypeOf(agent) == LazyFunction.prototype;
+}).add('LazyClass', function () {
+  const agent = new LazyClass();
+  const same = Object.getPrototypeOf(agent) == LazyClass.prototype;
+}).add('LazyProxy', function () {
+  const agent = new LazyProxy();
+  const same = Object.getPrototypeOf(agent) == LazyProxy.prototype;
+}).on('cycle', function (event) {
+  console.log(String(event.target));
+}).on('complete', function () {
+  // console.log('Fastest is ' + this.filter('fastest').map('name'));
+  // done();
+}).run();
 
 // describe.skip('@benchmark', () => {
 //
@@ -80,7 +97,7 @@ class DynamicProxy extends InjectClass {
 //         console.log(String(event.target));
 //       }).on('complete', function () {
 //         // console.log('Fastest is ' + this.filter('fastest').map('name'));
-//         done();
+//         // done();
 //       }).run();
 //
 //

@@ -83,10 +83,10 @@ export function IsEqual(x: any, y: any): boolean {
  */
 export function GetPrototypeArray(typeOrInstance: any): Array<any> {
   const prototypes = [];
-  let p = IsFunction(typeOrInstance) ? typeOrInstance.prototype : Reflect.getPrototypeOf(typeOrInstance);
+  let p = IsFunction(typeOrInstance) ? typeOrInstance.prototype : Object.getPrototypeOf(typeOrInstance);
   while (p) {
     prototypes.push(p);
-    p = Reflect.getPrototypeOf(p);
+    p = Object.getPrototypeOf(p);
   }
   return prototypes;
 }

@@ -1,14 +1,12 @@
 import { IInterceptor } from './interceptor';
 import { IInitializer } from './initializer';
+import { AgentOptions } from './agent';
 
 /**
  *
  */
 export interface IAttribute {
   
-  /**
-   *
-   */
   identifier?: string;
   
   /**
@@ -35,8 +33,20 @@ export interface IAttribute {
 /**
  * This attribute is for agent / domain management
  */
-export interface IAgentAttribute {
-  identifier: string;
+export interface IAgentAttribute extends IAttribute {
+  
+  options: AgentOptions;
+  
+  /**
+   * Fired before decoration of this attribute
+   * @param {Object | Function} target
+   * @param {string | symbol} targetKey
+   * @param {PropertyDescriptor} descriptor
+   * @returns {boolean}
+   */
+  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean
+  
+  
 }
 
 

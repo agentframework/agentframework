@@ -1,7 +1,7 @@
-import { IAttribute } from './core/attribute';
 import { decorateAgent } from './core/decorator';
-import { IsNullOrUndefined, IsString } from './core/utils';
+import { IsNullOrUndefined } from './core/utils';
 import { Reflector } from './core/reflector';
+import { AgentAttribute } from './core/agent';
 
 
 // ===========================================
@@ -45,27 +45,11 @@ else {
 
 
 /**
- * AgentAttribute
- */
-export class AgentAttribute implements IAttribute {
-  constructor(private _identifier?: any) {
-  }
-  get identifier(): any {
-    return this._identifier;
-  }
-}
-
-/**
  * Define an agent
  * @returns {(target:Constructor)=>(void|Constructor)}
  */
-export function agent(identifierOrOptions?: any) {
-  if (IsString(identifierOrOptions)) {
-    return decorateAgent({ attribute: new AgentAttribute(identifierOrOptions) });
-  }
-  else {
-    return decorateAgent(identifierOrOptions)
-  }
+export function agent(...args) {
+  return decorateAgent(Reflect.construct(AgentAttribute, args));
 }
 
 // var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -94,6 +78,7 @@ export function agent(identifierOrOptions?: any) {
 //     return this;
 //   }
 // };
+//
 // __decorate([
 //   fake_1.fakeClassMemberDecorator(),
 //   __param(0, decorator_1.decorateParameter()), __param(1, decorator_1.decorateParameter()),
@@ -101,6 +86,7 @@ export function agent(identifierOrOptions?: any) {
 //   __metadata("design:paramtypes", [Boolean, TestClass]),
 //   __metadata("design:returntype", TestClass)
 // ], TestClass.prototype, "testMethod", null);
+//
 // TestClass = __decorate([
 //   lib_1.agent()
 // ], TestClass);

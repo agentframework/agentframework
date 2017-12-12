@@ -1,6 +1,6 @@
 import { GetPrototypeArray, IsString } from './utils';
 import { Constructor } from './constructor';
-import { AgentFeatures } from './decorator';
+import { AgentFeatures } from './compiler';
 import { Reflector } from './reflector';
 import { Property} from './reflection';
 import { PropertyFilters } from './filters';

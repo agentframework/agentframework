@@ -8,9 +8,12 @@ Accepted
 
 ## Context
 
-closure > `Object.getPrototypeOf` > `Reflect.getPrototypeOf`
-`object[key]` > `Reflect.has` > `Reflect.get`
-Create function ~= Create class
+|  | Fastest | Faster  | Same    | Slower  | Slowest |
+| ------- | ------- | ------- | ------- | ------- | ------- |
+| Access prototype | closure | `Object.getPrototypeOf` | `Reflect.getPrototypeOf` | `__proto__` |  |
+| Access property | `object[key]` | `Reflect.has` | `Reflect.get` |  |  |
+| Create proxy |  |  | Create function, Create class |  |  |
+
 
 ## Decision
 

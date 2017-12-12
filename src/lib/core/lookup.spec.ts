@@ -1,6 +1,6 @@
 import { inject } from '../extra/inject';
 import { normalize } from '../extra/normalize';
-import { AgentCompileType } from './decorator';
+import { AgentCompileType } from './compiler';
 import { agent } from '../agent';
 import { Lookup } from './lookup';
 
@@ -47,28 +47,28 @@ class Developer extends Employee {
 }
 
 describe('Lookup', () => {
-
-  describe('# should able to', () => {
-
-    it('get all initializers', () => {
   
+  describe('# should able to', () => {
+    
+    it('get all initializers', () => {
+      
       const initializers = Lookup.findInitializers(Developer);
       
       // @inject is an initializer
       expect(initializers.length).toBe(3);
-
+      
     });
     
     it('get all interceptors', () => {
-    
+      
       const interceptors = Lookup.findInterceptors(Developer);
-    
+      
       // @inject is an initializer
       expect(interceptors.length).toBe(5);
-    
+      
     });
-
+    
   });
-
+  
 });
 

@@ -1,8 +1,7 @@
 import { Constructor } from './constructor';
 import { Reflection } from './reflection';
 import { Reflections } from './reflections';
-import { IsFunction, IsObject } from './utils';
-
+import { IsFunction } from './utils';
 
 /**
  * Reflector is the interface to access type data from class or instance
@@ -10,16 +9,17 @@ import { IsFunction, IsObject } from './utils';
  * @returns {Reflection}
  * @constructor
  */
-export function Reflector(target: Object | Constructor): Reflection {
+export function Reflector(target: object | Constructor): Reflection {
   
   if (new.target) {
+    // NOTE: in AgentFramework 1.0, the reflection data can only set on Type.
+    // At present, we didn't found any use case to access reflection data on instance.
+    // We will added the support if got enough requirements.
     throw new SyntaxError(`Not allow calling new Reflector`);
   }
-  
-  // NOTE: in AgentFramework 1.0, the reflection data can only set on Type.
-  // in AgentFramework 2.0. the reflection data will able to set on instance.
+
   if (!target) {
-    throw new TypeError();
+    throw new TypeError(`Reflection target is null`);
   }
   
   const type = typeof target;
@@ -30,24 +30,23 @@ export function Reflector(target: Object | Constructor): Reflection {
   }
   else if (type === 'object') {
     
+    // do not call Object.getPrototypeOf() if target is a prototype
+    // because Object.getPrototypeOf(Object.prototype) will return null
     const constructor = Object.getOwnPropertyDescriptor(target, 'constructor');
     if (constructor && IsFunction(constructor.value)) {
       // this is a prototype already
       prototype = target.constructor.prototype;
     }
     else {
-      prototype = Object.getPrototypeOf(target);
+      prototype = target['__proto__'];
     }
+    
   }
   else {
     // number, boolean
-    throw new TypeError();
+    throw new TypeError(`Reflection target type is not supported`);
   }
-  
-  if (!IsObject(prototype)) {
-    throw new TypeError(`Unable to create reflection for object without prototype`);
-  }
-  
+
   if (!Reflections.has(prototype)) {
     Reflections.set(prototype, new Reflection(prototype));
   }
