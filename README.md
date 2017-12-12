@@ -20,6 +20,7 @@ Agent Framework for TypeScript 2.2+
 - AOP for TypeScript
 - Elegant design pattern to decorate your class with metadata and interceptors 
 - 100% TypeScript implementation! No dependencies!!!
+- Very Fast!!! Very Small!!! (Only 773 LOC @ v0.9.2)
 - Require ES6 and TypeScript 2.2+
 - Work in both node and browser
 
