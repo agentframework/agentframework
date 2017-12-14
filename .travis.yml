@@ -15,7 +15,6 @@ env:
   - TYPESCRIPT=typescript@2.5.3
   - TYPESCRIPT=typescript@2.4.2
   - TYPESCRIPT=typescript@2.3.4
-  - TYPESCRIPT=typescript@2.2.2
 
 node_js:
   - "6"
