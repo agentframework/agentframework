@@ -33,10 +33,11 @@ export class LazyFunctionConstructorInitializer implements IInitializer {
         const originConstructor = proto.constructor;
 
         // search all attributes on this class constructor
-        const customAttributes = Reflector(originConstructor).getInterceptors();
+        const reflection = Reflector(originConstructor);
+        const customAttributes = reflection.getInterceptors();
 
         // create a interceptor chain from the found attributes
-        interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
+        interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options, reflection);
 
         // cache the interceptor
         // use symbol here to allow reset cache when needed
@@ -103,10 +104,11 @@ export class LazyClassConstructorInitializer implements IInitializer {
           const originConstructor = proto.constructor;
 
           // search all attributes on this class constructor
-          const customAttributes = Reflector(originConstructor).getInterceptors();
+          const reflection = Reflector(originConstructor);
+          const customAttributes = reflection.getInterceptors();
 
           // create a interceptor chain from the found attributes
-          interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
+          interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options, reflection);
 
           // cache the interceptor
           // use symbol here to allow reset cache when needed
@@ -156,10 +158,11 @@ export class LazyProxyConstructorInitializer implements IInitializer {
           const originConstructor = proto.constructor;
 
           // search all attributes on this class constructor
-          const customAttributes = Reflector(originConstructor).getInterceptors();
+          const reflection = Reflector(originConstructor);
+          const customAttributes = reflection.getInterceptors();
 
           // create a interceptor chain from the found attributes
-          interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
+          interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options, reflection);
 
           // cache the interceptor
           // use symbol here to allow reset cache when needed

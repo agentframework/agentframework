@@ -2,7 +2,7 @@ import { IDesign } from './design';
 
 export interface IInvoke {
   
-  (...parameters: Array<any>): any
+  (...args): any
   
 }
 

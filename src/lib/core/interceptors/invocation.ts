@@ -3,6 +3,7 @@ import { AgentOptions } from '../agent';
 import { IInterceptor } from '../interceptor';
 import { AgentCompileType, AgentFeatures, CompilerOptions } from '../compiler';
 import { Compiler } from '../compiler';
+import { IDesign } from '../design';
 
 /**
  * Invoke the origin constructor
@@ -10,6 +11,7 @@ import { Compiler } from '../compiler';
 export class ConstructInvocation implements IInvocation {
 
   _target: any;
+  _design: IDesign;
   _compiledTarget: any;
   _options: Partial<AgentOptions>;
   _compilerOptions: Partial<CompilerOptions>;
@@ -17,10 +19,11 @@ export class ConstructInvocation implements IInvocation {
   _targetConstructor: boolean;
 
   // This constructor will be called during upgrade agent constructor
-  constructor(target: any, options: Partial<AgentOptions>) {
+  constructor(target: any, options: Partial<AgentOptions>, design: IDesign) {
 
     this._target = target;
     this._options = options;
+    this._design = design;
 
     // make compiler options
     const compilerOptions: Partial<CompilerOptions> = {
@@ -47,6 +50,10 @@ export class ConstructInvocation implements IInvocation {
 
   }
 
+  get design(): IDesign {
+    return this._design;
+  }
+  
   get target(): any {
     return this._target;
   }
@@ -62,7 +69,9 @@ export class ConstructInvocation implements IInvocation {
     }
 
     // if (this._targetConstructor) {
-
+    console.log(this.design);
+    const types = this.design.paramtypes;
+    
     agent = Reflect.construct(target, arguments, this._compiledTarget);
 
     if (this._targetProxy) {

@@ -1,15 +1,15 @@
-
 import { GetInterceptor, IAttribute } from '../attribute';
 import { AgentOptions } from '../agent';
 import { IInvocation, IInvoke } from '../invocation';
 import { ConstructInvocation, InterceptorInvocation } from './invocation';
+import { IDesign } from '../design';
 
 // const ORIGIN = Symbol('agent.framework.origin.method');
 
 export function createInterceptionChainFromAttribute(origin: IInvocation, attributes: Array<IAttribute>): IInvocation {
-
+  
   let invocation: IInvocation = origin;
-
+  
   // make invocation chain of interceptors
   for (const attribute of attributes) {
     const interceptor = GetInterceptor(attribute);
@@ -17,9 +17,9 @@ export function createInterceptionChainFromAttribute(origin: IInvocation, attrib
       invocation = new InterceptorInvocation(invocation, interceptor);
     }
   }
-
+  
   return invocation;
-
+  
 }
 
 // TODO: add cache to improve performance
@@ -27,16 +27,17 @@ export function createInterceptionChainFromAttribute(origin: IInvocation, attrib
 // 2. implement the hash for attributes/prototype/describer
 // 3. replace InterceptorFactory with CachedInterceptorFactory
 export class InterceptorFactory {
-
-
+  
+  
   public static createConstructInterceptor<T>(attributes: Array<IAttribute>,
-    target: T,
-    options: Partial<AgentOptions>): IInvocation {
-    const invocation = new ConstructInvocation(target, options);
+                                              target: T,
+                                              options: Partial<AgentOptions>,
+                                              design: IDesign): IInvocation {
+    const invocation = new ConstructInvocation(target, options, design);
     return createInterceptionChainFromAttribute(invocation, attributes);
   }
-
-
+  
+  
   // public static createGetterInterceptor(attributes: Array<IAttribute>,
   //   target: any,
   //   propertyKey: PropertyKey,
@@ -53,8 +54,8 @@ export class InterceptorFactory {
   //   const invocation = new SetterInvocation(target, propertyKey, receiver);
   //   return createInterceptionChainFromAttribute(invocation, attributes);
   // }
-
-
+  
+  
   public static createFunctionInterceptor(attributes: Array<IAttribute>, method: IInvoke): Function {
     const originMethod = method; // method[ORIGIN] || method;
     const origin: IInvocation = {
@@ -75,7 +76,7 @@ export class InterceptorFactory {
     else {
       return originMethod;
     }
-
+    
   }
-
+  
 }

@@ -28,10 +28,11 @@ export class DynamicFunctionConstructorInitializer implements IInitializer {
       const originConstructor = proto.constructor;
 
       // search all attributes on this class constructor
-      const customAttributes = Reflector(originConstructor).getInterceptors();
+      const reflection = Reflector(originConstructor);
+      const customAttributes = reflection.getInterceptors();
 
       // create a interceptor chain from the found attributes
-      const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
+      const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options, reflection);
 
       // invoke the cached chain
       const createdAgent = interceptedConstructor.invoke(arguments);
@@ -82,10 +83,12 @@ export class DynamicClassConstructorInitializer implements IInitializer {
         const originConstructor = proto.constructor;
 
         // search all attributes on this class constructor
-        const customAttributes = Reflector(originConstructor).getInterceptors();
+  
+        const reflection = Reflector(originConstructor);
+        const customAttributes = reflection.getInterceptors();
 
         // create a interceptor chain from the found attributes
-        const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
+        const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options, reflection);
 
         // invoke the cached chain
         const createdAgent = interceptedConstructor.invoke(arguments);
@@ -125,10 +128,11 @@ export class DynamicProxyConstructorInitializer implements IInitializer {
         const originConstructor = proto.constructor;
 
         // search all attributes on this class constructor
-        const customAttributes = Reflector(originConstructor).getInterceptors();
+        const reflection = Reflector(originConstructor);
+        const customAttributes = reflection.getInterceptors();
 
         // create a interceptor chain from the found attributes
-        const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options);
+        const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options, reflection);
 
         // invoke the cached chain
         const createdAgent = interceptedConstructor.invoke(arguments);
