@@ -181,25 +181,26 @@ export class Compiler {
 
       propertyInitializers = new Map<string, IInvocation>();
 
-      for (const method of initializers) {
+      for (const property of initializers) {
 
-        const name = method.targetKey;
+        const name = property.targetKey;
 
-        if (method.descriptor) {
-          throw new Error(`Class: ${target.prototype.constructor.name}; Property: ${method.targetKey}; ` +
+        if (property.descriptor) {
+          throw new Error(`Class: ${target.prototype.constructor.name}; Property: ${property.targetKey}; ` +
             `Initializer not work with field property`);
         }
         else {
 
-          let initializerAttributes = method.getInitializers();
-          initializerAttributes = method.value().getInitializers().concat(initializerAttributes);
+          let initializerAttributes = property.getInitializers();
+          initializerAttributes = property.value().getInitializers().concat(initializerAttributes);
 
           // one property may have more than one interceptor.
           // we will call them one by one. passing the result of previous interceptor to the new interceptor
-          const initialized = InitializerFactory.createValueInitializer(initializerAttributes, target, name);
+          const initialized = InitializerFactory.createValueInitializer(initializerAttributes, target, name, property);
 
-          let interceptorAttributes = method.getInterceptors();
-          interceptorAttributes = method.value().getInterceptors().concat(interceptorAttributes);
+          // get all interceptors for the initializer
+          let interceptorAttributes = property.getInterceptors();
+          interceptorAttributes = property.value().getInterceptors().concat(interceptorAttributes);
 
           // apply interceptors
           const intercepted = createInterceptionChainFromAttribute(initialized, interceptorAttributes);

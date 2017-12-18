@@ -62,9 +62,12 @@ export function agent(...args) {
 //   if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 // };
 
-
 // @agent()
 // class TestClass {
+//
+//   constructor(@decorateParameter() first: boolean, @decorateParameter() second: TestClass) {
+//     return this;
+//   }
 //
 //   @fakeClassMemberDecorator()
 //   testMethod(@decorateParameter() first: boolean, @decorateParameter() second: TestClass): TestClass {
@@ -73,7 +76,11 @@ export function agent(...args) {
 //
 // }
 
+
 // let TestClass = class TestClass {
+//   constructor(first, second) {
+//     return this;
+//   }
 //   testMethod(first, second) {
 //     return this;
 //   }
@@ -89,4 +96,6 @@ export function agent(...args) {
 //
 // TestClass = __decorate([
 //   lib_1.agent()
+//   __param(0, decorateParameter()), __param(1, decorateParameter()),
+//   __metadata("design:paramtypes", [Boolean, TestClass])
 // ], TestClass);

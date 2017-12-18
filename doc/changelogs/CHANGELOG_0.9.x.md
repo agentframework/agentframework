@@ -3,7 +3,14 @@
 0.9.x is the last version before 1.0. Since the MVP/EPIC features are already in place. 
 The goal of this version is to improve performance and revise API interfaces for backward compatibility.
 
-## 2017-12-13, Version 0.9.3 (Current), @e2tox
+## 2017-12-13, Version 0.9.4 (Current), @e2tox
+
+**Notable Changes**
+
+- @inject(): AgentFramework will inject correct type by using current field type if user didn't specified the type.
+
+
+## 2017-12-13, Version 0.9.3, @e2tox
 
 **Notable Changes**
 

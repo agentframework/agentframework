@@ -114,7 +114,14 @@ export function decorateParameter(attribute?: IAttribute): ParameterDecorator {
   attribute = attribute || {};
   return (target: Object, propertyKey: string | symbol, parameterIndex: number): void => {
     if (CanDecorate(attribute, target, propertyKey)) {
-      Reflector(target).property(propertyKey).value().parameters(parameterIndex).addAttribute(attribute);
+      if (propertyKey == null) {
+        // this is for constructor
+        Reflector(target).parameters(parameterIndex).addAttribute(attribute);
+      }
+      else {
+        // parameter for methods
+        Reflector(target).property(propertyKey).value().parameters(parameterIndex).addAttribute(attribute);
+      }
     }
   }
 }

@@ -3,6 +3,7 @@ export { IAttribute, IBeforeDecorateAttribute } from './core/attribute'
 export { IInterceptor } from './core/interceptor'
 export { IInitializer } from './core/initializer'
 export { IInvocation } from './core/invocation'
+export { IDesign } from './core/design'
 export { Reflection } from './core/reflection'
 export { Reflector } from './core/reflector'
 export {

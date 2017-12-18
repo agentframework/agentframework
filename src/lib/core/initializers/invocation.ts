@@ -1,18 +1,20 @@
 import { IInvocation } from '../invocation';
 import { IInitializer } from '../initializer';
-import { Reflector } from '../reflector';
-import { Reflection } from '../reflection';
-import { AgentAttribute } from '../agent';
 import { IAgentAttribute } from '../attribute';
+import { IDesign } from '../design';
 
 /**
  * Read the property from origin prototype
  */
 export class ValueInvocation implements IInvocation {
 
-  constructor(private _target: any, private _propertyKey: PropertyKey) {
+  constructor(private _target: any, private _propertyKey: PropertyKey, private _design: IDesign) {
   }
 
+  get design(): IDesign {
+    return this._design;
+  }
+  
   get target(): any {
     return this._target;
   }

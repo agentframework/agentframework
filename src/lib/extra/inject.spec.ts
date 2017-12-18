@@ -26,8 +26,8 @@ class Supervisor {
 @agent()
 class Developer {
 
-  @inject(Manager)
-  manager: IHaveName;
+  @inject()
+  manager: Manager;
 
   get supervisor(): IHaveName {
     throw new Error('Supervisor not injected');
@@ -64,7 +64,8 @@ describe('@inject', () => {
     it('non-exist agent', () => {
       expect(() => {
         const test = new Supervisor();
-      }).toThrowError('Agent Supervisor not found');
+        expect(test).toBeUndefined();
+      }).toThrowError('Not supported dependence injection from identifier');
     });
 
   });
@@ -88,6 +89,14 @@ describe('@inject', () => {
       expect(Reflect.getPrototypeOf(Project)).toBe(Function.prototype);
       expect(developer.manager.name).toBe('Peter');
     });
-
+  
+    it('shutdown', (done) => {
+      // shutdown test to avoid unclosed debugger
+      setTimeout(function () {
+        process.exit();
+        done();
+      }, 2000)
+    });
+    
   });
 });

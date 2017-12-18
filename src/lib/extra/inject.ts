@@ -3,16 +3,17 @@ import { IAttribute } from '../core/attribute';
 import { IInvocation } from '../core/invocation';
 import { IInitializer } from '../core/initializer';
 import { Constructor } from '../core/constructor';
-import { IsFunction } from '../core/utils';
+import { IsFunction, IsString } from '../core/utils';
 
 
-export function inject(typeOrIdentifier: Constructor | string) {
+export function inject(typeOrIdentifier?: Constructor | string) {
   return decorateClassField(new InjectAttribute(typeOrIdentifier));
 }
 
 export class InjectAttribute implements IAttribute, IInitializer {
 
-  constructor(private _typeOrIdentifier: Constructor | string) {
+  constructor(private _typeOrIdentifier?: Constructor | string) {
+  
   }
 
   beforeDecorate?(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
@@ -29,8 +30,15 @@ export class InjectAttribute implements IAttribute, IInitializer {
   }
 
   public initialize(target: IInvocation, parameters: ArrayLike<any>): any {
+    
     if (IsFunction(this.typeOrIdentifier)) {
       return Reflect.construct(this.typeOrIdentifier as Constructor, []);
+    }
+    else if (IsString(this.typeOrIdentifier)) {
+      throw new Error(`Not supported dependence injection from identifier`);
+    }
+    else if (IsFunction(target.design.type)) {
+      return Reflect.construct(target.design.type as Constructor, []);
     }
     else {
       throw new Error(`Agent ${this.typeOrIdentifier} not found`);
