@@ -24,7 +24,7 @@ Agent Framework for TypeScript 2.2+
 - Work in both node and browser
 - Very Fast (Compile class at 1st time you new/call it; as fast as native class starting from 2nd time)
 - Very Clean (Never touch your original class prototype, A on-demand compiled proxy will be generated on top of your class)
-- Very Small (Only 773 LOC @ v0.9.2)
+- Very Small (Only 908 SLOC @ v0.9.5)
 
 ### Why use Agent Framework?
 
