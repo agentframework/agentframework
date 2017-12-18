@@ -170,22 +170,59 @@ export function decorate(attribute: IAttribute, allows: Target): UniversalDecora
     }
     else {
       if (descriptorType === 'number') {
+        
         // this is constructor parameter
         if (Target.MethodParameter !== (allows & Target.MethodParameter)) {
           throw new TypeError(`${attributeName} is not allow decorate on method parameters`);
         }
+        
       }
       else if (descriptorType === 'object') {
-        // this is constructor parameter
-        if (Target.Method !== (allows & Target.Method)) {
-          throw new TypeError(`${attributeName} is not allow decorate on method`);
+        
+        if (descriptor['value']) {
+          
+          if (typeof descriptor['value'] === 'function') {
+            
+            // this is method
+            if (Target.Method !== (allows & Target.Method)) {
+              throw new TypeError(`${attributeName} is not allow decorate on method`);
+            }
+            
+          }
+          else {
+            
+            // this is field
+            if (Target.Field !== (allows & Target.Field)) {
+              throw new TypeError(`${attributeName} is not allow decorate on field`);
+            }
+            
+          }
+          
+        }
+        if (descriptor['get']) {
+    
+          // this is constructor parameter
+          if (Target.Method !== (allows & Target.Getter)) {
+            throw new TypeError(`${attributeName} is not allow decorate on getter`);
+          }
+    
+        }
+        if (descriptor['set']) {
+    
+          // this is constructor parameter
+          if (Target.Method !== (allows & Target.Setter)) {
+            throw new TypeError(`${attributeName} is not allow decorate on setter`);
+          }
+          
         }
       }
       else {
+        
         // this is constructor
         if (Target.Field !== (allows & Target.Field)) {
           throw new TypeError(`${attributeName} is not allow decorate on field`);
         }
+        
       }
     }
     
