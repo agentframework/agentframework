@@ -17,18 +17,21 @@ Agent Framework for TypeScript 2.2+
 
 ### What's this?
 
-- AOP for TypeScript
+- AOP/DI for TypeScript
 - Elegant design pattern to decorate your class with metadata and interceptors 
 - 100% TypeScript implementation! No dependencies!!!
-- Very Fast!!! Very Small!!! (Only 773 LOC @ v0.9.2)
 - Require ES6 and TypeScript 2.2+
 - Work in both node and browser
+- Very Fast (Compile class at 1st time you new/call it; as fast as native class starting from 2nd time)
+- Very Clean (Never touch your original class prototype, A on-demand compiled proxy will be generated on top of your class)
+- Very Small (Only 773 LOC @ v0.9.2)
 
 ### Why use Agent Framework?
 
-- You need a powerful method to pre-process, post-process or modify system behaviors without touching existing code.
+- You want to build a framework which similar to Spring Framework but in JavaScript.
 - You want to build an abstract layer for a specific business domain in your organization.
 - You want to remove duplicated code and keep project codebase small and clean.
+- You need a powerful method to pre-process, post-process or modify system behaviors without touching existing code.
 
 ### When use Agent Framework?
 
@@ -158,7 +161,7 @@ console.log('Is it create from the Developer class?', you instanceof Developer);
 - [x] COMPATIBILITY: Revise IInvocation Interface
 - [x] COMPATIBILITY: Revise IInitializer Interface
 - [x] COMPATIBILITY: Revise IInterceptor Interface
-- [ ] COMPATIBILITY: Revise IAttribute Interface
+- [x] COMPATIBILITY: Revise IAttribute Interface
 - [ ] COMPATIBILITY: Revise Reflection Interface
 - [x] COMPATIBILITY: Revise Reflector Interface
 - [ ] COMPATIBILITY: Revise Agent Options
