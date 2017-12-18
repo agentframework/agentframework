@@ -33,7 +33,7 @@ class Developer {
     throw new Error('Supervisor not injected');
   }
 
-  constructor() {
+  constructor(@inject() supervisor?: Supervisor) {
     // The filed already been inject before constructor!!!
     if (this.manager.name !== 'Peter') {
       throw new Error('Unable to access injected property')

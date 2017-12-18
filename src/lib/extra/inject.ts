@@ -1,4 +1,4 @@
-import { decorateClassField } from '../core/decorator';
+import { decorate, decorateClassField, Target, UniversalDecorator } from '../core/decorator';
 import { IAttribute } from '../core/attribute';
 import { IInvocation } from '../core/invocation';
 import { IInitializer } from '../core/initializer';
@@ -6,8 +6,8 @@ import { Constructor } from '../core/constructor';
 import { IsFunction, IsString } from '../core/utils';
 
 
-export function inject(typeOrIdentifier?: Constructor | string) {
-  return decorateClassField(new InjectAttribute(typeOrIdentifier));
+export function inject(typeOrIdentifier?: Constructor | string): UniversalDecorator {
+  return decorate(new InjectAttribute(typeOrIdentifier), Target.ConstructorParameter | Target.Field);
 }
 
 export class InjectAttribute implements IAttribute, IInitializer {
