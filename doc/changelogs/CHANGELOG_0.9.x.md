@@ -3,11 +3,14 @@
 0.9.x is the last version before 1.0. Since the MVP/EPIC features are already in place. 
 The goal of this version is to improve performance and revise API interfaces for backward compatibility.
 
-## 2017-12-13, Version 0.9.4 (Current), @e2tox
+## 2017-12-18, Version 0.9.5 (Current), @e2tox
 
 **Notable Changes**
 
-- @inject(): AgentFramework will inject correct type by using current field type if user didn't specified the type.
+- Introduce Universal decorate function will able to decorate on multiple targets
+- Introduce IDesign interface and it expose to IInitializer and IInterceptor
+- IInitializer is able to access IDesign information during execution (@inject will know the type to inject)
+- IInitializer attribute can be decorate on constructor parameters (@inject can decorate on constructor parameter)
 
 
 ## 2017-12-13, Version 0.9.3, @e2tox

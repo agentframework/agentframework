@@ -131,11 +131,11 @@ export function decorateParameter(attribute?: IAttribute): ParameterDecorator {
     if (CanDecorate(attribute, target, propertyKey)) {
       if (propertyKey == null) {
         // this is for constructor
-        Reflector(target).parameters(parameterIndex).addAttribute(attribute);
+        Reflector(target).parameter(parameterIndex).addAttribute(attribute);
       }
       else {
         // parameter for methods
-        Reflector(target).property(propertyKey).value().parameters(parameterIndex).addAttribute(attribute);
+        Reflector(target).property(propertyKey).value().parameter(parameterIndex).addAttribute(attribute);
       }
     }
   }
@@ -229,7 +229,7 @@ export function decorate(attribute: IAttribute, allows: Target): UniversalDecora
     if (CanDecorate(attribute, target, propertyKey)) {
       if (isClass) {
         if (descriptorType === 'number') {
-          Reflector(target).parameters(<number>descriptor).addAttribute(attribute);
+          Reflector(target).parameter(<number>descriptor).addAttribute(attribute);
         }
         else {
           Reflector(target).addAttribute(attribute);
@@ -237,7 +237,7 @@ export function decorate(attribute: IAttribute, allows: Target): UniversalDecora
       }
       else {
         if (descriptorType === 'number') {
-          Reflector(target).property(propertyKey).value().parameters(<number>descriptor).addAttribute(attribute);
+          Reflector(target).property(propertyKey).value().parameter(<number>descriptor).addAttribute(attribute);
         }
         else if (descriptorType === 'object') {
           Reflector(target).property(propertyKey, <PropertyDescriptor>descriptor).value().addAttribute(attribute);

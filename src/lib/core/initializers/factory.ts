@@ -1,6 +1,6 @@
 import { GetInitializer, IAttribute } from '../attribute';
 import { IInvocation } from '../invocation';
-import { InitializerInvocation, ValueInvocation } from './invocation';
+import { InitializerInvocation, ParameterInvocation, ValueInvocation } from './invocation';
 import { IDesign } from '../design';
 
 export function createInitializationChainFromAttribute(origin: IInvocation, attributes: Array<IAttribute>): IInvocation {
@@ -29,5 +29,13 @@ export class InitializerFactory {
     return createInitializationChainFromAttribute(invocation, attributes);
   }
   
+  public static createParameterInitializer(attributes: Array<IAttribute>,
+                                           defaultValue: any,
+                                           design: IDesign): IInvocation {
+    const invocation = new ParameterInvocation(defaultValue, design);
+    return createInitializationChainFromAttribute(invocation, attributes);
+  }
+  
 }
+
 

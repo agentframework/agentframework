@@ -25,6 +25,25 @@ export class ValueInvocation implements IInvocation {
 
 }
 
+export class ParameterInvocation implements IInvocation {
+  
+  constructor(private _target: any, private _design: IDesign) {
+  }
+  
+  get design(): IDesign {
+    return this._design;
+  }
+  
+  get target(): any {
+    return this._target;
+  }
+  
+  invoke(parameters: ArrayLike<any>): any {
+    return this._target;
+  }
+  
+}
+
 export class AgentInitializerInvocation implements IInvocation {
 
   constructor(private _target: any, private _attribute: IAgentAttribute) {
