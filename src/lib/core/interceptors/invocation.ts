@@ -85,7 +85,6 @@ export class ConstructInvocation implements IInvocation {
     }
     else {
       agent = Reflect.construct(target, params, this._compiledTarget);
-      
     }
     
     
@@ -97,24 +96,7 @@ export class ConstructInvocation implements IInvocation {
       });
     }
     
-    // }
-    // else {
-    //
-    //   agent = Reflect.construct(target, arguments);
-    //
-    //   if (this._targetProxy) {
-    //
-    //
-    //   }
-    //   else {
-    //
-    //     //
-    //
-    //   }
-    //
-    //   // fire @ready events
-    //
-    // }
+    // fire @ready events
     
     return agent;
     

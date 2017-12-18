@@ -2,7 +2,6 @@ import { AgentFeatures } from './compiler';
 import { Decoratable } from './decoratable';
 import { IsFunction } from './utils';
 import { IDesign } from './design';
-import { inspect } from 'util';
 
 
 export class Parameter extends Decoratable implements IDesign {
