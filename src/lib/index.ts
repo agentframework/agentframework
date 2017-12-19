@@ -20,7 +20,10 @@ export {
   decorate
 } from './core/decorator'
 
-export { IsObject, IsFunction, IsNullOrUndefined, IsObjectOrFunction, IsSymbol, IsString, ToPropertyKey, IsEqual } from './core/utils'
+export {
+  IsObject, IsFunction, IsNullOrUndefined, IsObjectOrFunction, IsSymbol, IsString, IsEqual,
+  ToPropertyKey, GetPrototypeArray, GetPrototypeArrayReverse
+} from './core/utils'
 
 export { agent } from './agent';
 export * from './extra'

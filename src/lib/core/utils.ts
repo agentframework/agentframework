@@ -91,6 +91,11 @@ export function GetPrototypeArray(typeOrInstance: any): Array<any> {
   return prototypes;
 }
 
+export function GetPrototypeArrayReverse(typeOrInstance: any): Array<any> {
+  return GetPrototypeArray(typeOrInstance).reverse();
+}
+
+
 // export function assignProperties(target: any, source: any) {
 //   const name = Reflect.getOwnPropertyDescriptor(source, 'name');
 //   Reflect.defineProperty(target, 'name', name);
