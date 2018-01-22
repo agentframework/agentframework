@@ -3,7 +3,14 @@
 0.9.x is the last version before 1.0. Since the MVP/EPIC features are already in place. 
 The goal of this version is to improve performance and revise API interfaces for backward compatibility.
 
-## 2017-12-18, Version 0.9.5 (Current), @e2tox
+## 2017-12-18, Version 0.9.8 (Current), @e2tox
+
+**Notable Changes**
+
+- Export IsNumber helper function
+
+
+## 2017-12-18, Version 0.9.5, @e2tox
 
 **Notable Changes**
 

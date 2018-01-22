@@ -22,7 +22,7 @@ export {
 } from './core/decorator'
 
 export {
-  IsObject, IsFunction, IsNullOrUndefined, IsObjectOrFunction, IsSymbol, IsString, IsEqual,
+  IsObject, IsFunction, IsNullOrUndefined, IsObjectOrFunction, IsSymbol, IsString, IsNumber, IsEqual,
   ToPropertyKey, GetPrototypeArray, GetPrototypeArrayReverse
 } from './core/utils'
 
