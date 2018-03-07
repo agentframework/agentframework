@@ -2351,7 +2351,7 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
 
-typescript-standard@^0.3.35:
+typescript-standard@^0.3.36:
   version "0.3.36"
   resolved "https://registry.yarnpkg.com/typescript-standard/-/typescript-standard-0.3.36.tgz#9148dd1e9ef69fbc483e460e589645cb0c8d2965"
   dependencies:

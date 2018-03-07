@@ -58,6 +58,6 @@
     "rollup-plugin-typescript2": "^0.12.0",
     "ts-node": "^5.0.1",
     "typescript": "^2.7.2",
-    "typescript-standard": "^0.3.35"
+    "typescript-standard": "^0.3.36"
   }
 }
