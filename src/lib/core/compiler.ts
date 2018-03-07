@@ -71,9 +71,9 @@ export class Compiler {
           const initializedValue = (initializer as IInvocation).invoke(parameters);
           // bag.set(key, { value: initializedValue });
           fields[key] = {
-            value: initializedValue,
-            [FIELD_INITIALIZER]: initializer // cache initializer
+            value: initializedValue
           };
+          fields[key][FIELD_INITIALIZER] = initializer // cache initializer
         }
       }
 
