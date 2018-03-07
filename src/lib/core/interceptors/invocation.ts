@@ -10,7 +10,7 @@ import { CONSTRUCTOR_INITIALIZER } from '../symbol';
  * Invoke the origin constructor
  */
 export class ConstructInvocation implements IInvocation {
-  
+
   _target: any;
   _design: IDesign;
   _compiledTarget: any;
@@ -18,14 +18,14 @@ export class ConstructInvocation implements IInvocation {
   _compilerOptions: Partial<CompilerOptions>;
   _targetProxy: boolean;
   _targetConstructor: boolean;
-  
+
   // This constructor will be called during upgrade agent constructor
   constructor(target: any, options: Partial<AgentOptions>, design: IDesign) {
-    
+
     this._target = target;
     this._options = options;
     this._design = design;
-    
+
     // make compiler options
     const compilerOptions: Partial<CompilerOptions> = {
       features: this._options.features,
@@ -41,53 +41,53 @@ export class ConstructInvocation implements IInvocation {
     this._compilerOptions = compilerOptions;
     this._targetProxy = compilerOptions.target === 'proxy';
     this._targetConstructor = (options.features & AgentFeatures.Constructor) === AgentFeatures.Constructor;
-    
+
     if (AgentFeatures.Disabled === options.features) {
       // user defined interceptors will be disabled, this is good for metadata only class
       this.invoke = function () {
         return Reflect.construct(target, arguments);
       };
     }
-    
+
   }
-  
+
   get design(): IDesign {
     return this._design;
   }
-  
+
   get target(): any {
     return this._target;
   }
-  
-  
+
+
   invoke(params: ArrayLike<any>) {
-    
+
     const target = this._target;
     let agent;
-    
+
     if (!this._compiledTarget) {
       this._compiledTarget = (new Compiler(this._compilerOptions)).compile(target, params);
     }
-    
+
     const initializers: Map<number, IInvocation> = target[CONSTRUCTOR_INITIALIZER];
-    
+
     if (initializers && initializers.size) {
-      
+
       const args = Array.prototype.slice.call(params, 0);
-      
+
       // generate initializer / interceptor chain
       for (const idx of initializers.keys()) {
         args[idx] = initializers.get(idx).invoke([params[idx]]);
       }
-      
+
       agent = Reflect.construct(target, args, this._compiledTarget);
-      
+
     }
     else {
       agent = Reflect.construct(target, params, this._compiledTarget);
     }
-    
-    
+
+
     if (this._targetProxy) {
       agent = new Proxy(agent, {
         getPrototypeOf(instance: any): object | null {
@@ -95,14 +95,14 @@ export class ConstructInvocation implements IInvocation {
         }
       });
     }
-    
+
     // fire @ready events
-    
+
     return agent;
-    
+
   }
-  
-  
+
+
   /**
    * This function will be called when creating a new instance of current agent
    */
@@ -229,7 +229,7 @@ export class ConstructInvocation implements IInvocation {
   //   return agent;
   //
   // }
-  
+
 }
 
 // /**
@@ -277,17 +277,17 @@ export class ConstructInvocation implements IInvocation {
  * Invocation for an interceptor, it call next interceptor in chain
  */
 export class InterceptorInvocation implements IInvocation {
-  
+
   constructor(private _invocation: IInvocation, private _interceptor: IInterceptor) {
   }
-  
+
   get target(): any {
     return this._invocation.target;
   }
-  
+
   invoke(parameters: ArrayLike<any>): any {
     return this._interceptor.intercept(this._invocation, parameters);
   }
-  
+
 }
 

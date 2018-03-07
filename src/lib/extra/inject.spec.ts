@@ -89,7 +89,7 @@ describe('@inject', () => {
       expect(Reflect.getPrototypeOf(Project)).toBe(Function.prototype);
       expect(developer.manager.name).toBe('Peter');
     });
-  
+
     it('shutdown', (done) => {
       // shutdown test to avoid unclosed debugger
       setTimeout(function () {
@@ -97,6 +97,6 @@ describe('@inject', () => {
         done();
       }, 2000)
     });
-    
+
   });
 });

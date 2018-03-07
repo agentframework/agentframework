@@ -83,7 +83,7 @@ export class DynamicClassConstructorInitializer implements IInitializer {
         const originConstructor = proto.constructor;
 
         // search all attributes on this class constructor
-  
+
         const reflection = Reflector(originConstructor);
         const customAttributes = reflection.getInterceptors();
 

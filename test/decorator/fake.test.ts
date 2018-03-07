@@ -18,7 +18,7 @@ describe('Fake Decorator', () => {
       class TestClass {
 
         @fakeClassMemberDecorator()
-        testMethod( @decorateParameter() first: boolean, @decorateParameter() second: TestClass): TestClass {
+        testMethod(@decorateParameter() first: boolean, @decorateParameter() second: TestClass): TestClass {
           return this;
         }
 
