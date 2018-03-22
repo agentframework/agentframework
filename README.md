@@ -8,8 +8,8 @@ Agent Framework for TypeScript 2.2+
 
 | Date       | Version                                      | Status      |
 | ---------- | -------------------------------------------- | ----------- |
-| 2018-01-22 | [0.9.8](doc/changelogs/CHANGELOG_0.9.x.md)   | 1.0-RC1     |
-| 2017-06-30 | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md)  | Stable      |
+| 2018-03-22 | [0.9.9](doc/changelogs/CHANGELOG_0.9.x.md)   | Current     |
+| 2017-06-30 | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md)  | LTS         |
 | 2017-01-06 | [0.4.4](doc/changelogs/CHANGELOG_0.4.x.md)   |             |
 | 2016-11-20 | [0.3.12](doc/changelogs/CHANGELOG_0.3.x.md)  |             |
 | 2016-11-03 | [0.2.28](doc/changelogs/CHANGELOG_0.2.x.md)  |             |
@@ -17,7 +17,7 @@ Agent Framework for TypeScript 2.2+
 
 ### What's this?
 
-- AOP/DI for TypeScript
+- Framework to build other frameworks (e.g. AOP/DI framework)
 - Elegant design pattern to decorate your class with metadata and interceptors 
 - 100% TypeScript implementation! No dependencies!!!
 - Require ES6 and TypeScript 2.2+
@@ -162,10 +162,10 @@ console.log('Is it create from the Developer class?', you instanceof Developer);
 - [x] COMPATIBILITY: Revise IInitializer Interface
 - [x] COMPATIBILITY: Revise IInterceptor Interface
 - [x] COMPATIBILITY: Revise IAttribute Interface
-- [ ] COMPATIBILITY: Revise Reflection Interface
+- [x] COMPATIBILITY: Revise Reflection Interface
 - [x] COMPATIBILITY: Revise Reflector Interface
-- [ ] COMPATIBILITY: Revise Agent Options
-- [ ] COMPATIBILITY: Revise Domain Interface
+- [x] COMPATIBILITY: Revise Agent Options
+- [x] COMPATIBILITY: Revise Domain Interface (Domain is been completely removed from agentframework)
 
 
 ### Concepts in Agent Framework

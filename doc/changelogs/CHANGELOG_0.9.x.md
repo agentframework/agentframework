@@ -3,7 +3,14 @@
 0.9.x is the last version before 1.0. Since the MVP/EPIC features are already in place. 
 The goal of this version is to improve performance and revise API interfaces for backward compatibility.
 
-## 2017-12-18, Version 0.9.8 (Current), @e2tox
+## 2018-03-22, Version 0.9.9 (Current), @e2tox
+
+**Notable Changes**
+
+- Remove Domain from AgentFramework completely. 
+- Prepare for 1.0 release
+
+## 2018-01-22, Version 0.9.8, @e2tox
 
 **Notable Changes**
 
