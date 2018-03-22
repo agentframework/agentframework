@@ -20,7 +20,7 @@ Agent Framework for TypeScript 2.3+
 - Framework to build other frameworks (e.g. AOP/DI framework)
 - Elegant design pattern to decorate your class with metadata and interceptors 
 - 100% TypeScript implementation! No dependencies!!!
-- Require ES6 and TypeScript 2.2+
+- Require ES6 and TypeScript 2.3+
 - Work in both node and browser
 - Very Fast (Compile class at 1st time you new/call it; as fast as native class starting from 2nd time)
 - Very Clean (Never touch your original class prototype, A on-demand compiled proxy will be generated on top of your class)
