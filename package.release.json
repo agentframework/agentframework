@@ -6,6 +6,7 @@
   },
   "description": "Agent Oriented Programming for TypeScript",
   "main": "lib/index.js",
+  "module": "lib/index.ts",
   "typings": "lib/index.d.ts",
   "files": [
     "lib",

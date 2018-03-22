@@ -1,8 +1,8 @@
-import { agent } from './agent'
-import { AgentCompileType } from './core/compiler';
-import { inject } from './extra/inject';
-import { failure } from './extra/failure';
-import { normalize } from './extra/normalize';
+import { agent } from '../src/lib/agent'
+import { AgentCompileType } from '../src/lib/core/compiler';
+import { inject } from '../src/lib/extra/inject';
+import { failure } from '../src/lib/extra/failure';
+import { normalize } from '../src/lib/extra/normalize';
 
 
 export class Project {

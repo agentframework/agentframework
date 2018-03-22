@@ -1,7 +1,6 @@
 import { IAgentAttribute, IAttribute } from './attribute';
 import { ORIGIN_CONSTRUCTOR } from './symbol';
 import { GetGlobalInitializer, IInitializer } from './initializer';
-import { IDomain } from '../domain';
 import { IsObject } from './utils';
 import { IInterceptor } from './interceptor';
 import { IInvocation } from './invocation';
@@ -25,7 +24,6 @@ import { AgentCompileType, AgentFeatures } from './compiler';
 
 export interface AgentOptions {
   attribute: IAttribute,
-  domain: IDomain,
   features: AgentFeatures,
   compile: AgentCompileType,
   initializer: IInitializer
