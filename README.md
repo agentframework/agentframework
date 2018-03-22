@@ -1,4 +1,4 @@
-Agent Framework for TypeScript 2.2+
+Agent Framework for TypeScript 2.3+
 -----------------------------------
 
 [![Build Status](https://travis-ci.org/agentframework/agentframework.svg?branch=master)](https://travis-ci.org/agentframework/agentframework)
