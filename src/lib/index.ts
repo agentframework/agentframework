@@ -27,4 +27,11 @@ export {
 } from './core/utils'
 
 export { agent } from './agent';
-export * from './extra'
+export { cache } from './extra/cache';
+export { conditional } from './extra/conditional';
+export { failure } from './extra/failure';
+export { inject } from './extra/inject';
+export { normalize } from './extra/normalize';
+export { prerequisite } from './extra/prerequisite';
+export { success } from './extra/success';
+export { timestamp } from './extra/timestamp';

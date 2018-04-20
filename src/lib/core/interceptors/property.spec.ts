@@ -4,9 +4,8 @@ import { IAttribute } from '../attribute';
 import { IInterceptor } from '../interceptor';
 import { IInvocation } from '../invocation';
 import { CreatePropertyInterceptors } from './property';
-import { inject } from '../../extra/inject';
 import { IInitializer } from '../initializer';
-
+declare var console;
 
 describe('core.interceptor.property', () => {
 

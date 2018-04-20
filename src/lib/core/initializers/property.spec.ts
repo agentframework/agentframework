@@ -5,7 +5,7 @@ import { IInterceptor } from '../interceptor';
 import { IInvocation } from '../invocation';
 import { CreatePropertyInitializers } from './property';
 import { IInitializer } from '../initializer';
-
+declare var console;
 
 describe('core.initializers.property', () => {
 

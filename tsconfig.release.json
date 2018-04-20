@@ -2,24 +2,16 @@
   "compilerOptions": {
     "target": "es6",
     "lib": [
-      "es2016"
+      "es6"
     ],
     "declaration": true,
     "module": "es2015",
     "removeComments": true,
-    "moduleResolution": "node",
     "newLine": "LF",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true,
-    "outDir": "release/lib",
-    "typeRoots": [
-      "node_modules/@types/"
-    ],
-    "types": [
-      "jasmine",
-      "node"
-    ]
+    "sourceMap": false,
+    "outDir": "release/tmp"
   },
   "include": [
     "src/**/*.ts"

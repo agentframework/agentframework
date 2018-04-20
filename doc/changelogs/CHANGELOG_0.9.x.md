@@ -3,7 +3,15 @@
 0.9.x is the last version before 1.0. Since the MVP/EPIC features are already in place. 
 The goal of this version is to improve performance and revise API interfaces for backward compatibility.
 
-## 2018-03-22, Version 0.9.9 (Current), @e2tox
+## 2018-04-20, Version 0.9.10 (Current), @e2tox
+
+**Notable Changes**
+
+- Improve build quality
+- Introduce ESModule using `"module": "lib/index.esm.js"` in `package.json` 
+- Better packaging with bundled d.ts file
+
+## 2018-03-22, Version 0.9.9, @e2tox
 
 **Notable Changes**
 

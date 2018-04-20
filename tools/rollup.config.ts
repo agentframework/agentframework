@@ -6,15 +6,20 @@ export default {
 
   plugins: [
     typescript({
+      cacheRoot: '/tmp/.rpt2_cache',
       tsconfig: 'tsconfig.release.json'
     })
   ],
 
   output: [
     {
-      file: './release/lib/index.js',
+      file: './release/tmp/index.js',
       format: 'cjs',
       sourcemap: true
+    },
+    {
+      file: './release/tmp/index.esm.js',
+      format: 'es'
     }
   ]
 }

@@ -12,7 +12,12 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": false,
+    "typeRoots": [
+      "node_modules/@types/"
+    ],
     "types": [
+      "jasmine",
+      "node"
     ]
   },
   "include": [

@@ -2,6 +2,7 @@ import { agent } from '../../agent'
 import { AgentCompileType } from '../compiler';
 import { inject } from '../../extra/inject';
 import { normalize } from '../../extra/normalize';
+declare var console;
 
 class Language {
   name: 'JavaScript'

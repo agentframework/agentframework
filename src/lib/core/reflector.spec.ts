@@ -1,4 +1,5 @@
 import { Reflector } from './reflector';
+declare var console;
 
 class Tester {
 
