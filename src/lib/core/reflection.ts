@@ -1,6 +1,6 @@
 import { AgentFeatures } from './compiler';
 import { Decoratable } from './decoratable';
-import { IsFunction } from './utils';
+import { IsFunction, IsNumber } from './utils';
 import { IDesign } from './design';
 
 
@@ -22,10 +22,10 @@ export class Method extends Decoratable {
     super();
     // do not create the map if this method don't have parameter
     // to save memory usage
-    if (maxParameters) {
+    if (IsNumber(maxParameters)) {
       this._maxParameters = maxParameters;
-      this._parameters = new Map<number, Parameter>();
     }
+    this._parameters = new Map<number, Parameter>();
   }
 
   parameterCount(): number {
@@ -33,7 +33,7 @@ export class Method extends Decoratable {
   }
 
   parameter(index: number): Parameter {
-    if (!this._maxParameters || index > this._maxParameters) {
+    if (IsNumber(this._maxParameters) && index > this._maxParameters) {
       throw new TypeError(`Invalid parameter index: ${index}`)
     }
     let parameter = this._parameters.get(index);

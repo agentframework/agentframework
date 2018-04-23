@@ -11,7 +11,7 @@ script:
   - npm run test-on-travis
 
 env:
-  - TYPESCRIPT=typescript@latest
+  - TYPESCRIPT=typescript@2.8.3
   - TYPESCRIPT=typescript@2.7.2
   - TYPESCRIPT=typescript@2.6.2
   - TYPESCRIPT=typescript@2.5.3
