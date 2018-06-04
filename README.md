@@ -8,7 +8,7 @@ Agent Framework for TypeScript 2.3+
 
 | Date       | Version                                      | Status      |
 | ---------- | -------------------------------------------- | ----------- |
-| 2018-04-24 | [0.9.11](doc/changelogs/CHANGELOG_0.9.x.md)  | Current     |
+| 2018-06-04 | [0.9.12](doc/changelogs/CHANGELOG_0.9.x.md)  | Current     |
 | 2017-06-30 | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md)  |             |
 | 2017-01-06 | [0.4.4](doc/changelogs/CHANGELOG_0.4.x.md)   |             |
 | 2016-11-20 | [0.3.12](doc/changelogs/CHANGELOG_0.3.x.md)  |             |
@@ -18,7 +18,7 @@ Agent Framework for TypeScript 2.3+
 ### What's this?
 
 - Framework to build other frameworks (e.g. AOP/DI framework)
-- Elegant design pattern to decorate your class with metadata and interceptors 
+- Elegant design pattern to decorate your class with metadata and interceptors
 - 100% TypeScript implementation! No dependencies!!!
 - Require ES6 and TypeScript 2.3+
 - Work in both node and browser
@@ -78,21 +78,21 @@ class Developer {
 
   @inject(Project)
   project;
-  
+
   // OR
   @inject()
   project: Project;
-  
+
   // OR
-  @inject(Project) 
+  @inject(Project)
   project: Project | string;
-  
-  
+
+
   constructor() {
     // EPIC: access the injected variable inside constructor
     console.log(`WOW! You working on project ${this.project.name}!`);
   }
-  
+
 }
 
 // EPIC: create interceptable agent as easy as construct a new class
@@ -111,7 +111,7 @@ console.log('Is it create from the Developer class?', you instanceof Developer);
 
 - [@conditional()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/conditional.spec.ts) Likes `prerequistite()` but not throw error
 
-- [@normalize()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/normalize.spec.ts) Capture `throw` in the method and modify the return value to this object `{ ok: 1|0, result?: any = return object, results?: any = return array, message?: string = err.message }` 
+- [@normalize()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/normalize.spec.ts) Capture `throw` in the method and modify the return value to this object `{ ok: 1|0, result?: any = return object, results?: any = return array, message?: string = err.message }`
 
 - [@success()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/success.spec.ts) Change the specified class property value when this method run success (without `throw`)
 
@@ -157,7 +157,7 @@ console.log('Is it create from the Developer class?', you instanceof Developer);
 - [x] COMPATIBILITY: Move @inject and @ready decorator out from core
 - [x] COMPATIBILITY: GetPrototypeOf should return origin prototype
 - [x] COMPATIBILITY: Agent should works in extended classes
-- [x] COMPATIBILITY: instanceOf should works when compile to proxy 
+- [x] COMPATIBILITY: instanceOf should works when compile to proxy
 - [x] COMPATIBILITY: Revise IInvocation Interface
 - [x] COMPATIBILITY: Revise IInitializer Interface
 - [x] COMPATIBILITY: Revise IInterceptor Interface
@@ -166,7 +166,7 @@ console.log('Is it create from the Developer class?', you instanceof Developer);
 - [x] COMPATIBILITY: Revise Reflector Interface
 - [x] COMPATIBILITY: Revise Agent Options
 - [x] COMPATIBILITY: Revise Domain Interface (Domain is been completely removed from agentframework)
-- [ ] AgentFramework.com 
+- [ ] AgentFramework.com
 
 
 ### Concepts in Agent Framework
@@ -183,7 +183,7 @@ The goal of Agent Framework is to build the first AaaS cloud which implement [Ag
 
 It's different to any of the clouds today, the major different are:
 
-- AaaS is a distributed cloud network which doesn't have a central database. 
+- AaaS is a distributed cloud network which doesn't have a central database.
 - IPv6 is mandatory for an agent live in AaaS cloud.
 - Agent will use cryptocurrency to collaborate with other agent or pay the rent to the hosting domain.
 - The host(a domain) which have power, storage and it providing computing resource to host agents.

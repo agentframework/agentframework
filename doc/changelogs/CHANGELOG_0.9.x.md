@@ -1,27 +1,33 @@
 # Agent Framework 0.9.x ChangeLog
 
-0.9.x is the last version before 1.0. Since the MVP/EPIC features are already in place. 
+0.9.x is the last version before 1.0. Since the MVP/EPIC features are already in place.
 The goal of this version is to improve performance and revise API interfaces for backward compatibility.
 
-## 2018-04-24, Version 0.9.11 (Current), @e2tox
+## 2018-06-04, Version 0.9.12 (Current), @e2tox
+
+**Improvement**
+
+- LazyInitializer which initialization on the first time user call the object. If user don't use this object. It will never get initialized. This feature is very useful to develop large scale application on Function computing platform e.g. AWS Lambda, Azure Function.
+
+## 2018-04-24, Version 0.9.11, @e2tox
 
 **Bug fix**
 
-- Only check max parameters when it's a number (#8) 
+- Only check max parameters when it's a number (#8)
 
 ## 2018-04-20, Version 0.9.10, @e2tox
 
 **Notable Changes**
 
 - Improve build quality
-- Introduce ESModule using `"module": "lib/index.esm.js"` in `package.json` 
+- Introduce ESModule using `"module": "lib/index.esm.js"` in `package.json`
 - Better packaging with bundled d.ts file
 
 ## 2018-03-22, Version 0.9.9, @e2tox
 
 **Notable Changes**
 
-- Remove Domain from AgentFramework completely. 
+- Remove Domain from AgentFramework completely.
 - Prepare for 1.0 release
 
 ## 2018-01-22, Version 0.9.8, @e2tox
@@ -45,7 +51,7 @@ The goal of this version is to improve performance and revise API interfaces for
 
 **Notable Changes**
 
-- @prerequisite, @failure, @conditional, @cache now can works with getter, setter and methods 
+- @prerequisite, @failure, @conditional, @cache now can works with getter, setter and methods
 
 
 ## 2017-12-12, Version 0.9.2, @e2tox

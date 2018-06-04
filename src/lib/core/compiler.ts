@@ -27,7 +27,8 @@ export enum AgentFeatures {
   Disabled = 0,
   Initializer = 1,
   Interceptor = 2,
-  Constructor = 4
+  Constructor = 4,
+  LazyInitializer = 8
 }
 
 export interface CompilerOptions {
@@ -59,6 +60,8 @@ export class Compiler {
 
     if ((this._options.features & AgentFeatures.Initializer) === AgentFeatures.Initializer) {
 
+      const lazy = (this._options.features & AgentFeatures.LazyInitializer) === AgentFeatures.LazyInitializer;
+
       // constructor parameter initializer
       params = Compiler.makeConstructorParameterInitializers(target);
 
@@ -68,11 +71,22 @@ export class Compiler {
       if (initializers && initializers.size) {
         // bag = new Map<string, any>();
         for (const [key, initializer] of initializers) {
-          const initializedValue = (initializer as IInvocation).invoke(parameters);
           // bag.set(key, { value: initializedValue });
-          fields[key] = {
-            value: initializedValue
-          };
+          if (lazy) {
+            fields[key] = {
+              get: function () {
+                const value = (initializer as IInvocation).invoke(parameters);
+                Reflect.defineProperty(this, key, { value });
+                return value;
+              }
+            };
+          }
+          else {
+            const initializedValue = (initializer as IInvocation).invoke(parameters);
+            fields[key] = {
+              value: initializedValue
+            };
+          }
           fields[key][FIELD_INITIALIZER] = initializer // cache initializer
         }
       }
