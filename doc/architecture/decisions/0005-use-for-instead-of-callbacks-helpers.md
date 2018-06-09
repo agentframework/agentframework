@@ -1,4 +1,4 @@
-# 5. use for instead of callbacks helpers
+# 5. use keyword "for" instead of callbacks helpers
 
 Date: 2017-12-07
 
