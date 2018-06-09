@@ -76,17 +76,8 @@ class Project {
 @agent()
 class Developer {
 
-  @inject(Project)
-  project;
-
-  // OR
   @inject()
   project: Project;
-
-  // OR
-  @inject(Project)
-  project: Project | string;
-
 
   constructor() {
     // EPIC: access the injected variable inside constructor
