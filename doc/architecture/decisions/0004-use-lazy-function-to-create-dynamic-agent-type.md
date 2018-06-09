@@ -32,4 +32,4 @@ The default value will be #2 LazyFunction. I think it's a good balance between b
 
 ## Consequences
 
-User will not able to change attributes.
+User will not able to change attributes after created the 1st instance of that Agent type
