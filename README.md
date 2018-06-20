@@ -179,3 +179,80 @@ It's different to any of the clouds today, the major different are:
 - Agent will use cryptocurrency to collaborate with other agent or pay the rent to the hosting domain.
 - The host(a domain) which have power, storage and it providing computing resource to host agents.
 
+### TypeScript that scales.
+Following is code snippet from a real project. Find out more on the coming agentframework.com 
+
+```typescript
+
+// controller
+
+@controller('/api')
+export class DemoController extends MyController {
+  
+  @singleton('proto://192.168.102.12:8888')
+  apfs: ApfsService;
+  
+  @user()
+  @middleware()
+  async [Symbol()](ctx: MyContext, next: NextFunction) {
+    return next();
+  }
+  
+  /* this endpoint is only for admin, other users will got http 403 error */
+  @admin()
+  @method('GET', '/metadata')
+  async metadata(ctx: MyContext) {
+    return this.apfs.load(ctx.domain, 'apfs:///Federation/Microsoft/ProfileImages/49945e60-887e-40a6-83d1-b77a5e0c2d47');
+  }
+  
+  /* this endpoint is only for authenticated users, other users will got http 401 error, because of @user on @middleware */
+  @method('GET', '/profile')
+  async profile(req: MyRequest, res: MyResponse) {
+    return req.identity;
+  }
+  
+}
+
+// decorators
+
+function user() {
+  return decorateClassMethod(new RoleAttribute('User'));
+}
+
+function admin() {
+  return decorateClassMethod(new RoleAttribute('Admin'));
+}
+
+export class RoleAttribute implements IAttribute, IInterceptor {
+  constructor(private role: string) {}
+
+  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
+    return true;
+  }
+
+  public getInterceptor(): IInterceptor {
+    return this;
+  }
+
+  public intercept(target: IInvocation, parameters: ArrayLike<any>): any {
+    const ctx: MyContext = parameters[0];
+    if (!ctx.identity.roles.includes(this.role)) {
+      throw new AuthenticationError(`Require ${this.role} Permission`);
+    }
+    return target.invoke(parameters);
+  }
+}
+
+```
+
+##### Explains
+- Method/Middleware name can be a Symbol
+- `ctx` is Koa like object, `req`,`res` is Express like objects. You can choose in between. 
+- Lazy load everything! `ApfsService` will not been created if you only GET /api/profile
+- It deploys to **Lambda function** (Agent Cloud will be added later)
+- @middleware() with **Full Promise** support
+- You can easily create decorators like @admin(), @user() or @validate(CustomBodyType)
+- `ApfsService` host in another server, communicate with protobuf
+- Auto generate test cases and API document
+- ...
+
