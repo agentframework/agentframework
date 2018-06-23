@@ -10,6 +10,9 @@ import { CONSTRUCTOR_INITIALIZER, FIELD_INITIALIZER } from './symbol';
 import { Reflector } from './reflector';
 
 
+/**
+ * AgentCompileType
+ */
 export enum AgentCompileType {
   Custom = 0,
   StaticFunction = 1,
@@ -23,6 +26,9 @@ export enum AgentCompileType {
   DynamicProxy = 33
 }
 
+/**
+ * AgentFeatures
+ */
 export enum AgentFeatures {
   Disabled = 0,
   Initializer = 1,
@@ -31,11 +37,18 @@ export enum AgentFeatures {
   LazyInitializer = 8
 }
 
+/**
+ * CompilerOptions
+ */
 export interface CompilerOptions {
   features: AgentFeatures,
   target: 'function' | 'class' | 'proxy'
 }
 
+/**
+ * @ignore
+ * @hidden
+ */
 export class Compiler {
 
   _options: Partial<CompilerOptions>;

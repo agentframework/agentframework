@@ -13,6 +13,8 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": false,
     "types": [
+      "jasmine",
+      "node"
     ]
   },
   "include": [

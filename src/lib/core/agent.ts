@@ -21,7 +21,9 @@ import {
 } from './initializers/construct.dynamic';
 import { AgentCompileType, AgentFeatures } from './compiler';
 
-
+/**
+ * AgentOptions
+ */
 export interface AgentOptions {
   attribute: IAttribute,
   features: AgentFeatures,

@@ -5,11 +5,20 @@ import { IInitializer } from '../core/initializer';
 import { Constructor } from '../core/constructor';
 import { IsFunction, IsString } from '../core/utils';
 
-
+/**
+ * @ignore
+ * @hidden
+ * @param {Constructor | string} typeOrIdentifier
+ * @returns {UniversalDecorator}
+ */
 export function inject(typeOrIdentifier?: Constructor | string): UniversalDecorator {
   return decorate(new InjectAttribute(typeOrIdentifier), Target.ConstructorParameter | Target.Field);
 }
 
+/**
+ * @ignore
+ * @hidden
+ */
 export class InjectAttribute implements IAttribute, IInitializer {
 
   constructor(private _typeOrIdentifier?: Constructor | string) {

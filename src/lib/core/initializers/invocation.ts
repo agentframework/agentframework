@@ -5,6 +5,8 @@ import { IDesign } from '../design';
 
 /**
  * Read the property from origin prototype
+ * @ignore
+ * @hidden
  */
 export class ValueInvocation implements IInvocation {
 
@@ -25,6 +27,10 @@ export class ValueInvocation implements IInvocation {
 
 }
 
+/**
+ * @ignore
+ * @hidden
+ */
 export class ParameterInvocation implements IInvocation {
 
   constructor(private _target: any, private _design: IDesign) {
@@ -44,6 +50,10 @@ export class ParameterInvocation implements IInvocation {
 
 }
 
+/**
+ * @ignore
+ * @hidden
+ */
 export class AgentInitializerInvocation implements IInvocation {
 
   constructor(private _target: any, private _attribute: IAgentAttribute) {
@@ -65,6 +75,8 @@ export class AgentInitializerInvocation implements IInvocation {
 
 /**
  * Invocation for an initializer
+ * @ignore
+ * @hidden
  */
 export class InitializerInvocation implements IInvocation {
 

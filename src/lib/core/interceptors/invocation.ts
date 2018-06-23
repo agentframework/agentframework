@@ -8,6 +8,8 @@ import { CONSTRUCTOR_INITIALIZER } from '../symbol';
 
 /**
  * Invoke the origin constructor
+ * @ignore
+ * @hidden
  */
 export class ConstructInvocation implements IInvocation {
 
@@ -275,6 +277,8 @@ export class ConstructInvocation implements IInvocation {
 
 /**
  * Invocation for an interceptor, it call next interceptor in chain
+ * @ignore
+ * @hidden
  */
 export class InterceptorInvocation implements IInvocation {
 

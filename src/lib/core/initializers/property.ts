@@ -9,6 +9,13 @@ import { Property } from '../reflection';
 
 // We don't create a property bag here because we want pass current new(arguments) to the initializer
 // so that initializer can access the construction arguments
+/**
+ * @ignore
+ * @hidden
+ * @param target
+ * @returns {Map<string | symbol, IInvocation>}
+ * @constructor
+ */
 export function CreatePropertyInitializers(target: any): Map<string | symbol, IInvocation> {
 
   const initializers: Property[] = Lookup.findInitializers(target);

@@ -9,6 +9,8 @@ import { Constructor } from '../constructor';
 
 /**
  * Create dynamic agent constructor initializer using function
+ * @ignore
+ * @hidden
  */
 export class DynamicFunctionConstructorInitializer implements IInitializer {
 
@@ -59,6 +61,8 @@ export class DynamicFunctionConstructorInitializer implements IInitializer {
 
 /**
  * Create dynamic agent constructor initializer using class (es5)
+ * @ignore
+ * @hidden
  */
 export class DynamicClassConstructorInitializer implements IInitializer {
 
@@ -111,6 +115,8 @@ export class DynamicClassConstructorInitializer implements IInitializer {
 
 /**
  * Create dynamic agent constructor initializer using proxy (es6)
+ * @ignore
+ * @hidden
  */
 export class DynamicProxyConstructorInitializer implements IInitializer {
 

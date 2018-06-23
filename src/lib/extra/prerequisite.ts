@@ -10,6 +10,8 @@ import { IsEqual, IsString } from '../core/utils';
  * @param value
  * @param message
  * @returns {(target:any, propertyKey:string, descriptor:PropertyDescriptor)=>undefined}
+ * @ignore
+ * @hidden
  */
 export function prerequisite(key: string, value: any, message: string | Error) {
   return decorateClassMember(new PrerequisiteAttribute(key, value, message));
@@ -17,6 +19,8 @@ export function prerequisite(key: string, value: any, message: string | Error) {
 
 /**
  * PrerequisiteAttribute
+ * @ignore
+ * @hidden
  */
 export class PrerequisiteAttribute implements IAttribute, IInterceptor {
 

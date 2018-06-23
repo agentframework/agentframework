@@ -1,0 +1,13 @@
+{
+  "out": "./doc/reference/",
+
+  "readme": "none",
+  "includes": "src/lib",
+  "exclude": [
+    "**/*.spec.ts"
+  ],
+  "mode": "file",
+  "excludeExternals": true,
+  "excludeNotExported": true,
+  "excludePrivate": true
+}

@@ -1,9 +1,14 @@
-import { IAttribute } from '../attribute';
 import { InterceptorFactory } from './factory';
 import { Lookup } from '../lookup';
 import { Property } from '../reflection';
 
-
+/**
+ * @ignore
+ * @hidden
+ * @param target
+ * @returns {PropertyDescriptorMap}
+ * @constructor
+ */
 export function CreatePropertyInterceptors(target: any): PropertyDescriptorMap {
 
   // 1. find all the properties for this type which contains one or more attribute implemented 'getInterceptor'

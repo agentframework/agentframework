@@ -8,6 +8,8 @@ import { IInvocation } from '../core/invocation';
  * @param key
  * @param value
  * @returns {(target:any, propertyKey:string, descriptor:PropertyDescriptor)=>undefined}
+ * @ignore
+ * @hidden
  */
 export function success(key: string, value: any) {
   return decorateClassMember(new SuccessAttribute(key, value));
@@ -15,6 +17,8 @@ export function success(key: string, value: any) {
 
 /**
  * PrerequisiteAttribute
+ * @ignore
+ * @hidden
  */
 export class SuccessAttribute implements IAttribute, IInterceptor {
 

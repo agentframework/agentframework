@@ -3,6 +3,13 @@ import { IInvocation } from '../invocation';
 import { InitializerInvocation, ParameterInvocation, ValueInvocation } from './invocation';
 import { IDesign } from '../design';
 
+/**
+ * @ignore
+ * @hidden
+ * @param {IInvocation} origin
+ * @param {Array<IAttribute>} attributes
+ * @returns {IInvocation}
+ */
 export function createInitializationChainFromAttribute(origin: IInvocation, attributes: Array<IAttribute>): IInvocation {
 
   let invocation: IInvocation = origin;
@@ -18,7 +25,10 @@ export function createInitializationChainFromAttribute(origin: IInvocation, attr
   return invocation;
 }
 
-
+/**
+ * @ignore
+ * @hidden
+ */
 export class InitializerFactory {
 
   public static createValueInitializer(attributes: Array<IAttribute>,

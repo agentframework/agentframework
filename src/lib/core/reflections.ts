@@ -12,4 +12,8 @@ if (!Reflect.has(root, REFLECTION_KEY)) {
   Reflect.set(root, REFLECTION_KEY, new WeakMap<object, Reflection>()); // Object.freeze(kernel); - this will break istanbul test
 }
 
+/**
+ * @hidden
+ * @ignore
+ */
 export const Reflections: WeakMap<object, Reflection> = Reflect.get(root, REFLECTION_KEY);

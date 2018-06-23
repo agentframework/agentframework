@@ -7,11 +7,17 @@ import { IInvocation } from '../core/invocation';
 /**
  * Normalize the result { ok: 1, result: '', message: '' }
  * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
+ * @ignore
+ * @hidden
  */
 export function timestamp() {
   return decorateClassMember(new TimestampAttribute());
 }
 
+/**
+ * @ignore
+ * @hidden
+ */
 export class TimestampAttribute implements IAttribute, IInterceptor {
 
   constructor() {

@@ -9,6 +9,8 @@ import { Constructor } from '../constructor';
 //region LazyFunctionConstructorInitializer
 /**
  * Create lazy agent constructor initializer using function
+ * @ignore
+ * @hidden
  */
 export class LazyFunctionConstructorInitializer implements IInitializer {
 
@@ -76,6 +78,8 @@ export class LazyFunctionConstructorInitializer implements IInitializer {
 //region LazyClassConstructorInitializer
 /**
  * Create lazy agent constructor initializer using class (es5)
+ * @ignore
+ * @hidden
  */
 export class LazyClassConstructorInitializer implements IInitializer {
 
@@ -136,6 +140,8 @@ export class LazyClassConstructorInitializer implements IInitializer {
 //region LazyProxyConstructorInitializer
 /**
  * Create lazy agent constructor initializer using proxy (es6)
+ * @ignore
+ * @hidden
  */
 export class LazyProxyConstructorInitializer implements IInitializer {
 

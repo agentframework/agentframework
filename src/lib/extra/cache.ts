@@ -3,9 +3,10 @@ import { IAttribute } from '../core/attribute';
 import { IInterceptor } from '../core/interceptor';
 import { IInvocation } from '../core/invocation';
 
-
 /**
  * Define a cache
+ * @ignore
+ * @hidden
  * @returns {(target:any, propertyKey:string, descriptor:PropertyDescriptor)=>undefined}
  */
 export function cache(expires?: number) {
@@ -14,6 +15,8 @@ export function cache(expires?: number) {
 
 /**
  * PrerequisiteAttribute
+ * @ignore
+ * @hidden
  */
 export class CacheAttribute implements IAttribute, IInterceptor {
 
@@ -43,6 +46,10 @@ export class CacheAttribute implements IAttribute, IInterceptor {
   }
 }
 
+/**
+ * @ignore
+ * @hidden
+ */
 export class MemoryCache {
   expires: number = 60000;
   store: Map<string, ICached> = new Map<string, ICached>();
@@ -68,6 +75,10 @@ export class MemoryCache {
   }
 }
 
+/**
+ * @ignore
+ * @hidden
+ */
 export interface ICached {
   expires: number,
   value: any;

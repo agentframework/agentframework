@@ -3,7 +3,9 @@ import { Decoratable } from './decoratable';
 import { IsFunction, IsNumber } from './utils';
 import { IDesign } from './design';
 
-
+/**
+ * Parameter
+ */
 export class Parameter extends Decoratable implements IDesign {
 
   get type(): any {
@@ -12,7 +14,9 @@ export class Parameter extends Decoratable implements IDesign {
 
 }
 
-
+/**
+ * Method
+ */
 export class Method extends Decoratable {
 
   _maxParameters: number;
@@ -50,7 +54,9 @@ export class Method extends Decoratable {
 
 }
 
-
+/**
+ * Property
+ */
 export class Property extends Decoratable implements IDesign {
 
   _methods: Map<string, Method>;

@@ -5,7 +5,10 @@ import { Reflector } from './reflector';
 import { Property } from './reflection';
 import { PropertyFilters } from './filters';
 
-
+/**
+ * @ignore
+ * @hidden
+ */
 export class Lookup {
 
   /**

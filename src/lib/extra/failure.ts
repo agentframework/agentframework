@@ -8,6 +8,8 @@ import { IInvocation } from '../core/invocation';
  * Return pre-defined value when catch an exception
  * @param replaced
  * @returns {(target:Object, propertyKey:(string|symbol), descriptor?:PropertyDescriptor)=>void}
+ * @ignore
+ * @hidden
  */
 export function failure(replaced: any) {
   return decorateClassMember(new FailureAttribute(replaced));
@@ -15,6 +17,8 @@ export function failure(replaced: any) {
 
 /**
  * PrerequisiteAttribute
+ * @ignore
+ * @hidden
  */
 export class FailureAttribute implements IAttribute, IInterceptor {
 

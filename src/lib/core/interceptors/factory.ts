@@ -5,7 +5,13 @@ import { ConstructInvocation, InterceptorInvocation } from './invocation';
 import { IDesign } from '../design';
 
 // const ORIGIN = Symbol('agent.framework.origin.method');
-
+/**
+ * @ignore
+ * @hidden
+ * @param {IInvocation} origin
+ * @param {Array<IAttribute>} attributes
+ * @returns {IInvocation}
+ */
 export function createInterceptionChainFromAttribute(origin: IInvocation, attributes: Array<IAttribute>): IInvocation {
 
   let invocation: IInvocation = origin;
@@ -26,6 +32,10 @@ export function createInterceptionChainFromAttribute(origin: IInvocation, attrib
 // 1. create a hash based CacheMap
 // 2. implement the hash for attributes/prototype/describer
 // 3. replace InterceptorFactory with CachedInterceptorFactory
+/**
+ * @ignore
+ * @hidden
+ */
 export class InterceptorFactory {
 
 

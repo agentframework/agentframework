@@ -10,6 +10,8 @@ import { IInvocation } from '../core/invocation';
  * @param field
  * @param expect
  * @returns {(target:any, propertyKey:string, descriptor:PropertyDescriptor)=>undefined}
+ * @ignore
+ * @hidden
  */
 export function conditional(field: string, expect: any) {
   return decorateClassMember(new ConditionalAttribute(field, expect));
@@ -17,6 +19,8 @@ export function conditional(field: string, expect: any) {
 
 /**
  * ConditionalAttribute
+ * @ignore
+ * @hidden
  */
 export class ConditionalAttribute implements IAttribute, IInterceptor {
 
