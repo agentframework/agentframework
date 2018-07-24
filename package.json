@@ -33,6 +33,10 @@
     "type": "git",
     "url": "git+https://github.com/agentframework/agentframework.git"
   },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true
+  },
   "keywords": [
     "agent",
     "aop",
