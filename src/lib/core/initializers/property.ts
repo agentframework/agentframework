@@ -30,7 +30,7 @@ export function CreatePropertyInitializers(target: any): Map<string | symbol, II
       const name = property.targetKey;
 
       if (property.descriptor) {
-        throw new Error(`Class: ${target.prototype.constructor.name}; Property: ${property.targetKey}; Initializer not work with field property`);
+        throw new Error(`Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; Initializer not work with field property`);
       }
       else {
 

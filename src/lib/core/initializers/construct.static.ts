@@ -5,7 +5,7 @@ import { InterceptorFactory } from '../interceptors/factory';
 import { Constructor } from '../constructor';
 
 
-//region StaticFunctionConstructorInitializer
+// region StaticFunctionConstructorInitializer
 
 /**
  * Create static agent constructor initializer using function
@@ -57,9 +57,9 @@ export class StaticFunctionConstructorInitializer implements IInitializer {
 
 }
 
-//endregion
+// endregion
 
-//region StaticClassConstructorInitializer
+// region StaticClassConstructorInitializer
 
 /**
  * Create static agent constructor initializer using class (es5)
@@ -110,9 +110,9 @@ export class StaticClassConstructorInitializer implements IInitializer {
 
 }
 
-//endregion
+// endregion
 
-//region StaticProxyConstructorInitializer
+// region StaticProxyConstructorInitializer
 
 /**
  * Create static agent constructor initializer using proxy (es6)
@@ -160,4 +160,4 @@ export class StaticProxyConstructorInitializer implements IInitializer {
 
 }
 
-//endregion
+// endregion

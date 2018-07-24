@@ -63,73 +63,6 @@ export class Compiler {
     this._options = options;
   }
 
-  compile(target, parameters?: ArrayLike<any>): Constructor {
-    let params: Map<number, IInvocation>,
-      fields: any = {},
-      methods: PropertyDescriptorMap;
-
-    if ((this._options.features & AgentFeatures.Initializer) === AgentFeatures.Initializer) {
-      const lazy = (this._options.features & AgentFeatures.LazyInitializer) === AgentFeatures.LazyInitializer;
-
-      // constructor parameter initializer
-      params = Compiler.makeConstructorParameterInitializers(target);
-
-      // field property initializer
-      const initializers: Map<string | symbol, IInvocation> = Compiler.makePropertyInitializers(target);
-      // invoke all initializers to generate default value bag
-      if (initializers && initializers.size) {
-        // bag = new Map<string, any>();
-        for (const [key, initializer] of initializers) {
-          // bag.set(key, { value: initializedValue });
-          if (lazy) {
-            fields[key] = {
-              get: function() {
-                const value = (initializer as IInvocation).invoke(parameters);
-                Reflect.defineProperty(this, key, { value });
-                return value;
-              }
-            };
-          } else {
-            const initializedValue = (initializer as IInvocation).invoke(parameters);
-            fields[key] = {
-              value: initializedValue
-            };
-          }
-          fields[key][FIELD_INITIALIZER] = initializer; // cache initializer
-        }
-      }
-    }
-
-    if ((this._options.features & AgentFeatures.Interceptor) === AgentFeatures.Interceptor) {
-      // do Interceptor
-      methods = Compiler.makePropertyInterceptors(target);
-    }
-
-    let CompiledAgent;
-
-    if (Object.keys(fields).length || methods) {
-      // EPIC: inject the intercepted value before construct a new instance
-      if (this._options.target === 'class') {
-        CompiledAgent = class extends target {};
-      } else {
-        /* istanbul ignore next */
-        CompiledAgent = function() {};
-        CompiledAgent.prototype = Object.create(target.prototype);
-      }
-
-      fields && Object.defineProperties(CompiledAgent.prototype, fields);
-      methods && Object.defineProperties(CompiledAgent.prototype, methods);
-    } else {
-      CompiledAgent = target;
-    }
-
-    if (params) {
-      CompiledAgent[CONSTRUCTOR_INITIALIZER] = params;
-    }
-
-    return CompiledAgent;
-  }
-
   private static makeConstructorParameterInitializers(target): Map<number, IInvocation> {
     const method = Reflector(target);
 
@@ -179,7 +112,7 @@ export class Compiler {
         } else {
           throw new Error(
             `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-              `Interceptor not work with field property without Initializer`
+            `Interceptor not work with field property without Initializer`
           );
         }
       }
@@ -208,7 +141,7 @@ export class Compiler {
         } else {
           throw new Error(
             `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-              `Interceptor not work with non-function property`
+            `Interceptor not work with non-function property`
           );
         }
       }
@@ -252,7 +185,7 @@ export class Compiler {
         if (property.descriptor) {
           throw new Error(
             `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-              `Initializer not work with field property`
+            `Initializer not work with field property`
           );
         } else {
           let initializerAttributes = property.getInitializers();
@@ -285,5 +218,72 @@ export class Compiler {
     }
 
     return propertyInitializers;
+  }
+
+  compile(target, parameters?: ArrayLike<any>): Constructor {
+    let params: Map<number, IInvocation>,
+      fields: any = {},
+      methods: PropertyDescriptorMap;
+
+    if ((this._options.features & AgentFeatures.Initializer) === AgentFeatures.Initializer) {
+      const lazy = (this._options.features & AgentFeatures.LazyInitializer) === AgentFeatures.LazyInitializer;
+
+      // constructor parameter initializer
+      params = Compiler.makeConstructorParameterInitializers(target);
+
+      // field property initializer
+      const initializers: Map<string | symbol, IInvocation> = Compiler.makePropertyInitializers(target);
+      // invoke all initializers to generate default value bag
+      if (initializers && initializers.size) {
+        // bag = new Map<string, any>();
+        for (const [key, initializer] of initializers) {
+          // bag.set(key, { value: initializedValue });
+          if (lazy) {
+            fields[key] = {
+              get: function () {
+                const value = (initializer as IInvocation).invoke(parameters);
+                Reflect.defineProperty(this, key, { value });
+                return value;
+              }
+            };
+          } else {
+            const initializedValue = (initializer as IInvocation).invoke(parameters);
+            fields[key] = {
+              value: initializedValue
+            };
+          }
+          fields[key][FIELD_INITIALIZER] = initializer; // cache initializer
+        }
+      }
+    }
+
+    if ((this._options.features & AgentFeatures.Interceptor) === AgentFeatures.Interceptor) {
+      // do Interceptor
+      methods = Compiler.makePropertyInterceptors(target);
+    }
+
+    let CompiledAgent;
+
+    if (Object.keys(fields).length || methods) {
+      // EPIC: inject the intercepted value before construct a new instance
+      if (this._options.target === 'class') {
+        CompiledAgent = class extends target { };
+      } else {
+        /* istanbul ignore next */
+        CompiledAgent = function () { };
+        CompiledAgent.prototype = Object.create(target.prototype);
+      }
+
+      fields && Object.defineProperties(CompiledAgent.prototype, fields);
+      methods && Object.defineProperties(CompiledAgent.prototype, methods);
+    } else {
+      CompiledAgent = target;
+    }
+
+    if (params) {
+      CompiledAgent[CONSTRUCTOR_INITIALIZER] = params;
+    }
+
+    return CompiledAgent;
   }
 }

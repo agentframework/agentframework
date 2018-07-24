@@ -5,7 +5,7 @@ import { InterceptorFactory } from '../interceptors/factory';
 import { Constructor } from '../constructor';
 
 
-//region DynamicFunctionConstructorInitializer
+// region DynamicFunctionConstructorInitializer
 
 /**
  * Create dynamic agent constructor initializer using function
@@ -55,9 +55,9 @@ export class DynamicFunctionConstructorInitializer implements IInitializer {
   }
 
 }
-//endregion
+// endregion
 
-//region DynamicClassConstructorInitializer
+// region DynamicClassConstructorInitializer
 
 /**
  * Create dynamic agent constructor initializer using class (es5)
@@ -109,9 +109,9 @@ export class DynamicClassConstructorInitializer implements IInitializer {
   }
 
 }
-//endregion
+// endregion
 
-//region DynamicProxyConstructorInitializer
+// region DynamicProxyConstructorInitializer
 
 /**
  * Create dynamic agent constructor initializer using proxy (es6)
@@ -157,4 +157,4 @@ export class DynamicProxyConstructorInitializer implements IInitializer {
   }
 
 }
-//endregion
+// endregion

@@ -6,7 +6,7 @@ import { AgentInitializerInvocation } from './invocation';
 import { Constructor } from '../constructor';
 
 
-//region LazyFunctionConstructorInitializer
+// region LazyFunctionConstructorInitializer
 /**
  * Create lazy agent constructor initializer using function
  * @ignore
@@ -73,9 +73,9 @@ export class LazyFunctionConstructorInitializer implements IInitializer {
   }
 
 }
-//endregion
+// endregion
 
-//region LazyClassConstructorInitializer
+// region LazyClassConstructorInitializer
 /**
  * Create lazy agent constructor initializer using class (es5)
  * @ignore
@@ -135,9 +135,9 @@ export class LazyClassConstructorInitializer implements IInitializer {
   }
 
 }
-//endregion
+// endregion
 
-//region LazyProxyConstructorInitializer
+// region LazyProxyConstructorInitializer
 /**
  * Create lazy agent constructor initializer using proxy (es6)
  * @ignore
@@ -194,4 +194,4 @@ export class LazyProxyConstructorInitializer implements IInitializer {
   }
 
 }
-//endregion
+// endregion

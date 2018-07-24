@@ -22,12 +22,12 @@ export class CacheAttribute implements IAttribute, IInterceptor {
 
   cache;
 
-  static normalizeParameters(parameters: ArrayLike<any>): string {
-    return Array.from(parameters).map(value => value.toString()).join('|');
-  }
-
   constructor(expires?: number) {
     this.cache = new MemoryCache(expires || 60000);
+  }
+
+  static normalizeParameters(parameters: ArrayLike<any>): string {
+    return Array.from(parameters).map(value => value.toString()).join('|');
   }
 
   getInterceptor(): IInterceptor {

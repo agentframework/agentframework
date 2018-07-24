@@ -13,7 +13,7 @@ export function CreatePropertyInterceptors(target: any): PropertyDescriptorMap {
 
   // 1. find all the properties for this type which contains one or more attribute implemented 'getInterceptor'
   const properties: Property[] = Lookup.findInterceptors(target);
-  let propertyInterceptors: PropertyDescriptorMap;
+  let propertyInterceptors: any;
 
   if (!properties.length) {
     return;
@@ -33,7 +33,7 @@ export function CreatePropertyInterceptors(target: any): PropertyDescriptorMap {
         continue;
       }
       else {
-        throw new Error(`Class: ${target.prototype.constructor.name}; Property: ${property.targetKey}; ` +
+        throw new Error(`Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
           `Interceptor not work with field property without Initializer`);
       }
 
@@ -60,7 +60,7 @@ export function CreatePropertyInterceptors(target: any): PropertyDescriptorMap {
         propertyInterceptors[name].value = InterceptorFactory.createFunctionInterceptor(interceptorAttributes, value);
       }
       else {
-        throw new Error(`Class: ${target.prototype.constructor.name}; Property: ${property.targetKey}; ` +
+        throw new Error(`Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
           `Interceptor not work with non-function property`);
       }
     }
