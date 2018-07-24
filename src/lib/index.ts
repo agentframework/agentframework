@@ -1,4 +1,4 @@
-export { Constructor } from './core/constructor'
+export { Constructor, TypedConstructor } from './core/constructor'
 export { IAttribute, IAgentAttribute, IBeforeDecorateAttribute } from './core/attribute'
 export { IInterceptor } from './core/interceptor'
 export { IInitializer } from './core/initializer'

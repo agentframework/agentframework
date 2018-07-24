@@ -3,7 +3,7 @@
 0.9.x is the last version before 1.0. Since the MVP/EPIC features are already in place.
 The goal of this version is to improve performance and revise API interfaces for backward compatibility.
 
-## 2018-07-24, Version 0.9.14 (Current), @e2tox
+## 2018-07-24, Version 0.9.15 (Current), @e2tox
 
 **Improvement**
 
