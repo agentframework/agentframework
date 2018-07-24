@@ -18,7 +18,7 @@ export default {
       sourcemap: true
     },
     {
-      file: './release/tmp/index.esm.js',
+      file: './release/tmp/index.mjs',
       format: 'es'
     }
   ]

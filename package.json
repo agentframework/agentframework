@@ -22,7 +22,7 @@
     "build": "npm run build:clean && npm run build:rollup && npm run build:dts && npm run build:npm",
     "build:clean": "rm -rf ./release && find ./src/ -depth -name \"*.js\"  -exec rm -f {} \\;",
     "build:dts": "node_modules/.bin/dts-bundle-generator -o ./release/lib/index.d.ts ./release/tmp/index.d.ts && rm -rf ./release/tmp",
-    "build:rollup": "node_modules/.bin/rollup -c tools/rollup.config.ts && mkdir ./release/lib && cp ./release/tmp/index.js ./release/tmp/index.esm.js ./release/lib",
+    "build:rollup": "node_modules/.bin/rollup -c tools/rollup.config.ts && mkdir ./release/lib && cp ./release/tmp/index.js ./release/tmp/index.mjs ./release/lib",
     "build:npm": "cp LICENSE ./release && cp README.md ./release && cp package.release.json ./release/package.json",
     "release": "npm run test && npm run build && npm run release:npm",
     "release:npm": "cd ./release && npm publish",
