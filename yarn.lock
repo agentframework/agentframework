@@ -6,11 +6,11 @@
   version "0.0.39"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
 
-"@types/jasmine@^2.8.8":
+"@types/jasmine@latest":
   version "2.8.8"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.8.8.tgz#bf53a7d193ea8b03867a38bfdb4fbb0e0bf066c9"
 
-"@types/node@*", "@types/node@^10.5.2":
+"@types/node@*", "@types/node@latest":
   version "10.5.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.5.2.tgz#f19f05314d5421fe37e74153254201a7bf00a707"
 
@@ -554,7 +554,7 @@ dot-prop@^4.1.0:
   dependencies:
     is-obj "^1.0.0"
 
-dts-bundle-generator@^1.6.0:
+dts-bundle-generator@latest:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/dts-bundle-generator/-/dts-bundle-generator-1.6.0.tgz#fcdfcf1adcab3a2ed83ba1f1d226a611411bee00"
   dependencies:
@@ -1495,7 +1495,7 @@ node-pre-gyp@^0.10.0:
     semver "^5.3.0"
     tar "^4"
 
-nodemon@^1.18.3:
+nodemon@latest:
   version "1.18.3"
   resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-1.18.3.tgz#46e681ee0dd1b590562e03019b4c5df234f906f9"
   dependencies:
@@ -1864,7 +1864,7 @@ rimraf@^2.6.1:
   dependencies:
     glob "^7.0.5"
 
-rollup-plugin-typescript2@^0.16.1:
+rollup-plugin-typescript2@latest:
   version "0.16.1"
   resolved "https://registry.yarnpkg.com/rollup-plugin-typescript2/-/rollup-plugin-typescript2-0.16.1.tgz#72e1f8a2e450550eabdc3d474e735feae322b474"
   dependencies:
@@ -1880,7 +1880,7 @@ rollup-pluginutils@2.3.0:
     estree-walker "^0.5.2"
     micromatch "^2.3.11"
 
-rollup@^0.63.4:
+rollup@latest:
   version "0.63.4"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.63.4.tgz#cb58bf6c2a6c38542cae250684c962799ad7c00c"
   dependencies:
@@ -2169,7 +2169,7 @@ trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
 
-ts-node@^7.0.0:
+ts-node@latest:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-7.0.0.tgz#a94a13c75e5e1aa6b82814b84c68deb339ba7bff"
   dependencies:
@@ -2217,7 +2217,7 @@ typescript-standard@latest:
     tslint "^5.9.1"
     typescript "^2.7.2"
 
-typescript@^2.6.1, typescript@^2.7.2, typescript@^2.9.2:
+typescript@^2.6.1, typescript@^2.7.2, typescript@latest:
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
 
