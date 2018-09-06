@@ -49,15 +49,15 @@ export class DynamicFunctionConstructorInitializer implements IInitializer {
     // this is the only place we can modify the proxy target
     // assignProperties(target, AgentProxy);
     AgentProxy.prototype = target.prototype;
-    
+
     // copy static methods & symbols
-    for(const sym of Object.getOwnPropertySymbols(target)) {
+    for (const sym of Object.getOwnPropertySymbols(target)) {
       Reflect.set(AgentProxy, sym, target[sym]);
     }
-    for(const key of Object.getOwnPropertyNames(target)) {
+    for (const key of Object.getOwnPropertyNames(target)) {
       Reflect.set(AgentProxy, key, target[key]);
     }
-    
+
     return AgentProxy;
 
   }
