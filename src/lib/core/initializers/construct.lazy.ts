@@ -73,7 +73,9 @@ export class LazyFunctionConstructorInitializer implements IInitializer {
       Reflect.set(AgentProxy, sym, target[sym]);
     }
     for (const key of Object.getOwnPropertyNames(target)) {
-      Reflect.set(AgentProxy, key, target[key]);
+      if (key !== 'prototype' && key !== 'length' && key !== 'name') {
+        Reflect.set(AgentProxy, key, target[key]);
+      }
     }
 
     return AgentProxy;

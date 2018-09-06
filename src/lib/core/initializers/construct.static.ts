@@ -4,7 +4,6 @@ import { Reflector } from '../reflector';
 import { InterceptorFactory } from '../interceptors/factory';
 import { Constructor } from '../constructor';
 
-
 // region StaticFunctionConstructorInitializer
 
 /**
@@ -13,9 +12,7 @@ import { Constructor } from '../constructor';
  * @hidden
  */
 export class StaticFunctionConstructorInitializer implements IInitializer {
-
   initialize(invocation: AgentInitializerInvocation, parameters: ArrayLike<any>): any {
-
     const target = invocation.target;
     const attribute = invocation.attribute;
     const options = invocation.attribute.options;
@@ -28,11 +25,15 @@ export class StaticFunctionConstructorInitializer implements IInitializer {
     const customAttributes = reflection.getInterceptors();
 
     // create a interceptor chain from the found attributes
-    const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options, reflection);
+    const interceptedConstructor = InterceptorFactory.createConstructInterceptor(
+      customAttributes,
+      originConstructor,
+      options,
+      reflection
+    );
 
     //
     const AgentProxy = function () {
-
       if (!new.target) {
         throw new TypeError(`Class constructor cannot be invoked without 'new'`);
       }
@@ -44,7 +45,6 @@ export class StaticFunctionConstructorInitializer implements IInitializer {
 
       // return the new created instance
       return createdAgent;
-
     };
 
     // this is the only place we can modify the proxy target
@@ -52,9 +52,7 @@ export class StaticFunctionConstructorInitializer implements IInitializer {
     AgentProxy.prototype = target.prototype;
 
     return AgentProxy;
-
   }
-
 }
 
 // endregion
@@ -67,9 +65,7 @@ export class StaticFunctionConstructorInitializer implements IInitializer {
  * @hidden
  */
 export class StaticClassConstructorInitializer implements IInitializer {
-
   initialize(invocation: AgentInitializerInvocation, parameters: ArrayLike<any>): any {
-
     const target = invocation.target as Constructor;
     const attribute = invocation.attribute;
     const options = invocation.attribute.options;
@@ -82,12 +78,15 @@ export class StaticClassConstructorInitializer implements IInitializer {
     const customAttributes = reflection.getInterceptors();
 
     // create a interceptor chain from the found attributes
-    const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options, reflection);
+    const interceptedConstructor = InterceptorFactory.createConstructInterceptor(
+      customAttributes,
+      originConstructor,
+      options,
+      reflection
+    );
 
     return class extends target {
-
       constructor() {
-
         // do not call super constructor since we don't access this from this method
         /* istanbul ignore if  */
         if (0) {
@@ -101,13 +100,9 @@ export class StaticClassConstructorInitializer implements IInitializer {
 
         // return the new created instance
         return createdAgent;
-
       }
-
-    }
-
+    };
   }
-
 }
 
 // endregion
@@ -120,9 +115,7 @@ export class StaticClassConstructorInitializer implements IInitializer {
  * @hidden
  */
 export class StaticProxyConstructorInitializer implements IInitializer {
-
   initialize(invocation: AgentInitializerInvocation, parameters: ArrayLike<any>): any {
-
     const target = invocation.target;
     const attribute = invocation.attribute;
     const options = invocation.attribute.options;
@@ -135,13 +128,15 @@ export class StaticProxyConstructorInitializer implements IInitializer {
     const customAttributes = reflection.getInterceptors();
 
     // create a interceptor chain from the found attributes
-    const interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options, reflection);
-
+    const interceptedConstructor = InterceptorFactory.createConstructInterceptor(
+      customAttributes,
+      originConstructor,
+      options,
+      reflection
+    );
 
     const typeProxyHandler = {
-
       construct: (target: any, parameters: any, receiver: any): object => {
-
         // invoke the cached chain
         const createdAgent = interceptedConstructor.invoke(arguments);
 
@@ -149,9 +144,7 @@ export class StaticProxyConstructorInitializer implements IInitializer {
 
         // return the new created instance
         return createdAgent;
-
       }
-
     };
 
     const AgentProxy = new Proxy(target, typeProxyHandler);
@@ -161,13 +154,13 @@ export class StaticProxyConstructorInitializer implements IInitializer {
       Reflect.set(AgentProxy, sym, target[sym]);
     }
     for (const key of Object.getOwnPropertyNames(target)) {
-      Reflect.set(AgentProxy, key, target[key]);
+      if (key !== 'prototype' && key !== 'length' && key !== 'name') {
+        Reflect.set(AgentProxy, key, target[key]);
+      }
     }
 
     return AgentProxy;
-
   }
-
 }
 
 // endregion
