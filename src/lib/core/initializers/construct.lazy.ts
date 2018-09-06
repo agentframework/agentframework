@@ -67,6 +67,14 @@ export class LazyFunctionConstructorInitializer implements IInitializer {
       enumerable: false,
       configurable: false
     });
+    
+    // copy static methods & symbols
+    for(const sym of Object.getOwnPropertySymbols(target)) {
+      Reflect.set(AgentProxy, sym, target[sym]);
+    }
+    for(const key of Object.getOwnPropertyNames(target)) {
+      Reflect.set(AgentProxy, key, target[key]);
+    }
 
     return AgentProxy;
 

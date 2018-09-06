@@ -153,8 +153,18 @@ export class StaticProxyConstructorInitializer implements IInitializer {
       }
 
     };
-
-    return new Proxy(target, typeProxyHandler);
+  
+    const AgentProxy = new Proxy(target, typeProxyHandler);
+    
+    // copy static methods & symbols
+    for(const sym of Object.getOwnPropertySymbols(target)) {
+      Reflect.set(AgentProxy, sym, target[sym]);
+    }
+    for(const key of Object.getOwnPropertyNames(target)) {
+      Reflect.set(AgentProxy, key, target[key]);
+    }
+    
+    return AgentProxy;
 
   }
 
