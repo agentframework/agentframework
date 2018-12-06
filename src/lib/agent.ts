@@ -13,7 +13,7 @@ if (typeof Reflect !== 'object') {
 }
 
 // ===========================================
-// ES2016
+// ES2016 and before
 // ===========================================
 if (typeof Reflect['metadata'] !== 'function') {
   // Install Reflect.metadata for tsc only
@@ -39,7 +39,7 @@ if (typeof Reflect['metadata'] !== 'function') {
 }
 else {
   // ===========================================
-  // ES2017 - no need any hack
+  // ES2017, ES2018, ES2019 - no need any hack
   // ===========================================
 }
 

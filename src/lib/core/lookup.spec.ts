@@ -1,6 +1,6 @@
 import { inject } from '../extra/inject';
 import { normalize } from '../extra/normalize';
-import { AgentCompileType } from './compiler';
+import { AgentCompileType } from './compilerOptions';
 import { agent } from '../agent';
 import { Lookup } from './lookup';
 

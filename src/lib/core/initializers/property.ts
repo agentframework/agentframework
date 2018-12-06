@@ -2,7 +2,7 @@ import { IInvocation } from '../invocation';
 import { InitializerFactory } from './factory';
 import { InitializerInvocation } from './invocation';
 import { createInterceptionChainFromAttribute } from '../interceptors/factory';
-import { InterceptorInvocation } from '../interceptors/invocation';
+import { InterceptorInvocation } from '../interceptors/interceptorInvocation';
 import { Lookup } from '../lookup';
 import { Property } from '../reflection';
 

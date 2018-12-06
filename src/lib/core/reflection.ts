@@ -1,4 +1,4 @@
-import { AgentFeatures } from './compiler';
+import { AgentFeatures } from './compilerOptions';
 import { Decoratable } from './decoratable';
 import { IsFunction, IsNumber } from './utils';
 import { IDesign } from './design';

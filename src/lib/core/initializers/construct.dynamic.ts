@@ -1,7 +1,7 @@
 import { IInitializer } from '../initializer';
 import { AgentInitializerInvocation } from './invocation';
 import { Reflector } from '../reflector';
-import { InterceptorFactory } from '../interceptors/factory';
+import { InterceptorFactory } from '../interceptors/interceptorFactory';
 import { Constructor } from '../constructor';
 
 // region DynamicFunctionConstructorInitializer

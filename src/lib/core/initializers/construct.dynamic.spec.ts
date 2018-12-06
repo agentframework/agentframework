@@ -1,5 +1,5 @@
 import { agent } from '../../agent'
-import { AgentCompileType } from '../compiler';
+import { AgentCompileType } from '../compilerOptions';
 
 class InjectableClass {
 }

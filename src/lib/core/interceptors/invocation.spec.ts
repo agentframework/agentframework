@@ -3,8 +3,8 @@ import { decorateClassMethod } from '../decorator';
 import { IAttribute } from '../attribute';
 import { IInterceptor } from '../interceptor';
 import { IInvocation } from '../invocation';
-import { AgentFeatures } from '../compiler';
-import { AgentCompileType } from '../compiler';
+import { AgentFeatures } from '../compilerOptions';
+import { AgentCompileType } from '../compilerOptions';
 
 
 describe('core.interceptors.invocation', () => {

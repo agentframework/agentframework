@@ -26,6 +26,8 @@ export {
   decorate
 } from './core/decorator';
 
+export { Exception } from './util/Exception';
+
 export {
   IsObject,
   IsFunction,

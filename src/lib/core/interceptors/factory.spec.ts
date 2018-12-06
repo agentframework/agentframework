@@ -3,7 +3,7 @@ import { decorateAgent, decorateClassMethod, decorateClassField } from '../decor
 import { IAttribute } from '../attribute';
 import { IInterceptor } from '../interceptor';
 import { IInvocation } from '../invocation';
-import { AgentCompileType } from '../compiler';
+import { AgentCompileType } from '../compilerOptions';
 
 
 describe('core.interceptors.factory', () => {

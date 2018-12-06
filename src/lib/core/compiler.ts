@@ -1,48 +1,15 @@
 import { Property } from './reflection';
 import { Lookup } from './lookup';
-import { createInterceptionChainFromAttribute, InterceptorFactory } from './interceptors/factory';
+import { createInterceptionChainFromAttribute} from './interceptors/factory';
 import { InitializerFactory } from './initializers/factory';
 import { InitializerInvocation } from './initializers/invocation';
-import { InterceptorInvocation } from './interceptors/invocation';
+import { InterceptorInvocation } from './interceptors/interceptorInvocation';
 import { Constructor } from './constructor';
 import { IInvocation } from './invocation';
 import { CONSTRUCTOR_INITIALIZER, FIELD_INITIALIZER } from './symbol';
 import { Reflector } from './reflector';
-
-/**
- * AgentCompileType
- */
-export enum AgentCompileType {
-  Custom = 0,
-  StaticFunction = 1,
-  StaticClass = 2,
-  StaticProxy = 3,
-  LazyFunction = 21,
-  LazyClass = 22,
-  LazyProxy = 23,
-  DynamicFunction = 31,
-  DynamicClass = 32,
-  DynamicProxy = 33
-}
-
-/**
- * AgentFeatures
- */
-export enum AgentFeatures {
-  Disabled = 0,
-  Initializer = 1,
-  Interceptor = 2,
-  Constructor = 4,
-  LazyInitializer = 8
-}
-
-/**
- * CompilerOptions
- */
-export interface CompilerOptions {
-  features: AgentFeatures;
-  target: 'function' | 'class' | 'proxy';
-}
+import { AgentFeatures, CompilerOptions } from './compilerOptions';
+import { InterceptorFactory } from './interceptors/interceptorFactory';
 
 /**
  * @ignore

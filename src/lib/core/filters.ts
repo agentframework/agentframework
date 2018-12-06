@@ -1,4 +1,4 @@
-import { AgentFeatures } from './compiler';
+import { AgentFeatures } from './compilerOptions';
 import { Property } from './reflection';
 
 

@@ -1,4 +1,4 @@
-import { AgentCompileType } from '../../src/lib/core/compiler';
+import { AgentCompileType } from '../../src/lib/core/compilerOptions';
 import { agent } from '../../src/lib/agent';
 import { inject } from '../../src/lib/extra/inject';
 import { normalize } from '../../src/lib/extra/normalize';

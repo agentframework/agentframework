@@ -2,7 +2,7 @@ import { CanDecorate, IAgentAttribute, IAttribute } from './attribute';
 import { Reflector } from './reflector';
 import { ORIGIN_CONSTRUCTOR } from './symbol';
 import { AgentInitializerInvocation, InitializerInvocation } from './initializers/invocation';
-import { InterceptorInvocation } from './interceptors/invocation';
+import { InterceptorInvocation } from './interceptors/interceptorInvocation';
 import { IInvocation } from './invocation';
 
 export enum Target {

@@ -1,5 +1,5 @@
 import { ToPropertyKey, IsNullOrUndefined } from '../utils';
-import { InterceptorFactory } from './factory';
+import { InterceptorFactory } from './interceptorFactory';
 import { ORIGIN_INSTANCE, PROXY_PROTOTYPE } from '../symbol';
 
 /**

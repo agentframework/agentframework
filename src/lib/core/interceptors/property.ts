@@ -1,4 +1,4 @@
-import { InterceptorFactory } from './factory';
+import { InterceptorFactory } from './interceptorFactory';
 import { Lookup } from '../lookup';
 import { Property } from '../reflection';
 

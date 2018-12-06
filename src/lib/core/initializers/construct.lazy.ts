@@ -1,7 +1,7 @@
 import { IInitializer } from '../initializer';
 import { INTERCEPTED_CONSTRUCTOR } from '../symbol';
 import { Reflector } from '../reflector';
-import { InterceptorFactory } from '../interceptors/factory';
+import { InterceptorFactory } from '../interceptors/interceptorFactory';
 import { AgentInitializerInvocation } from './invocation';
 import { Constructor } from '../constructor';
 

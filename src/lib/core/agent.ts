@@ -19,7 +19,8 @@ import {
   DynamicFunctionConstructorInitializer,
   DynamicProxyConstructorInitializer
 } from './initializers/construct.dynamic';
-import { AgentCompileType, AgentFeatures } from './compiler';
+import { AgentCompileType} from './compilerOptions';
+import { AgentFeatures } from './compilerOptions';
 
 /**
  * AgentOptions
