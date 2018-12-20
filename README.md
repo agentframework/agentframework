@@ -16,7 +16,7 @@ Agent Framework for TypeScript 2.3+
 
 ### Implementations
 
-- (@agentframework/validation)[https://github.com/agentframework/validation] - Zero configuration validation framework for TypeScript
+- [@agentframework/validation](https://github.com/agentframework/validation) Zero configuration validation framework for TypeScript
 
 
 ### What's this?
