@@ -7,20 +7,17 @@ import { IDesign } from './design';
  * Parameter
  */
 export class Parameter extends Decoratable implements IDesign {
-
   get type(): any {
     return this.getMetadata('design:type');
   }
-
 }
 
 /**
  * Method
  */
 export class Method extends Decoratable {
-
-  _maxParameters: number;
-  _parameters: Map<number, Parameter>;
+  private readonly _maxParameters: number;
+  private readonly _parameters: Map<number, Parameter>;
 
   constructor(maxParameters: number) {
     super();
@@ -38,7 +35,7 @@ export class Method extends Decoratable {
 
   parameter(index: number): Parameter {
     if (IsNumber(this._maxParameters) && index > this._maxParameters) {
-      throw new TypeError(`Invalid parameter index: ${index}`)
+      throw new TypeError(`Invalid parameter index: ${index}`);
     }
     let parameter = this._parameters.get(index);
     if (!parameter) {
@@ -51,15 +48,13 @@ export class Method extends Decoratable {
   get returntype(): any {
     return this.getMetadata('design:returntype');
   }
-
 }
 
 /**
  * Property
  */
 export class Property extends Decoratable implements IDesign {
-
-  _methods: Map<string, Method>;
+  private readonly _methods: Map<string, Method>;
 
   constructor(private _key: string | symbol, private _descriptor?: PropertyDescriptor) {
     super();
@@ -123,62 +118,51 @@ export class Property extends Decoratable implements IDesign {
    * @param value
    */
   addMetadata(key: string, value: any) {
-
     super.addMetadata(key, value);
 
     // apply method parameter type into parameter metadata
     if (this._descriptor) {
-
       if (this._descriptor.value) {
-
         // this is a method
         if (key === 'design:paramtypes' && value && value.length) {
           this.value().addMetadata('design:paramtypes', value);
           const types = value as Array<any>;
           for (let idx = types.length - 1; idx >= 0; idx--) {
-            this.value().parameter(idx).addMetadata('design:type', types[idx]);
+            this.value()
+              .parameter(idx)
+              .addMetadata('design:type', types[idx]);
           }
-        }
-        else if (key === 'design:returntype') {
+        } else if (key === 'design:returntype') {
           this.value().addMetadata('design:returntype', value);
         }
-
       }
 
       if (this._descriptor.get) {
-
         if (key === 'design:type') {
           this.getter().addMetadata('design:returntype', value);
         }
-
       }
 
       if (this._descriptor.set) {
-
         if (key === 'design:paramtypes' && value && value.length) {
           this.setter().addMetadata('design:paramtypes', value);
           const types = value as Array<any>;
           for (let idx = types.length - 1; idx >= 0; idx--) {
-            this.setter().parameter(idx).addMetadata('design:type', types[idx]);
+            this.setter()
+              .parameter(idx)
+              .addMetadata('design:type', types[idx]);
           }
         }
-
       }
-
-    }
-    else {
-
+    } else {
       // this is field
       if (key === 'design:type' && value) {
         const types = value as Array<any>;
         this.value().addMetadata('design:returntype', types[0]);
       }
-
     }
-
   }
 }
-
 
 /**
  * Represents a callback function that is used to filter a list of behavior represented in a map of Behavior objects.
@@ -189,16 +173,15 @@ export interface PropertyFilter {
    * @param filterCriteria An arbitrary object used to filter the list.
    * @returns {boolean} `true` to include the behavior in the filtered list; otherwise false.
    */
-  (value: Property, filterCriteria?: any): boolean
+  (value: Property, filterCriteria?: any): boolean;
 }
 
 /**
  * Reflection information for user class
  */
 export class Reflection extends Method implements IDesign {
-
-  _prototype: object;
-  _properties: Map<string | symbol, Property>;
+  private readonly _prototype: object;
+  private readonly _properties: Map<string | symbol, Property>;
 
   constructor(prototype: object) {
     super(prototype.constructor.length);
@@ -255,7 +238,7 @@ export class Reflection extends Method implements IDesign {
   property(key: string | symbol, descriptor?: PropertyDescriptor): Property {
     if (!this._properties.has(key)) {
       descriptor = descriptor || Object.getOwnPropertyDescriptor(this.type, key);
-      this._properties.set(key, new Property(key, descriptor))
+      this._properties.set(key, new Property(key, descriptor));
     }
     return this._properties.get(key);
   }
@@ -283,7 +266,4 @@ export class Reflection extends Method implements IDesign {
   getProperties(): IterableIterator<Property> {
     return this._properties.values();
   }
-
-
 }
-

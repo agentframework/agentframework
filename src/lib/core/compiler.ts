@@ -1,6 +1,6 @@
 import { Property } from './reflection';
 import { Lookup } from './lookup';
-import { createInterceptionChainFromAttribute} from './interceptors/factory';
+import { createInterceptionChainFromAttribute } from './interceptors/factory';
 import { InitializerFactory } from './initializers/factory';
 import { InitializerInvocation } from './initializers/invocation';
 import { InterceptorInvocation } from './interceptors/interceptorInvocation';

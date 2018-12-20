@@ -12,17 +12,17 @@ import { createInterceptionChainFromAttribute } from './factory';
  * @hidden
  */
 export class InterceptorFactory {
-  
-  
+
+
   public static createConstructInterceptor<T>(attributes: Array<IAttribute>,
-                                              target: T,
-                                              options: Partial<AgentOptions>,
-                                              design: IDesign): IInvocation {
+    target: T,
+    options: Partial<AgentOptions>,
+    design: IDesign): IInvocation {
     const invocation = new ConstructInvocation(target, options, design);
     return createInterceptionChainFromAttribute(invocation, attributes);
   }
-  
-  
+
+
   // public static createGetterInterceptor(attributes: Array<IAttribute>,
   //   target: any,
   //   propertyKey: PropertyKey,
@@ -39,8 +39,8 @@ export class InterceptorFactory {
   //   const invocation = new SetterInvocation(target, propertyKey, receiver);
   //   return createInterceptionChainFromAttribute(invocation, attributes);
   // }
-  
-  
+
+
   public static createFunctionInterceptor(attributes: Array<IAttribute>, method: IInvoke): Function {
     const originMethod = method; // method[ORIGIN] || method;
     const origin: IInvocation = {
@@ -61,7 +61,7 @@ export class InterceptorFactory {
     else {
       return originMethod;
     }
-    
+
   }
-  
+
 }

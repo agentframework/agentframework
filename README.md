@@ -8,7 +8,7 @@ Agent Framework for TypeScript 2.3+
 
 | Date       | Version                                      | Status      |
 | ---------- | -------------------------------------------- | ----------- |
-| 2018-12-06 | [0.9.19](doc/changelogs/CHANGELOG_0.9.x.md)  | Current     |
+| 2018-12-20 | [0.9.20](doc/changelogs/CHANGELOG_0.9.x.md)  | Current     |
 | 2017-06-30 | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md)  |             |
 | 2017-01-06 | [0.4.4](doc/changelogs/CHANGELOG_0.4.x.md)   |             |
 | 2016-11-20 | [0.3.12](doc/changelogs/CHANGELOG_0.3.x.md)  |             |
@@ -256,20 +256,20 @@ Let's call it Agent-a-a-S which implement **Agent Oriented Programming**
 
 ### Package Info
 ```
-📦  agentframework@0.9.19
+📦  agentframework@0.9.20
 === Tarball Contents ===
 752B   package.json
 556B   LICENSE
-10.3kB README.md
+10.6kB README.md
 8.2kB  lib/index.d.ts
-57.6kB lib/index.js
-56.6kB lib/index.mjs
+57.8kB lib/index.js
+56.7kB lib/index.mjs
 === Tarball Details ===
 name:          agentframework
-version:       0.9.19
-package size:  22.1 kB
-unpacked size: 134.0 kB
-shasum:        352809bb415d4259baa4b38142d024b099b7fc90
-integrity:     sha512-GwTVdXvQIqXcP[...]fmqQ3i8fK8u2w==
+version:       0.9.20
+package size:  22.3 kB
+unpacked size: 134.5 kB
+shasum:        b9ca66b9361d2d1c61a2f4412b055036596ead61
+integrity:     sha512-MH9UqK3XA9MJU[...]HFbYFJEqqTSzA==
 total files:   6
 ```
