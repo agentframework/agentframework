@@ -14,6 +14,10 @@ Agent Framework for TypeScript 2.3+
 | 2016-11-20 | [0.3.12](doc/changelogs/CHANGELOG_0.3.x.md)  |             |
 | 2016-11-03 | [0.2.28](doc/changelogs/CHANGELOG_0.2.x.md)  |             |
 
+### Implementations
+
+- (@agentframework/validation)[https://github.com/agentframework/validation] - Zero configuration validation framework for TypeScript
+
 
 ### What's this?
 
