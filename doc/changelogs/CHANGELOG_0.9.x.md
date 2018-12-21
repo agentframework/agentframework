@@ -3,7 +3,13 @@
 0.9.x is the last version before 1.0. Since the MVP/EPIC features are already in place.
 The goal of this version is to improve performance and revise API interfaces for backward compatibility.
 
-## 2018-12-20, Version 0.9.20 (Current), @e2tox
+## 2018-12-21, Version 0.9.21 (Current), @e2tox
+
+**Improvement**
+
+- Remove node typing from definition file
+
+## 2018-12-20, Version 0.9.20, @e2tox
 
 **Improvement**
 
