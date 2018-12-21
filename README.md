@@ -4,6 +4,25 @@ Agent Framework for TypeScript 2.3+, 3+
 [![Build Status](https://travis-ci.org/agentframework/agentframework.svg?branch=master)](https://travis-ci.org/agentframework/agentframework)
 [![Coverage Status](https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=master)](https://coveralls.io/github/agentframework/agentframework?branch=master)
 
+### Preface
+
+| PARADIGM                   | INSPIRATION  | DESCRIPTION  
+|---------------------------------------------------------------------------------------
+| Function Programming       | Math         | It transform data
+| OOP                        | The world    | It describe things and the relationships between them 
+| Agent Oriented Programming | Human        | It actions like a human (AI)
+
+
+| HUMAN       | AGENT FRAMEWORK   | DESCRIPTION
+|-----------------------------------------------------------------------------------------------------------
+| People	    | Agent	            | A class decorate with @agent attribute |
+| Action	    | Behavior          | Class method decorate with @action, @method or @behavior attribute |
+| Belief	    | Memory            | Private class field decorated with @state, @remember, @memory attribute |
+| Environment	| Domain            | A set of agents, components, services, artifacts |
+| Autonomy	  | Activation        | Timer, scheduler which based on environment conditions |
+| Sociality	  | Message           | Agent can communicate with other agent |
+| Mobility	  | Mobile Agent      | An agent can move from domain to domain with their belief unchanged |
+
 ### Changelog
 
 | Date       | Version                                      | Status      |
@@ -14,10 +33,9 @@ Agent Framework for TypeScript 2.3+, 3+
 | 2016-11-20 | [0.3.12](doc/changelogs/CHANGELOG_0.3.x.md)  |             |
 | 2016-11-03 | [0.2.28](doc/changelogs/CHANGELOG_0.2.x.md)  |             |
 
-### Implementations
+### Satellite projects
 
 - [@agentframework/validation](https://github.com/agentframework/validation) Zero configuration validation framework for TypeScript
-
 
 ### What's this?
 
@@ -49,15 +67,11 @@ Agent Framework will help you on following areas: (which I did in other projects
 - Tracking / Monitoring
 - Utilities
 - ...
-- **And there's a new octoverse out there that is waiting to be explored**
+- **And there are so many waiting to be explored**
 
 
 ### Install and usage
 
-```bash
-  npm install --save agentframework
-```
-or
 ```bash
   yarn add agentframework
 ```
@@ -68,7 +82,7 @@ Just add 3 lines to your existing source code to enable the powerful Dependence 
 
 - `import { agent, inject } from 'agentframework'`
 - `@agent()`
-- `@inject(Project)`
+- `@inject()`
 
 ```typescript
 import { agent, inject } from 'agentframework'
@@ -90,7 +104,7 @@ class Developer {
 
 }
 
-// EPIC: create interceptable agent as easy as construct a new class
+// EPIC: create agent using new keyword without introduce IoC container
 const you = new Developer();
 console.log('Is it create from the Developer class?', you instanceof Developer);
 
