@@ -3,7 +3,13 @@
 0.9.x is the last version before 1.0. Since the MVP/EPIC features are already in place.
 The goal of this version is to improve performance and revise API interfaces for backward compatibility.
 
-## 2018-12-21, Version 0.9.21 (Current), @e2tox
+## 2018-12-21, Version 0.9.22 (Current), @e2tox
+
+**Improvement**
+
+- Improve Reflection API with type inference
+
+## 2018-12-21, Version 0.9.21, @e2tox
 
 **Improvement**
 
@@ -69,7 +75,6 @@ The goal of this version is to improve performance and revise API interfaces for
 
 - Export IsNumber helper function
 
-
 ## 2017-12-18, Version 0.9.5, @e2tox
 
 **Notable Changes**
@@ -79,13 +84,11 @@ The goal of this version is to improve performance and revise API interfaces for
 - IInitializer is able to access IDesign information during execution (@inject will know the type to inject)
 - IInitializer attribute can be decorate on constructor parameters (@inject can decorate on constructor parameter)
 
-
 ## 2017-12-13, Version 0.9.3, @e2tox
 
 **Notable Changes**
 
 - @prerequisite, @failure, @conditional, @cache now can works with getter, setter and methods
-
 
 ## 2017-12-12, Version 0.9.2, @e2tox
 
@@ -93,7 +96,6 @@ The goal of this version is to improve performance and revise API interfaces for
 
 - Introduce agent compiler
 - Added compiler cache to increase the performance of creating agent instance using new()
-
 
 ## 2017-12-10, Version 0.9.1, @e2tox
 
@@ -105,8 +107,8 @@ The goal of this version is to improve performance and revise API interfaces for
 - Revised Reflection API
 
 **Others**
-- Added more test cases
 
+- Added more test cases
 
 ## 2017-12-05, Version 0.9.0, @e2tox
 
@@ -119,6 +121,6 @@ The goal of this version is to improve performance and revise API interfaces for
 - Removed dependencies of EventEmitter since never used
 
 **Others**
+
 - Added Architecture Decision Record
 - Adjust some API interface
-

@@ -13,4 +13,7 @@ export interface TypedConstructorWithParameters<T> {
   new(...args: Array<any>): T;
 }
 
+/**
+ * TypedConstructor
+ */
 export type TypedConstructor<T> = TypedConstructorWithoutParameter<T> | TypedConstructorWithParameters<T>;

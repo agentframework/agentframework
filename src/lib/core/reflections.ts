@@ -9,11 +9,11 @@ const root = typeof global === 'object' ? global : window;
 // ------------------------------------------
 if (!Reflect.has(root, REFLECTION_KEY)) {
   // create metadata store only if the global symbol not exits
-  Reflect.set(root, REFLECTION_KEY, new WeakMap<object, Reflection>()); // Object.freeze(kernel); - this will break istanbul test
+  Reflect.set(root, REFLECTION_KEY, new WeakMap<object, Reflection<any>>()); // Object.freeze(kernel); - this will break istanbul test
 }
 
 /**
  * @hidden
  * @ignore
  */
-export const Reflections: WeakMap<object, Reflection> = Reflect.get(root, REFLECTION_KEY);
+export const Reflections: WeakMap<object, Reflection<any>> = Reflect.get(root, REFLECTION_KEY);

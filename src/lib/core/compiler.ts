@@ -1,4 +1,4 @@
-import { Property } from './reflection';
+import { Property } from './property';
 import { Lookup } from './lookup';
 import { createInterceptionChainFromAttribute } from './interceptors/factory';
 import { InitializerFactory } from './initializers/factory';
@@ -16,7 +16,7 @@ import { InterceptorFactory } from './interceptors/interceptorFactory';
  * @hidden
  */
 export class Compiler {
-  _options: Partial<CompilerOptions>;
+  private _options: Partial<CompilerOptions>;
 
   constructor(options?: Partial<CompilerOptions>) {
     options = options || {};

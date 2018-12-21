@@ -5,23 +5,20 @@ import { InterceptorFactory } from '../interceptors/interceptorFactory';
 import { AgentInitializerInvocation } from './invocation';
 import { Constructor } from '../constructor';
 
-
 // region LazyFunctionConstructorInitializer
 /**
  * Create lazy agent constructor initializer using function
+ *
  * @ignore
  * @hidden
  */
 export class LazyFunctionConstructorInitializer implements IInitializer {
-
   initialize(invocation: AgentInitializerInvocation, parameters: ArrayLike<any>): any {
-
     const target = invocation.target;
     const attribute = invocation.attribute;
     const options = invocation.attribute.options;
 
     const AgentProxy = function () {
-
       if (!new.target) {
         throw new TypeError(`Class constructor cannot be invoked without 'new'`);
       }
@@ -30,21 +27,25 @@ export class LazyFunctionConstructorInitializer implements IInitializer {
 
       let interceptedConstructor = proto[INTERCEPTED_CONSTRUCTOR];
 
+      // do not intercept multiple times
       if (!interceptedConstructor) {
-
         const originConstructor = proto.constructor;
 
         // search all attributes on this class constructor
         const reflection = Reflector(originConstructor);
-        const customAttributes = reflection.getInterceptors();
+        const interceptors = reflection.getInterceptors();
 
         // create a interceptor chain from the found attributes
-        interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options, reflection);
+        interceptedConstructor = InterceptorFactory.createConstructInterceptor(
+          interceptors,
+          originConstructor,
+          options,
+          reflection
+        );
 
         // cache the interceptor
         // use symbol here to allow reset cache when needed
         Reflect.set(proto, INTERCEPTED_CONSTRUCTOR, interceptedConstructor);
-
       }
 
       // invoke the cached chain
@@ -54,7 +55,6 @@ export class LazyFunctionConstructorInitializer implements IInitializer {
 
       // return the new created instance
       return createdAgent;
-
     };
 
     // this is the only place we can modify the proxy target
@@ -68,7 +68,7 @@ export class LazyFunctionConstructorInitializer implements IInitializer {
       configurable: false
     });
 
-    // copy static methods & symbols
+    // copy static methods & symbols from source constructor function
     for (const sym of Object.getOwnPropertySymbols(target)) {
       Reflect.set(AgentProxy, sym, target[sym]);
     }
@@ -79,9 +79,7 @@ export class LazyFunctionConstructorInitializer implements IInitializer {
     }
 
     return AgentProxy;
-
   }
-
 }
 // endregion
 
@@ -92,17 +90,13 @@ export class LazyFunctionConstructorInitializer implements IInitializer {
  * @hidden
  */
 export class LazyClassConstructorInitializer implements IInitializer {
-
   initialize(invocation: AgentInitializerInvocation, parameters: ArrayLike<any>): any {
-
-    const target = invocation.target as any as Constructor;
+    const target = (invocation.target as any) as Constructor;
     const attribute = invocation.attribute;
     const options = invocation.attribute.options;
 
     return class extends target {
-
       constructor() {
-
         // do not call super constructor since we don't access this from this method
         /* istanbul ignore if  */
         if (0) {
@@ -114,7 +108,6 @@ export class LazyClassConstructorInitializer implements IInitializer {
         let interceptedConstructor = proto[INTERCEPTED_CONSTRUCTOR];
 
         if (!interceptedConstructor) {
-
           const originConstructor = proto.constructor;
 
           // search all attributes on this class constructor
@@ -122,12 +115,16 @@ export class LazyClassConstructorInitializer implements IInitializer {
           const customAttributes = reflection.getInterceptors();
 
           // create a interceptor chain from the found attributes
-          interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options, reflection);
+          interceptedConstructor = InterceptorFactory.createConstructInterceptor(
+            customAttributes,
+            originConstructor,
+            options,
+            reflection
+          );
 
           // cache the interceptor
           // use symbol here to allow reset cache when needed
           Reflect.set(proto, INTERCEPTED_CONSTRUCTOR, interceptedConstructor);
-
         }
 
         // invoke the cached chain
@@ -137,13 +134,9 @@ export class LazyClassConstructorInitializer implements IInitializer {
 
         // return the new created instance
         return createdAgent;
-
       }
-
     };
-
   }
-
 }
 // endregion
 
@@ -154,23 +147,18 @@ export class LazyClassConstructorInitializer implements IInitializer {
  * @hidden
  */
 export class LazyProxyConstructorInitializer implements IInitializer {
-
   initialize(invocation: AgentInitializerInvocation, parameters: ArrayLike<any>): any {
-
-    const target = invocation.target as any as Constructor;
+    const target = (invocation.target as any) as Constructor;
     const attribute = invocation.attribute;
     const options = invocation.attribute.options;
 
     const typeProxyHandler = {
-
       construct: (target: any, parameters: any, receiver: any): object => {
-
         const proto = target.prototype;
 
         let interceptedConstructor = proto[INTERCEPTED_CONSTRUCTOR];
 
         if (!interceptedConstructor) {
-
           const originConstructor = proto.constructor;
 
           // search all attributes on this class constructor
@@ -178,30 +166,29 @@ export class LazyProxyConstructorInitializer implements IInitializer {
           const customAttributes = reflection.getInterceptors();
 
           // create a interceptor chain from the found attributes
-          interceptedConstructor = InterceptorFactory.createConstructInterceptor(customAttributes, originConstructor, options, reflection);
+          interceptedConstructor = InterceptorFactory.createConstructInterceptor(
+            customAttributes,
+            originConstructor,
+            options,
+            reflection
+          );
 
           // cache the interceptor
           // use symbol here to allow reset cache when needed
           Reflect.set(proto, INTERCEPTED_CONSTRUCTOR, interceptedConstructor);
-
         }
 
         // invoke the cached chain
         const createdAgent = interceptedConstructor.invoke(arguments);
 
-
         // Reflect.set(createdAgent, PROXY_PROTOTYPE, proto);
 
         // return the new created instance
         return createdAgent;
-
       }
-
     };
 
     return new Proxy(target, typeProxyHandler);
-
   }
-
 }
 // endregion

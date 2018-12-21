@@ -3,7 +3,6 @@ import { IsNullOrUndefined } from './core/utils';
 import { Reflector } from './core/reflector';
 import { AgentAttribute } from './core/agent';
 
-
 // ===========================================
 // ES2015 or before
 // ===========================================
@@ -23,26 +22,21 @@ if (typeof Reflect['metadata'] !== 'function') {
   //     Reflect.metadata("design:paramtypes", []),
   //     Reflect.metadata("design:returntype", String)
   Reflect['metadata'] = function (key: string, value: any) {
-    return function (target: Object | Function,
-      propertyKey?: string | symbol,
-      descriptor?: PropertyDescriptor): void {
-
+    return function (target: Object | Function, propertyKey?: string | symbol, descriptor?: PropertyDescriptor): void {
       if (IsNullOrUndefined(propertyKey)) {
         Reflector(target).addMetadata(key, value);
+      } else {
+        Reflector(target)
+          .property(propertyKey, descriptor)
+          .addMetadata(key, value);
       }
-      else {
-        Reflector(target).property(propertyKey, descriptor).addMetadata(key, value);
-      }
-
-    }
+    };
   };
-}
-else {
+} else {
   // ===========================================
   // ES2017, ES2018, ES2019 - no need any hack
   // ===========================================
 }
-
 
 /**
  * Define an agent

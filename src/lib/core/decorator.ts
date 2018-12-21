@@ -22,6 +22,7 @@ export type UniversalDecorator = <T extends Function>(target: Object | T, proper
 
 /**
  * Decorate an agent with customized initializer, interceptors and attributes
+ *
  * @param {IAgentAttribute} initializer
  * @param {IAttribute[]} interceptors
  * @param {IAttribute[]} attributes
@@ -140,7 +141,6 @@ export function decorateParameter(attribute?: IAttribute): ParameterDecorator {
     }
   }
 }
-
 
 /**
  * Decorate attribute to the target

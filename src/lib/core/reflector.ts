@@ -1,4 +1,4 @@
-import { Constructor } from './constructor';
+import { Constructor, TypedConstructor } from './constructor';
 import { Reflection } from './reflection';
 import { Reflections } from './reflections';
 import { IsFunction } from './utils';
@@ -9,8 +9,7 @@ import { IsFunction } from './utils';
  * @returns {Reflection}
  * @constructor
  */
-export function Reflector(target: object | Constructor): Reflection {
-
+export function Reflector<T>(target: object | TypedConstructor<T>): Reflection<T> {
   if (new.target) {
     // NOTE: in AgentFramework 1.0, the reflection data can only set on Type.
     // At present, we didn't found any use case to access reflection data on instance.
@@ -27,28 +26,23 @@ export function Reflector(target: object | Constructor): Reflection {
 
   if (type === 'function') {
     prototype = (target as Function).prototype;
-  }
-  else if (type === 'object') {
-
+  } else if (type === 'object') {
     // do not call Object.getPrototypeOf() if target is a prototype
     // because Object.getPrototypeOf(Object.prototype) will return null
     const constructor = Object.getOwnPropertyDescriptor(target, 'constructor');
     if (constructor && IsFunction(constructor.value)) {
       // this is a prototype already
       prototype = target.constructor.prototype;
-    }
-    else {
+    } else {
       prototype = target['__proto__'];
     }
-
-  }
-  else {
+  } else {
     // number, boolean
     throw new TypeError(`Reflection target type is not supported`);
   }
 
   if (!Reflections.has(prototype)) {
-    Reflections.set(prototype, new Reflection(prototype));
+    Reflections.set(prototype, new Reflection<T>(prototype));
   }
 
   return Reflections.get(prototype);

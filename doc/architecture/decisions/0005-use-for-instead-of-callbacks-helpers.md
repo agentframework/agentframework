@@ -8,11 +8,11 @@ Accepted
 
 ## Context
 
-_.forEach() which is good, but not friendly to debug the code.
+\_.forEach(), Array.map() which is good, but not friendly to debug the code.
 
 ## Decision
 
-Use for 
+Use for
 
 ## Consequences
 

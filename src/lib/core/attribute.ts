@@ -1,69 +1,84 @@
 import { IInterceptor } from './interceptor';
 import { IInitializer } from './initializer';
 import { AgentOptions } from './agent';
+import { IsFunction } from './utils';
 
 /**
  *
  */
 export interface IAttribute {
-
+  /**
+   * Identifier of this attribute, usually UUID
+   */
   identifier?: string;
 
   /**
-   * Fired before decoration of this attribute
+   * Called before decoration of this attribute
+   *
+   * @optional
    * @param {Object | Function} target
-   * @param {string | symbol} targetKey
+   * @param {string | Symbol} targetKey
    * @param {PropertyDescriptor} descriptor
    * @returns {boolean}
    */
-  beforeDecorate?(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean
+  beforeDecorate?(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean;
 
   /**
-   * Get initializer for current target, replace the property or replace the class constructor
+   * Get an initializer for current target, replace the property or replace the class constructor
    */
-  getInitializer?(): IInitializer
+  getInitializer?(): IInitializer;
 
   /**
-   * Get interceptor for current target
+   * Get an interceptor for current target
    */
-  getInterceptor?(): IInterceptor
-
+  getInterceptor?(): IInterceptor;
 }
 
 /**
  * This attribute is for agent / domain management
  */
 export interface IAgentAttribute extends IAttribute {
-
+  /**
+   * Agent Options
+   */
   options: AgentOptions;
 
   /**
    * Fired before decoration of this attribute
+   *
    * @param {Object | Function} target
-   * @param {string | symbol} targetKey
+   * @param {string | Symbol} targetKey
    * @param {PropertyDescriptor} descriptor
    * @returns {boolean}
    */
-  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean
-
-
+  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean;
 }
-
 
 export interface IBeforeDecorateAttribute {
   /**
-   * Fired before decoration of this attribute
+   * Called before decoration of this attribute
+   *
    * @param {Object | Function} target
-   * @param {string | symbol} targetKey
+   * @param {string | Symbol} targetKey
    * @param {PropertyDescriptor} descriptor
    * @returns {boolean}
    */
-  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean
+  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean;
 }
 
-
-export function CanDecorate(attribute: IAttribute, target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
-  return !attribute || !attribute.beforeDecorate || attribute.beforeDecorate(target, targetKey, descriptor);
+export function CanDecorate(
+  attribute: IAttribute,
+  target: Object | Function,
+  targetKey?: string | symbol,
+  descriptor?: PropertyDescriptor
+): boolean {
+  if (!attribute) {
+    return false;
+  }
+  if (IsFunction(attribute.beforeDecorate)) {
+    return attribute.beforeDecorate(target, targetKey, descriptor);
+  }
+  return true;
 }
 
 export function GetInterceptor(attribute: IAttribute): IInterceptor | undefined {

@@ -1,5 +1,5 @@
-Agent Framework for TypeScript 2.3+
------------------------------------
+Agent Framework for TypeScript 2.3+, 3+
+---------------------------------------
 
 [![Build Status](https://travis-ci.org/agentframework/agentframework.svg?branch=master)](https://travis-ci.org/agentframework/agentframework)
 [![Coverage Status](https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=master)](https://coveralls.io/github/agentframework/agentframework?branch=master)
@@ -8,7 +8,7 @@ Agent Framework for TypeScript 2.3+
 
 | Date       | Version                                      | Status      |
 | ---------- | -------------------------------------------- | ----------- |
-| 2018-12-21 | [0.9.21](doc/changelogs/CHANGELOG_0.9.x.md)  | Current     |
+| 2018-12-22 | [0.9.22](doc/changelogs/CHANGELOG_0.9.x.md)  | Current     |
 | 2017-06-30 | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md)  |             |
 | 2017-01-06 | [0.4.4](doc/changelogs/CHANGELOG_0.4.x.md)   |             |
 | 2016-11-20 | [0.3.12](doc/changelogs/CHANGELOG_0.3.x.md)  |             |
@@ -260,20 +260,20 @@ Let's call it Agent-a-a-S which implement **Agent Oriented Programming**
 
 ### Package Info
 ```
-📦  agentframework@0.9.21
+📦  agentframework@0.9.22
 === Tarball Contents ===
 752B   package.json
 556B   LICENSE
 10.7kB README.md
-8.1kB  lib/index.d.ts
-57.8kB lib/index.js
-56.7kB lib/index.mjs
+8.2kB  lib/index.d.ts
+57.9kB lib/index.js
+56.9kB lib/index.mjs
 === Tarball Details ===
 name:          agentframework
-version:       0.9.21
-package size:  22.3 kB
-unpacked size: 134.6 kB
-shasum:        1d1878f1964daa5df788738db9111b97bd8cd450
-integrity:     sha512-wnLpZsWsZZfNj[...]w4hZz7ISdcBng==
+version:       0.9.22
+package size:  22.4 kB
+unpacked size: 135.0 kB
+shasum:        05484763e4301ec1f43bb1a16ce74d9392fddd5f
+integrity:     sha512-LKQwcxVWbfJj+[...]9k9Kz/GfhoVEw==
 total files:   6
 ```

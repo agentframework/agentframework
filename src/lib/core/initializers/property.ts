@@ -4,7 +4,7 @@ import { InitializerInvocation } from './invocation';
 import { createInterceptionChainFromAttribute } from '../interceptors/factory';
 import { InterceptorInvocation } from '../interceptors/interceptorInvocation';
 import { Lookup } from '../lookup';
-import { Property } from '../reflection';
+import { Property } from '../property';
 
 
 // We don't create a property bag here because we want pass current new(arguments) to the initializer

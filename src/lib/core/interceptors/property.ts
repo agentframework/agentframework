@@ -1,6 +1,6 @@
 import { InterceptorFactory } from './interceptorFactory';
 import { Lookup } from '../lookup';
-import { Property } from '../reflection';
+import { Property } from '../property';
 
 /**
  * @ignore
@@ -10,7 +10,6 @@ import { Property } from '../reflection';
  * @constructor
  */
 export function CreatePropertyInterceptors(target: any): PropertyDescriptorMap {
-
   // 1. find all the properties for this type which contains one or more attribute implemented 'getInterceptor'
   const properties: Property[] = Lookup.findInterceptors(target);
   let propertyInterceptors: any;
@@ -22,21 +21,19 @@ export function CreatePropertyInterceptors(target: any): PropertyDescriptorMap {
   propertyInterceptors = {};
 
   for (const property of properties) {
-
     const name = property.targetKey;
     const descriptor = property.descriptor;
 
     if (!descriptor) {
-
       if (property.hasInitializer() || property.value().hasInitializer()) {
         // Interceptor can works with Initializer
         continue;
+      } else {
+        throw new Error(
+          `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
+          `Interceptor not work with field property without Initializer`
+        );
       }
-      else {
-        throw new Error(`Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-          `Interceptor not work with field property without Initializer`);
-      }
-
     }
 
     // refer to the origin descriptor
@@ -50,31 +47,44 @@ export function CreatePropertyInterceptors(target: any): PropertyDescriptorMap {
     let interceptorAttributes = property.getInterceptors();
 
     if (value) {
-
       // call interceptors on value first
       // then call interceptors on property
-      interceptorAttributes = property.value().getInterceptors().concat(interceptorAttributes);
+      interceptorAttributes = property
+        .value()
+        .getInterceptors()
+        .concat(interceptorAttributes);
 
       /* istanbul ignore else  */
       if (typeof value === 'function') {
         propertyInterceptors[name].value = InterceptorFactory.createFunctionInterceptor(interceptorAttributes, value);
-      }
-      else {
-        throw new Error(`Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-          `Interceptor not work with non-function property`);
+      } else {
+        throw new Error(
+          `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
+          `Interceptor not work with non-function property`
+        );
       }
     }
 
     if (typeof getter === 'function') {
-      interceptorAttributes = property.getter().getInterceptors().concat(interceptorAttributes);
-      propertyInterceptors[name].get = InterceptorFactory.createFunctionInterceptor(interceptorAttributes, getter) as () => any;
+      interceptorAttributes = property
+        .getter()
+        .getInterceptors()
+        .concat(interceptorAttributes);
+      propertyInterceptors[name].get = InterceptorFactory.createFunctionInterceptor(
+        interceptorAttributes,
+        getter
+      ) as () => any;
     }
 
     if (typeof setter === 'function') {
-      interceptorAttributes = property.setter().getInterceptors().concat(interceptorAttributes);
-      propertyInterceptors[name].set = InterceptorFactory.createFunctionInterceptor(interceptorAttributes, setter) as (v: any) => void;
+      interceptorAttributes = property
+        .setter()
+        .getInterceptors()
+        .concat(interceptorAttributes);
+      propertyInterceptors[name].set = InterceptorFactory.createFunctionInterceptor(interceptorAttributes, setter) as (
+        v: any
+      ) => void;
     }
-
   }
 
   return propertyInterceptors;

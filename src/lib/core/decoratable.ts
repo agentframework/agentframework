@@ -1,10 +1,11 @@
 import { IAttribute } from './attribute';
+import { TypedConstructor } from './constructor';
+import { IsFunction } from './utils';
 
 /**
  * Access and store attribute and metadata for reflection
  */
 export abstract class Decoratable {
-
   private _attributes: Array<IAttribute> = [];
   private _metadata: Map<string, any>;
   private _hasInterceptor: boolean;
@@ -21,10 +22,10 @@ export abstract class Decoratable {
     this._attributes.push(attribute);
     // if the attribute provide a getInterceptor, that means this property may need inject
     // we don't call getInterceptor or getInitializer until user new() the agent class.
-    if (!!attribute.getInterceptor) {
+    if (IsFunction(attribute.getInterceptor)) {
       this._hasInterceptor = true;
     }
-    if (!!attribute.getInitializer) {
+    if (IsFunction(attribute.getInitializer)) {
       this._hasInitializer = true;
     }
   }
@@ -33,12 +34,11 @@ export abstract class Decoratable {
    * Return an array of attributes which is instance of giving type
    * @returns {IAttribute[]}
    */
-  getAttributes<T extends IAttribute>(type?): T[] {
+  getAttributes<U1 extends IAttribute>(type?: TypedConstructor<U1>): U1[] {
     if (type) {
-      return this._attributes.filter(a => a instanceof type) as Array<T>;
-    }
-    else {
-      return this._attributes.slice(0) as Array<T>;
+      return this._attributes.filter(a => a instanceof type) as Array<U1>;
+    } else {
+      return this._attributes.slice(0) as Array<U1>;
     }
   }
 
@@ -47,11 +47,10 @@ export abstract class Decoratable {
    * @param type
    * @returns {boolean}
    */
-  hasAttribute<T extends IAttribute>(type?): boolean {
+  hasAttribute<U2 extends IAttribute>(type?: TypedConstructor<U2>): boolean {
     if (type) {
       return this._attributes.some(a => a instanceof type);
-    }
-    else {
+    } else {
       return !!this._attributes.length;
     }
   }
@@ -61,7 +60,7 @@ export abstract class Decoratable {
    * @returns {IAttribute[]}
    */
   getInterceptors(): IAttribute[] {
-    return this._attributes.filter(a => a.getInterceptor);
+    return this._attributes.filter(a => IsFunction(a.getInterceptor));
   }
 
   /**
@@ -69,7 +68,7 @@ export abstract class Decoratable {
    * @returns {IAttribute[]}
    */
   getInitializers(): IAttribute[] {
-    return this._attributes.filter(a => a.getInitializer);
+    return this._attributes.filter(a => IsFunction(a.getInitializer));
   }
 
   /**
@@ -111,5 +110,4 @@ export abstract class Decoratable {
     }
     this._metadata.set(key, value);
   }
-
 }

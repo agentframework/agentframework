@@ -1,7 +1,6 @@
 import { IInvocation } from './invocation';
 import { Constructor } from './constructor';
 
-
 export interface IInitializer {
   initialize(target: IInvocation, parameters: ArrayLike<any>): any;
 }

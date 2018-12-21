@@ -1,9 +1,7 @@
 import { AgentFeatures } from './compilerOptions';
-import { Property } from './reflection';
-
+import { Property } from './property';
 
 export class PropertyFilters {
-
   // /**
   //  * Filters the classes represented in an array of Type objects.
   //  */
@@ -23,5 +21,4 @@ export class PropertyFilters {
   // static FilterNameIgnoreCase(value: Property, filterCriteria?: any): boolean {
   //   return true;
   // }
-
 }

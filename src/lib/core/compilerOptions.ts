@@ -10,7 +10,7 @@ export enum AgentCompileType {
   StaticFunction = 1,
   StaticClass = 2,
   StaticProxy = 3,
-  LazyFunction = 21,
+  LazyFunction = 21, // default
   LazyClass = 22,
   LazyProxy = 23,
   DynamicFunction = 31,
