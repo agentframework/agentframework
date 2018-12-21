@@ -33,7 +33,11 @@ export class Method extends Decoratable {
     }
     return parameter;
   }
-
+  
+  get paramtypes(): Array<any> {
+    return this.getMetadata('design:paramtypes');
+  }
+  
   get returntype(): any {
     return this.getMetadata('design:returntype');
   }

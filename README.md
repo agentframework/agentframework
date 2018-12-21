@@ -8,7 +8,7 @@ Agent Framework for TypeScript 2.3+, 3+
 
 | Date       | Version                                      | Status      |
 | ---------- | -------------------------------------------- | ----------- |
-| 2018-12-22 | [0.9.22](doc/changelogs/CHANGELOG_0.9.x.md)  | Current     |
+| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)  | Current     |
 | 2017-06-30 | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md)  |             |
 | 2017-01-06 | [0.4.4](doc/changelogs/CHANGELOG_0.4.x.md)   |             |
 | 2016-11-20 | [0.3.12](doc/changelogs/CHANGELOG_0.3.x.md)  |             |

@@ -54,18 +54,6 @@ export interface IAgentAttribute extends IAttribute {
   beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean;
 }
 
-export interface IBeforeDecorateAttribute {
-  /**
-   * Called before decoration of this attribute
-   *
-   * @param {Object | Function} target
-   * @param {string | Symbol} targetKey
-   * @param {PropertyDescriptor} descriptor
-   * @returns {boolean}
-   */
-  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean;
-}
-
 export function CanDecorate(
   attribute: IAttribute,
   target: Object | Function,

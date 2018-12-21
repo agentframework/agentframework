@@ -3,7 +3,13 @@
 0.9.x is the last version before 1.0. Since the MVP/EPIC features are already in place.
 The goal of this version is to improve performance and revise API interfaces for backward compatibility.
 
-## 2018-12-21, Version 0.9.22 (Current), @e2tox
+## 2018-12-21, Version 0.9.23 (Current), @e2tox
+
+**Improvement**
+
+- Add Attribute filter for Reflection API
+
+## 2018-12-21, Version 0.9.22, @e2tox
 
 **Improvement**
 

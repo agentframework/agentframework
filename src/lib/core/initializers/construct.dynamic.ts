@@ -17,7 +17,7 @@ export class DynamicFunctionConstructorInitializer implements IInitializer {
     const attribute = invocation.attribute;
     const options = invocation.attribute.options;
 
-    const AgentProxy = function () {
+    const AgentProxy = function() {
       if (!new.target) {
         throw new TypeError(`Class constructor cannot be invoked without 'new'`);
       }
@@ -50,11 +50,14 @@ export class DynamicFunctionConstructorInitializer implements IInitializer {
     // assignProperties(target, AgentProxy);
     AgentProxy.prototype = target.prototype;
 
-    // copy static methods & symbols
+    // copy static symbols
     for (const sym of Object.getOwnPropertySymbols(target)) {
       Reflect.set(AgentProxy, sym, target[sym]);
     }
+
+    // copy static methods
     for (const key of Object.getOwnPropertyNames(target)) {
+      // do not copy system fields
       if (key !== 'prototype' && key !== 'length' && key !== 'name') {
         Reflect.set(AgentProxy, key, target[key]);
       }

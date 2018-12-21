@@ -4,7 +4,7 @@ export {
   TypedConstructorWithParameters,
   TypedConstructorWithoutParameter
 } from './core/constructor';
-export { IAttribute, IAgentAttribute, IBeforeDecorateAttribute } from './core/attribute';
+export { IAttribute, IAgentAttribute } from './core/attribute';
 export { IInterceptor } from './core/interceptor';
 export { IInitializer } from './core/initializer';
 export { IInvocation } from './core/invocation';
