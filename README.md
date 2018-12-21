@@ -4,10 +4,6 @@ Agent Framework for TypeScript 2.3+, 3+
 [![Build Status](https://travis-ci.org/agentframework/agentframework.svg?branch=master)](https://travis-ci.org/agentframework/agentframework)
 [![Coverage Status](https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=master)](https://coveralls.io/github/agentframework/agentframework?branch=master)
 
-### Why Agent Oriented Programming so important?
-
-It devising a path to inject AI techniques in programming and software engineering.
-
 ### Principle
 
 | PARADIGM                   | INSPIRATION  | PRINCIPLE  
