@@ -266,8 +266,7 @@ export class RoleAttribute implements IAttribute, IInterceptor {
 
 It will be something between Function-a-a-S and Container-a-a-S.
 
-Let's call it Agent-a-a-S which implement **Agent Oriented Programming**
-
+Let's call it Agent-a-a-S which implement **decentralized** agent sociality environment utilize the power of Edge Computing
 
 ### Package Info
 ```
