@@ -4,14 +4,19 @@ Agent Framework for TypeScript 2.3+, 3+
 [![Build Status](https://travis-ci.org/agentframework/agentframework.svg?branch=master)](https://travis-ci.org/agentframework/agentframework)
 [![Coverage Status](https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=master)](https://coveralls.io/github/agentframework/agentframework?branch=master)
 
-### Preface
+### Why Agent Oriented Programming so important?
 
-| PARADIGM                   | INSPIRATION  | DESCRIPTION  
+It devising a path to inject AI techniques in programming and software engineering.
+
+### Principle
+
+| PARADIGM                   | INSPIRATION  | PRINCIPLE  
 |----------------------------|--------------|-------------------------------------------
 | Function Programming       | Math         | It transform data
 | OOP                        | The world    | It describe things and the relationships between them 
 | Agent Oriented Programming | Human        | It actions like a human (AI)
 
+### Concepts
 
 | HUMAN       | AGENT FRAMEWORK   | DESCRIPTION
 |-------------|-------------------|-------------------------------------------------------------------------
@@ -23,6 +28,10 @@ Agent Framework for TypeScript 2.3+, 3+
 | Sociality	  | Message           | Agent can communicate with other agent 
 | Mobility	  | Mobile Agent      | An agent can move from domain to domain with their belief unchanged 
 
+### Satellite projects
+
+- [@agentframework/validation](https://github.com/agentframework/validation) Zero configuration validation framework for TypeScript
+
 ### Changelog
 
 | Date       | Version                                      | Status      |
@@ -33,15 +42,11 @@ Agent Framework for TypeScript 2.3+, 3+
 | 2016-11-20 | [0.3.12](doc/changelogs/CHANGELOG_0.3.x.md)  |             |
 | 2016-11-03 | [0.2.28](doc/changelogs/CHANGELOG_0.2.x.md)  |             |
 
-### Satellite projects
-
-- [@agentframework/validation](https://github.com/agentframework/validation) Zero configuration validation framework for TypeScript
-
 ### What's this?
 
-- Framework to build other frameworks (e.g. AOP/DI framework)
-- Elegant design pattern to decorate your class with metadata and interceptors
 - 100% TypeScript implementation! No dependencies!!!
+- A framework to build other frameworks (e.g. AOP/DI framework)
+- Elegant design pattern to decorate your class with metadata and interceptors
 - Require ES6 and TypeScript 2.3+
 - Work in both node and browser
 - Very Fast (Compile class at 1st time you new/call it; as fast as native class starting from 2nd time)
