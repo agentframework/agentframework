@@ -7,21 +7,21 @@ Agent Framework for TypeScript 2.3+, 3+
 ### Preface
 
 | PARADIGM                   | INSPIRATION  | DESCRIPTION  
-|---------------------------------------------------------------------------------------
+|----------------------------|--------------|-------------------------------------------
 | Function Programming       | Math         | It transform data
 | OOP                        | The world    | It describe things and the relationships between them 
 | Agent Oriented Programming | Human        | It actions like a human (AI)
 
 
 | HUMAN       | AGENT FRAMEWORK   | DESCRIPTION
-|-----------------------------------------------------------------------------------------------------------
-| People	    | Agent	            | A class decorate with @agent attribute |
-| Action	    | Behavior          | Class method decorate with @action, @method or @behavior attribute |
-| Belief	    | Memory            | Private class field decorated with @state, @remember, @memory attribute |
-| Environment	| Domain            | A set of agents, components, services, artifacts |
-| Autonomy	  | Activation        | Timer, scheduler which based on environment conditions |
-| Sociality	  | Message           | Agent can communicate with other agent |
-| Mobility	  | Mobile Agent      | An agent can move from domain to domain with their belief unchanged |
+|-------------|-------------------|-------------------------------------------------------------------------
+| People	    | Agent	            | A class decorate with @agent attribute 
+| Action	    | Behavior          | Class method decorate with @action, @method or @behavior attribute 
+| Belief	    | Memory            | Private class field decorated with @state, @remember, @memory attribute 
+| Environment	| Domain            | A set of agents, components, services, artifacts 
+| Autonomy	  | Activation        | Timer, scheduler which based on environment conditions 
+| Sociality	  | Message           | Agent can communicate with other agent 
+| Mobility	  | Mobile Agent      | An agent can move from domain to domain with their belief unchanged 
 
 ### Changelog
 
