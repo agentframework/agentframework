@@ -1,33 +1,30 @@
-export {
-  Constructor,
-  TypedConstructor,
-  TypedConstructorWithParameters,
-  TypedConstructorWithoutParameter
-} from './core/constructor';
-export { IAttribute, IAgentAttribute } from './core/attribute';
-export { IInterceptor } from './core/interceptor';
-export { IInitializer } from './core/initializer';
-export { IInvocation } from './core/invocation';
-export { IDesign } from './core/design';
-export { Reflection } from './core/reflection';
-export { PropertyFilters } from './core/filters';
-export { Reflector } from './core/reflector';
-export { AgentAttribute } from './core/agent';
-export { Decoratable } from './core/decoratable';
-export {
-  Target,
-  UniversalDecorator,
-  decorateAgent,
-  decorateClass,
-  decorateClassMember,
-  decorateClassMethod,
-  decorateClassField,
-  decorateParameter,
-  decorate
-} from './core/decorator';
+// Attribute
+export { IAttribute } from './Core/IAttribute';
+export { IInterceptor } from './Core/IInterceptor';
+export { IInitializer } from './Core/IInitializer';
+export { IInvocation } from './Core/IInvocation';
+export { AgentAttribute } from './Core/AgentAttribute';
 
-export { Exception } from './util/Exception';
+// Decorator
+export { Target, UniversalDecorator, decorate } from './Decorator/decorate';
+export { decorateAgent } from './Decorator/decorateAgent';
+export { decorateParameter } from './Decorator/decorateParameter';
+export { decorateClass, decorateClassField, decorateClassMember, decorateClassMethod } from './Decorator/decorateClass';
 
+// upgrade agent without @agent attribute
+export { CreateAgent } from './Compiler/CreateAgent';
+
+// Reflection
+export { Reflector } from './Core/reflector';
+export { Type } from './Core/Reflection/Type';
+export { Prototype } from './Core/Reflection/Prototype';
+export { Property } from './Core/Reflection/Property';
+export { Method } from './Core/Reflection/Method';
+export { Parameter } from './Core/Reflection/Parameter';
+export { PropertyFilters } from './Core/Reflection/PropertyFilters';
+
+// Utils
+export { Constructor } from './Core/Constructor';
 export {
   IsObject,
   IsFunction,
@@ -40,18 +37,6 @@ export {
   ToPropertyKey,
   GetPrototypeArray,
   GetPrototypeArrayReverse
-} from './core/utils';
+} from './Core/Internal/Utils';
 
 export { agent } from './agent';
-export { cache } from './extra/cache';
-export { conditional } from './extra/conditional';
-export { failure } from './extra/failure';
-export { inject } from './extra/inject';
-export { normalize } from './extra/normalize';
-export { prerequisite } from './extra/prerequisite';
-export { success } from './extra/success';
-export { timestamp } from './extra/timestamp';
-export { Parameter } from './core/parameter';
-export { Method } from './core/method';
-export { Property } from './core/property';
-export { PropertyFilter } from './core/property';

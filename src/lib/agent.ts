@@ -1,7 +1,6 @@
-import { decorateAgent } from './core/decorator';
-import { IsNullOrUndefined } from './core/utils';
-import { Reflector } from './core/reflector';
-import { AgentAttribute } from './core/agent';
+import { Reflector } from './Core/Reflector';
+import { decorateAgent } from './Decorator/decorateAgent';
+import { AgentAttribute } from './Core/AgentAttribute';
 
 // ===========================================
 // ES2015 or before
@@ -21,14 +20,14 @@ if (typeof Reflect['metadata'] !== 'function') {
   //     Reflect.metadata("design:type", Function),
   //     Reflect.metadata("design:paramtypes", []),
   //     Reflect.metadata("design:returntype", String)
-  Reflect['metadata'] = function (key: string, value: any) {
-    return function (target: Object | Function, propertyKey?: string | symbol, descriptor?: PropertyDescriptor): void {
-      if (IsNullOrUndefined(propertyKey)) {
-        Reflector(target).addMetadata(key, value);
-      } else {
+  Reflect['metadata'] = function(key: string, value: any) {
+    return function(target: Function | Object, property?: string | symbol, descriptor?: PropertyDescriptor): void {
+      if (property) {
         Reflector(target)
-          .property(propertyKey, descriptor)
+          .property(property, descriptor)
           .addMetadata(key, value);
+      } else {
+        Reflector(target).addMetadata(key, value);
       }
     };
   };
@@ -38,6 +37,7 @@ if (typeof Reflect['metadata'] !== 'function') {
   // ===========================================
 }
 
+
 /**
  * Define an agent
  * @returns {(target:Constructor)=>(void|Constructor)}
@@ -45,3 +45,5 @@ if (typeof Reflect['metadata'] !== 'function') {
 export function agent(...args) {
   return decorateAgent(Reflect.construct(AgentAttribute, args));
 }
+
+
