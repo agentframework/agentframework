@@ -1,4 +1,4 @@
-# Agent Framework 0.9.x ChangeLog
+# Agent Framework 1.0.x ChangeLog
 
 ## 2018-12-26, Version 1.0.0-rc.0 (Preview), @e2tox
 
