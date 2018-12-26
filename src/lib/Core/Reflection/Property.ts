@@ -1,12 +1,12 @@
 import { Method } from './Method';
-import { IsFunction } from '../Internal/Utils';
+import { IsFunction } from '../Utils';
 import { AgentFeatures, hasFeature } from '../AgentFeatures';
-import { Type } from './Type';
+import { Reflection } from './Reflection';
 
 /**
  * Property
  */
-export class Property<P> extends Type<P> {
+export class Property<P> extends Reflection<P> {
   protected readonly parent: P;
 
   constructor(parent: P, private _key: PropertyKey, private _descriptor?: PropertyDescriptor) {

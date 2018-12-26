@@ -1,4 +1,3 @@
-
 import { IAttribute } from './IAttribute';
 import { IInvocation } from './IInvocation';
 import { IInterceptor } from './IInterceptor';
@@ -16,7 +15,7 @@ export const Constructors = new WeakMap<any, any>();
  * This attribute is for agent / domain management
  */
 export class AgentAttribute implements IAttribute, IInterceptor {
-  private _target: Function;
+  private target: Function;
 
   features: AgentFeatures = AgentFeatures.Constructor | AgentFeatures.Initializer | AgentFeatures.Interceptor;
 
@@ -35,22 +34,21 @@ export class AgentAttribute implements IAttribute, IInterceptor {
       throw new TypeError(`Unable to decorate multiple agent for class` + ` '${originalType.name}'`);
     }
 
-    this._target = target;
+    this.target = target;
     return true;
   }
 
-  getInitializer(): IInitializer {
+  get initializer(): IInitializer {
     return AgentFramework.GetSingleton(ClassInitializer);
   }
 
-  getInterceptor(): IInterceptor {
+  get interceptor(): IInterceptor {
     return this;
   }
 
   intercept(target: IInvocation, parameters: ArrayLike<any>): any {
     const Agent = target.invoke(parameters);
-    // tag Agent
-    Constructors.set(Agent, this._target);
+    Constructors.set(Agent, this.target); // tag Agent
     return Agent;
   }
 }

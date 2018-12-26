@@ -2,7 +2,7 @@ import { IInitializer } from './IInitializer';
 import { IInterceptor } from './IInterceptor';
 
 /**
- *
+ * Attribute
  */
 export interface IAttribute {
   /**
@@ -16,20 +16,20 @@ export interface IAttribute {
   beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean;
 
   /**
-   * Get an initializer for current target, replace the property or replace the class constructor
+   * Get an initializer for current type
    */
-  getInitializer?(): IInitializer;
+  readonly initializer?: IInitializer;
 
   /**
-   * Get an interceptor for current target
+   * Get an interceptor for current type
    */
-  getInterceptor?(): IInterceptor;
+  readonly interceptor?: IInterceptor;
 }
 
 export interface IInterceptorAttribute extends IAttribute {
-  getInterceptor(): IInterceptor;
+  readonly interceptor: IInterceptor;
 }
 
 export interface IInitializerAttribute extends IAttribute {
-  getInitializer(): IInitializer;
+  readonly initializer: IInitializer;
 }

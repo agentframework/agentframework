@@ -1,5 +1,5 @@
 import { agent } from '../src/lib/agent'
-import { AgentCompileType } from '../src/lib/core/compilerOptions';
+import { AgentCompileType } from '../src/lib/Core/compilerOptions';
 import { inject } from '../src/lib/extra/inject';
 import { failure } from '../src/lib/extra/failure';
 import { normalize } from '../src/lib/extra/normalize';

@@ -15,9 +15,9 @@ export { decorateClass, decorateClassField, decorateClassMember, decorateClassMe
 export { CreateAgent } from './Compiler/CreateAgent';
 
 // Reflection
-export { Reflector } from './Core/reflector';
+export { Reflector } from './Core/Reflector';
+export { Reflection } from './Core/Reflection/Reflection';
 export { Type } from './Core/Reflection/Type';
-export { Prototype } from './Core/Reflection/Prototype';
 export { Property } from './Core/Reflection/Property';
 export { Method } from './Core/Reflection/Method';
 export { Parameter } from './Core/Reflection/Parameter';
@@ -25,6 +25,7 @@ export { PropertyFilters } from './Core/Reflection/PropertyFilters';
 
 // Utils
 export { Constructor } from './Core/Constructor';
+export { TypedConstructor } from './Core/TypedConstructor';
 export {
   IsObject,
   IsFunction,
@@ -37,6 +38,6 @@ export {
   ToPropertyKey,
   GetPrototypeArray,
   GetPrototypeArrayReverse
-} from './Core/Internal/Utils';
+} from './Core/Utils';
 
 export { agent } from './agent';

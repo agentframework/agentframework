@@ -11,7 +11,7 @@ import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { InterceptorFactory } from './InterceptorFactory';
 import { Arguments } from '../Core/Arguments';
 import { PropertyFilters } from '../Core/Reflection/PropertyFilters';
-import { Constructor } from '../Core/Constructor';
+import { TypedConstructor } from '../Core/TypedConstructor';
 import { Method } from '../Core/Reflection/Method';
 
 export class AgentCompiler implements ICompiler {
@@ -143,13 +143,13 @@ export class AgentCompiler implements ICompiler {
 
         if (typeof getter === 'function') {
           interceptorAttributes = property.getter.getInterceptors().concat(interceptorAttributes);
-          newDescriptor.get = InterceptorFactory.createFunction(interceptorAttributes, getter) as () => any;
+          newDescriptor.get = InterceptorFactory.createFunction(interceptorAttributes, getter);
           modified = true;
         }
 
         if (typeof setter === 'function') {
           interceptorAttributes = property.setter.getInterceptors().concat(interceptorAttributes);
-          newDescriptor.set = InterceptorFactory.createFunction(interceptorAttributes, setter) as (v: any) => void;
+          newDescriptor.set = InterceptorFactory.createFunction(interceptorAttributes, setter);
           modified = true;
         }
 
@@ -170,7 +170,7 @@ export class AgentCompiler implements ICompiler {
   }
 
   private makePropertyInitializers<T>(
-    target: Constructor<T>,
+    target: TypedConstructor<T>,
     names: Set<PropertyKey>
   ): Map<PropertyKey, IInvocation> | undefined {
     const layers = Reflector(target).findProperties(PropertyFilters.FilterFeatures, AgentFeatures.Initializer);
@@ -183,13 +183,10 @@ export class AgentCompiler implements ICompiler {
           const name = property.targetKey;
 
           if (property.descriptor) {
-            if (property.value.hasParameterInitializer() || property.value.hasParameterInterceptor()) {
-              continue;
-            }
             // initializer is not for a method / getter / setter
             throw new Error(
               `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-                `Initializer not work with field property`
+                `Initializer not work with method / getter / setter`
             );
           } else {
             let initializerAttributes = property.getInitializers();

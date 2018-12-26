@@ -1,10 +1,10 @@
-import { Prototype } from './Reflection/Prototype';
+import { Type } from './Reflection/Type';
 import { AgentFramework } from './AgentFramework';
 
 /**
  * Reflector is the interface to access type data from class or instance
  */
-export function Reflector(target: Function | Object): Prototype {
+export function Reflector(target: Function | Object): Type {
   if (new.target) {
     // NOTE: in AgentFramework 1.0, the reflection data can only set on Class.
     // At present, we didn't found any use case to access reflection data on instance.

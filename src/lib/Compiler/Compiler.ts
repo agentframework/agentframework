@@ -1,4 +1,4 @@
-import { Constructor } from '../Core/Constructor';
+import { TypedConstructor } from '../Core/TypedConstructor';
 import { IInvocation } from '../Core/IInvocation';
 
 /**
@@ -6,10 +6,10 @@ import { IInvocation } from '../Core/IInvocation';
  */
 export class Compiler<T> {
   // private readonly targetName: string;
-  private readonly generated: Constructor<T>;
+  private readonly generated: TypedConstructor<T>;
   // private readonly generatedName: string;
 
-  constructor(private target: Constructor<T>) {
+  constructor(private target: TypedConstructor<T>) {
     // this.targetName = this.target.name;
     // this.generatedName = this.target.name + '$';
     this.generated = this.target;
@@ -26,8 +26,21 @@ export class Compiler<T> {
         Object.defineProperty(this.generated.prototype, key, {
           get: function() {
             const value = initializer.invoke(params());
-            Reflect.defineProperty(this, key, { value });
+            Reflect.defineProperty(this, key, {
+              value,
+              configurable: true,
+              enumerable: true,
+              writable: true
+            });
             return value;
+          },
+          set: function(value: any) {
+            Reflect.defineProperty(this, key, {
+              value,
+              configurable: true,
+              enumerable: true,
+              writable: true
+            });
           }
         });
       }
@@ -43,7 +56,7 @@ export class Compiler<T> {
     }
   }
 
-  compile(): Constructor<T> {
+  compile(): TypedConstructor<T> {
     return this.generated;
   }
 }

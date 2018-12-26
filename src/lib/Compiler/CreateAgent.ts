@@ -1,8 +1,9 @@
 import { CanDecorate } from './Internal/Utils';
 import { AgentAttribute } from '../Core/AgentAttribute';
 import { CreateAgentInvocation } from './CreateAgentInvocation';
+import { TypedConstructor } from '../Core/TypedConstructor';
 
-export function CreateAgent<T extends P, P extends Function>(target: P, agentAttribute?: AgentAttribute): T {
+export function CreateAgent<U extends T, T>(target: TypedConstructor<T>, agentAttribute?: AgentAttribute): TypedConstructor<U> {
   // the attributes to initialize agent constructor
   // current only support only one initializer, multiple interceptors
   if (!agentAttribute) {

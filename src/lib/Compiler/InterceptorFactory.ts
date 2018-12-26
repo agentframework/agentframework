@@ -1,6 +1,6 @@
 import { IInvocation } from '../Core/IInvocation';
 import { IAttribute } from '../Core/IAttribute';
-import { GetInterceptor } from './Internal/Utils';
+import { GetInterceptor, HasInterceptor } from './Internal/Utils';
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { ConstructInvocation } from './Invocation/ConstructInvocation';
 import { AgentAttribute } from '../Core/AgentAttribute';
@@ -64,9 +64,11 @@ export class InterceptorFactory {
   static chainInterceptorAttributes(origin: IInvocation, attributes: Array<IAttribute>): IInvocation {
     // make invocation chain of interceptors
     for (const attribute of attributes) {
-      const interceptor = GetInterceptor(attribute);
-      if (interceptor) {
-        origin = new InterceptorInvocation(origin, interceptor);
+      if (HasInterceptor(attribute)) {
+        const interceptor = GetInterceptor(attribute);
+        if (interceptor) {
+          origin = new InterceptorInvocation(origin, interceptor);
+        }
       }
     }
     return origin;

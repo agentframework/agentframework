@@ -2,7 +2,7 @@ import { AgentInvocation } from '../Invocation/AgentInvocation';
 import { IInitializer } from '../../Core/IInitializer';
 import { InterceptorFactory } from '../InterceptorFactory';
 import { AgentAttribute } from '../../Core/AgentAttribute';
-import { Constructor } from '../../Core/Constructor';
+import { TypedConstructor } from '../../Core/TypedConstructor';
 import { Arguments } from '../../Core/Arguments';
 import { IInvocation } from '../../Core/IInvocation';
 
@@ -12,7 +12,7 @@ import { IInvocation } from '../../Core/IInvocation';
 export class ClassInitializer implements IInitializer {
   private static InterceptedConstructors = new WeakMap<any, IInvocation>();
 
-  private static construct<T>(newTarget: Constructor<T>, params: Arguments, options: AgentAttribute): T {
+  static construct<T>(newTarget: TypedConstructor<T>, params: Arguments, options: AgentAttribute): T {
     // find target
     const target = Object.getPrototypeOf(newTarget.prototype).constructor;
 
@@ -34,7 +34,6 @@ export class ClassInitializer implements IInitializer {
   initialize(invocation: AgentInvocation, parameters: ArrayLike<any>): any {
     const target = invocation.target;
     const targetName = target.name || 'Agent';
-    const upgradeName = ClassInitializer.construct.name;
     return new Function(
       'Reflect',
       targetName,
@@ -42,7 +41,7 @@ export class ClassInitializer implements IInitializer {
       [
         `return class ${targetName}$ extends ${targetName} {`,
         '  constructor() {',
-        `    return Reflect.${upgradeName}(new.target, ()=>arguments, target);`,
+        `    return Reflect.construct(new.target, ()=>arguments, target);`,
         '  }',
         '};'
       ].join('\r\n')

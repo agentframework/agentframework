@@ -1,120 +1,138 @@
-import { IAttribute, IInitializerAttribute, IInterceptorAttribute } from '../IAttribute';
-import { Constructor } from '../Constructor';
-import { IsFunction } from '../Internal/Utils';
+import { Method } from './Method';
+import { Property } from './Property';
+import { PropertyFilter } from './PropertyFilters';
+import { GetTypes } from '../Internal/Global';
+import { TypedConstructor } from '../TypedConstructor';
 
 /**
- * Access and store attribute and metadata for reflection
+ * Reflection information for user class
+ *
+ * A class is a Function. So Class extends from Method
  */
-export abstract class Type<P> {
-  protected readonly parent: P | null;
+export class Type extends Method<Type> {
+  protected readonly parent: null;
+  private readonly _prototype: object;
+  private readonly _properties: Map<PropertyKey, Property<Type>>;
 
-  private _attributes: Array<IAttribute> = [];
-  private _metadata: Map<string, any>;
-  private _hasInterceptor: boolean;
-  private _hasInitializer: boolean;
-  
-  protected constructor(parent: P | null) {
-    this.parent = parent;
+  constructor(prototype: Object) {
+    super(null, prototype.constructor.length);
+    this._prototype = prototype;
+    this._properties = new Map<PropertyKey, Property<Type>>();
   }
-  /**
-   * Add an attribute
-   * @param {IAttribute} attribute
-   */
-  addAttribute(attribute: IAttribute): void {
-    if (!attribute) {
-      throw new TypeError(`Unable to add null attribute`);
+
+  static FromType(prototype: Object): Type {
+    let found = Type.Types.get(prototype);
+    if (!found) {
+      found = new Type(prototype);
+      Type.Types.set(prototype, found);
     }
-    this._attributes.push(attribute);
-    // if the attribute provide a getInterceptor, that means this property may need inject
-    // we don't call getInterceptor or getInitializer until user new() the agent class.
-    if (IsFunction(attribute.getInterceptor)) {
-      this._hasInterceptor = true;
+    return found;
+  }
+
+  private static get Types(): WeakMap<Object, Type> {
+    const value = GetTypes();
+    Reflect.defineProperty(Type, 'Types', { value });
+    return value;
+  }
+
+  /**
+   * Return the prototype of reflecting class
+   */
+  get type(): object {
+    return this._prototype;
+  }
+
+  /**
+   * Return the constructor of reflecting class
+   */
+  get target(): TypedConstructor<any> {
+    return <TypedConstructor<any>>this._prototype.constructor;
+  }
+
+  /**
+   * Add the metadata
+   */
+  addMetadata(key: string, value: any) {
+    // for class
+    super.addMetadata(key, value);
+    // apply class method parameter type into parameter metadata
+    if (key === 'design:paramtypes' && value && value.length) {
+      const types = value as Array<any>;
+      for (let idx = types.length - 1; idx >= 0; idx--) {
+        this.parameter(idx).addMetadata('design:type', types[idx]);
+      }
     }
-    if (IsFunction(attribute.getInitializer)) {
-      this._hasInitializer = true;
-    }
   }
 
   /**
-   * Return an array of attributes which is instance of giving type
-   * @returns {IAttribute[]}
-   */
-  getAttributes<U1 extends IAttribute>(type?: Constructor<U1>): U1[] {
-    if (type) {
-      return this._attributes.filter(a => a instanceof type) as Array<U1>;
-    } else {
-      return this._attributes.slice(0) as Array<U1>;
-    }
-  }
-
-  /**
-   * Return true if this type contains a giving attribute, otherwise false.
-   * @param type
-   * @returns {boolean}
-   */
-  hasAttribute<U2 extends IAttribute>(type?: Constructor<U2>): boolean {
-    if (type) {
-      return this._attributes.some(a => a instanceof type);
-    } else {
-      return !!this._attributes.length;
-    }
-  }
-
-  /**
-   * Return an array of all the attributes which provide getInterceptor method
-   * @returns {IInterceptorAttribute[]}
-   */
-  getInterceptors(): IInterceptorAttribute[] {
-    return <IInterceptorAttribute[]>this._attributes.filter(a => IsFunction(a.getInterceptor));
-  }
-
-  /**
-   * Return an array of all the attributes which provide getInitializer method
-   * @returns {IInitializerAttribute[]}
-   */
-  getInitializers(): IInitializerAttribute[] {
-    return <IInitializerAttribute[]>this._attributes.filter(a => IsFunction(a.getInitializer));
-  }
-
-  /**
-   * Return true if any of the attribute provide getInterceptor method
-   * @returns {boolean}
-   */
-  hasInterceptor(): boolean {
-    return this._hasInterceptor;
-  }
-
-  /**
-   * Return true if any of the attribute provide getInitializer method
+   * Return property info for specified property key
    *
-   * @returns {boolean}
+   * @param {string | Symbol | number} key
+   * @param {PropertyDescriptor} descriptor
+   * @returns {Property}
    */
-  hasInitializer(): boolean {
-    return this._hasInitializer;
+  property(key: PropertyKey, descriptor?: PropertyDescriptor): Property<Type> {
+    if (!this._properties.has(key)) {
+      descriptor = descriptor || Object.getOwnPropertyDescriptor(this._prototype, key);
+      this._properties.set(key, new Property<Type>(this, key, descriptor));
+    }
+    return this._properties.get(key)!;
   }
 
   /**
-   * Read the metadata generated by tsc
+   * Return all properties
    *
-   * @param key
+   * @returns {IterableIterator<Property>}
    */
-  getMetadata(key: string): any | null {
-    if (!this._metadata) {
-      return null;
-    }
-    return this._metadata.get(key);
+  properties(): IterableIterator<Property<Type>> {
+    return this._properties.values();
   }
 
   /**
-   * Add the metadata generated by tsc
+   * Returns a filtered array of Property objects of this prototype.
    *
-   * @param {string} key
-   * @param value
+   * @param {PropertyFilter} filter
+   * @param filterCriteria
+   * @returns {Property[]}
    */
-  addMetadata(key: string, value: any): void {
-    if (!this._metadata) {
-      this._metadata = new Map<string, any>();
+  findOwnProperties(filter: PropertyFilter, filterCriteria?: any): Map<PropertyKey, Property<Type>> {
+    const properties = new Map<PropertyKey, Property<Type>>();
+    for (const [key, property] of this._properties.entries()) {
+      if (filter(property, filterCriteria)) {
+        properties.set(key, property);
+      }
     }
-    this._metadata.set(key, value);
+    return properties;
+  }
+
+  /**
+   * Returns a filtered array of Property objects.
+   *
+   * @param {PropertyFilter} filter
+   * @param filterCriteria
+   * @returns {Property[]}
+   */
+  findProperties(filter: PropertyFilter, filterCriteria?: any): Array<Map<PropertyKey, Property<Type>>> {
+    const types = [];
+    const layers: Array<Map<PropertyKey, Property<Type>>> = [];
+
+    let p = this._prototype;
+    while (p) {
+      types.unshift(p);
+      p = Object.getPrototypeOf(p);
+    }
+
+    for (const t of types) {
+      const p = Type.FromType(t);
+      const properties = new Map<PropertyKey, Property<Type>>();
+      layers.push(properties);
+      for (const [key, property] of p._properties.entries()) {
+        if (filter(property, filterCriteria)) {
+          properties.set(key, property);
+        }
+      }
+    }
+
+    return layers;
   }
 }
