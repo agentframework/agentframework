@@ -16,3 +16,12 @@
 2. Access the associated declarative information from classes, method or fields
 3. Intercept class construction, method calls, getter and setters
 4. Set the default value for method parameters and class fields
+
+### Road to v1.0
+
+- [x] Test: Improve test coverage above 95%
+- [ ] Example: IoC like Spring
+- [ ] Example: Interceptor
+- [ ] Example: WebServer like Nest.JS
+- [ ] Example: ORM like TypeORM
+- [ ] AgentFramework.com
