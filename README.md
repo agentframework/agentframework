@@ -20,8 +20,10 @@
 ### Road to v1.0
 
 - [x] Test: Improve test coverage above 95%
-- [ ] Example: IoC like Spring
-- [ ] Example: Interceptor
+- [x] Example: Validator with nested Type support
+- [ ] Example: Automatic Protobuf schema generator
+- [ ] Example: IoC Container
+- [ ] Example: Interceptor - function timing analysis
 - [ ] Example: WebServer like Nest.JS
 - [ ] Example: ORM like TypeORM
 - [ ] AgentFramework.com
