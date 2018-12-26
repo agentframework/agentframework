@@ -1,7 +1,7 @@
 import { Method } from './Method';
 import { Property } from './Property';
 import { PropertyFilter } from './PropertyFilters';
-import { GetTypes } from '../Internal/Global';
+import { GetTypes } from '../Cache';
 import { TypedConstructor } from '../TypedConstructor';
 
 /**

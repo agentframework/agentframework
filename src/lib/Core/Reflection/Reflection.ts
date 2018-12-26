@@ -10,8 +10,8 @@ export abstract class Reflection<P> {
 
   private _attributes: Array<IAttribute> = [];
   private _metadata: Map<string, any>;
-  private _hasInterceptor: boolean;
-  private _hasInitializer: boolean;
+  private _hasInterceptor: boolean = false;
+  private _hasInitializer: boolean = false;
 
   protected constructor(parent: P | null) {
     this.parent = parent;
@@ -27,8 +27,12 @@ export abstract class Reflection<P> {
     this._attributes.push(attribute);
     // if the attribute provide a getInterceptor, that means this property may need inject
     // we don't call getInterceptor or getInitializer until user new() the agent class.
-    this._hasInterceptor = HasInterceptor(attribute);
-    this._hasInitializer = HasInitializer(attribute);
+    if (HasInterceptor(attribute)) {
+      this._hasInterceptor = true;
+    }
+    if (HasInitializer(attribute)) {
+      this._hasInitializer = true;
+    }
   }
 
   /**

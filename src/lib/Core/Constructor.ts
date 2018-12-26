@@ -1,9 +1,9 @@
 export interface ConstructorWithoutParameter {
-  new (): any;
+  new (): Object;
 }
 
 export interface ConstructorWithParameters {
-  new (...args: Array<any>): any;
+  new (...args: Array<any>): Object;
 }
 
 export type Constructor = ConstructorWithoutParameter | ConstructorWithParameters;

@@ -1,4 +1,4 @@
-import { IInvocation } from '../Core/IInvocation';
+import { IInvocation, IMethodInvocation, IParameterizedInvocation } from '../Core/IInvocation';
 import { IAttribute } from '../Core/IAttribute';
 import { GetInterceptor, HasInterceptor } from './Internal/Utils';
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
@@ -19,41 +19,39 @@ export class InterceptorFactory {
     return InterceptorFactory.chainInterceptorAttributes(invocation, interceptors);
   }
 
-  static createFunction(
-    attributes: Array<IAttribute>,
-    method: Function,
-    parameters?: Map<number, IInvocation>
-  ): Function {
-    const originMethod = method; // method[ORIGIN] || method;
-
+  static createFunction(attributes: Array<IAttribute>, method: Function, params?: Map<number, IInvocation>): Function {
     let origin: IInvocation;
-    if (parameters && parameters.size) {
-      origin = {
-        invoke: function(params: ArrayLike<any>) {
-          const args = Array.prototype.slice.call(params, 0);
-          for (const idx of parameters.keys()) {
-            const param = parameters.get(idx);
-            if (param) {
-              args[idx] = param.invoke([params[idx]]);
+    if (params && params.size) {
+      origin = <IParameterizedInvocation>{
+        method,
+        params,
+        invoke(parameters: ArrayLike<any>) {
+          const injectedParameters = Array.prototype.slice.call(parameters, 0);
+          for (const idx of this.params.keys()) {
+            const interceptor = this.params.get(idx);
+            if (interceptor) {
+              injectedParameters[idx] = interceptor.invoke([parameters[idx], idx, parameters]);
             }
           }
-          return Reflect.apply(originMethod, this.target, args);
+          return Reflect.apply(this.method, this.target, injectedParameters);
         }
       };
     } else {
-      origin = {
-        invoke: function(parameters: ArrayLike<any>) {
-          return Reflect.apply(originMethod, this.target, parameters);
+      origin = <IMethodInvocation>{
+        method,
+        invoke(parameters: ArrayLike<any>) {
+          return Reflect.apply(this.method, this.target, parameters);
         }
       };
     }
 
     const chain = InterceptorFactory.chainInterceptorAttributes(origin, attributes);
 
-    if (chain instanceof InterceptorInvocation || parameters) {
+    if (chain instanceof InterceptorInvocation || (params && params.size)) {
       return Function('c', 'return function(){return c.target=this,c.invoke(arguments)}')(chain);
     } else {
-      return originMethod;
+      // no interceptor found
+      return method;
     }
   }
 

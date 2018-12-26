@@ -1,26 +1,16 @@
 import { IAttribute } from './IAttribute';
-import { IInvocation } from './IInvocation';
-import { IInterceptor } from './IInterceptor';
-import { AgentFeatures } from './AgentFeatures';
 import { IInitializer } from './IInitializer';
 import { ICompiler } from './ICompiler';
 import { AgentCompiler } from '../Compiler/AgentCompiler';
 import { AgentFramework } from './AgentFramework';
 import { ClassInitializer } from '../Compiler/Initializer/ClassInitializer';
 
-// map from Agent to origin constructor
-export const Constructors = new WeakMap<any, any>();
-
 /**
  * This attribute is for agent / domain management
  */
-export class AgentAttribute implements IAttribute, IInterceptor {
-  private target: Function;
-
-  features: AgentFeatures = AgentFeatures.Constructor | AgentFeatures.Initializer | AgentFeatures.Interceptor;
-
+export class AgentAttribute implements IAttribute {
   get compiler(): ICompiler {
-    return new AgentCompiler();
+    return AgentFramework.GetSingleton(AgentCompiler);
   }
 
   beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
@@ -29,26 +19,17 @@ export class AgentAttribute implements IAttribute, IInterceptor {
     }
 
     // throw TypeError if agent attribute already decorated
-    if (Constructors.has(target)) {
-      const originalType = Constructors.get(target);
-      throw new TypeError(`Unable to decorate multiple agent for class` + ` '${originalType.name}'`);
+    if (AgentFramework.Constructors.has(target)) {
+      const originalType = AgentFramework.Constructors.get(target);
+      if (originalType) {
+        throw new TypeError(`Unable to decorate multiple agent for class` + ` '${originalType!.name}'`);
+      }
     }
 
-    this.target = target;
     return true;
   }
 
   get initializer(): IInitializer {
     return AgentFramework.GetSingleton(ClassInitializer);
-  }
-
-  get interceptor(): IInterceptor {
-    return this;
-  }
-
-  intercept(target: IInvocation, parameters: ArrayLike<any>): any {
-    const Agent = target.invoke(parameters);
-    Constructors.set(Agent, this.target); // tag Agent
-    return Agent;
   }
 }

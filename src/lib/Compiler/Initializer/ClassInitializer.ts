@@ -5,6 +5,7 @@ import { AgentAttribute } from '../../Core/AgentAttribute';
 import { TypedConstructor } from '../../Core/TypedConstructor';
 import { Arguments } from '../../Core/Arguments';
 import { IInvocation } from '../../Core/IInvocation';
+import { AgentFramework } from '../../Core/AgentFramework';
 
 /**
  * Build a class which lazy cached constructor
@@ -34,7 +35,7 @@ export class ClassInitializer implements IInitializer {
   initialize(invocation: AgentInvocation, parameters: ArrayLike<any>): any {
     const target = invocation.target;
     const targetName = target.name || 'Agent';
-    return new Function(
+    const newTarget = new Function(
       'Reflect',
       targetName,
       'target',
@@ -46,5 +47,7 @@ export class ClassInitializer implements IInitializer {
         '};'
       ].join('\r\n')
     )(ClassInitializer, target, invocation.attribute); // this.prototype is not available here
+    AgentFramework.Constructors.set(newTarget, target);
+    return newTarget;
   }
 }

@@ -2,7 +2,7 @@
 import { ICompiler } from '../Core/ICompiler';
 import { AgentAttribute } from '../Core/AgentAttribute';
 import { IInvocation } from '../Core/IInvocation';
-import { AgentFeatures, hasFeature } from '../Core/AgentFeatures';
+import { AgentFeatures } from '../Core/AgentFeatures';
 import { Compiler } from './Compiler';
 import { Reflector } from '../Core/Reflector';
 import { InitializerFactory } from './InitializerFactory';
@@ -19,15 +19,11 @@ export class AgentCompiler implements ICompiler {
     const names = new Set<PropertyKey>();
     let initializers: any, interceptors: any;
 
-    if (hasFeature(agent.features, AgentFeatures.Initializer)) {
-      // field property initializer
-      initializers = this.makePropertyInitializers(target, names);
-    }
+    // field property initializer
+    initializers = this.makePropertyInitializers(target, names);
 
-    if (hasFeature(agent.features, AgentFeatures.Interceptor)) {
-      // do Interceptor
-      interceptors = this.makePropertyInterceptors(target, names);
-    }
+    // do Interceptor
+    interceptors = this.makePropertyInterceptors(target, names);
 
     let CompiledAgent;
 

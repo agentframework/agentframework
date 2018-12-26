@@ -1,6 +1,6 @@
 import { Type } from './Reflection/Type';
 import { TypedConstructor } from './TypedConstructor';
-import { GetSingletons, GetTypes } from './Internal/Global';
+import { GetConstructors, GetSingletons, GetTypes } from './Cache';
 
 export class AgentFramework {
   static Reflector(prototype: Object): Type {
@@ -19,6 +19,12 @@ export class AgentFramework {
       AgentFramework.Instances.set(type, found);
     }
     return found;
+  }
+
+  static get Constructors(): WeakMap<Function, Function> {
+    const value = GetConstructors();
+    Reflect.defineProperty(AgentFramework, 'Constructors', { value });
+    return value;
   }
 
   private static get Types(): WeakMap<Object, Type> {
