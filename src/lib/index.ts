@@ -1,12 +1,12 @@
 // Attribute
-export { IAttribute } from './Core/IAttribute';
+export { IAttribute, IInitializerAttribute, IInterceptorAttribute } from './Core/IAttribute';
 export { IInterceptor } from './Core/IInterceptor';
 export { IInitializer } from './Core/IInitializer';
 export { IInvocation } from './Core/IInvocation';
 export { AgentAttribute } from './Core/AgentAttribute';
 
 // Decorator
-export { Target, UniversalDecorator, decorate } from './Decorator/decorate';
+export { decorate, Target, UniversalDecorator } from './Decorator/decorate';
 export { decorateAgent } from './Decorator/decorateAgent';
 export { decorateParameter } from './Decorator/decorateParameter';
 export { decorateClass, decorateClassField, decorateClassMember, decorateClassMethod } from './Decorator/decorateClass';
@@ -21,23 +21,13 @@ export { Type } from './Core/Reflection/Type';
 export { Property } from './Core/Reflection/Property';
 export { Method } from './Core/Reflection/Method';
 export { Parameter } from './Core/Reflection/Parameter';
-export { PropertyFilters } from './Core/Reflection/PropertyFilters';
+export { PropertyFilter, PropertyFilters } from './Core/Reflection/PropertyFilters';
 
 // Utils
-export { Constructor } from './Core/Constructor';
-export { TypedConstructor } from './Core/TypedConstructor';
+export { Constructor, ConstructorWithoutParameter, ConstructorWithParameters } from './Core/Constructor';
 export {
-  IsObject,
-  IsFunction,
-  IsNullOrUndefined,
-  IsObjectOrFunction,
-  IsSymbol,
-  IsString,
-  IsNumber,
-  IsEqual,
-  ToPropertyKey,
-  GetPrototypeArray,
-  GetPrototypeArrayReverse
-} from './Core/Utils';
-
+  TypedConstructor,
+  TypedConstructorWithoutParameter,
+  TypedConstructorWithParameters
+} from './Core/TypedConstructor';
 export { agent } from './agent';

@@ -7,7 +7,7 @@
 
 | Date       | Version                                         | Status  |
 | ---------- | ----------------------------------------------- | ------- |
-| 2018-12-26 | [1.0.0-rc.0](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
+| 2018-12-26 | [1.0.0-rc.1](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
 | 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)     | Stable  |
 
 ### Features
@@ -19,7 +19,6 @@
 
 ### Road to v1.0
 
-- [ ] Test: Improve test coverage above 95%
 - [x] Example: Validator with nested Type support
 - [ ] Example: Automatic Protobuf schema generator
 - [ ] Example: IoC Container
@@ -27,3 +26,4 @@
 - [ ] Example: WebServer like Nest.JS
 - [ ] Example: ORM like TypeORM
 - [ ] AgentFramework.com
+- [ ] Test: Improve test coverage above 95%
