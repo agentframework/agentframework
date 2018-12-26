@@ -11,7 +11,7 @@ Accepted
 For giving attribute have below two approach to get an interceptor
 
 ```ts
-{
+class MyAttribute implements IAttribute {
   interceptor = new MyInterceptor() // option #1
   getInterceptor() { // option #2
     return new MyInterceptor();
@@ -26,13 +26,13 @@ code when using getInterceptor() as above. This is a productivity driven framewo
 option #1 is more rational.
 
 ```ts
-{
+class MyAttribute implements IAttribute {
   interceptor = new MyInterceptor(); // cache the interceptor
 }
 ```
 
 ```ts
-{
+class MyAttribute implements IAttribute {
   get interceptor() {
     return new MyInterceptor(); // return new interceptor everytime
   }
