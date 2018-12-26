@@ -1,7 +1,5 @@
 import { IAttribute } from './IAttribute';
 import { IInitializer } from './IInitializer';
-import { ICompiler } from './ICompiler';
-import { AgentCompiler } from '../Compiler/AgentCompiler';
 import { AgentFramework } from './AgentFramework';
 import { ClassInitializer } from '../Compiler/Initializer/ClassInitializer';
 
@@ -9,10 +7,6 @@ import { ClassInitializer } from '../Compiler/Initializer/ClassInitializer';
  * This attribute is for agent / domain management
  */
 export class AgentAttribute implements IAttribute {
-  get compiler(): ICompiler {
-    return AgentFramework.GetSingleton(AgentCompiler);
-  }
-
   beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
     if (typeof target !== 'function') {
       throw new TypeError('Unable to decorate agent for non-function type');

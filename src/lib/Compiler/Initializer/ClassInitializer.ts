@@ -6,6 +6,7 @@ import { TypedConstructor } from '../../Core/TypedConstructor';
 import { Arguments } from '../../Core/Arguments';
 import { IInvocation } from '../../Core/IInvocation';
 import { AgentFramework } from '../../Core/AgentFramework';
+import { AgentCompiler } from '../AgentCompiler';
 
 /**
  * Build a class which lazy cached constructor
@@ -22,8 +23,10 @@ export class ClassInitializer implements IInitializer {
 
     // compile only if not cached
     if (!ctor) {
+      const compiler = AgentFramework.GetSingleton(AgentCompiler);
+
       // create a interceptor chain from the found attributes
-      ctor = InterceptorFactory.createConstructor(target, newTarget, options, params);
+      ctor = InterceptorFactory.createConstructor(target, newTarget, options, compiler, params);
 
       // cache the interceptor
       // use symbol here to allow reset cache when needed
