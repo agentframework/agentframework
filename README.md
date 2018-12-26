@@ -19,7 +19,7 @@
 
 ### Road to v1.0
 
-- [x] Test: Improve test coverage above 95%
+- [ ] Test: Improve test coverage above 95%
 - [x] Example: Validator with nested Type support
 - [ ] Example: Automatic Protobuf schema generator
 - [ ] Example: IoC Container
