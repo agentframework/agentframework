@@ -1,8 +1,8 @@
 import { Reflector } from './Core/Reflector';
 import { decorateAgent } from './Decorator/decorateAgent';
 import { AgentAttribute } from './Core/AgentAttribute';
-import { AgentFramework } from './Core/AgentFramework';
 import { IAttribute } from './Core/IAttribute';
+import { Resolve } from './Core/Cache';
 
 // ===========================================
 // ES2015 or before
@@ -59,8 +59,7 @@ if (typeof metadataFn !== 'function') {
 
 /**
  * Define an agent
- * @returns {(target:Constructor)=>(void|Constructor)}
  */
 export function agent(attributes?: IAttribute[]) {
-  return decorateAgent(AgentFramework.GetSingleton(AgentAttribute), attributes);
+  return decorateAgent(Resolve(AgentAttribute), attributes);
 }

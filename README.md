@@ -7,7 +7,7 @@
 
 | Date       | Version                                         | Status  |
 | ---------- | ----------------------------------------------- | ------- |
-| 2018-12-26 | [1.0.0-rc.1](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
+| 2019-01-02 | [1.0.0-rc.2](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
 | 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)     | Stable  |
 
 ### Features

@@ -11,7 +11,7 @@ import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { InterceptorFactory } from './InterceptorFactory';
 import { Arguments } from '../Core/Arguments';
 import { PropertyFilters } from '../Core/Reflection/PropertyFilters';
-import { TypedConstructor } from '../Core/TypedConstructor';
+import { Constructor } from '../Core/Constructor';
 import { Method } from '../Core/Reflection/Method';
 
 export class AgentCompiler implements ICompiler {
@@ -166,7 +166,7 @@ export class AgentCompiler implements ICompiler {
   }
 
   private makePropertyInitializers<T>(
-    target: TypedConstructor<T>,
+    target: Constructor<T>,
     names: Set<PropertyKey>
   ): Map<PropertyKey, IInvocation> | undefined {
     const layers = Reflector(target).findProperties(PropertyFilters.FilterFeatures, AgentFeatures.Initializer);

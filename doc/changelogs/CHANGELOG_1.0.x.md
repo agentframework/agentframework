@@ -1,6 +1,6 @@
 # Agent Framework 1.0.x ChangeLog
 
-## 2018-12-26, Version 1.0.0-rc.1 (Preview), @e2tox
+## 2019-01-02, Version 1.0.0-rc.2 (Preview), @e2tox
 
 **Notable Changes**
 
@@ -11,3 +11,5 @@
 - Revise Reflection namespace and interface
 - Remove Lookup and move related function into Reflection/Type
 - Fix Reflector bug
+- Code clean-up
+- Introduce AgentFramework class

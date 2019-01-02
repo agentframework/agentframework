@@ -1,5 +1,5 @@
 import { Property } from './Property';
-import { TypedConstructor } from '../TypedConstructor';
+import { Constructor } from '../Constructor';
 import { AgentFeatures } from '../AgentFeatures';
 import { IAttribute } from '../IAttribute';
 import { Type } from './Type';
@@ -19,7 +19,7 @@ export interface PropertyFilter {
 export class PropertyFilters {
   static FilterAttribute<T extends IAttribute>(
     property: Property<Type>,
-    filterCriteria?: TypedConstructor<T>
+    filterCriteria?: Constructor<T>
   ): boolean {
     return property.hasAttribute(filterCriteria);
   }

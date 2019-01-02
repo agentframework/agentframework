@@ -11,23 +11,18 @@ export { decorateAgent } from './Decorator/decorateAgent';
 export { decorateParameter } from './Decorator/decorateParameter';
 export { decorateClass, decorateClassField, decorateClassMember, decorateClassMethod } from './Decorator/decorateClass';
 
-// upgrade agent without @agent attribute
-export { CreateAgent } from './Compiler/CreateAgent';
-
 // Reflection
 export { Reflector } from './Core/Reflector';
-export { Reflection } from './Core/Reflection/Reflection';
+export { Member } from './Core/Reflection/Member';
 export { Type } from './Core/Reflection/Type';
 export { Property } from './Core/Reflection/Property';
 export { Method } from './Core/Reflection/Method';
 export { Parameter } from './Core/Reflection/Parameter';
 export { PropertyFilter, PropertyFilters } from './Core/Reflection/PropertyFilters';
 
+// Main API
+export { AgentFramework } from './Core/AgentFramework';
+
 // Utils
 export { Constructor, ConstructorWithoutParameter, ConstructorWithParameters } from './Core/Constructor';
-export {
-  TypedConstructor,
-  TypedConstructorWithoutParameter,
-  TypedConstructorWithParameters
-} from './Core/TypedConstructor';
 export { agent } from './agent';

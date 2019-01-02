@@ -1,8 +1,8 @@
 import { Method } from './Method';
 import { Property } from './Property';
 import { PropertyFilter } from './PropertyFilters';
-import { GetTypes } from '../Cache';
-import { TypedConstructor } from '../TypedConstructor';
+import { Constructor } from '../Constructor';
+import { ResolveType } from '../Cache';
 
 /**
  * Reflection information for user class
@@ -20,21 +20,6 @@ export class Type extends Method<Type> {
     this._properties = new Map<PropertyKey, Property<Type>>();
   }
 
-  static FromType(prototype: Object): Type {
-    let found = Type.Types.get(prototype);
-    if (!found) {
-      found = new Type(prototype);
-      Type.Types.set(prototype, found);
-    }
-    return found;
-  }
-
-  private static get Types(): WeakMap<Object, Type> {
-    const value = GetTypes();
-    Reflect.defineProperty(Type, 'Types', { value });
-    return value;
-  }
-
   /**
    * Return the prototype of reflecting class
    */
@@ -45,8 +30,8 @@ export class Type extends Method<Type> {
   /**
    * Return the constructor of reflecting class
    */
-  get target(): TypedConstructor<any> {
-    return <TypedConstructor<any>>this._prototype.constructor;
+  get target(): Constructor<any> {
+    return <Constructor<any>>this._prototype.constructor;
   }
 
   /**
@@ -113,20 +98,20 @@ export class Type extends Method<Type> {
    * @returns {Property[]}
    */
   findProperties(filter: PropertyFilter, filterCriteria?: any): Array<Map<PropertyKey, Property<Type>>> {
-    const types = [];
+    const prototypes = [];
     const layers: Array<Map<PropertyKey, Property<Type>>> = [];
 
     let p = this._prototype;
     while (p) {
-      types.unshift(p);
+      prototypes.unshift(p);
       p = Object.getPrototypeOf(p);
     }
 
-    for (const t of types) {
-      const p = Type.FromType(t);
+    for (const proto of prototypes) {
+      const type = ResolveType(proto);
       const properties = new Map<PropertyKey, Property<Type>>();
       layers.push(properties);
-      for (const [key, property] of p._properties.entries()) {
+      for (const [key, property] of type._properties.entries()) {
         if (filter(property, filterCriteria)) {
           properties.set(key, property);
         }

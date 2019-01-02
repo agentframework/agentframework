@@ -1,4 +1,4 @@
-import { TypedConstructor } from '../Core/TypedConstructor';
+import { Constructor } from '../Core/Constructor';
 import { IInvocation } from '../Core/IInvocation';
 
 /**
@@ -6,10 +6,10 @@ import { IInvocation } from '../Core/IInvocation';
  */
 export class Compiler<T> {
   // private readonly targetName: string;
-  private readonly generated: TypedConstructor<T>;
+  private readonly generated: Constructor<T>;
   // private readonly generatedName: string;
 
-  constructor(private target: TypedConstructor<T>) {
+  constructor(private target: Constructor<T>) {
     // this.targetName = this.target.name;
     // this.generatedName = this.target.name + '$';
     this.generated = this.target;
@@ -56,7 +56,7 @@ export class Compiler<T> {
     }
   }
 
-  compile(): TypedConstructor<T> {
+  compile(): Constructor<T> {
     return this.generated;
   }
 }

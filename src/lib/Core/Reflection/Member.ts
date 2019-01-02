@@ -1,11 +1,11 @@
 import { IAttribute, IInitializerAttribute, IInterceptorAttribute } from '../IAttribute';
-import { TypedConstructor } from '../TypedConstructor';
+import { Constructor } from '../Constructor';
 import { HasInitializer, HasInterceptor } from '../../Compiler/Internal/Utils';
 
 /**
  * Access and store attribute and metadata for reflection
  */
-export abstract class Reflection<P> {
+export abstract class Member<P> {
   protected readonly parent: P | null;
 
   private _attributes: Array<IAttribute> = [];
@@ -39,7 +39,7 @@ export abstract class Reflection<P> {
    * Return an array of attributes which is instance of giving type
    * @returns {IAttribute[]}
    */
-  getAttributes<U1 extends IAttribute>(type?: TypedConstructor<U1>): U1[] {
+  getAttributes<U1 extends IAttribute>(type?: Constructor<U1>): U1[] {
     if (type) {
       return this._attributes.filter(a => a instanceof type) as Array<U1>;
     } else {
@@ -52,7 +52,7 @@ export abstract class Reflection<P> {
    * @param type
    * @returns {boolean}
    */
-  hasAttribute<U2 extends IAttribute>(type?: TypedConstructor<U2>): boolean {
+  hasAttribute<U2 extends IAttribute>(type?: Constructor<U2>): boolean {
     if (type) {
       return this._attributes.some(a => a instanceof type);
     } else {

@@ -1,7 +1,7 @@
 import { IAttribute } from './IAttribute';
 import { IInitializer } from './IInitializer';
-import { AgentFramework } from './AgentFramework';
 import { ClassInitializer } from '../Compiler/Initializer/ClassInitializer';
+import { Agents, Resolve } from './Cache';
 
 /**
  * This attribute is for agent / domain management
@@ -13,10 +13,10 @@ export class AgentAttribute implements IAttribute {
     }
 
     // throw TypeError if agent attribute already decorated
-    if (AgentFramework.Constructors.has(target)) {
-      const originalType = AgentFramework.Constructors.get(target);
+    if (Agents.has(target)) {
+      const originalType = Agents.get(target);
       if (originalType) {
-        throw new TypeError(`Unable to decorate multiple agent for class` + ` '${originalType!.name}'`);
+        throw new TypeError(`Unable to decorate multiple agent for class` + ` '${originalType.name}'`);
       }
     }
 
@@ -24,6 +24,6 @@ export class AgentAttribute implements IAttribute {
   }
 
   get initializer(): IInitializer {
-    return AgentFramework.GetSingleton(ClassInitializer);
+    return Resolve(ClassInitializer);
   }
 }
