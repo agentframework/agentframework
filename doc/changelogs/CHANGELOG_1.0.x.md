@@ -1,6 +1,12 @@
 # Agent Framework 1.0.x ChangeLog
 
-## 2019-01-02, Version 1.0.0-rc.3 (Preview), @e2tox
+## 2019-01-02, Version 1.0.0-rc.4 (Preview), @e2tox
+
+**Notable Changes**
+
+- Export AgentFeatures
+
+## 2019-01-02, Version 1.0.0-rc.3, @e2tox
 
 **Notable Changes**
 

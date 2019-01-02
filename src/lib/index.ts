@@ -18,6 +18,7 @@ export { Property } from './Core/Reflection/Property';
 export { Method } from './Core/Reflection/Method';
 export { Parameter } from './Core/Reflection/Parameter';
 export { PropertyFilter, PropertyFilters } from './Core/Reflection/PropertyFilters';
+export { AgentFeatures } from './Core/AgentFeatures';
 
 // Main API
 export { Agent } from './Core/Agent';
