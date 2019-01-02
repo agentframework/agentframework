@@ -2,7 +2,16 @@ import { Method } from './Method';
 import { Property } from './Property';
 import { PropertyFilter } from './PropertyFilters';
 import { Constructor } from '../Constructor';
-import { ResolveType } from '../Cache';
+import { Instances } from '../Cache';
+
+function ResolveType(prototype: Object): Type {
+  let found = Instances.get(prototype);
+  if (!found) {
+    found = new Type(prototype);
+    Instances.set(prototype, found);
+  }
+  return found;
+}
 
 /**
  * Reflection information for user class
@@ -108,7 +117,11 @@ export class Type extends Method<Type> {
     }
 
     for (const proto of prototypes) {
-      const type = ResolveType(proto);
+      let type = Instances.get(proto);
+      if (!type) {
+        type = new Type(proto);
+        Instances.set(proto, type);
+      }
       const properties = new Map<PropertyKey, Property<Type>>();
       layers.push(properties);
       for (const [key, property] of type._properties.entries()) {

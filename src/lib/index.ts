@@ -12,7 +12,6 @@ export { decorateParameter } from './Decorator/decorateParameter';
 export { decorateClass, decorateClassField, decorateClassMember, decorateClassMethod } from './Decorator/decorateClass';
 
 // Reflection
-export { Reflector } from './Core/Reflector';
 export { Member } from './Core/Reflection/Member';
 export { Type } from './Core/Reflection/Type';
 export { Property } from './Core/Reflection/Property';
@@ -21,7 +20,8 @@ export { Parameter } from './Core/Reflection/Parameter';
 export { PropertyFilter, PropertyFilters } from './Core/Reflection/PropertyFilters';
 
 // Main API
-export { AgentFramework } from './Core/AgentFramework';
+export { Agent } from './Core/Agent';
+export { Reflector } from './Core/Reflector';
 
 // Utils
 export { Constructor, ConstructorWithoutParameter, ConstructorWithParameters } from './Core/Constructor';

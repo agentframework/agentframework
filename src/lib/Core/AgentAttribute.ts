@@ -1,7 +1,8 @@
 import { IAttribute } from './IAttribute';
 import { IInitializer } from './IInitializer';
 import { ClassInitializer } from '../Compiler/Initializer/ClassInitializer';
-import { Agents, Resolve } from './Cache';
+import { Agents} from './Cache';
+import { Resolve } from './Resolver/Resolve';
 
 /**
  * This attribute is for agent / domain management

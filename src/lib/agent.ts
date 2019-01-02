@@ -2,7 +2,7 @@ import { Reflector } from './Core/Reflector';
 import { decorateAgent } from './Decorator/decorateAgent';
 import { AgentAttribute } from './Core/AgentAttribute';
 import { IAttribute } from './Core/IAttribute';
-import { Resolve } from './Core/Cache';
+import { Resolve } from './Core/Resolver/Resolve';
 
 // ===========================================
 // ES2015 or before

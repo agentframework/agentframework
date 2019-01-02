@@ -1,6 +1,3 @@
-import { Constructor } from './Constructor';
-import { Type } from './Reflection/Type';
-
 declare var global: any;
 declare var window: any;
 const root = typeof global === 'object' ? global : window;
@@ -34,20 +31,3 @@ function GetAgents(): WeakMap<Function, Function> {
 export const Agents = GetAgents();
 export const Instances = GetInstances();
 
-export function Resolve<T>(type: Constructor<T>, params?: ArrayLike<any>): T {
-  let found = Instances.get(type);
-  if (found === undefined) {
-    found = <T>Reflect.construct(type, params || []);
-    Instances.set(type, found);
-  }
-  return found;
-}
-
-export function ResolveType(prototype: Object): Type {
-  let found = Instances.get(prototype);
-  if (!found) {
-    found = new Type(prototype);
-    Instances.set(prototype, found);
-  }
-  return found;
-}

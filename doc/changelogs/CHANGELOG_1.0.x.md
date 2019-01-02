@@ -1,6 +1,13 @@
 # Agent Framework 1.0.x ChangeLog
 
-## 2019-01-02, Version 1.0.0-rc.2 (Preview), @e2tox
+## 2019-01-02, Version 1.0.0-rc.3 (Preview), @e2tox
+
+**Notable Changes**
+
+- Re-publish using NPM 5.x which avoid [reset file modification time to 1985](https://github.com/npm/npm/issues/20439)
+- Introduced Agent, Reflector API
+
+## 2019-01-02, Version 1.0.0-rc.2, @e2tox
 
 **Notable Changes**
 
