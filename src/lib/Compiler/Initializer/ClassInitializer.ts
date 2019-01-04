@@ -6,7 +6,7 @@ import { Constructor } from '../../Core/Constructor';
 import { Arguments } from '../../Core/Arguments';
 import { IInvocation } from '../../Core/IInvocation';
 import { AgentCompiler } from '../AgentCompiler';
-import { Agents} from '../../Core/Cache';
+import { Agents } from '../../Core/Cache';
 import { Resolve } from '../../Core/Resolver/Resolve';
 
 /**

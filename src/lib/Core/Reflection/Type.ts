@@ -40,7 +40,7 @@ export class Type extends Method<Type> {
    * Return the constructor of reflecting class
    */
   get target(): Constructor<any> {
-    return <Constructor<any>>this._prototype.constructor;
+    return this._prototype.constructor as Constructor<any>;
   }
 
   /**

@@ -1,7 +1,7 @@
 import { IAttribute } from './IAttribute';
 import { IInitializer } from './IInitializer';
 import { ClassInitializer } from '../Compiler/Initializer/ClassInitializer';
-import { Agents} from './Cache';
+import { Agents } from './Cache';
 import { Resolve } from './Resolver/Resolve';
 
 /**

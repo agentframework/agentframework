@@ -1,6 +1,18 @@
 # Agent Framework 1.0.x ChangeLog
 
-## 2019-01-02, Version 1.0.0-rc.4 (Preview), @e2tox
+## 2019-01-04, Version 1.0.0-rc.6 (Preview), @e2tox
+
+**Notable Changes**
+
+- Code clean up
+
+## 2019-01-04, Version 1.0.0-rc.5, @e2tox
+
+**Notable Changes**
+
+- Add ES module export in package.json
+
+## 2019-01-02, Version 1.0.0-rc.4, @e2tox
 
 **Notable Changes**
 

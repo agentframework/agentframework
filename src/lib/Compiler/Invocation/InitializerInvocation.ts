@@ -7,7 +7,7 @@ import { IInitializer } from '../../Core/IInitializer';
  * @hidden
  */
 export class InitializerInvocation implements IInvocation {
-  constructor(private _invocation: IInvocation, private _initializer: IInitializer) {}
+  constructor(private _invocation: IInvocation, private _initializer: IInitializer) { }
 
   get design(): any {
     return this._invocation.design;

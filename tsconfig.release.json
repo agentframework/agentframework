@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": [
-      "es6"
-    ],
+    "lib": ["es6"],
     "declaration": true,
     "module": "es2015",
     "removeComments": true,
@@ -13,11 +11,6 @@
     "sourceMap": false,
     "outDir": "release/tmp"
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/**/*.spec.ts"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "src/**/*.spec.ts"]
 }

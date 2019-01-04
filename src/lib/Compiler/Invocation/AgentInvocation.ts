@@ -6,7 +6,7 @@ import { AgentAttribute } from '../../Core/AgentAttribute';
  * @hidden
  */
 export class AgentInvocation implements IInvocation {
-  constructor(readonly target: any, readonly attribute: AgentAttribute) {}
+  constructor(readonly target: any, readonly attribute: AgentAttribute) { }
 
   invoke(parameters: ArrayLike<any>): any {
     return Reflect.construct(this.target, parameters);

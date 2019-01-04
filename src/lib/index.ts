@@ -25,5 +25,5 @@ export { Agent } from './Core/Agent';
 export { Reflector } from './Core/Reflector';
 
 // Utils
-export { Constructor, ConstructorWithoutParameter, ConstructorWithParameters } from './Core/Constructor';
+export { Constructor } from './Core/Constructor';
 export { agent } from './agent';

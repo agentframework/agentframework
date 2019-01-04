@@ -29,7 +29,7 @@ export class InterceptorFactory {
   static createFunction(attributes: Array<IAttribute>, method: Function, params?: Map<number, IInvocation>): Function {
     let origin: IInvocation;
     if (params && params.size) {
-      origin = <IParameterizedInvocation>{
+      origin = {
         method,
         params,
         invoke(parameters: ArrayLike<any>) {
@@ -42,14 +42,14 @@ export class InterceptorFactory {
           }
           return Reflect.apply(this.method, this.target, injectedParameters);
         }
-      };
+      } as IParameterizedInvocation;
     } else {
-      origin = <IMethodInvocation>{
+      origin = {
         method,
         invoke(parameters: ArrayLike<any>) {
           return Reflect.apply(this.method, this.target, parameters);
         }
-      };
+      } as IMethodInvocation;
     }
 
     const chain = InterceptorFactory.chainInterceptorAttributes(origin, attributes);

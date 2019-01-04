@@ -65,7 +65,7 @@ export abstract class Member<P> {
    * @returns {IInterceptorAttribute[]}
    */
   getInterceptors(): IInterceptorAttribute[] {
-    return <IInterceptorAttribute[]>this._attributes.filter(HasInterceptor);
+    return this._attributes.filter(HasInterceptor) as IInterceptorAttribute[];
   }
 
   /**
@@ -73,7 +73,7 @@ export abstract class Member<P> {
    * @returns {IInitializerAttribute[]}
    */
   getInitializers(): IInitializerAttribute[] {
-    return <IInitializerAttribute[]>this._attributes.filter(HasInitializer);
+    return this._attributes.filter(HasInitializer) as IInitializerAttribute[];
   }
 
   /**
