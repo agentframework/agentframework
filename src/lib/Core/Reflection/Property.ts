@@ -109,7 +109,7 @@ export class Property<P> extends Member<P> {
    * @param {string} key
    * @param value
    */
-  addMetadata(key: string, value: any) {
+  addMetadata(key: string, value: any): void {
     super.addMetadata(key, value);
 
     // apply method parameter type into parameter metadata

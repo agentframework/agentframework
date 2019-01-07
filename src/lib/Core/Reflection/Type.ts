@@ -4,15 +4,6 @@ import { PropertyFilter } from './PropertyFilters';
 import { Constructor } from '../Constructor';
 import { Instances } from '../Cache';
 
-function ResolveType(prototype: Object): Type {
-  let found = Instances.get(prototype);
-  if (!found) {
-    found = new Type(prototype);
-    Instances.set(prototype, found);
-  }
-  return found;
-}
-
 /**
  * Reflection information for user class
  *

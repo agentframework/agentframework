@@ -27,3 +27,4 @@ export { Reflector } from './Core/Reflector';
 // Utils
 export { Constructor } from './Core/Constructor';
 export { agent } from './agent';
+export { IsAgent, GetType } from './Core/Cache';

@@ -1,6 +1,12 @@
 # Agent Framework 1.0.x ChangeLog
 
-## 2019-01-04, Version 1.0.0-rc.6 (Preview), @e2tox
+## 2019-01-04, Version 1.0.0-rc.7 (Preview), @e2tox
+
+**Notable Changes**
+
+- Introduce `IsAgent`, `GetType` helper function
+
+## 2019-01-04, Version 1.0.0-rc.6, @e2tox
 
 **Notable Changes**
 

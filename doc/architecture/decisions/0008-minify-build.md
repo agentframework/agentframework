@@ -16,4 +16,4 @@ We need minify build because package.json don't have a property called `minMain`
 
 ## Consequences
 
-Hard to read the build by human. can use prettier to format if need.
+Hard to read the generated build. But you can read source code directly.

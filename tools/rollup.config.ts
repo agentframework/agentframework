@@ -6,7 +6,7 @@ export default {
 
   plugins: [
     typescript({
-      cacheRoot: './release/tmp/.rpt2_cache',
+      cacheRoot: './release/.rpt2_cache',
       tsconfig: 'tsconfig.release.json'
     }),
     terser({
@@ -18,8 +18,8 @@ export default {
 
       compress: {
         // compress options
-        keep_classnames: true,
-        keep_fnames: true,
+        keep_classnames: false,
+        keep_fnames: false,
         keep_fargs: true,
         keep_infinity: true,
         module: true,
@@ -27,10 +27,6 @@ export default {
           '@console.log': 'alert'
         },
         passes: 3
-      },
-
-      output: {
-        preamble: '/* minified */'
       }
     })
   ],

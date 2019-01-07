@@ -8,7 +8,7 @@
     "newLine": "LF",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "outDir": "release/tmp"
   },
   "include": ["src/**/*.ts"],
