@@ -1,6 +1,7 @@
 import { IAttribute } from '../Core/IAttribute';
-import { CanDecorate } from '../Compiler/Internal/Utils';
 import { Reflector } from '../Core/Reflector';
+import { CanDecorate } from '../Compiler/Internal/Utils';
+
 
 export enum Target {
   Constructor = 1,

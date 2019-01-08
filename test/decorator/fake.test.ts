@@ -5,7 +5,7 @@ import {
   fakeClassMethodDecorator,
   fakeClassPropertyDecorator, PropertyDecoratorAttribute
 } from './fake';
-import { decorateParameter } from '../../src/lib/core/decorator';
+import { decorateParameter } from '../../src/lib/Core/decorator';
 
 
 describe('Fake Decorator', () => {

@@ -2,7 +2,7 @@
 import { ICompiler } from '../Core/ICompiler';
 import { AgentAttribute } from '../Core/AgentAttribute';
 import { IInvocation } from '../Core/IInvocation';
-import { AgentFeatures, hasFeature } from '../Core/AgentFeatures';
+import { AgentFeatures } from '../Core/AgentFeatures';
 import { Compiler } from './Compiler';
 import { Reflector } from '../Core/Reflector';
 import { InitializerFactory } from './InitializerFactory';
@@ -19,15 +19,11 @@ export class AgentCompiler implements ICompiler {
     const names = new Set<PropertyKey>();
     let initializers: any, interceptors: any;
 
-    if (hasFeature(agent.features, AgentFeatures.Initializer)) {
-      // field property initializer
-      initializers = this.makePropertyInitializers(target, names);
-    }
+    // field property initializer
+    initializers = this.makePropertyInitializers(target, names);
 
-    if (hasFeature(agent.features, AgentFeatures.Interceptor)) {
-      // do Interceptor
-      interceptors = this.makePropertyInterceptors(target, names);
-    }
+    // do Interceptor
+    interceptors = this.makePropertyInterceptors(target, names);
 
     let CompiledAgent;
 
@@ -103,7 +99,7 @@ export class AgentCompiler implements ICompiler {
           } else {
             throw new Error(
               `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-                `Interceptor not work with field property without Initializer`
+              `Interceptor not work with field property without Initializer`
             );
           }
         }
@@ -136,20 +132,20 @@ export class AgentCompiler implements ICompiler {
           } else {
             throw new Error(
               `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-                `Interceptor not work with non-function property`
+              `Interceptor not work with non-function property`
             );
           }
         }
 
         if (typeof getter === 'function') {
           interceptorAttributes = property.getter.getInterceptors().concat(interceptorAttributes);
-          newDescriptor.get = InterceptorFactory.createFunction(interceptorAttributes, getter) as () => any;
+          newDescriptor.get = InterceptorFactory.createFunction(interceptorAttributes, getter);
           modified = true;
         }
 
         if (typeof setter === 'function') {
           interceptorAttributes = property.setter.getInterceptors().concat(interceptorAttributes);
-          newDescriptor.set = InterceptorFactory.createFunction(interceptorAttributes, setter) as (v: any) => void;
+          newDescriptor.set = InterceptorFactory.createFunction(interceptorAttributes, setter);
           modified = true;
         }
 
@@ -157,7 +153,7 @@ export class AgentCompiler implements ICompiler {
           if (names.has(name)) {
             throw new Error(
               `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-                `Duplicate interceptor`
+              `Duplicate interceptor`
             );
           }
           names.add(name);
@@ -183,13 +179,10 @@ export class AgentCompiler implements ICompiler {
           const name = property.targetKey;
 
           if (property.descriptor) {
-            if (property.value.hasParameterInitializer() || property.value.hasParameterInterceptor()) {
-              continue;
-            }
             // initializer is not for a method / getter / setter
             throw new Error(
               `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-                `Initializer not work with field property`
+              `Initializer not work with method / getter / setter`
             );
           } else {
             let initializerAttributes = property.getInitializers();
@@ -217,7 +210,7 @@ export class AgentCompiler implements ICompiler {
               if (names.has(name)) {
                 throw new Error(
                   `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-                    `Duplicate initializer`
+                  `Duplicate initializer`
                 );
               }
               names.add(name);

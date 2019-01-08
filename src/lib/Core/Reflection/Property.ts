@@ -1,13 +1,15 @@
 import { Method } from './Method';
-import { IsFunction } from '../Internal/Utils';
+import { IsFunction } from '../Utils';
 import { AgentFeatures, hasFeature } from '../AgentFeatures';
-import { Type } from './Type';
+import { Member } from './Member';
 
 /**
  * Property
  */
-export class Property<P> extends Type<P> {
+export class Property<P> extends Member<P> {
   protected readonly parent: P;
+  private _hasInitializers: boolean;
+  private _hasInterceptors: boolean;
 
   constructor(parent: P, private _key: PropertyKey, private _descriptor?: PropertyDescriptor) {
     super(parent);
@@ -38,18 +40,47 @@ export class Property<P> extends Type<P> {
 
   hasFeatures(features: AgentFeatures): boolean {
     let results;
+
+    if (this._hasInitializers && this._hasInterceptors) {
+      return features !== 0;
+    }
+
     if (hasFeature(features, AgentFeatures.Initializer)) {
-      results = this.hasInitializer() || this.setter.hasInitializer() || this.value.hasInitializer();
+      // improve half performance here
+      // cache true result, only need calculate for false condition
+      if (this._hasInitializers) {
+        return true;
+      } else {
+        this._hasInitializers = this.hasInitializer() || this.setter.hasInitializer() || this.value.hasInitializer();
+        if (features === 3) {
+          results = this._hasInitializers;
+        } else {
+          return this._hasInitializers;
+        }
+      }
     }
+
     if (hasFeature(features, AgentFeatures.Interceptor)) {
-      results =
-        results ||
-        this.hasInterceptor() ||
-        this.getter.hasInterceptor() ||
-        this.value.hasInterceptor() ||
-        this.value.hasParameterInterceptor() ||
-        this.value.hasParameterInitializer();
+      // improve half performance here
+      // cache true result, only need calculate for false condition
+      if (this._hasInterceptors) {
+        return true;
+      } else {
+        this._hasInterceptors =
+          this.hasInterceptor() ||
+          this.getter.hasInterceptor() ||
+          this.value.hasInterceptor() ||
+          this.value.hasParameterInterceptor() ||
+          this.value.hasParameterInitializer();
+
+        if (features === 3) {
+          results = results && this._hasInterceptors;
+        } else {
+          return this._hasInterceptors;
+        }
+      }
     }
+
     return results || false;
   }
 
@@ -78,7 +109,7 @@ export class Property<P> extends Type<P> {
    * @param {string} key
    * @param value
    */
-  addMetadata(key: string, value: any) {
+  addMetadata(key: string, value: any): void {
     super.addMetadata(key, value);
 
     // apply method parameter type into parameter metadata

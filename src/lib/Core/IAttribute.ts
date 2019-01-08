@@ -2,9 +2,19 @@ import { IInitializer } from './IInitializer';
 import { IInterceptor } from './IInterceptor';
 
 /**
- *
+ * Attribute
  */
 export interface IAttribute {
+
+  /**
+   * Get an initializer for current type
+   */
+  readonly initializer?: IInitializer;
+
+  /**
+   * Get an interceptor for current type
+   */
+  readonly interceptor?: IInterceptor;
   /**
    * Called before decoration of this attribute
    *
@@ -14,22 +24,12 @@ export interface IAttribute {
    * @returns {boolean}
    */
   beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean;
-
-  /**
-   * Get an initializer for current target, replace the property or replace the class constructor
-   */
-  getInitializer?(): IInitializer;
-
-  /**
-   * Get an interceptor for current target
-   */
-  getInterceptor?(): IInterceptor;
 }
 
 export interface IInterceptorAttribute extends IAttribute {
-  getInterceptor(): IInterceptor;
+  readonly interceptor: IInterceptor;
 }
 
 export interface IInitializerAttribute extends IAttribute {
-  getInitializer(): IInitializer;
+  readonly initializer: IInitializer;
 }

@@ -1,59 +1,64 @@
-import { IInvocation } from '../Core/IInvocation';
+import { IInvocation, IMethodInvocation, IParameterizedInvocation } from '../Core/IInvocation';
 import { IAttribute } from '../Core/IAttribute';
-import { GetInterceptor } from './Internal/Utils';
+import { GetInterceptor, HasInterceptor } from './Internal/Utils';
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { ConstructInvocation } from './Invocation/ConstructInvocation';
 import { AgentAttribute } from '../Core/AgentAttribute';
 import { Arguments } from '../Core/Arguments';
 import { Reflector } from '../Core/Reflector';
+import { ICompiler } from '../Core/ICompiler';
 
 /**
  * @ignore
  * @hidden
  */
 export class InterceptorFactory {
-  static createConstructor<T>(target: T, newTarget: T, options: AgentAttribute, params: Arguments) {
+  static createConstructor<T>(
+    target: T,
+    newTarget: T,
+    options: AgentAttribute,
+    compiler: ICompiler,
+    params: Arguments
+  ) {
     // search all attributes on this class constructor
-    const invocation = new ConstructInvocation(target, newTarget, options, params);
+    const invocation = new ConstructInvocation(target, newTarget, options, compiler, params);
     const interceptors = Reflector(target).getInterceptors();
     return InterceptorFactory.chainInterceptorAttributes(invocation, interceptors);
   }
 
-  static createFunction(
-    attributes: Array<IAttribute>,
-    method: Function,
-    parameters?: Map<number, IInvocation>
-  ): Function {
-    const originMethod = method; // method[ORIGIN] || method;
-
+  static createFunction(attributes: Array<IAttribute>, method: Function, params?: Map<number, IInvocation>): Function {
     let origin: IInvocation;
-    if (parameters && parameters.size) {
+    if (params && params.size) {
       origin = {
-        invoke: function(params: ArrayLike<any>) {
-          const args = Array.prototype.slice.call(params, 0);
-          for (const idx of parameters.keys()) {
-            const param = parameters.get(idx);
-            if (param) {
-              args[idx] = param.invoke([params[idx]]);
+        method,
+        params,
+        invoke(parameters: ArrayLike<any>) {
+          const injectedParameters = Array.prototype.slice.call(parameters, 0);
+          for (const idx of this.params.keys()) {
+            const interceptor = this.params.get(idx);
+            if (interceptor) {
+              injectedParameters[idx] = interceptor.invoke([parameters[idx], idx, parameters]);
             }
           }
-          return Reflect.apply(originMethod, this.target, args);
+          return Reflect.apply(this.method, this.target, injectedParameters);
         }
-      };
+      } as IParameterizedInvocation;
     } else {
       origin = {
-        invoke: function(parameters: ArrayLike<any>) {
-          return Reflect.apply(originMethod, this.target, parameters);
+        method,
+        invoke(parameters: ArrayLike<any>) {
+          return Reflect.apply(this.method, this.target, parameters);
         }
-      };
+      } as IMethodInvocation;
     }
 
     const chain = InterceptorFactory.chainInterceptorAttributes(origin, attributes);
 
-    if (chain instanceof InterceptorInvocation || parameters) {
+    if (chain instanceof InterceptorInvocation || (params && params.size)) {
       return Function('c', 'return function(){return c.target=this,c.invoke(arguments)}')(chain);
     } else {
-      return originMethod;
+      // no interceptor found
+      return method;
     }
   }
 
@@ -64,9 +69,11 @@ export class InterceptorFactory {
   static chainInterceptorAttributes(origin: IInvocation, attributes: Array<IAttribute>): IInvocation {
     // make invocation chain of interceptors
     for (const attribute of attributes) {
-      const interceptor = GetInterceptor(attribute);
-      if (interceptor) {
-        origin = new InterceptorInvocation(origin, interceptor);
+      if (HasInterceptor(attribute)) {
+        const interceptor = GetInterceptor(attribute);
+        if (interceptor) {
+          origin = new InterceptorInvocation(origin, interceptor);
+        }
       }
     }
     return origin;

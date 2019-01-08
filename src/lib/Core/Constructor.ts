@@ -1,9 +1,3 @@
-export interface ConstructorWithoutParameter<T> {
-  new (): T;
-}
-
-export interface ConstructorWithParameters<T> {
+export interface Constructor<T extends Object = Object> {
   new (...args: Array<any>): T;
 }
-
-export type Constructor<T extends Object = Object> = ConstructorWithoutParameter<T> | ConstructorWithParameters<T>;

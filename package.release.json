@@ -1,31 +1,19 @@
 {
   "name": "agentframework",
-  "version": "0.9.23",
+  "version": "1.0.0-rc.7",
   "engines": {
     "node": ">=6.0.0"
   },
   "description": "Agent-Oriented Programming for TypeScript",
   "main": "lib/index.js",
-  "module": "lib/index.esm.js",
+  "module": "lib/index.mjs",
   "typings": "lib/index.d.ts",
-  "files": [
-    "lib",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["lib", "README.md", "LICENSE"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/agentframework/agentframework.git"
   },
-  "keywords": [
-    "agent",
-    "aop",
-    "typescript",
-    "es6",
-    "proxy",
-    "interceptor",
-    "database"
-  ],
+  "keywords": ["agent", "aop", "typescript", "es6", "dependency injection", "proxy", "interceptor", "ioc", "codegen"],
   "author": "Ling Zhang",
   "license": "Apache-2.0",
   "bugs": {

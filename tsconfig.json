@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": [
-      "es6"
-    ],
-    "declaration": false,
+    "lib": ["es6"],
+    "composite": true,
+    "declaration": true,
     "module": "commonjs",
     "removeComments": false,
     "moduleResolution": "node",
@@ -12,16 +11,8 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": false,
-    "types": [
-      "jasmine"
-    ]
+    "types": ["jasmine"]
   },
-  "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "test",
-    "**/*.spec.ts"
-  ]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "test", "**/*.spec.ts"]
 }

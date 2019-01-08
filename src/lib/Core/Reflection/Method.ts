@@ -1,11 +1,11 @@
-import { Type } from './Type';
+import { Member } from './Member';
 import { Parameter } from './Parameter';
-import { IsNumber } from '../Internal/Utils';
+import { IsNumber } from '../Utils';
 
 /**
  * Method
  */
-export class Method<P> extends Type<P> {
+export class Method<P> extends Member<P> {
   private readonly _maxParameters: number;
   private readonly _parameters: Map<number, Parameter<Method<P>>>;
   private _parametersArray: Array<[number, Parameter<Method<P>>]>;

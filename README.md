@@ -13,23 +13,23 @@ Agent Framework for TypeScript 2.3+, 3+
 
 ### Principle
 
-| PARADIGM                   | INSPIRATION  | PRINCIPLE  
+| PARADIGM                   | INSPIRATION  | PRINCIPLE
 |----------------------------|--------------|-------------------------------------------
 | Function Programming       | Math         | It transform data
-| OOP                        | The world    | It describe things and the relationships between them 
+| OOP                        | The world    | It describe things and the relationships between them
 | Agent Oriented Programming | Human        | It actions like a human (AI)
 
 ### Concepts
 
 | HUMAN       | AGENT FRAMEWORK   | DESCRIPTION
 |-------------|-------------------|-------------------------------------------------------------------------
-| People	    | Agent	            | A class decorate with @agent attribute 
-| Action	    | Behavior          | Class method decorate with @action, @method or @behavior attribute 
-| Belief	    | Memory            | Private class field decorated with @state, @remember, @memory attribute 
-| Environment	| Domain            | A set of agents, components, services, artifacts 
-| Autonomy	  | Activation        | Timer, scheduler which based on environment conditions 
-| Sociality	  | Message           | Agent can communicate with other agent 
-| Mobility	  | Mobile Agent      | An agent can move from domain to domain with their belief unchanged 
+| People	    | Agent	            | A class decorate with @agent attribute
+| Action	    | Behavior          | Class method decorate with @action, @method or @behavior attribute
+| Belief	    | Memory            | Private class field decorated with @state, @remember, @memory attribute
+| Environment	| Domain            | A set of agents, components, services, artifacts
+| Autonomy	  | Activation        | Timer, scheduler which based on environment conditions
+| Sociality	  | Message           | Agent can communicate with other agent
+| Mobility	  | Mobile Agent      | An agent can move from domain to domain with their belief unchanged
 
 ### Example projects built on top of AgentFramework
 
@@ -37,6 +37,10 @@ Agent Framework for TypeScript 2.3+, 3+
 - [@agentframework/domain](https://github.com/agentframework/domain) *On Demand* dependency injection framework [DEMO](https://github.com/agentframework/domain-example)
 
 ### What's this?
+| Date       | Version                                         | Status  |
+| ---------- | ----------------------------------------------- | ------- |
+| 2019-01-07 | [1.0.0-rc.7](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
+| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)     | Stable  |
 
 - 100% TypeScript implementation! No dependencies!!!
 - A framework to build other frameworks (e.g. AOP/DI framework)

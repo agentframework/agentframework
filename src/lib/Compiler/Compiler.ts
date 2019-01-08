@@ -24,10 +24,23 @@ export class Compiler<T> {
       // bag = new Map<string, any>();
       for (const [key, initializer] of fields) {
         Object.defineProperty(this.generated.prototype, key, {
-          get: function() {
+          get: function () {
             const value = initializer.invoke(params());
-            Reflect.defineProperty(this, key, { value });
+            Reflect.defineProperty(this, key, {
+              value,
+              configurable: true,
+              enumerable: true,
+              writable: true
+            });
             return value;
+          },
+          set: function (value: any) {
+            Reflect.defineProperty(this, key, {
+              value,
+              configurable: true,
+              enumerable: true,
+              writable: true
+            });
           }
         });
       }

@@ -62,6 +62,7 @@
     "jasmine-spec-reporter": "4.2.1",
     "nodemon": "1.18.4",
     "rollup": "latest",
+    "rollup-plugin-terser": "^4.0.1",
     "rollup-plugin-typescript2": "latest",
     "ts-node": "latest",
     "typescript": "latest",

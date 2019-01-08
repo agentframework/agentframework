@@ -17,10 +17,10 @@ export function decorateAgent(agentAttribute: AgentAttribute, attributes?: IAttr
   return <T extends Function>(target: T): T | void => {
     // apply extra attributes
     if (attributes && attributes.length) {
-      const reflection = Reflector(target);
+      const type = Reflector(target);
       for (const attribute of attributes) {
         if (CanDecorate(attribute, target)) {
-          reflection.addAttribute(attribute);
+          type.addAttribute(attribute);
         }
       }
     }

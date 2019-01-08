@@ -1,7 +1,7 @@
 import { IInterceptor } from '../../Core/IInterceptor';
 import { IAttribute } from '../../Core/IAttribute';
 import { IInitializer } from '../../Core/IInitializer';
-import { IsFunction } from '../../Core/Internal/Utils';
+import { IsFunction } from '../../Core/Utils';
 
 export function CanDecorate(
   attribute: IAttribute,
@@ -18,24 +18,28 @@ export function CanDecorate(
   return true;
 }
 
+export function HasInterceptor(attribute: IAttribute): boolean {
+  return !!attribute.interceptor;
+}
+
+export function HasInitializer(attribute: IAttribute): boolean {
+  return !!attribute.initializer;
+}
+
 export function GetInterceptor(attribute: IAttribute): IInterceptor | undefined {
-  if (attribute.getInterceptor) {
-    const interceptor = attribute.getInterceptor();
-    // do not intercept when got false, null, ''
-    if (!!interceptor && IsFunction(interceptor.intercept) && interceptor.intercept.length === 2) {
-      return interceptor;
-    }
+  let interceptor = attribute.interceptor;
+  // do not intercept when got false, null, ''
+  if (interceptor && IsFunction(interceptor.intercept) && interceptor.intercept.length === 2) {
+    return interceptor;
   }
   return undefined;
 }
 
 export function GetInitializer(attribute: IAttribute): IInitializer | undefined {
-  if (attribute.getInitializer) {
-    const initializer = attribute.getInitializer();
-    // do not intercept when got false, null, ''
-    if (!!initializer && IsFunction(initializer.initialize) && initializer.initialize.length === 2) {
-      return initializer;
-    }
+  let initializer = attribute.initializer;
+  // do not intercept when got false, null, ''
+  if (initializer && IsFunction(initializer.initialize) && initializer.initialize.length === 2) {
+    return initializer;
   }
   return undefined;
 }

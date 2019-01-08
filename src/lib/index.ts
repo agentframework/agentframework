@@ -1,42 +1,30 @@
 // Attribute
-export { IAttribute } from './Core/IAttribute';
+export { IAttribute, IInitializerAttribute, IInterceptorAttribute } from './Core/IAttribute';
 export { IInterceptor } from './Core/IInterceptor';
 export { IInitializer } from './Core/IInitializer';
 export { IInvocation } from './Core/IInvocation';
 export { AgentAttribute } from './Core/AgentAttribute';
 
 // Decorator
-export { Target, UniversalDecorator, decorate } from './Decorator/decorate';
+export { decorate, Target, UniversalDecorator } from './Decorator/decorate';
 export { decorateAgent } from './Decorator/decorateAgent';
 export { decorateParameter } from './Decorator/decorateParameter';
 export { decorateClass, decorateClassField, decorateClassMember, decorateClassMethod } from './Decorator/decorateClass';
 
-// upgrade agent without @agent attribute
-export { CreateAgent } from './Compiler/CreateAgent';
-
 // Reflection
-export { Reflector } from './Core/reflector';
+export { Member } from './Core/Reflection/Member';
 export { Type } from './Core/Reflection/Type';
-export { Prototype } from './Core/Reflection/Prototype';
 export { Property } from './Core/Reflection/Property';
 export { Method } from './Core/Reflection/Method';
 export { Parameter } from './Core/Reflection/Parameter';
-export { PropertyFilters } from './Core/Reflection/PropertyFilters';
+export { PropertyFilter, PropertyFilters } from './Core/Reflection/PropertyFilters';
+export { AgentFeatures } from './Core/AgentFeatures';
+
+// Main API
+export { Agent } from './Core/Agent';
+export { Reflector } from './Core/Reflector';
 
 // Utils
 export { Constructor } from './Core/Constructor';
-export {
-  IsObject,
-  IsFunction,
-  IsNullOrUndefined,
-  IsObjectOrFunction,
-  IsSymbol,
-  IsString,
-  IsNumber,
-  IsEqual,
-  ToPropertyKey,
-  GetPrototypeArray,
-  GetPrototypeArrayReverse
-} from './Core/Internal/Utils';
-
 export { agent } from './agent';
+export { IsAgent, GetType } from './Core/Cache';
