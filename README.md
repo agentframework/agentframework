@@ -8,7 +8,7 @@ Agent Framework for TypeScript 2.3+, 3+
 
 | Date       | Version                                         | Status      |
 | ---------- | ----------------------------------------------- | ----------- |
-| 2019-01-02 | [1.0.0-rc.4](https://github.com/agentframework/agentframework/blob/1.0-dev/doc/changelogs/CHANGELOG_1.0.x.md) | Preview     |
+| 2019-01-07 | [1.0.0-rc.7](https://github.com/agentframework/agentframework/blob/1.0-dev/doc/changelogs/CHANGELOG_1.0.x.md) | Preview     |
 | 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)     | Stable      |
 
 ### Principle
@@ -31,9 +31,10 @@ Agent Framework for TypeScript 2.3+, 3+
 | Sociality	  | Message           | Agent can communicate with other agent 
 | Mobility	  | Mobile Agent      | An agent can move from domain to domain with their belief unchanged 
 
-### Satellite projects
+### Example projects built on top of AgentFramework
 
-- [@agentframework/validation](https://github.com/agentframework/validation) Zero configuration validation framework for TypeScript
+- [@agentframework/validation](https://github.com/agentframework/validation) Zero configuration validation framework [DEMO](https://github.com/agentframework/validation-example)
+- [@agentframework/domain](https://github.com/agentframework/domain) *On Demand* dependency injection framework [DEMO](https://github.com/agentframework/domain-example)
 
 ### What's this?
 
