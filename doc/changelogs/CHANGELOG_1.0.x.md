@@ -1,6 +1,12 @@
 # Agent Framework 1.0.x ChangeLog
 
-## 2019-01-04, Version 1.0.0-rc.7 (Preview), @e2tox
+## 2019-01-09, Version 1.0.0-rc.8 (Preview), @e2tox
+
+**Notable Changes**
+
+- Fix Reflection bug
+
+## 2019-01-07, Version 1.0.0-rc.7, @e2tox
 
 **Notable Changes**
 

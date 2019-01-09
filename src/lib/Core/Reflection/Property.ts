@@ -34,7 +34,7 @@ export class Property<P> extends Member<P> {
 
   get getter(): Method<Property<P>> {
     const value = new Method(this, 0);
-    Reflect.defineProperty(this, 'setter', { value });
+    Reflect.defineProperty(this, 'getter', { value });
     return value;
   }
 
