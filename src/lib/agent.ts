@@ -24,8 +24,8 @@ if (typeof metadataFn !== 'function') {
   //     Reflect.metadata("design:type", Function),
   //     Reflect.metadata("design:paramtypes", []),
   //     Reflect.metadata("design:returntype", String)
-  Reflect['metadata'] = function(key: string, value: any) {
-    return function(target: Function | Object, property?: string | symbol, descriptor?: PropertyDescriptor): void {
+  Reflect['metadata'] = function (key: string, value: any) {
+    return function (target: Function | Object, property?: string | symbol, descriptor?: PropertyDescriptor): void {
       if (property) {
         Reflector(target)
           .property(property, descriptor)
@@ -41,9 +41,9 @@ if (typeof metadataFn !== 'function') {
   // ========================================================================================
   // ES2017, ES2018 and later - intercept Reflect.metadata because tsc generate 3 parameters
   // ========================================================================================
-  Reflect['metadata'] = function(key: string, value: any) {
+  Reflect['metadata'] = function (key: string, value: any) {
     const metadataDecorator = metadataFn(key, value);
-    return function(target: Function | Object, property?: string | symbol, descriptor?: PropertyDescriptor): void {
+    return function (target: Function | Object, property?: string | symbol, descriptor?: PropertyDescriptor): void {
       if (property) {
         Reflector(target)
           .property(property, descriptor)

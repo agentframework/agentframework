@@ -1,27 +1,21 @@
-import { agent } from '../../src/lib';
+import { agent, decorateParameter } from '../../src/lib';
 import {
   fakeClassMemberDecorator,
   fakeClassDecorator,
   fakeClassMethodDecorator,
-  fakeClassPropertyDecorator, PropertyDecoratorAttribute
+  fakeClassPropertyDecorator,
+  fakeParameterDecorator
 } from './fake';
-import { decorateParameter } from '../../src/lib/Core/decorator';
-
 
 describe('Fake Decorator', () => {
-
   describe('# should able to', () => {
-
     it('decorate on method', () => {
-
       @agent()
       class TestClass {
-
         @fakeClassMemberDecorator()
-        testMethod(@decorateParameter() first: boolean, @decorateParameter() second: TestClass): TestClass {
+        testMethod(@fakeParameterDecorator() first: boolean, @fakeParameterDecorator() second: TestClass): TestClass {
           return this;
         }
-
       }
 
       const test = new TestClass();
@@ -29,7 +23,6 @@ describe('Fake Decorator', () => {
     });
 
     it('decorate on class', () => {
-
       @agent()
       @fakeClassDecorator()
       class TestClass {
@@ -44,7 +37,6 @@ describe('Fake Decorator', () => {
     });
 
     it('decorate on class method', () => {
-
       @agent()
       class TestClass {
         _testMethod: string = 'test';
@@ -60,10 +52,8 @@ describe('Fake Decorator', () => {
     });
 
     it('decorate on class property', () => {
-
       @agent()
       class TestClass {
-
         @fakeClassPropertyDecorator()
         _testMethod: string = 'test';
 
@@ -76,5 +66,4 @@ describe('Fake Decorator', () => {
       expect(test.testMethod()).toEqual('test');
     });
   });
-
 });
