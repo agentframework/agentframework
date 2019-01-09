@@ -6,10 +6,10 @@ Agent Framework for TypeScript 2.4+
 
 ### Changelog
 
-| Date       | Version                                         | Status      |
-| ---------- | ----------------------------------------------- | ----------- |
-| 2019-01-07 | [1.0.0-rc.7](https://github.com/agentframework/agentframework/blob/1.0-dev/doc/changelogs/CHANGELOG_1.0.x.md) | Preview     |
-| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)     | Stable      |
+| Date       | Version                                         | Status  |
+| ---------- | ----------------------------------------------- | ------- |
+| 2019-01-07 | [1.0.0-rc.7](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
+| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)     | Stable  |
 
 ### Principle
 
@@ -31,21 +31,16 @@ Agent Framework for TypeScript 2.4+
 | Sociality	  | Message           | Agent can communicate with other agent
 | Mobility	  | Mobile Agent      | An agent can move from domain to domain with their belief unchanged
 
-### Example projects built on top of AgentFramework
+### Projects built on top of AgentFramework
 
-- [@agentframework/validation](https://github.com/agentframework/validation) Zero configuration validation framework [DEMO](https://github.com/agentframework/validation-example)
-- [@agentframework/domain](https://github.com/agentframework/domain) *On Demand* dependency injection framework [DEMO](https://github.com/agentframework/domain-example)
+- [@agentframework/validation](https://github.com/agentframework/validation) **Zero configuration** validation framework [DEMO](https://github.com/agentframework/validation-example)
+- [@agentframework/domain](https://github.com/agentframework/domain) **On demand** dependency injection framework [DEMO](https://github.com/agentframework/domain-example)
 
 ### What's this?
-| Date       | Version                                         | Status  |
-| ---------- | ----------------------------------------------- | ------- |
-| 2019-01-07 | [1.0.0-rc.7](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
-| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)     | Stable  |
-
 - 100% TypeScript implementation! No dependencies!!!
-- A framework to build other frameworks (e.g. AOP/DI framework)
-- Elegant design pattern to decorate your class with metadata and interceptors
-- Require ES6 and TypeScript 2.3+
+- A framework to build other frameworks (e.g. AOP/DI/ORM/Web framework)
+- Elegant design pattern to decorate your class with metadata, initializers and interceptors
+- Require ES6 and TypeScript 2.4+
 - Work in both node and browser
 - Very Fast (Compile class at 1st time you new/call it; as fast as native class starting from 2nd time)
 - Very Clean (Never touch your original class prototype, A on-demand compiled proxy will be generated on top of your class)
@@ -72,24 +67,16 @@ Agent Framework will help you on following areas: (which I did in other projects
 - ...
 - **And there are so many waiting to be explored**
 
+### Show me the example
 
-### Install and usage
+Just add 3 lines to your existing source code to enable the powerful **ODDI** (On Demand Dependency Injection).
 
-```bash
-  yarn add agentframework
-```
-
-### Show me the code
-
-Just add 3 lines to your existing source code to enable the powerful Dependence Injection.
-
-- `import { agent, inject } from 'agentframework'`
+- `import { agent, inject } from '@agentframework/domain'`
 - `@agent()`
 - `@inject()`
 
 ```typescript
-import { agent } from 'agentframework';
-import { inject } from '@agentframework/domain';
+import { agent, inject } from '@agentframework/domain';
 
 class Project {
   name = 'Agent Framework';
