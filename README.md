@@ -88,7 +88,8 @@ Just add 3 lines to your existing source code to enable the powerful Dependence 
 - `@inject()`
 
 ```typescript
-import { agent, inject } from 'agentframework'
+import { agent } from 'agentframework';
+import { inject } from '@agentframework/domain';
 
 class Project {
   name = 'Agent Framework';
