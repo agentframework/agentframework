@@ -1,35 +1,34 @@
-Agent Framework for TypeScript 2.4+
------------------------------------
+## Agent Framework for TypeScript 2.4+
 
 [![Build Status](https://travis-ci.org/agentframework/agentframework.svg?branch=master)](https://travis-ci.org/agentframework/agentframework)
 [![Coverage Status](https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=master)](https://coveralls.io/github/agentframework/agentframework?branch=master)
 
 ### Changelog
 
-| Date       | Version                                         | Status  |
-| ---------- | ----------------------------------------------- | ------- |
+| Date       | Version                                          | Status  |
+| ---------- | ------------------------------------------------ | ------- |
 | 2019-01-11 | [1.0.0-rc.13](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
-| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)     | Stable  |
+| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)      | Stable  |
 
 ### Principle
 
-| PARADIGM                   | INSPIRATION  | PRINCIPLE
-|----------------------------|--------------|-------------------------------------------
-| Function Programming       | Math         | It transform data
-| OOP                        | The world    | It describe things and the relationships between them
-| Agent Oriented Programming | Human        | It actions like a human (AI)
+| PARADIGM                   | INSPIRATION | PRINCIPLE                                             |
+| -------------------------- | ----------- | ----------------------------------------------------- |
+| Function Programming       | Math        | It transform data                                     |
+| OOP                        | The world   | It describe things and the relationships between them |
+| Agent Oriented Programming | Human       | It actions like a human (AI)                          |
 
 ### Concepts
 
-| HUMAN       | AGENT FRAMEWORK   | DESCRIPTION
-|-------------|-------------------|-------------------------------------------------------------------------
-| People	    | Agent	            | A class decorate with @agent attribute
-| Action	    | Behavior          | Class method decorate with @action, @method or @behavior attribute
-| Belief	    | Memory            | Private class field decorated with @state, @remember, @memory attribute
-| Environment	| Domain            | A set of agents, components, services, artifacts
-| Autonomy	  | Activation        | Timer, scheduler which based on environment conditions
-| Sociality	  | Message           | Agent can communicate with other agent
-| Mobility	  | Mobile Agent      | An agent can move from domain to domain with their belief unchanged
+| HUMAN       | AGENT FRAMEWORK | DESCRIPTION                                                             |
+| ----------- | --------------- | ----------------------------------------------------------------------- |
+| People      | Agent           | A class decorate with @agent attribute                                  |
+| Action      | Behavior        | Class method decorate with @action, @method or @behavior attribute      |
+| Belief      | Memory          | Private class field decorated with @state, @remember, @memory attribute |
+| Environment | Domain          | A set of agents, components, services, artifacts                        |
+| Autonomy    | Activation      | Timer, scheduler which based on environment conditions                  |
+| Sociality   | Message         | Agent can communicate with other agent                                  |
+| Mobility    | Mobile Agent    | An agent can move from domain to domain with their belief unchanged     |
 
 ### Projects built on top of AgentFramework
 
@@ -37,6 +36,7 @@ Agent Framework for TypeScript 2.4+
 - [@agentframework/domain](https://github.com/agentframework/domain) **On demand** dependency injection framework [DEMO](https://github.com/agentframework/domain-example)
 
 ### What's this?
+
 - 100% TypeScript implementation! No dependencies!!!
 - A framework to build other frameworks (e.g. AOP/DI/ORM/Web framework)
 - Elegant design pattern to decorate your class with metadata, initializers and interceptors
@@ -44,7 +44,7 @@ Agent Framework for TypeScript 2.4+
 - Work in both node and browser
 - Very Fast (Compile class at 1st time you new/call it; as fast as native class starting from 2nd time)
 - Very Clean (Never touch your original class prototype, A on-demand compiled proxy will be generated on top of your class)
-- Very Small (Only 908 SLOC @ v0.9.5)
+- Very Small (Only 628 SLOC @ v1.0.0-rc13)
 
 ### Why use Agent Framework?
 
@@ -84,7 +84,6 @@ class Project {
 
 @agent()
 class Developer {
-
   @inject()
   project: Project;
 
@@ -92,7 +91,6 @@ class Developer {
     // EPIC: access the injected variable inside constructor
     console.log(`WOW! You working on project ${this.project.name}!`);
   }
-
 }
 
 // EPIC: create agent using new keyword without introduce IoC container
@@ -102,19 +100,17 @@ console.log('Is it create from the Developer class?', you instanceof Developer);
 // Results:
 // > WOW! You working on project Agent Framework!
 // > Is it create from the Developer class? true
-
 ```
 
 ### Show me more code
+
 Following is code snippet from a real project. Find out more on the coming agentframework.com
 
 ```typescript
-
 // controller
 
 @controller('/api')
 export class DemoController extends MyController {
-
   @singleton()
   apfs: ApfsService;
 
@@ -128,7 +124,10 @@ export class DemoController extends MyController {
   @admin()
   @method('GET', '/metadata')
   async metadata(ctx: MyContext) {
-    return this.apfs.load(ctx.domain, 'apfs:///Federation/Microsoft/ProfileImages/49945e60-887e-40a6-83d1-b77a5e0c2d47');
+    return this.apfs.load(
+      ctx.domain,
+      'apfs:///Federation/Microsoft/ProfileImages/49945e60-887e-40a6-83d1-b77a5e0c2d47'
+    );
   }
 
   /* this endpoint is only for authenticated users, other users will got http 401 error, because of @user on @middleware */
@@ -136,7 +135,6 @@ export class DemoController extends MyController {
   async profile(req: MyRequest, res: MyResponse) {
     return req.identity;
   }
-
 }
 
 // decorators
@@ -168,10 +166,10 @@ export class RoleAttribute implements IAttribute, IInterceptor {
     return target.invoke(parameters);
   }
 }
-
 ```
 
 ##### Explains
+
 - Method/Middleware name can be a Symbol
 - `ctx` is Koa like object, `req`,`res` is Express like objects. You can choose in between.
 - Lazy load everything! `ApfsService` will not been created if you only GET /api/profile
@@ -192,19 +190,20 @@ export class RoleAttribute implements IAttribute, IInterceptor {
 
 - [@success()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/success.spec.ts) Change the specified class property value when this method run success (without `throw`)
 
-- [@failure()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/failure.spec.ts)  Always return specified value if any `throw` happen in the intercepted method.
+- [@failure()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/failure.spec.ts) Always return specified value if any `throw` happen in the intercepted method.
 
-- [@timestamp()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/timestamp.spec.ts)  Update timestamp field after changes the field value
+- [@timestamp()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/timestamp.spec.ts) Update timestamp field after changes the field value
 
-- [@cache()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/cache.spec.ts)  Simple but useful memory cache implementation
+- [@cache()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/cache.spec.ts) Simple but useful memory cache implementation
 
-- [@inject()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/inject.spec.ts)  Dependence injection
+- [@inject()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/inject.spec.ts) Dependence injection
 
-- [@timestamp()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/timestamp.spec.ts)  Update timestamp field after changes the field value
+- [@timestamp()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/timestamp.spec.ts) Update timestamp field after changes the field value
 
-- [@cache()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/cache.spec.ts)  Simple but useful memory cache implementation
+- [@cache()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/cache.spec.ts) Simple but useful memory cache implementation
 
 **Advanced Examples (will be available after release 1.0)**
+
 - Calculate the execution time of methods
 - Check user group before the operations
 - Add log for request and response
@@ -213,7 +212,6 @@ export class RoleAttribute implements IAttribute, IInterceptor {
 - Create a ORM library
 - Prevent Mongodb injection
 - Create a scheduler
-
 
 ### Road to v1.0
 
@@ -248,13 +246,11 @@ export class RoleAttribute implements IAttribute, IInterceptor {
 - [ ] Satellite projects to build AgentFramework.com - Web Application Support
 - [ ] AgentFramework.com
 
-
 ### Concepts in Agent Framework
 
 - Attribute (associating declarative information with TypeScript code, e.g classes, methods and fields)
 - Reflection (access the associated declarative information from classes, method or fields)
 - Agent (A class which decorated with attributes)
-
 
 ### The Future of Agent Framework
 
@@ -263,6 +259,7 @@ It will be something between Function-a-a-S and Container-a-a-S.
 Let's call it Agent-a-a-S which implement **decentralized** agent sociality environment utilize the power of Edge Computing
 
 ### Package Info
+
 ```
 📦  agentframework@0.9.22
 === Tarball Contents ===
