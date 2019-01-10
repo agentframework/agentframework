@@ -31,5 +31,6 @@ export function decorateAgent(agentAttribute: AgentAttribute, attributes?: IAttr
       // run this pipeline to generate a new constructor for this giving type
       return CreateAgentInvocation(target, agentAttribute).invoke(arguments);
     }
+    return target;
   };
 }
