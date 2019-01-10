@@ -5,7 +5,6 @@ import { IInterceptor } from './IInterceptor';
  * Attribute
  */
 export interface IAttribute {
-
   /**
    * Get an initializer for current type
    */
@@ -23,7 +22,11 @@ export interface IAttribute {
    * @param {PropertyDescriptor} descriptor
    * @returns {boolean}
    */
-  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean;
+  beforeDecorate(
+    target: Object | Function,
+    targetKey?: string | symbol,
+    descriptor?: PropertyDescriptor | number
+  ): boolean;
 }
 
 export interface IInterceptorAttribute extends IAttribute {

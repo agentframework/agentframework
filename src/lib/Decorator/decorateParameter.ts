@@ -7,7 +7,7 @@ import { CanDecorate } from '../Compiler/Internal/Utils';
  */
 export function decorateParameter(attribute: IAttribute): ParameterDecorator {
   return (target: Object, propertyKey: string | symbol, parameterIndex: number): void => {
-    if (CanDecorate(attribute, target, propertyKey)) {
+    if (CanDecorate(attribute, target, propertyKey, parameterIndex)) {
       if (propertyKey == null) {
         // this is for constructor
         Reflector(target)

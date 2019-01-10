@@ -7,7 +7,7 @@ export function CanDecorate(
   attribute: IAttribute,
   target: Object | Function,
   targetKey?: string | symbol,
-  descriptor?: PropertyDescriptor
+  descriptor?: PropertyDescriptor | number
 ): boolean {
   if (!attribute) {
     return false;
