@@ -18,10 +18,11 @@ export class InterceptorFactory {
     newTarget: T,
     options: AgentAttribute,
     compiler: ICompiler,
-    params: Arguments
+    params: Arguments,
+    id: any
   ) {
     // search all attributes on this class constructor
-    const invocation = new ConstructInvocation(target, newTarget, options, compiler, params);
+    const invocation = new ConstructInvocation(target, newTarget, options, compiler, params, id);
     const interceptors = Reflector(target).getInterceptors();
     return InterceptorFactory.chainInterceptorAttributes(invocation, interceptors);
   }

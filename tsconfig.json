@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": ["es6"],
+    "lib": ["es6", "dom"],
     "composite": true,
     "declaration": true,
     "module": "commonjs",
