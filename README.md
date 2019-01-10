@@ -44,7 +44,7 @@
 - Work in both node and browser
 - Very Fast (Compile class at 1st time you new/call it; as fast as native class starting from 2nd time)
 - Very Clean (Never touch your original class prototype, A on-demand compiled proxy will be generated on top of your class)
-- Very Small (Only 628 SLOC @ v1.0.0-rc13)
+- Very Small (Only 628 SLOC and 4.3kb zipped @ v1.0.0-rc13)
 
 ### Why use Agent Framework?
 
