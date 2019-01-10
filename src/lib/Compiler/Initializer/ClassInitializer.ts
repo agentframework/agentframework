@@ -44,13 +44,7 @@ export class ClassInitializer implements IInitializer {
       'Reflect',
       targetName,
       'target',
-      [
-        `return class ${targetName}$ extends ${targetName} {`,
-        '  constructor() {',
-        `    return Reflect.construct(new.target, ()=>arguments, target);`,
-        '  }',
-        '};'
-      ].join('\r\n')
+      `return class ${targetName}$ extends ${targetName}{constructor(){return Reflect.construct(new.target,()=>arguments,target)}}`
     )(ClassInitializer, target, invocation.attribute); // this.prototype is not available here
     Agents.set(newTarget, target);
     return newTarget;
