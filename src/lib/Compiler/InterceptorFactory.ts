@@ -34,14 +34,18 @@ export class InterceptorFactory {
         method,
         params,
         invoke(parameters: ArrayLike<any>) {
-          const injectedParameters = Array.prototype.slice.call(parameters, 0);
-          for (const idx of this.params.keys()) {
-            const interceptor = this.params.get(idx);
-            if (interceptor) {
-              injectedParameters[idx] = interceptor.invoke([parameters[idx], idx, parameters]);
+          if (this.params.size) {
+            const params = Array.isArray(parameters) ? parameters : Array.prototype.slice.call(parameters, 0);
+            for (const idx of this.params.keys()) {
+              const interceptor = this.params.get(idx);
+              if (interceptor) {
+                params[idx] = interceptor.invoke([parameters[idx], idx, parameters]);
+              }
             }
+            return Reflect.apply(this.method, this.target, params);
+          } else {
+            return Reflect.apply(this.method, this.target, parameters);
           }
-          return Reflect.apply(this.method, this.target, injectedParameters);
         }
       } as IParameterizedInvocation;
     } else {

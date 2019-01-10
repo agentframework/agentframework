@@ -62,8 +62,8 @@ export class AgentCompiler implements ICompiler {
 
       // InceptionInvocation means at least one interceptor in the attributes
       // do nothing if no interceptor found
-      if (initialized instanceof InitializerInvocation || intercepted instanceof InterceptorInvocation) {
-        parameterInitializers.set(idx, initialized);
+      if (intercepted instanceof InitializerInvocation || intercepted instanceof InterceptorInvocation) {
+        parameterInitializers.set(idx, intercepted);
       }
       // else if (intercepted instanceof ParameterInvocation) {
       //   // do nothing
@@ -85,8 +85,6 @@ export class AgentCompiler implements ICompiler {
 
     for (const properties of layers) {
       for (const [, property] of properties) {
-        propertyInterceptors = new Map<PropertyKey, IInvocation>();
-
         const name = property.targetKey;
         const descriptor = property.descriptor;
 
@@ -99,7 +97,7 @@ export class AgentCompiler implements ICompiler {
           } else {
             throw new Error(
               `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-              `Interceptor not work with field property without Initializer`
+                `Interceptor not work with field property without Initializer`
             );
           }
         }
@@ -116,13 +114,12 @@ export class AgentCompiler implements ICompiler {
         // find all the attributes
         let interceptorAttributes = property.getInterceptors();
 
-        if (value) {
-          // call interceptors on value first
-          // then call interceptors on property
-          interceptorAttributes = property.value.getInterceptors().concat(interceptorAttributes);
-
+        if (value !== undefined) {
           /* istanbul ignore else  */
           if (typeof value === 'function') {
+            // call interceptors on value first
+            // then call interceptors on property
+            interceptorAttributes = property.value.getInterceptors().concat(interceptorAttributes);
             let parameters: Map<number, IInvocation> | undefined;
             if (property.value.hasParameterInterceptor() || property.value.hasParameterInitializer()) {
               parameters = this.compileParameters(property.value);
@@ -132,7 +129,7 @@ export class AgentCompiler implements ICompiler {
           } else {
             throw new Error(
               `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-              `Interceptor not work with non-function property`
+                `Interceptor not work with non-function property`
             );
           }
         }
@@ -153,10 +150,14 @@ export class AgentCompiler implements ICompiler {
           if (names.has(name)) {
             throw new Error(
               `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-              `Duplicate interceptor`
+                `Duplicate interceptor`
             );
           }
           names.add(name);
+
+          if (!propertyInterceptors) {
+            propertyInterceptors = new Map<PropertyKey, IInvocation>();
+          }
           propertyInterceptors.set(name, newDescriptor);
         }
       }
@@ -182,7 +183,7 @@ export class AgentCompiler implements ICompiler {
             // initializer is not for a method / getter / setter
             throw new Error(
               `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-              `Initializer not work with method / getter / setter`
+                `Initializer not work with method / getter / setter`
             );
           } else {
             let initializerAttributes = property.getInitializers();
@@ -210,7 +211,7 @@ export class AgentCompiler implements ICompiler {
               if (names.has(name)) {
                 throw new Error(
                   `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-                  `Duplicate initializer`
+                    `Duplicate initializer`
                 );
               }
               names.add(name);

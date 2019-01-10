@@ -1,7 +1,7 @@
 import { IInvocation } from '../Core/IInvocation';
+import { AgentAttribute } from '../Core/AgentAttribute';
 import { InitializerInvocation } from './Invocation/InitializerInvocation';
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
-import { AgentAttribute } from '../Core/AgentAttribute';
 import { AgentInvocation } from './Invocation/AgentInvocation';
 import { GetInitializer, GetInterceptor, HasInitializer, HasInterceptor } from './Internal/Utils';
 

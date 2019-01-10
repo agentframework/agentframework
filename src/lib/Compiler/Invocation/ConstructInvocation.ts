@@ -17,7 +17,7 @@ export class ConstructInvocation implements IInvocation {
     readonly _compiler: ICompiler,
     readonly _params: Arguments,
     readonly _id: any
-  ) {}
+  ) { }
 
   get compiledParameters(): Map<number, IInvocation> {
     const value = this._compiler.compileParameters(Reflector(this._target));

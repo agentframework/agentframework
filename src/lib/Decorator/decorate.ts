@@ -2,7 +2,6 @@ import { IAttribute } from '../Core/IAttribute';
 import { Reflector } from '../Core/Reflector';
 import { CanDecorate } from '../Compiler/Internal/Utils';
 
-
 export enum Target {
   Constructor = 1,
   ConstructorParameter = 2,
@@ -16,21 +15,15 @@ export enum Target {
 /**
  * This is universal decorator for all supported target
  */
-export type UniversalDecorator = <T extends Function>(
-  target: Object | T,
-  propertyKey?: string | symbol,
-  descriptor?: PropertyDescriptor | number
-) => T | void;
+export interface UniversalDecorator {
+  (target: Function | Object, targetKey?: string | symbol, descriptor?: number | PropertyDescriptor): any;
+}
 
 /**
  * Decorate attribute to the target
  */
 export function decorate(attribute: IAttribute, allows: Target): UniversalDecorator {
-  return <T extends Function>(
-    target: Object | T,
-    propertyKey: string | symbol,
-    descriptor?: PropertyDescriptor | number
-  ): void => {
+  return (target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor | number): any => {
     const attributeName = Reflect.getPrototypeOf(attribute).constructor.name;
     const isClass = typeof target === 'function';
     const descriptorType = typeof descriptor;
@@ -87,7 +80,7 @@ export function decorate(attribute: IAttribute, allows: Target): UniversalDecora
       }
     }
 
-    if (CanDecorate(attribute, target, propertyKey)) {
+    if (CanDecorate(attribute, target, targetKey)) {
       if (isClass) {
         if (descriptorType === 'number') {
           Reflector(target)
@@ -99,16 +92,16 @@ export function decorate(attribute: IAttribute, allows: Target): UniversalDecora
       } else {
         if (descriptorType === 'number') {
           Reflector(target)
-            .property(propertyKey)
+            .property(targetKey)
             .value.parameter(descriptor as number)
             .addAttribute(attribute);
         } else if (descriptorType === 'object') {
           Reflector(target)
-            .property(propertyKey, descriptor as PropertyDescriptor)
+            .property(targetKey, descriptor as PropertyDescriptor)
             .value.addAttribute(attribute);
         } else {
           Reflector(target)
-            .property(propertyKey)
+            .property(targetKey)
             .value.addAttribute(attribute);
         }
       }

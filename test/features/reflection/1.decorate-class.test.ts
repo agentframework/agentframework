@@ -1,17 +1,15 @@
-import { agent } from './agent';
-import { Agent } from './Core/Agent';
-import { IsAgent } from './Core/Cache';
-import { Reflector } from './Core/Reflector';
-import { AgentAttribute } from './Core/AgentAttribute';
+import { agent, Agent, AgentAttribute, IsAgent, Reflector } from '../../../src/lib';
 
 @agent()
 class MongoDB {
-  public connect(): boolean {
-    return true;
+  connection: any;
+
+  connect() {
+    return 'connected';
   }
 }
 
-describe('@agent', () => {
+describe('Decorate Class', () => {
   describe('# should able to', () => {
     it('detect agent', () => {
       expect(IsAgent(MongoDB)).toBe(true);
@@ -24,12 +22,13 @@ describe('@agent', () => {
     it('new instance', () => {
       const db = new MongoDB();
       expect(db instanceof MongoDB).toBe(true);
+      expect(Reflect.getPrototypeOf(db)).toBe(MongoDB.prototype);
     });
 
     it('construct instance', () => {
       const db = Reflect.construct(MongoDB, []);
-      expect(Reflect.getPrototypeOf(db)).toBe(MongoDB.prototype);
       expect(db instanceof MongoDB).toBe(true);
+      expect(Reflect.getPrototypeOf(db)).toBe(MongoDB.prototype);
     });
   });
 

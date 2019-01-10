@@ -28,9 +28,8 @@ export function decorateAgent(agentAttribute: AgentAttribute, attributes?: IAttr
     // the attributes to initialize agent constructor
     // current only support only one initializer, multiple interceptors
     if (CanDecorate(agentAttribute, target)) {
-      const invocation = CreateAgentInvocation(target, agentAttribute);
       // run this pipeline to generate a new constructor for this giving type
-      return invocation.invoke(arguments);
+      return CreateAgentInvocation(target, agentAttribute).invoke(arguments);
     }
   };
 }

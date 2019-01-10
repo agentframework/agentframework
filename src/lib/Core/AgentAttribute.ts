@@ -9,19 +9,7 @@ import { Resolve } from './Resolver/Resolve';
  */
 export class AgentAttribute implements IAttribute {
   beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
-    if (typeof target !== 'function') {
-      throw new TypeError('Unable to decorate agent for non-function type');
-    }
-
-    // throw TypeError if agent attribute already decorated
-    if (Agents.has(target)) {
-      const originalType = Agents.get(target);
-      if (originalType) {
-        throw new TypeError(`Unable to decorate multiple agent for class` + ` '${originalType.name}'`);
-      }
-    }
-
-    return true;
+    return !Agents.has(target);
   }
 
   get initializer(): IInitializer {

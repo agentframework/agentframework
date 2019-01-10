@@ -11,6 +11,7 @@
   "typings": "src/lib/index.ts",
   "scripts": {
     "start": "NODE_ENV=test node_modules/.bin/nodemon --config tools/testmon.json",
+    "dev": "node --require ts-node/register src/index.ts",
     "cov": "npm run test:coverage",
     "debug": "NODE_ENV=test node_modules/.bin/nodemon --config tools/debugmon.json",
     "test": "npm run lint && npm run test:build && npm run test:coverage",

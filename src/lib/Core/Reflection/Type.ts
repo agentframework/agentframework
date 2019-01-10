@@ -44,6 +44,7 @@ export class Type extends Method<Type> {
     if (key === 'design:paramtypes' && value && value.length) {
       const types = value as Array<any>;
       for (let idx = types.length - 1; idx >= 0; idx--) {
+       
         this.parameter(idx).addMetadata('design:type', types[idx]);
       }
     }
@@ -91,7 +92,7 @@ export class Type extends Method<Type> {
   }
 
   /**
-   * Returns a filtered array of Property objects.
+   * Returns a filtered array of Property objects for all layers.
    *
    * @param {PropertyFilter} filter
    * @param filterCriteria

@@ -112,6 +112,7 @@ export abstract class Member<P> {
    * @param value
    */
   addMetadata(key: string, value: any): void {
+    // console.log('add', key, '=', value);
     if (!this._metadata) {
       this._metadata = new Map<string, any>();
     }

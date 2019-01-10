@@ -5,27 +5,27 @@ import { IAttribute } from './Core/IAttribute';
 import { Resolve } from './Core/Resolver/Resolve';
 
 // ===========================================
-// ES2015 or before
+// ES5 or before
 // ===========================================
 /* istanbul ignore if  */
 if (typeof Reflect !== 'object') {
-  throw new Error('Agent Framework requires ES2016 support');
+  throw new Error('AgentFramework requires ES6 (ES2015) support');
 }
 
 const metadataFn = Reflect['metadata'];
 
 // ===========================================
-// ES2016 and before
+// ES6 and after
 // ===========================================
 if (typeof metadataFn !== 'function') {
   // Install Reflect.metadata for tsc only
   // tsc will add following code to the generated js file. in order to utilize these information.
-  // we create and method of Reflect.metadata to inject these information to Reflection object
+  // we create Reflect.metadata to capture these information and save to Reflection objects
   //     Reflect.metadata("design:type", Function),
   //     Reflect.metadata("design:paramtypes", []),
   //     Reflect.metadata("design:returntype", String)
-  Reflect['metadata'] = function (key: string, value: any) {
-    return function (target: Function | Object, property?: string | symbol, descriptor?: PropertyDescriptor): void {
+  Reflect['metadata'] = function(key: string, value: any) {
+    return function(target: Function | Object, property?: string | symbol, descriptor?: PropertyDescriptor): void {
       if (property) {
         Reflector(target)
           .property(property, descriptor)
@@ -39,11 +39,11 @@ if (typeof metadataFn !== 'function') {
   Reflect['metadata']['$AgentFramework'] = true;
 } else if (!metadataFn['$AgentFramework']) {
   // ========================================================================================
-  // ES2017, ES2018 and later - intercept Reflect.metadata because tsc generate 3 parameters
+  // ES.future - intercept Reflect.metadata because tsc generate 3 parameters
   // ========================================================================================
-  Reflect['metadata'] = function (key: string, value: any) {
+  Reflect['metadata'] = function(key: string, value: any) {
     const metadataDecorator = metadataFn(key, value);
-    return function (target: Function | Object, property?: string | symbol, descriptor?: PropertyDescriptor): void {
+    return function(target: Function | Object, property?: string | symbol, descriptor?: PropertyDescriptor): void {
       if (property) {
         Reflector(target)
           .property(property, descriptor)
