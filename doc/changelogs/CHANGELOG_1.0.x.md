@@ -1,6 +1,12 @@
 # Agent Framework 1.0.x ChangeLog
 
-## 2019-01-09, Version 1.0.0-rc.8 (Preview), @e2tox
+## 2019-01-10, Version 1.0.0-rc.9 (Preview), @e2tox
+
+**Notable Changes**
+
+- Fix Compiler bug
+
+## 2019-01-09, Version 1.0.0-rc.8, @e2tox
 
 **Notable Changes**
 
