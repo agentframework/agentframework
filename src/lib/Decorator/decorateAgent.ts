@@ -7,18 +7,18 @@ import { Reflector } from '../Core/Reflector';
 /**
  * Decorate an agent with customized initializer, interceptors and attributes
  *
- * @param {AgentAttribute} constructorAttribute
- * @param {IAttribute[]} instanceAttributes
+ * @param {AgentAttribute} options
+ * @param {IAttribute[]} attributes
  * @returns {ClassDecorator}
- */b
-export function decorateAgent(constructorAttribute: IAttribute, instanceAttributes?: IAttribute[]): ClassDecorator {
+ */
+export function decorateAgent(options: AgentAttribute, attributes?: IAttribute[]): ClassDecorator {
   // upgrade target constructor to agent
   // this method will be called
   return <T extends Function>(target: T): T | void => {
     // apply extra attributes
-    if (instanceAttributes && instanceAttributes.length) {
+    if (attributes && attributes.length) {
       const type = Reflector(target);
-      for (const attribute of instanceAttributes) {
+      for (const attribute of attributes) {
         if (CanDecorate(attribute, target)) {
           type.addAttribute(attribute);
         }
@@ -26,10 +26,10 @@ export function decorateAgent(constructorAttribute: IAttribute, instanceAttribut
     }
 
     // the attributes to initialize agent constructor
-    // current only support only one initializer, multiple interceptors
-    if (CanDecorate(constructorAttribute, target)) {
+    // current only support only one initializer, one interceptor
+    if (CanDecorate(options, target)) {
       // run this pipeline to generate a new constructor for this giving type
-      return CreateAgentInvocation(target, constructorAttribute).invoke(arguments);
+      return CreateAgentInvocation(target, options);
     }
     return target;
   };

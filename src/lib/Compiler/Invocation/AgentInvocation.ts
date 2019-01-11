@@ -1,15 +1,17 @@
 import { IInvocation } from '../../Core/IInvocation';
-import { IAttribute } from '../../Core/IAttribute';
 
 /**
  * @ignore
  * @hidden
  */
 export class AgentInvocation implements IInvocation {
-  constructor(readonly target: any, readonly attribute: IAttribute) {}
+  constructor(readonly target: any) {}
 
-  invoke(parameters: ArrayLike<any>): any {
-    // do nothing but return current type
-    return this.target;
+  invoke([name, code, target]): any {
+    // cheating v8 engine
+    if (name === this.target) {
+      return name;
+    }
+    return Reflect.construct(Function, [name, 'Reflect', `return ${code}`])(this.target, target);
   }
 }

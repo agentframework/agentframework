@@ -12,15 +12,9 @@ import { MethodInvocation, ParameterizedMethodInvocation } from './Invocation/Fu
  * @hidden
  */
 export class InterceptorFactory {
-  static createConstructor<T>(
-    target: T,
-    newTarget: T,
-    options: IAttribute,
-    params: Arguments,
-    id: any
-  ) {
+  static createConstructor<T>(target: T, newTarget: T, params: Arguments, id: any) {
     // search all attributes on this class constructor
-    const invocation = new ConstructInvocation(target, newTarget, options, params, id);
+    const invocation = new ConstructInvocation(target, newTarget, params, id);
     const interceptors = Reflector(target).getInterceptors();
     return InterceptorFactory.chainInterceptorAttributes(invocation, interceptors);
   }

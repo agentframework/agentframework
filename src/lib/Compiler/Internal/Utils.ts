@@ -3,12 +3,12 @@ import { IAttribute } from '../../Core/IAttribute';
 import { IInitializer } from '../../Core/IInitializer';
 
 export function CanDecorate(
-  attribute: IAttribute,
+  attr: IAttribute,
   target: Object | Function,
   targetKey?: string | symbol,
   descriptor?: PropertyDescriptor | number
 ): boolean {
-  return attribute.beforeDecorate(target, targetKey, descriptor);
+  return attr.beforeDecorate(target, targetKey, descriptor);
 }
 
 export function HasInterceptor(attribute: IAttribute): boolean {

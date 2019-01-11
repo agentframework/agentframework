@@ -1,33 +1,32 @@
-import { IInvocation } from '../Core/IInvocation';
 import { InitializerInvocation } from './Invocation/InitializerInvocation';
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { AgentInvocation } from './Invocation/AgentInvocation';
-import { GetInitializer, GetInterceptor, HasInitializer, HasInterceptor } from './Internal/Utils';
-import { IAttribute } from '../Core/IAttribute';
+import { GetInitializer, GetInterceptor } from './Internal/Utils';
+import { IInvocation } from '../Core/IInvocation';
+import { Agents } from '../Core/Cache';
+import { AgentAttribute } from '../Core/AgentAttribute';
 
 /**
  * Build Agent using AgentAttribute
  */
-export function CreateAgentInvocation(target: Function, attribute: IAttribute): IInvocation {
+export function CreateAgentInvocation<T>(target: Function, attribute: AgentAttribute): T {
   // chain the pipeline
   // custom interceptors -> agent interceptor -> agent initializer -> agent invocation
-  let invocation: IInvocation = new AgentInvocation(target, attribute);
+  let invocation: IInvocation = new AgentInvocation(target);
 
   // add agent initializer into pipeline
-  if (HasInitializer(attribute)) {
-    const initializer = GetInitializer(attribute);
-    if (initializer) {
-      invocation = new InitializerInvocation(invocation, initializer);
-    }
+  const initializer = GetInitializer(attribute);
+  if (initializer) {
+    invocation = new InitializerInvocation(invocation, initializer);
   }
 
   // add agent interceptor into pipeline
-  if (HasInterceptor(attribute)) {
-    const interceptor = GetInterceptor(attribute);
-    if (interceptor) {
-      invocation = new InterceptorInvocation(invocation, interceptor);
-    }
+  const interceptor = GetInterceptor(attribute);
+  if (interceptor) {
+    invocation = new InterceptorInvocation(invocation, interceptor);
   }
 
-  return invocation;
+  const newTarget = invocation.invoke<T>(arguments);
+  Agents.set(newTarget, target);
+  return newTarget;
 }

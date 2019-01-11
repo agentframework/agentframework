@@ -12,10 +12,9 @@ import { Arguments } from '../Core/Arguments';
 import { PropertyFilters } from '../Core/Reflection/PropertyFilters';
 import { Constructor } from '../Core/Constructor';
 import { Method } from '../Core/Reflection/Method';
-import { IAttribute } from '../Core/IAttribute';
 
 export class AgentCompiler implements ICompiler {
-  compile(target: any, agent: IAttribute, params: Arguments): any {
+  compile(target: any, params: Arguments): any {
     const names = new Set<PropertyKey>();
     let initializers: any, interceptors: any;
 

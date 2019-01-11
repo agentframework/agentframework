@@ -5,20 +5,13 @@ import { Arguments } from '../../Core/Arguments';
 import { Parameters } from '../Internal/Cache';
 import { Resolve } from '../../Core/Resolver/Resolve';
 import { AgentCompiler } from '../AgentCompiler';
-import { IAttribute } from '../../Core/IAttribute';
 
 /**
  * @ignore
  * @hidden
  */
 export class ConstructInvocation implements IInvocation {
-  constructor(
-    readonly _target: any,
-    readonly _newTarget: any,
-    readonly _options: IAttribute,
-    readonly _params: Arguments,
-    readonly _id: any
-  ) {}
+  constructor(readonly _target: any, readonly _newTarget: any, readonly _params: Arguments, readonly _id: any) {}
 
   get compiler(): ICompiler {
     return Resolve(AgentCompiler);
@@ -31,7 +24,7 @@ export class ConstructInvocation implements IInvocation {
   }
 
   get compiledTarget(): any {
-    const value = this.compiler.compile(this._newTarget, this._options, this._params);
+    const value = this.compiler.compile(this._newTarget, this._params);
     Reflect.defineProperty(this, 'compiledTarget', { value });
     return value;
   }

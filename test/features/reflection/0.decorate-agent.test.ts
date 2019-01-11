@@ -1,18 +1,18 @@
 import { Agent, AgentAttribute, IsAgent, Reflector, decorateAgent, UniversalDecorator } from '../../../src/lib';
 
-class FakeAgentAttribute extends AgentAttribute {
+class BadAgentAttribute extends AgentAttribute {
   get initializer() {
     return <any>1;
   }
 }
 
-class FakeAgentAttribute2 extends AgentAttribute {
+class BadAgentAttribute2 extends AgentAttribute {
   get initializer() {
     return undefined;
   }
 }
 
-@decorateAgent(new FakeAgentAttribute())
+@decorateAgent(new BadAgentAttribute())
 class MongoDB {
   constructor() {}
 
@@ -23,7 +23,7 @@ class MongoDB {
   }
 }
 
-@decorateAgent(new FakeAgentAttribute2())
+@decorateAgent(new BadAgentAttribute2())
 class MongoDB2 {
   constructor() {}
 
@@ -40,7 +40,7 @@ describe('Decorate Agent', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(Agent(MongoDB, new FakeAgentAttribute())).toBe(MongoDB);
+      expect(Agent(MongoDB, new BadAgentAttribute())).toBe(MongoDB);
     });
 
     it('new instance', () => {
@@ -62,7 +62,7 @@ describe('Decorate Agent', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(Agent(MongoDB2, new FakeAgentAttribute())).toBe(MongoDB2);
+      expect(Agent(MongoDB2, new BadAgentAttribute())).toBe(MongoDB2);
     });
 
     it('new instance', () => {
