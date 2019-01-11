@@ -19,12 +19,13 @@ export class AgentCompiler implements ICompiler {
     const names = new Set<PropertyKey>();
     let initializers: any, interceptors: any;
 
+    
     // field property initializer
     initializers = this.makePropertyInitializers(target, names);
 
     // do Interceptor
     interceptors = this.makePropertyInterceptors(target, names);
-
+  
     let CompiledAgent;
 
     if (initializers || interceptors) {

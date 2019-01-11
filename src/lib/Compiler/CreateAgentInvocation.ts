@@ -1,14 +1,14 @@
 import { IInvocation } from '../Core/IInvocation';
-import { AgentAttribute } from '../Core/AgentAttribute';
 import { InitializerInvocation } from './Invocation/InitializerInvocation';
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { AgentInvocation } from './Invocation/AgentInvocation';
 import { GetInitializer, GetInterceptor, HasInitializer, HasInterceptor } from './Internal/Utils';
+import { IAttribute } from '../Core/IAttribute';
 
 /**
  * Build Agent using AgentAttribute
  */
-export function CreateAgentInvocation(target: Function, attribute: AgentAttribute): IInvocation {
+export function CreateAgentInvocation(target: Function, attribute: IAttribute): IInvocation {
   // chain the pipeline
   // custom interceptors -> agent interceptor -> agent initializer -> agent invocation
   let invocation: IInvocation = new AgentInvocation(target, attribute);

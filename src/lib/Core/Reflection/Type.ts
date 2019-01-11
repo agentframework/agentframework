@@ -44,7 +44,6 @@ export class Type extends Method<Type> {
     if (key === 'design:paramtypes' && value && value.length) {
       const types = value as Array<any>;
       for (let idx = types.length - 1; idx >= 0; idx--) {
-       
         this.parameter(idx).addMetadata('design:type', types[idx]);
       }
     }
@@ -115,11 +114,13 @@ export class Type extends Method<Type> {
         Instances.set(proto, type);
       }
       const properties = new Map<PropertyKey, Property<Type>>();
-      layers.push(properties);
       for (const [key, property] of type._properties.entries()) {
         if (filter(property, filterCriteria)) {
           properties.set(key, property);
         }
+      }
+      if (properties.size) {
+        layers.push(properties);
       }
     }
 

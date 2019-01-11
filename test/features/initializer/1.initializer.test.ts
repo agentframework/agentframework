@@ -44,6 +44,7 @@ describe('Initializer', () => {
     });
 
     it('get injected value', () => {
+      Connection.count = 0;
       const db = new MongoDB();
       expect(db).toBeTruthy();
       expect(Connection.count).toBe(0);
@@ -56,6 +57,17 @@ describe('Initializer', () => {
       expect(db.connection.state).toBe('offline');
       expect(Reflect.getPrototypeOf(conn)).toBe(Connection.prototype);
       expect(conn instanceof Connection).toBe(true);
+    });
+
+    it('edit injected value', () => {
+      Connection.count = 0;
+      const db = new MongoDB();
+      expect(db).toBeTruthy();
+      expect(Connection.count).toBe(0);
+      const newConn = Object.create(null);
+      db.connection = newConn;
+      expect(db.connection).toBe(newConn);
+      expect(Connection.count).toBe(0);
     });
   });
 
