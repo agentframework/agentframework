@@ -8,6 +8,7 @@ import { AgentClassName } from '../Internal/Constants';
 
 export class LazyClassInitializer implements IInitializer {
   readonly target: any = function(args: ArrayLike<any>): ArrayLike<any> {
+    // console.log('read', args);
     return Parameters.has(args) ? Parameters.get(args) : args;
   };
 
@@ -30,7 +31,7 @@ export class LazyClassInitializer implements IInitializer {
 
   public initialize(target: IInvocation, parameters: ArrayLike<any>): any {
     const name = target.target.name || AgentClassName;
-    const code = `class ${name}$ extends ${name}{constructor(){return Reflect.construct(new.target,arguments,${name},()=>Reflect(arguments))}}`;
+    const code = `class ${name}$ extends ${name}{constructor(){const a=arguments;return Reflect.construct(new.target,a,${name},()=>Reflect(a))}}`;
     return target.invoke([name, code, this.target]);
   }
 }

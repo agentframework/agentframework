@@ -1,4 +1,4 @@
-import { IInitializer, IInitializerAttribute, IInvocation, Parameter } from '../../../src/lib';
+import { IInitializer, IInitializerAttribute, IInvocation } from '../../../src/lib';
 
 export class InjectAttribute implements IInitializerAttribute, IInitializer {
   beforeDecorate(
@@ -14,6 +14,6 @@ export class InjectAttribute implements IInitializerAttribute, IInitializer {
   }
 
   initialize(target: IInvocation, parameters: ArrayLike<any>): any {
-    return Reflect.construct(target.design!.type, [target.invoke(parameters), target.target, target.design]);
+    return Reflect.construct(target.design!.type, parameters);
   }
 }

@@ -34,13 +34,15 @@ export class ConstructInvocation implements IInvocation {
   }
 
   invoke(parameters: ArrayLike<any>) {
-    const params = this.compiledParameters;
     let args;
+    const params = this.compiledParameters;
     if (params.size) {
       args = Array.isArray(parameters) ? parameters : Array.prototype.slice.call(parameters, 0);
       for (const [idx, interceptor] of params.entries()) {
-        args[idx] = interceptor.invoke([parameters[idx], idx, args]);
+        // console.log('int', [parameters[idx], idx, parameters])
+        args[idx] = interceptor.invoke([parameters[idx], idx, parameters]);
       }
+      // console.log('set', this._args, args.length);
       Parameters.set(this._args, args);
     } else {
       args = parameters;

@@ -19,8 +19,19 @@ class Connection {
   state = 'offline';
 }
 
+class Database {
+  constructor() {
+    console.log('Database(', arguments, ')');
+    Database.count++;
+  }
+  static count = 0;
+  state = 'offline';
+}
+
 @agent()
 class MongoDB {
+  @decorateClassField(new InjectAttribute())
+  database: Database;
   connection: Connection;
   user: string;
   constructor(user: string, @decorateParameter(new InjectAttribute()) conn?: Connection) {
@@ -49,6 +60,14 @@ describe('Initializer for Constructor Parameter', () => {
       expect(db.connection).toBeTruthy();
       expect(db.connection instanceof Connection).toBeTruthy();
       expect(Connection.count).toBe(1);
+    });
+
+    it('create with injected database', () => {
+      expect(Database.count).toBe(0);
+      const db = new MongoDB('test', <any>'default');
+      expect(db.database).toBeTruthy();
+      expect(db.database instanceof Database).toBeTruthy();
+      expect(Database.count).toBe(1);
     });
   });
 });

@@ -21,8 +21,8 @@ export class InitializerFactory {
     return this.chainInitializerAttributes(invocation, attributes);
   }
 
-  static createParameterInitializer(attributes: Array<IAttribute>, defaultValue: any, design: any): IInvocation {
-    const invocation = new ParameterInvocation(defaultValue, design);
+  static createParameterInitializer(attributes: Array<IAttribute>, target: any, design: any): IInvocation {
+    const invocation = new ParameterInvocation(target, design);
     return this.chainInitializerAttributes(invocation, attributes);
   }
 
