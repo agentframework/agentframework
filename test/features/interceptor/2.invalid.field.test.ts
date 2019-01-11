@@ -1,19 +1,28 @@
-import { Agent, decorateClassField, IsAgent } from '../../../src/lib';
+import { Agent, decorateClassField, IsAgent, Reflector } from '../../../src/lib';
 import { RoundAttribute } from '../attributes/RoundAttribute';
 
 class Calculator {
   @decorateClassField(new RoundAttribute())
-  round: number;
+  RoundOnField: number;
 }
+
+Reflect.defineProperty(Calculator.prototype, 'RoundOnField', {
+  value: 1
+});
 
 describe('Interceptor on Field', () => {
   describe('# should able to', () => {
     it('define agent', () => {
       expect(IsAgent(Calculator)).toBe(false);
+      expect(Agent(Calculator)).toBeTruthy();
     });
 
     it('re-upgrade agent', () => {
-      expect(Agent(Calculator)).toBeTruthy();
+      expect(
+        Reflector(Calculator)
+          .property('RoundOnField')
+          .value.getAttributes(RoundAttribute).length
+      ).toBe(1);
     });
   });
 

@@ -8,7 +8,6 @@ import { IInvocation } from '../../Core/IInvocation';
 import { AgentCompiler } from '../AgentCompiler';
 import { Agents } from '../../Core/Cache';
 import { Resolve } from '../../Core/Resolver/Resolve';
-import { Reflector } from '../../Core/Reflector';
 import { Parameters } from '../Parameters';
 
 /**

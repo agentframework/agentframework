@@ -5,7 +5,7 @@ import { IInvocation } from '../../Core/IInvocation';
  * @hidden
  */
 export class ValueInvocation implements IInvocation {
-  constructor(private _target: any, private _propertyKey: PropertyKey, private _design: any) { }
+  constructor(private _target: any, private _propertyKey: PropertyKey, private _design: any) {}
 
   get design(): any {
     return this._design;
@@ -16,6 +16,8 @@ export class ValueInvocation implements IInvocation {
   }
 
   invoke(parameters: ArrayLike<any>): any {
-    return Reflect.get(this._target, this._propertyKey);
+    // how to know the value of a field before you create that class
+    // return the value from prototype is a good choose? NO, it may cause infinite loops
+    return undefined;
   }
 }

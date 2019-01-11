@@ -1,6 +1,6 @@
 import { IInterceptor, IInterceptorAttribute } from '../../../src/lib';
 
-export class AgentBadInterceptorAttribute implements IInterceptorAttribute {
+export class BadRoundAttribute implements IInterceptorAttribute {
   beforeDecorate(
     target: Object | Function,
     targetKey?: string | symbol,
@@ -9,7 +9,7 @@ export class AgentBadInterceptorAttribute implements IInterceptorAttribute {
     return true;
   }
 
-  public get interceptor(): IInterceptor {
+  get interceptor(): IInterceptor {
     return <any>1;
   }
 }

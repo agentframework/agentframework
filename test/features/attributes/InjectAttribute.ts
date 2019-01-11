@@ -14,10 +14,6 @@ export class InjectAttribute implements IInitializerAttribute, IInitializer {
   }
 
   initialize(target: IInvocation, parameters: ArrayLike<any>): any {
-    const a = target.invoke(parameters);
-    console.log(a === undefined);
-    console.log('design', typeof target.design);
-    let type;
-    return Reflect.construct(target.design!.type, [target.target, target.design]);
+    return Reflect.construct(target.design!.type, [target.invoke(parameters), target.target, target.design]);
   }
 }

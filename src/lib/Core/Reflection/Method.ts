@@ -1,6 +1,6 @@
 import { Member } from './Member';
 import { Parameter } from './Parameter';
-import { IsNumber } from '../Utils';
+import { IsNumber } from '../Internal/Utils';
 
 /**
  * Method

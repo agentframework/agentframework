@@ -1,12 +1,35 @@
-import { agent, Agent, AgentAttribute, decorateClassField, IsAgent, Reflector } from '../../../src/lib';
+import {
+  agent,
+  Agent,
+  AgentAttribute,
+  decorateClassField,
+  decorateClassMember,
+  IsAgent,
+  Reflector
+} from '../../../src/lib';
 import { RandomAttribute } from '../attributes/RandomAttribute';
 import { RoundAttribute } from '../attributes/RoundAttribute';
 
 @agent()
 class MongoDB {
+  _age: number;
+
   @decorateClassField(new RandomAttribute())
   @decorateClassField(new RoundAttribute())
   version: number;
+
+  @decorateClassMember(new RoundAttribute())
+  get score(): number {
+    return 1.4;
+  }
+
+  @decorateClassMember(new RoundAttribute())
+  set age(val: number) {
+    this._age = val;
+  }
+  get age(): number {
+    return this._age;
+  }
 }
 
 describe('Initializer and Interceptor', () => {
@@ -47,10 +70,13 @@ describe('Initializer and Interceptor', () => {
     it('get injected value', () => {
       const db = new MongoDB();
       expect(db).toBeTruthy();
-      console.log('v', db.version);
-      // expect(db.version).toBe('offline');
-      // expect(Reflect.getPrototypeOf(conn)).toBe(Connection.prototype);
-      // expect(conn instanceof Connection).toBe(true);
+      expect(db.version).toBeTruthy();
+    });
+
+    it('get intercepted value', () => {
+      const db = new MongoDB();
+      db.age = 3.4;
+      expect(db.age).toBe(3);
     });
   });
 

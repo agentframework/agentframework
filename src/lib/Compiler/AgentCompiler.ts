@@ -19,13 +19,12 @@ export class AgentCompiler implements ICompiler {
     const names = new Set<PropertyKey>();
     let initializers: any, interceptors: any;
 
-    
     // field property initializer
     initializers = this.makePropertyInitializers(target, names);
 
     // do Interceptor
     interceptors = this.makePropertyInterceptors(target, names);
-  
+
     let CompiledAgent;
 
     if (initializers || interceptors) {
@@ -103,8 +102,6 @@ export class AgentCompiler implements ICompiler {
           }
         }
 
-        let modified = false;
-
         // refer to the origin descriptor
         const newDescriptor = Object.create(descriptor);
 
@@ -115,52 +112,36 @@ export class AgentCompiler implements ICompiler {
         // find all the attributes
         let interceptorAttributes = property.getInterceptors();
 
-        if (value !== undefined) {
-          /* istanbul ignore else  */
-          if (typeof value === 'function') {
-            // call interceptors on value first
-            // then call interceptors on property
-            interceptorAttributes = property.value.getInterceptors().concat(interceptorAttributes);
-            let parameters: Map<number, IInvocation> | undefined;
-            if (property.value.hasParameterInterceptor() || property.value.hasParameterInitializer()) {
-              parameters = this.compileParameters(property.value);
-            }
-            newDescriptor.value = InterceptorFactory.createFunction(interceptorAttributes, value, parameters);
-            modified = true;
-          } else {
-            throw new Error(
-              `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-                `Interceptor not work with non-function property`
-            );
-          }
-        }
-
         if (typeof getter === 'function') {
           interceptorAttributes = property.getter.getInterceptors().concat(interceptorAttributes);
-          newDescriptor.get = InterceptorFactory.createFunction(interceptorAttributes, getter);
-          modified = true;
+          newDescriptor.get = InterceptorFactory.createFunction(interceptorAttributes, getter, property.getter);
         }
-
         if (typeof setter === 'function') {
           interceptorAttributes = property.setter.getInterceptors().concat(interceptorAttributes);
-          newDescriptor.set = InterceptorFactory.createFunction(interceptorAttributes, setter);
-          modified = true;
+          newDescriptor.set = InterceptorFactory.createFunction(interceptorAttributes, setter, property.setter);
+        }
+        if (typeof value === 'function') {
+          // call interceptors on value first
+          // then call interceptors on property
+          interceptorAttributes = property.value.getInterceptors().concat(interceptorAttributes);
+          let parameters: Map<number, IInvocation> | undefined;
+          if (property.value.hasParameterInterceptor() || property.value.hasParameterInitializer()) {
+            parameters = this.compileParameters(property.value);
+          }
+          newDescriptor.value = InterceptorFactory.createFunction(interceptorAttributes, value, property.value, parameters);
         }
 
-        if (modified) {
-          if (names.has(name)) {
-            throw new Error(
-              `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-                `Duplicate interceptor`
-            );
-          }
-          names.add(name);
-
-          if (!propertyInterceptors) {
-            propertyInterceptors = new Map<PropertyKey, IInvocation>();
-          }
-          propertyInterceptors.set(name, newDescriptor);
+        if (names.has(name)) {
+          throw new Error(
+            `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
+              `Duplicate interceptor`
+          );
         }
+        names.add(name);
+        if (!propertyInterceptors) {
+          propertyInterceptors = new Map<PropertyKey, IInvocation>();
+        }
+        propertyInterceptors.set(name, newDescriptor);
       }
     }
 

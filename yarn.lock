@@ -514,9 +514,9 @@ copy-descriptor@^0.1.0:
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
 core-js@^2.4.0:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.1.tgz#87416ae817de957a3f249b3b5ca475d4aaed6042"
-  integrity sha512-L72mmmEayPJBejKIWe2pYtGis5r0tQ5NaJekdhyXgeMQTpJoBsH0NL4ElY2LfSoV15xeQWKQ+XTTOZdyero5Xg==
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.2.tgz#267988d7268323b349e20b4588211655f0e83944"
+  integrity sha512-NdBPF/RVwPW6jr0NCILuyN9RiqLo2b1mddWHkUL+VnvcB7dzlnBJ1bXYntjpTGOgkZiiLWj2JxmOr7eGE3qK6g==
 
 core-util-is@~1.0.0:
   version "1.0.2"
@@ -1434,9 +1434,9 @@ jasmine@3.2.0:
     jasmine-core "~3.2.0"
 
 jest-worker@^24.0.0-alpha.9:
-  version "24.0.0-alpha.10"
-  resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-24.0.0-alpha.10.tgz#046702c758ae3214cd279e602055a26b066122be"
-  integrity sha512-oU+4FRtzBkHzU1aQSYuUJMaP3QNN1nsDH/nQ2EgKduVPOKz5rdOrTfnyPdr/r/q70iAJRmrnaSvlfnEWgWXoiQ==
+  version "24.0.0-alpha.11"
+  resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-24.0.0-alpha.11.tgz#3cae89bb8ffcd52a2859164bbd8697fcc160456d"
+  integrity sha512-5rfc/oIw0WrUd5ur7vbmW38R8rRnv+eQ3t8ubyJGgKBXJ3sk9OMP0bC+AdsLjZCNEoNblnrS8kCBztGNRpitHQ==
   dependencies:
     merge-stream "^1.0.1"
     supports-color "^5.5.0"
@@ -2556,9 +2556,9 @@ tslib@1.9.3, tslib@^1.8.0, tslib@^1.8.1:
   integrity sha512-4krF8scpejhaOgqzBEcGM7yDIEfi0/8+8zDRZhNZZ2kjmHJ4hv3zCbQWxoJGz1iw5U0Jl0nma13xzHXcncMavQ==
 
 tslint@^5.9.1:
-  version "5.12.0"
-  resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.12.0.tgz#47f2dba291ed3d580752d109866fb640768fca36"
-  integrity sha512-CKEcH1MHUBhoV43SA/Jmy1l24HJJgI0eyLbBNSRyFlsQvb9v6Zdq+Nz2vEOH00nC5SUx4SneJ59PZUS/ARcokQ==
+  version "5.12.1"
+  resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.12.1.tgz#8cec9d454cf8a1de9b0a26d7bdbad6de362e52c1"
+  integrity sha512-sfodBHOucFg6egff8d1BvuofoOQ/nOeYNfbp7LDlKBcLNrL3lmS5zoiDGyOMdT7YsEXAwWpTdAHwOGOc8eRZAw==
   dependencies:
     babel-code-frame "^6.22.0"
     builtin-modules "^1.1.1"

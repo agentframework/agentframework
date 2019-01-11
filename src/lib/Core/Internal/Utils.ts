@@ -1,10 +1,7 @@
-export function IsFunction(x: any): boolean {
-  return typeof x === 'function';
-}
-
 export function IsNumber(x: any): boolean {
   return typeof x === 'number' && !isNaN(x);
 }
+
 //
 //
 // export function IsEqual(x: any, y: any): boolean {

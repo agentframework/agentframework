@@ -17,7 +17,7 @@ export class ConstructInvocation implements IInvocation {
     readonly _compiler: ICompiler,
     readonly _params: Arguments,
     readonly _id: any
-  ) { }
+  ) {}
 
   get compiledParameters(): Map<number, IInvocation> {
     const value = this._compiler.compileParameters(Reflector(this._target));
@@ -31,22 +31,22 @@ export class ConstructInvocation implements IInvocation {
     return value;
   }
 
-  invoke(params: ArrayLike<any>) {
-    const parameters = this.compiledParameters;
+  get target() {
+    return this._target;
+  }
+
+  invoke(parameters: ArrayLike<any>) {
+    const params = this.compiledParameters;
     let args;
-    if (parameters.size) {
-      args = Array.prototype.slice.call(params, 0);
-      for (const idx of parameters.keys()) {
-        const param = parameters.get(idx);
-        if (param) {
-          args[idx] = param.invoke([params[idx]]);
-        }
+    if (params.size) {
+      args = Array.isArray(parameters) ? parameters : Array.prototype.slice.call(parameters, 0);
+      for (const [idx, interceptor] of params.entries()) {
+        args[idx] = interceptor.invoke([parameters[idx], idx, args]);
       }
     } else {
-      args = params;
+      args = parameters;
     }
     Parameters.set(this._id, args);
-    // Update parameters for this instance
     return Reflect.construct(this._target, args, this.compiledTarget);
   }
 }

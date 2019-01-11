@@ -1,5 +1,4 @@
 import { Method } from './Method';
-import { IsFunction } from '../Utils';
 import { AgentFeatures, hasFeature } from '../AgentFeatures';
 import { Member } from './Member';
 
@@ -18,7 +17,7 @@ export class Property<P> extends Member<P> {
   get value(): Method<Property<P>> {
     let maxFunctionParameters = 0,
       _descriptor = this._descriptor; // field don't have parameter
-    if (_descriptor && _descriptor.value && IsFunction(_descriptor.value)) {
+    if (_descriptor && _descriptor.value && 'function' === typeof _descriptor.value) {
       maxFunctionParameters = _descriptor.value.length;
     }
     const value = new Method(this, maxFunctionParameters);

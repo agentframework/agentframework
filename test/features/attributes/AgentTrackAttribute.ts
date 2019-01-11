@@ -10,7 +10,6 @@ export class AgentTrackAttribute implements IInterceptorAttribute, IInterceptor 
   }
 
   public intercept(target: IInvocation, parameters: ArrayLike<any>): any {
-    console.log('agent created');
     return target.invoke(parameters);
   }
 
