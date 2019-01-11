@@ -10,7 +10,7 @@ import { Reflector } from '../Core/Reflector';
  * @param {AgentAttribute} constructorAttribute
  * @param {IAttribute[]} instanceAttributes
  * @returns {ClassDecorator}
- */
+ */b
 export function decorateAgent(constructorAttribute: IAttribute, instanceAttributes?: IAttribute[]): ClassDecorator {
   // upgrade target constructor to agent
   // this method will be called

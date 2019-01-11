@@ -1,12 +1,10 @@
 import { IInvocation } from '../Core/IInvocation';
 import { IAttribute } from '../Core/IAttribute';
-import { GetInterceptor, HasInterceptor } from './Internal/Utils';
+import { GetInterceptor } from './Internal/Utils';
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { ConstructInvocation } from './Invocation/ConstructInvocation';
-import { AgentAttribute } from '../Core/AgentAttribute';
 import { Arguments } from '../Core/Arguments';
 import { Reflector } from '../Core/Reflector';
-import { ICompiler } from '../Core/ICompiler';
 import { MethodInvocation, ParameterizedMethodInvocation } from './Invocation/FunctionInvocation';
 
 /**
@@ -17,13 +15,12 @@ export class InterceptorFactory {
   static createConstructor<T>(
     target: T,
     newTarget: T,
-    options: AgentAttribute,
-    compiler: ICompiler,
+    options: IAttribute,
     params: Arguments,
     id: any
   ) {
     // search all attributes on this class constructor
-    const invocation = new ConstructInvocation(target, newTarget, options, compiler, params, id);
+    const invocation = new ConstructInvocation(target, newTarget, options, params, id);
     const interceptors = Reflector(target).getInterceptors();
     return InterceptorFactory.chainInterceptorAttributes(invocation, interceptors);
   }

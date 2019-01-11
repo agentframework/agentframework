@@ -1,9 +1,11 @@
 import { IInvocation } from '../../Core/IInvocation';
-import { AgentAttribute } from '../../Core/AgentAttribute';
 import { Reflector } from '../../Core/Reflector';
 import { ICompiler } from '../../Core/ICompiler';
 import { Arguments } from '../../Core/Arguments';
-import { Parameters } from '../Parameters';
+import { Parameters } from '../Internal/Cache';
+import { Resolve } from '../../Core/Resolver/Resolve';
+import { AgentCompiler } from '../AgentCompiler';
+import { IAttribute } from '../../Core/IAttribute';
 
 /**
  * @ignore
@@ -13,20 +15,23 @@ export class ConstructInvocation implements IInvocation {
   constructor(
     readonly _target: any,
     readonly _newTarget: any,
-    readonly _options: AgentAttribute,
-    readonly _compiler: ICompiler,
+    readonly _options: IAttribute,
     readonly _params: Arguments,
     readonly _id: any
   ) {}
 
+  get compiler(): ICompiler {
+    return Resolve(AgentCompiler);
+  }
+
   get compiledParameters(): Map<number, IInvocation> {
-    const value = this._compiler.compileParameters(Reflector(this._target));
+    const value = this.compiler.compileParameters(Reflector(this._target));
     Reflect.defineProperty(this, 'compiledParameters', { value });
     return value;
   }
 
   get compiledTarget(): any {
-    const value = this._compiler.compile(this._newTarget, this._options, this._params);
+    const value = this.compiler.compile(this._newTarget, this._options, this._params);
     Reflect.defineProperty(this, 'compiledTarget', { value });
     return value;
   }
