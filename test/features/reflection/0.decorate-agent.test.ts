@@ -24,7 +24,7 @@ class MongoDB {
 }
 
 @decorateAgent(new BadAgentAttribute2())
-class MongoDB2 {
+class MySQL {
   constructor() {}
 
   connection: any;
@@ -33,6 +33,11 @@ class MongoDB2 {
     return 'connected';
   }
 }
+
+const Redis = (function() {
+  return class {};
+})();
+
 describe('Decorate Agent', () => {
   describe('# MongoDB should able to', () => {
     it('detect agent', () => {
@@ -49,6 +54,11 @@ describe('Decorate Agent', () => {
       expect(Reflect.getPrototypeOf(db)).toBe(MongoDB.prototype);
     });
 
+    it('new instance without name', () => {
+      const Redis$ = Agent(Redis);
+      expect(Redis$.name).toBe('Agent$');
+    });
+
     it('construct instance', () => {
       const db = Reflect.construct(MongoDB, []);
       expect(db instanceof MongoDB).toBe(true);
@@ -58,29 +68,29 @@ describe('Decorate Agent', () => {
 
   describe('# MongoDB2 should able to', () => {
     it('detect agent', () => {
-      expect(IsAgent(MongoDB2)).toBe(false);
+      expect(IsAgent(MySQL)).toBe(false);
     });
 
     it('re-upgrade agent', () => {
-      expect(Agent(MongoDB2, new BadAgentAttribute())).toBe(MongoDB2);
+      expect(Agent(MySQL, new BadAgentAttribute())).toBe(MySQL);
     });
 
     it('new instance', () => {
-      const db = new MongoDB2();
-      expect(db instanceof MongoDB2).toBe(true);
-      expect(Reflect.getPrototypeOf(db)).toBe(MongoDB2.prototype);
+      const db = new MySQL();
+      expect(db instanceof MySQL).toBe(true);
+      expect(Reflect.getPrototypeOf(db)).toBe(MySQL.prototype);
     });
 
     it('construct instance', () => {
-      const db = Reflect.construct(MongoDB2, []);
-      expect(db instanceof MongoDB2).toBe(true);
-      expect(Reflect.getPrototypeOf(db)).toBe(MongoDB2.prototype);
+      const db = Reflect.construct(MySQL, []);
+      expect(db instanceof MySQL).toBe(true);
+      expect(Reflect.getPrototypeOf(db)).toBe(MySQL.prototype);
     });
   });
 
   describe('# should not able to', () => {
     it('get agent attribute', () => {
-      const items = Reflector(MongoDB2).getAttributes(AgentAttribute);
+      const items = Reflector(MySQL).getAttributes(AgentAttribute);
       expect(items.length).toBe(0);
     });
   });

@@ -1,6 +1,5 @@
 import { IInvocation } from '../Core/IInvocation';
 import { IAttribute } from '../Core/IAttribute';
-import { GetInterceptor } from './Internal/Utils';
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { ConstructInvocation } from './Invocation/ConstructInvocation';
 import { Arguments } from '../Core/Arguments';
@@ -12,9 +11,9 @@ import { MethodInvocation, ParameterizedMethodInvocation } from './Invocation/Fu
  * @hidden
  */
 export class InterceptorFactory {
-  static createConstructor<T>(target: T, newTarget: T, params: Arguments, id: any) {
+  static createConstructor<T>(newTarget: T, args: ArrayLike<any>, target: T, params: Arguments) {
     // search all attributes on this class constructor
-    const invocation = new ConstructInvocation(target, newTarget, params, id);
+    const invocation = new ConstructInvocation(newTarget, args, target, params);
     const interceptors = Reflector(target).getInterceptors();
     return InterceptorFactory.chainInterceptorAttributes(invocation, interceptors);
   }
@@ -25,18 +24,20 @@ export class InterceptorFactory {
     design: any,
     params?: Map<number, IInvocation>
   ): Function {
-    let origin: IInvocation;
+    let origin: IInvocation, factory: Function;
     if (params && params.size) {
       origin = new ParameterizedMethodInvocation(method, design, params);
+      factory = new Function('c', `return function ${method.name}(){return c.target=this,c.invoke(arguments)}`);
     } else {
       origin = new MethodInvocation(method, design);
+      factory = new Function('c', `return function(){return c.target=this,c.invoke(arguments)}`);
     }
     const chain = InterceptorFactory.chainInterceptorAttributes(origin, attributes);
-    if (chain instanceof InterceptorInvocation || (params && params.size)) {
-      return Function('c', 'return function(){return c.target=this,c.invoke(arguments)}')(chain);
-    } else {
-      // no interceptor found
+    if (chain instanceof MethodInvocation) {
+      // nothing
       return method;
+    } else {
+      return factory(chain);
     }
   }
 
@@ -47,8 +48,8 @@ export class InterceptorFactory {
   static chainInterceptorAttributes(origin: IInvocation, attributes: Array<IAttribute>): IInvocation {
     // make invocation chain of interceptors
     for (const attribute of attributes) {
-      const interceptor = GetInterceptor(attribute);
-      if (interceptor) {
+      const interceptor = attribute.interceptor;
+      if (interceptor && 'function' === typeof interceptor.intercept) {
         origin = new InterceptorInvocation(origin, interceptor);
       }
     }

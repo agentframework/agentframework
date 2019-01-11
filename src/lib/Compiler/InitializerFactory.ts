@@ -1,6 +1,5 @@
 import { IInvocation } from '../Core/IInvocation';
 import { IAttribute } from '../Core/IAttribute';
-import { GetInitializer, HasInitializer } from './Internal/Utils';
 import { InitializerInvocation } from './Invocation/InitializerInvocation';
 import { ValueInvocation } from './Invocation/ValueInvocation';
 import { ParameterInvocation } from './Invocation/ParameterInvocation';
@@ -30,8 +29,8 @@ export class InitializerFactory {
   static chainInitializerAttributes(origin: IInvocation, attributes: Array<IAttribute>): IInvocation {
     // make invocation chain of interceptors
     for (const attribute of attributes) {
-      const initializer = GetInitializer(attribute);
-      if (initializer) {
+      const initializer = attribute.initializer;
+      if (initializer && 'function' === typeof initializer.initialize) {
         origin = new InitializerInvocation(origin, initializer);
       }
     }

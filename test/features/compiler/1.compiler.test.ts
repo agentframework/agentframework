@@ -47,7 +47,6 @@ describe('Compiler', () => {
     });
 
     it('create using custom factory', () => {
-      debugger;
       const MongoDB$ = Agent(MongoDB, new AgentTrackerAttribute());
       const db = new MongoDB$();
       expect(db instanceof MongoDB).toBe(true);

@@ -7,11 +7,12 @@ import { IInvocation } from '../../Core/IInvocation';
 export class AgentInvocation implements IInvocation {
   constructor(readonly target: any) {}
 
-  invoke([name, code, target]): any {
-    // cheating v8 engine
-    if (name === this.target) {
-      return name;
+  invoke([target, code, agent]): any {
+    if (target === this.target) {
+      return target;
     }
-    return Reflect.construct(Function, [name, 'Reflect', `return ${code}`])(this.target, target);
+    // cheating v8 by using factory method for class
+    const args = [target, 'Reflect', `return ${code}`];
+    return Reflect.construct(Function, args)(this.target, agent);
   }
 }

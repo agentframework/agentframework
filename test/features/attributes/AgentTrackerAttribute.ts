@@ -4,7 +4,6 @@ export class AgentTrackerAttribute extends AgentAttribute implements IIntercepto
   get interceptor(): IInterceptor {
     return this;
   }
-
   intercept(target: IInvocation, parameters: ArrayLike<any>): any {
     return target.invoke(parameters);
   }

@@ -11,7 +11,7 @@ import { AgentCompiler } from '../AgentCompiler';
  * @hidden
  */
 export class ConstructInvocation implements IInvocation {
-  constructor(readonly _target: any, readonly _newTarget: any, readonly _params: Arguments, readonly _id: any) {}
+  constructor(readonly _newTarget: any, readonly _args: any, readonly _target: any, readonly _params: Arguments) {}
 
   get compiler(): ICompiler {
     return Resolve(AgentCompiler);
@@ -41,10 +41,10 @@ export class ConstructInvocation implements IInvocation {
       for (const [idx, interceptor] of params.entries()) {
         args[idx] = interceptor.invoke([parameters[idx], idx, args]);
       }
+      Parameters.set(this._args, args);
     } else {
       args = parameters;
     }
-    Parameters.set(this._id, args);
     return Reflect.construct(this._target, args, this.compiledTarget);
   }
 }
