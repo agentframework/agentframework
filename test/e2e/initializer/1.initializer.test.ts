@@ -13,6 +13,9 @@ class Connection {
 class MongoDB {
   @decorateClassField(new InjectAttribute())
   connection: Connection;
+
+  @decorateClassField(new InjectAttribute())
+  connection2: Connection;
 }
 
 describe('Initializer', () => {
@@ -53,6 +56,7 @@ describe('Initializer', () => {
       expect(Connection.count).toBe(1);
       const conn2 = db.connection;
       expect(Connection.count).toBe(1);
+      expect(db.connection2 instanceof Connection).toBeTruthy();
       expect(conn).toBe(conn2);
       expect(db.connection.state).toBe('offline');
       expect(Reflect.getPrototypeOf(conn)).toBe(Connection.prototype);
