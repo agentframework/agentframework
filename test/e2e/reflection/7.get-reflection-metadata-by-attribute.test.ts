@@ -29,9 +29,7 @@ describe('Reflection get metadata ', () => {
     });
 
     it('search by attribute', () => {
-      expect(() => {
-        Reflector(MongoDB).findProperties(PropertyFilters.FilterAttribute);
-      }).toThrow();
+      Reflector(MongoDB).findProperties(PropertyFilters.FilterAttribute);
     });
   });
 });
