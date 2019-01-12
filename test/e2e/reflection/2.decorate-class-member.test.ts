@@ -21,7 +21,7 @@ class MongoDB {
 
   @decorateClassMember(new RoundAttribute())
   logs(): any {}
-  
+
   @decorateClassMember(new RoundAttribute())
   logs2(): any {}
 }
@@ -65,11 +65,32 @@ describe('Reflection Class Member', () => {
       const p = Reflector(MongoDB).property('logs');
       expect(p.hasFeatures(AgentFeatures.Interceptor)).toBe(true);
       expect(p.hasFeatures(AgentFeatures.Interceptor)).toBe(true);
-      expect(p.hasFeatures(AgentFeatures.Initializer | AgentFeatures.Interceptor)).toBe(true);
+      expect(p.hasFeatures(AgentFeatures.Initializer | AgentFeatures.Interceptor)).toBe(false);
     });
     it('Interceptor only 2', () => {
       const p = Reflector(MongoDB).property('logs2');
-      expect(p.hasFeatures(AgentFeatures.Initializer | AgentFeatures.Interceptor)).toBe(true);
+      expect(p.hasFeatures(AgentFeatures.Initializer | AgentFeatures.Interceptor)).toBe(false);
+    });
+
+    it('Interceptor only 3', () => {
+      const p = Reflector(MongoDB).property('logs2');
+      expect(p.hasFeatures(AgentFeatures.Initializer | AgentFeatures.Interceptor)).toBe(false);
+    });
+
+    it('Interceptor only 4', () => {
+      const p = Reflector(MongoDB).property('books');
+      expect(p.hasFeatures(AgentFeatures.MetadataOnly)).toBe(true);
+      expect(p.hasFeatures(AgentFeatures.Interceptor)).toBe(false);
+      expect(p.hasFeatures(AgentFeatures.Initializer)).toBe(false);
+      expect(p.hasFeatures(AgentFeatures.Interceptor | AgentFeatures.Initializer)).toBe(false);
+    });
+
+    it('Initializer only 1', () => {
+      const p = Reflector(MongoDB).property('rnd1');
+      expect(p.hasFeatures(AgentFeatures.MetadataOnly)).toBe(true);
+      expect(p.hasFeatures(AgentFeatures.Interceptor)).toBe(false);
+      expect(p.hasFeatures(AgentFeatures.Initializer)).toBe(true);
+      expect(p.hasFeatures(AgentFeatures.Interceptor | AgentFeatures.Initializer)).toBe(false);
     });
   });
 

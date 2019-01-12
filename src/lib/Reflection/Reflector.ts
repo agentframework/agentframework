@@ -22,8 +22,7 @@ export function Reflector(target: Function | Object): Type {
     if (constructor && 'function' === typeof constructor.value) {
       return ResolveType(target);
     } else {
-      // this object is not a prototype, so we find it's constructor
-      ctor = target.constructor;
+      throw new Error('AgentFramework 1.x not support access metadata on instance');
     }
   } else {
     // number, boolean

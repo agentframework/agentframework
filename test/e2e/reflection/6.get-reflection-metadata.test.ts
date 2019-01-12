@@ -21,4 +21,30 @@ describe('Reflection get metadata ', () => {
       expect(a).toBeUndefined();
     });
   });
+
+  describe('# should no able to', () => {
+    it('new Reflector', () => {
+      const fn: any = Reflector;
+      expect(() => {
+        new fn(MongoDB);
+      }).toThrow();
+    });
+
+    it('Reflector number', () => {
+      expect(() => {
+        Reflector(1);
+      }).toThrow();
+    });
+  
+    it('Reflector number', () => {
+      expect(() => {
+        Reflector({});
+      }).toThrow();
+    });
+    
+    it('Reflector prototype', () => {
+      const fr = Reflector(MongoDB.prototype);
+      expect(fr).toBeTruthy();
+    });
+  });
 });

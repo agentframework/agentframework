@@ -12,6 +12,6 @@ export enum AgentFeatures {
   Interceptor = 2
 }
 
-export function hasFeature(features: AgentFeatures, check: AgentFeatures): boolean {
-  return (features & check) === check;
-}
+// export function hasFeature(features: AgentFeatures, check: AgentFeatures): boolean {
+//   return (features & check) === check;
+// }

@@ -1,5 +1,5 @@
 import { Method } from './Method';
-import { AgentFeatures, hasFeature } from './AgentFeatures';
+import { AgentFeatures } from './AgentFeatures';
 import { Member } from './Member';
 import { Type } from './Type';
 
@@ -38,52 +38,39 @@ export class Property extends Member<Type> {
     return value;
   }
 
-  hasFeatures(features: AgentFeatures): boolean {
-    let results;
+  hasInitializers(): boolean {
+    if (this._hasInitializers !== undefined) {
+      return this._hasInitializers;
+    }
+    this._hasInitializers = this.hasInitializer() || this.setter.hasInitializer() || this.value.hasInitializer();
+    return this._hasInitializers;
+  }
 
+  hasInterceptors(): boolean {
+    if (this._hasInterceptors !== undefined) {
+      return this._hasInterceptors;
+    }
+    this._hasInterceptors =
+      this.hasInterceptor() ||
+      this.getter.hasInterceptor() ||
+      this.value.hasInterceptor() ||
+      this.value.hasParameterInterceptor() ||
+      this.value.hasParameterInitializer();
+    return this._hasInterceptors;
+  }
+
+  hasFeatures(features: AgentFeatures): boolean {
     if (this._hasInitializers && this._hasInterceptors) {
       return features !== 0;
     }
-
-    if (hasFeature(features, AgentFeatures.Initializer)) {
-      // improve half performance here
-      // cache true result, only need calculate for false condition
-      if (this._hasInitializers) {
-        return true;
-      } else {
-        this._hasInitializers = this.hasInitializer() || this.setter.hasInitializer() || this.value.hasInitializer();
-        if (features === 3) {
-          results = this._hasInitializers;
-        } else {
-          return this._hasInitializers;
-        }
-      }
+    if (AgentFeatures.Initializer === features) {
+      return this.hasInitializers();
+    } else if (AgentFeatures.Interceptor === features) {
+      return this.hasInterceptors();
+    } else if (features === 3) {
+      return this.hasInitializers() && this.hasInterceptors();
     }
-
-    if (hasFeature(features, AgentFeatures.Interceptor)) {
-      // improve half performance here
-      // cache true result, only need calculate for false condition
-      if (this._hasInterceptors) {
-        return true;
-      } else {
-        this._hasInterceptors =
-          this.hasInterceptor() ||
-          this.getter.hasInterceptor() ||
-          this.value.hasInterceptor() ||
-          this.value.hasParameterInterceptor() ||
-          this.value.hasParameterInitializer();
-
-        if (features === 3) {
-          debugger;
-          console.log(3, results, this._hasInterceptors);
-          results = results && this._hasInterceptors;
-        } else {
-          return this._hasInterceptors;
-        }
-      }
-    }
-
-    return results || false;
+    return this.hasAttribute();
   }
 
   get type(): any {
@@ -146,10 +133,7 @@ export class Property extends Member<Type> {
       }
     } else {
       // this is field
-      if (key === 'design:type' && value) {
-        const types = value as Array<any>;
-        this.value.addMetadata('design:returntype', types[0]);
-      }
+      this.value.addMetadata(key, value);
     }
   }
 }

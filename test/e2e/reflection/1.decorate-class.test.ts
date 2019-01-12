@@ -1,4 +1,7 @@
-import { agent, Agent, AgentAttribute, IsAgent, Reflector } from '../../../src/lib';
+import { agent, Agent, AgentAttribute, decorateClassMember, IsAgent, Reflector } from '../../../src/lib';
+import { RandomAttribute } from '../attributes/RandomAttribute';
+import { RoundAttribute } from '../attributes/RoundAttribute';
+import { MetadataAttribute } from '../attributes/MetadataAttribute';
 
 @agent()
 class MongoDB {
@@ -7,6 +10,19 @@ class MongoDB {
   connect() {
     return 'connected';
   }
+
+  @decorateClassMember(new RandomAttribute())
+  random: Date;
+
+  @decorateClassMember(new RandomAttribute())
+  @decorateClassMember(new RoundAttribute())
+  both: any;
+
+  @decorateClassMember(new MetadataAttribute())
+  metadata: any;
+
+  @decorateClassMember(new RoundAttribute())
+  round(): any {}
 }
 
 describe('Decorate Class', () => {
