@@ -1,6 +1,6 @@
 import { IInitializerAttribute } from './IAttribute';
 import { IInitializer } from './IInitializer';
-import { LazyClassInitializer } from '../Compiler/Initializer/LazyClassInitializer';
+import { AgentInitializer } from '../Compiler/Initializer/AgentInitializer';
 import { Resolve } from './Resolver/Resolve';
 
 /**
@@ -12,6 +12,6 @@ export class AgentAttribute implements IInitializerAttribute {
   }
 
   get initializer(): IInitializer {
-    return Resolve(LazyClassInitializer);
+    return Resolve(AgentInitializer);
   }
 }

@@ -5,13 +5,19 @@ import { Arguments } from '../../Core/Arguments';
 import { Parameters } from '../Internal/Cache';
 import { Resolve } from '../../Core/Resolver/Resolve';
 import { AgentCompiler } from '../AgentCompiler';
+import { Constructor } from '../../Core/Constructor';
 
 /**
  * @ignore
  * @hidden
  */
-export class ConstructInvocation implements IInvocation {
-  constructor(readonly _newTarget: any, readonly _args: any, readonly _target: any, readonly _params: Arguments) {}
+export class ConstructInvocation<T> implements IInvocation {
+  constructor(
+    readonly _newTarget: Constructor<T>,
+    readonly _args: any,
+    readonly _target: Constructor<T>,
+    readonly _params: Arguments
+  ) {}
 
   get compiler(): ICompiler {
     return Resolve(AgentCompiler);
@@ -35,18 +41,17 @@ export class ConstructInvocation implements IInvocation {
 
   invoke(parameters: ArrayLike<any>) {
     let args;
-    const params = this.compiledParameters;
-    if (params.size) {
-      args = Array.isArray(parameters) ? parameters : Array.prototype.slice.call(parameters, 0);
-      for (const [idx, interceptor] of params.entries()) {
-        // console.log('int', [parameters[idx], idx, parameters])
-        args[idx] = interceptor.invoke([parameters[idx], idx, parameters]);
+    if (this._target.length > 0) {
+      const params = this.compiledParameters;
+      if (params.size) {
+        args = Array.isArray(parameters) ? parameters : Array.prototype.slice.call(parameters, 0);
+        for (const [idx, interceptor] of params.entries()) {
+          args[idx] = interceptor.invoke([parameters[idx], idx, args]);
+        }
+        Parameters.set(this._args, args);
+        return Reflect.construct(this._target, args, this.compiledTarget);
       }
-      // console.log('set', this._args, args.length);
-      Parameters.set(this._args, args);
-    } else {
-      args = parameters;
     }
-    return Reflect.construct(this._target, args, this.compiledTarget);
+    return Reflect.construct(this._target, parameters, this.compiledTarget);
   }
 }

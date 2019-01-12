@@ -1,9 +1,11 @@
+import { Constructor } from './Constructor';
+
 export interface IInvocation {
   design?: {
-    type: any;
+    type?: Constructor<any>;
     paramtypes?: Array<any>;
-    returntype?: any;
+    returntype?: Constructor<any>;
   };
-  target?: any;
+  target: Constructor<any>;
   invoke<T>(parameters: ArrayLike<any>): T;
 }

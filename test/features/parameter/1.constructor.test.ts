@@ -12,7 +12,7 @@ import { InjectAttribute } from '../attributes/InjectAttribute';
 class Connection {
   constructor() {
     expect(arguments[0]).toBe('default');
-    console.log('Connection(', arguments[0], ')');
+    // console.log('Connection(', arguments[0], ')');
     Connection.count++;
   }
   static count = 0;
@@ -25,7 +25,7 @@ class MongoDB {
   user: string;
   constructor(user: string, @decorateParameter(new InjectAttribute()) conn?: Connection) {
     expect(conn instanceof Connection).toBeTruthy();
-    console.log('MongoDB(', arguments, ')');
+    // console.log('MongoDB(', arguments, ')');
     this.user = user;
     this.connection = conn;
   }

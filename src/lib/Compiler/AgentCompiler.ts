@@ -14,7 +14,7 @@ import { Constructor } from '../Core/Constructor';
 import { Method } from '../Core/Reflection/Method';
 
 export class AgentCompiler implements ICompiler {
-  compile(target: any, params: Arguments): any {
+  compile<T>(target: Constructor<T>, params: Arguments): T {
     const names = new Set<PropertyKey>();
     let initializers: any, interceptors: any;
 
@@ -72,7 +72,10 @@ export class AgentCompiler implements ICompiler {
     return parameterInitializers;
   }
 
-  private makePropertyInterceptors(target: any, names: Set<PropertyKey>): Map<PropertyKey, IInvocation> | undefined {
+  private makePropertyInterceptors<T>(
+    target: Constructor<T>,
+    names: Set<PropertyKey>
+  ): Map<PropertyKey, IInvocation> | undefined {
     // 1. find all the properties for this type which contains one or more attribute implemented 'getInterceptor'
     const layers = Reflector(target).findProperties(PropertyFilters.FilterFeatures, AgentFeatures.Interceptor);
 
@@ -113,11 +116,11 @@ export class AgentCompiler implements ICompiler {
 
         if (typeof getter === 'function') {
           interceptorAttributes = property.getter.getInterceptors().concat(interceptorAttributes);
-          newDescriptor.get = InterceptorFactory.createFunction(interceptorAttributes, getter, property.getter);
+          newDescriptor.get = InterceptorFactory.createFunction(interceptorAttributes, target, getter, property.getter);
         }
         if (typeof setter === 'function') {
           interceptorAttributes = property.setter.getInterceptors().concat(interceptorAttributes);
-          newDescriptor.set = InterceptorFactory.createFunction(interceptorAttributes, setter, property.setter);
+          newDescriptor.set = InterceptorFactory.createFunction(interceptorAttributes, target, setter, property.setter);
         }
         if (typeof value === 'function') {
           // call interceptors on value first
@@ -127,7 +130,13 @@ export class AgentCompiler implements ICompiler {
           if (property.value.hasParameterInterceptor() || property.value.hasParameterInitializer()) {
             parameters = this.compileParameters(property.value);
           }
-          newDescriptor.value = InterceptorFactory.createFunction(interceptorAttributes, value, property.value, parameters);
+          newDescriptor.value = InterceptorFactory.createFunction(
+            interceptorAttributes,
+            target,
+            value,
+            property.value,
+            parameters
+          );
         }
 
         if (names.has(name)) {

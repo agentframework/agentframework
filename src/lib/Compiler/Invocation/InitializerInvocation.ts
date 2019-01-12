@@ -1,5 +1,6 @@
 import { IInvocation } from '../../Core/IInvocation';
 import { IInitializer } from '../../Core/IInitializer';
+import { Constructor } from '../../Core/Constructor';
 
 /**
  * Invocation for an initializer
@@ -13,11 +14,11 @@ export class InitializerInvocation implements IInvocation {
     return this._invocation.design;
   }
 
-  get target(): any {
+  get target(): Constructor<any> {
     return this._invocation.target;
   }
 
-  set target(value: any) {
+  set target(value: Constructor<any>) {
     this._invocation.target = value;
   }
 

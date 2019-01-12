@@ -2,12 +2,33 @@ import {
   agent,
   Agent,
   AgentAttribute,
-  decorateClassField,
   decorateParameter,
+  IAttribute,
+  IInterceptor,
+  IInvocation,
   IsAgent,
   Reflector
 } from '../../../src/lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
+
+class AgentChecker implements IAttribute, IInterceptor {
+  get interceptor(): IInterceptor {
+    return this;
+  }
+
+  beforeDecorate(
+    target: Object | Function,
+    targetKey?: string | symbol,
+    descriptor?: PropertyDescriptor | number
+  ): boolean {
+    return true;
+  }
+
+  public intercept(target: IInvocation, parameters: ArrayLike<any>): any {
+    expect(typeof target.target).toBe('function');
+    return target.invoke(Array.prototype.slice.call(parameters, 0));
+  }
+}
 
 class Connection {
   constructor() {
@@ -17,9 +38,9 @@ class Connection {
   state = 'offline';
 }
 
-@agent()
+@agent([new AgentChecker()])
 class MongoDB {
-  constructor(@decorateParameter(new InjectAttribute()) conn?: Connection) {
+  constructor(database: string, @decorateParameter(new InjectAttribute()) conn?: Connection) {
     this.connection = conn;
   }
 
@@ -37,7 +58,7 @@ describe('Initializer in Constructor', () => {
     });
 
     it('new instance', () => {
-      const db = new MongoDB();
+      const db = new MongoDB('test');
       expect(db instanceof MongoDB).toBe(true);
     });
 
@@ -49,13 +70,21 @@ describe('Initializer in Constructor', () => {
 
     it('get inject attribute', () => {
       const items = Reflector(MongoDB)
-        .parameter(0)
+        .parameter(1)
         .getAttributes(InjectAttribute);
       expect(items.length).toBe(1);
     });
 
     it('get injected value', () => {
-      const db = new MongoDB();
+      const db = new MongoDB('test');
+      expect(db).toBeTruthy();
+      expect(db.connection.state).toBe('offline');
+      expect(Reflect.getPrototypeOf(db.connection)).toBe(Connection.prototype);
+      expect(db.connection instanceof Connection).toBe(true);
+    });
+
+    it('get injected value with Array parameters', () => {
+      const db = Reflect.construct(MongoDB, ['test', 1]);
       expect(db).toBeTruthy();
       expect(db.connection.state).toBe('offline');
       expect(Reflect.getPrototypeOf(db.connection)).toBe(Connection.prototype);
