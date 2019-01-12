@@ -6,23 +6,15 @@ import { Arguments } from './Arguments';
  * Generate custom class
  */
 export class Compiler<T> {
-  // private readonly targetName: string;
   private readonly generated: Constructor<T>;
-  // private readonly generatedName: string;
 
   constructor(private target: Constructor<T>) {
-    // this.targetName = this.target.name;
-    // this.generatedName = this.target.name + '$';
     this.generated = this.target;
-    // this.generated = new Function(this.targetName, `return class ${this.generatedName} extends ${this.targetName} {}`)(
-    //   this.target
-    // );
   }
 
   defineFields(fields: Map<PropertyKey, IInvocation>, params: Arguments) {
     // invoke all initializers to generate default value bag
     if (fields && fields.size) {
-      // bag = new Map<string, any>();
       for (const [key, initializer] of fields) {
         Object.defineProperty(this.generated.prototype, key, {
           get: function() {
@@ -42,7 +34,9 @@ export class Compiler<T> {
               enumerable: true,
               writable: true
             });
-          }
+          },
+          configurable: true,
+          enumerable: true
         });
       }
     }
@@ -50,7 +44,6 @@ export class Compiler<T> {
 
   defineProperties(properties: Map<PropertyKey, PropertyDescriptor>) {
     if (properties && properties.size) {
-      // bag = new Map<string, any>();
       for (const [key, descriptor] of properties) {
         Object.defineProperty(this.generated.prototype, key, descriptor);
       }

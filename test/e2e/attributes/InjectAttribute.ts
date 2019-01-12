@@ -14,6 +14,7 @@ export class InjectAttribute implements IInitializerAttribute, IInitializer {
   }
 
   initialize(target: IInvocation, parameters: ArrayLike<any>): any {
+    expect(typeof target.target).toBe('function');
     return Reflect.construct(target.design!.type, parameters);
   }
 }

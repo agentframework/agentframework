@@ -2,7 +2,7 @@ import { IInvocation } from '../Core/IInvocation';
 import { IAttribute } from '../Core/IAttribute';
 import { Parameter } from '../Reflection/Parameter';
 import { InitializerInvocation } from './Invocation/InitializerInvocation';
-import { ValueInvocation } from './Invocation/ValueInvocation';
+import { FieldInvocation } from './Invocation/FieldInvocation';
 import { ParameterInvocation } from './Invocation/ParameterInvocation';
 
 /**
@@ -11,13 +11,13 @@ import { ParameterInvocation } from './Invocation/ParameterInvocation';
  */
 export class InitializerFactory {
   //
-  static createValueInitializer(
+  static createFieldInitializer(
     attributes: Array<IAttribute>,
-    target: Object,
+    target: Function,
     propertyKey: PropertyKey,
     design: any
   ): IInvocation {
-    const invocation = new ValueInvocation(target, propertyKey, design);
+    const invocation = new FieldInvocation(target, propertyKey, design);
     return this.chainInitializerAttributes(invocation, attributes);
   }
 

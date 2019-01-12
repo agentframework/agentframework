@@ -1,6 +1,6 @@
 import { IInterceptor, IInterceptorAttribute, IInvocation, Member } from '../../../src/lib';
 
-export class RoundAttribute implements IInterceptorAttribute, IInterceptor {
+export class BeforeRoundAttribute implements IInterceptorAttribute, IInterceptor {
   beforeDecorate(
     target: Object | Function,
     targetKey?: string | symbol,
@@ -10,18 +10,20 @@ export class RoundAttribute implements IInterceptorAttribute, IInterceptor {
   }
 
   public intercept(target: IInvocation, parameters: ArrayLike<any>): any {
-    expect(typeof target.target).toBe('object');
+    expect(typeof target.target).toBe('function');
     if (target.design) {
       // console.log('design', target.design)
       expect(target.design instanceof Member).toBeTruthy();
     } else {
       expect(target.design).toBeUndefined();
     }
-    const num = target.invoke(parameters);
-    if ('number' !== typeof num) {
-      return 0;
+
+    let input = parameters[0];
+    if ('number' !== typeof input) {
+      input = 0;
     }
-    return Math.round(num);
+    input = Math.round(input);
+    return target.invoke([input, parameters[1], parameters[2]]);
   }
 
   public get interceptor(): IInterceptor {

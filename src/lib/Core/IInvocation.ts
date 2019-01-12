@@ -1,27 +1,18 @@
 import { Constructor } from './Constructor';
 
 export interface IInvocation {
-  design?:
-    | {
-        type: Constructor<any>;
-      }
-    | {
-        paramtypes: Array<any>;
-        returntype: Constructor<any>;
-      };
-  target: Function | Object;
+  readonly design: any;
+  target: Function;
   invoke<T>(parameters: ArrayLike<any>): T;
 }
 
 export interface IValueInvocation extends IInvocation {
-  design: { type: Constructor<any> };
-  target: Object;
+  readonly design: { type: Constructor<any> };
 }
 
 export interface IFunctionInvocation extends IInvocation {
-  design: {
+  readonly design: {
     paramtypes: Array<any>;
     returntype: Constructor<any>;
   };
-  target: Function;
 }

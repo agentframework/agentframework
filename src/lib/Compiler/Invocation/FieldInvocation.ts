@@ -4,14 +4,14 @@ import { IInvocation } from '../../Core/IInvocation';
  * @ignore
  * @hidden
  */
-export class ValueInvocation implements IInvocation {
-  constructor(private _target: Object, private _propertyKey: PropertyKey, private _design: any) {}
+export class FieldInvocation implements IInvocation {
+  constructor(private _target: Function, private _propertyKey: PropertyKey, private _design: any) {}
 
   get design(): any {
     return this._design;
   }
 
-  get target(): Object {
+  get target(): Function {
     return this._target;
   }
 

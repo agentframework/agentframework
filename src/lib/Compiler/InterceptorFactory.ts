@@ -1,7 +1,7 @@
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { ConstructInvocation } from './Invocation/ConstructInvocation';
 import { Arguments } from './Arguments';
-import { MethodInvocation, ParameterizedMethodInvocation } from './Invocation/FunctionInvocation';
+import { DirectMethodInvocation, InterceptedMethodInvocation } from './Invocation/MethodInvocations';
 import { IInvocation } from '../Core/IInvocation';
 import { IAttribute } from '../Core/IAttribute';
 import { Reflector } from '../Reflection/Reflector';
@@ -12,39 +12,35 @@ import { Constructor } from '../Core/Constructor';
  * @hidden
  */
 export class InterceptorFactory {
-  static createConstructor<C extends Function>(
-    newTarget: C,
-    args: ArrayLike<any>,
-    target: C,
-    params: Arguments
-  ) {
+  static createConstructor<C extends Function>(newTarget: C, args: ArrayLike<any>, target: C, params: Arguments) {
     // search all attributes on this class constructor
-    const invocation = new ConstructInvocation(newTarget, args, target, params);
-    const interceptors = Reflector(target).getInterceptors();
+    const design = Reflector(target);
+    const invocation = new ConstructInvocation(newTarget, args, target, params, design);
+    const interceptors = design.getInterceptors();
     return InterceptorFactory.chainInterceptorAttributes(invocation, interceptors);
   }
 
   static createFunction<T>(
     attributes: Array<IAttribute>,
-    target: Object,
+    target: Function,
     method: Function,
     design: any,
     params?: Map<number, IInvocation>
   ): Function {
     let origin: IInvocation, factory: Function;
     if (params && params.size) {
-      origin = new ParameterizedMethodInvocation(target, method, design, params);
-      factory = new Function('c', `return function ${method.name}(){return c.target=this,c.invoke(arguments)}`);
+      origin = new InterceptedMethodInvocation(target, method, design, params);
+      factory = new Function('c', 'o', `return function ${method.name}(){return c.target=this,c.invoke(arguments)}`);
     } else {
-      origin = new MethodInvocation(target, method, design);
-      factory = new Function('c', `return function(){return c.target=this,c.invoke(arguments)}`);
+      origin = new DirectMethodInvocation(target, method, design);
+      factory = new Function('c', 'o', `return function(){return c.target=this,c.invoke(arguments)}`);
     }
     const chain = InterceptorFactory.chainInterceptorAttributes(origin, attributes);
-    if (chain instanceof MethodInvocation) {
+    if (chain instanceof DirectMethodInvocation) {
       // do nothing
       return method;
     } else {
-      return factory(chain);
+      return factory(chain, origin);
     }
   }
 

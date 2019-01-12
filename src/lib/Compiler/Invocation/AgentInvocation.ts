@@ -5,7 +5,15 @@ import { IInvocation } from '../../Core/IInvocation';
  * @hidden
  */
 export class AgentInvocation implements IInvocation {
-  constructor(readonly target: Function) {}
+  constructor(private readonly _target: Function, private readonly _design: any) {}
+
+  get design(): any {
+    return this._design;
+  }
+
+  get target(): Function {
+    return this._target;
+  }
 
   invoke([target, code, agent]): any {
     if (target === this.target) {

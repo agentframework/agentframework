@@ -1,11 +1,11 @@
 import { InterceptorFactory } from '../InterceptorFactory';
 import { Arguments } from '../Arguments';
-import { IFunctionInvocation, IInvocation } from '../../Core/IInvocation';
+import { IInvocation } from '../../Core/IInvocation';
 import { IInitializer } from '../../Core/IInitializer';
 import { Parameters } from '../Internal/Parameters';
 import { AgentClassName } from '../Internal/Constants';
 
-export class AgentInitializer implements IInitializer {
+export class LazyClassInitializer implements IInitializer {
   readonly target = function(args: ArrayLike<any>): ArrayLike<any> {
     return Parameters.has(args) ? Parameters.get(args) : args;
   };
@@ -24,7 +24,7 @@ export class AgentInitializer implements IInitializer {
     Reflect.set(this.target, 'construct', construct);
   }
 
-  public initialize(target: IFunctionInvocation, parameters: ArrayLike<any>): any {
+  public initialize(target: IInvocation, parameters: ArrayLike<any>): any {
     const name = target.target.name || AgentClassName;
     const code = `class ${name}$ extends ${name}{constructor(){return Reflect.construct(new.target,arguments,${name},()=>Reflect(arguments))}}`;
     return target.invoke([name, code, this.target]);

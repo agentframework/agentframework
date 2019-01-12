@@ -1,27 +1,25 @@
 import { IInvocation } from '../../Core/IInvocation';
 import { IInterceptor } from '../../Core/IInterceptor';
-import { Constructor } from '../../Core/Constructor';
 
 /**
- * Invocation for an interceptor, it call next interceptor in chain
  * @ignore
  * @hidden
  */
 export class InterceptorInvocation implements IInvocation {
-  constructor(private _invocation: IInvocation, private _interceptor: IInterceptor) { }
+  constructor(private _invocation: IInvocation, private _interceptor: IInterceptor) {}
 
   get design(): any {
     return this._invocation.design;
   }
 
-  get target(): Constructor<any> | Function | object {
+  get target(): Function {
     return this._invocation.target;
   }
-
-  set target(value: Constructor<any> | Function | object) {
-    this._invocation.target = value;
+  
+  set target(newTarget: Function) {
+    this._invocation.target = newTarget;
   }
-
+  
   invoke(parameters: ArrayLike<any>): any {
     return this._interceptor.intercept(this._invocation, parameters);
   }

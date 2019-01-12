@@ -1,6 +1,5 @@
 import { IInvocation } from '../../Core/IInvocation';
 import { Reflector } from '../../Reflection/Reflector';
-import { Constructor } from '../../Core/Constructor';
 import { ICompiler } from '../ICompiler';
 import { Arguments } from '../Arguments';
 import { Parameters } from '../Internal/Parameters';
@@ -16,11 +15,14 @@ export class ConstructInvocation<C extends Function> implements IInvocation {
     readonly _newTarget: C,
     readonly _args: any,
     readonly _target: C,
-    readonly _params: Arguments
+    readonly _params: Arguments,
+    readonly _design: any
   ) {}
 
   get compiler(): ICompiler {
-    return Resolve(AgentCompiler);
+    const value = Resolve(AgentCompiler);
+    Reflect.defineProperty(this, 'compiler', { value });
+    return value;
   }
 
   get compiledParameters(): Map<number, IInvocation> {
@@ -39,6 +41,10 @@ export class ConstructInvocation<C extends Function> implements IInvocation {
     return this._target;
   }
 
+  get design(): any {
+    return this._design;
+  }
+  
   invoke(parameters: ArrayLike<any>) {
     let args;
     if (this._target.length > 0) {

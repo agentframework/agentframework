@@ -14,6 +14,7 @@ export class RandomAttribute implements IInitializerAttribute, IInitializer {
   }
 
   initialize(target: IInvocation, parameters: ArrayLike<any>): any {
+    expect(typeof target.target).toBe('function');
     const a = target.invoke(parameters);
     console.log(a === undefined);
     return Date.now() + 0.23133;

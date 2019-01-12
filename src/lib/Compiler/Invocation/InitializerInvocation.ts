@@ -1,9 +1,7 @@
 import { IInvocation } from '../../Core/IInvocation';
 import { IInitializer } from '../../Core/IInitializer';
-import { Constructor } from '../../Core/Constructor';
 
 /**
- * Invocation for an initializer
  * @ignore
  * @hidden
  */
@@ -14,14 +12,14 @@ export class InitializerInvocation implements IInvocation {
     return this._invocation.design;
   }
 
-  get target(): Constructor<any> | Function | object {
+  get target(): Function {
     return this._invocation.target;
   }
-
-  set target(value: Constructor<any> | Function | object) {
-    this._invocation.target = value;
+  
+  set target(newTarget: Function) {
+    this._invocation.target = newTarget;
   }
-
+  
   invoke(parameters: ArrayLike<any>): any {
     return this._initializer.initialize(this._invocation, parameters);
   }

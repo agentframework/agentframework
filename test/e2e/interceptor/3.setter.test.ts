@@ -3,30 +3,29 @@ import { BeforeRoundAttribute } from '../attributes/BeforeRoundAttribute';
 
 @agent()
 class Calculator {
-  _round: number;
+  rounded: number;
 
   @decorateClassMember(new BeforeRoundAttribute())
   set round(val: number) {
-    console.log('va', val);
-    this._round = val;
+    this.rounded = val;
   }
 }
-//
-// Reflect.defineProperty(Calculator.prototype, 'round', {
-//   value: undefined
-// });
 
 describe('Interceptor on setter Value', () => {
   describe('# should able to', () => {
+    it('42', () => {
+      expect(Agent(Calculator) === Calculator).toBe(IsAgent(Calculator));
+    });
+
     it('define agent', () => {
       expect(IsAgent(Calculator)).toBe(true);
       expect(Agent(Calculator)).toBe(Calculator);
     });
 
     it('create agent', () => {
-      const AC = new Calculator();
-      AC.round = 23423.324234;
-      expect(AC._round).toBe(23423);
+      const calc = new Calculator();
+      calc.round = 23423.324234;
+      expect(calc.rounded).toBe(23423);
     });
   });
 });
