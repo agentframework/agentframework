@@ -1,6 +1,6 @@
-import { IAttribute, IInitializerAttribute, IInterceptorAttribute } from '../IAttribute';
-import { Constructor } from '../Constructor';
-import { HasInitializer, HasInterceptor } from '../../Compiler/Internal/Utils';
+import { IAttribute, IInitializerAttribute, IInterceptorAttribute } from '../Core/IAttribute';
+import { Constructor } from '../Core/Constructor';
+import { HasInitializer, HasInterceptor } from '../Compiler/Internal/Utils';
 
 /**
  * Access and store attribute and metadata for reflection

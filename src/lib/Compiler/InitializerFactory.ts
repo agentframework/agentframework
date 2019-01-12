@@ -1,9 +1,9 @@
 import { IInvocation } from '../Core/IInvocation';
 import { IAttribute } from '../Core/IAttribute';
+import { Parameter } from '../Reflection/Parameter';
 import { InitializerInvocation } from './Invocation/InitializerInvocation';
 import { ValueInvocation } from './Invocation/ValueInvocation';
 import { ParameterInvocation } from './Invocation/ParameterInvocation';
-import { Constructor } from '../Core/Constructor';
 
 /**
  * @ignore
@@ -13,15 +13,19 @@ export class InitializerFactory {
   //
   static createValueInitializer(
     attributes: Array<IAttribute>,
-    target: Constructor<any>,
+    target: Object,
     propertyKey: PropertyKey,
     design: any
   ): IInvocation {
-    const invocation = new ValueInvocation(target.prototype, propertyKey, design);
+    const invocation = new ValueInvocation(target, propertyKey, design);
     return this.chainInitializerAttributes(invocation, attributes);
   }
 
-  static createParameterInitializer(attributes: Array<IAttribute>, target: Constructor<any>, design: any): IInvocation {
+  static createParameterInitializer(
+    attributes: Array<IAttribute>,
+    target: Function,
+    design: Parameter<any>
+  ): IInvocation {
     const invocation = new ParameterInvocation(target, design);
     return this.chainInitializerAttributes(invocation, attributes);
   }

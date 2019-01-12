@@ -1,8 +1,8 @@
 import { IAttribute } from '../Core/IAttribute';
 import { CanDecorate } from '../Compiler/Internal/Utils';
 import { CreateAgentInvocation } from '../Compiler/CreateAgentInvocation';
-import { AgentAttribute } from '../Core/AgentAttribute';
-import { Reflector } from '../Core/Reflector';
+import { AgentAttribute } from '../Compiler/AgentAttribute';
+import { Reflector } from '../Reflection/Reflector';
 
 /**
  * Decorate an agent with customized initializer, interceptors and attributes
@@ -14,7 +14,7 @@ import { Reflector } from '../Core/Reflector';
 export function decorateAgent(options: AgentAttribute, attributes?: IAttribute[]): ClassDecorator {
   // upgrade target constructor to agent
   // this method will be called
-  return <T extends Function>(target: T): T | void => {
+  return <TFunction extends Function>(target: TFunction): TFunction | void => {
     // apply extra attributes
     if (attributes && attributes.length) {
       const type = Reflector(target);

@@ -1,10 +1,10 @@
-import { IInvocation } from '../Core/IInvocation';
-import { IAttribute } from '../Core/IAttribute';
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { ConstructInvocation } from './Invocation/ConstructInvocation';
-import { Arguments } from '../Core/Arguments';
-import { Reflector } from '../Core/Reflector';
+import { Arguments } from './Arguments';
 import { MethodInvocation, ParameterizedMethodInvocation } from './Invocation/FunctionInvocation';
+import { IInvocation } from '../Core/IInvocation';
+import { IAttribute } from '../Core/IAttribute';
+import { Reflector } from '../Reflection/Reflector';
 import { Constructor } from '../Core/Constructor';
 
 /**
@@ -12,10 +12,10 @@ import { Constructor } from '../Core/Constructor';
  * @hidden
  */
 export class InterceptorFactory {
-  static createConstructor<T>(
-    newTarget: Constructor<T>,
+  static createConstructor<C extends Function>(
+    newTarget: C,
     args: ArrayLike<any>,
-    target: Constructor<T>,
+    target: C,
     params: Arguments
   ) {
     // search all attributes on this class constructor
@@ -26,7 +26,7 @@ export class InterceptorFactory {
 
   static createFunction<T>(
     attributes: Array<IAttribute>,
-    target: Constructor<T>,
+    target: Object,
     method: Function,
     design: any,
     params?: Map<number, IInvocation>

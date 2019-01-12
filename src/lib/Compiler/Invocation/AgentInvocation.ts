@@ -1,12 +1,11 @@
 import { IInvocation } from '../../Core/IInvocation';
-import { Constructor } from '../../Core/Constructor';
 
 /**
  * @ignore
  * @hidden
  */
 export class AgentInvocation implements IInvocation {
-  constructor(readonly target: Constructor<any>) {}
+  constructor(readonly target: Function) {}
 
   invoke([target, code, agent]): any {
     if (target === this.target) {

@@ -1,5 +1,5 @@
 import { Method } from './Method';
-import { AgentFeatures, hasFeature } from '../AgentFeatures';
+import { AgentFeatures, hasFeature } from './AgentFeatures';
 import { Member } from './Member';
 
 /**

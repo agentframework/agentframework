@@ -1,9 +1,8 @@
 import { InterceptorFactory } from '../InterceptorFactory';
-import { Arguments } from '../../Core/Arguments';
-import { IInvocation } from '../../Core/IInvocation';
-import { Constructor } from '../../Core/Constructor';
+import { Arguments } from '../Arguments';
+import { IFunctionInvocation, IInvocation } from '../../Core/IInvocation';
 import { IInitializer } from '../../Core/IInitializer';
-import { Parameters } from '../Internal/Cache';
+import { Parameters } from '../Internal/Parameters';
 import { AgentClassName } from '../Internal/Constants';
 
 export class AgentInitializer implements IInitializer {
@@ -13,7 +12,7 @@ export class AgentInitializer implements IInitializer {
 
   constructor() {
     const InterceptedConstructors = new WeakMap<any, IInvocation>();
-    function construct<T>(newTarget: Constructor<T>, args: ArrayLike<any>, target: Constructor<T>, params: Arguments) {
+    function construct<C extends Function>(newTarget: C, args: ArrayLike<any>, target: C, params: Arguments) {
       let ctor = InterceptedConstructors.get(newTarget);
       if (!ctor) {
         ctor = InterceptorFactory.createConstructor(newTarget, args, target, params);
@@ -25,7 +24,7 @@ export class AgentInitializer implements IInitializer {
     Reflect.set(this.target, 'construct', construct);
   }
 
-  public initialize(target: IInvocation, parameters: ArrayLike<any>): any {
+  public initialize(target: IFunctionInvocation, parameters: ArrayLike<any>): any {
     const name = target.target.name || AgentClassName;
     const code = `class ${name}$ extends ${name}{constructor(){return Reflect.construct(new.target,arguments,${name},()=>Reflect(arguments))}}`;
     return target.invoke([name, code, this.target]);

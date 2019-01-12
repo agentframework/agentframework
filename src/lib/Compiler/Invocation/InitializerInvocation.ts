@@ -14,11 +14,11 @@ export class InitializerInvocation implements IInvocation {
     return this._invocation.design;
   }
 
-  get target(): Constructor<any> {
+  get target(): Constructor<any> | Function | object {
     return this._invocation.target;
   }
 
-  set target(value: Constructor<any>) {
+  set target(value: Constructor<any> | Function | object) {
     this._invocation.target = value;
   }
 

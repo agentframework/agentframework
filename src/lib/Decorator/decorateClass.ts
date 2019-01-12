@@ -1,5 +1,5 @@
 import { IAttribute } from '../Core/IAttribute';
-import { Reflector } from '../Core/Reflector';
+import { Reflector } from '../Reflection/Reflector';
 import { CanDecorate } from '../Compiler/Internal/Utils';
 
 /**

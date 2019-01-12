@@ -2,13 +2,13 @@ import { InitializerInvocation } from './Invocation/InitializerInvocation';
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { AgentInvocation } from './Invocation/AgentInvocation';
 import { IInvocation } from '../Core/IInvocation';
-import { Agents } from '../Core/Cache';
+import { Agents } from '../Internal/Cache';
 import { IAttribute } from '../Core/IAttribute';
 
 /**
  * Build Agent using AgentAttribute
  */
-export function CreateAgentInvocation<T>(target: T, attribute: IAttribute): T {
+export function CreateAgentInvocation<C extends Function>(target: C, attribute: IAttribute): C {
   if (Agents.has(target)) {
     return target;
   }
@@ -28,7 +28,7 @@ export function CreateAgentInvocation<T>(target: T, attribute: IAttribute): T {
     invocation = new InterceptorInvocation(invocation, interceptor);
   }
 
-  const newTarget = invocation.invoke<T>(arguments);
+  const newTarget = invocation.invoke<C>(arguments);
   if (newTarget !== target) {
     Agents.set(newTarget, target);
   }

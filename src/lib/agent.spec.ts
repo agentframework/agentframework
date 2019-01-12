@@ -1,8 +1,8 @@
 import { agent } from './agent';
-import { Agent } from './Core/Agent';
-import { IsAgent } from './Core/Cache';
-import { Reflector } from './Core/Reflector';
-import { AgentAttribute } from './Core/AgentAttribute';
+import { Agent } from './agent';
+import { IsAgent } from './Internal/Cache';
+import { Reflector } from './Reflection/Reflector';
+import { AgentAttribute } from './Compiler/AgentAttribute';
 
 @agent()
 class MongoDB {

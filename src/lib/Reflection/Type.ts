@@ -1,8 +1,8 @@
 import { Method } from './Method';
 import { Property } from './Property';
 import { PropertyFilter } from './PropertyFilters';
-import { Constructor } from '../Constructor';
-import { Instances } from '../Cache';
+import { Constructor } from '../Core/Constructor';
+import { Instances } from '../Internal/Cache';
 
 /**
  * Reflection information for user class
@@ -97,9 +97,9 @@ export class Type extends Method<Type> {
    * @param filterCriteria
    * @returns {Property[]}
    */
-  findProperties(filter: PropertyFilter, filterCriteria?: any): Array<Map<PropertyKey, Property<Type>>> {
+  findProperties(filter: PropertyFilter, filterCriteria?: any): Array<[Object, Map<PropertyKey, Property<Type>>]> {
     const prototypes = [];
-    const layers: Array<Map<PropertyKey, Property<Type>>> = [];
+    const layers: Array<[Object, Map<PropertyKey, Property<Type>>]> = [];
 
     let p = this._prototype;
     while (p) {
@@ -120,7 +120,7 @@ export class Type extends Method<Type> {
         }
       }
       if (properties.size) {
-        layers.push(properties);
+        layers.push([type, properties]);
       }
     }
 

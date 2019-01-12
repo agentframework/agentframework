@@ -1,6 +1,6 @@
 import { Constructor } from '../Core/Constructor';
 import { IInvocation } from '../Core/IInvocation';
-import { Arguments } from '../Core/Arguments';
+import { Arguments } from './Arguments';
 
 /**
  * Generate custom class

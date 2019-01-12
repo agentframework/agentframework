@@ -1,4 +1,4 @@
-import { Constructor } from './Constructor';
+import { Constructor } from '../Core/Constructor';
 
 declare var global: any;
 declare var window: any;

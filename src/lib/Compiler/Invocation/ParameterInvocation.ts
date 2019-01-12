@@ -1,18 +1,18 @@
 import { IInvocation } from '../../Core/IInvocation';
-import { Constructor } from '../../Core/Constructor';
+import { Parameter } from '../../Reflection/Parameter';
 
 /**
  * @ignore
  * @hidden
  */
 export class ParameterInvocation implements IInvocation {
-  constructor(private _target: Constructor<any>, private _design: any) {}
+  constructor(private _target: Function, private _design: Parameter<any>) {}
 
   get design(): any {
     return this._design;
   }
 
-  get target(): Constructor<any> {
+  get target(): Function {
     return this._target;
   }
 

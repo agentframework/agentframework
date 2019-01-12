@@ -1,17 +1,17 @@
 // utilize code gen
-import { ICompiler } from '../Core/ICompiler';
-import { IInvocation } from '../Core/IInvocation';
-import { AgentFeatures } from '../Core/AgentFeatures';
+import { ICompiler } from './ICompiler';
 import { Compiler } from './Compiler';
-import { Reflector } from '../Core/Reflector';
 import { InitializerFactory } from './InitializerFactory';
 import { InitializerInvocation } from './Invocation/InitializerInvocation';
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { InterceptorFactory } from './InterceptorFactory';
-import { Arguments } from '../Core/Arguments';
-import { PropertyFilters } from '../Core/Reflection/PropertyFilters';
+import { Arguments } from './Arguments';
+import { IInvocation } from '../Core/IInvocation';
+import { AgentFeatures } from '../Reflection/AgentFeatures';
+import { Reflector } from '../Reflection/Reflector';
+import { PropertyFilters } from '../Reflection/PropertyFilters';
 import { Constructor } from '../Core/Constructor';
-import { Method } from '../Core/Reflection/Method';
+import { Method } from '../Reflection/Method';
 
 export class AgentCompiler implements ICompiler {
   compile<T>(target: Constructor<T>, params: Arguments): T {
@@ -40,7 +40,7 @@ export class AgentCompiler implements ICompiler {
     return CompiledAgent;
   }
 
-  compileParameters(method: Method<any>): Map<number, IInvocation> {
+  compileParameters(target: Function, method: Method<any>): Map<number, IInvocation> {
     const maxParameter = method.parameterCount();
     const parameterInitializers = new Map<number, IInvocation>();
 
@@ -51,7 +51,7 @@ export class AgentCompiler implements ICompiler {
       let initializerAttributes = parameter.getInitializers();
 
       // apply initializers
-      const initialized = InitializerFactory.createParameterInitializer(initializerAttributes, method, parameter);
+      const initialized = InitializerFactory.createParameterInitializer(initializerAttributes, target, parameter);
 
       // get all interceptor
       let interceptorAttributes = parameter.getInterceptors();
@@ -85,7 +85,7 @@ export class AgentCompiler implements ICompiler {
 
     let propertyInterceptors: Map<PropertyKey, IInvocation> | undefined;
 
-    for (const properties of layers) {
+    for (const [prototype, properties] of layers) {
       for (const [, property] of properties) {
         const name = property.targetKey;
         const descriptor = property.descriptor;
@@ -128,7 +128,7 @@ export class AgentCompiler implements ICompiler {
           interceptorAttributes = property.value.getInterceptors().concat(interceptorAttributes);
           let parameters: Map<number, IInvocation> | undefined;
           if (property.value.hasParameterInterceptor() || property.value.hasParameterInitializer()) {
-            parameters = this.compileParameters(property.value);
+            parameters = this.compileParameters(value, property.value);
           }
           newDescriptor.value = InterceptorFactory.createFunction(
             interceptorAttributes,
@@ -165,7 +165,7 @@ export class AgentCompiler implements ICompiler {
 
     if (layers.length > 0) {
       propertyInitializers = new Map<PropertyKey, IInvocation>();
-      for (const initializers of layers) {
+      for (const [, initializers] of layers) {
         for (const [, property] of initializers) {
           const name = property.targetKey;
 

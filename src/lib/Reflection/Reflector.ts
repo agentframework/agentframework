@@ -1,6 +1,6 @@
-import { Type } from './Reflection/Type';
-import { ResolveType } from './Resolver/ResolveType';
-import { Agents } from './Cache';
+import { Type } from './Type';
+import { ResolveType } from '../Internal/ResolveType';
+import { Agents } from '../Internal/Cache';
 
 /**
  * Reflector is the interface to access type data from class or class instance or class prototype

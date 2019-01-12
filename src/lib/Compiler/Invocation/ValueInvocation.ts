@@ -1,18 +1,17 @@
 import { IInvocation } from '../../Core/IInvocation';
-import { Constructor } from '../../Core/Constructor';
 
 /**
  * @ignore
  * @hidden
  */
 export class ValueInvocation implements IInvocation {
-  constructor(private _target: Constructor<any>, private _propertyKey: PropertyKey, private _design: any) {}
+  constructor(private _target: Object, private _propertyKey: PropertyKey, private _design: any) {}
 
   get design(): any {
     return this._design;
   }
 
-  get target(): Constructor<any> {
+  get target(): Object {
     return this._target;
   }
 

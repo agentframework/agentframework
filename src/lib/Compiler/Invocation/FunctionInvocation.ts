@@ -1,16 +1,15 @@
 import { IInvocation } from '../../Core/IInvocation';
-import { Constructor } from '../../Core/Constructor';
 
-export class MethodInvocation<T> implements IInvocation {
-  constructor(readonly target: Constructor<T>, readonly method: Function, readonly design: any) {}
+export class MethodInvocation implements IInvocation {
+  constructor(readonly target: Object, readonly method: Function, readonly design: any) {}
   invoke(parameters: ArrayLike<any>): any {
     return Reflect.apply(this.method, this.target, parameters);
   }
 }
 
-export class ParameterizedMethodInvocation<T> implements IInvocation {
+export class ParameterizedMethodInvocation implements IInvocation {
   constructor(
-    readonly target: Constructor<T>,
+    readonly target: Object,
     readonly method: Function,
     readonly design: any,
     readonly params: Map<number, IInvocation>

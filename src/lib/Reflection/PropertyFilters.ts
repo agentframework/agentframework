@@ -1,7 +1,7 @@
 import { Property } from './Property';
-import { Constructor } from '../Constructor';
-import { AgentFeatures } from '../AgentFeatures';
-import { IAttribute } from '../IAttribute';
+import { Constructor } from '../Core/Constructor';
+import { AgentFeatures } from './AgentFeatures';
+import { IAttribute } from '../Core/IAttribute';
 import { Type } from './Type';
 
 /**

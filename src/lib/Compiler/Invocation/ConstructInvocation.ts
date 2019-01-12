@@ -1,21 +1,21 @@
 import { IInvocation } from '../../Core/IInvocation';
-import { Reflector } from '../../Core/Reflector';
-import { ICompiler } from '../../Core/ICompiler';
-import { Arguments } from '../../Core/Arguments';
-import { Parameters } from '../Internal/Cache';
-import { Resolve } from '../../Core/Resolver/Resolve';
-import { AgentCompiler } from '../AgentCompiler';
+import { Reflector } from '../../Reflection/Reflector';
 import { Constructor } from '../../Core/Constructor';
+import { ICompiler } from '../ICompiler';
+import { Arguments } from '../Arguments';
+import { Parameters } from '../Internal/Parameters';
+import { Resolve } from '../../Internal/Resolve';
+import { AgentCompiler } from '../AgentCompiler';
 
 /**
  * @ignore
  * @hidden
  */
-export class ConstructInvocation<T> implements IInvocation {
+export class ConstructInvocation<C extends Function> implements IInvocation {
   constructor(
-    readonly _newTarget: Constructor<T>,
+    readonly _newTarget: C,
     readonly _args: any,
-    readonly _target: Constructor<T>,
+    readonly _target: C,
     readonly _params: Arguments
   ) {}
 
@@ -24,7 +24,7 @@ export class ConstructInvocation<T> implements IInvocation {
   }
 
   get compiledParameters(): Map<number, IInvocation> {
-    const value = this.compiler.compileParameters(Reflector(this._target));
+    const value = this.compiler.compileParameters(this._target, Reflector(this._target));
     Reflect.defineProperty(this, 'compiledParameters', { value });
     return value;
   }
@@ -35,7 +35,7 @@ export class ConstructInvocation<T> implements IInvocation {
     return value;
   }
 
-  get target() {
+  get target(): Function {
     return this._target;
   }
 

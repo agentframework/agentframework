@@ -1,7 +1,7 @@
-import { IInitializerAttribute } from './IAttribute';
-import { IInitializer } from './IInitializer';
-import { AgentInitializer } from '../Compiler/Initializer/AgentInitializer';
-import { Resolve } from './Resolver/Resolve';
+import { IInitializerAttribute } from '../Core/IAttribute';
+import { IInitializer } from '../Core/IInitializer';
+import { AgentInitializer } from './Initializer/AgentInitializer';
+import { Resolve } from '../Internal/Resolve';
 
 /**
  * This attribute is for agent / domain management

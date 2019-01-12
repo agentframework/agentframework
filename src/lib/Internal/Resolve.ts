@@ -1,5 +1,5 @@
-import { Constructor } from '../Constructor';
-import { Instances } from '../Cache';
+import { Constructor } from '../Core/Constructor';
+import { Instances } from './Cache';
 
 export function Resolve<T>(type: Constructor<T>, params?: ArrayLike<any>): T {
   let found = Instances.get(type);

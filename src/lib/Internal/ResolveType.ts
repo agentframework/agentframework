@@ -1,5 +1,5 @@
 import { Type } from '../Reflection/Type';
-import { Instances } from '../Cache';
+import { Instances } from './Cache';
 
 export function ResolveType(prototype: Object): Type {
   let found = Instances.get(prototype);
