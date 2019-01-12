@@ -74,6 +74,8 @@ export class Property extends Member<Type> {
           this.value.hasParameterInitializer();
 
         if (features === 3) {
+          debugger;
+          console.log(3, results, this._hasInterceptors);
           results = results && this._hasInterceptors;
         } else {
           return this._hasInterceptors;

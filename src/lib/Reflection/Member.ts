@@ -21,9 +21,6 @@ export abstract class Member<P> {
    * @param {IAttribute} attribute
    */
   addAttribute(attribute: IAttribute): void {
-    if (!attribute) {
-      throw new TypeError(`Unable to add null attribute`);
-    }
     this._attributes.push(attribute);
     // if the attribute provide a getInterceptor, that means this property may need inject
     // we don't call getInterceptor or getInitializer until user new() the agent class.
@@ -98,9 +95,9 @@ export abstract class Member<P> {
    *
    * @param key
    */
-  getMetadata(key: string): any | null {
+  getMetadata(key: string): any | undefined {
     if (!this._metadata) {
-      return null;
+      return undefined;
     }
     return this._metadata.get(key);
   }

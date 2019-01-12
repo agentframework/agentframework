@@ -13,9 +13,7 @@ export class Method<P> extends Member<P> {
   constructor(parent: P | null, maxParameters: number) {
     super(parent);
     // prevent access parameter outside the boundary
-    if (IsNumber(maxParameters)) {
-      this._maxParameters = maxParameters;
-    }
+    this._maxParameters = maxParameters;
     this._parameters = new Map<number, Parameter<Method<P>>>();
   }
 

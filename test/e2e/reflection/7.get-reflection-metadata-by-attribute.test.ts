@@ -1,9 +1,5 @@
 import {
-  agent,
-  Agent,
-  AgentAttribute,
   decorateClassMember,
-  IsAgent,
   PropertyFilters,
   Reflector
 } from '../../../src/lib';
