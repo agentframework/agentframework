@@ -1,14 +1,16 @@
 import { IInvocation } from '../../Core/IInvocation';
+import { Method } from '../../Reflection/Method';
+import { Property } from '../../Reflection/Property';
 
 export class DirectMethodInvocation implements IInvocation {
   constructor(
     readonly _target: Function,
     readonly method: Function,
-    readonly _design: any,
+    readonly _design: Method<Property>,
     private _newTarget?: Function
   ) {}
 
-  get design(): any {
+  get design(): Method<Property> {
     return this._design;
   }
 
@@ -29,12 +31,12 @@ export class InterceptedMethodInvocation implements IInvocation {
   constructor(
     readonly _target: Function,
     readonly method: Function,
-    readonly _design: any,
+    readonly _design: Method<Property>,
     readonly params: Map<number, IInvocation>,
     private _newTarget?: Function
   ) {}
 
-  get design(): any {
+  get design(): Method<Property> {
     return this._design;
   }
 

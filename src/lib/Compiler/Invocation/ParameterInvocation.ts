@@ -8,7 +8,7 @@ import { Parameter } from '../../Reflection/Parameter';
 export class ParameterInvocation implements IInvocation {
   constructor(private _target: Function, private _design: Parameter<any>) {}
 
-  get design(): any {
+  get design(): Parameter<any> {
     return this._design;
   }
 

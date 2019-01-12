@@ -15,11 +15,7 @@ export class InitializerInvocation implements IInvocation {
   get target(): Function {
     return this._invocation.target;
   }
-  
-  set target(newTarget: Function) {
-    this._invocation.target = newTarget;
-  }
-  
+
   invoke(parameters: ArrayLike<any>): any {
     return this._initializer.initialize(this._invocation, parameters);
   }

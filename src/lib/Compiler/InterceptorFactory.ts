@@ -5,7 +5,8 @@ import { DirectMethodInvocation, InterceptedMethodInvocation } from './Invocatio
 import { IInvocation } from '../Core/IInvocation';
 import { IAttribute } from '../Core/IAttribute';
 import { Reflector } from '../Reflection/Reflector';
-import { Constructor } from '../Core/Constructor';
+import { Method } from '../Reflection/Method';
+import { Property } from '../Reflection/Property';
 
 /**
  * @ignore
@@ -24,7 +25,7 @@ export class InterceptorFactory {
     attributes: Array<IAttribute>,
     target: Function,
     method: Function,
-    design: any,
+    design: Method<Property>,
     params?: Map<number, IInvocation>
   ): Function {
     let origin: IInvocation, factory: Function;

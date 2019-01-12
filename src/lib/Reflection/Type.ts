@@ -12,12 +12,12 @@ import { Instances } from '../Internal/Cache';
 export class Type extends Method<Type> {
   protected readonly parent: null;
   private readonly _prototype: object;
-  private readonly _properties: Map<PropertyKey, Property<Type>>;
+  private readonly _properties: Map<PropertyKey, Property>;
 
   constructor(prototype: Object) {
     super(null, prototype.constructor.length);
     this._prototype = prototype;
-    this._properties = new Map<PropertyKey, Property<Type>>();
+    this._properties = new Map<PropertyKey, Property>();
   }
 
   /**
@@ -56,10 +56,10 @@ export class Type extends Method<Type> {
    * @param {PropertyDescriptor} descriptor
    * @returns {Property}
    */
-  property(key: PropertyKey, descriptor?: PropertyDescriptor): Property<Type> {
+  property(key: PropertyKey, descriptor?: PropertyDescriptor): Property {
     if (!this._properties.has(key)) {
       descriptor = descriptor || Object.getOwnPropertyDescriptor(this._prototype, key);
-      this._properties.set(key, new Property<Type>(this, key, descriptor));
+      this._properties.set(key, new Property(this, key, descriptor));
     }
     return this._properties.get(key)!;
   }
@@ -69,7 +69,7 @@ export class Type extends Method<Type> {
    *
    * @returns {IterableIterator<Property>}
    */
-  properties(): IterableIterator<Property<Type>> {
+  properties(): IterableIterator<Property> {
     return this._properties.values();
   }
 
@@ -80,8 +80,8 @@ export class Type extends Method<Type> {
    * @param filterCriteria
    * @returns {Property[]}
    */
-  findOwnProperties(filter: PropertyFilter, filterCriteria?: any): Map<PropertyKey, Property<Type>> {
-    const properties = new Map<PropertyKey, Property<Type>>();
+  findOwnProperties(filter: PropertyFilter, filterCriteria?: any): Map<PropertyKey, Property> {
+    const properties = new Map<PropertyKey, Property>();
     for (const [key, property] of this._properties.entries()) {
       if (filter(property, filterCriteria)) {
         properties.set(key, property);
@@ -97,9 +97,9 @@ export class Type extends Method<Type> {
    * @param filterCriteria
    * @returns {Property[]}
    */
-  findProperties(filter: PropertyFilter, filterCriteria?: any): Array<[Object, Map<PropertyKey, Property<Type>>]> {
+  findProperties(filter: PropertyFilter, filterCriteria?: any): Array<[Object, Map<PropertyKey, Property>]> {
     const prototypes = [];
-    const layers: Array<[Object, Map<PropertyKey, Property<Type>>]> = [];
+    const layers: Array<[Object, Map<PropertyKey, Property>]> = [];
 
     let p = this._prototype;
     while (p) {
@@ -113,7 +113,7 @@ export class Type extends Method<Type> {
         type = new Type(proto);
         Instances.set(proto, type);
       }
-      const properties = new Map<PropertyKey, Property<Type>>();
+      const properties = new Map<PropertyKey, Property>();
       for (const [key, property] of type._properties.entries()) {
         if (filter(property, filterCriteria)) {
           properties.set(key, property);

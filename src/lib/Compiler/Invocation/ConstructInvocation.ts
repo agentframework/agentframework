@@ -5,6 +5,7 @@ import { Arguments } from '../Arguments';
 import { Parameters } from '../Internal/Parameters';
 import { Resolve } from '../../Internal/Resolve';
 import { AgentCompiler } from '../AgentCompiler';
+import { Type } from '../../Reflection/Type';
 
 /**
  * @ignore
@@ -41,7 +42,7 @@ export class ConstructInvocation<C extends Function> implements IInvocation {
     return this._target;
   }
 
-  get design(): any {
+  get design(): Type {
     return this._design;
   }
   

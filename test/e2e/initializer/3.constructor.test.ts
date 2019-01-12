@@ -1,34 +1,6 @@
-import {
-  agent,
-  Agent,
-  AgentAttribute,
-  decorateParameter,
-  IAttribute,
-  IInterceptor,
-  IInvocation,
-  IsAgent,
-  Reflector
-} from '../../../src/lib';
+import { agent, Agent, AgentAttribute, decorateParameter, IsAgent, Reflector } from '../../../src/lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
-
-class AgentChecker implements IAttribute, IInterceptor {
-  get interceptor(): IInterceptor {
-    return this;
-  }
-
-  beforeDecorate(
-    target: Object | Function,
-    targetKey?: string | symbol,
-    descriptor?: PropertyDescriptor | number
-  ): boolean {
-    return true;
-  }
-
-  public intercept(target: IInvocation, parameters: ArrayLike<any>): any {
-    expect(typeof target.target).toBe('function');
-    return target.invoke(Array.prototype.slice.call(parameters, 0));
-  }
-}
+import { AgentChecker } from '../attributes/AgentChecker';
 
 class Connection {
   constructor() {

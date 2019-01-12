@@ -13,18 +13,18 @@ export interface PropertyFilter {
    * @param filterCriteria An arbitrary object used to filter the list.
    * @returns {boolean} `true` to include the behavior in the filtered list; otherwise false.
    */
-  (value: Property<Type>, filterCriteria?: any): boolean;
+  (value: Property, filterCriteria?: any): boolean;
 }
 
 export class PropertyFilters {
   static FilterAttribute<T extends IAttribute>(
-    property: Property<Type>,
+    property: Property,
     filterCriteria?: Constructor<T>
   ): boolean {
     return property.hasAttribute(filterCriteria);
   }
 
-  static FilterFeatures(property: Property<Type>, filterCriteria?: AgentFeatures): boolean {
+  static FilterFeatures(property: Property, filterCriteria?: AgentFeatures): boolean {
     if (!filterCriteria) {
       throw new Error('Missing AgentFeatures to filter');
     }

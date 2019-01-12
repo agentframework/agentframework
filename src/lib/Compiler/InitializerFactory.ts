@@ -4,6 +4,7 @@ import { Parameter } from '../Reflection/Parameter';
 import { InitializerInvocation } from './Invocation/InitializerInvocation';
 import { FieldInvocation } from './Invocation/FieldInvocation';
 import { ParameterInvocation } from './Invocation/ParameterInvocation';
+import { Property } from '../Reflection/Property';
 
 /**
  * @ignore
@@ -15,7 +16,7 @@ export class InitializerFactory {
     attributes: Array<IAttribute>,
     target: Function,
     propertyKey: PropertyKey,
-    design: any
+    design: Property
   ): IInvocation {
     const invocation = new FieldInvocation(target, propertyKey, design);
     return this.chainInitializerAttributes(invocation, attributes);

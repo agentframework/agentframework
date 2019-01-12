@@ -1,20 +1,21 @@
 import { Method } from './Method';
 import { AgentFeatures, hasFeature } from './AgentFeatures';
 import { Member } from './Member';
+import { Type } from './Type';
 
 /**
  * Property
  */
-export class Property<P> extends Member<P> {
-  protected readonly parent: P;
+export class Property extends Member<Type> {
+  protected readonly parent: Type;
   private _hasInitializers: boolean;
   private _hasInterceptors: boolean;
 
-  constructor(parent: P, private _key: PropertyKey, private _descriptor?: PropertyDescriptor) {
+  constructor(parent: Type, private _key: PropertyKey, private _descriptor?: PropertyDescriptor) {
     super(parent);
   }
 
-  get value(): Method<Property<P>> {
+  get value(): Method<Property> {
     let maxFunctionParameters = 0,
       _descriptor = this._descriptor; // field don't have parameter
     if (_descriptor && _descriptor.value && 'function' === typeof _descriptor.value) {
@@ -25,13 +26,13 @@ export class Property<P> extends Member<P> {
     return value;
   }
 
-  get setter(): Method<Property<P>> {
+  get setter(): Method<Property> {
     const value = new Method(this, 1);
     Reflect.defineProperty(this, 'setter', { value });
     return value;
   }
 
-  get getter(): Method<Property<P>> {
+  get getter(): Method<Property> {
     const value = new Method(this, 0);
     Reflect.defineProperty(this, 'getter', { value });
     return value;
