@@ -4,17 +4,17 @@ import { Compiler } from './Compiler';
 import { InitializerFactory } from './InitializerFactory';
 import { InitializerInvocation } from './Invocation/InitializerInvocation';
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
-import { InterceptorFactory } from './InterceptorFactory';
 import { Arguments } from './Arguments';
 import { IInvocation } from '../Core/IInvocation';
 import { AgentFeatures } from '../Reflection/AgentFeatures';
 import { Reflector } from '../Reflection/Reflector';
 import { PropertyFilters } from '../Reflection/PropertyFilters';
-import { Constructor } from './Constructor';
 import { Method } from '../Reflection/Method';
+import { InterceptorChainFactory } from './InterceptorChainFactory';
+import { InterceptorFunctionFactory } from './InterceptorFunctionFactory';
 
 export class AgentCompiler implements ICompiler {
-  compile<T>(target: Constructor<T>, params: Arguments): T {
+  compile(target: Function, params: Arguments): Function {
     const names = new Set<PropertyKey>();
     let initializers: any, interceptors: any;
 
@@ -27,7 +27,6 @@ export class AgentCompiler implements ICompiler {
     let CompiledAgent;
 
     if (initializers || interceptors) {
-      // EPIC: inject the intercepted value before construct a new instance
       const compiler = new Compiler(target);
       compiler.defineFields(initializers, params);
       compiler.defineProperties(interceptors);
@@ -55,7 +54,7 @@ export class AgentCompiler implements ICompiler {
       let interceptorAttributes = parameter.getInterceptors();
 
       // apply interceptors
-      const intercepted = InterceptorFactory.chainInterceptorAttributes(initialized, interceptorAttributes);
+      const intercepted = InterceptorChainFactory.chainInterceptorAttributes(initialized, interceptorAttributes);
 
       // getAvailableParameters() return only the parameter got interceptor or initializer
       parameterInitializers.set(idx, intercepted);
@@ -64,8 +63,8 @@ export class AgentCompiler implements ICompiler {
     return parameterInitializers;
   }
 
-  private makePropertyInterceptors<T>(
-    target: Constructor<T>,
+  private makePropertyInterceptors(
+    target: Function,
     names: Set<PropertyKey>
   ): Map<PropertyKey, IInvocation> | undefined {
     const layers = Reflector(target).findProperties(PropertyFilters.FilterFeatures, AgentFeatures.Interceptor);
@@ -104,7 +103,7 @@ export class AgentCompiler implements ICompiler {
 
           if (typeof getter === 'function') {
             interceptorAttributes = property.getter.getInterceptors().concat(interceptorAttributes);
-            newDescriptor.get = InterceptorFactory.createFunction(
+            newDescriptor.get = InterceptorFunctionFactory.createFunction(
               interceptorAttributes,
               target,
               getter,
@@ -113,7 +112,7 @@ export class AgentCompiler implements ICompiler {
           }
           if (typeof setter === 'function') {
             interceptorAttributes = property.setter.getInterceptors().concat(interceptorAttributes);
-            newDescriptor.set = InterceptorFactory.createFunction(
+            newDescriptor.set = InterceptorFunctionFactory.createFunction(
               interceptorAttributes,
               target,
               setter,
@@ -128,7 +127,7 @@ export class AgentCompiler implements ICompiler {
             if (property.value.isParametersAvailable()) {
               parameters = this.compileParameters(value, property.value);
             }
-            newDescriptor.value = InterceptorFactory.createFunction(
+            newDescriptor.value = InterceptorFunctionFactory.createFunction(
               interceptorAttributes,
               target,
               value,
@@ -155,8 +154,8 @@ export class AgentCompiler implements ICompiler {
     return propertyInterceptors;
   }
 
-  private makePropertyInitializers<T>(
-    target: Constructor<T>,
+  private makePropertyInitializers(
+    target: Function,
     names: Set<PropertyKey>
   ): Map<PropertyKey, IInvocation> | undefined {
     const layers = Reflector(target).findProperties(PropertyFilters.FilterFeatures, AgentFeatures.Initializer);
@@ -191,7 +190,7 @@ export class AgentCompiler implements ICompiler {
             interceptorAttributes = property.value.getInterceptors().concat(interceptorAttributes);
 
             // apply interceptors
-            const intercepted = InterceptorFactory.chainInterceptorAttributes(initialized, interceptorAttributes);
+            const intercepted = InterceptorChainFactory.chainInterceptorAttributes(initialized, interceptorAttributes);
 
             // InceptionInvocation means at least one interceptor in the attributes
             // do nothing if no interceptor found

@@ -1,6 +1,5 @@
 import { Agent, decorate, IsAgent, Target } from '../../../src/lib';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
-import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
 
 /**
  *   Constructor = 1,

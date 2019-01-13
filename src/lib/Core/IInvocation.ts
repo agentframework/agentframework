@@ -2,12 +2,12 @@ export interface IInvocation {
   /**
    *
    */
-  design: any;
+  readonly design: any;
 
   /**
    * The origin user class
    */
-  target: Function;
+  readonly target: Function;
 
   /**
    * The next function

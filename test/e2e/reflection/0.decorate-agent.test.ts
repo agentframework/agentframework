@@ -1,4 +1,4 @@
-import { Agent, AgentAttribute, IsAgent, Reflector, decorateAgent, UniversalDecorator } from '../../../src/lib';
+import { Agent, AgentAttribute, IsAgent, Reflector, decorateAgent } from '../../../src/lib';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
 
 class BadAgentAttribute extends AgentAttribute {
@@ -9,7 +9,7 @@ class BadAgentAttribute extends AgentAttribute {
 
 class BadAgentAttribute2 extends AgentAttribute {
   get initializer() {
-    return undefined;
+    return <any>undefined;
   }
 }
 

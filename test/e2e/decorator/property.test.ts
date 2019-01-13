@@ -1,4 +1,4 @@
-import { agent } from '../../src/lib';
+import { agent } from '../../../src/lib';
 import { propertyDecorator } from './property';
 
 @agent()
@@ -44,6 +44,7 @@ describe('PropertyDecorator', () => {
             return 'test';
           }
         }
+        expect(TestDecoratePropertyDecoratorToClassMethodAgentClass).toBeTruthy()
       }).toThrowError('PropertyDecoratorAttribute can only decorate on class field property');
     });
     it('decorate on getter', () => {
@@ -55,6 +56,7 @@ describe('PropertyDecorator', () => {
             return 'test';
           }
         }
+        expect(TestDecoratePropertyDecoratorToClassGetterAgentClass).toBeTruthy()
       }).toThrowError('PropertyDecoratorAttribute can only decorate on class field property');
     });
     it('decorate on setter', () => {
@@ -67,6 +69,7 @@ describe('PropertyDecorator', () => {
             this._method = value;
           }
         }
+        expect(TestDecoratePropertyDecoratorToClassSetterAgentClass).toBeTruthy()
       }).toThrowError('PropertyDecoratorAttribute can only decorate on class field property');
     });
     it('decorate on setter twice', () => {
@@ -79,6 +82,7 @@ describe('PropertyDecorator', () => {
             this._method = value;
           }
         }
+        expect(TestDecoratePropertyDecoratorToClassSetterAgentClass).toBeTruthy()
       }).toThrowError('PropertyDecoratorAttribute can only decorate on class field property');
     });
 

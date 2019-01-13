@@ -1,14 +1,13 @@
-import { Constructor } from './Constructor';
 import { IInvocation } from '../Core/IInvocation';
 import { Arguments } from './Arguments';
 
 /**
  * Generate custom class
  */
-export class Compiler<T> {
-  private readonly generated: Constructor<T>;
+export class Compiler {
+  private readonly generated: Function;
 
-  constructor(private target: Constructor<T>) {
+  constructor(private target: Function) {
     this.generated = this.target;
   }
 
@@ -50,7 +49,7 @@ export class Compiler<T> {
     }
   }
 
-  compile(): Constructor<T> {
+  compile(): Function {
     return this.generated;
   }
 }

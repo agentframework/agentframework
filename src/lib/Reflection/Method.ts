@@ -9,7 +9,7 @@ export class Method<P> extends Member<P> {
   private readonly _parameters: Map<number, Parameter<Method<P>>>;
   private _parametersArray: Array<[number, Parameter<Method<P>>]>;
 
-  constructor(parent: P | null, public maxParameters: number) {
+  constructor(parent: P, public maxParameters: number) {
     super(parent);
     this._parameters = new Map<number, Parameter<Method<P>>>();
   }

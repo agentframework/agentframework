@@ -24,11 +24,11 @@ describe('Reflection Helper', () => {
     });
 
     it('get origin type of an agent', () => {
-      expect(GetType(Calculator).prototype).toBe(Object.getPrototypeOf(Calculator.prototype));
+      expect(GetType(Calculator)!.prototype).toBe(Object.getPrototypeOf(Calculator.prototype));
     });
   
     it('get origin type of an agent', () => {
-      expect(GetType(Agent(Computer)).prototype).toBe(Computer.prototype);
+      expect(GetType(Agent(Computer))!.prototype).toBe(Computer.prototype);
     });
   });
 });

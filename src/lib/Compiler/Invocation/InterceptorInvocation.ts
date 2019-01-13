@@ -16,10 +16,6 @@ export class InterceptorInvocation implements IInvocation {
     return this._invocation.target;
   }
   
-  set target(newTarget: Function) {
-    this._invocation.target = newTarget;
-  }
-  
   invoke(parameters: ArrayLike<any>): any {
     return this._interceptor.intercept(this._invocation, parameters);
   }

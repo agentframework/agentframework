@@ -1,10 +1,4 @@
-import {
-  agent,
-  Agent,
-  decorateParameter,
-  IsAgent,
-  Reflector
-} from '../../../src/lib';
+import { agent, Agent, decorateParameter, IsAgent, Reflector } from '../../../src/lib';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 
 class Connection {
@@ -18,7 +12,7 @@ class Connection {
 @agent()
 class MongoDB {
   constructor(@decorateParameter(new MetadataAttribute()) conn?: Connection) {
-    this.connection = conn;
+    if (conn) this.connection = conn;
   }
   connection: Connection;
 }

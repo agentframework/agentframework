@@ -10,7 +10,7 @@ import { CreateAgentInvocation } from './Compiler/CreateAgentInvocation';
 // ===========================================
 // ES6 and after
 // ===========================================
-function metadata(target: Function | Object, property?: string | symbol, descriptor?: PropertyDescriptor): void {
+function metadata(this: any, target: Function | Object, property?: string | symbol, descriptor?: PropertyDescriptor) {
   if (property) {
     Reflector(target)
       .property(property, descriptor)

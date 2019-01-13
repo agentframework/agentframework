@@ -1,6 +1,13 @@
 # Agent Framework 1.0.x ChangeLog
 
-## 2019-01-13, Version 1.0.0-rc.14 (Preview), @e2tox
+## 2019-01-13, Version 1.0.0-rc.15 (Preview), @e2tox
+
+**Notable Changes**
+
+- add more tsc check
+- Improve code quality
+
+## 2019-01-13, Version 1.0.0-rc.14, @e2tox
 
 **Notable Changes**
 

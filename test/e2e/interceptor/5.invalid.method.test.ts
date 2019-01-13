@@ -1,5 +1,4 @@
 import { agent, Agent, IsAgent, decorateClassMember, decorateClassMethod } from '../../../src/lib';
-import { BeforeRoundAttribute } from '../attributes/BeforeRoundAttribute';
 import { BadRoundAttribute } from '../attributes/BadRoundAttribute';
 
 @agent()

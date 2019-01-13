@@ -2,7 +2,6 @@ import {
   agent,
   Agent,
   decorate,
-  decorateClassField,
   decorateClassMember,
   decorateClassMethod,
   decorateParameter,

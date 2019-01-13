@@ -1,4 +1,4 @@
-import { agent, decorateParameter } from '../../src/lib';
+import { agent } from '../../../src/lib';
 import {
   fakeClassMemberDecorator,
   fakeClassDecorator,
@@ -13,13 +13,13 @@ describe('Fake Decorator', () => {
       @agent()
       class TestClass {
         @fakeClassMemberDecorator()
-        testMethod(@fakeParameterDecorator() first: boolean, @fakeParameterDecorator() second: TestClass): TestClass {
+        testMethod(@fakeParameterDecorator() first: boolean, @fakeParameterDecorator() second?: TestClass): TestClass {
           return this;
         }
       }
 
       const test = new TestClass();
-      expect(test.testMethod(null, null)).toEqual(test);
+      expect(test.testMethod(false)).toEqual(test);
     });
 
     it('decorate on class', () => {

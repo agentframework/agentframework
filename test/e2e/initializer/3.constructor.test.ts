@@ -13,7 +13,7 @@ class Connection {
 @agent([new AgentChecker()])
 class MongoDB {
   constructor(database: string, @decorateParameter(new InjectAttribute()) conn?: Connection) {
-    this.connection = conn;
+    if (conn) this.connection = conn;
   }
 
   connection: Connection;

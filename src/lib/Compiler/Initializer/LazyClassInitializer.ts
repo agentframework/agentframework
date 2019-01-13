@@ -1,4 +1,4 @@
-import { InterceptorFactory } from '../InterceptorFactory';
+import { InterceptorConstructorFactory } from '../InterceptorConstructorFactory';
 import { Arguments } from '../Arguments';
 import { IInvocation } from '../../Core/IInvocation';
 import { IInitializer } from '../../Core/IInitializer';
@@ -9,7 +9,7 @@ import { Reflector } from '../../Reflection/Reflector';
 export class LazyClassInitializer implements IInitializer {
   // isParametersAvailable() make sure this is the only way need to add parameter interceptor
   readonly target = function(args: ArrayLike<any>): ArrayLike<any> {
-    return Parameters.get(args);
+    return Parameters.get(args)!;
   };
 
   constructor() {
@@ -17,7 +17,7 @@ export class LazyClassInitializer implements IInitializer {
     function construct<C extends Function>(newTarget: C, args: ArrayLike<any>, target: C, params: Arguments) {
       let ctor = InterceptedConstructors.get(newTarget);
       if (!ctor) {
-        ctor = InterceptorFactory.createConstructor(newTarget, args, target, params);
+        ctor = InterceptorConstructorFactory.createConstructor(newTarget, args, target, params);
         InterceptedConstructors.set(newTarget, ctor);
       }
       return ctor.invoke(args);

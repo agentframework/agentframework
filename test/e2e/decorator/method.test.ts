@@ -1,4 +1,4 @@
-import { agent } from '../../src/lib';
+import { agent } from '../../../src/lib';
 import { methodDecorator } from './method';
 
 describe('Method Decorator', () => {
@@ -36,7 +36,7 @@ describe('Method Decorator', () => {
       class TestMethodDecoratorAtPropertySetter {
         _testMethod: number;
         @methodDecorator()
-        set testMethod(value) {
+        set testMethod(value: number) {
           this._testMethod = value;
         }
       }

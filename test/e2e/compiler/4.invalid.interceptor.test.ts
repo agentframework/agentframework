@@ -1,5 +1,4 @@
-import { agent, Agent, decorateClassField, decorateParameter, IsAgent, Reflector } from '../../../src/lib';
-import { MetadataAttribute } from '../attributes/MetadataAttribute';
+import { agent, Agent, decorateClassField, IsAgent, Reflector } from '../../../src/lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 
 @agent()

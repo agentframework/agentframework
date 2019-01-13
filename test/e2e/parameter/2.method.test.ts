@@ -1,7 +1,6 @@
 import {
   agent,
   Agent,
-  AgentAttribute,
   decorateClassField,
   decorateClassMethod,
   decorateParameter,
@@ -9,7 +8,6 @@ import {
   IInterceptor,
   IInvocation,
   IsAgent,
-  Reflector,
   decorateClassMember
 } from '../../../src/lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';

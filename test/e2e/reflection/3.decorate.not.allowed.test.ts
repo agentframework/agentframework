@@ -1,6 +1,5 @@
-import { decorate, agent } from '../../../src/lib';
+import { decorate } from '../../../src/lib';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
-import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
 
 const a = new MetadataAttribute();
 const noTarget = 0;
@@ -11,6 +10,7 @@ describe('decorate() and Not Allowed Target', () => {
       expect(() => {
         @decorate(a, noTarget)
         class MongoDB {}
+        expect(MongoDB).toBeTruthy();
       }).toThrow();
     });
 
@@ -20,6 +20,7 @@ describe('decorate() and Not Allowed Target', () => {
           @decorate(a, noTarget)
           random: Date;
         }
+        expect(MongoDB).toBeTruthy();
       }).toThrow();
     });
 
@@ -38,6 +39,7 @@ describe('decorate() and Not Allowed Target', () => {
         class MongoDB {
           constructor(p1: number, @decorate(a, noTarget) p2: Date) {}
         }
+        expect(MongoDB).toBeTruthy();
       }).toThrow();
     });
     it('decorate method', () => {
@@ -46,6 +48,7 @@ describe('decorate() and Not Allowed Target', () => {
           @decorate(a, noTarget)
           round(p1: string, p2: Date): any {}
         }
+        expect(MongoDB).toBeTruthy();
       }).toThrow();
     });
     it('decorate method parameter', () => {
@@ -53,6 +56,7 @@ describe('decorate() and Not Allowed Target', () => {
         class MongoDB {
           round(p1: string, @decorate(a, noTarget) p2: Date): any {}
         }
+        expect(MongoDB).toBeTruthy();
       }).toThrow();
     });
     it('decorate getter', () => {
@@ -63,6 +67,7 @@ describe('decorate() and Not Allowed Target', () => {
             return new Date();
           }
         }
+        expect(MongoDB).toBeTruthy();
       }).toThrow();
     });
     it('decorate setter', () => {
@@ -73,6 +78,7 @@ describe('decorate() and Not Allowed Target', () => {
             console.log('set', d);
           }
         }
+        expect(MongoDB).toBeTruthy();
       }).toThrow();
     });
   });

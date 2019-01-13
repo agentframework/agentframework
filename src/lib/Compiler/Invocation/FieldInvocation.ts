@@ -6,7 +6,7 @@ import { Property } from '../../Reflection/Property';
  * @hidden
  */
 export class FieldInvocation implements IInvocation {
-  constructor(private _target: Function, private _propertyKey: PropertyKey, private _design: Property) {}
+  constructor(private _target: Function, _propertyKey: PropertyKey, private _design: Property) {}
 
   get design(): Property {
     return this._design;

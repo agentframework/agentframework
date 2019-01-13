@@ -13,7 +13,7 @@ export abstract class Member<P> {
   private _hasInterceptor: boolean = false;
   private _hasInitializer: boolean = false;
 
-  protected constructor(parent: P | null) {
+  protected constructor(parent: P) {
     this.parent = parent;
   }
 

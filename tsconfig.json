@@ -1,18 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es2018",
-    "lib": ["dom","es2018"],
-    "composite": true,
-    "declaration": true,
-    "module": "esnext",
-    "removeComments": false,
+    "target": "es6",
+    "module": "commonjs",
+    "declaration": false,
+    "sourceMap": false,
+    "removeComments": true,
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
+    "typeRoots": ["node_modules/@types/"],
     "types": ["jasmine"]
   },
-  "include": ["**/*.ts"],
   "exclude": ["node_modules"]
 }

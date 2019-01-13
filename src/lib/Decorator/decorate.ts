@@ -24,68 +24,67 @@ export interface UniversalDecorator {
  */
 export function decorate(attribute: IAttribute, allows: Target): UniversalDecorator {
   return (target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor | number): any => {
-    const attributeName = Reflect.getPrototypeOf(attribute).constructor.name;
-    const isClass = typeof target === 'function';
-    const descriptorType = typeof descriptor;
+    let descriptorType = typeof descriptor;
 
-    if (isClass) {
-      if (typeof descriptor === 'number') {
+    if (targetKey == null) {
+      if (descriptorType === 'number') {
         // this is constructor parameter
         if (Target.ConstructorParameter !== (allows & Target.ConstructorParameter)) {
-          throw new TypeError(`${attributeName} is not allow decorate on constructor parameters`);
+          throw new TypeError(`${attribute.constructor.name} is not allow decorate on constructor parameters`);
         }
       } else {
         // this is constructor
         if (Target.Constructor !== (allows & Target.Constructor)) {
-          throw new TypeError(`${attributeName} is not allow decorate on class`);
+          throw new TypeError(`${attribute.constructor.name} is not allow decorate on class`);
         }
       }
     } else {
-      if (typeof descriptor === 'number') {
+      if (descriptorType === 'number') {
         // this is constructor parameter
         if (Target.MethodParameter !== (allows & Target.MethodParameter)) {
-          throw new TypeError(`${attributeName} is not allow decorate on method parameters`);
+          throw new TypeError(`${attribute.constructor.name} is not allow decorate on method parameters`);
         }
-      } else if (typeof descriptor === 'object') {
+      } else if (descriptor) {
         if (descriptor['value']) {
           if (typeof descriptor['value'] === 'function') {
             // this is method
             if (Target.Method !== (allows & Target.Method)) {
-              throw new TypeError(`${attributeName} is not allow decorate on method`);
+              throw new TypeError(`${attribute.constructor.name} is not allow decorate on method`);
             }
           } else {
             // this is field
             if (Target.Field !== (allows & Target.Field)) {
-              throw new TypeError(`${attributeName} is not allow decorate on field`);
+              throw new TypeError(`${attribute.constructor.name} is not allow decorate on field`);
             }
           }
         }
         if (descriptor['get']) {
           // this is constructor parameter
           if (Target.Getter !== (allows & Target.Getter)) {
-            throw new TypeError(`${attributeName} is not allow decorate on getter`);
+            throw new TypeError(`${attribute.constructor.name} is not allow decorate on getter`);
           }
         }
         if (descriptor['set']) {
           // this is constructor parameter
           if (Target.Setter !== (allows & Target.Setter)) {
-            throw new TypeError(`${attributeName} is not allow decorate on setter`);
+            throw new TypeError(`${attribute.constructor.name} is not allow decorate on setter`);
           }
         }
       } else {
         // this is constructor
         if (Target.Field !== (allows & Target.Field)) {
-          throw new TypeError(`${attributeName} is not allow decorate on field`);
+          throw new TypeError(`${attribute.constructor.name} is not allow decorate on field`);
         }
       }
     }
 
     if (CanDecorate(attribute, target, targetKey)) {
-      if (isClass) {
+      if (targetKey == null) {
         if (descriptorType === 'number') {
-          Reflector(target)
-            .parameter(descriptor as number)
-            .addAttribute(attribute);
+          CanDecorate(attribute, target, targetKey) &&
+            Reflector(target)
+              .parameter(descriptor as number)
+              .addAttribute(attribute);
         } else {
           Reflector(target).addAttribute(attribute);
         }
@@ -95,7 +94,7 @@ export function decorate(attribute: IAttribute, allows: Target): UniversalDecora
             .property(targetKey)
             .value.parameter(descriptor as number)
             .addAttribute(attribute);
-        } else if (descriptorType === 'object') {
+        } else if (descriptor) {
           Reflector(target)
             .property(targetKey, descriptor as PropertyDescriptor)
             .value.addAttribute(attribute);

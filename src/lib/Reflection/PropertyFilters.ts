@@ -2,7 +2,6 @@ import { Property } from './Property';
 import { Constructor } from '../Compiler/Constructor';
 import { AgentFeatures } from './AgentFeatures';
 import { IAttribute } from '../Core/IAttribute';
-import { Type } from './Type';
 
 /**
  * Represents a callback function that is used to filter a list of behavior represented in a map of Behavior objects.

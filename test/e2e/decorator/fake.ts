@@ -5,7 +5,7 @@ import {
   decorateClass,
   decorateClassMethod,
   decorateClassField, decorateParameter
-} from '../../src/lib';
+} from '../../../src/lib';
 
 
 export function fakeClassMemberDecorator() {

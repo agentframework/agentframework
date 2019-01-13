@@ -1,12 +1,4 @@
-import {
-  agent,
-  Agent,
-  AgentAttribute,
-  decorateClassField,
-  decorateParameter,
-  IsAgent,
-  Reflector
-} from '../../../src/lib';
+import { agent, Agent, decorateParameter, IsAgent } from '../../../src/lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 
 class Connection {
@@ -27,7 +19,7 @@ class MongoDB {
     expect(conn instanceof Connection).toBeTruthy();
     // console.log('MongoDB(', arguments, ')');
     this.user = user;
-    this.connection = conn;
+    if (conn) this.connection = conn;
   }
 }
 
