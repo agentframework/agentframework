@@ -49,7 +49,7 @@ export class InterceptedMethodInvocation implements IInvocation {
   }
 
   invoke(parameters: ArrayLike<any>) {
-    const params = Array.isArray(parameters) ? parameters : Array.prototype.slice.call(parameters, 0);
+    const params = Array.prototype.slice.call(parameters, 0);
     for (const [idx, interceptor] of this.params.entries()) {
       params[idx] = interceptor.invoke([parameters[idx], idx, parameters]);
     }

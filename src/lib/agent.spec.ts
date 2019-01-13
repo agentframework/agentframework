@@ -11,7 +11,7 @@ class MongoDB {
   }
 }
 
-describe('@agent', () => {
+describe('@agent spec', () => {
   describe('# should able to', () => {
     it('detect agent', () => {
       expect(IsAgent(MongoDB)).toBe(true);

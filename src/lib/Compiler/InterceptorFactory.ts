@@ -1,5 +1,5 @@
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
-import { ConstructInvocation } from './Invocation/ConstructInvocation';
+import { DirectConstructInvocation, InterceptedConstructInvocation } from './Invocation/ConstructInvocation';
 import { Arguments } from './Arguments';
 import { DirectMethodInvocation, InterceptedMethodInvocation } from './Invocation/MethodInvocations';
 import { IInvocation } from '../Core/IInvocation';
@@ -16,7 +16,12 @@ export class InterceptorFactory {
   static createConstructor<C extends Function>(newTarget: C, args: ArrayLike<any>, target: C, params: Arguments) {
     // search all attributes on this class constructor
     const design = Reflector(target);
-    const invocation = new ConstructInvocation(newTarget, args, target, params, design);
+    let invocation;
+    if (design.isParametersAvailable()) {
+      invocation = new InterceptedConstructInvocation(newTarget, args, target, params, design);
+    } else {
+      invocation = new DirectConstructInvocation(newTarget, args, target, params, design);
+    }
     const interceptors = design.getInterceptors();
     return InterceptorFactory.chainInterceptorAttributes(invocation, interceptors);
   }

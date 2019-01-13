@@ -1,4 +1,5 @@
 import { Agent, AgentAttribute, IsAgent, Reflector, decorateAgent, UniversalDecorator } from '../../../src/lib';
+import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
 
 class BadAgentAttribute extends AgentAttribute {
   get initializer() {
@@ -46,6 +47,12 @@ describe('Decorate Agent', () => {
 
     it('re-upgrade agent', () => {
       expect(Agent(MongoDB, new BadAgentAttribute())).toBe(MongoDB);
+    });
+
+    it('upgrade agent with not attribute', () => {
+      @decorateAgent(new AgentAttribute(), [new DisabledMetadataAttribute()])
+      class SQLServer {}
+      expect(IsAgent(SQLServer)).toBe(true);
     });
 
     it('new instance', () => {

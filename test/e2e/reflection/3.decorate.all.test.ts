@@ -11,28 +11,34 @@ import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribu
  Getter = 32,
  Setter = 64
  */
-
-describe('decorate() and Target', () => {
+const a = new MetadataAttribute();
+const AllTargets =
+  Target.Constructor |
+  Target.ConstructorParameter |
+  Target.Field |
+  Target.Method |
+  Target.MethodParameter |
+  Target.Setter |
+  Target.Getter;
+describe('decorate() and All Target', () => {
   describe('# should able to', () => {
     it('decorate agent', () => {
-      const a = new MetadataAttribute();
-
-      @decorate(a, Target.Constructor)
+      @decorate(a, AllTargets)
       class MongoDB {
-        @decorate(a, Target.Field)
+        @decorate(a, AllTargets)
         random: Date;
 
-        constructor(p1: number, @decorate(a, Target.ConstructorParameter) p2: Date) {}
+        constructor(p1: number, @decorate(a, AllTargets) p2: Date) {}
 
-        @decorate(a, Target.Method)
-        round(p1: string, @decorate(a, Target.MethodParameter) p2: Date): any {}
+        @decorate(a, AllTargets)
+        round(p1: string, @decorate(a, AllTargets) p2: Date): any {}
 
-        @decorate(a, Target.Getter)
+        @decorate(a, AllTargets)
         get dob(): Date {
           return new Date();
         }
 
-        @decorate(a, Target.Setter)
+        @decorate(a, AllTargets)
         set date(d: Date) {
           console.log('set', d);
         }
@@ -43,9 +49,15 @@ describe('decorate() and Target', () => {
       expect(IsAgent(MongoDB$)).toBeTruthy();
     });
 
-    it('not decorate agent', () => {
-      const a = new DisabledMetadataAttribute();
+    it('decorate class field 2', () => {
+      function MongoDB() {}
+      Reflect.defineProperty(MongoDB.prototype, 'random', { value: 1 });
+      const descr = Reflect.getOwnPropertyDescriptor(MongoDB.prototype, 'random');
+      // another kind of class and decorator
+      decorate(a, AllTargets)(MongoDB.prototype, 'random', descr);
+    });
 
+    it('not decorate agent', () => {
       @decorate(a, Target.Constructor)
       class MongoDB {
         @decorate(a, Target.Field)

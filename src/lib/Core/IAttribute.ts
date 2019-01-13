@@ -1,9 +1,6 @@
 import { IInitializer } from './IInitializer';
 import { IInterceptor } from './IInterceptor';
 
-/**
- * Attribute
- */
 export interface IAttribute {
   /**
    * Before decoration hook. Return false to stop decorate this attribute to a class

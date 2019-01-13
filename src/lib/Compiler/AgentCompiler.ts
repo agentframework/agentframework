@@ -57,14 +57,8 @@ export class AgentCompiler implements ICompiler {
       // apply interceptors
       const intercepted = InterceptorFactory.chainInterceptorAttributes(initialized, interceptorAttributes);
 
-      // InceptionInvocation means at least one interceptor in the attributes
-      // do nothing if no interceptor found
-      if (intercepted instanceof InitializerInvocation || intercepted instanceof InterceptorInvocation) {
-        parameterInitializers.set(idx, intercepted);
-      }
-      // else if (intercepted instanceof ParameterInvocation) {
-      //   // do nothing
-      // }
+      // getAvailableParameters() return only the parameter got interceptor or initializer
+      parameterInitializers.set(idx, intercepted);
     }
 
     return parameterInitializers;

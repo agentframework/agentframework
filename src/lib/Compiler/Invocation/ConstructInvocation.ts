@@ -1,24 +1,26 @@
 import { IInvocation } from '../../Core/IInvocation';
 import { Reflector } from '../../Reflection/Reflector';
+import { Type } from '../../Reflection/Type';
 import { ICompiler } from '../ICompiler';
 import { Arguments } from '../Arguments';
 import { Parameters } from '../Internal/Parameters';
 import { Resolve } from '../../Internal/Resolve';
 import { AgentCompiler } from '../AgentCompiler';
-import { Type } from '../../Reflection/Type';
 
 /**
  * @ignore
  * @hidden
  */
-export class ConstructInvocation<C extends Function> implements IInvocation {
-  constructor(
-    readonly _newTarget: C,
-    readonly _args: any,
-    readonly _target: C,
-    readonly _params: Arguments,
-    readonly _design: any
-  ) {}
+export class ConstructCompiler<C extends Function> {
+  constructor(readonly _newTarget: C, readonly _target: C, readonly _design: any, readonly _params: Arguments) {}
+
+  get target(): Function {
+    return this._target;
+  }
+
+  get design(): Type {
+    return this._design;
+  }
 
   get compiler(): ICompiler {
     const value = Resolve(AgentCompiler);
@@ -37,28 +39,37 @@ export class ConstructInvocation<C extends Function> implements IInvocation {
     Reflect.defineProperty(this, 'compiledTarget', { value });
     return value;
   }
+}
 
-  get target(): Function {
-    return this._target;
+/**
+ * @ignore
+ * @hidden
+ */
+export class InterceptedConstructInvocation<C extends Function> extends ConstructCompiler<C> implements IInvocation {
+  constructor(_newTarget: C, readonly _args: any, _target: C, _params: Arguments, _design: any) {
+    super(_newTarget, _target, _design, _params);
   }
 
-  get design(): Type {
-    return this._design;
-  }
-  
   invoke(parameters: ArrayLike<any>) {
-    let args;
-    if (this._target.length > 0) {
-      const params = this.compiledParameters;
-      if (params.size) {
-        args = Array.isArray(parameters) ? parameters : Array.prototype.slice.call(parameters, 0);
-        for (const [idx, interceptor] of params.entries()) {
-          args[idx] = interceptor.invoke([parameters[idx], idx, args]);
-        }
-        Parameters.set(this._args, args);
-        return Reflect.construct(this._target, args, this.compiledTarget);
-      }
+    let args = Array.prototype.slice.call(parameters, 0);
+    for (const [idx, interceptor] of this.compiledParameters.entries()) {
+      args[idx] = interceptor.invoke([parameters[idx], idx, args]);
     }
+    Parameters.set(this._args, args);
+    return Reflect.construct(this._target, args, this.compiledTarget);
+  }
+}
+
+/**
+ * @ignore
+ * @hidden
+ */
+export class DirectConstructInvocation<C extends Function> extends ConstructCompiler<C> implements IInvocation {
+  constructor(_newTarget: C, _args: any, _target: C, _params: Arguments, _design: any) {
+    super(_newTarget, _target, _design, _params);
+  }
+
+  invoke<T>(parameters: ArrayLike<any>): T {
     return Reflect.construct(this._target, parameters, this.compiledTarget);
   }
 }

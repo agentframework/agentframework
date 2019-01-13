@@ -1,6 +1,13 @@
 # Agent Framework 1.0.x ChangeLog
 
-## 2019-01-11, Version 1.0.0-rc.13 (Preview), @e2tox
+## 2019-01-13, Version 1.0.0-rc.14 (Preview), @e2tox
+
+**Notable Changes**
+
+- Add e2e tests
+- Prepare for 1.0 release
+
+## 2019-01-11, Version 1.0.0-rc.13, @e2tox
 
 **Notable Changes**
 

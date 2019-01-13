@@ -27,7 +27,7 @@ class MongoDB {
   round(): any {}
 }
 
-describe('Decorate Class', () => {
+describe('Decorate Class 222', () => {
   describe('# should able to', () => {
     it('detect agent', () => {
       expect(IsAgent(MongoDB)).toBe(false);

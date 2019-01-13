@@ -8,7 +8,7 @@ export interface IInvocation {
    * The origin user class
    */
   target: Function;
-  
+
   /**
    * The next function
    *

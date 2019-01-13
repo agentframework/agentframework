@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "lib": ["es6", "dom"],
+    "target": "es2018",
+    "lib": ["dom","es2018"],
     "composite": true,
     "declaration": true,
-    "module": "commonjs",
+    "module": "esnext",
     "removeComments": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,

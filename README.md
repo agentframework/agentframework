@@ -7,7 +7,7 @@
 
 | Date       | Version                                          | Status  |
 | ---------- | ------------------------------------------------ | ------- |
-| 2019-01-11 | [1.0.0-rc.13](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
+| 2019-01-13 | [1.0.0-rc.14](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
 | 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)      | Stable  |
 
 ### Principle
@@ -44,7 +44,7 @@
 - Work in both node and browser
 - Very Fast (Compile class at 1st time you new/call it; as fast as native class starting from 2nd time)
 - Very Clean (Never touch your original class prototype, A on-demand compiled proxy will be generated on top of your class)
-- Very Small (Only 628 SLOC and 4.3kb zipped @ v1.0.0-rc13)
+- Very Small (Only 594 SLOC and 4.3kb zipped @ v1.0.0-rc14, deep considerations behind every single line of code)
 
 ### Why use Agent Framework?
 

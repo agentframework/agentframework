@@ -62,13 +62,13 @@ export function decorate(attribute: IAttribute, allows: Target): UniversalDecora
         }
         if (descriptor['get']) {
           // this is constructor parameter
-          if (Target.Method !== (allows & Target.Getter)) {
+          if (Target.Getter !== (allows & Target.Getter)) {
             throw new TypeError(`${attributeName} is not allow decorate on getter`);
           }
         }
         if (descriptor['set']) {
           // this is constructor parameter
-          if (Target.Method !== (allows & Target.Setter)) {
+          if (Target.Setter !== (allows & Target.Setter)) {
             throw new TypeError(`${attributeName} is not allow decorate on setter`);
           }
         }
