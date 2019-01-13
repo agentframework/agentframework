@@ -1,6 +1,6 @@
-import { IInterceptor, IInterceptorAttribute, IInvocation, Member } from '../../../src/lib';
+import { IInterceptor, IInvocation, Member, IAttribute } from '../../../src/lib';
 
-export class RoundAttribute implements IInterceptorAttribute, IInterceptor {
+export class RoundAttribute implements IAttribute, IInterceptor {
   beforeDecorate(
     target: Object | Function,
     targetKey?: string | symbol,

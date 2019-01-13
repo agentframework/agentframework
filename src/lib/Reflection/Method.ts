@@ -24,7 +24,7 @@ export class Method<P> extends Member<P> {
   parameter(index: number): Parameter<Method<P>> {
     // throw error if out of bound
     if (IsNumber(this._maxParameters) && index > this._maxParameters) {
-      throw new TypeError(`Invalid parameter index: ${index}`);
+      throw new TypeError(`Parameter index out of boundary: ${index}. Max is ${this._maxParameters}`);
     }
     let parameter = this._parameters.get(index);
     if (!parameter) {

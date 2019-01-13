@@ -1,15 +1,15 @@
 import { IAttribute, IInitializerAttribute, IInterceptorAttribute } from '../Core/IAttribute';
-import { Constructor } from '../Core/Constructor';
+import { Constructor } from '../Compiler/Constructor';
 import { HasInitializer, HasInterceptor } from '../Compiler/Internal/Utils';
 
 /**
  * Access and store attribute and metadata for reflection
  */
 export abstract class Member<P> {
-  protected readonly parent: P | null;
+  protected readonly parent: P;
 
   private _attributes: Array<IAttribute> = [];
-  private _metadata: Map<string, any>;
+  private _metadata: Map<string, any> = new Map<string, any>();
   private _hasInterceptor: boolean = false;
   private _hasInitializer: boolean = false;
 
@@ -96,9 +96,6 @@ export abstract class Member<P> {
    * @param key
    */
   getMetadata(key: string): any | undefined {
-    if (!this._metadata) {
-      return undefined;
-    }
     return this._metadata.get(key);
   }
 
@@ -109,10 +106,6 @@ export abstract class Member<P> {
    * @param value
    */
   addMetadata(key: string, value: any): void {
-    // console.log('add', key, '=', value);
-    if (!this._metadata) {
-      this._metadata = new Map<string, any>();
-    }
     this._metadata.set(key, value);
   }
 }

@@ -22,7 +22,7 @@ export function Reflector(target: Function | Object): Type {
     if (constructor && 'function' === typeof constructor.value) {
       return ResolveType(target);
     } else {
-      throw new Error('AgentFramework 1.x not support access metadata on instance');
+      throw new Error('AgentFramework 1.x do not support access metadata on instance');
     }
   } else {
     // number, boolean

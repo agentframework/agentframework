@@ -3,8 +3,8 @@ import {
   decorateAgent,
   decorateClassField,
   IInterceptor,
-  IInterceptorAttribute,
-  AgentAttribute
+  AgentAttribute,
+  IAttribute
 } from '../../../src/lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 import { AgentTrackerAttribute } from '../attributes/AgentTrackerAttribute';
@@ -29,7 +29,7 @@ class MongoDB extends Database {
   }
 }
 
-class AgentBadInterceptorAttribute extends AgentAttribute implements IInterceptorAttribute {
+class AgentBadInterceptorAttribute extends AgentAttribute implements IAttribute {
   beforeDecorate(
     target: Object | Function,
     targetKey?: string | symbol,

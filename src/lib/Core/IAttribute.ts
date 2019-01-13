@@ -6,27 +6,24 @@ import { IInterceptor } from './IInterceptor';
  */
 export interface IAttribute {
   /**
-   * Get an initializer for current type
+   * Before decoration hook. Return false to stop decorate this attribute to a class
+   *
+   * @param {Object | Function} target
+   * @param {string | Symbol} key
+   * @param {PropertyDescriptor} descriptor
+   * @returns {boolean}
+   */
+  beforeDecorate(target: Object | Function, key?: string | symbol, descriptor?: PropertyDescriptor | number): boolean;
+
+  /**
+   * Get initializer for current target
    */
   readonly initializer?: IInitializer;
 
   /**
-   * Get an interceptor for current type
+   * Get interceptor for current target
    */
   readonly interceptor?: IInterceptor;
-  /**
-   * Called before decoration of this attribute
-   *
-   * @param {Object | Function} target
-   * @param {string | Symbol} targetKey
-   * @param {PropertyDescriptor} descriptor
-   * @returns {boolean}
-   */
-  beforeDecorate(
-    target: Object | Function,
-    targetKey?: string | symbol,
-    descriptor?: PropertyDescriptor | number
-  ): boolean;
 }
 
 export interface IInterceptorAttribute extends IAttribute {

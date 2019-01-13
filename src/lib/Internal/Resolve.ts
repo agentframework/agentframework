@@ -1,4 +1,4 @@
-import { Constructor } from '../Core/Constructor';
+import { Constructor } from '../Compiler/Constructor';
 import { Instances } from './Cache';
 
 export function Resolve<T>(type: Constructor<T>, params?: ArrayLike<any>): T {

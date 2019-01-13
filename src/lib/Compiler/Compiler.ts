@@ -1,4 +1,4 @@
-import { Constructor } from '../Core/Constructor';
+import { Constructor } from './Constructor';
 import { IInvocation } from '../Core/IInvocation';
 import { Arguments } from './Arguments';
 

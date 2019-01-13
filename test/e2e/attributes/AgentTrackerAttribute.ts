@@ -1,6 +1,6 @@
-import { AgentAttribute, IInterceptor, IInterceptorAttribute, IInvocation, Type } from '../../../src/lib';
+import { AgentAttribute, IInterceptor, IInvocation, Type } from '../../../src/lib';
 
-export class AgentTrackerAttribute extends AgentAttribute implements IInterceptorAttribute, IInterceptor {
+export class AgentTrackerAttribute extends AgentAttribute implements IInterceptor {
   get interceptor(): IInterceptor {
     return this;
   }

@@ -1,5 +1,5 @@
 import { Property } from './Property';
-import { Constructor } from '../Core/Constructor';
+import { Constructor } from '../Compiler/Constructor';
 import { AgentFeatures } from './AgentFeatures';
 import { IAttribute } from '../Core/IAttribute';
 import { Type } from './Type';

@@ -7,7 +7,6 @@ import { Type } from './Type';
  * Property
  */
 export class Property extends Member<Type> {
-  protected readonly parent: Type;
   private _hasInitializers: boolean;
   private _hasInterceptors: boolean;
 

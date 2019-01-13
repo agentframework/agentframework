@@ -1,4 +1,4 @@
-import { Constructor } from '../Core/Constructor';
+import { Constructor } from '../Compiler/Constructor';
 
 // declare var global: any;
 // declare var window: any;
@@ -32,9 +32,8 @@ import { Constructor } from '../Core/Constructor';
 //   return value;
 // }
 
-export const Agents = new WeakMap<any, any>(); //GetAgents();
-
-export const Instances = new WeakMap<any, any>(); //GetInstances();
+export const Agents = new WeakMap<any, any>(); // GetAgents();
+export const Instances = new WeakMap<any, any>(); // GetInstances();
 
 export function IsAgent<T>(agent: Constructor<T>): boolean {
   return Agents.has(agent);

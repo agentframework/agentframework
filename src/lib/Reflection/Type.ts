@@ -1,7 +1,7 @@
+import { Constructor } from '../Compiler/Constructor';
 import { Method } from './Method';
 import { Property } from './Property';
 import { PropertyFilter } from './PropertyFilters';
-import { Constructor } from '../Core/Constructor';
 import { Instances } from '../Internal/Cache';
 
 /**
@@ -9,8 +9,7 @@ import { Instances } from '../Internal/Cache';
  *
  * A class is a Function. So Class extends from Method
  */
-export class Type extends Method<Type> {
-  protected readonly parent: null;
+export class Type extends Method<null> {
   private readonly _prototype: object;
   private readonly _properties: Map<PropertyKey, Property>;
 

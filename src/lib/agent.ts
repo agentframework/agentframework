@@ -3,7 +3,7 @@ import { decorateAgent } from './Decorator/decorateAgent';
 import { AgentAttribute } from './Compiler/AgentAttribute';
 import { IAttribute } from './Core/IAttribute';
 import { Resolve } from './Internal/Resolve';
-import { Constructor } from './Core/Constructor';
+import { Constructor } from './Compiler/Constructor';
 import { CanDecorate } from './Compiler/Internal/Utils';
 import { CreateAgentInvocation } from './Compiler/CreateAgentInvocation';
 

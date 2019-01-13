@@ -10,7 +10,7 @@ import { IInvocation } from '../Core/IInvocation';
 import { AgentFeatures } from '../Reflection/AgentFeatures';
 import { Reflector } from '../Reflection/Reflector';
 import { PropertyFilters } from '../Reflection/PropertyFilters';
-import { Constructor } from '../Core/Constructor';
+import { Constructor } from './Constructor';
 import { Method } from '../Reflection/Method';
 
 export class AgentCompiler implements ICompiler {

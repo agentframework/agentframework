@@ -3,7 +3,7 @@ export { IAttribute, IInitializerAttribute, IInterceptorAttribute } from './Core
 export { IInterceptor } from './Core/IInterceptor';
 export { IInitializer } from './Core/IInitializer';
 export { IInvocation } from './Core/IInvocation';
-export { Constructor } from './Core/Constructor';
+export { Constructor } from './Compiler/Constructor';
 
 // Decorator
 export { decorate, Target, UniversalDecorator } from './Decorator/decorate';
