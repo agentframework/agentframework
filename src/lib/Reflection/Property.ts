@@ -53,8 +53,7 @@ export class Property extends Member<Type> {
       this.hasInterceptor() ||
       this.getter.hasInterceptor() ||
       this.value.hasInterceptor() ||
-      this.value.hasParameterInterceptor() ||
-      this.value.hasParameterInitializer();
+      this.value.isParametersAvailable();
     return this._hasInterceptors;
   }
 

@@ -2,7 +2,7 @@ import { Constructor } from '../Compiler/Constructor';
 import { Method } from './Method';
 import { Property } from './Property';
 import { PropertyFilter } from './PropertyFilters';
-import { Instances } from '../Internal/Cache';
+import { Types } from '../Internal/Cache';
 
 /**
  * Reflection information for user class
@@ -90,7 +90,7 @@ export class Type extends Method<null> {
   }
 
   /**
-   * Returns a filtered array of Property objects for all layers.
+   * Returns a filtered array of Property objects for all prototype in prototype chain.
    *
    * @param {PropertyFilter} filter
    * @param filterCriteria
@@ -107,10 +107,10 @@ export class Type extends Method<null> {
     }
 
     for (const proto of prototypes) {
-      let type = Instances.get(proto);
+      let type: Type = Types.get(proto);
       if (!type) {
         type = new Type(proto);
-        Instances.set(proto, type);
+        Types.set(proto, type);
       }
       const properties = new Map<PropertyKey, Property>();
       for (const [key, property] of type._properties.entries()) {

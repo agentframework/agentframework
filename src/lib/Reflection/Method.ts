@@ -6,48 +6,42 @@ import { IsNumber } from './Utils';
  * Method
  */
 export class Method<P> extends Member<P> {
-  private readonly _maxParameters: number;
   private readonly _parameters: Map<number, Parameter<Method<P>>>;
   private _parametersArray: Array<[number, Parameter<Method<P>>]>;
 
-  constructor(parent: P | null, maxParameters: number) {
+  constructor(parent: P | null, public maxParameters: number) {
     super(parent);
-    // prevent access parameter outside the boundary
-    this._maxParameters = maxParameters;
     this._parameters = new Map<number, Parameter<Method<P>>>();
-  }
-
-  parameterCount(): number {
-    return this._maxParameters;
   }
 
   parameter(index: number): Parameter<Method<P>> {
     // throw error if out of bound
-    if (IsNumber(this._maxParameters) && index > this._maxParameters) {
-      throw new TypeError(`Parameter index out of boundary: ${index}. Max is ${this._maxParameters}`);
+    if (IsNumber(this.maxParameters) && index > this.maxParameters) {
+      throw new TypeError(`Parameter index out of boundary: ${index}. Max is ${this.maxParameters}`);
     }
     let parameter = this._parameters.get(index);
     if (!parameter) {
       parameter = new Parameter(this);
       this._parameters.set(index, parameter);
-      delete this._parametersArray;
     }
+    delete this._parametersArray;
     return parameter;
   }
 
-  getParameters(): Array<[number, Parameter<Method<P>>]> {
+  getAvailableParameters(): Array<[number, Parameter<Method<P>>]> {
     if (!this._parametersArray) {
-      this._parametersArray = Array.from(this._parameters.entries());
+      this._parametersArray = [];
+      for (const entry of this._parameters.entries()) {
+        if (entry[1].hasInterceptor() || entry[1].hasInitializer()) {
+          this._parametersArray.push(entry);
+        }
+      }
     }
     return this._parametersArray;
   }
 
-  hasParameterInterceptor(): boolean {
-    return this.getParameters().some(([, p]) => p.hasInterceptor());
-  }
-
-  hasParameterInitializer(): boolean {
-    return this.getParameters().some(([, p]) => p.hasInitializer());
+  isParametersAvailable(): boolean {
+    return this.getAvailableParameters().length > 0;
   }
 
   get paramtypes(): Array<any> {

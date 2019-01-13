@@ -1,11 +1,11 @@
 import { Type } from '../Reflection/Type';
-import { Instances } from './Cache';
+import { Types } from './Cache';
 
 export function ResolveType(prototype: Object): Type {
-  let found = Instances.get(prototype);
+  let found = Types.get(prototype);
   if (!found) {
     found = new Type(prototype);
-    Instances.set(prototype, found);
+    Types.set(prototype, found);
   }
   return found;
 }

@@ -16,6 +16,7 @@ export abstract class Member<P> {
   protected constructor(parent: P | null) {
     this.parent = parent;
   }
+
   /**
    * Add an attribute
    * @param {IAttribute} attribute

@@ -33,7 +33,7 @@ import { Constructor } from '../Compiler/Constructor';
 // }
 
 export const Agents = new WeakMap<any, any>(); // GetAgents();
-export const Instances = new WeakMap<any, any>(); // GetInstances();
+export const Types = new WeakMap<any, any>(); // GetInstances();
 
 export function IsAgent<T>(agent: Constructor<T>): boolean {
   return Agents.has(agent);

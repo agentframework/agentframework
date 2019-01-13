@@ -41,12 +41,10 @@ export class AgentCompiler implements ICompiler {
   }
 
   compileParameters(target: Function, method: Method<any>): Map<number, IInvocation> {
-    const maxParameter = method.parameterCount();
+    const parameters = method.getAvailableParameters();
     const parameterInitializers = new Map<number, IInvocation>();
 
-    for (let idx = 0; idx < maxParameter; idx++) {
-      const parameter = method.parameter(idx);
-
+    for (const [idx, parameter] of parameters) {
       // get all initializer
       let initializerAttributes = parameter.getInitializers();
 
@@ -133,7 +131,7 @@ export class AgentCompiler implements ICompiler {
             // then call interceptors on property
             interceptorAttributes = property.value.getInterceptors().concat(interceptorAttributes);
             let parameters: Map<number, IInvocation> | undefined;
-            if (property.value.hasParameterInterceptor() || property.value.hasParameterInitializer()) {
+            if (property.value.isParametersAvailable()) {
               parameters = this.compileParameters(value, property.value);
             }
             newDescriptor.value = InterceptorFactory.createFunction(
