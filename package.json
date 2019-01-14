@@ -13,7 +13,7 @@
     "debug": "node_modules/.bin/nodemon --config tools/debugmon.json",
     "test": "npm run test:prepare && npm run test:build && npm run test:unit",
     "test:debug": "TARGET=debug node -r ts-node/register --inspect-brk tools/jasmine.ts",
-    "test:build": "node_modules/.bin/tsc -p tsconfig.json --noEmit",
+    "test:build": "node_modules/.bin/tsc -p tsconfig.build.json --noEmit",
     "test:prepare": "rm -rf test/minimal/data",
     "test:unit": "node -r ts-node/register tools/jasmine.ts",
     "test:coverage": "node -r ts-node/register node_modules/.bin/istanbul cover --config=tools/istanbul.yaml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.full.json",
