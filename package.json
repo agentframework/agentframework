@@ -11,15 +11,15 @@
     "start": "node_modules/.bin/nodemon --config tools/testmon.json",
     "cov": "npm run test:prepare && npm run test:coverage",
     "debug": "node_modules/.bin/nodemon --config tools/debugmon.json",
-    "test": "npm run lint && npm run test:build && npm run test:prepare && npm run test:unit",
-    "test:debug": "TARGET=debug node -r $NPM_CONFIG_PREFIX'lib/node_modules/ts-node/register' --inspect-brk tools/jasmine.ts",
+    "test": "npm run test:prepare && npm run test:build && npm run test:unit",
+    "test:debug": "TARGET=debug node -r ts-node/register' --inspect-brk tools/jasmine.ts",
     "test:build": "node_modules/.bin/tsc -p tsconfig.json --noEmit",
     "test:prepare": "rm -rf test/minimal/data",
-    "test:unit": "node -r $NPM_CONFIG_PREFIX'lib/node_modules/ts-node/register' tools/jasmine.ts",
-    "test:coverage": "node -r $NPM_CONFIG_PREFIX'lib/node_modules/ts-node/register' node_modules/.bin/istanbul cover --config=tools/istanbul.yaml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.full.json",
+    "test:unit": "node -r ts-node/register' tools/jasmine.ts",
+    "test:coverage": "node -r ts-node/register' node_modules/.bin/istanbul cover --config=tools/istanbul.yaml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.full.json",
     "clean": "npx ts clean",
     "lint": "npx standard --pretty",
-    "build": "npm run clean && npm run build:ts",
+    "build": "npm run clean && npm run lint && npm run build:ts",
     "build:ts": "npx ts build",
     "release": "npm run build && npm run release:npm",
     "release:npm": "cd ./release && npm publish --access public",
@@ -54,6 +54,7 @@
     "@types/node": "^10.12.18",
     "istanbul": "1.1.0-alpha.1",
     "jasmine": "^3.3.1",
-    "jasmine-spec-reporter": "^4.2.1"
+    "jasmine-spec-reporter": "^4.2.1",
+    "ts-node": "^7.0.1"
   }
 }
