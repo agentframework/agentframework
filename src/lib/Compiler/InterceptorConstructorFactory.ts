@@ -12,7 +12,7 @@ export class InterceptorConstructorFactory {
     // search all attributes on this class constructor
     const design = Reflector(target);
     let invocation;
-    if (design.hasAnnotatedParameters()) {
+    if (design.hasParameters()) {
       invocation = new InterceptedConstructInvocation(newTarget, args, target, params, design);
     } else {
       invocation = new DirectConstructInvocation(newTarget, args, target, params, design);

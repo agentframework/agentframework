@@ -1,4 +1,7 @@
 export enum AgentFeatures {
+  /**
+   * has nothing
+   */
   None = 0,
 
   /**

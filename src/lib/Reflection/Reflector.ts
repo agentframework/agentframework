@@ -1,5 +1,4 @@
 import { Type } from './Type';
-import { ResolveType } from '../Internal/ResolveType';
 import { Agents } from '../Internal/Cache';
 
 /**
@@ -20,7 +19,7 @@ export function Reflector(target: Function | Object): Type {
     // if a object hasOwnPropertyDescriptor('constructor') then this object is a prototype
     const constructor = Object.getOwnPropertyDescriptor(target, 'constructor');
     if (constructor && 'function' === typeof constructor.value) {
-      return ResolveType(target);
+      return Type.for(target);
     } else {
       throw new Error('AgentFramework 1.x do not support access metadata on instance');
     }
@@ -37,5 +36,5 @@ export function Reflector(target: Function | Object): Type {
     proto = ctor.prototype;
   }
 
-  return ResolveType(proto);
+  return Type.for(proto);
 }

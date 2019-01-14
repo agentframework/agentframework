@@ -30,7 +30,7 @@ export class LazyClassInitializer implements IInitializer {
     const name = target.target.name || AgentClassName;
     const type = Reflector(target.target);
     let code;
-    if (target.target.length && type.hasAnnotatedParameters()) {
+    if (target.target.length && type.hasParameters()) {
       code = `class ${name}$ extends ${name}{constructor(){return Reflect.construct(new.target,arguments,${name},()=>Reflect(arguments))}}`;
     } else {
       code = `class ${name}$ extends ${name}{constructor(){return Reflect.construct(new.target,arguments,${name},()=>arguments)}}`;

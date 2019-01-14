@@ -40,10 +40,10 @@ export class AgentCompiler implements ICompiler {
   }
 
   compileParameters(target: Function, method: Method<any>): Map<number, IInvocation> {
-    const parameters = method.annotatedParameters();
+    const parameters = method.parameters();
     const parameterInitializers = new Map<number, IInvocation>();
 
-    for (const [idx, parameter] of parameters) {
+    for (const parameter of parameters) {
       // get all initializer
       let initializerAttributes = parameter.getInitializers();
 
@@ -57,7 +57,7 @@ export class AgentCompiler implements ICompiler {
       const intercepted = InterceptorChainFactory.chainInterceptorAttributes(initialized, interceptorAttributes);
 
       // getAvailableParameters() return only the parameter got interceptor or initializer
-      parameterInitializers.set(idx, intercepted);
+      parameterInitializers.set(parameter.index, intercepted);
     }
 
     return parameterInitializers;
@@ -124,7 +124,7 @@ export class AgentCompiler implements ICompiler {
             // then call interceptors on property
             interceptorAttributes = property.value.getInterceptors().concat(interceptorAttributes);
             let parameters: Map<number, IInvocation> | undefined;
-            if (property.value.hasAnnotatedParameters()) {
+            if (property.value.hasParameters()) {
               parameters = this.compileParameters(value, property.value);
             }
             newDescriptor.value = InterceptorFunctionFactory.createFunction(

@@ -45,7 +45,7 @@ class SQLServer {
 describe('Reflection', () => {
   describe('# should able to', () => {
     it('get class prototype', () => {
-      expect(Reflector(MongoDB).type).toBe(MongoDB.prototype);
+      expect(Reflector(MongoDB).prototype).toBe(MongoDB.prototype);
     });
   });
 
@@ -56,7 +56,7 @@ describe('Reflection', () => {
     });
 
     it('get agent target', () => {
-      expect(Reflector(MongoDB).target).toBe(MongoDB.prototype.constructor);
+      expect(Reflector(MongoDB).type).toBe(MongoDB.prototype.constructor);
     });
 
     it('get agents', () => {

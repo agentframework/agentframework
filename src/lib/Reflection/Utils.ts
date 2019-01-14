@@ -2,6 +2,35 @@ export function IsNumber(x: any): boolean {
   return typeof x === 'number' && !isNaN(x);
 }
 
+// export class PrototypeIterator implements Iterator<Object> {
+//   constructor(private _current: Object) {}
+//   next() {
+//     const ret = { value: this._current, done: this._current != null };
+//     this._current = Object.getPrototypeOf(this._current);
+//     return ret;
+//   }
+// }
+
+// export class Prototypes implements Iterable<Object> {
+//   constructor(private _current: Object) {}
+//   [Symbol.iterator]() {
+//     return new PrototypeIterator(this._current);
+//   }
+// }
+
+// export function GetPrototypeIterator(prototype: Object): Iterable<Object> {
+//   return new Prototypes(prototype);
+// }
+
+// export function GetPrototypeArray(prototype: Object): Array<Object> {
+//   const list = [];
+//   while (prototype) {
+//     list.unshift(prototype);
+//     prototype = Object.getPrototypeOf(prototype);
+//   }
+//   return list;
+// }
+
 //
 //
 // export function IsEqual(x: any, y: any): boolean {

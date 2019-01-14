@@ -38,22 +38,20 @@ export class Property extends Member<Type> {
   }
 
   hasInitializers(): boolean {
-    if (this._hasInitializers !== undefined) {
-      return this._hasInitializers;
+    if (this._hasInitializers == null) {
+      this._hasInitializers = this.hasInitializer() || this.setter.hasInitializer() || this.value.hasInitializer();
     }
-    this._hasInitializers = this.hasInitializer() || this.setter.hasInitializer() || this.value.hasInitializer();
     return this._hasInitializers;
   }
 
   hasInterceptors(): boolean {
-    if (this._hasInterceptors !== undefined) {
-      return this._hasInterceptors;
+    if (this._hasInterceptors == null) {
+      this._hasInterceptors =
+        this.hasInterceptor() ||
+        this.getter.hasInterceptor() ||
+        this.value.hasInterceptor() ||
+        this.value.hasParameters();
     }
-    this._hasInterceptors =
-      this.hasInterceptor() ||
-      this.getter.hasInterceptor() ||
-      this.value.hasInterceptor() ||
-      this.value.hasAnnotatedParameters();
     return this._hasInterceptors;
   }
 

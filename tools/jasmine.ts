@@ -13,12 +13,12 @@ runner.env.addReporter(
       displayStacktrace: false,
       displaySuccessful: true,
       displayFailed: true,
-      displayPending: true,
+      displayPending: false,
       displayDuration: false
     },
     summary: {
       displaySuccessful: false,
-      displayFailed: true,
+      displayFailed: false,
       displayPending: false
     },
     colors: {

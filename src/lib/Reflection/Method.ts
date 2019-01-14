@@ -6,12 +6,12 @@ import { IsNumber } from './Utils';
  * Method
  */
 export class Method<P> extends Member<P> {
-  private readonly _parameters: Map<number, Parameter<Method<P>>>;
-  private _parametersArray: Array<[number, Parameter<Method<P>>]>;
+  private readonly _parameters: Array<Parameter<Method<P>>>;
+  private _cachedParameters: Array<Parameter<Method<P>>>;
 
   constructor(parent: P, public maxParameters: number) {
     super(parent);
-    this._parameters = new Map<number, Parameter<Method<P>>>();
+    this._parameters = new Array<Parameter<Method<P>>>();
   }
 
   parameter(index: number): Parameter<Method<P>> {
@@ -19,29 +19,23 @@ export class Method<P> extends Member<P> {
     if (IsNumber(this.maxParameters) && index > this.maxParameters) {
       throw new TypeError(`Parameter index out of boundary: ${index}. Max is ${this.maxParameters}`);
     }
-    let parameter = this._parameters.get(index);
+    let parameter = this._parameters[index];
     if (!parameter) {
-      parameter = new Parameter(this);
-      this._parameters.set(index, parameter);
+      parameter = new Parameter(this, index);
+      this._parameters[index] = parameter;
     }
-    delete this._parametersArray;
     return parameter;
   }
 
-  annotatedParameters(): Array<[number, Parameter<Method<P>>]> {
-    if (!this._parametersArray) {
-      this._parametersArray = [];
-      for (const entry of this._parameters.entries()) {
-        if (entry[1].hasInterceptor() || entry[1].hasInitializer()) {
-          this._parametersArray.push(entry);
-        }
-      }
+  parameters(): Array<Parameter<Method<P>>> {
+    if (!this._cachedParameters) {
+      this._cachedParameters = this._parameters.filter(p => p.hasInitializer() || p.hasInterceptor());
     }
-    return this._parametersArray;
+    return this._cachedParameters;
   }
-  
-  hasAnnotatedParameters(): boolean {
-    return this.annotatedParameters().length > 0;
+
+  hasParameters(): boolean {
+    return this.parameters().length > 0;
   }
 
   get paramtypes(): Array<any> {
