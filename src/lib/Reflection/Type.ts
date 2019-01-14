@@ -1,8 +1,9 @@
 import { Constructor } from '../Compiler/Constructor';
 import { Method } from './Method';
 import { Property } from './Property';
-import { PropertyFilter } from './PropertyFilters';
+import { PropertyFilter, PropertyFilters } from './PropertyFilters';
 import { Types } from '../Internal/Cache';
+import { AgentFeatures } from './AgentFeatures';
 
 /**
  * Reflection information for user class
@@ -70,6 +71,15 @@ export class Type extends Method<null> {
    */
   properties(): IterableIterator<Property> {
     return this._properties.values();
+  }
+
+  /**
+   * Return true if contains the giving agent feature
+   *
+   * @param feature
+   */
+  hasFeatures(feature: AgentFeatures): boolean {
+    return this.findProperties(PropertyFilters.FilterFeatures, feature).length > 0;
   }
 
   /**

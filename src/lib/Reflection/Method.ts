@@ -28,7 +28,7 @@ export class Method<P> extends Member<P> {
     return parameter;
   }
 
-  getAvailableParameters(): Array<[number, Parameter<Method<P>>]> {
+  annotatedParameters(): Array<[number, Parameter<Method<P>>]> {
     if (!this._parametersArray) {
       this._parametersArray = [];
       for (const entry of this._parameters.entries()) {
@@ -39,9 +39,9 @@ export class Method<P> extends Member<P> {
     }
     return this._parametersArray;
   }
-
-  isParametersAvailable(): boolean {
-    return this.getAvailableParameters().length > 0;
+  
+  hasAnnotatedParameters(): boolean {
+    return this.annotatedParameters().length > 0;
   }
 
   get paramtypes(): Array<any> {

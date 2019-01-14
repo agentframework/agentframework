@@ -16,15 +16,12 @@ export interface PropertyFilter {
 }
 
 export class PropertyFilters {
-  static FilterAttribute<T extends IAttribute>(
-    property: Property,
-    filterCriteria?: Constructor<T>
-  ): boolean {
+  static FilterAttribute<T extends IAttribute>(property: Property, filterCriteria?: Constructor<T>): boolean {
     return property.hasAttribute(filterCriteria);
   }
 
   static FilterFeatures(property: Property, filterCriteria?: AgentFeatures): boolean {
-    if (!filterCriteria) {
+    if (filterCriteria == null) {
       throw new Error('Missing AgentFeatures to filter');
     }
     return property.hasFeatures(filterCriteria);

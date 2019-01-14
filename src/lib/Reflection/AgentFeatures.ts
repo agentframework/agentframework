@@ -1,15 +1,25 @@
 export enum AgentFeatures {
-  MetadataOnly = 0,
+  None = 0,
 
   /**
-   * Enable initializer
+   * has metadata
    */
-  Initializer = 1,
+  Metadata = 1,
 
   /**
-   * Enable interceptor
+   * has initializer
    */
-  Interceptor = 2
+  Initializer = 2,
+
+  /**
+   * has interceptor
+   */
+  Interceptor = 4,
+
+  /**
+   * has initializer or interceptor
+   */
+  Altered = 6
 }
 
 // export function hasFeature(features: AgentFeatures, check: AgentFeatures): boolean {

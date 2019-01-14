@@ -53,22 +53,26 @@ export class Property extends Member<Type> {
       this.hasInterceptor() ||
       this.getter.hasInterceptor() ||
       this.value.hasInterceptor() ||
-      this.value.isParametersAvailable();
+      this.value.hasAnnotatedParameters();
     return this._hasInterceptors;
   }
 
   hasFeatures(features: AgentFeatures): boolean {
     if (this._hasInitializers && this._hasInterceptors) {
-      return features !== 0;
+      return features > 1;
     }
-    if (AgentFeatures.Initializer === features) {
-      return this.hasInitializers();
-    } else if (AgentFeatures.Interceptor === features) {
-      return this.hasInterceptors();
-    } else if (features === 3) {
-      return this.hasInitializers() && this.hasInterceptors();
+    switch (features) {
+      case AgentFeatures.Metadata:
+        return this.hasMetadata();
+      case AgentFeatures.Initializer:
+        return this.hasInitializers();
+      case AgentFeatures.Interceptor:
+        return this.hasInterceptors();
+      case AgentFeatures.Altered:
+        return this.hasInitializers() || this.hasInterceptors();
+      default:
+        return false;
     }
-    return this.hasAttribute();
   }
 
   get type(): any {

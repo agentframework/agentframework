@@ -7,7 +7,7 @@
 
 | Date       | Version                                          | Status  |
 | ---------- | ------------------------------------------------ | ------- |
-| 2019-01-13 | [1.0.0-rc.15](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
+| 2019-01-14 | [1.0.0-rc.16](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
 | 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)      | Stable  |
 
 ### Principle
@@ -257,24 +257,3 @@ export class RoleAttribute implements IAttribute, IInterceptor {
 It will be something between Function-a-a-S and Container-a-a-S.
 
 Let's call it Agent-a-a-S which implement **decentralized** agent sociality environment utilize the power of Edge Computing
-
-### Package Info
-
-```
-📦  agentframework@0.9.22
-=== Tarball Contents ===
-752B   package.json
-556B   LICENSE
-10.7kB README.md
-8.2kB  lib/index.d.ts
-57.9kB lib/index.js
-56.9kB lib/index.mjs
-=== Tarball Details ===
-name:          agentframework
-version:       0.9.22
-package size:  22.4 kB
-unpacked size: 135.0 kB
-shasum:        05484763e4301ec1f43bb1a16ce74d9392fddd5f
-integrity:     sha512-LKQwcxVWbfJj+[...]9k9Kz/GfhoVEw==
-total files:   6
-```
