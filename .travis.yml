@@ -8,7 +8,7 @@ notifications:
 script:
   - npm install
   - npm install $TYPESCRIPT --force
-  - npm run test-on-travis
+  - npm run test:unit
 
 env:
   - TYPESCRIPT=typescript@3.2.2
