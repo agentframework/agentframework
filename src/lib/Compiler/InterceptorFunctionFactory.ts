@@ -11,7 +11,7 @@ import { InterceptorChainFactory } from './InterceptorChainFactory';
  */
 export class InterceptorFunctionFactory {
 
-  static createFunction<T>(
+  static createFunction(
     attributes: Array<IAttribute>,
     target: Function,
     method: Function,

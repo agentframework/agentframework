@@ -6,9 +6,8 @@ notifications:
     on_failure: change
 
 script:
-  - npm install
-  - npm install $TYPESCRIPT --force
-  - npm run test:unit
+  - yarn add $TYPESCRIPT
+  - yarn test:unit
 
 env:
   - TYPESCRIPT=typescript@3.2.2
