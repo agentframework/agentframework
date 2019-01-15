@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/agentframework/agentframework.svg?branch=master)](https://travis-ci.org/agentframework/agentframework)
 [![Coverage Status](https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=master&_utm_source=github)](https://coveralls.io/github/agentframework/agentframework?branch=master&_utm_source=github)
+[![Known Vulnerabilities](https://snyk.io/test/npm/agentframework/badge.svg)](https://snyk.io/test/npm/agentframework) 
+[![Monthly Downloads](https://img.shields.io/npm/dm/agentframework.svg)](https://npmjs.com/package/agentframework)
 
 ### Changelog
 
