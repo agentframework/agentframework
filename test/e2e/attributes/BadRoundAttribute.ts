@@ -1,3 +1,4 @@
+import 'jasmine';
 import { IInterceptor, IAttribute } from '../../../src/lib';
 
 export class BadRoundAttribute implements IAttribute {

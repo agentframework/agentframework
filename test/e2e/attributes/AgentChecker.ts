@@ -1,3 +1,4 @@
+import 'jasmine';
 import { IAttribute, IInterceptor, IInvocation, Type } from '../../../src/lib';
 
 export class AgentChecker implements IAttribute, IInterceptor {

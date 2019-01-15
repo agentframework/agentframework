@@ -1,3 +1,4 @@
+import 'jasmine';
 import { IAttribute, IInterceptor, IInvocation, Member } from '../../../src/lib';
 
 export class BeforeRoundAttribute implements IAttribute, IInterceptor {

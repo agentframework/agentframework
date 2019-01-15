@@ -1,3 +1,4 @@
+import 'jasmine';
 import { Agent, AgentAttribute, IsAgent, Reflector, decorateAgent } from '../../../src/lib';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
 

@@ -1,3 +1,4 @@
+import 'jasmine';
 import { agent, Agent, decorateParameter, IsAgent, Reflector } from '../../../src/lib';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 

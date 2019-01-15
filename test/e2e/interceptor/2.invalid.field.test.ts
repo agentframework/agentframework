@@ -1,3 +1,4 @@
+import 'jasmine';
 import { Agent, decorateClassField, IsAgent, Reflector } from '../../../src/lib';
 import { RoundAttribute } from '../attributes/RoundAttribute';
 

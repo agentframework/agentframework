@@ -1,3 +1,4 @@
+import 'jasmine';
 import { agent, Agent, AgentAttribute, decorateClassField, IsAgent, Reflector } from '../../../src/lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 

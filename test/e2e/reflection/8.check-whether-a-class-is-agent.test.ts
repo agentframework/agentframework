@@ -1,3 +1,4 @@
+import 'jasmine';
 import { Agent, agent, GetType, IsAgent } from '../../../src/lib';
 
 @agent()

@@ -1,3 +1,4 @@
+import 'jasmine';
 import { agent } from '../../../src/lib';
 import {
   fakeClassMemberDecorator,

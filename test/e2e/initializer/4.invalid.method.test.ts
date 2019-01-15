@@ -1,3 +1,4 @@
+import 'jasmine';
 import { Agent, decorateClassMember, IsAgent, Reflector, decorateClassMethod } from '../../../src/lib';
 import { RandomAttribute } from '../attributes/RandomAttribute';
 
