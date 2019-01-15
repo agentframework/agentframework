@@ -1,4 +1,4 @@
-import 'jasmine';
+
 import { IInitializer, IInitializerAttribute, IInvocation } from '../../../src/lib';
 
 export class InjectAttribute implements IInitializerAttribute, IInitializer {

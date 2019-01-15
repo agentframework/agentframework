@@ -1,4 +1,4 @@
-import 'jasmine';
+
 import { IAttribute } from '../../../src/lib';
 
 export class DisabledMetadataAttribute implements IAttribute {

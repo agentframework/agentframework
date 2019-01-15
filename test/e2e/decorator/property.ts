@@ -1,4 +1,4 @@
-import 'jasmine';
+
 import { IAttribute, decorateClassField } from '../../../src/lib';
 
 

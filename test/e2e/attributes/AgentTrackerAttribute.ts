@@ -1,4 +1,4 @@
-import 'jasmine';
+
 import { AgentAttribute, IInterceptor, IInvocation, Type } from '../../../src/lib';
 
 export class AgentTrackerAttribute extends AgentAttribute implements IInterceptor {

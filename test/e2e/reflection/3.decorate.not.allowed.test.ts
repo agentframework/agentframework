@@ -1,4 +1,4 @@
-import 'jasmine';
+
 import { decorate } from '../../../src/lib';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 

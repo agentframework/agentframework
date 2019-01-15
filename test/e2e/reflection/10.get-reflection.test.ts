@@ -1,4 +1,4 @@
-import 'jasmine';
+
 import { AgentAttribute, AgentFeatures, decorateClassMember, PropertyFilters, Reflector } from '../../../src/lib';
 import { RandomAttribute } from '../attributes/RandomAttribute';
 import { RoundAttribute } from '../attributes/RoundAttribute';

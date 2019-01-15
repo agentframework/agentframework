@@ -1,4 +1,4 @@
-import 'jasmine';
+
 import { IInitializer, IInitializerAttribute } from '../../../src/lib';
 
 export class BadRandomAttribute implements IInitializerAttribute {

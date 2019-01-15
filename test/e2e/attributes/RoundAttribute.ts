@@ -1,4 +1,4 @@
-import 'jasmine';
+
 import { IInterceptor, IInvocation, Member, IAttribute } from '../../../src/lib';
 
 export class RoundAttribute implements IAttribute, IInterceptor {

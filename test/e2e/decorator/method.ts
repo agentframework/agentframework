@@ -1,4 +1,4 @@
-import 'jasmine';
+
 import { IAttribute, IInterceptor, IInvocation, decorateClassMethod } from '../../../src/lib';
 
 export function methodDecorator() {
