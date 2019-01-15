@@ -48,6 +48,7 @@
   "homepage": "https://github.com/agentframework/agentframework#readme",
   "devDependencies": {
     "@types/jasmine": "^2.8.6",
+    "@types/node": "^8.0.0",
     "istanbul": "1.1.0-alpha.1",
     "jasmine": "^3.3.1",
     "jasmine-spec-reporter": "^4.2.1",
