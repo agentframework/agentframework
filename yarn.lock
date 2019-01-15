@@ -7,11 +7,6 @@
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.8.14.tgz#42a87032418b7d70f427d1df16a9921fca28d8c7"
   integrity sha512-oHgE8xWsIoJfP0qU/yi5xrzhkHvYJhD7m40pSC3pw4+BUKWFwqTz+BUosuuODh8KyRpLp1Fdaibr3If4cgNsCg==
 
-"@types/node@^9.4.6":
-  version "9.6.41"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.41.tgz#e57c3152eb2e7ec748c733cebd0c095b437c5d37"
-  integrity sha512-sPZWEbFMz6qAy9SLY7jh5cgepmsiwqUUHjvEm8lpU6kug2hmmcyuTnwhoGw/GWpI5Npue4EqvsiQQI0eWjW/ZA==
-
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"

@@ -18,8 +18,8 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["node_modules/@types/"],
-    "types": ["node", "jasmine"]
+    "types": ["jasmine"]
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "tools/*.ts"],
+  "include": ["**/*.ts"],
   "exclude": ["node_modules"]
 }
