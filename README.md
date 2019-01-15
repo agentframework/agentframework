@@ -1,10 +1,29 @@
-## Agent Framework for TypeScript 2.4+
+<p align="center">
+  <a href="https://github.com/agentframework/agentframework">
+    <img alt="AgentFramework" src="https://avatars2.githubusercontent.com/u/22611350?s=400&v=4" width="120">
+  </a>
+</p>
 
-[![License](https://img.shields.io/npm/l/agentframework.svg)](https://github.com/agentframework/agentframework/blob/master/LICENSE)
-[![Build Status](https://travis-ci.org/agentframework/agentframework.svg?branch=master)](https://travis-ci.org/agentframework/agentframework)
-[![Coverage Status](https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=master&_utm_source=github)](https://coveralls.io/github/agentframework/agentframework?branch=master&_utm_source=github)
-[![Known Vulnerabilities](https://snyk.io/test/npm/agentframework/badge.svg)](https://snyk.io/test/npm/agentframework) 
-[![Monthly Downloads](https://img.shields.io/npm/dm/agentframework.svg)](https://npmjs.com/package/agentframework)
+<p align="center">
+The easiest way to build your fast and powerful AOP/DI framework for TypeScript
+</p>
+
+<p align="center">
+  <a href="https://github.com/agentframework/agentframework/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/agentframework.svg"></a>
+  <a href="https://travis-ci.org/agentframework/agentframework"><img src="https://travis-ci.org/agentframework/agentframework.svg"></a>
+  <a href="https://coveralls.io/github/agentframework/agentframework"><img src="https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=master&_utm_source=github"></a>
+  <a href="https://snyk.io/test/npm/agentframework"><img src="https://snyk.io/test/npm/agentframework/badge.svg"></a>
+  <a href="https://npmjs.com/package/agentframework"><img src="https://img.shields.io/npm/dm/agentframework.svg" alt="gzip size"></a>
+</p>
+
+---
+
+
+:lollipop: **TypeScript:** 100% TypeScript implementation and [TypeScript friendly packaging](https://unpkg.com/agentframework/)
+ 
+:zap: **Fast:** use CodeGen instead of ES6 Proxy. Run as fast as native code.
+
+:dart: **Tiny:** only 600 SLOC and **4.3kb** zipped
 
 
 ### Changelog
