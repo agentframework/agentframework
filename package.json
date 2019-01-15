@@ -14,7 +14,7 @@
     "test": "npm run test:prepare && npm run test:unit",
     "test:debug": "TARGET=debug node -r ts-node/register --inspect-brk tools/jasmine.ts",
     "test:prepare": "rm -rf test/minimal/data",
-    "test:unit": "node -r ts-node/register tools/jasmine.ts",
+    "test:unit": "node_modules/.bin/ts-node tools/jasmine.ts",
     "test:coverage": "node -r ts-node/register node_modules/.bin/istanbul cover --config=tools/istanbul.yaml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.full.json",
     "clean": "npx ts clean",
     "lint": "npx standard --pretty",
