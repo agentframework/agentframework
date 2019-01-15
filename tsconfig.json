@@ -20,5 +20,6 @@
     "typeRoots": ["node_modules/@types/"],
     "types": ["node", "jasmine"]
   },
+  "include": ["src/**/*.ts", "test/**/*.ts", "tools/*.ts"],
   "exclude": ["node_modules"]
 }
