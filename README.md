@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-An elegant reflection api to build your fast and powerful AOP/DI framework for TypeScript
+An elegant reflection api to build your dream framework
 </p>
 
 <p align="center">
@@ -21,14 +21,14 @@ An elegant reflection api to build your fast and powerful AOP/DI framework for T
 
 :zap: **Fast:** use CodeGen instead of ES6 Proxy. Run as fast as native code.
 
-:dart: **Efficient:** well designed and optimized api only got **600 SLOC** and **4.3kb** after gzipped
+:dart: **Efficient:** well-designed and optimized api only got **600 SLOC** and **4.3kb** after gzipped
 
-:recycle: **Productive:** intercept and initialize target as flexible as a function call
+:recycle: **Productive:** intercept and initialize as easy as function calls (stop using overweight Before/After hooks)
 
 ## Features
 
-- Declare metadata for your code in design-time (using @decorator) or runtime (using Reflector api)
-- Retrieve metadata for your code in runtime (using Reflector api)
+- Add metadata for your code at design-time (using @decorator) or runtime (using Reflector api)
+- Access the metadata at runtime (using Reflector api)
 - Customizable initializer for class fields and arguments
 - Customizable interceptor for injected value, class method, getter, setter and arguments
 
