@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-The easiest way to build your fast and powerful AOP/DI framework for TypeScript
+An elegant reflection api to build your fast and powerful AOP/DI framework for TypeScript
 </p>
 
 <p align="center">
@@ -18,13 +18,23 @@ The easiest way to build your fast and powerful AOP/DI framework for TypeScript
 
 ---
 
-
-:lollipop: **TypeScript:** 100% TypeScript implementation and [TypeScript friendly packaging](https://unpkg.com/agentframework/)
+:lollipop: **Modernize:** 100% TypeScript implementation with [ES6 module support](https://unpkg.com/agentframework/)
  
 :zap: **Fast:** use CodeGen instead of ES6 Proxy. Run as fast as native code.
 
 :dart: **Tiny:** only 600 SLOC and **4.3kb** zipped
 
+## Features
+
+- Declare metadata for your code in design-time (using @decorator) or runtime (using Reflector api)
+- Retrieve metadata for your code in runtime using (Reflector api)
+- Customizable initializer for class fields and arguments
+- Customizable interceptor for injected value, class method, getter, setter and arguments
+
+### Projects
+
+- [@agentframework/domain](https://github.com/agentframework/domain) **On demand** dependency injection framework [example](https://github.com/agentframework/domain-example)
+- [@agentframework/validation](https://github.com/agentframework/validation) **Zero configuration** validation framework [example](https://github.com/agentframework/validation-example)
 
 ### Changelog
 
@@ -52,11 +62,6 @@ The easiest way to build your fast and powerful AOP/DI framework for TypeScript
 | Autonomy    | Activation      | Timer, scheduler which based on environment conditions                  |
 | Sociality   | Message         | Agent can communicate with other agent                                  |
 | Mobility    | Mobile Agent    | An agent can move from domain to domain with their belief unchanged     |
-
-### Projects built on top of AgentFramework
-
-- [@agentframework/validation](https://github.com/agentframework/validation) **Zero configuration** validation framework [DEMO](https://github.com/agentframework/validation-example)
-- [@agentframework/domain](https://github.com/agentframework/domain) **On demand** dependency injection framework [DEMO](https://github.com/agentframework/domain-example)
 
 ### What's this?
 
