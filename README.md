@@ -22,9 +22,9 @@ An elegant reflection api to build your fast and powerful AOP/DI framework for T
 
 :zap: **Fast:** use CodeGen instead of ES6 Proxy. Run as fast as native code.
 
-:dart: **Efficient:** well designed api only got 600 SLOC and **4.3kb** zipped in size
+:dart: **Efficient:** well designed and optimized api only got **600 SLOC** and **4.3kb** after gzipped
 
-:dart: **Productive:** got fully control of the code execution with minimal efforts 
+:recycle: **Productive:** intercept and initialize target as easy as a function call
 
 ## Features
 
