@@ -19,10 +19,10 @@ const GetWeakMap = new Function('k', 'return k=Symbol.for(k),this[k]||(this[k]=n
 export const Agents: WeakMap<any, any> = GetWeakMap('AgentFramework.Agents');
 export const Types: WeakMap<any, any> = GetWeakMap('AgentFramework.Types');
 
-export function IsAgent<T>(agent: Constructor<T>): boolean {
+export function IsAgent(agent: Function): boolean {
   return Agents.has(agent);
 }
 
-export function GetType<T>(agent: Constructor<T>): Constructor<T> | undefined {
+export function GetType<T>(agent: Function): Constructor<T> | undefined {
   return Agents.get(agent);
 }

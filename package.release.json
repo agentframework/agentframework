@@ -1,6 +1,6 @@
 {
   "name": "agentframework",
-  "version": "1.0.0-rc.19",
+  "version": "1.0.0-rc.21",
   "engines": {
     "node": ">=6.0.0"
   },

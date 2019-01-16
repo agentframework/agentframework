@@ -79,11 +79,12 @@ export class InterceptedConstructInvocation<C extends Function> extends Construc
  * @hidden
  */
 export class DirectConstructInvocation<C extends Function> extends ConstructCompiler<C> implements IInvocation {
-  constructor(_newTarget: C, _args: any, _target: C, _params: Arguments, _design: any) {
+  constructor(_newTarget: C, readonly _args: any, _target: C, _params: Arguments, _design: any) {
     super(_newTarget, _target, _design, _params);
   }
 
   invoke<T>(parameters: ArrayLike<any>): T {
+    Array.isArray(parameters) && Parameters.set(this._args, parameters);
     return Reflect.construct(this._target, parameters, this.compiledTarget);
   }
 }

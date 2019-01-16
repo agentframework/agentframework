@@ -14,16 +14,16 @@ limitations under the License. */
 
 import { InterceptorConstructorFactory } from '../InterceptorConstructorFactory';
 import { Arguments } from '../Arguments';
-import { IInvocation } from '../../Core/IInvocation';
-import { IInitializer } from '../../Core/IInitializer';
 import { Parameters } from '../Internal/Parameters';
 import { AgentClassName } from '../Internal/Constants';
+import { IInvocation } from '../../Core/IInvocation';
+import { IInitializer } from '../../Core/IInitializer';
 import { Reflector } from '../../Reflection/Reflector';
 
 export class LazyClassInitializer implements IInitializer {
   // isParametersAvailable() make sure this is the only way need to add parameter interceptor
   readonly target = function(args: ArrayLike<any>): ArrayLike<any> {
-    return Parameters.get(args)!;
+    return Parameters.has(args) ? Parameters.get(args)! : args;
   };
 
   constructor() {
@@ -43,12 +43,7 @@ export class LazyClassInitializer implements IInitializer {
   public initialize(target: IInvocation, parameters: ArrayLike<any>): any {
     const name = target.target.name || AgentClassName;
     const type = Reflector(target.target);
-    let code;
-    if (target.target.length && type.hasParameters()) {
-      code = `class ${name}$ extends ${name}{constructor(){return Reflect.construct(new.target,arguments,${name},()=>Reflect(arguments))}}`;
-    } else {
-      code = `class ${name}$ extends ${name}{constructor(){return Reflect.construct(new.target,arguments,${name},()=>arguments)}}`;
-    }
+    const code = `class ${name}$ extends ${name}{constructor(){return Reflect.construct(new.target,arguments,${name},()=>Reflect(arguments))}}`;
     return target.invoke([name, code, this.target, type]);
   }
 }
