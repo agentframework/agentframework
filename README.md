@@ -17,13 +17,13 @@ An elegant reflection api to build your dream framework
 </p>
 
 ---
-:lollipop: **Modernize:** 100% for TypeScript together with class and [ES6 module](https://unpkg.com/agentframework/) support
+:lollipop: **Modernize:** 100% by TypeScript and for TypeScript with support of class and [es6 module](https://unpkg.com/agentframework/).
 
-:zap: **Fast:** use CodeGen instead of ES6 Proxy. Run as fast as native code.
+:zap: **Fast:** Use CodeGen to minimize overheads. Faster than es6 Proxy.
 
-:dart: **Efficient:** well-designed and optimized api only got **600 SLOC** and **4.3kb** after gzipped
+:dart: **Efficient:** Well-designed and optimized api only got **600 SLOC** and **4.3kb** after gzipped.
 
-:recycle: **Productive:** intercept and initialize as easy as function calls (stop using overweight Before/After hooks)
+:recycle: **Productive:** AOP as easy as function calls. Stop using overweight Before/After/Aware hooks.
 
 ## Features
 
@@ -32,17 +32,19 @@ An elegant reflection api to build your dream framework
 - Customizable initializer for class fields and arguments
 - Customizable interceptor for injected value, class method, getter, setter and arguments
 
-### Projects
+## Projects
 
 - [@agentframework/domain](https://github.com/agentframework/domain) **On demand** dependency injection framework [example](https://github.com/agentframework/domain-example)
 - [@agentframework/validation](https://github.com/agentframework/validation) **Zero configuration** validation framework [example](https://github.com/agentframework/validation-example)
 
-### Changelog
+## Changelog
 
 | Date       | Version                                          | Status  |
 | ---------- | ------------------------------------------------ | ------- |
 | 2019-01-14 | [1.0.0-rc.16](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
 | 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)      | Stable  |
+
+## Agent Oriented Programming
 
 ### Principle
 
@@ -98,7 +100,7 @@ Agent Framework will help you on following areas: (which I did in other projects
 
 ### Show me the example
 
-Just add 3 lines to your existing source code to enable the powerful **ODDI** (On Demand Dependency Injection).
+Only 3 lines before you get powerful dependency injection for your code
 
 - `import { agent, inject } from '@agentframework/domain'`
 - `@agent()`
