@@ -1,6 +1,6 @@
 {
   "name": "agentframework",
-  "version": "1.0.0-rc.18",
+  "version": "1.0.0-rc.19",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -8,7 +8,7 @@
   "main": "lib/index.js",
   "module": "lib/index.mjs",
   "typings": "lib/index.d.ts",
-  "files": ["lib", "README.md", "LICENSE"],
+  "files": ["lib", "README.md", "LICENSE", "NOTICE"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/agentframework/agentframework.git"
