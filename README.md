@@ -17,14 +17,13 @@ An elegant reflection api to build your fast and powerful AOP/DI framework for T
 </p>
 
 ---
-
-:lollipop: **Modernize:** 100% TypeScript implementation with [ES6 module support](https://unpkg.com/agentframework/)
+:lollipop: **Modernize:** 100% for TypeScript together with class and [ES6 module](https://unpkg.com/agentframework/) support
 
 :zap: **Fast:** use CodeGen instead of ES6 Proxy. Run as fast as native code.
 
 :dart: **Efficient:** well designed and optimized api only got **600 SLOC** and **4.3kb** after gzipped
 
-:recycle: **Productive:** intercept and initialize target as easy as a function call
+:recycle: **Productive:** intercept and initialize target as flexible as a function call
 
 ## Features
 
