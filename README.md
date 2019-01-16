@@ -21,13 +21,13 @@ An elegant reflection api to build your dream framework
 
 :zap: **Fast:** Use CodeGen to minimize overheads. Faster than es6 Proxy.
 
-:dart: **Efficient:** Well-designed and optimized api only got **600 SLOC** and **4.3kb** after gzipped.
+:dart: **Efficient:** Well-designed and crafted api only got **600 SLOC** and **4.3kb** after gzipped.
 
 :recycle: **Productive:** AOP as easy as function calls. Stop using overweight Before/After/Aware hooks.
 
 ## Features
 
-- Add metadata for your code at design-time (using @decorator) or runtime (using Reflector api)
+- Add metadata to your code at design-time (using @decorator) or runtime (using Reflector api)
 - Access the metadata at runtime (using Reflector api)
 - Customizable initializer for class fields and arguments
 - Customizable interceptor for injected value, class method, getter, setter and arguments
