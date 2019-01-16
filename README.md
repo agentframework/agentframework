@@ -28,7 +28,7 @@ An elegant reflection api to build your fast and powerful AOP/DI framework for T
 ## Features
 
 - Declare metadata for your code in design-time (using @decorator) or runtime (using Reflector api)
-- Retrieve metadata for your code in runtime using (Reflector api)
+- Retrieve metadata for your code in runtime (using Reflector api)
 - Customizable initializer for class fields and arguments
 - Customizable interceptor for injected value, class method, getter, setter and arguments
 
