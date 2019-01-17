@@ -17,7 +17,7 @@ An elegant reflection api to build your dream framework
 </p>
 
 ---
-:lollipop: **Modernize:** 100% for TypeScript comes with support of class and [es6 module](https://unpkg.com/agentframework/).
+:lollipop: **Modernize:** 100% for TypeScript. Support class and [es6 module](https://unpkg.com/agentframework/).
 
 :zap: **Fast:** Use CodeGen to minimize overheads. Faster than es6 Proxy.
 
