@@ -17,7 +17,7 @@ import { Reflector } from '../../Reflection/Reflector';
 import { Type } from '../../Reflection/Type';
 import { ICompiler } from '../ICompiler';
 import { Arguments } from '../Arguments';
-import { Parameters } from '../Internal/Parameters';
+import { parameter } from '../Internal/Parameter';
 import { Resolve } from '../../Internal/Resolve';
 import { AgentCompiler } from '../AgentCompiler';
 
@@ -26,7 +26,7 @@ import { AgentCompiler } from '../AgentCompiler';
  * @hidden
  */
 export class ConstructCompiler<C extends Function> {
-  constructor(readonly _newTarget: C, readonly _target: C, readonly _design: any, readonly _params: Arguments) {}
+  constructor(readonly _newTarget: C, readonly _target: C, readonly _design: any, readonly _params: Arguments) { }
 
   get target(): Function {
     return this._target;
@@ -73,7 +73,7 @@ export class InterceptedConstructInvocation<C extends Function> extends Construc
     for (const [idx, [, interceptor]] of this.compiledParameters.entries()) {
       args[idx] = interceptor.invoke([parameters[idx], idx, args]);
     }
-    Parameters.set(this._args, args);
+    parameter.set(this._args, args);
     return Reflect.construct(this._target, args, this.compiledTarget);
   }
 }
@@ -88,7 +88,7 @@ export class DirectConstructInvocation<C extends Function> extends ConstructComp
   }
 
   invoke<T>(parameters: ArrayLike<any>): T {
-    Array.isArray(parameters) && Parameters.set(this._args, parameters);
+    if (Array.isArray(parameters)) { parameter.set(this._args, parameters); }
     return Reflect.construct(this._target, parameters, this.compiledTarget);
   }
 }

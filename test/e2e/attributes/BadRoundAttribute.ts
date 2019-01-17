@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { IInterceptor, IAttribute } from '../../../src/lib';
 
@@ -11,6 +12,6 @@ export class BadRoundAttribute implements IAttribute {
   }
 
   get interceptor(): IInterceptor {
-    return <any>1;
+    return 1 as any;
   }
 }

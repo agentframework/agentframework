@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { agent, Agent, decorateClassField, IsAgent, Reflector } from '../../../src/lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';

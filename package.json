@@ -8,20 +8,10 @@
   "description": "Agent-Oriented Programming for TypeScript",
   "main": "src/lib/index.ts",
   "scripts": {
-    "start": "node_modules/.bin/nodemon --config tools/testmon.json",
-    "cov": "npm run test:prepare && npm run test:coverage",
-    "debug": "node_modules/.bin/nodemon --config tools/debugmon.json",
-    "test": "npm run test:prepare && npm run test:unit",
-    "test:debug": "TARGET=debug node -r ts-node/register --inspect-brk tools/jasmine.ts",
-    "test:prepare": "rm -rf test/minimal/data",
-    "test:unit": "node -r ts-node/register tools/jasmine.ts",
-    "test:coverage": "node -r ts-node/register node_modules/.bin/istanbul cover --config=tools/istanbul.yaml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.full.json",
-    "clean": "npx ts clean",
-    "lint": "npx standard --pretty",
-    "build": "npm run clean && npm run lint && npm run build:ts",
-    "build:ts": "npx ts build",
-    "release": "npm run build && npm run release:npm",
-    "release:npm": "cd ./release && npm publish --access public"
+    "cov": "node -r ts-node/register node_modules/.bin/istanbul cover --config=tools/istanbul.yaml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.json",
+    "build": "npm run lint && npm run test",
+    "test": "node -r ts-node/register node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.json",
+    "lint": "node_modules/.bin/standard"
   },
   "repository": {
     "type": "git",
@@ -48,11 +38,11 @@
   "homepage": "https://github.com/agentframework/agentframework#readme",
   "devDependencies": {
     "@types/jasmine": "^2.8.6",
-    "@types/node": "^8.0.0",
     "istanbul": "1.1.0-alpha.1",
     "jasmine": "^3.3.1",
     "jasmine-spec-reporter": "^4.2.1",
     "ts-node": "^7.0.1",
-    "typescript": "^2.7.2"
+    "typescript": "^3.2.4",
+    "typescript-standard": "^0.3.36"
   }
 }

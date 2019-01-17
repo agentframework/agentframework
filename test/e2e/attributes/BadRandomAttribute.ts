@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { IInitializer, IInitializerAttribute } from '../../../src/lib';
 
@@ -9,8 +10,8 @@ export class BadRandomAttribute implements IInitializerAttribute {
   ): boolean {
     return true;
   }
-  
+
   get initializer(): IInitializer {
-    return <any>2;
+    return 2 as any;
   }
 }

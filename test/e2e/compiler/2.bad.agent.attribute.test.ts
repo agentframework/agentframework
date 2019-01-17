@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import {
   Agent,
@@ -11,11 +12,11 @@ import { InjectAttribute } from '../attributes/InjectAttribute';
 import { AgentTrackerAttribute } from '../attributes/AgentTrackerAttribute';
 
 class Connection {
+  static count = 0;
+  state = 'offline';
   constructor() {
     Connection.count++;
   }
-  static count = 0;
-  state = 'offline';
 }
 
 class Database {
@@ -40,7 +41,7 @@ class AgentBadInterceptorAttribute extends AgentAttribute implements IAttribute 
   }
 
   public get interceptor(): IInterceptor {
-    return <any>1;
+    return 1 as any;
   }
 }
 

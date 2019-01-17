@@ -21,6 +21,21 @@ import { Constructor } from './Compiler/Constructor';
 import { CanDecorate } from './Compiler/Internal/Utils';
 import { CreateAgentInvocation } from './Compiler/CreateAgentInvocation';
 
+/* istanbul ignore next */
+let polyfill: any = function () {
+  /* tslint:disable */
+  return function () { };
+  /* tslint:enable */
+};
+
+/* istanbul ignore next */
+if (Reflect['metadata'] && !Reflect['metadata']['af']) {
+  // because we know this is polyfill that's why we do current implementation
+  // if one day the browser implemented Reflect.metadata. We will reflector all
+  // metadata data related code to have better performance.
+  polyfill = Reflect['metadata'];
+}
+
 // ===========================================
 // ES6 and after
 // ===========================================
@@ -32,11 +47,12 @@ function metadata(this: any, target: Function | Object, property?: string | symb
   } else {
     Reflector(target).addMetadata(this.key, this.value);
   }
+  this.polyfill(target, property, descriptor);
 }
-Reflect['metadata'] = function(key: string, value: any) {
-  return metadata.bind({ key, value });
+Reflect['metadata'] = function (key: string, value: any) {
+  return metadata.bind({ key, value, polyfill: polyfill.apply(this, [key, value]) });
 };
-
+Reflect['metadata']['af'] = true;
 /**
  * Define an agent
  */

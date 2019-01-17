@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { decorateClassMember, Reflector } from '../../../src/lib';
 import { RandomAttribute } from '../attributes/RandomAttribute';
@@ -36,13 +37,13 @@ describe('Reflection get metadata ', () => {
         Reflector(1);
       }).toThrow();
     });
-  
+
     it('Reflector number', () => {
       expect(() => {
         Reflector({});
       }).toThrow();
     });
-    
+
     it('Reflector prototype', () => {
       const fr = Reflector(MongoDB.prototype);
       expect(fr).toBeTruthy();

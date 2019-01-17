@@ -1,23 +1,24 @@
+/* tslint:disable */
 
 import { agent, Agent, AgentAttribute, decorateParameter, IsAgent, Reflector } from '../../../src/lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 import { AgentChecker } from '../attributes/AgentChecker';
 
 class Connection {
+  static count = 0;
+  state = 'offline';
   constructor() {
     Connection.count++;
   }
-  static count = 0;
-  state = 'offline';
 }
 
 @agent([new AgentChecker()])
 class MongoDB {
-  constructor(database: string, @decorateParameter(new InjectAttribute()) conn?: Connection) {
-    if (conn) this.connection = conn;
-  }
 
   connection: Connection;
+  constructor(database: string, @decorateParameter(new InjectAttribute()) conn?: Connection) {
+    if (conn) { this.connection = conn; }
+  }
 }
 
 describe('Initializer in Constructor', () => {

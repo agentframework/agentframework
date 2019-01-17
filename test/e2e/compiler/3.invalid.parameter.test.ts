@@ -1,21 +1,22 @@
+/* tslint:disable */
 
 import { agent, Agent, decorateParameter, IsAgent, Reflector } from '../../../src/lib';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 
 class Connection {
+  static count = 0;
+  state = 'offline';
   constructor() {
     Connection.count++;
   }
-  static count = 0;
-  state = 'offline';
 }
 
 @agent()
 class MongoDB {
-  constructor(@decorateParameter(new MetadataAttribute()) conn?: Connection) {
-    if (conn) this.connection = conn;
-  }
   connection: Connection;
+  constructor(@decorateParameter(new MetadataAttribute()) conn?: Connection) {
+    if (conn) { this.connection = conn; }
+  }
 }
 
 describe('Initializer in Parameter', () => {

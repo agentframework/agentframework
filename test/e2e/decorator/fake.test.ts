@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { agent } from '../../../src/lib';
 import {

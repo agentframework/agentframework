@@ -95,10 +95,11 @@ export function decorate(attribute: IAttribute, allows: Target): UniversalDecora
     if (CanDecorate(attribute, target, targetKey)) {
       if (targetKey == null) {
         if (descriptorType === 'number') {
-          CanDecorate(attribute, target, targetKey) &&
+          if (CanDecorate(attribute, target, targetKey)) {
             Reflector(target)
               .parameter(descriptor as number)
               .addAttribute(attribute);
+          }
         } else {
           Reflector(target).addAttribute(attribute);
         }

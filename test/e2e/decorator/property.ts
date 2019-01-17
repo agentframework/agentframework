@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { IAttribute, decorateClassField } from '../../../src/lib';
 

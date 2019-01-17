@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { IAttribute, IInterceptor, IInvocation, decorateClassMethod } from '../../../src/lib';
 

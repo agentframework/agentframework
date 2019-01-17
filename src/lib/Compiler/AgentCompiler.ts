@@ -26,11 +26,13 @@ import { PropertyFilters } from '../Reflection/PropertyFilters';
 import { Method } from '../Reflection/Method';
 import { InterceptorChainFactory } from './InterceptorChainFactory';
 import { InterceptorFunctionFactory } from './InterceptorFunctionFactory';
+import { IsAgent } from '../Internal/Cache';
 
 export class AgentCompiler implements ICompiler {
   compile(target: Function, params: Arguments): Function {
     const names = new Set<PropertyKey>();
-    let initializers: any, interceptors: any;
+    let initializers: any;
+    let interceptors: any;
 
     // field property initializer
     initializers = this.makePropertyInitializers(target, names);
@@ -38,19 +40,19 @@ export class AgentCompiler implements ICompiler {
     // do Interceptor
     interceptors = this.makePropertyInterceptors(target, names);
 
-    let CompiledAgent;
+    let compiled;
 
     if (initializers || interceptors) {
       const compiler = new Compiler(target);
       compiler.defineFields(initializers, params);
       compiler.defineProperties(interceptors);
-      CompiledAgent = compiler.compile();
+      compiled = compiler.compile();
     } else {
       //
-      CompiledAgent = target;
+      compiled = target;
     }
 
-    return CompiledAgent;
+    return compiled;
   }
 
   compileParameters(target: Function, method: Method<any>): Map<number, [IInvocation, IInvocation]> {
@@ -87,83 +89,84 @@ export class AgentCompiler implements ICompiler {
 
     let propertyInterceptors: Map<PropertyKey, IInvocation> | undefined;
 
-    if (layers.length) {
-      for (const [, properties] of layers) {
-        for (const [, property] of properties) {
-          const name = property.targetKey;
-          const descriptor = property.descriptor;
+    for (const [type, properties] of layers) {
+      if (IsAgent(type.class)) {
+        continue;
+      }
+      for (const [, property] of properties) {
+        const name = property.targetKey;
+        const descriptor = property.descriptor;
 
-          if (!descriptor) {
-            // this is a field
-            // interceptor only works when custom initializer defined for this field
-            if (property.hasInitializer() || property.value.hasInitializer()) {
-              // this interceptor will created in makePropertyInitializers()
-              continue;
-            } else {
-              throw new Error(
-                `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-                  `Interceptor not work with field property without Initializer`
-              );
-            }
-          }
-
-          // refer to the origin descriptor
-          const newDescriptor = Object.create(descriptor);
-
-          const value = descriptor.value;
-          const getter = descriptor.get;
-          const setter = descriptor.set;
-
-          // find all the attributes
-          let interceptorAttributes = property.getInterceptors();
-
-          if (typeof getter === 'function') {
-            interceptorAttributes = property.getter.getInterceptors().concat(interceptorAttributes);
-            newDescriptor.get = InterceptorFunctionFactory.createFunction(
-              interceptorAttributes,
-              target,
-              getter,
-              property.getter
-            );
-          }
-          if (typeof setter === 'function') {
-            interceptorAttributes = property.setter.getInterceptors().concat(interceptorAttributes);
-            newDescriptor.set = InterceptorFunctionFactory.createFunction(
-              interceptorAttributes,
-              target,
-              setter,
-              property.setter
-            );
-          }
-          if (typeof value === 'function') {
-            // call interceptors on value first
-            // then call interceptors on property
-            interceptorAttributes = property.value.getInterceptors().concat(interceptorAttributes);
-            let parameters: Map<number, [IInvocation, IInvocation]> | undefined;
-            if (property.value.hasParameters()) {
-              parameters = this.compileParameters(value, property.value);
-            }
-            newDescriptor.value = InterceptorFunctionFactory.createFunction(
-              interceptorAttributes,
-              target,
-              value,
-              property.value,
-              parameters
-            );
-          }
-          if (names.has(name)) {
+        if (!descriptor) {
+          // this is a field
+          // interceptor only works when custom initializer defined for this field
+          if (property.hasInitializer() || property.value.hasInitializer()) {
+            // this interceptor will created in makePropertyInitializers()
+            continue;
+          } else {
             throw new Error(
               `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-                `Duplicate interceptor`
+              `Interceptor not work with field property without Initializer`
             );
-          } else {
-            names.add(name);
           }
-          if (!propertyInterceptors) {
-            propertyInterceptors = new Map<PropertyKey, IInvocation>();
-          }
-          propertyInterceptors.set(name, newDescriptor);
         }
+
+        // refer to the origin descriptor
+        const newDescriptor = Object.create(descriptor);
+
+        const value = descriptor.value;
+        const getter = descriptor.get;
+        const setter = descriptor.set;
+
+        // find all the attributes
+        let interceptorAttributes = property.getInterceptors();
+
+        if (typeof getter === 'function') {
+          interceptorAttributes = property.getter.getInterceptors().concat(interceptorAttributes);
+          newDescriptor.get = InterceptorFunctionFactory.createFunction(
+            interceptorAttributes,
+            target,
+            getter,
+            property.getter
+          );
+        }
+        if (typeof setter === 'function') {
+          interceptorAttributes = property.setter.getInterceptors().concat(interceptorAttributes);
+          newDescriptor.set = InterceptorFunctionFactory.createFunction(
+            interceptorAttributes,
+            target,
+            setter,
+            property.setter
+          );
+        }
+        if (typeof value === 'function') {
+          // call interceptors on value first
+          // then call interceptors on property
+          interceptorAttributes = property.value.getInterceptors().concat(interceptorAttributes);
+          let parameters: Map<number, [IInvocation, IInvocation]> | undefined;
+          if (property.value.hasParameters()) {
+            parameters = this.compileParameters(value, property.value);
+          }
+          newDescriptor.value = InterceptorFunctionFactory.createFunction(
+            interceptorAttributes,
+            target,
+            value,
+            property.value,
+            parameters
+          );
+        }
+        if (names.has(name)) {
+          throw new Error(
+            `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
+            `Duplicate interceptor`
+          );
+        } else {
+          names.add(name);
+        }
+        if (!propertyInterceptors) {
+          propertyInterceptors = new Map<PropertyKey, IInvocation>();
+        }
+        propertyInterceptors.set(name, newDescriptor);
       }
     }
 
@@ -177,50 +180,51 @@ export class AgentCompiler implements ICompiler {
     const layers = Reflector(target).findProperties(PropertyFilters.FilterFeatures, AgentFeatures.Initializer);
     let propertyInitializers: Map<PropertyKey, [IInvocation, IInvocation]> | undefined;
 
-    if (layers.length) {
-      for (const [, initializers] of layers) {
-        for (const [, property] of initializers) {
-          const name = property.targetKey;
+    for (const [type, initializers] of layers) {
+      if (IsAgent(type.class)) {
+        continue;
+      }
+      for (const [, property] of initializers) {
+        const name = property.targetKey;
 
-          if (property.descriptor) {
-            // initializer is not for a method / getter / setter
-            throw new Error(
-              `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-                `Initializer not work with method / getter / setter`
-            );
-          } else {
-            let initializerAttributes = property.getInitializers();
-            initializerAttributes = property.value.getInitializers().concat(initializerAttributes);
+        if (property.descriptor) {
+          // initializer is not for a method / getter / setter
+          throw new Error(
+            `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
+            `Initializer not work with method / getter / setter`
+          );
+        } else {
+          let initializerAttributes = property.getInitializers();
+          initializerAttributes = property.value.getInitializers().concat(initializerAttributes);
 
-            // one property may have more than one interceptor.
-            // we will call them one by one. passing the result of previous interceptor to the new interceptor
-            const origin = InitializerFactory.createFieldInitializer(target, name, property);
+          // one property may have more than one interceptor.
+          // we will call them one by one. passing the result of previous interceptor to the new interceptor
+          const origin = InitializerFactory.createFieldInitializer(target, name, property);
 
-            const initialized = InitializerFactory.chainInitializerAttributes(origin, initializerAttributes);
+          const initialized = InitializerFactory.chainInitializerAttributes(origin, initializerAttributes);
 
-            // get all interceptors for the initializer
-            let interceptorAttributes = property.getInterceptors();
-            interceptorAttributes = property.value.getInterceptors().concat(interceptorAttributes);
+          // get all interceptors for the initializer
+          let interceptorAttributes = property.getInterceptors();
+          interceptorAttributes = property.value.getInterceptors().concat(interceptorAttributes);
 
-            // apply interceptors
-            const intercepted = InterceptorChainFactory.chainInterceptorAttributes(initialized, interceptorAttributes);
+          // apply interceptors
+          const intercepted = InterceptorChainFactory.chainInterceptorAttributes(initialized, interceptorAttributes);
 
-            // InceptionInvocation means at least one interceptor in the attributes
-            // do nothing if no interceptor found
-            if (intercepted instanceof InitializerInvocation || intercepted instanceof InterceptorInvocation) {
-              if (names.has(name)) {
-                throw new Error(
-                  `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
-                    `Duplicate initializer`
-                );
-              } else {
-                names.add(name);
-              }
-              if (!propertyInitializers) {
-                propertyInitializers = new Map<PropertyKey, [IInvocation, IInvocation]>();
-              }
-              propertyInitializers.set(name, [origin, intercepted]);
+          // InceptionInvocation means at least one interceptor in the attributes
+          // do nothing if no interceptor found
+          if (intercepted instanceof InitializerInvocation || intercepted instanceof InterceptorInvocation) {
+            if (names.has(name)) {
+              throw new Error(
+                `Class: ${target.prototype.constructor.name}; Property: ${property.targetKey.toString()}; ` +
+                `Duplicate initializer`
+              );
+            } else {
+              names.add(name);
             }
+            if (!propertyInitializers) {
+              propertyInitializers = new Map<PropertyKey, [IInvocation, IInvocation]>();
+            }
+            propertyInitializers.set(name, [origin, intercepted]);
           }
         }
       }

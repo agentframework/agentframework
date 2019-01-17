@@ -1,14 +1,15 @@
+/* tslint:disable */
 
 import { Agent, decorateAgent, decorateClassField, agent } from '../../../src/lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 import { AgentTrackerAttribute } from '../attributes/AgentTrackerAttribute';
 
 class Connection {
+  static count = 0;
+  state = 'offline';
   constructor() {
     Connection.count++;
   }
-  static count = 0;
-  state = 'offline';
 }
 
 class Database {

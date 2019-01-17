@@ -1,15 +1,16 @@
+/* tslint:disable */
 
 import { agent, Agent, decorateParameter, IsAgent } from '../../../src/lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 
 class Connection {
+  static count = 0;
+  state = 'offline';
   constructor() {
     expect(typeof arguments[0]).toBe('string');
     // console.log('Connection(', arguments[0], ')');
     Connection.count++;
   }
-  static count = 0;
-  state = 'offline';
 }
 
 @agent()
@@ -20,7 +21,7 @@ class MongoDB {
     expect(conn instanceof Connection).toBeTruthy();
     // console.log('MongoDB(', arguments, ')');
     this.user = user;
-    if (conn) this.connection = conn;
+    if (conn) { this.connection = conn; }
   }
 }
 
@@ -52,7 +53,7 @@ describe('Initializer for Constructor Parameter', () => {
 
     it('create with injected connection', () => {
       expect(Connection.count).toBe(0);
-      const db = new MongoDB('test', <any>'default');
+      const db = new MongoDB('test', 'default' as any);
       expect(db).toBeTruthy();
       expect(db.user).toBe('test');
       expect(db.connection).toBeTruthy();
@@ -61,7 +62,7 @@ describe('Initializer for Constructor Parameter', () => {
     });
 
     it('create with 2 injected connection', () => {
-      const db = new Redis('test', <any>'default', <any>'default2');
+      const db = new Redis('test', 'default' as any, 'default2' as any);
       expect(db).toBeTruthy();
     });
   });

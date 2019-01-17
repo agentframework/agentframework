@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 // declare var require: any;
 // import { Reflector } from '../../../src/lib';

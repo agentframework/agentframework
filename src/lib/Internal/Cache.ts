@@ -14,10 +14,11 @@ limitations under the License. */
 
 import { Constructor } from '../Compiler/Constructor';
 
+/* tslint:disable */
 const GetWeakMap = new Function('k', 'return k=Symbol.for(k),this[k]||(this[k]=new WeakMap())');
-
 export const Agents: WeakMap<any, any> = GetWeakMap('AgentFramework.Agents');
 export const Types: WeakMap<any, any> = GetWeakMap('AgentFramework.Types');
+/* tslint:enable */
 
 export function IsAgent(agent: Function): boolean {
   return Agents.has(agent);

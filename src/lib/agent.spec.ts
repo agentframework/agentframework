@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { agent } from './agent';
 import { Agent } from './agent';
 import { IsAgent } from './Internal/Cache';

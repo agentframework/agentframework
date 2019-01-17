@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { IAttribute, IInterceptor, IInvocation, Member } from '../../../src/lib';
 
@@ -13,7 +14,7 @@ export class BeforeRoundAttribute implements IAttribute, IInterceptor {
   public intercept(target: IInvocation, parameters: ArrayLike<any>): any {
     expect(typeof target.target).toBe('function');
     expect(typeof target.agent).toBe('object');
-    
+
     if (target.design) {
       // console.log('design', target.design)
       expect(target.design instanceof Member).toBeTruthy();

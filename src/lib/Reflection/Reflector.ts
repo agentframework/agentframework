@@ -33,7 +33,7 @@ export function Reflector(target: Function | Object): Type {
     // if a object hasOwnPropertyDescriptor('constructor') then this object is a prototype
     const constructor = Object.getOwnPropertyDescriptor(target, 'constructor');
     if (constructor && 'function' === typeof constructor.value) {
-      return Type.for(target);
+      return Type.of(target);
     } else {
       throw new Error('AgentFramework 1.x do not support access metadata on instance');
     }
@@ -50,5 +50,5 @@ export function Reflector(target: Function | Object): Type {
     proto = ctor.prototype;
   }
 
-  return Type.for(proto);
+  return Type.of(proto);
 }

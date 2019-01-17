@@ -25,7 +25,7 @@ export class FieldInvocation implements IInvocation {
     _propertyKey: PropertyKey,
     private _design: Property,
     private _newAgent?: object
-  ) {}
+  ) { }
 
   get design(): Property {
     return this._design;
@@ -42,7 +42,7 @@ export class FieldInvocation implements IInvocation {
   set agent(value: object | undefined) {
     this._newAgent = value;
   }
-  
+
   invoke(parameters: ArrayLike<any>): any {
     // how to know the value of a field before you create that class
     // return the value from prototype is a good choose? NO, it may cause infinite loops

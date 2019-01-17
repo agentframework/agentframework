@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { Agent, decorate, IsAgent, Target } from '../../../src/lib';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
@@ -28,10 +29,10 @@ describe('decorate() and All Target', () => {
         @decorate(a, AllTargets)
         random: Date;
 
-        constructor(p1: number, @decorate(a, AllTargets) p2: Date) {}
+        constructor(p1: number, @decorate(a, AllTargets) p2: Date) { }
 
         @decorate(a, AllTargets)
-        round(p1: string, @decorate(a, AllTargets) p2: Date): any {}
+        round(p1: string, @decorate(a, AllTargets) p2: Date): any { }
 
         @decorate(a, AllTargets)
         get dob(): Date {
@@ -50,7 +51,7 @@ describe('decorate() and All Target', () => {
     });
 
     it('decorate class field 2', () => {
-      function MongoDB() {}
+      function MongoDB() { }
       Reflect.defineProperty(MongoDB.prototype, 'random', { value: 1 });
       const descr = Reflect.getOwnPropertyDescriptor(MongoDB.prototype, 'random');
       // another kind of class and decorator
@@ -63,10 +64,10 @@ describe('decorate() and All Target', () => {
         @decorate(a, Target.Field)
         random: Date;
 
-        constructor(p1: number, @decorate(a, Target.ConstructorParameter) p2: Date) {}
+        constructor(p1: number, @decorate(a, Target.ConstructorParameter) p2: Date) { }
 
         @decorate(a, Target.Method)
-        round(p1: string, @decorate(a, Target.MethodParameter) p2: Date): any {}
+        round(p1: string, @decorate(a, Target.MethodParameter) p2: Date): any { }
 
         @decorate(a, Target.Getter)
         get dob(): Date {

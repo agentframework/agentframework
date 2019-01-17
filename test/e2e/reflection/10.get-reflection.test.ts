@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { AgentAttribute, AgentFeatures, decorateClassMember, PropertyFilters, Reflector } from '../../../src/lib';
 import { RandomAttribute } from '../attributes/RandomAttribute';
@@ -16,7 +17,7 @@ class MongoDB {
   metadata: any;
 
   @decorateClassMember(new RoundAttribute())
-  round(): any {}
+  round(): any { }
 }
 
 class Influx {
@@ -32,14 +33,14 @@ class Redis {
 class MySQL {
   @decorateClassMember(new RandomAttribute())
   random: Date;
-  
+
   @decorateClassMember(new RoundAttribute())
-  round(): any {}
+  round(): any { }
 }
 
 class SQLServer {
   @decorateClassMember(new RoundAttribute())
-  round(): any {}
+  round(): any { }
 }
 
 
@@ -57,7 +58,7 @@ describe('Reflection', () => {
     });
 
     it('get agent target', () => {
-      expect(Reflector(MongoDB).type).toBe(MongoDB.prototype.constructor);
+      expect(Reflector(MongoDB).class).toBe(MongoDB.prototype.constructor);
     });
 
     it('get agents', () => {
@@ -77,19 +78,19 @@ describe('Reflection', () => {
     it('get metadata', () => {
       expect(Reflector(Influx).hasFeatures(AgentFeatures.Metadata)).toBeTruthy();
     });
-  
+
     it('get Initializer', () => {
       expect(Reflector(Redis).hasFeatures(AgentFeatures.Metadata)).toBeTruthy();
       expect(Reflector(Redis).hasFeatures(AgentFeatures.Initializer)).toBeTruthy();
       expect(Reflector(Redis).hasFeatures(AgentFeatures.Interceptor)).toBeFalsy();
     });
-  
+
     it('get Interceptor', () => {
       expect(Reflector(SQLServer).hasFeatures(AgentFeatures.Metadata)).toBeTruthy();
       expect(Reflector(SQLServer).hasFeatures(AgentFeatures.Interceptor)).toBeTruthy();
       expect(Reflector(SQLServer).hasFeatures(AgentFeatures.Initializer)).toBeFalsy();
     });
-  
+
     it('get Altered', () => {
       expect(Reflector(MySQL).hasFeatures(AgentFeatures.Metadata)).toBeTruthy();
       expect(Reflector(MySQL).hasFeatures(AgentFeatures.Initializer)).toBeTruthy();

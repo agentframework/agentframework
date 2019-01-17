@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { Agent, decorateClassMember, IsAgent, Reflector, decorateClassField } from '../../../src/lib';
 import { BadRandomAttribute } from '../attributes/BadRandomAttribute';

@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { AgentFeatures, decorateClassMember, Reflector } from '../../../src/lib';
 import { RandomAttribute } from '../attributes/RandomAttribute';
@@ -8,11 +9,6 @@ class MongoDB {
   @decorateClassMember(new RandomAttribute())
   rnd1: Date;
 
-  @decorateClassMember(new RoundAttribute())
-  connect(a: Date, b: RegExp): boolean {
-    return true;
-  }
-
   @decorateClassMember(new RandomAttribute())
   @decorateClassMember(new RoundAttribute())
   both: any;
@@ -21,10 +17,15 @@ class MongoDB {
   books: any;
 
   @decorateClassMember(new RoundAttribute())
-  logs(): any {}
+  connect(a: Date, b: RegExp): boolean {
+    return true;
+  }
 
   @decorateClassMember(new RoundAttribute())
-  logs2(): any {}
+  logs(): any { }
+
+  @decorateClassMember(new RoundAttribute())
+  logs2(): any { }
 }
 
 describe('Reflection Class Member', () => {

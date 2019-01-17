@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import {
   agent,
@@ -14,17 +15,17 @@ import {
 import { InjectAttribute } from '../attributes/InjectAttribute';
 
 class Connection {
+  static count = 0;
+  state = 'offline';
   constructor() {
     // console.log('Connection(', arguments, ')');
     expect(arguments.length).toBe(1);
     expect(arguments[0]).toBe('test');
     Connection.count++;
   }
-  static count = 0;
-  state = 'offline';
 }
 
-class Database {}
+class Database { }
 
 class TypeChecker implements IAttribute, IInterceptor {
   get interceptor(): IInterceptor {
@@ -69,6 +70,14 @@ class MongoDB {
   @decorateClassField(new InjectAttribute())
   connection: Connection;
 
+  user: string;
+  constructor(user: string) {
+    // console.log('MongoDB(', arguments, ')');
+    expect(arguments.length).toBe(1);
+    expect(arguments[0]).toBe('test');
+    this.user = user;
+  }
+
   @decorateClassMethod(new TypeChecker())
   test11(@decorateParameter(new InjectAttribute()) db?: Database) {
     expect(arguments.length).toBe(1);
@@ -101,14 +110,6 @@ class MongoDB {
     expect(db).toBeTruthy();
     expect(db instanceof Database).toBeTruthy();
     return db;
-  }
-
-  user: string;
-  constructor(user: string) {
-    // console.log('MongoDB(', arguments, ')');
-    expect(arguments.length).toBe(1);
-    expect(arguments[0]).toBe('test');
-    this.user = user;
   }
 }
 

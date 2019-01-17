@@ -21,7 +21,7 @@ import { Reflector } from '../../Reflection/Reflector';
  * @hidden
  */
 export class AgentInvocation implements IInvocation {
-  constructor(private readonly _target: Function) {}
+  constructor(private readonly _target: Function) { }
 
   get design(): Type {
     return Reflector(this._target);

@@ -1,13 +1,14 @@
+/* tslint:disable */
 
 import { agent, Agent, AgentAttribute, decorateClassField, IsAgent, Reflector } from '../../../src/lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 
 class Connection {
+  static count = 0;
+  state = 'offline';
   constructor() {
     Connection.count++;
   }
-  static count = 0;
-  state = 'offline';
 }
 
 @agent()

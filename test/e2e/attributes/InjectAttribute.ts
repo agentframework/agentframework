@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { IInitializer, IInitializerAttribute, IInvocation } from '../../../src/lib';
 

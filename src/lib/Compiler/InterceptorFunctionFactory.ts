@@ -24,15 +24,15 @@ import { InterceptorChainFactory } from './InterceptorChainFactory';
  * @hidden
  */
 export class InterceptorFunctionFactory {
-
   static createFunction(
     attributes: Array<IAttribute>,
     target: Function,
     method: Function,
     design: Method<Property>,
-    params?: Map<number, [IInvocation,IInvocation]>
+    params?: Map<number, [IInvocation, IInvocation]>
   ): Function {
-    let origin: IInvocation, factory: Function;
+    let origin: IInvocation;
+    let factory: Function;
     if (params && params.size) {
       origin = new InterceptedMethodInvocation(target, method, design, params);
       factory = new Function('c', 'o', `return function ${method.name}$(){return o.agent=this,c.invoke(arguments)}`);

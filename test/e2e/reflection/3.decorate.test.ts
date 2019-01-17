@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { Agent, decorate, IsAgent, Target } from '../../../src/lib';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
@@ -23,10 +24,10 @@ describe('decorate() and Target', () => {
         @decorate(a, Target.Field)
         random: Date;
 
-        constructor(p1: number, @decorate(a, Target.ConstructorParameter) p2: Date) {}
+        constructor(p1: number, @decorate(a, Target.ConstructorParameter) p2: Date) { }
 
         @decorate(a, Target.Method)
-        round(p1: string, @decorate(a, Target.MethodParameter) p2: Date): any {}
+        round(p1: string, @decorate(a, Target.MethodParameter) p2: Date): any { }
 
         @decorate(a, Target.Getter)
         get dob(): Date {
@@ -52,10 +53,10 @@ describe('decorate() and Target', () => {
         @decorate(a, Target.Field)
         random: Date;
 
-        constructor(p1: number, @decorate(a, Target.ConstructorParameter) p2: Date) {}
+        constructor(p1: number, @decorate(a, Target.ConstructorParameter) p2: Date) { }
 
         @decorate(a, Target.Method)
-        round(p1: string, @decorate(a, Target.MethodParameter) p2: Date): any {}
+        round(p1: string, @decorate(a, Target.MethodParameter) p2: Date): any { }
 
         @decorate(a, Target.Getter)
         get dob(): Date {

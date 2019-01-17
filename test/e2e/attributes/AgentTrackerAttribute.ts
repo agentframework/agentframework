@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { AgentAttribute, IInterceptor, IInvocation, Type } from '../../../src/lib';
 

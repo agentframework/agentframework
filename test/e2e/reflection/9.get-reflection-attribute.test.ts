@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { decorateClassMember, Reflector } from '../../../src/lib';
 import { RandomAttribute } from '../attributes/RandomAttribute';

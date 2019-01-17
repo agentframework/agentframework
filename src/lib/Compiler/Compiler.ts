@@ -30,7 +30,7 @@ export class Compiler {
     if (fields && fields.size) {
       for (const [key, [origin, initializer]] of fields) {
         Object.defineProperty(this.generated.prototype, key, {
-          get: function() {
+          get: function () {
             Reflect.set(origin, 'agent', this);
             const value = initializer.invoke(params());
             Reflect.defineProperty(this, key, {
@@ -41,7 +41,7 @@ export class Compiler {
             });
             return value;
           },
-          set: function(value: any) {
+          set: function (value: any) {
             Reflect.defineProperty(this, key, {
               value,
               configurable: true,

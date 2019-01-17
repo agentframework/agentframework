@@ -29,8 +29,8 @@ export class Property extends Member<Type> {
   }
 
   get value(): Method<Property> {
-    let maxFunctionParameters = 0,
-      _descriptor = this._descriptor; // field don't have parameter
+    let maxFunctionParameters = 0;
+    const _descriptor = this._descriptor; // field don't have parameter
     if (_descriptor && _descriptor.value && 'function' === typeof _descriptor.value) {
       maxFunctionParameters = _descriptor.value.length;
     }

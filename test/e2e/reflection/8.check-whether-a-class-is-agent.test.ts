@@ -1,10 +1,11 @@
+/* tslint:disable */
 
 import { Agent, agent, GetType, IsAgent } from '../../../src/lib';
 
 @agent()
-class Calculator {}
+class Calculator { }
 
-class Computer {}
+class Computer { }
 
 describe('Reflection Helper', () => {
   describe('# should able to', () => {
@@ -27,7 +28,7 @@ describe('Reflection Helper', () => {
     it('get origin type of an agent', () => {
       expect(GetType(Calculator)!.prototype).toBe(Object.getPrototypeOf(Calculator.prototype));
     });
-  
+
     it('get origin type of an agent', () => {
       expect(GetType(Agent(Computer))!.prototype).toBe(Computer.prototype);
     });

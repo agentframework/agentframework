@@ -1,24 +1,25 @@
+/* tslint:disable */
 
 import { Agent, AgentAttribute, IsAgent, Reflector, decorateAgent } from '../../../src/lib';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
 
 class BadAgentAttribute extends AgentAttribute {
   get initializer() {
-    return <any>1;
+    return 1 as any;
   }
 }
 
 class BadAgentAttribute2 extends AgentAttribute {
   get initializer() {
-    return <any>undefined;
+    return undefined as any;
   }
 }
 
 @decorateAgent(new BadAgentAttribute())
 class MongoDB {
-  constructor() {}
 
   connection: any;
+  constructor() { }
 
   connect() {
     return 'connected';
@@ -27,17 +28,17 @@ class MongoDB {
 
 @decorateAgent(new BadAgentAttribute2())
 class MySQL {
-  constructor() {}
 
   connection: any;
+  constructor() { }
 
   connect() {
     return 'connected';
   }
 }
 
-const Redis = (function() {
-  return class {};
+const Redis = (function () {
+  return class { };
 })();
 
 describe('Decorate Agent', () => {
@@ -52,7 +53,7 @@ describe('Decorate Agent', () => {
 
     it('upgrade agent with not attribute', () => {
       @decorateAgent(new AgentAttribute(), [new DisabledMetadataAttribute()])
-      class SQLServer {}
+      class SQLServer { }
       expect(IsAgent(SQLServer)).toBe(true);
     });
 

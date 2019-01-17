@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { agent } from '../../../src/lib';
 import { propertyDecorator } from './property';
@@ -5,8 +6,12 @@ import { propertyDecorator } from './property';
 @agent()
 class TestPropertyDecoratorAgentClass {
 
-  @propertyDecorator()
-  private _activated: boolean = true;
+  get activated(): boolean {
+    return this._activated;
+  }
+  set activated(value) {
+    this._activated = value
+  }
 
   @propertyDecorator()
   @propertyDecorator()
@@ -14,12 +19,8 @@ class TestPropertyDecoratorAgentClass {
 
   _unused: number = 999;
 
-  get activated(): boolean {
-    return this._activated;
-  }
-  set activated(value) {
-    this._activated = value
-  }
+  @propertyDecorator()
+  private _activated: boolean = true;
 
   checkTest() {
     return true;

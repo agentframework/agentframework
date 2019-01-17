@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import {
   agent,
@@ -60,7 +61,7 @@ describe('Interceptor', () => {
       expect(Reflect.getPrototypeOf(ca)).toBe(Calculator.prototype);
     });
 
-    //region round1
+    // region round1
     it('get round1 attribute', () => {
       const items = Reflector(Calculator)
         .property('round1')
@@ -79,9 +80,9 @@ describe('Interceptor', () => {
       expect(ca).toBeTruthy();
       expect(ca.round1('text')).toBe(0);
     });
-    //endregion
+    // endregion
 
-    //region round2
+    // region round2
     it('get round2 attribute', () => {
       const items = Reflector(Calculator)
         .property('round2')
@@ -100,9 +101,9 @@ describe('Interceptor', () => {
       expect(ca).toBeTruthy();
       expect(ca.round2('text')).toBe(0);
     });
-    //endregion
+    // endregion
 
-    //region round3
+    // region round3
     it('get round3 attribute', () => {
       const items = Reflector(Calculator)
         .property('round3')
@@ -121,9 +122,9 @@ describe('Interceptor', () => {
       expect(ca).toBeTruthy();
       expect(ca.round3('text')).toBe(0);
     });
-    //endregion
+    // endregion
 
-    //region round4
+    // region round4
     it('get round4 attribute', () => {
       const items = Reflector(Calculator)
         .property('round4')
@@ -143,6 +144,6 @@ describe('Interceptor', () => {
       expect(ca).toBeTruthy();
       expect(ca.round4('text')).toBe(0);
     });
-    //endregion
+    // endregion
   });
 });

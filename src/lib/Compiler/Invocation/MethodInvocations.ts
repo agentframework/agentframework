@@ -22,7 +22,7 @@ export class DirectMethodInvocation implements IInvocation {
     readonly method: Function,
     readonly _design: Method<Property>,
     private _newAgent?: object
-  ) {}
+  ) { }
 
   get design(): Method<Property> {
     return this._design;
@@ -52,7 +52,7 @@ export class InterceptedMethodInvocation implements IInvocation {
     readonly _design: Method<Property>,
     readonly params: Map<number, [IInvocation, IInvocation]>,
     private _newAgent?: object
-  ) {}
+  ) { }
 
   get design(): Method<Property> {
     return this._design;

@@ -27,6 +27,7 @@ import { Types } from '../Internal/Cache';
 export class Type extends Method<null> {
   private readonly _prototype: object;
   private readonly _properties: Map<PropertyKey, Property>;
+  private _prototypes: Array<Type>;
 
   constructor(prototype: Object) {
     super(null, prototype.constructor.length);
@@ -34,7 +35,7 @@ export class Type extends Method<null> {
     this._properties = new Map<PropertyKey, Property>();
   }
 
-  static for(prototype: Object): Type {
+  static of(prototype: Object): Type {
     let found = Types.get(prototype);
     if (!found) {
       found = new Type(prototype);
@@ -46,7 +47,7 @@ export class Type extends Method<null> {
   /**
    * Return the constructor of reflecting class
    */
-  get type(): Constructor<any> {
+  get class(): Constructor<any> {
     return this._prototype.constructor as Constructor<any>;
   }
 
@@ -55,6 +56,21 @@ export class Type extends Method<null> {
    */
   get prototype(): object {
     return this._prototype;
+  }
+
+  /**
+   * Return prototype array for current type - deep first [base of base, base, this]
+   */
+  types(): Array<Type> {
+    if (!this._prototypes) {
+      this._prototypes = [];
+      let p = this._prototype;
+      while (p) {
+        this._prototypes.unshift(Type.of(p));
+        p = Object.getPrototypeOf(p);
+      }
+    }
+    return this._prototypes;
   }
 
   /**
@@ -98,11 +114,16 @@ export class Type extends Method<null> {
 
   /**
    * Return true if contains the giving agent feature
-   *
-   * @param feature
    */
   hasFeatures(feature: AgentFeatures): boolean {
-    return this.findProperties(PropertyFilters.FilterFeatures, feature).length > 0;
+    for (const type of this.types()) {
+      for (const property of type._properties.values()) {
+        if (PropertyFilters.FilterFeatures(property, feature)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   /**
@@ -131,27 +152,10 @@ export class Type extends Method<null> {
    */
   findProperties(filter: PropertyFilter, filterCriteria?: any): Array<[Type, Map<PropertyKey, Property>]> {
     const layers: Array<[Type, Map<PropertyKey, Property>]> = [];
-    for (const type of this.findPrototypes()) {
+    for (const type of this.types()) {
       const properties = type.findOwnProperties(filter, filterCriteria);
-      if (properties.size) {
-        layers.push([type, properties]);
-      }
+      layers.push([type, properties]);
     }
     return layers;
-  }
-
-  /**
-   * Return prototype array for current type - deep first [base of base, base, this]
-   *
-   * @constructor
-   */
-  findPrototypes(): Array<Type> {
-    let list = [],
-      p = this._prototype;
-    while (p) {
-      (p = Object.getPrototypeOf(p)) && list.unshift(Type.for(p));
-    }
-    list.push(this);
-    return list;
   }
 }

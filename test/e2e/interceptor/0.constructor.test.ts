@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import {
   agent,
@@ -35,7 +36,7 @@ class AgentChecker implements IAttribute, IInterceptor {
 
 @agent([new AgentChecker()])
 class Calculator {
-  
+
   @decorateClassMethod(new RoundAttribute())
   round1(num: any) {
     return num;

@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { Agent, AgentAttribute, decorateAgent, decorateClassMember, IsAgent, Reflector } from '../../../src/lib';
 import { RandomAttribute } from '../attributes/RandomAttribute';
@@ -10,10 +11,6 @@ import { BadRandomAttribute } from '../attributes/BadRandomAttribute';
 class MongoDB {
   connection: any;
 
-  connect() {
-    return 'connected';
-  }
-
   @decorateClassMember(new RandomAttribute())
   random: Date;
 
@@ -24,8 +21,12 @@ class MongoDB {
   @decorateClassMember(new MetadataAttribute())
   metadata: any;
 
+  connect() {
+    return 'connected';
+  }
+
   @decorateClassMember(new RoundAttribute())
-  round(): any {}
+  round(): any { }
 }
 
 describe('Decorate Class 222', () => {

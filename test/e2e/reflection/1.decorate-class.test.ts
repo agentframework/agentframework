@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { agent, Agent, AgentAttribute, decorateClass, decorateClassMember, IsAgent, Reflector } from '../../../src/lib';
 import { RandomAttribute } from '../attributes/RandomAttribute';
@@ -10,10 +11,6 @@ import { AgentChecker } from '../attributes/AgentChecker';
 class MongoDB {
   connection: any;
 
-  connect() {
-    return 'connected';
-  }
-
   @decorateClassMember(new RandomAttribute())
   random: Date;
 
@@ -24,8 +21,12 @@ class MongoDB {
   @decorateClassMember(new MetadataAttribute())
   metadata: any;
 
+  connect() {
+    return 'connected';
+  }
+
   @decorateClassMember(new RoundAttribute())
-  round(): any {}
+  round(): any { }
 }
 
 describe('Decorate Class', () => {
@@ -49,8 +50,8 @@ describe('Decorate Class', () => {
       expect(db instanceof MongoDB).toBe(true);
       expect(Reflect.getPrototypeOf(db)).toBe(MongoDB.prototype);
     });
-    
-    
+
+
   });
 
   describe('# should not able to', () => {

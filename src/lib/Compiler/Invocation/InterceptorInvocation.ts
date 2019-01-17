@@ -20,7 +20,7 @@ import { IInterceptor } from '../../Core/IInterceptor';
  * @hidden
  */
 export class InterceptorInvocation implements IInvocation {
-  constructor(private _invocation: IInvocation, private _interceptor: IInterceptor) {}
+  constructor(private _invocation: IInvocation, private _interceptor: IInterceptor) { }
 
   get design(): any {
     return this._invocation.design;
@@ -29,11 +29,11 @@ export class InterceptorInvocation implements IInvocation {
   get target(): Function {
     return this._invocation.target;
   }
-  
+
   get agent(): object | undefined {
     return this._invocation.agent;
   }
-  
+
   invoke(parameters: ArrayLike<any>): any {
     return this._interceptor.intercept(this._invocation, parameters);
   }

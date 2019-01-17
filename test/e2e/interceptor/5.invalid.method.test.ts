@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 import { agent, Agent, IsAgent, decorateClassMember, decorateClassMethod } from '../../../src/lib';
 import { BadRoundAttribute } from '../attributes/BadRoundAttribute';
