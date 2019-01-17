@@ -7,7 +7,7 @@ notifications:
 
 script:
   - yarn add $TYPESCRIPT
-  - yarn test:unit
+  - yarn build
 
 env:
   - TYPESCRIPT=typescript@3.2.2
