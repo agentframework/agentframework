@@ -18,5 +18,5 @@ import { Arguments } from './Arguments';
 
 export interface ICompiler {
   compile(target: Function, params: Arguments): Function;
-  compileParameters(target: Function, method: Method<any>): Map<number, IInvocation>;
+  compileParameters(target: Function, method: Method<any>): Map<number, [IInvocation,IInvocation]>;
 }

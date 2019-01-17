@@ -13,6 +13,7 @@ export class RoundAttribute implements IAttribute, IInterceptor {
   public intercept(target: IInvocation, parameters: ArrayLike<any>): any {
     // interceptor is working on method, it should be a function target
     expect(target.design instanceof Member).toBeTruthy();
+    expect(typeof target.agent).toBe('object');
     const num = target.invoke(parameters);
     if ('number' !== typeof num) {
       return 0;

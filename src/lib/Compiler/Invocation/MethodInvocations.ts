@@ -21,7 +21,7 @@ export class DirectMethodInvocation implements IInvocation {
     readonly _target: Function,
     readonly method: Function,
     readonly _design: Method<Property>,
-    private _newTarget?: Function
+    private _newAgent?: object
   ) {}
 
   get design(): Method<Property> {
@@ -32,12 +32,16 @@ export class DirectMethodInvocation implements IInvocation {
     return this._target;
   }
 
-  set target(newTarget: Function) {
-    this._newTarget = newTarget;
+  get agent(): object | undefined {
+    return this._newAgent;
+  }
+
+  set agent(value: object | undefined) {
+    this._newAgent = value;
   }
 
   invoke(parameters: ArrayLike<any>): any {
-    return Reflect.apply(this.method, this._newTarget, parameters);
+    return Reflect.apply(this.method, this._newAgent, parameters);
   }
 }
 
@@ -46,8 +50,8 @@ export class InterceptedMethodInvocation implements IInvocation {
     readonly _target: Function,
     readonly method: Function,
     readonly _design: Method<Property>,
-    readonly params: Map<number, IInvocation>,
-    private _newTarget?: Function
+    readonly params: Map<number, [IInvocation, IInvocation]>,
+    private _newAgent?: object
   ) {}
 
   get design(): Method<Property> {
@@ -58,15 +62,22 @@ export class InterceptedMethodInvocation implements IInvocation {
     return this._target;
   }
 
-  set target(newTarget: Function) {
-    this._newTarget = newTarget;
+  get agent(): object | undefined {
+    return this._newAgent;
+  }
+
+  set agent(value: object | undefined) {
+    this._newAgent = value;
+    for (const [, [origin]] of this.params.entries()) {
+      Reflect.set(origin, 'agent', value);
+    }
   }
 
   invoke(parameters: ArrayLike<any>) {
     const params = Array.prototype.slice.call(parameters, 0);
-    for (const [idx, interceptor] of this.params.entries()) {
+    for (const [idx, [, interceptor]] of this.params.entries()) {
       params[idx] = interceptor.invoke([parameters[idx], idx, parameters]);
     }
-    return Reflect.apply(this.method, this._newTarget, params);
+    return Reflect.apply(this.method, this._newAgent, params);
   }
 }

@@ -25,24 +25,13 @@ import { Property } from '../Reflection/Property';
  * @hidden
  */
 export class InitializerFactory {
-  //
-  static createFieldInitializer(
-    attributes: Array<IAttribute>,
-    target: Function,
-    propertyKey: PropertyKey,
-    design: Property
-  ): IInvocation {
-    const invocation = new FieldInvocation(target, propertyKey, design);
-    return this.chainInitializerAttributes(invocation, attributes);
+
+  static createFieldInitializer(target: Function, propertyKey: PropertyKey, design: Property): IInvocation {
+    return new FieldInvocation(target, propertyKey, design);
   }
 
-  static createParameterInitializer(
-    attributes: Array<IAttribute>,
-    target: Function,
-    design: Parameter<any>
-  ): IInvocation {
-    const invocation = new ParameterInvocation(target, design);
-    return this.chainInitializerAttributes(invocation, attributes);
+  static createParameterInitializer(target: Function, design: Parameter<any>): IInvocation {
+    return new ParameterInvocation(target, design);
   }
 
   static chainInitializerAttributes(origin: IInvocation, attributes: Array<IAttribute>): IInvocation {

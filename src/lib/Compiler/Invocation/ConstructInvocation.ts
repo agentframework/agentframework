@@ -32,6 +32,10 @@ export class ConstructCompiler<C extends Function> {
     return this._target;
   }
 
+  get agent(): object | undefined {
+    return undefined;
+  }
+
   get design(): Type {
     return this._design;
   }
@@ -42,7 +46,7 @@ export class ConstructCompiler<C extends Function> {
     return value;
   }
 
-  get compiledParameters(): Map<number, IInvocation> {
+  get compiledParameters(): Map<number, [IInvocation, IInvocation]> {
     const value = this.compiler.compileParameters(this._target, Reflector(this._target));
     Reflect.defineProperty(this, 'compiledParameters', { value });
     return value;
@@ -66,7 +70,7 @@ export class InterceptedConstructInvocation<C extends Function> extends Construc
 
   invoke(parameters: ArrayLike<any>) {
     let args = Array.prototype.slice.call(parameters, 0);
-    for (const [idx, interceptor] of this.compiledParameters.entries()) {
+    for (const [idx, [, interceptor]] of this.compiledParameters.entries()) {
       args[idx] = interceptor.invoke([parameters[idx], idx, args]);
     }
     Parameters.set(this._args, args);

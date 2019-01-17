@@ -19,9 +19,14 @@ export interface IInvocation {
   readonly design: any;
 
   /**
-   * The origin user class
+   * The class
    */
   readonly target: Function;
+
+  /**
+   * The instance
+   */
+  readonly agent: object | undefined;
 
   /**
    * The next function

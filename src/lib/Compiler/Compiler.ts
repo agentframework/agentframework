@@ -25,12 +25,13 @@ export class Compiler {
     this.generated = this.target;
   }
 
-  defineFields(fields: Map<PropertyKey, IInvocation>, params: Arguments) {
+  defineFields(fields: Map<PropertyKey, [IInvocation, IInvocation]>, params: Arguments) {
     // invoke all initializers to generate default value bag
     if (fields && fields.size) {
-      for (const [key, initializer] of fields) {
+      for (const [key, [origin, initializer]] of fields) {
         Object.defineProperty(this.generated.prototype, key, {
           get: function() {
+            Reflect.set(origin, 'agent', this);
             const value = initializer.invoke(params());
             Reflect.defineProperty(this, key, {
               value,

@@ -31,6 +31,10 @@ export class AgentInvocation implements IInvocation {
     return this._target;
   }
 
+  get agent(): object | undefined {
+    return undefined;
+  }
+
   invoke([target, code, agent]: [Function, string, Object]): any {
     if (target === this.target) {
       return target;

@@ -30,15 +30,15 @@ export class InterceptorFunctionFactory {
     target: Function,
     method: Function,
     design: Method<Property>,
-    params?: Map<number, IInvocation>
+    params?: Map<number, [IInvocation,IInvocation]>
   ): Function {
     let origin: IInvocation, factory: Function;
     if (params && params.size) {
       origin = new InterceptedMethodInvocation(target, method, design, params);
-      factory = new Function('c', 'o', `return function ${method.name}$(){return o.target=this,c.invoke(arguments)}`);
+      factory = new Function('c', 'o', `return function ${method.name}$(){return o.agent=this,c.invoke(arguments)}`);
     } else {
       origin = new DirectMethodInvocation(target, method, design);
-      factory = new Function('c', 'o', `return function(){return o.target=this,c.invoke(arguments)}`);
+      factory = new Function('c', 'o', `return function(){return o.agent=this,c.invoke(arguments)}`);
     }
     const chain = InterceptorChainFactory.chainInterceptorAttributes(origin, attributes);
     if (chain instanceof DirectMethodInvocation) {

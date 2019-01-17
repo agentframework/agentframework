@@ -53,16 +53,18 @@ export class AgentCompiler implements ICompiler {
     return CompiledAgent;
   }
 
-  compileParameters(target: Function, method: Method<any>): Map<number, IInvocation> {
+  compileParameters(target: Function, method: Method<any>): Map<number, [IInvocation, IInvocation]> {
     const parameters = method.parameters();
-    const parameterInitializers = new Map<number, IInvocation>();
+    const parameterInitializers = new Map<number, [IInvocation, IInvocation]>();
 
     for (const parameter of parameters) {
       // get all initializer
       let initializerAttributes = parameter.getInitializers();
 
       // apply initializers
-      const initialized = InitializerFactory.createParameterInitializer(initializerAttributes, target, parameter);
+      const origin = InitializerFactory.createParameterInitializer(target, parameter);
+
+      const initialized = InitializerFactory.chainInitializerAttributes(origin, initializerAttributes);
 
       // get all interceptor
       let interceptorAttributes = parameter.getInterceptors();
@@ -71,7 +73,7 @@ export class AgentCompiler implements ICompiler {
       const intercepted = InterceptorChainFactory.chainInterceptorAttributes(initialized, interceptorAttributes);
 
       // getAvailableParameters() return only the parameter got interceptor or initializer
-      parameterInitializers.set(parameter.index, intercepted);
+      parameterInitializers.set(parameter.index, [origin, intercepted]);
     }
 
     return parameterInitializers;
@@ -137,7 +139,7 @@ export class AgentCompiler implements ICompiler {
             // call interceptors on value first
             // then call interceptors on property
             interceptorAttributes = property.value.getInterceptors().concat(interceptorAttributes);
-            let parameters: Map<number, IInvocation> | undefined;
+            let parameters: Map<number, [IInvocation, IInvocation]> | undefined;
             if (property.value.hasParameters()) {
               parameters = this.compileParameters(value, property.value);
             }
@@ -171,9 +173,9 @@ export class AgentCompiler implements ICompiler {
   private makePropertyInitializers(
     target: Function,
     names: Set<PropertyKey>
-  ): Map<PropertyKey, IInvocation> | undefined {
+  ): Map<PropertyKey, [IInvocation, IInvocation]> | undefined {
     const layers = Reflector(target).findProperties(PropertyFilters.FilterFeatures, AgentFeatures.Initializer);
-    let propertyInitializers: Map<PropertyKey, IInvocation> | undefined;
+    let propertyInitializers: Map<PropertyKey, [IInvocation, IInvocation]> | undefined;
 
     if (layers.length) {
       for (const [, initializers] of layers) {
@@ -192,12 +194,9 @@ export class AgentCompiler implements ICompiler {
 
             // one property may have more than one interceptor.
             // we will call them one by one. passing the result of previous interceptor to the new interceptor
-            const initialized = InitializerFactory.createFieldInitializer(
-              initializerAttributes,
-              target,
-              name,
-              property
-            );
+            const origin = InitializerFactory.createFieldInitializer(target, name, property);
+
+            const initialized = InitializerFactory.chainInitializerAttributes(origin, initializerAttributes);
 
             // get all interceptors for the initializer
             let interceptorAttributes = property.getInterceptors();
@@ -218,9 +217,9 @@ export class AgentCompiler implements ICompiler {
                 names.add(name);
               }
               if (!propertyInitializers) {
-                propertyInitializers = new Map<PropertyKey, IInvocation>();
+                propertyInitializers = new Map<PropertyKey, [IInvocation, IInvocation]>();
               }
-              propertyInitializers.set(name, intercepted);
+              propertyInitializers.set(name, [origin, intercepted]);
             }
           }
         }

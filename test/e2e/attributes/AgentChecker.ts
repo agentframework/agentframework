@@ -15,6 +15,7 @@ export class AgentChecker implements IAttribute, IInterceptor {
   }
 
   public intercept(target: IInvocation, parameters: ArrayLike<any>): any {
+    expect(target.agent).toBeUndefined();
     expect(target.design instanceof Type).toBeTruthy();
     expect(typeof target.target).toBe('function');
     return target.invoke(Array.prototype.slice.call(parameters, 0));

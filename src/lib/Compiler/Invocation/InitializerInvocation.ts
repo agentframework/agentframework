@@ -30,6 +30,10 @@ export class InitializerInvocation implements IInvocation {
     return this._invocation.target;
   }
 
+  get agent(): object | undefined {
+    return this._invocation.agent;
+  }
+
   invoke(parameters: ArrayLike<any>): any {
     return this._initializer.initialize(this._invocation, parameters);
   }

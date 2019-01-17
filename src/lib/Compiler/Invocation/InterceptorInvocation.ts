@@ -30,6 +30,10 @@ export class InterceptorInvocation implements IInvocation {
     return this._invocation.target;
   }
   
+  get agent(): object | undefined {
+    return this._invocation.agent;
+  }
+  
   invoke(parameters: ArrayLike<any>): any {
     return this._interceptor.intercept(this._invocation, parameters);
   }

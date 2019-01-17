@@ -20,7 +20,7 @@ import { Parameter } from '../../Reflection/Parameter';
  * @hidden
  */
 export class ParameterInvocation implements IInvocation {
-  constructor(private _target: Function, private _design: Parameter<any>) {}
+  constructor(private _target: Function, private _design: Parameter<any>, private _newAgent?: object) {}
 
   get design(): Parameter<any> {
     return this._design;
@@ -30,6 +30,14 @@ export class ParameterInvocation implements IInvocation {
     return this._target;
   }
 
+  get agent(): object | undefined {
+    return this._newAgent;
+  }
+
+  set agent(value: object | undefined) {
+    this._newAgent = value;
+  }
+  
   invoke(parameters: ArrayLike<any>): any {
     // parameters[0] = value of index
     // parameters[1] = index of this parameter
