@@ -5,7 +5,7 @@
   "engines": {
     "node": ">=6.0.0"
   },
-  "description": "Agent-Oriented Programming for TypeScript",
+  "description": "TypeScript that scales",
   "main": "src/lib/index.ts",
   "scripts": {
     "cov": "node -r ts-node/register node_modules/.bin/istanbul cover --config=tools/istanbul.yaml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.json",
