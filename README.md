@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-An elegant & efficient TypeScript API to build <a target="_blank" href="https://en.wikipedia.org/wiki/Agent-oriented_programming">Software Agents</a>
+An elegant & efficient TypeScript API to build <a target="_blank" href="https://en.wikipedia.org/wiki/Agent-oriented_programming">software agents</a>
 </p>
 
 <p align="center">
