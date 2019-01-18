@@ -1,6 +1,13 @@
 # Agent Framework 1.0.x ChangeLog
 
-## 2019-01-14, Version 1.0.0-rc.16 (Preview), @e2tox
+## 2019-01-18, Version 1.0.0-rc.24 (Preview), @e2tox
+
+**Notable Changes**
+
+- Remove nodejs dependencies, prepare for deno
+- Add typescript-standard into build process
+
+## 2019-01-14, Version 1.0.0-rc.16, @e2tox
 
 **Notable Changes**
 

@@ -13,5 +13,6 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 export interface Constructor<T extends Object = Object> {
-  new(...args: Array<any>): T;
+  prototype: T;
+  new (...parameters: any): T;
 }

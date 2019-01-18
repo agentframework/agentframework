@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-An elegant reflection api to build your dream framework
+An elegant & efficient TypeScript code generator to build <a href="https://en.wikipedia.org/wiki/Agent-oriented_programming">software agents</a>
 </p>
 
 <p align="center">
@@ -41,7 +41,7 @@ An elegant reflection api to build your dream framework
 
 | Date       | Version                                          | Status  |
 | ---------- | ------------------------------------------------ | ------- |
-| 2019-01-14 | [1.0.0-rc.16](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
+| 2019-01-18 | [1.0.0-rc.24](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
 | 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)      | Stable  |
 
 ## Agent Oriented Programming
