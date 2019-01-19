@@ -67,15 +67,14 @@ An elegant & efficient TypeScript API to build <a target="_blank" href="https://
 | Mobility    | Mobile Agent    | An agent can move from domain to domain with their belief unchanged     |
 
 ### What's this?
-
-  - 100% TypeScript implementation! No dependencies!!!
-  - A framework to build other frameworks (e.g. AOP/DI/ORM/Web framework)
-  - Elegant design pattern to decorate your class with metadata, initializers and interceptors
-  - Require ES6 and TypeScript 2.4+
-  - Work in both node and browser
-  - Very Fast (Compile class at 1st time you new/call it; as fast as native class starting from 2nd time)
-  - Very Clean (Never touch your original class prototype, A on-demand compiled proxy will be generated on top of your class)
-  - Very Small (Only 594 SLOC and 4.3kb zipped @ v1.0.0-rc14, deep considerations behind every single line of code)
+- 100% TypeScript implementation! No dependencies!!!
+- A framework to build other frameworks (e.g. AOP/DI/ORM/Web framework)
+- Elegant design pattern to decorate your class with metadata, initializers and interceptors
+- Require ES6 and TypeScript 2.4+
+- Work in both node and browser
+- Very Fast (Compile class at 1st time you new/call it; as fast as native class starting from 2nd time)
+- Very Clean (Never touch your original class prototype, A on-demand compiled proxy will be generated on top of your class)
+- Very Small (Only 594 SLOC and 4.3kb zipped @ v1.0.0-rc14, deep considerations behind every single line of code)
 
 ### Why use Agent Framework?
 
