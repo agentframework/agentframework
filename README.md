@@ -90,8 +90,10 @@ class Project {
 
 @agent()
 class Developer {
+  
 	@transit()
-	project: Project;
+	private project: Project;
+	
 	constructor() {
 		console.log(`WOW! You working on project ${this.project.name}!`);
 	}
