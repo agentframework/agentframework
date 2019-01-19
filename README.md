@@ -17,6 +17,7 @@ An elegant & efficient TypeScript API to build <a target="_blank" href="https://
 </p>
 
 ---
+
 :lollipop: **Modernize:** 100% for TypeScript. Support class and [es6 module](https://unpkg.com/agentframework/).
 
 :zap: **Fast:** Use CodeGen to minimize overheads. Faster than es6 Proxy.
@@ -27,10 +28,10 @@ An elegant & efficient TypeScript API to build <a target="_blank" href="https://
 
 ## Features
 
-	- Add metadata to your code at design-time (using @decorator) or runtime (using Reflector api)
-	- Access the metadata at runtime (using Reflector api)
-	- Customizable initializer for class fields and arguments
-	- Customizable interceptor for injected value, class method, getter, setter and arguments
+    - Add metadata to your code at design-time (using @decorator) or runtime (using Reflector api)
+    - Access the metadata at runtime (using Reflector api)
+    - Customizable initializer for class fields and arguments
+    - Customizable interceptor for injected value, class method, getter, setter and arguments
 
 ## Projects
 
@@ -66,36 +67,14 @@ An elegant & efficient TypeScript API to build <a target="_blank" href="https://
 | Sociality   | Message         | Agent can communicate with other agent                                  |
 | Mobility    | Mobile Agent    | An agent can move from domain to domain with their belief unchanged     |
 
-### What's this
-	- 100% TypeScript implementation! No dependencies!!!
-	- A framework to build other frameworks (e.g. AOP/DI/ORM/Web framework)
-	- Elegant design pattern to decorate your class with metadata, initializers and interceptors
-	- Require ES6 and TypeScript 2.4+
-	- Work in both node and browser
-	- Very Fast (Compile class at 1st time you new/call it; as fast as native class starting from 2nd time)
-	- Very Clean (Never touch your original class prototype, A on-demand compiled proxy will be generated on top of your class)
-	- Very Small (Only 594 SLOC and 4.3kb zipped @ v1.0.0-rc14, deep considerations behind every single line of code)
+### When use Agent Framework
 
-### Why use Agent Framework
-
+	- You want to build software agents.
+	- You want to use dependence injection or dependence lookup.
 	- You want to build a framework which similar to Spring Framework but in JavaScript.
 	- You want to build an abstract layer for a specific business domain in your organization.
 	- You want to remove duplicated code and keep project codebase small and clean.
 	- You need a powerful method to pre-process, post-process or modify system behaviors without touching existing code.
-
-### When use Agent Framework
-
-Agent Framework will help you on following areas: (which I did in other projects)
-
-	- Dependency Injection
-	- Data Access Layer
-	- Application Framework
-	- Service Hosting and Communication
-	- Validation
-	- Tracking / Monitoring
-	- Utilities
-	- ...
-	- **And there are so many waiting to be explored**
 
 ### Show me the example
 
@@ -103,136 +82,25 @@ Only 3 lines before you get powerful dependency injection for your code
 
 	```typescript
 	import { agent, transit } from '@agentframework/domain';
-	
+
 	class Project {
 		name = 'Agent Framework';
 	}
-	
+
 	@agent()
 	class Developer {
-	
+
 		@transit()
 		project: Project;
-	
+
 		constructor() {
 			console.log(`WOW! You working on project ${this.project.name}!`);
 		}
 	}
-	
+
 	const you = new Developer();
 	console.log('Is it create from the Developer class?', you instanceof Developer);
 	```
-
-### Show me more code
-
-Following is code snippet from a real project. Find out more on the coming agentframework.com
-
-	```typescript
-	// controller
-	
-	@controller('/api')
-	export class DemoController extends MyController {
-	  @singleton()
-	  apfs: ApfsService;
-	
-	  @user()
-	  @middleware()
-	  async [Symbol()](ctx: MyContext, next: NextFunction) {
-	    return next();
-	  }
-	
-	  /* this endpoint is only for admin, other users will got http 403 error */
-	  @admin()
-	  @method('GET', '/metadata')
-	  async metadata(ctx: MyContext) {
-	    return this.apfs.load(
-	      ctx.domain,
-	      'apfs:///Federation/Microsoft/ProfileImages/49945e60-887e-40a6-83d1-b77a5e0c2d47'
-	    );
-	  }
-	
-	  /* this endpoint is only for authenticated users, other users will got http 401 error, because of @user on @middleware */
-	  @method('GET', '/profile')
-	  async profile(req: MyRequest, res: MyResponse) {
-	    return req.identity;
-	  }
-	}
-	
-	// decorators
-	
-	function user() {
-	  return decorateClassMethod(new RoleAttribute('User'));
-	}
-	
-	function admin() {
-	  return decorateClassMethod(new RoleAttribute('Admin'));
-	}
-	
-	export class RoleAttribute implements IAttribute, IInterceptor {
-	  constructor(private role: string) {}
-	
-	  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
-	    return true;
-	  }
-	
-	  public getInterceptor(): IInterceptor {
-	    return this;
-	  }
-	
-	  public intercept(target: IInvocation, parameters: ArrayLike<any>): any {
-	    const ctx: MyContext = parameters[0];
-	    if (!ctx.identity.roles.includes(this.role)) {
-	      throw new AuthenticationError(`Require ${this.role} Permission`);
-	    }
-	    return target.invoke(parameters);
-	  }
-	}
-	```
-
-#### Explains
-
-	- Method/Middleware name can be a Symbol
-	- `ctx` is Koa like object, `req`,`res` is Express like objects. You can choose in between.
-	- Lazy load everything! `ApfsService` will not been created if you only GET /api/profile
-	- It deploys to **Lambda function** (Agent Cloud will be added later)
-	- @middleware() with **Full Promise** support
-	- You can easily create decorators like @admin(), @user() or @validate(CustomBodyType)
-	- `ApfsService` is an singleton object in application scope
-	- Auto generate test cases and API document
-	- ...
-
-**Examples in this repository**
-
-	- [@prerequisite()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/prerequisite.spec.ts) Do not run the method body and `throw` an error when `prerequistite()` not met
-
-	- [@conditional()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/conditional.spec.ts) Likes `prerequistite()` but not throw error
-
-	- [@normalize()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/normalize.spec.ts) Capture `throw` in the method and modify the return value to this object `{ ok: 1|0, result?: any = return object, results?: any = return array, message?: string = err.message }`
-
-	- [@success()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/success.spec.ts) Change the specified class property value when this method run success (without `throw`)
-
-	- [@failure()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/failure.spec.ts) Always return specified value if any `throw` happen in the intercepted method.
-
-	- [@timestamp()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/timestamp.spec.ts) Update timestamp field after changes the field value
-
-	- [@cache()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/cache.spec.ts) Simple but useful memory cache implementation
-	
-	- [@inject()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/inject.spec.ts) Dependence injection
-
-	- [@timestamp()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/timestamp.spec.ts) Update timestamp field after changes the field value
-
-	- [@cache()](https://github.com/agentframework/agentframework/blob/master/src/lib/extra/cache.spec.ts) Simple but useful memory cache implementation
-
-**Advanced Examples (will be available after release 1.0)**
-
-	- Calculate the execution time of methods
-	- Check user group before the operations
-	- Add log for request and response
-	- Catch all error and normalize a response
-	- Create Singleton instance
-	- Create a ORM library
-	- Prevent Mongodb injection
-	- Create a scheduler
 
 ### Road to v1.0
 
@@ -264,20 +132,10 @@ Following is code snippet from a real project. Find out more on the coming agent
 	- [x] COMPATIBILITY: Revise Domain Interface (Domain is been completely removed from agentframework)
 	- [x] Satellite projects to build AgentFramework.com - Database support - mongodb 4.x
 	- [x] Satellite projects to build AgentFramework.com - Serverless support - AWS lambda, Alicloud Function Computing
+	- [x] Satellite projects to build AgentFramework.com - Data Validation
+	- [ ] Satellite projects to build AgentFramework.com - Domain
 	- [ ] Satellite projects to build AgentFramework.com - Web Application Support
 	- [ ] AgentFramework.com
-
-### Concepts in Agent Framework
-
-	- Attribute (associating declarative information with TypeScript code, e.g classes, methods and fields)
-	- Reflection (access the associated declarative information from classes, method or fields)
-	- Agent (A class which decorated with attributes)
-
-### The Future of Agent Framework
-
-It will be something between Function-a-a-S and Container-a-a-S.
-
-Let's call it Agent-a-a-S which implement **decentralized** agent sociality environment utilize the power of Edge Computing
 
 ## License
 
