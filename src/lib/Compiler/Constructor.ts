@@ -14,5 +14,5 @@ limitations under the License. */
 
 export interface Constructor<T extends Object = Object> {
   prototype: T;
-  new (...parameters: any): T;
+  new (...parameters: Array<any>): T;
 }
