@@ -101,12 +101,8 @@ Agent Framework will help you on following areas: (which I did in other projects
 
 Only 3 lines before you get powerful dependency injection for your code
 
-	- `import { agent, inject } from '@agentframework/domain'`
-	- `@agent()`
-	- `@inject()`
-
 	```typescript
-	import { agent, inject } from '@agentframework/domain';
+	import { agent, transit } from '@agentframework/domain';
 	
 	class Project {
 		name = 'Agent Framework';
@@ -114,22 +110,17 @@ Only 3 lines before you get powerful dependency injection for your code
 	
 	@agent()
 	class Developer {
-		@inject()
+	
+		@transit()
 		project: Project;
 	
 		constructor() {
-			// EPIC: access the injected variable inside constructor
 			console.log(`WOW! You working on project ${this.project.name}!`);
 		}
 	}
 	
-	// EPIC: create agent using new keyword without introduce IoC container
 	const you = new Developer();
 	console.log('Is it create from the Developer class?', you instanceof Developer);
-	
-	// Results:
-	// > WOW! You working on project Agent Framework!
-	// > Is it create from the Developer class? true
 	```
 
 ### Show me more code
