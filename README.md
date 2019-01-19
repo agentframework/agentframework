@@ -66,7 +66,7 @@ An elegant & efficient TypeScript API to build <a target="_blank" href="https://
 | Sociality   | Message         | Agent can communicate with other agent                                  |
 | Mobility    | Mobile Agent    | An agent can move from domain to domain with their belief unchanged     |
 
-### What's this?
+### What's this
 	- 100% TypeScript implementation! No dependencies!!!
 	- A framework to build other frameworks (e.g. AOP/DI/ORM/Web framework)
 	- Elegant design pattern to decorate your class with metadata, initializers and interceptors
@@ -76,14 +76,14 @@ An elegant & efficient TypeScript API to build <a target="_blank" href="https://
 	- Very Clean (Never touch your original class prototype, A on-demand compiled proxy will be generated on top of your class)
 	- Very Small (Only 594 SLOC and 4.3kb zipped @ v1.0.0-rc14, deep considerations behind every single line of code)
 
-### Why use Agent Framework?
+### Why use Agent Framework
 
 	- You want to build a framework which similar to Spring Framework but in JavaScript.
 	- You want to build an abstract layer for a specific business domain in your organization.
 	- You want to remove duplicated code and keep project codebase small and clean.
 	- You need a powerful method to pre-process, post-process or modify system behaviors without touching existing code.
 
-### When use Agent Framework?
+### When use Agent Framework
 
 Agent Framework will help you on following areas: (which I did in other projects)
 
@@ -105,100 +105,100 @@ Only 3 lines before you get powerful dependency injection for your code
 	- `@agent()`
 	- `@inject()`
 
-```typescript
-import { agent, inject } from '@agentframework/domain';
-
-class Project {
-  name = 'Agent Framework';
-}
-
-@agent()
-class Developer {
-  @inject()
-  project: Project;
-
-  constructor() {
-    // EPIC: access the injected variable inside constructor
-    console.log(`WOW! You working on project ${this.project.name}!`);
-  }
-}
-
-// EPIC: create agent using new keyword without introduce IoC container
-const you = new Developer();
-console.log('Is it create from the Developer class?', you instanceof Developer);
-
-// Results:
-// > WOW! You working on project Agent Framework!
-// > Is it create from the Developer class? true
-```
+	```typescript
+	import { agent, inject } from '@agentframework/domain';
+	
+	class Project {
+		name = 'Agent Framework';
+	}
+	
+	@agent()
+	class Developer {
+		@inject()
+		project: Project;
+	
+		constructor() {
+			// EPIC: access the injected variable inside constructor
+			console.log(`WOW! You working on project ${this.project.name}!`);
+		}
+	}
+	
+	// EPIC: create agent using new keyword without introduce IoC container
+	const you = new Developer();
+	console.log('Is it create from the Developer class?', you instanceof Developer);
+	
+	// Results:
+	// > WOW! You working on project Agent Framework!
+	// > Is it create from the Developer class? true
+	```
 
 ### Show me more code
 
 Following is code snippet from a real project. Find out more on the coming agentframework.com
 
-```typescript
-// controller
+	```typescript
+	// controller
+	
+	@controller('/api')
+	export class DemoController extends MyController {
+	  @singleton()
+	  apfs: ApfsService;
+	
+	  @user()
+	  @middleware()
+	  async [Symbol()](ctx: MyContext, next: NextFunction) {
+	    return next();
+	  }
+	
+	  /* this endpoint is only for admin, other users will got http 403 error */
+	  @admin()
+	  @method('GET', '/metadata')
+	  async metadata(ctx: MyContext) {
+	    return this.apfs.load(
+	      ctx.domain,
+	      'apfs:///Federation/Microsoft/ProfileImages/49945e60-887e-40a6-83d1-b77a5e0c2d47'
+	    );
+	  }
+	
+	  /* this endpoint is only for authenticated users, other users will got http 401 error, because of @user on @middleware */
+	  @method('GET', '/profile')
+	  async profile(req: MyRequest, res: MyResponse) {
+	    return req.identity;
+	  }
+	}
+	
+	// decorators
+	
+	function user() {
+	  return decorateClassMethod(new RoleAttribute('User'));
+	}
+	
+	function admin() {
+	  return decorateClassMethod(new RoleAttribute('Admin'));
+	}
+	
+	export class RoleAttribute implements IAttribute, IInterceptor {
+	  constructor(private role: string) {}
+	
+	  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
+	    return true;
+	  }
+	
+	  public getInterceptor(): IInterceptor {
+	    return this;
+	  }
+	
+	  public intercept(target: IInvocation, parameters: ArrayLike<any>): any {
+	    const ctx: MyContext = parameters[0];
+	    if (!ctx.identity.roles.includes(this.role)) {
+	      throw new AuthenticationError(`Require ${this.role} Permission`);
+	    }
+	    return target.invoke(parameters);
+	  }
+	}
+	```
 
-@controller('/api')
-export class DemoController extends MyController {
-  @singleton()
-  apfs: ApfsService;
-
-  @user()
-  @middleware()
-  async [Symbol()](ctx: MyContext, next: NextFunction) {
-    return next();
-  }
-
-  /* this endpoint is only for admin, other users will got http 403 error */
-  @admin()
-  @method('GET', '/metadata')
-  async metadata(ctx: MyContext) {
-    return this.apfs.load(
-      ctx.domain,
-      'apfs:///Federation/Microsoft/ProfileImages/49945e60-887e-40a6-83d1-b77a5e0c2d47'
-    );
-  }
-
-  /* this endpoint is only for authenticated users, other users will got http 401 error, because of @user on @middleware */
-  @method('GET', '/profile')
-  async profile(req: MyRequest, res: MyResponse) {
-    return req.identity;
-  }
-}
-
-// decorators
-
-function user() {
-  return decorateClassMethod(new RoleAttribute('User'));
-}
-
-function admin() {
-  return decorateClassMethod(new RoleAttribute('Admin'));
-}
-
-export class RoleAttribute implements IAttribute, IInterceptor {
-  constructor(private role: string) {}
-
-  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
-    return true;
-  }
-
-  public getInterceptor(): IInterceptor {
-    return this;
-  }
-
-  public intercept(target: IInvocation, parameters: ArrayLike<any>): any {
-    const ctx: MyContext = parameters[0];
-    if (!ctx.identity.roles.includes(this.role)) {
-      throw new AuthenticationError(`Require ${this.role} Permission`);
-    }
-    return target.invoke(parameters);
-  }
-}
-```
-
-##### Explains
+#### Explains
 
 	- Method/Middleware name can be a Symbol
 	- `ctx` is Koa like object, `req`,`res` is Express like objects. You can choose in between.
