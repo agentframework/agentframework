@@ -9,7 +9,7 @@
   "main": "src/lib/index.ts",
   "scripts": {
     "cov": "node -r ts-node/register node_modules/.bin/istanbul cover --config=tools/istanbul.yaml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.json",
-    "build": "npm run lint && npm run test",
+    "build": "npm run lint && npm run test && node_modules/.bin/tsc",
     "test": "node -r ts-node/register node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.json",
     "lint": "node_modules/.bin/standard"
   },
