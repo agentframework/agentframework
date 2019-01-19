@@ -18,6 +18,8 @@ An elegant & efficient TypeScript API to build <a target="_blank" href="https://
 
 ---
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d7d9b922a20e462494992e5fb54f6a2e)](https://app.codacy.com/app/agentframework/agentframework?utm_source=github.com&utm_medium=referral&utm_content=agentframework/agentframework&utm_campaign=Badge_Grade_Dashboard)
+
 :lollipop: **Modernize:** 100% for TypeScript. Support class and [es6 module](https://unpkg.com/agentframework/).
 
 :zap: **Fast:** Use CodeGen to minimize overheads. Faster than es6 Proxy.
