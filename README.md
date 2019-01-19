@@ -27,15 +27,15 @@ An elegant & efficient TypeScript API to build <a target="_blank" href="https://
 
 ## Features
 
-- Add metadata to your code at design-time (using @decorator) or runtime (using Reflector api)
-- Access the metadata at runtime (using Reflector api)
-- Customizable initializer for class fields and arguments
-- Customizable interceptor for injected value, class method, getter, setter and arguments
+  - Add metadata to your code at design-time (using @decorator) or runtime (using Reflector api)
+  - Access the metadata at runtime (using Reflector api)
+  - Customizable initializer for class fields and arguments
+  - Customizable interceptor for injected value, class method, getter, setter and arguments
 
 ## Projects
 
-- [@agentframework/domain](https://github.com/agentframework/domain) **On demand** dependency injection framework [example](https://github.com/agentframework/domain-example)
-- [@agentframework/validation](https://github.com/agentframework/validation) **Zero configuration** validation framework [example](https://github.com/agentframework/validation-example)
+  - [@agentframework/domain](https://github.com/agentframework/domain) **On demand** dependency injection framework [example](https://github.com/agentframework/domain-example)
+  - [@agentframework/validation](https://github.com/agentframework/validation) **Zero configuration** validation framework [example](https://github.com/agentframework/validation-example)
 
 ## Changelog
 
@@ -68,43 +68,43 @@ An elegant & efficient TypeScript API to build <a target="_blank" href="https://
 
 ### What's this?
 
-- 100% TypeScript implementation! No dependencies!!!
-- A framework to build other frameworks (e.g. AOP/DI/ORM/Web framework)
-- Elegant design pattern to decorate your class with metadata, initializers and interceptors
-- Require ES6 and TypeScript 2.4+
-- Work in both node and browser
-- Very Fast (Compile class at 1st time you new/call it; as fast as native class starting from 2nd time)
-- Very Clean (Never touch your original class prototype, A on-demand compiled proxy will be generated on top of your class)
-- Very Small (Only 594 SLOC and 4.3kb zipped @ v1.0.0-rc14, deep considerations behind every single line of code)
+  - 100% TypeScript implementation! No dependencies!!!
+  - A framework to build other frameworks (e.g. AOP/DI/ORM/Web framework)
+  - Elegant design pattern to decorate your class with metadata, initializers and interceptors
+  - Require ES6 and TypeScript 2.4+
+  - Work in both node and browser
+  - Very Fast (Compile class at 1st time you new/call it; as fast as native class starting from 2nd time)
+  - Very Clean (Never touch your original class prototype, A on-demand compiled proxy will be generated on top of your class)
+  - Very Small (Only 594 SLOC and 4.3kb zipped @ v1.0.0-rc14, deep considerations behind every single line of code)
 
 ### Why use Agent Framework?
 
-- You want to build a framework which similar to Spring Framework but in JavaScript.
-- You want to build an abstract layer for a specific business domain in your organization.
-- You want to remove duplicated code and keep project codebase small and clean.
-- You need a powerful method to pre-process, post-process or modify system behaviors without touching existing code.
+  - You want to build a framework which similar to Spring Framework but in JavaScript.
+  - You want to build an abstract layer for a specific business domain in your organization.
+  - You want to remove duplicated code and keep project codebase small and clean.
+  - You need a powerful method to pre-process, post-process or modify system behaviors without touching existing code.
 
 ### When use Agent Framework?
 
 Agent Framework will help you on following areas: (which I did in other projects)
 
-- Dependency Injection
-- Data Access Layer
-- Application Framework
-- Service Hosting and Communication
-- Validation
-- Tracking / Monitoring
-- Utilities
-- ...
-- **And there are so many waiting to be explored**
+  - Dependency Injection
+  - Data Access Layer
+  - Application Framework
+  - Service Hosting and Communication
+  - Validation
+  - Tracking / Monitoring
+  - Utilities
+  - ...
+  - **And there are so many waiting to be explored**
 
 ### Show me the example
 
 Only 3 lines before you get powerful dependency injection for your code
 
-- `import { agent, inject } from '@agentframework/domain'`
-- `@agent()`
-- `@inject()`
+  - `import { agent, inject } from '@agentframework/domain'`
+  - `@agent()`
+  - `@inject()`
 
 ```typescript
 import { agent, inject } from '@agentframework/domain';
