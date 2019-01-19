@@ -81,7 +81,7 @@ An elegant & efficient TypeScript API to build <a target="_blank" href="https://
 
 Only 3 lines before you get powerful dependency injection for your code
 
-	```typescript
+```typescript
 	import { agent, transit } from '@agentframework/domain';
 
 	class Project {
@@ -101,7 +101,7 @@ Only 3 lines before you get powerful dependency injection for your code
 
 	const you = new Developer();
 	console.log('Is it create from the Developer class?', you instanceof Developer);
-	```
+```
 
 ### Road to v1.0
 
