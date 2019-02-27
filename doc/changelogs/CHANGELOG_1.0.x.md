@@ -1,5 +1,11 @@
 # Agent Framework 1.0.x ChangeLog
 
+## 2019-02-27, Version 1.0.0, @e2tox
+
+**Notable Changes**
+
+- Bump version to 1.0
+
 ## 2019-01-18, Version 1.0.0-rc.24 (Preview), @e2tox
 
 **Notable Changes**

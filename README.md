@@ -36,6 +36,7 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 ## Projects
 
+-   [@agentframework/web-starter](https://github.com/agentframework/web-starter) A revolutionary framework crafted for software agents and micro services.
 -   [@agentframework/domain](https://github.com/agentframework/domain) **On demand** dependency injection framework [example](https://github.com/agentframework/domain-example)
 -   [@agentframework/validation](https://github.com/agentframework/validation) **Zero configuration** validation framework [example](https://github.com/agentframework/validation-example)
 
@@ -43,8 +44,8 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 | Date       | Version                                          | Status  |
 | ---------- | ------------------------------------------------ | ------- |
-| 2019-01-18 | [1.0.0-rc.24](doc/changelogs/CHANGELOG_1.0.x.md) | Preview |
-| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)      | Stable  |
+| 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)       | Stable  |
+| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)      | Maintenance  |
 
 ## Agent Oriented Programming
 
@@ -134,7 +135,7 @@ console.log('Is it create from the Developer class?', you instanceof Developer);
 -   [x] Satellite projects to build AgentFramework.com - Database support - mongodb 4.x
 -   [x] Satellite projects to build AgentFramework.com - Serverless support - AWS lambda, Alicloud Function Computing
 -   [x] Satellite projects to build AgentFramework.com - Data Validation
--   [ ] Satellite projects to build AgentFramework.com - Domain
+-   [x] Satellite projects to build AgentFramework.com - Domain
 -   [ ] Satellite projects to build AgentFramework.com - Web Application Support
 -   [ ] AgentFramework.com
 
