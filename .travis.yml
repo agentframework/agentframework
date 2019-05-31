@@ -10,6 +10,9 @@ script:
   - yarn build
 
 env:
+  - TYPESCRIPT=typescript@3.5.1
+  - TYPESCRIPT=typescript@3.4.5
+  - TYPESCRIPT=typescript@3.3.4000
   - TYPESCRIPT=typescript@3.2.4
   - TYPESCRIPT=typescript@3.1.6
   - TYPESCRIPT=typescript@3.0.3
