@@ -9,12 +9,12 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 </p>
 
 <p align="center">
-  <a href="https://travis-ci.org/agentframework/agentframework"><img src="https://travis-ci.org/agentframework/agentframework.svg?branch=master"></a>
-  <a href="https://coveralls.io/github/agentframework/agentframework"><img src="https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=master"></a>
-  <a href="https://www.codacy.com/app/agentframework/agentframework"><img src="https://api.codacy.com/project/badge/Grade/5101dc6abfd04608b7f61636245dab05?branch=master"></a>
-  <a href="https://bundlephobia.com/result?p=agentframework"><img src="https://img.shields.io/bundlephobia/minzip/agentframework.svg?branch=master"></a>
-  <a href="https://snyk.io/test/npm/agentframework"><img src="https://snyk.io/test/npm/agentframework/badge.svg?branch=master"></a>
-  <a href="https://npmjs.com/package/agentframework"><img src="https://img.shields.io/npm/dm/agentframework.svg?branch=master" alt="gzip size"></a>
+  <a href="https://travis-ci.org/agentframework/agentframework"><img src="https://travis-ci.org/agentframework/agentframework.svg?branch=main"></a>
+  <a href="https://coveralls.io/github/agentframework/agentframework"><img src="https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=main"></a>
+  <a href="https://www.codacy.com/app/agentframework/agentframework"><img src="https://app.codacy.com/project/badge/Grade/5101dc6abfd04608b7f61636245dab05"></a>
+  <a href="https://bundlephobia.com/result?p=agentframework"><img src="https://img.shields.io/bundlephobia/minzip/agentframework.svg"></a>
+  <a href="https://snyk.io/test/npm/agentframework"><img src="https://snyk.io/test/npm/agentframework/badge.svg"></a>
+  <a href="https://npmjs.com/package/agentframework"><img src="https://img.shields.io/npm/dm/agentframework.svg" alt="gzip size"></a>
 </p>
 
 ---
