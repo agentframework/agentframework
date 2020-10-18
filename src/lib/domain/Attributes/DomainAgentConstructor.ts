@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Arguments, Reflector } from '../../../dependencies/core';;
+import { Arguments, Reflector } from '../../../dependencies/core';
 import { InitializableAttribute } from './InitializableAttribute';
 
 /**
@@ -26,12 +26,12 @@ export class OnDemandClassConstructor {
     const origin: any = {
       invoke(params: Arguments, receiver: any): any {
         return Reflect.construct(target, params, receiver);
-      }
+      },
     };
     Reflect.defineProperty(origin, 'design', {
       get() {
         return Reflector(target);
-      }
+      },
     });
     const attribute = new InitializableAttribute();
     return attribute.intercept(origin, params, newTarget);

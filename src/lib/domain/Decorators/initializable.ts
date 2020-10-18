@@ -1,4 +1,4 @@
-import { decorateClass, ClassDecorator } from '../../../dependencies/core';;
+import { decorateClass, ClassDecorator } from '../../../dependencies/core';
 import { InitializableAttribute } from '../Attributes/InitializableAttribute';
 
 export function initializable(): ClassDecorator {
