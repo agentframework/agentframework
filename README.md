@@ -10,7 +10,7 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 <p align="center">
   <a href="https://travis-ci.org/agentframework/agentframework"><img src="https://travis-ci.org/agentframework/agentframework.svg?branch=main"></a>
-  <a href="https://coveralls.io/github/agentframework/agentframework"><img src="https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=main"></a>
+  <a href="https://coveralls.io/github/agentframework/agentframework?branch=main"><img src="https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=main"></a>
   <a href="https://www.codacy.com/app/agentframework/agentframework"><img src="https://api.codacy.com/project/badge/Grade/5101dc6abfd04608b7f61636245dab05?branch=main"></a>
   <a href="https://bundlephobia.com/result?p=agentframework"><img src="https://img.shields.io/bundlephobia/minzip/agentframework.svg"></a>
   <a href="https://snyk.io/test/npm/agentframework"><img src="https://snyk.io/test/npm/agentframework/badge.svg"></a>
@@ -23,9 +23,9 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 :zap: **Fast:** Use CodeGen to minimize overheads. Faster than es6 Proxy.
 
-:dart: **Efficient:** Well-designed and crafted api only has **1000 SLOC** and **10kb** after gzipped.
+:dart: **Efficient:** Well-designed and crafted api only has **1023 SLOC**.
 
-:recycle: **Clean:** No prototype pollution.
+:recycle: **Clean:** No prototype pollution. No polyfill. No nodejs/npm dependencies.
 
 ## Changelog
 
