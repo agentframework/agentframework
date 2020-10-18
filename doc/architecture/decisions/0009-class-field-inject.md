@@ -31,7 +31,7 @@ class App {
     a!: ServiceA
 
     @singleton()
-    b: ServiceB
+    b!: ServiceB
 
     firstStep() {
         this.a.run()
