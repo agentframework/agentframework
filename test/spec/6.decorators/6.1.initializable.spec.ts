@@ -1,5 +1,5 @@
-import {InMemoryDomain, Domain, initializable, ClassInitializer, Initializer, CreateAgent} from '../../../lib';
-import { Arguments, ClassInvocation } from '../../../../framework/src/core';
+import { InMemoryDomain, Domain, initializable, ClassInitializer, Initializer, CreateAgent } from '../../../lib';
+import { Arguments, ClassInvocation } from '../../../lib';
 
 describe('6.1. @initializable decorator', () => {
   describe('# should able to', () => {
@@ -24,7 +24,7 @@ describe('6.1. @initializable decorator', () => {
 
       const App611Agent = CreateAgent(App611);
       const app3 = new App611Agent();
-      expect(app3).toBeDefined()
+      expect(app3).toBeDefined();
     });
 
     it('create initializable agent', () => {
