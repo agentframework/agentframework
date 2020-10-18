@@ -38,5 +38,3 @@ export { ClassInitializer } from './Domain/Symbols';
 export { Class, AnyClass, AgentIdentifier, AgentParameters, Agent } from './Domain/ClassConstructor';
 
 export { InMemoryDomain } from './Domain/InMemoryDomain';
-
-// export { construct } from './Domain/construct';

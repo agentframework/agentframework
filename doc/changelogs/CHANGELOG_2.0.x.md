@@ -1,10 +1,11 @@
 # Agent Framework 2.0.x ChangeLog
 
-## 2020-10-18, Version 2.0.0-rc.1, @e2tox
+## 2020-10-18, Version 2.0.0-rc.2, @e2tox
 
 **Notable Changes**
 
 - Improve code quality and performance
+- Add parameter type guard
 
 ## 2020-10-05, Version 2.0.0-rc.0, @e2tox
 

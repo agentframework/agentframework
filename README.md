@@ -19,11 +19,11 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 ---
 
-:lollipop: **Modernize:** 100% for TypeScript. Support class and [es6 module](https://unpkg.com/agentframework/).
+:lollipop: **Modernize:** 100% for TypeScript. Compatible with [ES2015](https://unpkg.com/agentframework/).
 
 :zap: **Fast:** Use CodeGen to minimize overheads. Faster than es6 Proxy.
 
-:dart: **Efficient:** Well-designed and crafted api only has **1023 SLOC**.
+:dart: **Efficient:** Well-designed and crafted api only has **1023 SLOC** and **5kb** after minzipped.
 
 :recycle: **Clean:** No prototype pollution. No polyfill. No nodejs/npm dependencies.
 
@@ -31,19 +31,17 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 | Date       | Version                                          | Status      |
 | ---------- | ------------------------------------------------ | ----------- |
-| 2020-10-18 | [2.0.0-rc.1](doc/changelogs/CHANGELOG_2.0.x.md)  | Current     |
+| 2020-10-18 | [2.0.0-rc.2](doc/changelogs/CHANGELOG_2.0.x.md)  | Current     |
 | 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)       | Stable      |
 | 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)      | Maintenance |
 
-### Show me the example
-
-Install
+### Install
 
 ```bash
-npm i agentframework@2.0.0-rc.1
+npm i agentframework
 ```
 
-Only 3 lines before you get powerful dependency injection for your code
+### Example code
 
 ```typescript
 import { agent, transit } from 'agentframework';
@@ -75,8 +73,7 @@ console.log('Is it create from the ProjectA class?', project instanceof ProjectA
 
 ## Projects
 
--   [@agentframework/web-starter](https://github.com/agentframework/web-starter) A revolutionary framework crafted for software agents and micro services.
--   [@agentframework/validation](https://github.com/agentframework/validation) **Zero configuration** validation framework [example](https://github.com/agentframework/validation-example)
+-   [Hello World!](https://github.com/agentframework/hello-world) Your first AgentFramework project.
 
 ## Agent Oriented Programming
 
