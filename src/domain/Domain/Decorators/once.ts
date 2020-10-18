@@ -1,6 +1,5 @@
-import { decorateClassProperty } from '../../../dependencies/core';
+import { decorateClassProperty, PropertyDecorator } from '../../../dependencies/core';
 import { OnceAttribute } from '../Attributes/OnceAttribute';
-import { PropertyDecorator } from '../../../dependencies/core';
 
 export function once(): PropertyDecorator {
   return decorateClassProperty(new OnceAttribute());

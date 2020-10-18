@@ -1,7 +1,7 @@
-import { agent } from '../../../src/lib/domain/Decorators/agent';
-import { decorateClassProperty } from '../../../src/lib/core/Decorator/decorateClassProperty';
-import { ClassInvocation } from '../../../src/lib/core/Interfaces/TypeInvocations';
-import { Arguments } from '../../../src/lib/core/Interfaces/Arguments';
+import { agent } from '../../../lib';
+import { decorateClassProperty } from '../../../lib';
+import { ClassInvocation } from '../../../lib';
+import { Arguments } from '../../../lib';
 import { IsAgent } from '../../../lib';
 
 describe('4.4. method interceptor', () => {

@@ -1,5 +1,5 @@
 // import { IsDomain } from './IsDomain';
-// import { Arguments } from '../../../dependencies/core';
+// import { Arguments } from '@agentframework/core';
 // import { Domain } from '../Domain';
 //
 // /**

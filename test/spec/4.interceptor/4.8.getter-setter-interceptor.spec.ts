@@ -1,7 +1,7 @@
-import { agent } from '../../../src/lib/domain/Decorators/agent';
-import { decorateClassProperty } from '../../../src/lib/core/Decorator/decorateClassProperty';
-import { PropertyInvocation } from '../../../src/lib/core/Interfaces/TypeInvocations';
-import { Arguments } from '../../../src/lib/core/Interfaces/Arguments';
+import { agent } from '../../../lib';
+import { decorateClassProperty } from '../../../lib';
+import { PropertyInvocation } from '../../../lib';
+import { Arguments } from '../../../lib';
 
 describe('4.8. Getter and Setter interceptor', () => {
   describe('# should able to', () => {

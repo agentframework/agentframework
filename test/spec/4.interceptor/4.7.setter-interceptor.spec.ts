@@ -1,7 +1,7 @@
-import { agent } from '../../../src/lib/domain/Decorators/agent';
-import { decorateClassProperty } from '../../../src/lib/core/Decorator/decorateClassProperty';
-import { ClassInvocation } from '../../../src/lib/core/Interfaces/TypeInvocations';
-import { Arguments } from '../../../src/lib/core/Interfaces/Arguments';
+import { agent } from '../../../lib';
+import { decorateClassProperty } from '../../../lib';
+import { ClassInvocation } from '../../../lib';
+import { Arguments } from '../../../lib';
 
 describe('4.7. setter interceptor', () => {
   describe('# should able to', () => {

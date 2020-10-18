@@ -1,6 +1,6 @@
 /* tslint:disable */
 import { Arguments, Attribute, Interceptor, ClassInvocation } from '../../../lib';
-import { OnDemandTypeInfo } from '../../../src/lib/core/Reflection/OnDemandTypeInfo';
+import { OnDemandTypeInfo } from '../../../src/core/Core/Reflection/OnDemandTypeInfo';
 
 export class AgentChecker implements Attribute, Interceptor {
   get interceptor(): Interceptor {

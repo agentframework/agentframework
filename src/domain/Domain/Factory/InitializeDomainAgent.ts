@@ -1,5 +1,5 @@
 // import { FindInitializers } from '../Helpers/FindInitializers';
-// import { AnyConstructor } from '../../../dependencies/core';
+// import { AnyConstructor } from '@agentframework/core';
 //
 // export function InitializeDomainAgent<T extends object>(target: AnyConstructor<T>, instance: T): void {
   // console.log('aaa', instance, target);

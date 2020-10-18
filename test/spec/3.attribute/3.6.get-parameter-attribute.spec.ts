@@ -1,4 +1,4 @@
-import { ParameterAttribute } from '../../../src/lib/core/Interfaces/TypeAttributes';
+import { ParameterAttribute } from '../../../lib';
 import {
   decorateParameter,
   ParameterInterceptor,

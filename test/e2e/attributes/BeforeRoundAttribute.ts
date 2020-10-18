@@ -1,7 +1,7 @@
 /* tslint:disable */
 
 import { Arguments, Attribute, Interceptor, Invocation } from '../../../lib';
-import { OnDemandPropertyInfo } from '../../../src/lib/core/Reflection/OnDemandPropertyInfo';
+import { OnDemandPropertyInfo } from '../../../src/core/Core/Reflection/OnDemandPropertyInfo';
 
 export class BeforeRoundAttribute implements Attribute, Interceptor {
   beforeDecorate(

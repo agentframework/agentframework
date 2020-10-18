@@ -1,8 +1,8 @@
-import { agent } from '../../../src/lib/domain/Decorators/agent';
-import { decorateClassProperty } from '../../../src/lib/core/Decorator/decorateClassProperty';
-import { ClassInvocation, ParameterInvocation } from '../../../src/lib/core/Interfaces/TypeInvocations';
-import { Arguments } from '../../../src/lib/core/Interfaces/Arguments';
-import { decorateParameter } from '../../../src/lib/core/Decorator/decorateParameter';
+import { agent } from '../../../lib';
+import { decorateClassProperty } from '../../../lib';
+import { ClassInvocation, ParameterInvocation } from '../../../lib';
+import { Arguments } from '../../../lib';
+import { decorateParameter } from '../../../lib';
 
 describe('4.5. method parameter interceptor', () => {
   describe('# should able to', () => {

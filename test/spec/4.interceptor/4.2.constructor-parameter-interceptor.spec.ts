@@ -1,8 +1,8 @@
-import { agent } from '../../../src/lib/domain/Decorators/agent';
-import { decorateClass } from '../../../src/lib/core/Decorator/decorateClass';
-import { ClassInvocation, ParameterInvocation } from '../../../src/lib/core/Interfaces/TypeInvocations';
-import { Arguments } from '../../../src/lib/core/Interfaces/Arguments';
-import { decorateParameter } from '../../../src/lib/core/Decorator/decorateParameter';
+import { agent } from '../../../lib';
+import { decorateClass } from '../../../lib';
+import { ClassInvocation, ParameterInvocation } from '../../../lib';
+import { Arguments } from '../../../lib';
+import { decorateParameter } from '../../../lib';
 
 describe('4.4. constructor parameter interceptor', () => {
   describe('# should able to', () => {

@@ -1,5 +1,5 @@
-import { PropertyAttribute } from '../../../src/lib/core/Interfaces/TypeAttributes';
-import { decorateClassProperty } from '../../../src/lib/core/Decorator/decorateClassProperty';
+import { PropertyAttribute } from '../../../lib';
+import { decorateClassProperty } from '../../../lib';
 import { Arguments, decorateParameter, Invocation, Reflector } from '../../../lib';
 
 class MethodAttribute implements PropertyAttribute {

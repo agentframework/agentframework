@@ -4,7 +4,7 @@ import {
   PropertyInterceptor,
   Arguments,
   AnyConstructor,
-} from '../../../dependencies/core';
+} from '../../../dependencies/core';;
 import { FindDomainFromInvocation } from '../Helpers/FindDomainFromInvocation';
 
 export class InjectAttribute<T extends object> implements PropertyAttribute, PropertyInterceptor {

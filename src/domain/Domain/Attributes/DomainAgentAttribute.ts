@@ -1,4 +1,4 @@
-import { AgentAttribute, Arguments, ClassInterceptor, ClassInvocation } from '../../../dependencies/core';
+import { AgentAttribute, Arguments, ClassInterceptor, ClassInvocation } from '../../../dependencies/core';;
 import { Knowledge } from '../Knowledge';
 import { Domain } from '../Domain';
 // import { OnDemandClassConstructor } from './DomainAgentConstructor';
