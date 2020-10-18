@@ -1,4 +1,4 @@
-import { Arguments, ClassInterceptor, ClassInvocation } from '../../../dependencies/core';;
+import { Arguments, ClassInterceptor, ClassInvocation } from '../../../dependencies/core';
 import { ClassInitializer } from '../Symbols';
 import { FindDomainFromInvocation } from '../Helpers/FindDomainFromInvocation';
 import { FindInitializers } from '../Helpers/FindInitializers';
