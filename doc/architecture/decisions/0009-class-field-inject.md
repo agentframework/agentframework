@@ -42,9 +42,10 @@ class App {
     }
 }
 
-// The ServiceB will be injected when user called secondStep(). This is very important to develop a serverless application.
+// The ServiceB will be injected when user called secondStep().
+// This is very important to develop a serverless application.
 ```
 
 ## Consequences
 
-Hard to read the generated build. But you can read source code directly.
+Extra decorator is needed. e.g. `@singleton()`, `@inject()`, `@transit()`
