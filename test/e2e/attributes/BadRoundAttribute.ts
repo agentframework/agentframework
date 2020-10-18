@@ -1,8 +1,8 @@
 /* tslint:disable */
 
-import { IInterceptor, IAttribute } from '../../../src/lib';
+import { Interceptor, Attribute } from '../../../lib';
 
-export class BadRoundAttribute implements IAttribute {
+export class BadRoundAttribute implements Attribute {
   beforeDecorate(
     target: Object | Function,
     targetKey?: string | symbol,
@@ -11,7 +11,7 @@ export class BadRoundAttribute implements IAttribute {
     return true;
   }
 
-  get interceptor(): IInterceptor {
+  get interceptor(): Interceptor {
     return 1 as any;
   }
 }

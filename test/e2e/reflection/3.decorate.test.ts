@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Agent, decorate, IsAgent, Target } from '../../../src/lib';
+import { CreateAgent, decorate, IsAgent, MemberKinds } from '../../../lib';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
 
@@ -19,28 +19,28 @@ describe('decorate() and Target', () => {
     it('decorate agent', () => {
       const a = new MetadataAttribute();
 
-      @decorate(a, Target.Constructor)
+      // @decorate(a, MemberKinds.Constructor)
       class MongoDB {
-        @decorate(a, Target.Field)
-        random: Date;
+        @decorate(a, MemberKinds.Property)
+        random!: Date;
 
-        constructor(p1: number, @decorate(a, Target.ConstructorParameter) p2: Date) { }
+        constructor(p1: number, @decorate(a, MemberKinds.Parameter) p2: Date) { }
 
-        @decorate(a, Target.Method)
-        round(p1: string, @decorate(a, Target.MethodParameter) p2: Date): any { }
+        @decorate(a, MemberKinds.Property)
+        round(p1: string, @decorate(a, MemberKinds.Parameter) p2: Date): any { }
 
-        @decorate(a, Target.Getter)
+        @decorate(a, MemberKinds.Property)
         get dob(): Date {
           return new Date();
         }
 
-        @decorate(a, Target.Setter)
+        @decorate(a, MemberKinds.Property)
         set date(d: Date) {
           console.log('set', d);
         }
       }
 
-      const MongoDB$ = Agent(MongoDB);
+      const MongoDB$ = CreateAgent(MongoDB);
       expect(MongoDB$).not.toBe(MongoDB);
       expect(IsAgent(MongoDB$)).toBeTruthy();
     });
@@ -48,28 +48,28 @@ describe('decorate() and Target', () => {
     it('not decorate agent', () => {
       const a = new DisabledMetadataAttribute();
 
-      @decorate(a, Target.Constructor)
+      // @decorate(a, MemberKinds.Constructor)
       class MongoDB {
-        @decorate(a, Target.Field)
-        random: Date;
+        @decorate(a, MemberKinds.Property)
+        random!: Date;
 
-        constructor(p1: number, @decorate(a, Target.ConstructorParameter) p2: Date) { }
+        constructor(p1: number, @decorate(a, MemberKinds.Parameter) p2: Date) { }
 
-        @decorate(a, Target.Method)
-        round(p1: string, @decorate(a, Target.MethodParameter) p2: Date): any { }
+        @decorate(a, MemberKinds.Property)
+        round(p1: string, @decorate(a, MemberKinds.Parameter) p2: Date): any { }
 
-        @decorate(a, Target.Getter)
+        @decorate(a, MemberKinds.Property)
         get dob(): Date {
           return new Date();
         }
 
-        @decorate(a, Target.Setter)
+        @decorate(a, MemberKinds.Property)
         set date(d: Date) {
           console.log('set', d);
         }
       }
 
-      const MongoDB$ = Agent(MongoDB);
+      const MongoDB$ = CreateAgent(MongoDB);
       expect(MongoDB$).not.toBe(MongoDB);
       expect(IsAgent(MongoDB$)).toBeTruthy();
     });

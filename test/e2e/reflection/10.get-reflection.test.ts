@@ -1,101 +1,96 @@
 /* tslint:disable */
 
-import { AgentAttribute, AgentFeatures, decorateClassMember, PropertyFilters, Reflector } from '../../../src/lib';
-import { RandomAttribute } from '../attributes/RandomAttribute';
-import { RoundAttribute } from '../attributes/RoundAttribute';
+import { AgentAttribute, decorateClassProperty, Reflector } from '../../../lib';
+import { RandomInterceptor } from '../attributes/RandomInterceptor';
+import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 
 class MongoDB {
-  @decorateClassMember(new RandomAttribute())
-  random: Date;
+  @decorateClassProperty(new RandomInterceptor())
+  random!: Date;
 
-  @decorateClassMember(new RandomAttribute())
-  @decorateClassMember(new RoundAttribute())
+  @decorateClassProperty(new RandomInterceptor())
+  @decorateClassProperty(new RoundInterceptor())
   both: any;
 
-  @decorateClassMember(new MetadataAttribute())
+  @decorateClassProperty(new MetadataAttribute())
   metadata: any;
 
-  @decorateClassMember(new RoundAttribute())
-  round(): any { }
+  @decorateClassProperty(new RoundInterceptor())
+  round(): any {}
 }
 
-class Influx {
-  @decorateClassMember(new MetadataAttribute())
-  metadata: Date;
-}
+// class Influx {
+//   @decorateClassMember(new MetadataAttribute())
+//   metadata!: Date;
+// }
 
 class Redis {
-  @decorateClassMember(new RandomAttribute())
-  random: Date;
+  @decorateClassProperty(new RandomInterceptor())
+  random!: Date;
 }
 
 class MySQL {
-  @decorateClassMember(new RandomAttribute())
-  random: Date;
+  @decorateClassProperty(new RandomInterceptor())
+  random!: Date;
 
-  @decorateClassMember(new RoundAttribute())
-  round(): any { }
+  @decorateClassProperty(new RoundInterceptor())
+  round(): any {}
 }
 
 class SQLServer {
-  @decorateClassMember(new RoundAttribute())
-  round(): any { }
+  @decorateClassProperty(new RoundInterceptor())
+  round(): any {}
 }
-
 
 describe('Reflection', () => {
   describe('# should able to', () => {
     it('get class prototype', () => {
-      expect(Reflector(MongoDB).prototype).toBe(MongoDB.prototype);
+      expect(Reflector(MongoDB).type.prototype).toBe(MongoDB.prototype);
     });
   });
 
   describe('# should not able to', () => {
     it('get agent attribute', () => {
-      const items = Reflector(MongoDB).getAttributes(AgentAttribute);
-      expect(items.length).toBe(0);
+      expect(Reflector(MongoDB).getOwnAttributes(AgentAttribute).length).toBe(0);
     });
 
     it('get agent target', () => {
-      expect(Reflector(MongoDB).class).toBe(MongoDB.prototype.constructor);
+      expect(Reflector(MongoDB).type).toBe(MongoDB.prototype.constructor);
     });
 
     it('get agents', () => {
-      expect(Reflector(MongoDB).properties()).toBeTruthy();
+      expect(Reflector(MongoDB).getOwnProperties().length).toBe(4);
     });
 
     it('get agents', () => {
-      expect(
-        Reflector(MongoDB).findOwnProperties(PropertyFilters.FilterFeatures, AgentFeatures.Interceptor)
-      ).toBeTruthy();
+      expect(Reflector(MongoDB).findOwnProperties(p => p.hasInterceptor()).length).toBe(3);
     });
 
-    it('get no agents', () => {
-      expect(Reflector(MongoDB).findOwnProperties(PropertyFilters.FilterFeatures, AgentFeatures.None)).toBeTruthy();
-    });
+    // it('get no agents', () => {
+    //   expect(Reflector(MongoDB).findOwnProperties(p => p.hasParameterInterceptor()).length).toBe(0);
+    // });
 
-    it('get metadata', () => {
-      expect(Reflector(Influx).hasFeatures(AgentFeatures.Metadata)).toBeTruthy();
-    });
+    // it('get metadata', () => {
+    //   expect(Reflector(Influx).hasOwnMetadata()).toBeFalse();
+    // });
 
     it('get Initializer', () => {
-      expect(Reflector(Redis).hasFeatures(AgentFeatures.Metadata)).toBeTruthy();
-      expect(Reflector(Redis).hasFeatures(AgentFeatures.Initializer)).toBeTruthy();
-      expect(Reflector(Redis).hasFeatures(AgentFeatures.Interceptor)).toBeFalsy();
+      // expect(Reflector(Redis).hasOwnMetadata()).toBeFalse();
+      expect(Reflector(Redis).hasInterceptor()).toBeFalse();
+      // expect(Reflector(Redis).hasParameterInterceptor()).toBeFalse();
     });
 
     it('get Interceptor', () => {
-      expect(Reflector(SQLServer).hasFeatures(AgentFeatures.Metadata)).toBeTruthy();
-      expect(Reflector(SQLServer).hasFeatures(AgentFeatures.Interceptor)).toBeTruthy();
-      expect(Reflector(SQLServer).hasFeatures(AgentFeatures.Initializer)).toBeFalsy();
+      // expect(Reflector(SQLServer).hasOwnMetadata()).toBeFalse();
+      expect(Reflector(SQLServer).hasInterceptor()).toBeFalse();
+      // expect(Reflector(SQLServer).hasParameterInterceptor()).toBeFalse();
     });
 
     it('get Altered', () => {
-      expect(Reflector(MySQL).hasFeatures(AgentFeatures.Metadata)).toBeTruthy();
-      expect(Reflector(MySQL).hasFeatures(AgentFeatures.Initializer)).toBeTruthy();
-      expect(Reflector(MySQL).hasFeatures(AgentFeatures.Interceptor)).toBeTruthy();
-      expect(Reflector(MySQL).hasFeatures(AgentFeatures.Altered)).toBeTruthy();
+      // expect(Reflector(MySQL).hasOwnMetadata()).toBeFalse();
+      expect(Reflector(MySQL).hasInterceptor()).toBeFalse();
+      // expect(Reflector(MySQL).hasParameterInterceptor()).toBeFalse();
     });
   });
 });

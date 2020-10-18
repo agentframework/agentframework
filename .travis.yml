@@ -5,27 +5,44 @@ notifications:
     on_success: never
     on_failure: change
 
-script:
-  - yarn add $TYPESCRIPT
-  - yarn build
-
-env:
-  - TYPESCRIPT=typescript@3.5.1
-  - TYPESCRIPT=typescript@3.4.5
-  - TYPESCRIPT=typescript@3.3.4000
-  - TYPESCRIPT=typescript@3.2.4
-  - TYPESCRIPT=typescript@3.1.6
-  - TYPESCRIPT=typescript@3.0.3
-  - TYPESCRIPT=typescript@2.9.2
-  - TYPESCRIPT=typescript@2.8.4
-#  - TYPESCRIPT=typescript@2.7.2
-#  - TYPESCRIPT=typescript@2.6.2
-#  - TYPESCRIPT=typescript@2.5.3
-#  - TYPESCRIPT=typescript@2.4.2
-
 node_js:
   - '8'
   - '10'
-  - '11'
+  - '12'
+  - '14'
 
-after_script: 'npm install coveralls@2 && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js'
+env:
+  - TS=typescript@2.8.4
+  - TS=typescript@2.9.2
+  - TS=typescript@3.0.3
+  - TS=typescript@3.1.6
+  - TS=typescript@3.2.4
+  - TS=typescript@3.3.4000
+  - TS=typescript@3.4.5
+  - TS=typescript@3.5.1
+  - TS=typescript@3.6.5
+  - TS=typescript@3.7.5
+  - TS=typescript@3.8.3
+  - TS=typescript@3.9.7
+  - TS=typescript@4.0.3
+
+# NOTE: do not include @types/node to this project, because
+# @types/node:    interface IteratorResult<T> { };
+# typescript:     type IteratorResult<T, TReturn = any> = IteratorYieldResult<T> | IteratorReturnResult<TReturn>;
+# tsc error:      TS2300: Duplicate identifier 'IteratorResult'.
+
+# before_install:
+#  - export NV=`node -v | sed 's/[^0-9.]*\([0-9.]*\).*/\1/'`
+
+install:
+  - npm i -g ts-node@8 nyc@15 jasmine@3.5.0 @types/jasmine@3.5.0
+  - npm i ${TS}
+#  - npm i @types/node@~${NV}
+
+script:
+  - yarn run build
+  - yarn run coverage
+
+after_script:
+  - npm i coveralls@2
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js

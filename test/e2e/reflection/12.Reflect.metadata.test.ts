@@ -1,7 +1,7 @@
 /* tslint:disable */
 
 // declare var require: any;
-// import { Reflector } from '../../../src/lib';
+// import { Reflector } from '../../../lib';
 
 describe('Reflect metadata', () => {
   describe('# should able to', () => {
@@ -12,7 +12,7 @@ describe('Reflect metadata', () => {
     // it('upgrade agent', () => {
     //   Reflect['metadata'] = function() {};
     //   // delete require.cache;
-    //   return import('../../../src/lib').then(({ agent, Agent, IsAgent }) => {
+    //   return import('../../../lib').then(({ agent, Agent, IsAgent }) => {
     //     @agent()
     //     class MongoDB {}
     //     expect(IsAgent(MongoDB)).toBeTruthy();

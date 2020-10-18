@@ -1,9 +1,9 @@
-/.idea/
-/.rpt2_cache/
-/bin/
-/coverage/
-/node_modules/
-/release/
+.idea/
+.rpt2_cache/
+.nyc_output/
+release/
+coverage/
+node_modules/
 *.log
 *.js
 *.js.map

@@ -2,39 +2,38 @@
 
 import {
   agent,
-  Agent,
+  CreateAgent,
   decorate,
-  decorateClassMember,
-  decorateClassMethod,
+  decorateClassProperty,
   decorateParameter,
   IsAgent,
   Reflector,
-  Target
-} from '../../../src/lib';
-import { RoundAttribute } from '../attributes/RoundAttribute';
+  MemberKinds
+} from '../../../lib';
+import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 @agent()
 class Calculator {
-  @decorateClassMethod(new RoundAttribute())
-  @decorateClassMethod(new RoundAttribute())
+  @decorateClassProperty(new RoundInterceptor())
+  @decorateClassProperty(new RoundInterceptor())
   round1(num: any) {
     return num;
   }
 
-  @decorateClassMethod(new RoundAttribute())
-  @decorateClassMember(new RoundAttribute())
+  @decorateClassProperty(new RoundInterceptor())
+  @decorateClassProperty(new RoundInterceptor())
   round2(num: any) {
     return num;
   }
 
-  @decorateClassMethod(new RoundAttribute())
-  @decorate(new RoundAttribute(), Target.Method)
+  @decorateClassProperty(new RoundInterceptor())
+  @decorate(new RoundInterceptor(), MemberKinds.Property)
   round3(num: any) {
     return num;
   }
 
-  @decorateClassMethod(new RoundAttribute())
-  round4(@decorateParameter(new RoundAttribute()) num: any) {
+  @decorateClassProperty(new RoundInterceptor())
+  round4(@decorateParameter(new RoundInterceptor()) num: any) {
     return num;
   }
 }
@@ -42,11 +41,11 @@ class Calculator {
 describe('Interceptor', () => {
   describe('# should able to', () => {
     it('detect agent', () => {
-      expect(IsAgent(Calculator)).toBe(true);
+      expect(IsAgent(Calculator)).toBeTrue();
     });
 
     it('re-upgrade agent', () => {
-      expect(Agent(Calculator)).toBe(Calculator);
+      expect(IsAgent(CreateAgent(Calculator))).toBeTrue();
     });
 
     it('new instance', () => {
@@ -65,7 +64,7 @@ describe('Interceptor', () => {
     it('get round1 attribute', () => {
       const items = Reflector(Calculator)
         .property('round1')
-        .value.getAttributes(RoundAttribute);
+        .getOwnAttributes(RoundInterceptor);
       expect(items.length).toBe(2);
     });
 
@@ -86,8 +85,8 @@ describe('Interceptor', () => {
     it('get round2 attribute', () => {
       const items = Reflector(Calculator)
         .property('round2')
-        .getAttributes(RoundAttribute);
-      expect(items.length).toBe(1);
+        .getOwnAttributes(RoundInterceptor);
+      expect(items.length).toBe(2);
     });
 
     it('get round2 value', () => {
@@ -107,7 +106,7 @@ describe('Interceptor', () => {
     it('get round3 attribute', () => {
       const items = Reflector(Calculator)
         .property('round3')
-        .value.getAttributes(RoundAttribute);
+        .getOwnAttributes(RoundInterceptor);
       expect(items.length).toBe(2);
     });
 
@@ -128,8 +127,8 @@ describe('Interceptor', () => {
     it('get round4 attribute', () => {
       const items = Reflector(Calculator)
         .property('round4')
-        .value.parameter(0)
-        .getAttributes(RoundAttribute);
+        .getParameters()[0]
+        .getOwnAttributes(RoundInterceptor);
       expect(items.length).toBe(1);
     });
 

@@ -9,9 +9,9 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 </p>
 
 <p align="center">
-  <a href="https://travis-ci.org/agentframework/agentframework"><img src="https://travis-ci.org/agentframework/agentframework.svg?branch=main"></a>
-  <a href="https://coveralls.io/github/agentframework/agentframework"><img src="https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=master"></a>
-  <a href="https://www.codacy.com/app/agentframework/agentframework"><img src="https://app.codacy.com/project/badge/Grade/5101dc6abfd04608b7f61636245dab05"></a>
+  <a href="https://travis-ci.org/agentframework/agentframework"><img src="https://travis-ci.org/agentframework/agentframework.svg?branch=develop"></a>
+  <a href="https://coveralls.io/github/agentframework/agentframework"><img src="https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=develop"></a>
+  <a href="https://www.codacy.com/app/agentframework/agentframework"><img src="https://api.codacy.com/project/badge/Grade/5101dc6abfd04608b7f61636245dab05?branch=develop"></a>
   <a href="https://bundlephobia.com/result?p=agentframework"><img src="https://img.shields.io/bundlephobia/minzip/agentframework.svg"></a>
   <a href="https://snyk.io/test/npm/agentframework"><img src="https://snyk.io/test/npm/agentframework/badge.svg"></a>
   <a href="https://npmjs.com/package/agentframework"><img src="https://img.shields.io/npm/dm/agentframework.svg" alt="gzip size"></a>
@@ -23,29 +23,28 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 :zap: **Fast:** Use CodeGen to minimize overheads. Faster than es6 Proxy.
 
-:dart: **Efficient:** Well-designed and crafted api only has **600 SLOC** and **4.3kb** after gzipped.
+:dart: **Efficient:** Well-designed and crafted api only has **1000 SLOC** and **10kb** after gzipped.
 
-:recycle: **Productive:** AOP as easy as function calls. Stop using overweight Before/After/Aware hooks.
+:recycle: **Clean:** No prototype pollution.
 
 ## Features
 
 -   Add metadata to your code at design-time (using @decorator) or runtime (using Reflector api)
 -   Access the metadata at runtime (using Reflector api)
--   Customizable initializer for class fields and arguments
--   Customizable interceptor for injected value, class method, getter, setter and arguments
+-   Dependence injection and dependence lookup
 
 ## Projects
 
 -   [@agentframework/web-starter](https://github.com/agentframework/web-starter) A revolutionary framework crafted for software agents and micro services.
--   [@agentframework/domain](https://github.com/agentframework/domain) **On demand** dependency injection framework [example](https://github.com/agentframework/domain-example)
 -   [@agentframework/validation](https://github.com/agentframework/validation) **Zero configuration** validation framework [example](https://github.com/agentframework/validation-example)
 
 ## Changelog
 
-| Date       | Version                                          | Status  |
-| ---------- | ------------------------------------------------ | ------- |
-| 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)       | Stable  |
-| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)      | Maintenance  |
+| Date       | Version                                     | Status      |
+| ---------- | ------------------------------------------- | ----------- |
+| 2020-10-18 | [2.0.0-rc.1](doc/changelogs/CHANGELOG_2.0.x.md)  | Latest     |
+| 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)  | Stable      |
+| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md) | Maintenance |
 
 ## Agent Oriented Programming
 
@@ -64,7 +63,7 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 | People      | Agent           | A class decorate with @agent attribute                                  |
 | Action      | Behavior        | Class method decorate with @action, @method or @behavior attribute      |
 | Belief      | Memory          | Private class field decorated with @state, @remember, @memory attribute |
-| Environment | Domain          | A set of agents, components, services, artifacts                        |
+| Environment | Domain          | A container for agents, entities, services or artifacts                 |
 | Autonomy    | Activation      | Timer, scheduler which based on environment conditions                  |
 | Sociality   | Message         | Agent can communicate with other agent                                  |
 | Mobility    | Mobile Agent    | An agent can move from domain to domain with their belief unchanged     |
@@ -80,31 +79,53 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 ### Show me the example
 
+Install
+
+```bash
+npm i agentframework@2.0.0-rc.1
+```
+
 Only 3 lines before you get powerful dependency injection for your code
 
 ```typescript
-import { agent, transit } from '@agentframework/domain';
+import { agent, transit } from 'agentframework';
 
-class Project {
+class ComponentA {
 	name = 'Agent Framework';
 }
 
 @agent()
-class Developer {
-
+class ProjectA {
 	@transit()
-	private project: Project;
+	private component!: ComponentA;
 
 	constructor() {
-		console.log(`WOW! You working on project ${this.project.name}!`);
+		console.log(`WOW! You working on project ${this.component.name}!`);
 	}
 }
 
-const you = new Developer();
-console.log('Is it create from the Developer class?', you instanceof Developer);
+const project = new ProjectA();
+
+console.log('Is it create from the ProjectA class?', project instanceof ProjectA);
 ```
 
-### Road to v1.0
+### Agentframework 2.x milestones
+-   [x] Breaking change: Remove `I` from interface name
+-   [x] Breaking change: Remove `Intializer`. Use `Interceptor` instead
+-   [x] MVP: Dependency injection/dependency lookup and `Domain` driven design support
+-   [x] MVP: Improve unit test coverage rate
+-   [ ] COMPATIBILITY: Revise error types and message
+-   [ ] COMPATIBILITY: Revise Domain interface
+-   [ ] COMPATIBILITY: Revise embedded decorators
+-   [ ] EPIC: Abstract data layer - mongodb 4.x
+-   [ ] EPIC: Cross architecture web application development (Server, Serverless)
+-   [ ] EPIC: Serverless support - AWS Lambda, Google Cloud Function, Azure Function, Alicloud Function Computing
+-   [ ] EPIC: Bot development (Telegram)
+-   [ ] Other: Example and references
+-   [ ] Other: docs.agentframework.com
+-   [ ] Other: agentframework.com
+
+### Agentframework 1.x milestones
 
 -   [x] MVP: Reflection can access type information generated by tsc. `tsc --emitDecoratorMetadata`
 -   [x] MVP: Reflection support both ES6 and ES2017 (Reflect.metadata)
@@ -131,17 +152,12 @@ console.log('Is it create from the Developer class?', you instanceof Developer);
 -   [x] COMPATIBILITY: Revise Reflection Interface
 -   [x] COMPATIBILITY: Revise Reflector Interface
 -   [x] COMPATIBILITY: Revise Agent Options
--   [x] COMPATIBILITY: Revise Domain Interface (Domain is been completely removed from agentframework)
--   [x] Satellite projects to build AgentFramework.com - Database support - mongodb 4.x
--   [x] Satellite projects to build AgentFramework.com - Serverless support - AWS lambda, Alicloud Function Computing
--   [x] Satellite projects to build AgentFramework.com - Data Validation
--   [x] Satellite projects to build AgentFramework.com - Domain
--   [ ] Satellite projects to build AgentFramework.com - Web Application Support
--   [ ] AgentFramework.com
+-   [x] COMPATIBILITY: Revise Domain Interface (Domain is been completely moved to 2.0)
+
 
 ## License
 
-Copyright 2016 Ling Zhang
+Copyright 2020 Ling Zhang
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -1,8 +1,8 @@
 /* tslint:disable */
 
-import { IInitializer, IInitializerAttribute } from '../../../src/lib';
+import { Interceptor } from '../../../lib';
 
-export class BadRandomAttribute implements IInitializerAttribute {
+export class BadRandomAttribute {
   beforeDecorate(
     target: Object | Function,
     targetKey?: string | symbol,
@@ -11,7 +11,7 @@ export class BadRandomAttribute implements IInitializerAttribute {
     return true;
   }
 
-  get initializer(): IInitializer {
+  get inteceptor(): Interceptor {
     return 2 as any;
   }
 }

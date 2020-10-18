@@ -1,6 +1,7 @@
+import { agent } from '../../../lib';
 /* tslint:disable */
 
-import { agent, Agent, decorateParameter, IsAgent, Reflector } from '../../../src/lib';
+import { CreateAgent, decorateParameter, IsAgent, Reflector } from '../../../lib';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 
 class Connection {
@@ -13,20 +14,22 @@ class Connection {
 
 @agent()
 class MongoDB {
-  connection: Connection;
+  connection!: Connection;
   constructor(@decorateParameter(new MetadataAttribute()) conn?: Connection) {
-    if (conn) { this.connection = conn; }
+    if (conn) {
+      this.connection = conn;
+    }
   }
 }
 
 describe('Initializer in Parameter', () => {
   describe('# should able to', () => {
     it('detect agent', () => {
-      expect(IsAgent(MongoDB)).toBe(true);
+      expect(IsAgent(MongoDB)).toBeTrue();
     });
 
     it('re-upgrade agent', () => {
-      expect(Agent(MongoDB)).toBe(MongoDB);
+      expect(IsAgent(CreateAgent(MongoDB))).toBeTrue();
     });
 
     it('new instance', () => {
@@ -42,8 +45,8 @@ describe('Initializer in Parameter', () => {
 
     it('get inject attribute', () => {
       const items = Reflector(MongoDB)
-        .parameter(0)
-        .getAttributes(MetadataAttribute);
+        .getParameters()[0]
+        .getOwnAttributes(MetadataAttribute);
       expect(items.length).toBe(1);
     });
   });

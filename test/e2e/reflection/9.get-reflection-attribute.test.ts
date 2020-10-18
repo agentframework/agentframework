@@ -1,14 +1,14 @@
 /* tslint:disable */
 
-import { decorateClassMember, Reflector } from '../../../src/lib';
-import { RandomAttribute } from '../attributes/RandomAttribute';
-import { RoundAttribute } from '../attributes/RoundAttribute';
+import { decorateClassProperty, Reflector } from '../../../lib';
+import { RandomInterceptor } from '../attributes/RandomInterceptor';
+import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 class MongoDB {
-  @decorateClassMember(new RandomAttribute())
+  @decorateClassProperty(new RandomInterceptor())
   rnd1: any;
 
-  @decorateClassMember(new RoundAttribute())
+  @decorateClassProperty(new RoundInterceptor())
   connect() {
     return 'connected';
   }
@@ -17,24 +17,24 @@ class MongoDB {
 describe('Reflection get attribute ', () => {
   describe('# should able to', () => {
     it('get all attributes', () => {
-      expect(Reflector(MongoDB).getAttributes().length).toBe(0);
+      expect(Reflector(MongoDB).getOwnAttributes().length).toBe(0);
     });
     it('check specified attribute', () => {
       expect(
         Reflector(MongoDB)
           .property('connect')
-          .hasAttribute(RandomAttribute)
+          .hasOwnAttribute(RandomInterceptor)
       ).toBe(false);
     });
     it('check all attributes', () => {
-      expect(Reflector(MongoDB).hasAttribute()).toBe(false);
+      expect(Reflector(MongoDB).hasOwnAttribute()).toBe(false);
     });
 
     it('check not attributes', () => {
       expect(
         Reflector(MongoDB)
           .property('rnd1')
-          .hasAttribute()
+          .hasOwnAttribute()
       ).toBe(true);
     });
   });

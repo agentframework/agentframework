@@ -1,44 +1,42 @@
 /* tslint:disable */
 
-import { Agent, AgentAttribute, IsAgent, Reflector, decorateAgent } from '../../../src/lib';
+import { CreateAgent, AgentAttribute, IsAgent, Reflector, decorateClass } from '../../../lib';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
 
 class BadAgentAttribute extends AgentAttribute {
-  get initializer() {
+  get interceptor() {
     return 1 as any;
   }
 }
 
 class BadAgentAttribute2 extends AgentAttribute {
-  get initializer() {
+  get interceptor() {
     return undefined as any;
   }
 }
 
-@decorateAgent(new BadAgentAttribute())
+@decorateClass(new BadAgentAttribute())
 class MongoDB {
-
   connection: any;
-  constructor() { }
+  constructor() {}
 
   connect() {
     return 'connected';
   }
 }
 
-@decorateAgent(new BadAgentAttribute2())
+@decorateClass(new BadAgentAttribute2())
 class MySQL {
-
   connection: any;
-  constructor() { }
+  constructor() {}
 
   connect() {
     return 'connected';
   }
 }
 
-const Redis = (function () {
-  return class { };
+const Redis = (function() {
+  return class {};
 })();
 
 describe('Decorate Agent', () => {
@@ -48,13 +46,15 @@ describe('Decorate Agent', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(Agent(MongoDB, new BadAgentAttribute())).toBe(MongoDB);
+      expect(CreateAgent(MongoDB, new BadAgentAttribute())).toBe(MongoDB);
     });
 
     it('upgrade agent with not attribute', () => {
-      @decorateAgent(new AgentAttribute(), [new DisabledMetadataAttribute()])
-      class SQLServer { }
-      expect(IsAgent(SQLServer)).toBe(true);
+      @decorateClass(new DisabledMetadataAttribute())
+      class SQLServer {}
+
+      const SQL = CreateAgent(SQLServer, new AgentAttribute());
+      expect(IsAgent(SQL)).toBe(true);
     });
 
     it('new instance', () => {
@@ -64,8 +64,9 @@ describe('Decorate Agent', () => {
     });
 
     it('new instance without name', () => {
-      const Redis$ = Agent(Redis);
-      expect(Redis$.name).toBe('Agent$');
+      expect(() => {
+        CreateAgent(Redis)
+      }).toThrowError('InvalidConstructor')
     });
 
     it('construct instance', () => {
@@ -81,7 +82,7 @@ describe('Decorate Agent', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(Agent(MySQL, new BadAgentAttribute())).toBe(MySQL);
+      expect(CreateAgent(MySQL, new BadAgentAttribute())).toBe(MySQL);
     });
 
     it('new instance', () => {
@@ -99,8 +100,8 @@ describe('Decorate Agent', () => {
 
   describe('# should not able to', () => {
     it('get agent attribute', () => {
-      const items = Reflector(MySQL).getAttributes(AgentAttribute);
-      expect(items.length).toBe(0);
+      const items = Reflector(MySQL).getOwnAttributes(AgentAttribute);
+      expect(items.length).toBe(1);
     });
   });
 });

@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Agent, decorateAgent, decorateClassField, agent } from '../../../src/lib';
+import { CreateAgent, decorateClassProperty, agent, IsAgent } from '../../../lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 import { AgentTrackerAttribute } from '../attributes/AgentTrackerAttribute';
 
@@ -13,8 +13,8 @@ class Connection {
 }
 
 class Database {
-  @decorateClassField(new InjectAttribute())
-  connection: Connection;
+  @decorateClassProperty(new InjectAttribute())
+  connection!: Connection;
 }
 
 class MongoDB extends Database {
@@ -30,7 +30,6 @@ class MySQL extends Database {
   }
 }
 
-@decorateAgent(new AgentTrackerAttribute())
 class Redis extends Database {
   run(cmd: any) {
     return 1.9;
@@ -40,38 +39,35 @@ class Redis extends Database {
 describe('Compiler', () => {
   describe('# should able to', () => {
     it('create using factory', () => {
-      const MongoDB$ = Agent(MongoDB);
+      const MongoDB$ = CreateAgent(MongoDB);
       const db = new MongoDB$();
-      expect(db instanceof MongoDB).toBe(true);
-      expect(db instanceof MongoDB$).toBe(true);
+      expect(db).toBeInstanceOf(MongoDB);
+      expect(db).toBeInstanceOf(MongoDB$);
       expect(Reflect.getPrototypeOf(db)).toBe(MongoDB$.prototype);
       expect(Reflect.getPrototypeOf(MongoDB$.prototype)).toBe(MongoDB.prototype);
     });
 
     it('create using custom factory', () => {
-      const MongoDB$ = Agent(MongoDB, new AgentTrackerAttribute());
+      const MongoDB$ = CreateAgent(MongoDB, new AgentTrackerAttribute());
+      expect(IsAgent(MongoDB$)).toBeFalse();
       const db = new MongoDB$();
-      expect(db instanceof MongoDB).toBe(true);
-      expect(db instanceof MongoDB$).toBe(true);
-      expect(Reflect.getPrototypeOf(db)).toBe(MongoDB$.prototype);
-      expect(Reflect.getPrototypeOf(MongoDB$.prototype)).toBe(MongoDB.prototype);
+      expect(db).toBeInstanceOf(MongoDB);
+      expect(db).toBeInstanceOf(MongoDB$);
     });
 
     it('create using decorator', () => {
-      const MySQL$ = Agent(MySQL);
+      const MySQL$ = CreateAgent(MySQL);
+      expect(IsAgent(MySQL$)).toBeTrue();
       const db = new MySQL$();
-      expect(db instanceof MySQL).toBe(true);
-      expect(db instanceof MySQL$).toBe(true);
-      expect(Reflect.getPrototypeOf(db)).toBe(MySQL.prototype);
-      expect(MySQL$).toBe(MySQL);
+      expect(db).not.toBeInstanceOf(MySQL);
+      expect(db).toBeInstanceOf(MySQL$);
     });
 
     it('create using custom decorator', () => {
-      const Redis$ = Agent(Redis, new AgentTrackerAttribute());
+      const Redis$ = CreateAgent(Redis, new AgentTrackerAttribute());
       const db = new Redis$();
-      expect(db instanceof Redis).toBe(true);
-      expect(db instanceof Redis$).toBe(true);
-      expect(Reflect.getPrototypeOf(db)).toBe(Redis.prototype);
+      expect(db).toBeInstanceOf(Redis);
+      expect(db).toBeInstanceOf(Redis$);
       expect(Redis$).toBe(Redis);
     });
   });

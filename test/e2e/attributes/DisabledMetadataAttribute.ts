@@ -1,8 +1,8 @@
 /* tslint:disable */
 
-import { IAttribute } from '../../../src/lib';
+import { Attribute } from '../../../lib';
 
-export class DisabledMetadataAttribute implements IAttribute {
+export class DisabledMetadataAttribute implements Attribute {
   beforeDecorate(
     target: Object | Function,
     targetKey?: string | symbol,

@@ -1,17 +1,15 @@
 /* tslint:disable */
 
 import {
-  IAttribute,
-  IInterceptor,
-  decorateClassMember,
+  Attribute,
+  Interceptor,
+  decorateClassProperty,
   decorateClass,
-  decorateClassMethod,
-  decorateClassField, decorateParameter
-} from '../../../src/lib';
-
+  decorateParameter
+} from '../../../lib';
 
 export function fakeClassMemberDecorator() {
-  return decorateClassMember(new PropertyDecoratorAttribute());
+  return decorateClassProperty(new PropertyDecoratorAttribute());
 }
 
 export function fakeClassDecorator() {
@@ -19,26 +17,27 @@ export function fakeClassDecorator() {
 }
 
 export function fakeClassMethodDecorator() {
-  return decorateClassMethod(new PropertyDecoratorAttribute());
+  return decorateClassProperty(new PropertyDecoratorAttribute());
 }
 
 export function fakeClassPropertyDecorator() {
-  return decorateClassField(new PropertyDecoratorAttribute());
+  return decorateClassProperty(new PropertyDecoratorAttribute());
 }
 
 export function fakeParameterDecorator() {
   return decorateParameter(new PropertyDecoratorAttribute());
 }
 
-export class PropertyDecoratorAttribute implements IAttribute {
-
-  beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
+export class PropertyDecoratorAttribute implements Attribute {
+  beforeDecorate(
+    target: Object | Function,
+    targetKey?: string | symbol,
+    descriptor?: PropertyDescriptor | number
+  ): boolean {
     return false;
   }
 
-  getInterceptor(): IInterceptor {
-    throw new TypeError('Fake decorator do not have interceptor')
+  getInterceptor(): Interceptor {
+    throw new TypeError('Fake decorator do not have interceptor');
   }
-
 }
-

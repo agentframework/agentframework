@@ -1,17 +1,17 @@
 {
   "name": "agentframework",
-  "version": "0.0.0",
-  "private": true,
+  "version": "2.0.0-rc.1",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "description": "TypeScript that scales",
-  "main": "src/lib/index.ts",
   "scripts": {
-    "cov": "node -r ts-node/register node_modules/.bin/istanbul cover --config=tools/istanbul.yaml node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.json",
-    "build": "npm run lint && npm run test && node_modules/.bin/tsc",
-    "test": "node -r ts-node/register node_modules/.bin/jasmine JASMINE_CONFIG_PATH=tools/jasmine.json",
-    "lint": "node_modules/.bin/standard"
+    "cov": "npm run coverage && npm run report",
+    "dev": "NODE_ENV=test tsmon tools/jasmine.ts --config=tools/jasmine.json",
+    "build": "tsc --noEmit",
+    "test": "NODE_ENV=test ts-node tools/jasmine.ts --config=tools/jasmine.json",
+    "coverage": "nyc npm run test",
+    "report": "open ./coverage/lcov-report/index.html"
   },
   "repository": {
     "type": "git",
@@ -26,23 +26,16 @@
     "aop",
     "typescript",
     "es6",
+    "dependency injection",
     "proxy",
     "interceptor",
-    "database"
+    "ioc",
+    "codegen"
   ],
   "author": "Ling Zhang",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/agentframework/agentframework/issues"
   },
-  "homepage": "https://github.com/agentframework/agentframework#readme",
-  "devDependencies": {
-    "@types/jasmine": "^2.8.6",
-    "istanbul": "1.1.0-alpha.1",
-    "jasmine": "^3.3.1",
-    "jasmine-spec-reporter": "^4.2.1",
-    "ts-node": "^7.0.1",
-    "typescript": "^3.2.4",
-    "typescript-standard": "^0.3.36"
-  }
+  "homepage": "https://github.com/agentframework/agentframework#readme"
 }

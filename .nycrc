@@ -1,0 +1,33 @@
+{
+  "watermarks": {
+    "lines": [60, 100],
+    "functions": [60, 100],
+    "branches": [60, 100],
+    "statements": [60, 100]
+  },
+  "cache": false,
+  "check-coverage": false,
+  "extension": [
+    ".ts"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "coverage/**",
+    "node_modules/**",
+    "tools/**",
+    "test/**/*.ts",
+    "**/*.d.ts",
+    "**/*.[Tt]est.ts",
+    "**/*.[Ss]pec.ts"
+  ],
+  "sourceMap": true,
+  "reporter": [
+    "text",
+    "text-summary",
+    "lcov"
+  ],
+  "all": true,
+  "instrument": true
+}

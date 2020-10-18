@@ -1,19 +1,19 @@
 /* tslint:disable */
 
-import { agent, Agent, IsAgent, decorateClassMember, decorateClassMethod } from '../../../src/lib';
+import { agent, CreateAgent, IsAgent, decorateClassProperty } from '../../../lib';
 import { BadRoundAttribute } from '../attributes/BadRoundAttribute';
 
 @agent()
 class Calculator {
-  @decorateClassMember(new BadRoundAttribute())
+  @decorateClassProperty(new BadRoundAttribute())
   round(val: number): number {
-    console.log('v1', val);
+    // console.log('v1', val);
     return val;
   }
 
-  @decorateClassMethod(new BadRoundAttribute())
+  @decorateClassProperty(new BadRoundAttribute())
   round1(val: number): number {
-    console.log('va2', val);
+    // console.log('va2', val);
     return val;
   }
 }
@@ -22,7 +22,7 @@ describe('Interceptor on Invalid Setter Value', () => {
   describe('# should able to', () => {
     it('define agent', () => {
       expect(IsAgent(Calculator)).toBe(true);
-      expect(Agent(Calculator)).toBe(Calculator);
+      expect(IsAgent(CreateAgent(Calculator))).toBe(true);
     });
 
     it('create agent', () => {

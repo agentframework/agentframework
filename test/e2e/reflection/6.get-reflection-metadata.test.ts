@@ -1,14 +1,14 @@
 /* tslint:disable */
 
-import { decorateClassMember, Reflector } from '../../../src/lib';
-import { RandomAttribute } from '../attributes/RandomAttribute';
-import { RoundAttribute } from '../attributes/RoundAttribute';
+import { decorateClassProperty, Reflector } from '../../../lib';
+import { RandomInterceptor } from '../attributes/RandomInterceptor';
+import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 class MongoDB {
-  @decorateClassMember(new RandomAttribute())
+  @decorateClassProperty(new RandomInterceptor())
   rnd1: any;
 
-  @decorateClassMember(new RoundAttribute())
+  @decorateClassProperty(new RoundInterceptor())
   connect() {
     return 'connected';
   }
@@ -17,10 +17,7 @@ class MongoDB {
 describe('Reflection get metadata ', () => {
   describe('# should able to', () => {
     it('search by feature', () => {
-      const a = Reflector(MongoDB)
-        .property('rnd2')
-        .getMetadata('design:type');
-      expect(a).toBeUndefined();
+      expect(Reflector(MongoDB).property('rnd2').type).toBeUndefined();
     });
   });
 
@@ -34,10 +31,14 @@ describe('Reflection get metadata ', () => {
 
     it('Reflector number', () => {
       expect(() => {
-        Reflector(1);
+        Reflector(<any>1);
       }).toThrow();
     });
-
+    it('Reflector number', () => {
+      expect(() => {
+        Reflector(<any>null);
+      }).toThrow();
+    });
     it('Reflector number', () => {
       expect(() => {
         Reflector({});

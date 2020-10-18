@@ -1,12 +1,10 @@
 /* tslint:disable */
 
-import { agent } from '../../../src/lib';
+import { agent } from '../../../lib';
 import { methodDecorator } from './method';
 
 describe('Method Decorator', () => {
-
   describe('# should able to', () => {
-
     it('decorate on method', () => {
       @agent()
       class TestMethodDecoratorAtClassMethod {
@@ -36,7 +34,7 @@ describe('Method Decorator', () => {
     it('decorate on setter', () => {
       @agent()
       class TestMethodDecoratorAtPropertySetter {
-        _testMethod: number;
+        _testMethod!: number;
         @methodDecorator()
         set testMethod(value: number) {
           this._testMethod = value;
@@ -46,7 +44,5 @@ describe('Method Decorator', () => {
       test.testMethod = 123;
       expect(test._testMethod).toEqual(123);
     });
-
   });
-
 });

@@ -1,108 +1,116 @@
 /* tslint:disable */
 
-import { AgentFeatures, decorateClassMember, Reflector } from '../../../src/lib';
-import { RandomAttribute } from '../attributes/RandomAttribute';
-import { RoundAttribute } from '../attributes/RoundAttribute';
+import { decorateClassProperty, decorateParameter, Reflector } from '../../../lib';
+import { RandomInterceptor } from '../attributes/RandomInterceptor';
+import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 
 class MongoDB {
-  @decorateClassMember(new RandomAttribute())
-  rnd1: Date;
+  @decorateClassProperty(new RandomInterceptor())
+  rnd1!: Date;
 
-  @decorateClassMember(new RandomAttribute())
-  @decorateClassMember(new RoundAttribute())
+  @decorateClassProperty(new RandomInterceptor())
+  @decorateClassProperty(new RoundInterceptor())
   both: any;
 
-  @decorateClassMember(new MetadataAttribute())
+  @decorateClassProperty(new MetadataAttribute())
   books: any;
 
-  @decorateClassMember(new RoundAttribute())
-  connect(a: Date, b: RegExp): boolean {
+  @decorateClassProperty(new RoundInterceptor())
+  connect(
+    @decorateParameter(new RoundInterceptor()) a: Date,
+    @decorateParameter(new RoundInterceptor()) b: RegExp
+  ): boolean {
     return true;
   }
 
-  @decorateClassMember(new RoundAttribute())
-  logs(): any { }
+  @decorateClassProperty(new RoundInterceptor())
+  logs(): any {}
 
-  @decorateClassMember(new RoundAttribute())
-  logs2(): any { }
+  @decorateClassProperty(new RoundInterceptor())
+  logs2(): any {}
 }
 
 describe('Reflection Class Member', () => {
   describe('# should able to', () => {
     it('get method return type', () => {
-      expect(Reflector(MongoDB).property('connect').value.paramtypes).toEqual([Date, RegExp]);
+      expect(
+        Reflector(MongoDB)
+          .property('connect')
+          .getParameters()[0].type
+      ).toEqual(Date);
+      expect(
+        Reflector(MongoDB)
+          .property('connect')
+          .getParameters()[1].type
+      ).toEqual(RegExp);
     });
 
     it('get method param type', () => {
-      expect(Reflector(MongoDB).property('connect').value.returntype).toBe(Boolean);
+      expect(Reflector(MongoDB).property('connect').type).toBe(Boolean);
+    });
+
+    it('get method param type', () => {
+      const params = Reflector(MongoDB)
+        .property('connect')
+        .getParameters()
+        .map(p => p.type);
+      expect(params).toEqual([Date, RegExp]);
     });
 
     it('get method return type', () => {
-      expect(Reflector(MongoDB).property('connect').paramtypes).toEqual([Date, RegExp]);
-    });
-
-    it('get method param type', () => {
-      expect(Reflector(MongoDB).property('connect').returntype).toBe(Boolean);
+      expect(Reflector(MongoDB).property('connect').type).toBe(Boolean);
     });
 
     it('Initializer only', () => {
       const p = Reflector(MongoDB).property('books');
-      expect(p.hasFeatures(AgentFeatures.Initializer)).toBe(false);
-      expect(p.hasFeatures(AgentFeatures.Initializer)).toBe(false);
-      expect(p.hasFeatures(AgentFeatures.Initializer | AgentFeatures.Interceptor)).toBe(false);
+      expect(p.hasInterceptor()).toBe(false);
     });
 
     it('both', () => {
       const p = Reflector(MongoDB).property('both');
-      expect(p.hasFeatures(AgentFeatures.Initializer)).toBe(true);
-      expect(p.hasFeatures(AgentFeatures.Interceptor)).toBe(true);
-      expect(p.hasFeatures(AgentFeatures.Initializer)).toBe(true);
-      expect(p.hasFeatures(AgentFeatures.Interceptor)).toBe(true);
-      expect(p.hasFeatures(AgentFeatures.Initializer | AgentFeatures.Interceptor)).toBe(true);
-      expect(p.hasFeatures(AgentFeatures.Initializer | AgentFeatures.Interceptor)).toBe(true);
+      expect(p.hasInterceptor()).toBe(true);
     });
 
     it('Interceptor only', () => {
       const p = Reflector(MongoDB).property('logs');
-      expect(p.hasFeatures(AgentFeatures.Interceptor)).toBe(true);
-      expect(p.hasFeatures(AgentFeatures.Interceptor)).toBe(true);
-      expect(p.hasFeatures(AgentFeatures.Altered)).toBe(true);
+      expect(p.hasInterceptor()).toBe(true);
     });
     it('Interceptor only 2', () => {
       const p = Reflector(MongoDB).property('logs2');
-      expect(p.hasFeatures(AgentFeatures.Initializer | AgentFeatures.Interceptor)).toBe(true);
+
+      expect(p.hasInterceptor()).toBe(true);
     });
 
     it('Interceptor only 3', () => {
       const p = Reflector(MongoDB).property('logs2');
-      expect(p.hasFeatures(AgentFeatures.Initializer | AgentFeatures.Interceptor)).toBe(true);
+
+      expect(p.hasInterceptor()).toBe(true);
     });
 
     it('Interceptor only 4', () => {
       const p = Reflector(MongoDB).property('books');
-      expect(p.hasFeatures(AgentFeatures.Metadata)).toBe(true);
-      expect(p.hasFeatures(AgentFeatures.Interceptor)).toBe(false);
-      expect(p.hasFeatures(AgentFeatures.Initializer)).toBe(false);
-      expect(p.hasFeatures(AgentFeatures.Interceptor | AgentFeatures.Initializer)).toBe(false);
+      expect(p.hasInterceptor()).toBe(false);
     });
 
     it('Initializer only 1', () => {
       const p = Reflector(MongoDB).property('rnd1');
-      expect(p.hasFeatures(AgentFeatures.Metadata)).toBe(true);
-      expect(p.hasFeatures(AgentFeatures.Interceptor)).toBe(false);
-      expect(p.hasFeatures(AgentFeatures.Initializer)).toBe(true);
-      expect(p.hasFeatures(AgentFeatures.Interceptor | AgentFeatures.Initializer)).toBe(true);
+      expect(p.hasInterceptor()).toBe(true);
     });
   });
 
   describe('# should not able to', () => {
     it('get 3rd param for getter', () => {
-      expect(() => {
+      expect(
         Reflector(MongoDB)
           .property('rnd1')
-          .getter.parameter(3);
-      }).toThrow();
+          .getParameters().length
+      ).toBe(0);
+      expect(
+        Reflector(MongoDB)
+          .property('rnd1')
+          .getParameters()[0]
+      ).toBeUndefined();
     });
   });
 });

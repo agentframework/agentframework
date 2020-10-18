@@ -1,11 +1,11 @@
 /* tslint:disable */
 
-import { Agent, decorateClassField, IsAgent, Reflector } from '../../../src/lib';
-import { RoundAttribute } from '../attributes/RoundAttribute';
+import { CreateAgent, decorateClassProperty, IsAgent, Reflector } from '../../../lib';
+import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 class Calculator {
-  @decorateClassField(new RoundAttribute())
-  RoundOnField: number;
+  @decorateClassProperty(new RoundInterceptor())
+  RoundOnField!: number;
 }
 
 Reflect.defineProperty(Calculator.prototype, 'RoundOnField', {
@@ -15,25 +15,26 @@ Reflect.defineProperty(Calculator.prototype, 'RoundOnField', {
 describe('Interceptor on Field', () => {
   describe('# should able to', () => {
     it('define agent', () => {
-      expect(IsAgent(Calculator)).toBe(false);
-      expect(Agent(Calculator)).toBeTruthy();
+      expect(IsAgent(Calculator)).toBeFalse();
+      expect(CreateAgent(Calculator)).toBeTruthy();
     });
 
     it('re-upgrade agent', () => {
+      expect(CreateAgent(CreateAgent(Calculator))).toBeTruthy();
+    });
+
+    it('get the attribute', () => {
       expect(
         Reflector(Calculator)
           .property('RoundOnField')
-          .value.getAttributes(RoundAttribute).length
+          .getOwnAttributes(RoundInterceptor).length
       ).toBe(1);
     });
-  });
 
-  describe('# should not able to', () => {
     it('create agent', () => {
-      const AC = Agent(Calculator);
-      expect(() => {
-        new AC();
-      }).toThrow();
+      const Agent = CreateAgent(Calculator);
+      const agent = new Agent();
+      expect(agent).toBeTruthy();
     });
   });
 });

@@ -1,36 +1,40 @@
 /* tslint:disable */
 
-import { Agent, agent, GetType, IsAgent } from '../../../src/lib';
+import { CreateAgent, agent, GetType, IsAgent } from '../../../lib';
 
 @agent()
-class Calculator { }
+class AgentClass {}
 
-class Computer { }
+class NormalClass {}
 
 describe('Reflection Helper', () => {
   describe('# should able to', () => {
-    it('check agent', () => {
-      expect(IsAgent(Calculator)).toBe(true);
+    it('create a new agent from existing agent', () => {
+      expect(CreateAgent(AgentClass)).toBeTruthy();
+    });
+
+    it('create a new agent from existing class', () => {
+      expect(CreateAgent(NormalClass)).toBeTruthy();
     });
 
     it('check agent', () => {
-      expect(IsAgent(Computer)).toBe(false);
+      expect(IsAgent(AgentClass)).toBe(true);
     });
 
-    it('get origin type of an upgraded class', () => {
-      expect(GetType(Agent(Computer))).toBe(Computer);
-    });
-
-    it('get origin type of an agent', () => {
-      expect(Agent(Calculator)).toBe(Calculator);
+    it('check class', () => {
+      expect(IsAgent(NormalClass)).toBe(false);
     });
 
     it('get origin type of an agent', () => {
-      expect(GetType(Calculator)!.prototype).toBe(Object.getPrototypeOf(Calculator.prototype));
+      expect(GetType(AgentClass)!.prototype).toBe(Object.getPrototypeOf(Object.getPrototypeOf(AgentClass.prototype)));
     });
 
-    it('get origin type of an agent', () => {
-      expect(GetType(Agent(Computer))!.prototype).toBe(Computer.prototype);
+    it('get origin type of the upgraded class', () => {
+      expect(GetType(CreateAgent(NormalClass))).toBe(NormalClass);
+    });
+
+    it('get origin type of the upgraded agent', () => {
+      expect(GetType(CreateAgent(AgentClass))).not.toBe(AgentClass);
     });
   });
 });

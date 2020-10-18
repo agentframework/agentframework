@@ -1,8 +1,17 @@
 /* tslint:disable */
 
-import { agent, Agent, AgentAttribute, decorateClass, decorateClassMember, IsAgent, Reflector } from '../../../src/lib';
-import { RandomAttribute } from '../attributes/RandomAttribute';
-import { RoundAttribute } from '../attributes/RoundAttribute';
+import {
+  agent,
+  CreateAgent,
+  AgentAttribute,
+  decorateClass,
+  decorateClassProperty,
+  IsAgent,
+  Reflector,
+  GetType
+} from '../../../lib';
+import { RandomInterceptor } from '../attributes/RandomInterceptor';
+import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 import { AgentChecker } from '../attributes/AgentChecker';
 
@@ -11,22 +20,22 @@ import { AgentChecker } from '../attributes/AgentChecker';
 class MongoDB {
   connection: any;
 
-  @decorateClassMember(new RandomAttribute())
-  random: Date;
+  @decorateClassProperty(new RandomInterceptor())
+  random!: Date;
 
-  @decorateClassMember(new RandomAttribute())
-  @decorateClassMember(new RoundAttribute())
+  @decorateClassProperty(new RandomInterceptor())
+  @decorateClassProperty(new RoundInterceptor())
   both: any;
 
-  @decorateClassMember(new MetadataAttribute())
+  @decorateClassProperty(new MetadataAttribute())
   metadata: any;
 
   connect() {
     return 'connected';
   }
 
-  @decorateClassMember(new RoundAttribute())
-  round(): any { }
+  @decorateClassProperty(new RoundInterceptor())
+  round(): any {}
 }
 
 describe('Decorate Class', () => {
@@ -36,7 +45,7 @@ describe('Decorate Class', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(Agent(MongoDB)).toBe(MongoDB);
+      expect(GetType(CreateAgent(MongoDB))).not.toBe(MongoDB);
     });
 
     it('new instance', () => {
@@ -50,13 +59,11 @@ describe('Decorate Class', () => {
       expect(db instanceof MongoDB).toBe(true);
       expect(Reflect.getPrototypeOf(db)).toBe(MongoDB.prototype);
     });
-
-
   });
 
   describe('# should not able to', () => {
     it('get agent attribute', () => {
-      const items = Reflector(MongoDB).getAttributes(AgentAttribute);
+      const items = Reflector(MongoDB).getOwnAttributes(AgentAttribute);
       expect(items.length).toBe(0);
     });
   });

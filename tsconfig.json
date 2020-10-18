@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES2015",
     "module": "commonjs",
-    "declaration": false,
-    "sourceMap": true,
-    "removeComments": false,
-    "moduleResolution": "node",
+    "locale": "en-US",
+    "strict": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "noImplicitAny": true,
@@ -16,9 +14,8 @@
     "preserveConstEnums": true,
     "suppressImplicitAnyIndexErrors": true,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
-    "typeRoots": ["node_modules/@types/"],
-    "types": ["jasmine"]
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "tools/*.ts"]
+  "include": ["lib", "src", "test", "tools"],
+  "exclude": ["node_modules"]
 }

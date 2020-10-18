@@ -1,36 +1,36 @@
 /* tslint:disable */
-import { Agent, agent, decorateClass, decorateClassMember, IsAgent } from '../../../src/lib';
+import { CreateAgent, agent, decorateClass, decorateClassProperty, IsAgent } from '../../../lib';
 import { AgentChecker } from '../attributes/AgentChecker';
-import { RandomAttribute } from '../attributes/RandomAttribute';
-import { RoundAttribute } from '../attributes/RoundAttribute';
+import { RandomInterceptor } from '../attributes/RandomInterceptor';
+import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 
 @agent()
 @decorateClass(new AgentChecker())
 class Veicle {
-  mileage: number;
+  mileage!: number;
 
-  @decorateClassMember(new RandomAttribute())
-  random: Date;
+  @decorateClassProperty(new RandomInterceptor())
+  random!: Date;
 
-  @decorateClassMember(new RandomAttribute())
-  @decorateClassMember(new RoundAttribute())
+  @decorateClassProperty(new RandomInterceptor())
+  @decorateClassProperty(new RoundInterceptor())
   both: any;
 
-  @decorateClassMember(new MetadataAttribute())
+  @decorateClassProperty(new MetadataAttribute())
   metadata: any;
 
   light(name: string): void {
     console.log('turn on', name);
   }
 
-  @decorateClassMember(new RoundAttribute())
-  round(): any { }
+  @decorateClassProperty(new RoundInterceptor())
+  round(): any {}
 }
 
 class Car extends Veicle {
-  @decorateClassMember(new RandomAttribute())
-  random2: Date;
+  @decorateClassProperty(new RandomInterceptor())
+  random2!: Date;
 
   start() {
     console.log('start');
@@ -79,18 +79,18 @@ describe('Nested Agent', () => {
     });
 
     it('decorate agent twice', () => {
-      const NewCar = Agent(Car);
+      const NewCar = CreateAgent(Car);
       expect(IsAgent(NewCar)).toBeTruthy();
+    });
+
+    it('get agent local field', () => {
+      const NewCar = CreateAgent(Car);
+      const car = new NewCar();
+      expect(typeof car.random2).toBe('number');
     });
   });
 
   describe('# should not able to', () => {
-    it('get agent local field', () => {
-      const NewCar = Agent(Car);
-      const car = new NewCar();
-      expect(typeof car.random2).toBe('undefined');
-    });
-
     it('get local field', () => {
       const car = new Car();
       expect(typeof car.random2).toBe('undefined');

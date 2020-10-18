@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { agent, Agent, decorateParameter, IsAgent } from '../../../src/lib';
+import { agent, decorateParameter } from '../../../lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 
 class Connection {
@@ -15,7 +15,7 @@ class Connection {
 
 @agent()
 class MongoDB {
-  connection: Connection;
+  connection!: Connection;
   user: string;
   constructor(user: string, @decorateParameter(new InjectAttribute()) conn?: Connection) {
     expect(conn instanceof Connection).toBeTruthy();
@@ -43,14 +43,6 @@ class Redis {
 
 describe('Initializer for Constructor Parameter', () => {
   describe('# should able to', () => {
-    it('upgrade class', () => {
-      expect(IsAgent(MongoDB)).toBe(true);
-    });
-
-    it('re-upgrade class', () => {
-      expect(Agent(MongoDB)).toBe(MongoDB);
-    });
-
     it('create with injected connection', () => {
       expect(Connection.count).toBe(0);
       const db = new MongoDB('test', 'default' as any);

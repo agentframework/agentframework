@@ -1,9 +1,8 @@
 /* tslint:disable */
 
-import { AgentAttribute } from '../../../src/lib';
+import { AgentAttribute } from '../../../lib';
 
 export class BadAgentChecker extends AgentAttribute {
-
   beforeDecorate(
     target: Object | Function,
     targetKey?: string | symbol,
@@ -11,5 +10,4 @@ export class BadAgentChecker extends AgentAttribute {
   ): boolean {
     return false;
   }
-
 }

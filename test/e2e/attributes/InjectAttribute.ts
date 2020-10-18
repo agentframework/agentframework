@@ -1,22 +1,18 @@
 /* tslint:disable */
 
-import { IInitializer, IInitializerAttribute, IInvocation } from '../../../src/lib';
+import { Interceptor, Invocation, Arguments, Attribute } from '../../../lib';
 
-export class InjectAttribute implements IInitializerAttribute, IInitializer {
-  beforeDecorate(
-    target: Object | Function,
-    targetKey?: string | symbol,
-    descriptor?: PropertyDescriptor | number
-  ): boolean {
-    return true;
-  }
-
-  get initializer(): IInitializer {
+export class InjectAttribute implements Attribute, Interceptor {
+  get interceptor(): Interceptor {
     return this;
   }
-
-  initialize(target: IInvocation, parameters: ArrayLike<any>): any {
-    expect(typeof target.target).toBe('function');
-    return Reflect.construct(target.design!.type, parameters);
+  intercept(target: Invocation, parameters: Arguments, receiver: any): any {
+    if (target.design.kind == 2 && typeof parameters[0] !== 'undefined') {
+      return target.invoke(parameters, receiver);
+    }
+    if (target.design.type) {
+      return Reflect.construct(target.design.type, parameters);
+    }
+    throw new Error('Unknown type to inject');
   }
 }

@@ -1,10 +1,10 @@
 /* tslint:disable */
 
-import { decorate } from '../../../src/lib';
+import {decorate, MemberKinds} from '../../../lib';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 
 const a = new MetadataAttribute();
-const noTarget = 0;
+const noTarget = MemberKinds.None;
 
 describe('decorate() and Not Allowed Target', () => {
   describe('# should not able to', () => {
@@ -13,17 +13,17 @@ describe('decorate() and Not Allowed Target', () => {
         @decorate(a, noTarget)
         class MongoDB { }
         expect(MongoDB).toBeTruthy();
-      }).toThrow();
+      }).toThrowError('MetadataAttribute is not allow decorate on class');
     });
 
     it('decorate class field', () => {
       expect(() => {
         class MongoDB {
           @decorate(a, noTarget)
-          random: Date;
+          random!: Date;
         }
         expect(MongoDB).toBeTruthy();
-      }).toThrow();
+      }).toThrowError('MetadataAttribute is not allow decorate on property');
     });
 
     it('decorate class non-function field', () => {
@@ -33,7 +33,7 @@ describe('decorate() and Not Allowed Target', () => {
         const descr = Reflect.getOwnPropertyDescriptor(MongoDB.prototype, 'random');
         // another kind of class and decorator
         decorate(a, noTarget)(MongoDB.prototype, 'random', descr);
-      }).toThrow();
+      }).toThrowError('MetadataAttribute is not allow decorate on property');
     });
 
     it('decorate constructor parameter', () => {
@@ -42,7 +42,7 @@ describe('decorate() and Not Allowed Target', () => {
           constructor(p1: number, @decorate(a, noTarget) p2: Date) { }
         }
         expect(MongoDB).toBeTruthy();
-      }).toThrow();
+      }).toThrowError('MetadataAttribute is not allow decorate on constructor parameters');
     });
     it('decorate method', () => {
       expect(() => {
@@ -51,7 +51,7 @@ describe('decorate() and Not Allowed Target', () => {
           round(p1: string, p2: Date): any { }
         }
         expect(MongoDB).toBeTruthy();
-      }).toThrow();
+      }).toThrowError('MetadataAttribute is not allow decorate on property');
     });
     it('decorate method parameter', () => {
       expect(() => {
@@ -59,7 +59,7 @@ describe('decorate() and Not Allowed Target', () => {
           round(p1: string, @decorate(a, noTarget) p2: Date): any { }
         }
         expect(MongoDB).toBeTruthy();
-      }).toThrow();
+      }).toThrowError('MetadataAttribute is not allow decorate on method parameters');
     });
     it('decorate getter', () => {
       expect(() => {
@@ -70,7 +70,7 @@ describe('decorate() and Not Allowed Target', () => {
           }
         }
         expect(MongoDB).toBeTruthy();
-      }).toThrow();
+      }).toThrowError('MetadataAttribute is not allow decorate on property');
     });
     it('decorate setter', () => {
       expect(() => {
@@ -81,7 +81,7 @@ describe('decorate() and Not Allowed Target', () => {
           }
         }
         expect(MongoDB).toBeTruthy();
-      }).toThrow();
+      }).toThrowError('MetadataAttribute is not allow decorate on property');
     });
   });
 });

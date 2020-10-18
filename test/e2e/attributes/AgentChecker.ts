@@ -1,8 +1,9 @@
 /* tslint:disable */
-import { IAttribute, IInterceptor, IInvocation, Type } from '../../../src/lib';
+import { Arguments, Attribute, Interceptor, ClassInvocation } from '../../../lib';
+import { OnDemandTypeInfo } from '../../../src/lib/core/Reflection/OnDemandTypeInfo';
 
-export class AgentChecker implements IAttribute, IInterceptor {
-  get interceptor(): IInterceptor {
+export class AgentChecker implements Attribute, Interceptor {
+  get interceptor(): Interceptor {
     return this;
   }
 
@@ -14,10 +15,8 @@ export class AgentChecker implements IAttribute, IInterceptor {
     return true;
   }
 
-  public intercept(target: IInvocation, parameters: ArrayLike<any>): any {
-    expect(target.agent).toBeUndefined();
-    expect(target.design instanceof Type).toBeTruthy();
-    expect(typeof target.target).toBe('function');
-    return target.invoke(Array.prototype.slice.call(parameters, 0));
+  public intercept(target: ClassInvocation, parameters: Arguments, receiver: any): any {
+    expect(target.design instanceof OnDemandTypeInfo).toBeTruthy();
+    return target.invoke(Array.prototype.slice.call(parameters, 0), receiver);
   }
 }

@@ -1,23 +1,23 @@
 /* tslint:disable */
 
-import { IAttribute, IInterceptor, IInvocation, decorateClassMethod } from '../../../src/lib';
+import { Attribute, Interceptor, Invocation, decorateClassProperty, Arguments } from '../../../lib';
 
 export function methodDecorator() {
-  return decorateClassMethod(new MethodDecoratorAttribute());
+  return decorateClassProperty(new MethodDecoratorAttribute());
 }
 
-class MethodDecoratorAttribute implements IAttribute, IInterceptor {
+class MethodDecoratorAttribute implements Attribute, Interceptor {
 
   beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
     return true;
   }
 
-  getInterceptor(): IInterceptor {
+  getInterceptor(): Interceptor {
     return this;
   }
 
-  intercept(invocation: IInvocation, parameters: ArrayLike<any>): any {
-    return invocation.invoke(parameters);
+  intercept(invocation: Invocation, parameters: Arguments, receiver: any): any {
+    return invocation.invoke(parameters, receiver);
   }
 
 }

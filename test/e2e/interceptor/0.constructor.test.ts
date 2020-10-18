@@ -2,21 +2,22 @@
 
 import {
   agent,
-  Agent,
+  CreateAgent,
   decorate,
-  decorateClassMember,
-  decorateClassMethod,
+  decorateClassProperty,
   decorateParameter,
-  IAttribute,
+  Attribute,
   IsAgent,
-  Target,
-  IInterceptor,
-  IInvocation
-} from '../../../src/lib';
-import { RoundAttribute } from '../attributes/RoundAttribute';
+  Interceptor,
+  Invocation,
+  Arguments,
+  MemberKinds,
+  decorateClass
+} from '../../../lib';
+import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
-class AgentChecker implements IAttribute, IInterceptor {
-  get interceptor(): IInterceptor {
+class AgentChecker implements Attribute, Interceptor {
+  get interceptor(): Interceptor {
     return this;
   }
 
@@ -28,31 +29,31 @@ class AgentChecker implements IAttribute, IInterceptor {
     return true;
   }
 
-  public intercept(target: IInvocation, parameters: ArrayLike<any>): any {
-    expect(typeof target.target).toBe('function');
-    return target.invoke(parameters);
+  public intercept(target: Invocation, parameters: Arguments, receiver: any): any {
+    expect(typeof receiver).toBe('function');
+    return target.invoke(parameters, receiver);
   }
 }
 
-@agent([new AgentChecker()])
+@decorateClass(new AgentChecker())
+@agent()
 class Calculator {
-
-  @decorateClassMethod(new RoundAttribute())
+  @decorateClassProperty(new RoundInterceptor())
   round1(num: any) {
     return num;
   }
 
-  @decorateClassMember(new RoundAttribute())
+  @decorateClassProperty(new RoundInterceptor())
   round2(num: any) {
     return num;
   }
 
-  @decorate(new RoundAttribute(), Target.Method)
+  @decorate(new RoundInterceptor(), MemberKinds.Property)
   round3(num: any) {
     return num;
   }
 
-  round4(@decorateParameter(new RoundAttribute()) num: any) {
+  round4(@decorateParameter(new RoundInterceptor()) num: any) {
     return num;
   }
 }
@@ -60,11 +61,11 @@ class Calculator {
 describe('Interceptor on Constructor', () => {
   describe('# should able to', () => {
     it('detect agent', () => {
-      expect(IsAgent(Calculator)).toBe(true);
+      expect(IsAgent(Calculator)).toBeTrue();
     });
 
     it('re-upgrade agent', () => {
-      expect(Agent(Calculator)).toBe(Calculator);
+      expect(IsAgent(CreateAgent(Calculator))).toBeTrue();
     });
 
     it('new instance', () => {

@@ -1,0 +1,86 @@
+import { InMemoryDomain, agent, TypeNotFoundError } from '../../../lib';
+
+describe('5.2. Domain type', () => {
+  class A {}
+
+  @agent()
+  class B extends A {}
+
+  class C extends B {}
+
+  describe('# should able to', () => {
+    it('add type', () => {
+      const domain = new InMemoryDomain();
+      domain.addType(A);
+      domain.addType(B);
+      domain.addType(C);
+      domain.addType(A);
+      domain.addType(B);
+      domain.addType(C);
+      expect(domain.getType(A)).toBe(A);
+      expect(domain.getType(B)).toBe(B);
+      expect(domain.getType(C)).toBe(C);
+    });
+
+    it('set type', () => {
+      const domain = new InMemoryDomain();
+      domain.addType(A);
+      domain.addType(B);
+      domain.addType(C);
+      expect(domain.getType(A)).toBe(A);
+      expect(domain.getType(B)).toBe(B);
+      expect(domain.getType(C)).toBe(C);
+      domain.setType(A, C);
+      domain.setType(B, C);
+      domain.setType(C, C);
+      expect(domain.getType(A)).toBe(C);
+      expect(domain.getType(B)).toBe(C);
+      expect(domain.getType(C)).toBe(C);
+    });
+
+    it('remove type', () => {
+      const domain = new InMemoryDomain();
+      domain.removeType(A);
+      domain.removeType(B);
+      domain.removeType(C);
+      domain.addType(C);
+      expect(domain.getType(A)).toBe(C);
+      expect(domain.getType(B)).toBe(C);
+      expect(domain.getType(C)).toBe(C);
+      domain.removeType(A);
+      domain.removeType(B);
+      domain.removeType(C);
+      expect(domain.getType(A)).toBeUndefined();
+      expect(domain.getType(B)).toBeUndefined();
+      expect(domain.getType(C)).toBeUndefined();
+    });
+
+    it('has type', () => {
+      const domain = new InMemoryDomain();
+      domain.addType(C);
+      expect(domain.hasType(A)).toBeTrue();
+      expect(domain.hasType(B)).toBeTrue();
+      expect(domain.hasType(C)).toBeTrue();
+    });
+
+    it('get type', () => {
+      const domain = new InMemoryDomain();
+      domain.addType(A);
+      domain.addType(B);
+      domain.addType(C);
+      expect(domain.getType(A)).toBe(A);
+      expect(domain.getType(B)).toBe(B);
+      expect(domain.getType(C)).toBe(C);
+    });
+
+    it('get type or throw', () => {
+      const domain = new InMemoryDomain();
+      domain.addType(B);
+      expect(domain.getTypeOrThrow(A)).toBe(B);
+      expect(domain.getTypeOrThrow(B)).toBe(B);
+      expect(() => {
+        domain.getTypeOrThrow(C);
+      }).toThrowError(TypeNotFoundError, 'Type C not found');
+    });
+  });
+});

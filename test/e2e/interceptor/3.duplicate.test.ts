@@ -1,10 +1,10 @@
 /* tslint:disable */
 
-import { Agent, IsAgent, decorateClassMember, agent } from '../../../src/lib';
-import { RoundAttribute } from '../attributes/RoundAttribute';
+import { CreateAgent, IsAgent, decorateClassProperty, agent } from '../../../lib';
+import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 class Base {
-  @decorateClassMember(new RoundAttribute())
+  @decorateClassProperty(new RoundInterceptor())
   get age(): number {
     return 1.2;
   }
@@ -12,7 +12,7 @@ class Base {
 
 @agent()
 class Calculator extends Base {
-  @decorateClassMember(new RoundAttribute())
+  @decorateClassProperty(new RoundInterceptor())
   get age(): number {
     return 1.5;
   }
@@ -21,20 +21,11 @@ class Calculator extends Base {
 describe('Duplicate Interceptors', () => {
   describe('# should able to', () => {
     it('define agent', () => {
-      expect(IsAgent(Calculator)).toBe(true);
+      expect(IsAgent(Calculator)).toBeTrue();
     });
 
     it('re-upgrade agent', () => {
-      expect(Agent(Calculator)).toBe(Calculator);
-    });
-  });
-
-  describe('# should not able to', () => {
-    it('create agent', () => {
-      const AC = Agent(Calculator);
-      expect(() => {
-        new AC();
-      }).toThrow();
+      expect(IsAgent(CreateAgent(Calculator))).toBeTrue();
     });
   });
 });

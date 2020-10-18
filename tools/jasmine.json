@@ -1,6 +1,7 @@
 {
   "spec_dir": ".",
-  "spec_files": ["src/**/*.spec.ts", "test/**/*.test.ts"],
+  "spec_files": ["src/**/*.spec.ts", "src/**/*.test.ts", "test/**/*.spec.ts", "test/**/*.test.ts"],
+  "spec_files_": ["test/e2e/parameter/3.mix.test.ts"],
   "stopSpecOnExpectationFailure": false,
   "random": false
 }
