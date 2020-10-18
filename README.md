@@ -27,55 +27,13 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 :recycle: **Clean:** No prototype pollution.
 
-## Features
-
--   Add metadata to your code at design-time (using @decorator) or runtime (using Reflector api)
--   Access the metadata at runtime (using Reflector api)
--   Dependence injection and dependence lookup
-
-## Projects
-
--   [@agentframework/web-starter](https://github.com/agentframework/web-starter) A revolutionary framework crafted for software agents and micro services.
--   [@agentframework/validation](https://github.com/agentframework/validation) **Zero configuration** validation framework [example](https://github.com/agentframework/validation-example)
-
 ## Changelog
 
-| Date       | Version                                     | Status      |
-| ---------- | ------------------------------------------- | ----------- |
-| 2020-10-18 | [2.0.0-rc.1](doc/changelogs/CHANGELOG_2.0.x.md)  | Latest     |
-| 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)  | Stable      |
-| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md) | Maintenance |
-
-## Agent Oriented Programming
-
-### Principle
-
-| PARADIGM                   | INSPIRATION | PRINCIPLE                                             |
-| -------------------------- | ----------- | ----------------------------------------------------- |
-| Function Programming       | Math        | It transform data                                     |
-| OOP                        | The world   | It describe things and the relationships between them |
-| Agent Oriented Programming | Human       | It actions like a human (AI)                          |
-
-### Concepts
-
-| HUMAN       | AGENT FRAMEWORK | DESCRIPTION                                                             |
-| ----------- | --------------- | ----------------------------------------------------------------------- |
-| People      | Agent           | A class decorate with @agent attribute                                  |
-| Action      | Behavior        | Class method decorate with @action, @method or @behavior attribute      |
-| Belief      | Memory          | Private class field decorated with @state, @remember, @memory attribute |
-| Environment | Domain          | A container for agents, entities, services or artifacts                 |
-| Autonomy    | Activation      | Timer, scheduler which based on environment conditions                  |
-| Sociality   | Message         | Agent can communicate with other agent                                  |
-| Mobility    | Mobile Agent    | An agent can move from domain to domain with their belief unchanged     |
-
-### When use Agent Framework
-
--   You want to build software agents.
--   You want to use dependence injection or dependence lookup.
--   You want to build a framework which similar to Spring Framework but in JavaScript.
--   You want to build an abstract layer for a specific business domain in your organization.
--   You want to remove duplicated code and keep project codebase small and clean.
--   You need a powerful method to pre-process, post-process or modify system behaviors without touching existing code.
+| Date       | Version                                          | Status      |
+| ---------- | ------------------------------------------------ | ----------- |
+| 2020-10-18 | [2.0.0-rc.1](doc/changelogs/CHANGELOG_2.0.x.md)  | Latest      |
+| 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)       | Stable      |
+| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)      | Maintenance |
 
 ### Show me the example
 
@@ -108,6 +66,49 @@ const project = new ProjectA();
 
 console.log('Is it create from the ProjectA class?', project instanceof ProjectA);
 ```
+
+## Features
+
+-   Add metadata to your code at design-time (using @decorator) or runtime (using Reflector api)
+-   Access the metadata at runtime (using Reflector api)
+-   AOP, dependence injection and dependence lookup
+
+## Projects
+
+-   [@agentframework/web-starter](https://github.com/agentframework/web-starter) A revolutionary framework crafted for software agents and micro services.
+-   [@agentframework/validation](https://github.com/agentframework/validation) **Zero configuration** validation framework [example](https://github.com/agentframework/validation-example)
+
+## Agent Oriented Programming
+
+### Principle
+
+| PARADIGM                   | INSPIRATION | PRINCIPLE                                             |
+| -------------------------- | ----------- | ----------------------------------------------------- |
+| Function Programming       | Math        | It transform data                                     |
+| OOP                        | The world   | It describe things and the relationships between them |
+| Agent Oriented Programming | Human       | It actions like a human (AI)                          |
+
+### Concepts
+
+| HUMAN       | AGENT FRAMEWORK | DESCRIPTION                                                             |
+| ----------- | --------------- | ----------------------------------------------------------------------- |
+| People      | Agent           | A class decorate with @agent attribute                                  |
+| Action      | Behavior        | Class method decorate with @action, @method or @behavior attribute      |
+| Belief      | Memory          | Private class field decorated with @state, @remember, @memory attribute |
+| Environment | Domain          | A container for agents, entities, services or artifacts                 |
+| Autonomy    | Activation      | Timer, scheduler which based on environment conditions                  |
+| Sociality   | Message         | Agent can communicate with other agent                                  |
+| Mobility    | Mobile Agent    | An agent can move from domain to domain with their belief unchanged     |
+
+### When use Agent Framework
+
+-   You want to build software agents.
+-   You want to use dependence injection or dependence lookup.
+-   You want to build a framework which similar to Spring Framework but in JavaScript.
+-   You want to build an abstract layer for a specific business domain in your organization.
+-   You want to remove duplicated code and keep project codebase small and clean.
+-   You need a powerful method to pre-process, post-process or modify system behaviors without touching existing code.
+
 
 ### Agentframework 2.x milestones
 -   [x] Breaking change: Remove `I` from interface name
