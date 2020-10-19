@@ -42,10 +42,6 @@
 // };
 //
 // const metadataV2 = {
-//   attributes: [],
-//   metadata: {},
-//   parameters: [{ attributes: [], metadata: {} }],
-//
 //   ['string | symbol']: {
 //     attributes: [],
 //     metadata: {},
