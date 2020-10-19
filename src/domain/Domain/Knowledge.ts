@@ -58,15 +58,15 @@ export class DomainMetadata {
     this._agents.set(type, newType);
   }
 
-  RememberDomainType(type: Function) {
-    this._domainType = type;
-  }
+  // RememberDomainType(type: Function) {
+  //   this._domainType = type;
+  // }
 
-  GetLocalDomain(): Domain {
+  GetLocalDomain(domainType: Function): Domain {
     if (this._domain) {
       return this._domain;
     }
-    const domain = Reflect.construct(<Function>this._domainType, []);
+    const domain = Reflect.construct(this._domainType || domainType, []);
     this._domain = domain;
     return domain;
   }

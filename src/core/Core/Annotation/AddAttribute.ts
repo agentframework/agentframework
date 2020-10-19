@@ -12,17 +12,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Annotator } from './Annotator';
 import { Attribute } from '../Interfaces/Attribute';
+import { Wisdom } from './Wisdom';
 
 /**
  * Reflector(target).addAttribute(attribute);
  */
 export function AddAttributeToClass(attribute: Attribute, type: Function): void {
   const key = 'constructor';
-  const typeAnnotation = Annotator.type(type);
-  const ctor = Annotator.property(typeAnnotation, type, key);
-  Annotator.addAttribute(ctor, attribute);
+  const typeAnnotation = Wisdom.type(type);
+  const ctor = Wisdom.property(typeAnnotation, type, key);
+  Wisdom.addAttribute(ctor, attribute);
 }
 
 /**
@@ -34,10 +34,10 @@ export function AddAttributeToClassConstructorParameter(
   parameterIndex: number
 ): void {
   const key = 'constructor';
-  const typeAnnotation = Annotator.type(type);
-  const annotation = Annotator.property(typeAnnotation, type, key);
-  const parameter = Annotator.parameter(annotation, type, key, parameterIndex);
-  Annotator.addAttribute(parameter, attribute);
+  const typeAnnotation = Wisdom.type(type);
+  const annotation = Wisdom.property(typeAnnotation, type, key);
+  const parameter = Wisdom.parameter(annotation, type, key, parameterIndex);
+  Wisdom.addAttribute(parameter, attribute);
 }
 
 /**
@@ -49,10 +49,10 @@ export function AddAttributeToClassMethodParameter(
   property: string | symbol,
   parameterIndex: number
 ): void {
-  const typeAnnotation = Annotator.type(type);
-  const annotation = Annotator.property(typeAnnotation, type, property);
-  const parameter = Annotator.parameter(annotation, type, property, parameterIndex);
-  Annotator.addAttribute(parameter, attribute);
+  const typeAnnotation = Wisdom.type(type);
+  const annotation = Wisdom.property(typeAnnotation, type, property);
+  const parameter = Wisdom.parameter(annotation, type, property, parameterIndex);
+  Wisdom.addAttribute(parameter, attribute);
 }
 
 /**
@@ -64,9 +64,9 @@ export function AddAttributeToClassMember(
   key: string | symbol,
   descriptor?: PropertyDescriptor
 ): void {
-  const typeAnnotation = Annotator.type(type);
-  const annotation = Annotator.property(typeAnnotation, type, key, descriptor);
-  Annotator.addAttribute(annotation, attribute);
+  const typeAnnotation = Wisdom.type(type);
+  const annotation = Wisdom.property(typeAnnotation, type, key, descriptor);
+  Wisdom.addAttribute(annotation, attribute);
 }
 
 // /**

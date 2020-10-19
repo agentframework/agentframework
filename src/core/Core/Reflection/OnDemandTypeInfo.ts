@@ -15,12 +15,11 @@ limitations under the License. */
 import { OnDemandPropertyInfo } from './OnDemandPropertyInfo';
 import { PropertyAnnotation } from '../Annotation/Annotation';
 import { MemberKinds } from '../Interfaces/MemberKinds';
-import { Wisdom } from '../Wisdom';
+import { Wisdom } from '../Annotation/Wisdom';
 import { TypeInfo } from '../Interfaces/TypeInfo';
 import { AbstractConstructor } from '../Constructor';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Filter } from '../Interfaces/Filter';
-import { Annotator } from '../Annotation/Annotator';
 import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToClass } from '../Annotation/AddAttribute';
 
@@ -300,7 +299,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   protected get typeAnnotation(): object {
     // console.log('an', a++);
-    return Annotator.type(this.declaringType);
+    return Wisdom.type(this.declaringType);
     // return cache(this, 'typeAnnotation', Annotator.get(this.declaringType));
   }
 

@@ -12,18 +12,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-
-
 /*************************************
  *   Core Types
  *************************************/
-export {
-  AnyConstructor,
-  Constructor,
-  DefaultConstructor,
-  ParameterConstructor,
-  AbstractConstructor,
-} from './Core/Constructor';
+export { AbstractConstructor, AnyConstructor, Constructor } from './Core/Constructor';
+
 export { Decorators, ClassDecorator, PropertyDecorator, ParameterDecorator } from './Core/Decorator/decorators';
 export { Arguments } from './Core/Interfaces/Arguments';
 export { Attribute } from './Core/Interfaces/Attribute';
@@ -43,7 +36,7 @@ export { GetType } from './Core/GetType';
 /*************************************
  *   Sub-module Metadata API
  *************************************/
-export { GetOrCreate } from './Core/Wisdom';
+export { GetOrCreate } from './Core/Annotation/Wisdom';
 
 /*************************************
  *   Reflection API
