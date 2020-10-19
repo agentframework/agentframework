@@ -17,19 +17,19 @@ import { Annotation, ParameterAnnotation, PropertyAnnotation } from './Annotatio
 
 export class AgentFramework {
   // key: Proxy | Agent Constructor | Domain Agent Constructor, value: Original Constructor
-  private readonly _types = new WeakMap<Function, Function>();
+  readonly _types = new WeakMap<Function, Function>();
 
   // key: class, prototype; value: annotation
-  private readonly _annotations = new WeakMap<Function, any>();
+  readonly _annotations = new WeakMap<Function, any>();
 
   // key: class prototype; value: Reflector type
-  private readonly _infos = new WeakMap<Function, Function>();
+  readonly _infos = new WeakMap<Function, Function>();
 
   // key: function; value: Invocation
-  private readonly _functionInvocations = new WeakMap<Function, Invocation>();
+  readonly _functionInvocations = new WeakMap<Function, Invocation>();
 
   // key: any; value: any
-  private readonly _registry = new Map<string, any>();
+  readonly _registry = new Map<string, any>();
 
   // key: string; value: symbol
   // private readonly _symbols = new Map<string, symbol>();
@@ -211,9 +211,9 @@ export class AgentFramework {
   // }
 }
 
-export const Wisdom: AgentFramework = new Function(
-  'j',
-  'return i=j.name,i=Symbol.for(i),this[i]=this[i]||(this[i]=new j())'
+export const Wisdom: AgentFramework = Function(
+  '_',
+  'return this[__=Symbol.for(_.name)]=this[__]||(this[__]=new _())'
 )(AgentFramework);
 
 // create metadata for satellites project
