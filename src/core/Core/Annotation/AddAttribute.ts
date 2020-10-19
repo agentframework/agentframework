@@ -22,7 +22,7 @@ export function AddAttributeToClass(attribute: Attribute, type: Function): void 
   const key = 'constructor';
   const typeAnnotation = Wisdom.type(type);
   const ctor = Wisdom.property(typeAnnotation, type, key);
-  Wisdom.addAttribute(ctor, attribute);
+  ctor.attributes.push(attribute);
 }
 
 /**
@@ -37,7 +37,7 @@ export function AddAttributeToClassConstructorParameter(
   const typeAnnotation = Wisdom.type(type);
   const annotation = Wisdom.property(typeAnnotation, type, key);
   const parameter = Wisdom.parameter(annotation, type, key, parameterIndex);
-  Wisdom.addAttribute(parameter, attribute);
+  parameter.attributes.push(attribute);
 }
 
 /**
@@ -52,7 +52,7 @@ export function AddAttributeToClassMethodParameter(
   const typeAnnotation = Wisdom.type(type);
   const annotation = Wisdom.property(typeAnnotation, type, property);
   const parameter = Wisdom.parameter(annotation, type, property, parameterIndex);
-  Wisdom.addAttribute(parameter, attribute);
+  parameter.attributes.push(attribute);
 }
 
 /**
@@ -66,7 +66,7 @@ export function AddAttributeToClassMember(
 ): void {
   const typeAnnotation = Wisdom.type(type);
   const annotation = Wisdom.property(typeAnnotation, type, key, descriptor);
-  Wisdom.addAttribute(annotation, attribute);
+  annotation.attributes.push(attribute);
 }
 
 // /**

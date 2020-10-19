@@ -13,8 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Invocation } from '../Interfaces/Invocation';
-import { Annotation, MemberAnnotation, ParameterAnnotation, PropertyAnnotation } from './Annotation';
-import { Attribute } from '../Interfaces/Attribute';
+import { Annotation, ParameterAnnotation, PropertyAnnotation } from './Annotation';
 
 export class AgentFramework {
   // key: Proxy | Agent Constructor | Domain Agent Constructor, value: Original Constructor
@@ -106,15 +105,15 @@ export class AgentFramework {
     return value;
   }
 
-  // static value(property: PropertyAnnotation): MemberAnnotation {
+  // value(property: PropertyAnnotation): MemberAnnotation {
   //   return property.value || (property.value = new MemberAnnotation());
   // }
   //
-  // static getter(property: PropertyAnnotation): MemberAnnotation {
+  // getter(property: PropertyAnnotation): MemberAnnotation {
   //   return property.getter || (property.getter = new MemberAnnotation());
   // }
   //
-  // static setter(property: PropertyAnnotation): MemberAnnotation {
+  // setter(property: PropertyAnnotation): MemberAnnotation {
   //   return property.setter || (property.setter = new MemberAnnotation());
   // }
 
@@ -132,11 +131,6 @@ export class AgentFramework {
       map.set(index, parameter);
       return parameter;
     }
-  }
-
-  addAttribute(annotation: MemberAnnotation, attribute: Attribute): void {
-    // console.log(n++);
-    annotation.attributes.push(attribute);
   }
 
   GetAnnotation(type: Function): any {
