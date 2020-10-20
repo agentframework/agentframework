@@ -13,8 +13,9 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { CreateAgentInvocation } from './CreateAgentInvocation';
-import { Wisdom } from '../Annotation/Wisdom';
+import { RememberType } from '../Wisdom';
 import { AgentAttribute } from './AgentAttribute';
+import { GetType } from '../GetType';
 
 /**
  * Create a new agent from attribute, and add into Agent registry
@@ -26,7 +27,7 @@ export function CreateAgent<T extends Function>(type: T, options?: AgentAttribut
   // always create new agent using latest annotation
 
   // 1. get original type if giving type is an agent type
-  const origin = Wisdom.GetType(type);
+  const origin = GetType(type);
   if (origin) {
     // target is an agent already
     // set the target to origin type to recreate this
@@ -45,7 +46,7 @@ export function CreateAgent<T extends Function>(type: T, options?: AgentAttribut
   // register new agent map to old type
   // key: Agent proxy, value: origin type
   if (agent !== type) {
-    Wisdom.RememberType(agent, type);
+    RememberType(agent, type);
   }
 
   return agent;

@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Wisdom } from '../Annotation/Wisdom';
+import { Wisdom } from '../Wisdom';
 import { Attribute } from '../Interfaces/Attribute';
 import { Constructor } from '../Constructor';
 import { HasInterceptor } from '../Helpers/Filters';

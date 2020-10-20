@@ -36,7 +36,7 @@ export { GetType } from './Core/GetType';
 /*************************************
  *   Sub-module Metadata API
  *************************************/
-export { GetOrCreate } from './Core/Annotation/Wisdom';
+export { GetOrCreate, GetOrCreateSymbol } from './Core/Wisdom';
 
 /*************************************
  *   Reflection API

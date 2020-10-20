@@ -17,7 +17,7 @@ import { ClassInvocation } from '../Interfaces/TypeInvocations';
 import { ClassInterceptor } from '../Interfaces/TypeInterceptors';
 import { Arguments } from '../Interfaces/Arguments';
 import { OnDemandClassConstructor } from '../Compiler/OnDemandClassConstructor';
-import { Wisdom } from '../Annotation/Wisdom';
+import { RememberType } from '../Wisdom';
 
 /**
  * This attribute is for upgrade class to agent
@@ -50,13 +50,13 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     // console.log('nnnnnn', newTarget, receiver)
 
     // this is the only way to detect the proxy
-    Wisdom.RememberType(newTarget, receiver);
+    RememberType(newTarget, receiver);
 
     // create the class
     const agent = target.invoke<Function>([Function, name, code, 'agent code'], newTarget);
 
     // this is the only way to detect the proxy
-    Wisdom.RememberType(agent, receiver);
+    RememberType(agent, receiver);
 
     return agent;
   }

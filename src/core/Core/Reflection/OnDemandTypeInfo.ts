@@ -15,13 +15,15 @@ limitations under the License. */
 import { OnDemandPropertyInfo } from './OnDemandPropertyInfo';
 import { PropertyAnnotation } from '../Annotation/Annotation';
 import { MemberKinds } from '../Interfaces/MemberKinds';
-import { Wisdom } from '../Annotation/Wisdom';
+import { Wisdom, GetTypeInfo, RememberTypeInfo } from '../Wisdom';
 import { TypeInfo } from '../Interfaces/TypeInfo';
 import { AbstractConstructor } from '../Constructor';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Filter } from '../Interfaces/Filter';
 import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToClass } from '../Annotation/AddAttribute';
+import { IsAgent } from '../IsAgent';
+import { GetType } from '../GetType';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -61,11 +63,11 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   static get(target: Function): OnDemandTypeInfo {
     // make sure only create typeinfo for user classes
-    const type = Wisdom.GetType(target) || target;
-    let info = Wisdom.GetTypeInfo(type);
+    const type = GetType(target) || target;
+    let info = GetTypeInfo(type);
     if (!info) {
       info = new OnDemandTypeInfo(type);
-      Wisdom.RememberTypeInfo(type, info);
+      RememberTypeInfo(type, info);
     }
     return info;
   }
@@ -105,7 +107,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   protected get base(): OnDemandTypeInfo | undefined {
     const base = Reflect.getPrototypeOf(this.type.prototype);
     // ignore object as base type
-    if (!base || base.constructor === Object || Wisdom.IsAgent(base.constructor)) {
+    if (!base || base.constructor === Object || IsAgent(base.constructor)) {
       // stop if agent, because previous agent already
       return;
       // return cache(this, 'base', undefined);
@@ -299,7 +301,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   protected get typeAnnotation(): object {
     // console.log('an', a++);
-    return Wisdom.type(this.declaringType);
+    return Wisdom.GetOrCreateAnnotation(this.declaringType);
     // return cache(this, 'typeAnnotation', Annotator.get(this.declaringType));
   }
 

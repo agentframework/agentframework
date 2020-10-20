@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Wisdom } from '../Annotation/Wisdom';
+import { GetFunctionInvocation, SetFunctionInvocation } from '../Wisdom';
 import { OnDemandClassCompiler } from './OnDemandClassCompiler';
 import { ConstructorInvocation } from './Invocation/ConstructorInvocation';
 import { FindExtendedClass } from '../Helpers/FindExtendedClass';
@@ -36,14 +36,14 @@ export class OnDemandClassConstructor {
 
     // cache the constructor invocation
     // so do not support change annotation after first time created the type
-    let invocation = Wisdom.GetFunctionInvocation(target);
+    let invocation = GetFunctionInvocation(target);
     // console.log('☀️ ☀️ ☀️ 1', target.name, newTarget.name, !!constructor);
 
     // analysis this object
     if (!invocation) {
       // upgrade properties
       const design = Reflector(target);
-      const result = design.findProperties((p) => p.hasInterceptor());
+      const result = design.findProperties(p => p.hasInterceptor());
       const properties = [];
 
       // NOTE: Static Constructor support, deep first
@@ -103,7 +103,7 @@ export class OnDemandClassConstructor {
       // find interceptors from design attributes and create chain for them
       invocation = OnDemandClassCompiler.createConstructorInterceptor(origin);
 
-      Wisdom.SetFunctionInvocation(target, invocation);
+      SetFunctionInvocation(target, invocation);
     }
 
     // console.log('construct', newTarget, parameters);

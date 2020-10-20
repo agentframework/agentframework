@@ -12,12 +12,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Wisdom } from './Annotation/Wisdom';
+import { Wisdom } from './Wisdom';
 import { Constructor } from './Constructor';
 
 /**
  * Return true if giving type is an agent
  */
-export function IsAgent<T>(type: Function): type is Constructor<T> {
-  return Wisdom.IsAgent(type);
+export function IsAgent<T extends Constructor<T>>(test: Function): test is Constructor<T> {
+  return Wisdom.types.has(test);
 }
