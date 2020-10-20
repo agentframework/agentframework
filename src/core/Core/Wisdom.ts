@@ -73,6 +73,9 @@ export class PropertyAnnotation extends MemberAnnotation {
   }
 }
 
+/**
+ *
+ */
 export class AgentFramework extends WeakMap<Function | object, any> {
   // core
   // key: class, prototype; value: annotation
@@ -84,7 +87,7 @@ export class AgentFramework extends WeakMap<Function | object, any> {
 
   // submodule
   // key: any; value: any
-  readonly registry = new Map<string, any>();
+  readonly knowledge = new Map<string, any>();
 
   constructor() {
     super();
@@ -113,19 +116,37 @@ export class AgentFramework extends WeakMap<Function | object, any> {
     };
   }
 
+  get(type: Function | object): Annotation | undefined {
+    return super.get(type);
+  }
   /**
    * Get or create annotation
    */
-  getOrCreate(type: Function): Annotation {
+  getOrCreate(type: Function | object): Annotation {
     const originType = type;
     const exists = this.get(originType);
     if (exists) {
       return exists;
     }
+
+    // if (originType === Function.prototype || originType === Object.prototype || originType == null) {
+    //   this.set(type, Object.create(null));
+    // }
+    let annotation;
+    if (originType === Function.prototype) {
+      this.set(type, (annotation = Object.create(null)));
+      return annotation;
+    }
+
     // check parent and build object prototype chain
-    const prototype = Reflect.getPrototypeOf(originType.prototype);
-    const annotation = Object.create(prototype && this.getOrCreate(prototype.constructor));
-    this.set(type, annotation);
+    const prototype = Reflect.getPrototypeOf(originType);
+
+    this.set(type, (annotation = Object.create(prototype && this.getOrCreate(prototype))));
+
+    // console.log()
+    // console.log('1. add', type, '=====>', annotation);
+    // const tp = Reflect.getPrototypeOf(type);
+    // console.log('2. add', tp, typeof tp, tp === Function, tp === Function.prototype, '=====>', Reflect.getPrototypeOf(annotation));
     return annotation;
   }
 }
@@ -136,13 +157,13 @@ export const Wisdom: AgentFramework = Function(
   'return this[__=Symbol.for(_.name)]=this[__]||(this[__]=new _())'
 )(AgentFramework);
 
-// create metadata for satellites project
-export function memorize<T>(agent: object | Function, key: string | symbol, handler: () => T): T {
+// create singleton metadata for satellites project
+export function memorize<T>(agent: Function | object, key: string | symbol, handler: () => T): T {
   const id = (typeof agent === 'function' ? agent.name : agent.constructor.name) + '.' + key.toString();
-  let value = Wisdom.registry.get(id);
+  let value = Wisdom.knowledge.get(id);
   /* istanbul ignore else */
   if (!value) {
-    Wisdom.registry.set(id, (value = handler()));
+    Wisdom.knowledge.set(id, (value = handler()));
   }
   Reflect.defineProperty(agent, key, { value });
   return value;
@@ -151,3 +172,4 @@ export function memorize<T>(agent: object | Function, key: string | symbol, hand
 export function RememberType(agent: Function, type: Function): void {
   Wisdom.types.set(agent, type);
 }
+
