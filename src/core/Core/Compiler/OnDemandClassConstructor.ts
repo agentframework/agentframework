@@ -12,17 +12,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { GetFunctionInvocation, SetFunctionInvocation } from '../Wisdom';
+import { memorize } from '../Wisdom';
 import { OnDemandClassCompiler } from './OnDemandClassCompiler';
 import { ConstructorInvocation } from './Invocation/ConstructorInvocation';
 import { FindExtendedClass } from '../Helpers/FindExtendedClass';
 import { Reflector } from '../Reflector';
 import { Arguments } from '../Interfaces/Arguments';
+import { Invocation } from '../Interfaces/Invocation';
 
 /**
  * introduce agent fields and properties during 1st access
  */
 export class OnDemandClassConstructor {
+  /**
+   * invocations for type constructors
+   */
+  get invocations() {
+    return memorize(this, 'invocations', () => new WeakMap<Function, Invocation>());
+  }
+
   /**
    * ES6 Proxy Constructor hook
    */
@@ -36,7 +44,7 @@ export class OnDemandClassConstructor {
 
     // cache the constructor invocation
     // so do not support change annotation after first time created the type
-    let invocation = GetFunctionInvocation(target);
+    let invocation = this.invocations.get(target);
     // console.log('☀️ ☀️ ☀️ 1', target.name, newTarget.name, !!constructor);
 
     // analysis this object
@@ -103,7 +111,7 @@ export class OnDemandClassConstructor {
       // find interceptors from design attributes and create chain for them
       invocation = OnDemandClassCompiler.createConstructorInterceptor(origin);
 
-      SetFunctionInvocation(target, invocation);
+      this.invocations.set(target, invocation);
     }
 
     // console.log('construct', newTarget, parameters);

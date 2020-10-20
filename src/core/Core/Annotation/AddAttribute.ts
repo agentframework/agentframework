@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Attribute } from '../Interfaces/Attribute';
-import { Wisdom } from '../Wisdom';
+import { Wisdom, PropertyAnnotation } from '../Wisdom';
 import { GetParameterAnnotation } from './Annotator';
 
 /**
@@ -21,8 +21,8 @@ import { GetParameterAnnotation } from './Annotator';
  */
 export function AddAttributeToClass(attribute: Attribute, type: Function): void {
   const key = 'constructor';
-  const typeAnnotation = Wisdom.GetOrCreateAnnotation(type);
-  const ctor = Wisdom.GetPropertyAnnotation(typeAnnotation, type, key);
+  const typeAnnotation = Wisdom.getOrCreate(type);
+  const ctor = PropertyAnnotation.get(typeAnnotation, type, key);
   ctor.attributes.push(attribute);
 }
 
@@ -35,8 +35,8 @@ export function AddAttributeToClassConstructorParameter(
   parameterIndex: number
 ): void {
   const key = 'constructor';
-  const typeAnnotation = Wisdom.GetOrCreateAnnotation(type);
-  const annotation = Wisdom.GetPropertyAnnotation(typeAnnotation, type, key);
+  const typeAnnotation = Wisdom.getOrCreate(type);
+  const annotation = PropertyAnnotation.get(typeAnnotation, type, key);
   const parameter = GetParameterAnnotation(annotation, type, key, parameterIndex);
   parameter.attributes.push(attribute);
 }
@@ -50,8 +50,8 @@ export function AddAttributeToClassMethodParameter(
   property: string | symbol,
   parameterIndex: number
 ): void {
-  const typeAnnotation = Wisdom.GetOrCreateAnnotation(type);
-  const annotation = Wisdom.GetPropertyAnnotation(typeAnnotation, type, property);
+  const typeAnnotation = Wisdom.getOrCreate(type);
+  const annotation = PropertyAnnotation.get(typeAnnotation, type, property);
   const parameter = GetParameterAnnotation(annotation, type, property, parameterIndex);
   parameter.attributes.push(attribute);
 }
@@ -65,8 +65,8 @@ export function AddAttributeToClassMember(
   key: string | symbol,
   descriptor?: PropertyDescriptor
 ): void {
-  const typeAnnotation = Wisdom.GetOrCreateAnnotation(type);
-  const annotation = Wisdom.GetPropertyAnnotation(typeAnnotation, type, key, descriptor);
+  const typeAnnotation = Wisdom.getOrCreate(type);
+  const annotation = PropertyAnnotation.get(typeAnnotation, type, key, descriptor);
   annotation.attributes.push(attribute);
 }
 

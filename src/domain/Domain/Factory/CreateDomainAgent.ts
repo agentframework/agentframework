@@ -1,12 +1,12 @@
 import { CreateAgent } from '../../../dependencies/core';
-import { Knowledge } from '../Knowledge';
+import { DomainKnowledge } from '../Knowledge';
 import { Domain } from '../Domain';
 import { AnyClass, Class } from '../ClassConstructor';
 import { DomainAgentAttribute } from '../Attributes/DomainAgentAttribute';
 
 export function CreateDomainAgent<T>(domain: Domain, type: AnyClass<T>, options?: DomainAgentAttribute): Class<T> {
   // check owner domain
-  const owner = Knowledge.GetDomain(type);
+  const owner = DomainKnowledge.GetDomain(type);
   if (owner && domain !== owner) {
     throw new TypeError('NotSupportCreateAgentForOtherDomain');
   }
@@ -34,7 +34,7 @@ export function CreateDomainAgent<T>(domain: Domain, type: AnyClass<T>, options?
   // const factory = Function(name, [`return`, `class`, `${name}$`, `extends`, name, '{}'].join(' '));
   // const newType = factory(type);
   // Knowledge.RememberType(domainAgent, type);
-  Knowledge.RememberDomainAgent(domain, type, domainAgent);
+  DomainKnowledge.RememberDomainAgent(domain, type, domainAgent);
 
   // console.log('create', newType.name, ' for domain', domain.name);
   return <Class<T>>domainAgent;

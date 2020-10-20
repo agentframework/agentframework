@@ -12,7 +12,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { PropertyAnnotation } from '../Annotation/Annotation';
 import { OnDemandMemberInfo } from './OnDemandMemberInfo';
 import { OnDemandParameterInfo } from './OnDemandParameterInfo';
 import { MemberKinds } from '../Interfaces/MemberKinds';
@@ -26,6 +25,7 @@ import { ParameterInfo } from '../Interfaces/ParameterInfo';
 import { MemberInfo } from '../Interfaces/MemberInfo';
 import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToClassMember } from '../Annotation/AddAttribute';
+import { PropertyAnnotation } from '../Wisdom';
 
 /**
  * Property

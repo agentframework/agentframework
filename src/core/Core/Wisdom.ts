@@ -12,85 +12,41 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Invocation } from './Interfaces/Invocation';
-import { Annotation, PropertyAnnotation } from './Annotation/Annotation';
+import { Attribute } from './Interfaces/Attribute';
+import { ParameterAnnotation } from './Annotation/Annotation';
 
-export class AgentFramework {
-  // key: Proxy | Agent Constructor | Domain Agent Constructor, value: Original Constructor
-  readonly types = new WeakMap<Function, Function>();
+export interface Annotation {
+  [x: string]: MemberAnnotation;
+}
 
-  // key: class, prototype; value: annotation
-  readonly annotations = new WeakMap<Function, any>();
-
-  // cache
-  // key: class prototype; value: Reflector type
-  readonly infos = new WeakMap<Function, Function>();
-
-  // cache
-  // key: function; value: Invocation
-  readonly functionInvocations = new WeakMap<Function, Invocation>();
-
-  // submodule
-  // key: any; value: any
-  readonly registry = new Map<string, any>();
-
-  // submodule
-  // key: string; value: symbol
-  readonly symbols = new Map<string, symbol>();
+/**
+ * Minimal reflection metadata object
+ */
+export class MemberAnnotation extends Map<string, any> {
+  // metadata
+  readonly attributes: Array<Attribute>;
 
   constructor() {
-    // ===============================================================================
-    // if one day the browser implemented Reflect.metadata. We will reflector all
-    // code related to metadata data in order to have a better performance.
-    // ===============================================================================
-    const original: Function | undefined = Reflect['metadata'];
-    Reflect['metadata'] = (key: string, value: any) => {
-      return (target: Function | object, property?: string | symbol, descriptor?: PropertyDescriptor) => {
-        //
-        // E.g.
-        //
-        // Function + undefined     = Constructor
-        // Object   + PropertyKey   = Class member
-        // Function + PropertyKey   = Class static member
-        //
-        const type = typeof target === 'function' ? target : target.constructor;
-        const targetKey = typeof property === 'undefined' ? 'constructor' : property;
-        const typeAnnotation = this.GetOrCreateAnnotation(type);
-        const annotation = this.GetPropertyAnnotation(typeAnnotation, type, targetKey, descriptor);
-        annotation.set(key, value);
-        /* istanbul ignore next */
-        return original && Reflect.apply(original, Reflect, [key, value])(target, property, descriptor);
-      };
-    };
+    super();
+    this.attributes = [];
+  }
+}
+
+export class PropertyAnnotation extends MemberAnnotation {
+  descriptor?: PropertyDescriptor;
+
+  parameters?: Map<number, ParameterAnnotation>;
+  value?: MemberAnnotation;
+
+  getter?: MemberAnnotation;
+  setter?: MemberAnnotation;
+
+  constructor(readonly type: Function, descriptor?: PropertyDescriptor) {
+    super();
+    descriptor && (this.descriptor = descriptor);
   }
 
-  /**
-   * Get annotation
-   */
-  GetAnnotation(type: Function): Annotation | undefined {
-    return this.annotations.get(type);
-  }
-
-  /**
-   * Get or create annotation
-   */
-  GetOrCreateAnnotation(type: Function): Annotation {
-    const originType = type;
-    const exists = this.GetAnnotation(originType);
-    if (exists) {
-      return exists;
-    }
-    // check parent and build object prototype chain
-    const prototype = Reflect.getPrototypeOf(originType.prototype);
-    const annotation = Object.create(prototype && this.GetOrCreateAnnotation(prototype.constructor));
-    this.annotations.set(type, annotation);
-    return annotation;
-  }
-
-  /**
-   * get metadata for type property
-   */
-  GetPropertyAnnotation(
+  static get(
     annotation: Annotation,
     type: Function,
     key: string | symbol,
@@ -117,6 +73,63 @@ export class AgentFramework {
   }
 }
 
+export class AgentFramework extends WeakMap<Function | object, any> {
+  // core
+  // key: class, prototype; value: annotation
+  // readonly annotations = new WeakMap<Function, any>();
+
+  // core
+  // key: Agent Proxy | Agent Constructor | Domain Agent Constructor, value: Original Constructor
+  readonly types = new WeakMap<Function | object, Function>();
+
+  // submodule
+  // key: any; value: any
+  readonly registry = new Map<string, any>();
+
+  constructor() {
+    super();
+    // ===============================================================================
+    // if one day the browser implemented Reflect.metadata. We will reflector all
+    // code related to metadata data in order to have a better performance.
+    // ===============================================================================
+    const original: Function | undefined = Reflect['metadata'];
+    Reflect['metadata'] = (key: string, value: any) => {
+      return (target: Function | object, property?: string | symbol, descriptor?: PropertyDescriptor) => {
+        //
+        // E.g.
+        //
+        // Function + undefined     = Constructor
+        // Object   + PropertyKey   = Class member
+        // Function + PropertyKey   = Class static member
+        //
+        const type = typeof target === 'function' ? target : target.constructor;
+        const targetKey = typeof property === 'undefined' ? 'constructor' : property;
+        const typeAnnotation = this.getOrCreate(type);
+        const annotation = PropertyAnnotation.get(typeAnnotation, type, targetKey, descriptor);
+        annotation.set(key, value);
+        /* istanbul ignore next */
+        return original && Reflect.apply(original, Reflect, [key, value])(target, property, descriptor);
+      };
+    };
+  }
+
+  /**
+   * Get or create annotation
+   */
+  getOrCreate(type: Function): Annotation {
+    const originType = type;
+    const exists = this.get(originType);
+    if (exists) {
+      return exists;
+    }
+    // check parent and build object prototype chain
+    const prototype = Reflect.getPrototypeOf(originType.prototype);
+    const annotation = Object.create(prototype && this.getOrCreate(prototype.constructor));
+    this.set(type, annotation);
+    return annotation;
+  }
+}
+
 // AgentFramework Wisdom
 export const Wisdom: AgentFramework = Function(
   '_',
@@ -124,40 +137,15 @@ export const Wisdom: AgentFramework = Function(
 )(AgentFramework);
 
 // create metadata for satellites project
-export function GetOrCreate<T>(id: string, handler: () => T): T {
-  let found = Wisdom.registry.get(id);
+export function memorize<T>(agent: object | Function, key: string | symbol, handler: () => T): T {
+  const id = (typeof agent === 'function' ? agent.name : agent.constructor.name) + '.' + key.toString();
+  let value = Wisdom.registry.get(id);
   /* istanbul ignore else */
-  if (!found) {
-    found = handler();
-    Wisdom.registry.set(id, found);
+  if (!value) {
+    Wisdom.registry.set(id, (value = handler()));
   }
-  return found;
-}
-
-// create symbols for satellites project
-// export function GetOrCreateSymbol(id: string): symbol {
-//   let found = Wisdom.symbols.get(id);
-//   if (!found) {
-//     found = Symbol(id);
-//     Wisdom.symbols.set(id, found);
-//   }
-//   return found;
-// }
-
-export function GetTypeInfo(type: Function): any {
-  return Wisdom.infos.get(type);
-}
-
-export function RememberTypeInfo(type: Function, info: any) {
-  Wisdom.infos.set(type, info);
-}
-
-export function GetFunctionInvocation(type: Function): Invocation | undefined {
-  return Wisdom.functionInvocations.get(type);
-}
-
-export function SetFunctionInvocation(type: Function, invocation: Invocation) {
-  Wisdom.functionInvocations.set(type, invocation);
+  Reflect.defineProperty(agent, key, { value });
+  return value;
 }
 
 export function RememberType(agent: Function, type: Function): void {

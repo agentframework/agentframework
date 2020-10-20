@@ -12,11 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Wisdom } from '../Wisdom';
+import { MemberAnnotation, PropertyAnnotation, Wisdom } from '../Wisdom';
 import { Attribute } from '../Interfaces/Attribute';
 import { Constructor } from '../Constructor';
 import { HasInterceptor } from '../Helpers/Filters';
-import { MemberAnnotation, PropertyAnnotation } from '../Annotation/Annotation';
 import { MemberKinds } from '../Interfaces/MemberKinds';
 import { MemberInfo } from '../Interfaces/MemberInfo';
 import { AbstractConstructor } from '../Constructor';
@@ -80,7 +79,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    * Returns annotation of current property specified by the key.
    */
   protected get propertyAnnotationOrUndefined(): PropertyAnnotation | undefined {
-    const annotation = Wisdom.GetAnnotation(this.declaringType);
+    const annotation = Wisdom.get(this.declaringType);
     if (!annotation) {
       return;
     }

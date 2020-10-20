@@ -13,9 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { OnDemandPropertyInfo } from './OnDemandPropertyInfo';
-import { PropertyAnnotation } from '../Annotation/Annotation';
 import { MemberKinds } from '../Interfaces/MemberKinds';
-import { Wisdom, GetTypeInfo, RememberTypeInfo } from '../Wisdom';
+import { PropertyAnnotation, memorize, Wisdom } from '../Wisdom';
 import { TypeInfo } from '../Interfaces/TypeInfo';
 import { AbstractConstructor } from '../Constructor';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
@@ -59,17 +58,24 @@ import { GetType } from '../GetType';
  **/
 export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   /**
+   *
+   */
+  static get types() {
+    return memorize(this, 'types', () => new WeakMap<Function, OnDemandTypeInfo>());
+  }
+
+  /**
    * Get TypeInfo from constructor
    */
   static get(target: Function): OnDemandTypeInfo {
     // make sure only create typeinfo for user classes
     const type = GetType(target) || target;
-    let info = GetTypeInfo(type);
-    if (!info) {
-      info = new OnDemandTypeInfo(type);
-      RememberTypeInfo(type, info);
+    let t = this.types.get(type);
+    if (!t) {
+      t = new OnDemandTypeInfo(type);
+      this.types.set(type, t);
     }
-    return info;
+    return t;
   }
 
   /**
@@ -301,7 +307,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   protected get typeAnnotation(): object {
     // console.log('an', a++);
-    return Wisdom.GetOrCreateAnnotation(this.declaringType);
+    return Wisdom.getOrCreate(this.declaringType);
     // return cache(this, 'typeAnnotation', Annotator.get(this.declaringType));
   }
 
@@ -309,7 +315,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Get annotation store object or undefined
    */
   protected get typeAnnotationOrUndefined(): object | undefined {
-    return Wisdom.GetAnnotation(this.declaringType);
+    return Wisdom.get(this.declaringType);
     // return cache(this, 'typeAnnotationOrUndefined', annotation);
   }
 
