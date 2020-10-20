@@ -135,14 +135,14 @@ export function GetOrCreate<T>(id: string, handler: () => T): T {
 }
 
 // create symbols for satellites project
-export function GetOrCreateSymbol(id: string): symbol {
-  let found = Wisdom.symbols.get(id);
-  if (!found) {
-    found = Symbol(id);
-    Wisdom.symbols.set(id, found);
-  }
-  return found;
-}
+// export function GetOrCreateSymbol(id: string): symbol {
+//   let found = Wisdom.symbols.get(id);
+//   if (!found) {
+//     found = Symbol(id);
+//     Wisdom.symbols.set(id, found);
+//   }
+//   return found;
+// }
 
 export function GetTypeInfo(type: Function): any {
   return Wisdom.infos.get(type);
