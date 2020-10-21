@@ -3,6 +3,11 @@ import { Filter } from './Filter';
 
 export interface TypeInfo extends PropertyInfo {
   /**
+   * Access static type info
+   */
+  readonly static: TypeInfo;
+
+  /**
    * Get the type
    */
   readonly type: Function;

@@ -17,6 +17,14 @@ import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
 
 /**
  * Reflector is the interface to access type data from class constructor or class prototype
+ *
+ * Access class member annotations
+ *
+ * Reflector(UserClass).property('main');
+ *
+ * Access class static member annotations
+ *
+ * Reflector(UserClass).static.property('main');
  */
 export function Reflector(target: Function | object): TypeInfo {
   if (new.target) {
@@ -24,20 +32,22 @@ export function Reflector(target: Function | object): TypeInfo {
   }
 
   let ctor: Function;
-  if (typeof target === 'function') {
+  if (target == null) {
+    throw new SyntaxError(`Reflector(null) is not supported`);
+  } else if (typeof target === 'function') {
     ctor = target;
   } else if (typeof target === 'object') {
     // if a object hasOwnPropertyDescriptor('constructor') then this object is a prototype
     // instance don't have own constructor property
     if (Reflect.getOwnPropertyDescriptor(target, 'constructor')) {
-      ctor = target.constructor;
+      throw new SyntaxError(`Reflector(${target.constructor.name}.prototype) is not implemented yet`);
     } else {
       // object without own property constructor consider an instance
-      throw new SyntaxError('Reflector instance not supported');
+      throw new SyntaxError(`Reflector(${target.constructor.name} {}) is not implemented yet`);
     }
   } else {
     // number, boolean, string and so on
-    throw new SyntaxError('Reflector target type not supported');
+    throw new SyntaxError(`Reflector(${typeof target}) is not supported`);
   }
 
   // make sure get the prototype of origin type

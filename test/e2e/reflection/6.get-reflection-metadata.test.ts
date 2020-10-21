@@ -26,28 +26,42 @@ describe('Reflection get metadata ', () => {
       const fn: any = Reflector;
       expect(() => {
         new fn(MongoDB);
-      }).toThrow();
+      }).toThrowError(SyntaxError, 'Not allow add \'new\' keyword for Reflector()');
     });
 
     it('Reflector number', () => {
       expect(() => {
         Reflector(<any>1);
-      }).toThrow();
+      }).toThrowError(SyntaxError, 'Reflector(number) is not supported');
     });
-    it('Reflector number', () => {
+    it('Reflector null', () => {
       expect(() => {
         Reflector(<any>null);
-      }).toThrow();
+      }).toThrowError(SyntaxError, 'Reflector(null) is not supported');
     });
-    it('Reflector number', () => {
+    it('Reflector object', () => {
       expect(() => {
         Reflector({});
-      }).toThrow();
+      }).toThrowError(SyntaxError, 'Reflector(Object {}) is not implemented yet');
+    });
+
+    it('Reflector static', () => {
+      expect(() => {
+        Reflector(MongoDB).static;
+      }).toThrowError(SyntaxError, 'Reflector(MongoDB).static is not implemented yet');
     });
 
     it('Reflector prototype', () => {
-      const fr = Reflector(MongoDB.prototype);
-      expect(fr).toBeTruthy();
+      expect(() => {
+        Reflector(MongoDB.prototype);
+      }).toThrowError(SyntaxError, 'Reflector(MongoDB.prototype) is not implemented yet');
+    });
+
+    it('Reflector instance', () => {
+      const m = new MongoDB();
+      expect(() => {
+        Reflector(m);
+      }).toThrowError(SyntaxError, 'Reflector(MongoDB {}) is not implemented yet');
     });
   });
 });

@@ -89,6 +89,10 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     super(declaringType, 'constructor');
   }
 
+  get static(): TypeInfo {
+    throw new SyntaxError(`Reflector(${this.declaringType.name}).static is not implemented yet`);
+  }
+
   get type(): AbstractConstructor<any> {
     return this.declaringType;
   }
