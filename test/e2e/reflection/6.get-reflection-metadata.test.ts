@@ -4,7 +4,7 @@ import { decorateClassProperty, NotImplementedError, Reflector } from '../../../
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { OnDemandTypeInfo } from '../../../src/core/Core/Reflection/OnDemandTypeInfo';
-import { NotSupportedError } from '../../../src/core/Core/NotSupportedError';
+import { NotSupportedError } from '../../../src/core/Core/Error/NotSupportedError';
 
 class MongoDB {
   @decorateClassProperty(new RandomInterceptor())

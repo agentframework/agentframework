@@ -7,13 +7,13 @@ describe('Wisdom!', () => {
       class B extends A {}
       class C extends B {}
 
-      const tc = Wisdom.getOrCreate(C);
+      const tc: any = Wisdom.getOrCreate(C);
       tc.ccc = <any>1;
-      const tb = Wisdom.getOrCreate(B);
+      const tb: any = Wisdom.getOrCreate(B);
       tb.bbb = <any>2;
-      const ta = Wisdom.getOrCreate(A);
+      const ta: any = Wisdom.getOrCreate(A);
       ta.aaa = <any>3;
-      const t = Wisdom.getOrCreate(Function.prototype);
+      const t: any = Wisdom.getOrCreate(Function.prototype);
       t.ooo = <any>4;
 
       expect(Reflect.getPrototypeOf(t)).toBeNull();
@@ -44,13 +44,13 @@ describe('Wisdom!', () => {
       class B extends A {}
       class C extends B {}
 
-      const tc = Wisdom.getOrCreate(C.prototype);
+      const tc: any = Wisdom.getOrCreate(C.prototype);
       tc.ccc = <any>1;
-      const tb = Wisdom.getOrCreate(B.prototype);
+      const tb: any = Wisdom.getOrCreate(B.prototype);
       tb.bbb = <any>2;
-      const ta = Wisdom.getOrCreate(A.prototype);
+      const ta: any = Wisdom.getOrCreate(A.prototype);
       ta.aaa = <any>3;
-      const t = Wisdom.getOrCreate(Object.prototype);
+      const t: any = Wisdom.getOrCreate(Object.prototype);
       t.ooo = <any>4;
 
       expect(Reflect.getPrototypeOf(t)).toBeNull();

@@ -1,10 +1,10 @@
 import { CreateAgent } from '../../../dependencies/core';
-import { DomainKnowledge } from '../DomainKnowledge';
-import { Domain } from '../Domain';
-import { AnyClass, Class } from '../ClassConstructor';
 import { DomainAgentAttribute } from '../Attributes/DomainAgentAttribute';
+import { DomainKnowledge } from '../DomainKnowledge';
+import { AnyClass, Class } from '../ClassConstructor';
+import { Domain } from '../Domain';
 
-export function CreateDomainAgent<T>(domain: Domain, type: AnyClass<T>, options?: DomainAgentAttribute): Class<T> {
+export function CreateDomainAgent<T>(domain: Domain, type: AnyClass<T>): Class<T> {
   // check owner domain
   const owner = DomainKnowledge.GetDomain(type);
   if (owner && domain !== owner) {
@@ -27,7 +27,7 @@ export function CreateDomainAgent<T>(domain: Domain, type: AnyClass<T>, options?
   // }
 
   // upgrade to Agent only if interceptor or initializer found
-  const domainAgent = CreateAgent(type, options || new DomainAgentAttribute(domain));
+  const domainAgent = CreateAgent(type, new DomainAgentAttribute(domain));
   // console.log('found', domain, type, newType)
 
   // const name = Reflector(type).name;

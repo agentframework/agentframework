@@ -14,8 +14,8 @@ limitations under the License. */
 
 import { TypeInfo } from './Interfaces/TypeInfo';
 import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
-import { NotImplementedError } from './NotImplementedError';
-import { NotSupportedError } from './NotSupportedError';
+import { NotImplementedError } from './Error/NotImplementedError';
+import { NotSupportedError } from './Error/NotSupportedError';
 
 /**
  * Reflector is the interface to access type data from class constructor or class prototype

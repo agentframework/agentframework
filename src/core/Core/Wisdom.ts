@@ -14,9 +14,7 @@ limitations under the License. */
 
 import { Attribute } from './Interfaces/Attribute';
 
-export interface Annotation {
-  [x: string]: MemberAnnotation;
-}
+export type ClassAnnotation = {};
 
 /**
  * Minimal reflection metadata object
@@ -46,7 +44,7 @@ export class PropertyAnnotation extends MemberAnnotation {
   }
 
   static get(
-    annotation: Annotation,
+    annotation: ClassAnnotation,
     type: Function,
     key: string | symbol,
     descriptor?: PropertyDescriptor
@@ -56,17 +54,12 @@ export class PropertyAnnotation extends MemberAnnotation {
     if (annotationProperty) {
       value = annotationProperty.value;
       // just in case decorate parameter first and decorate property second
-      // if (descriptor && !value.descriptor) {
+      // if (descriptor && !annotationProperty.descriptor) {
       //   console.log('d', value);
-      //   value.descriptor = descriptor;
+      //   annotationProperty.descriptor = descriptor;
       // }
     } else {
-      value = new PropertyAnnotation(type, descriptor);
-      // make sure this meta is readonly and unable to delete
-      Reflect.defineProperty(annotation, key, {
-        value,
-        enumerable: true,
-      });
+      annotation[key] = value = new PropertyAnnotation(type, descriptor);
     }
     return value;
   }
@@ -84,29 +77,15 @@ export class ParameterAnnotation extends MemberAnnotation {
     index: number
   ): ParameterAnnotation {
     const map = annotation.parameters || (annotation.parameters = new Map<number, ParameterAnnotation>());
-    if (map.has(index)) {
-      return map.get(index)!;
-    } else {
-      const parameter = new ParameterAnnotation(index);
-      map.set(index, parameter);
-      return parameter;
+    let parameter = map.get(index);
+    if (!parameter) {
+      map.set(index, (parameter = new ParameterAnnotation(index)));
     }
+    return parameter;
   }
 }
 
-export class AgentFramework extends WeakMap<Function | object, any> {
-  // core
-  // key: class, prototype; value: annotation
-  // readonly annotations = new WeakMap<Function, any>();
-
-  // core
-  // key: Agent Proxy | Agent Constructor | Domain Agent Constructor, value: Original Constructor
-  readonly types = new WeakMap<Function | object, Function>();
-
-  // submodule
-  // key: any; value: any
-  readonly knowledge = new Map<symbol, any>();
-
+export class Knowledge extends Map<Function | object | symbol | string, any> {
   constructor() {
     super();
     // ===============================================================================
@@ -125,23 +104,24 @@ export class AgentFramework extends WeakMap<Function | object, any> {
       return (target: Function | object, property?: string | symbol, descriptor?: PropertyDescriptor) => {
         const type = typeof target === 'function' ? target : target.constructor;
         const targetKey = typeof property === 'undefined' ? 'constructor' : property;
-        const typeAnnotation = this.getOrCreate(type);
-        const annotation = PropertyAnnotation.get(typeAnnotation, type, targetKey, descriptor);
-        annotation.set(key, value);
+        PropertyAnnotation.get(this.getOrCreate(type), type, targetKey, descriptor).set(key, value);
         /* istanbul ignore next */
         return original && Reflect.apply(original, Reflect, [key, value])(target, property, descriptor);
       };
     };
   }
 
+  /**
+   * Get
+   */
   // get(type: Function | object): Annotation | undefined {
   //   return super.get(type);
   // }
 
   /**
-   * Get or create annotation
+   * Get or create
    */
-  getOrCreate(type: Function | object): Annotation {
+  getOrCreate(type: Function | object): ClassAnnotation {
     const exists = this.get(type);
     if (exists) {
       return exists;
@@ -162,10 +142,10 @@ export class AgentFramework extends WeakMap<Function | object, any> {
 }
 
 // AgentFramework Wisdom
-export const Wisdom: AgentFramework = Function(
+export const Wisdom: Knowledge = Function(
   '_',
   'return this[__=Symbol.for(_.name)]=this[__]||(this[__]=new _())'
-)(AgentFramework);
+)(Knowledge);
 
 // create singleton metadata for satellites project
 export function memorize<T>(agent: Function | object, key: string | symbol, type: new () => T): T {
@@ -176,15 +156,12 @@ export function memorize<T>(agent: Function | object, key: string | symbol, type
   } else {
     id = key;
   }
-  let value = Wisdom.knowledge.get(id);
+  let value = Wisdom.get(id);
   /* istanbul ignore else */
   if (!value) {
-    Wisdom.knowledge.set(id, (value = Reflect.construct(type, [])));
+    Wisdom.set(id, (value = Reflect.construct(type, [])));
   }
+  console.log('know', agent, key, '====', value);
   Reflect.defineProperty(agent, key, { value });
   return value;
-}
-
-export function RememberType(agent: Function, type: Function): void {
-  Wisdom.types.set(agent, type);
 }

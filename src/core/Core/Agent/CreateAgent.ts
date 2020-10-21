@@ -13,9 +13,9 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { CreateAgentInvocation } from './CreateAgentInvocation';
-import { RememberType } from '../Wisdom';
 import { AgentAttribute } from './AgentAttribute';
-import { GetType } from '../GetType';
+import { GetType, RememberType } from '../Knowledge';
+import { ClassInterceptor } from '../../Core/Interfaces/TypeInterceptors';
 
 /**
  * Create a new agent from attribute, and add into Agent registry
@@ -23,7 +23,7 @@ import { GetType } from '../GetType';
  * @param type
  * @param options
  */
-export function CreateAgent<T extends Function>(type: T, options?: AgentAttribute): T {
+export function CreateAgent<T extends Function>(type: T, options?: ClassInterceptor): T {
   // always create new agent using latest annotation
 
   // 1. get original type if giving type is an agent type

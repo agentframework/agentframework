@@ -70,8 +70,8 @@ describe('3.4. Get class method attributes', () => {
       const b = Reflector(UserController34).getProperty('listAllUser');
       const c = Reflector(Controller34).getOwnProperty('listAllUser');
       const d = Reflector(Controller34).getProperty('listAllUser');
-      expect(a).toBe(b);
-      expect(c).toBe(d);
+      expect(a).toEqual(b);
+      expect(c).toEqual(d);
       expect(a).not.toBe(c);
     });
 

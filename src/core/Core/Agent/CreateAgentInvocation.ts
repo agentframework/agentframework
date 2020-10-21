@@ -15,13 +15,13 @@ limitations under the License. */
 import { Invocation } from '../Interfaces/Invocation';
 import { InterceptorInvocation } from '../Compiler/Invocation/InterceptorInvocation';
 import { AgentInvocation } from './AgentInvocation';
-import { AgentAttribute } from './AgentAttribute';
+import { ClassAttribute } from '../Interfaces/TypeAttributes';
 import { CanDecorate } from '../Decorator/CanDecorate';
 
 /**
  * Build Agent using AgentAttribute
  */
-export function CreateAgentInvocation(type: Function, attribute: AgentAttribute): Invocation {
+export function CreateAgentInvocation(type: Function, attribute: ClassAttribute): Invocation {
   // chain the pipeline
   // custom interceptors -> agent interceptor -> agent initializer -> agent invocation
   let invocation: Invocation = new AgentInvocation(type);

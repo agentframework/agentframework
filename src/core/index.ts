@@ -28,12 +28,10 @@ export { Interceptable } from './Core/Interfaces/Interceptable';
  *   Agent API
  *************************************/
 // export { decorateAgent } from './Core/Agent/decorateAgent';
-export { NotImplementedError } from './Core/NotImplementedError';
-export { NotSupportedError } from './Core/NotSupportedError';
+export { NotImplementedError } from './Core/Error/NotImplementedError';
+export { NotSupportedError } from './Core/Error/NotSupportedError';
 export { AgentAttribute } from './Core/Agent/AgentAttribute';
 export { CreateAgent } from './Core/Agent/CreateAgent';
-export { IsAgent } from './Core/IsAgent';
-export { GetType } from './Core/GetType';
 
 /*************************************
  *   Sub-module Metadata API
@@ -81,6 +79,8 @@ export { ParameterAttribute } from './Core/Interfaces/TypeAttributes';
 export { PropertyInvocation } from './Core/Interfaces/TypeInvocations';
 export { PropertyInterceptor } from './Core/Interfaces/TypeInterceptors';
 export { PropertyAttribute } from './Core/Interfaces/TypeAttributes';
+export { GetType } from './Core/Knowledge';
+export { IsAgent } from './Core/Knowledge';
 
 // export { FieldInvocation, MethodInvocation } from './Core/Interfaces/TypeInvocations';
 // export { FieldInterceptor, MethodInterceptor } from './Core/Interfaces/TypeInterceptors';

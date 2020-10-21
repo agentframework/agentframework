@@ -21,9 +21,8 @@ import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Filter } from '../Interfaces/Filter';
 import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToClass } from '../Annotation/AddAttribute';
-import { IsAgent } from '../IsAgent';
-import { GetType } from '../GetType';
-import { NotImplementedError } from '../NotImplementedError';
+import { NotImplementedError } from '../Error/NotImplementedError';
+import { GetType, IsAgent } from '../Knowledge';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -59,7 +58,7 @@ import { NotImplementedError } from '../NotImplementedError';
  **/
 export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   /**
-   *
+   * get types map
    */
   static get types() {
     return memorize<WeakMap<Function, OnDemandTypeInfo>>(this, 'types', WeakMap);
@@ -71,6 +70,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   static get(target: Function): OnDemandTypeInfo {
     // make sure only create typeinfo for user classes
     const type = GetType(target) || target;
+    // return new OnDemandTypeInfo(type);
     let t = this.types.get(type);
     if (!t) {
       t = new OnDemandTypeInfo(type);
@@ -80,9 +80,9 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   }
 
   /**
-   *
+   * properties cache
    */
-  protected properties: Map<PropertyKey, OnDemandPropertyInfo> | undefined;
+  // protected properties: Map<PropertyKey, OnDemandPropertyInfo> | undefined;
 
   // only allow create using factory method
   // make type as a property called constructor
@@ -169,15 +169,16 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Get or create a property for current type
    */
   property(key: string | symbol): OnDemandPropertyInfo {
-    if (!this.properties) {
-      this.properties = new Map<PropertyKey, OnDemandPropertyInfo>();
-    }
-    let propertyInfo = this.properties.get(key);
-    if (!propertyInfo) {
-      propertyInfo = new OnDemandPropertyInfo(this.declaringType, key);
-      this.properties.set(key, propertyInfo);
-    }
-    return propertyInfo;
+    // if (!this.properties) {
+    //   this.properties = new Map<PropertyKey, OnDemandPropertyInfo>();
+    // }
+    // let propertyInfo = this.properties.get(key);
+    // if (!propertyInfo) {
+    //   propertyInfo = new OnDemandPropertyInfo(this.declaringType, key);
+    //   this.properties.set(key, propertyInfo);
+    // }
+    // return propertyInfo;
+    return new OnDemandPropertyInfo(this.declaringType, key);
   }
 
   /**

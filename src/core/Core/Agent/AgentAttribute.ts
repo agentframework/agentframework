@@ -16,8 +16,8 @@ import { ClassAttribute } from '../Interfaces/TypeAttributes';
 import { ClassInvocation } from '../Interfaces/TypeInvocations';
 import { ClassInterceptor } from '../Interfaces/TypeInterceptors';
 import { Arguments } from '../Interfaces/Arguments';
+import { RememberType } from '../Knowledge';
 import { OnDemandClassConstructor } from '../Compiler/OnDemandClassConstructor';
-import { RememberType } from '../Wisdom';
 
 /**
  * This attribute is for upgrade class to agent
