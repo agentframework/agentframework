@@ -23,6 +23,7 @@ import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToClass } from '../Annotation/AddAttribute';
 import { IsAgent } from '../IsAgent';
 import { GetType } from '../GetType';
+import { NotImplementedError } from '../NotImplementedError';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -90,7 +91,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   }
 
   get static(): TypeInfo {
-    throw new SyntaxError(`Reflector(${this.declaringType.name}).static is not implemented yet`);
+    throw new NotImplementedError(`Reflector(${this.declaringType.name}).static`);
   }
 
   get type(): AbstractConstructor<any> {

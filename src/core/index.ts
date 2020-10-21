@@ -28,6 +28,8 @@ export { Interceptable } from './Core/Interfaces/Interceptable';
  *   Agent API
  *************************************/
 // export { decorateAgent } from './Core/Agent/decorateAgent';
+export { NotImplementedError } from './Core/NotImplementedError';
+export { NotSupportedError } from './Core/NotSupportedError';
 export { AgentAttribute } from './Core/Agent/AgentAttribute';
 export { CreateAgent } from './Core/Agent/CreateAgent';
 export { IsAgent } from './Core/IsAgent';

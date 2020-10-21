@@ -1,8 +1,10 @@
 /* tslint:disable */
 
-import { decorateClassProperty, Reflector } from '../../../lib';
+import { decorateClassProperty, NotImplementedError, Reflector } from '../../../lib';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
+import { OnDemandTypeInfo } from '../../../src/core/Core/Reflection/OnDemandTypeInfo';
+import { NotSupportedError } from '../../../src/core/Core/NotSupportedError';
 
 class MongoDB {
   @decorateClassProperty(new RandomInterceptor())
@@ -24,44 +26,42 @@ describe('Reflection get metadata ', () => {
   describe('# should no able to', () => {
     it('new Reflector', () => {
       const fn: any = Reflector;
-      expect(() => {
-        new fn(MongoDB);
-      }).toThrowError(SyntaxError, 'Not allow add \'new\' keyword for Reflector()');
+      expect(new fn(MongoDB)).toBeInstanceOf(OnDemandTypeInfo);
     });
 
     it('Reflector number', () => {
       expect(() => {
         Reflector(<any>1);
-      }).toThrowError(SyntaxError, 'Reflector(number) is not supported');
+      }).toThrowError(NotSupportedError, 'Reflector(number) is not supported');
     });
     it('Reflector null', () => {
       expect(() => {
         Reflector(<any>null);
-      }).toThrowError(SyntaxError, 'Reflector(null) is not supported');
+      }).toThrowError(NotSupportedError, 'Reflector(null) is not supported');
     });
     it('Reflector object', () => {
       expect(() => {
         Reflector({});
-      }).toThrowError(SyntaxError, 'Reflector(Object {}) is not implemented yet');
+      }).toThrowError(NotImplementedError, 'Reflector(Object {}) is not implemented yet');
     });
 
     it('Reflector static', () => {
       expect(() => {
         Reflector(MongoDB).static;
-      }).toThrowError(SyntaxError, 'Reflector(MongoDB).static is not implemented yet');
+      }).toThrowError(NotImplementedError, 'Reflector(MongoDB).static is not implemented yet');
     });
 
     it('Reflector prototype', () => {
       expect(() => {
         Reflector(MongoDB.prototype);
-      }).toThrowError(SyntaxError, 'Reflector(MongoDB.prototype) is not implemented yet');
+      }).toThrowError(NotImplementedError, 'Reflector(MongoDB.prototype) is not implemented yet');
     });
 
     it('Reflector instance', () => {
       const m = new MongoDB();
       expect(() => {
         Reflector(m);
-      }).toThrowError(SyntaxError, 'Reflector(MongoDB {}) is not implemented yet');
+      }).toThrowError(NotImplementedError, 'Reflector(MongoDB {}) is not implemented yet');
     });
   });
 });
