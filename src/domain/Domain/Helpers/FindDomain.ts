@@ -1,5 +1,5 @@
 import { Domain } from '../Domain';
-import { DomainKnowledge } from '../Knowledge';
+import { DomainKnowledge } from '../DomainKnowledge';
 
 export function FindDomain(target: Function): Domain | undefined {
   let prototype = target.prototype;

@@ -2,7 +2,7 @@ import { Arguments } from '../../../dependencies/core';
 import { Agent, AnyClass } from '../ClassConstructor';
 import { CreateDomainAgent } from './CreateDomainAgent';
 import { Domain } from '../Domain';
-import { DomainKnowledge } from '../Knowledge';
+import { DomainKnowledge } from '../DomainKnowledge';
 // import { Upgrade } from '../Helpers/Upgrade';
 // import { ClassInitializer } from '../Symbols';
 // import { ConstructorInvocation } from '@agentframework/core/Core/Compiler/Invocation/ConstructorInvocation';

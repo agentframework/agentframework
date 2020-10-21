@@ -1,5 +1,5 @@
 import { CreateAgent } from '../../../dependencies/core';
-import { DomainKnowledge } from '../Knowledge';
+import { DomainKnowledge } from '../DomainKnowledge';
 import { Domain } from '../Domain';
 import { AnyClass, Class } from '../ClassConstructor';
 import { DomainAgentAttribute } from '../Attributes/DomainAgentAttribute';

@@ -28,7 +28,7 @@ export class OnDemandClassConstructor {
    * invocations for type constructors
    */
   get invocations() {
-    return memorize(this, 'invocations', () => new WeakMap<Function, Invocation>());
+    return memorize<WeakMap<Function, Invocation>>(this, 'invocations', WeakMap);
   }
 
   /**
@@ -51,7 +51,7 @@ export class OnDemandClassConstructor {
     if (!invocation) {
       // upgrade properties
       const design = Reflector(target);
-      const result = design.findProperties(p => p.hasInterceptor());
+      const result = design.findProperties((p) => p.hasInterceptor());
       const properties = [];
 
       // NOTE: Static Constructor support, deep first

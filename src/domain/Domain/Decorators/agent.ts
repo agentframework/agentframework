@@ -24,7 +24,7 @@ limitations under the License. */
 
 import { Arguments, ClassInvocation, Reflector } from '../../../dependencies/core';
 import { CreateDomainAgent } from '../Factory/CreateDomainAgent';
-import { DomainKnowledge } from '../Knowledge';
+import { DomainKnowledge } from '../DomainKnowledge';
 import { InMemoryDomain } from '../InMemoryDomain';
 
 /**

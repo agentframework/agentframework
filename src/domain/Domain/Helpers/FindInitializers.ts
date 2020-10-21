@@ -1,4 +1,4 @@
-import { DomainKnowledge } from '../Knowledge';
+import { DomainKnowledge } from '../DomainKnowledge';
 import { Initializer } from '../Symbols';
 
 export function FindInitializers(target: Function): Array<[Function, Function]> {

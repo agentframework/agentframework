@@ -1,4 +1,4 @@
-import { DomainKnowledge } from '../Knowledge';
+import { DomainKnowledge } from '../DomainKnowledge';
 import { Domain } from '../Domain';
 
 /**

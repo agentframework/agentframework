@@ -1,6 +1,6 @@
 import { DomainReference } from './DomainReference';
 import { Agent, AgentIdentifier, AgentParameters, AnyClass, Class } from './ClassConstructor';
-import { DomainKnowledge } from './Knowledge';
+import { DomainKnowledge } from './DomainKnowledge';
 
 /**
  * Domain is a container of types and agents

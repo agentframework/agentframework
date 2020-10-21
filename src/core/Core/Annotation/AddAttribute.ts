@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Attribute } from '../Interfaces/Attribute';
-import { Wisdom, PropertyAnnotation } from '../Wisdom';
-import { GetParameterAnnotation } from './Annotator';
+import { Wisdom, PropertyAnnotation, ParameterAnnotation } from '../Wisdom';
+
 
 /**
  * Reflector(target).addAttribute(attribute);
@@ -37,7 +37,7 @@ export function AddAttributeToClassConstructorParameter(
   const key = 'constructor';
   const typeAnnotation = Wisdom.getOrCreate(type);
   const annotation = PropertyAnnotation.get(typeAnnotation, type, key);
-  const parameter = GetParameterAnnotation(annotation, type, key, parameterIndex);
+  const parameter = ParameterAnnotation.get(annotation, type, key, parameterIndex);
   parameter.attributes.push(attribute);
 }
 
@@ -52,7 +52,7 @@ export function AddAttributeToClassMethodParameter(
 ): void {
   const typeAnnotation = Wisdom.getOrCreate(type);
   const annotation = PropertyAnnotation.get(typeAnnotation, type, property);
-  const parameter = GetParameterAnnotation(annotation, type, property, parameterIndex);
+  const parameter = ParameterAnnotation.get(annotation, type, property, parameterIndex);
   parameter.attributes.push(attribute);
 }
 

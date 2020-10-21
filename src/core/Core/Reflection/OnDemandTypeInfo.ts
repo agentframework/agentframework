@@ -61,7 +61,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    *
    */
   static get types() {
-    return memorize(this, 'types', () => new WeakMap<Function, OnDemandTypeInfo>());
+    return memorize<WeakMap<Function, OnDemandTypeInfo>>(this, 'types', WeakMap);
   }
 
   /**

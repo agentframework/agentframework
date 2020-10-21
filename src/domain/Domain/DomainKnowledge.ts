@@ -8,28 +8,28 @@ export class DomainKnowledge {
   static domain: Domain | undefined;
 
   // key: Constructor | instance, value: Owner Domain
-  static get domains(): WeakMap<Function | object, Domain> {
-    return memorize(this, 'domains', () => new WeakMap());
+  static get domains() {
+    return memorize<WeakMap<Function | object, Domain>>(this, 'domains', WeakMap);
   }
 
   // key: Original Constructor, value: Agent Constructor
-  static get agents(): Map<Function, Function> {
-    return memorize(this, 'agents', () => new Map());
+  static get agents() {
+    return memorize<WeakMap<Function, Function>>(this, 'agents', WeakMap);
   }
 
   // key: Domain & Original Constructor, value: Domain Agent Constructor
-  static get domainAgents(): Map<Domain, Map<Function, Function>> {
-    return memorize(this, 'domainAgents', () => new Map());
+  static get domainAgents() {
+    return memorize<WeakMap<Domain, Map<Function, Function>>>(this, 'domainAgents', WeakMap);
   }
 
   // key: string, value: Constructor
-  static get extensibles(): Map<string, Function> {
-    return memorize(this, 'extensibles', () => new Map());
+  static get extensibles() {
+    return memorize<Map<string, Function>>(this, 'extensibles', Map);
   }
 
   // key: class
-  static get initializers(): Map<Function, Array<[Function, Function]>> {
-    return memorize(this, 'initializers', () => new Map());
+  static get initializers() {
+    return memorize<WeakMap<Function, Array<[Function, Function]>>>(this, 'initializers', WeakMap);
   }
 
   static GetLocalDomain(domainType: Function): Domain {

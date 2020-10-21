@@ -13,12 +13,12 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { OnDemandMemberInfo } from './OnDemandMemberInfo';
-import { ParameterAnnotation } from '../Annotation/Annotation';
 import { MemberKinds } from '../Interfaces/MemberKinds';
 import { ParameterInfo } from '../Interfaces/ParameterInfo';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToClassMethodParameter } from '../Annotation/AddAttribute';
+import {ParameterAnnotation} from "../Wisdom";
 
 /**
  * Parameter

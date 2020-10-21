@@ -1,5 +1,5 @@
 import { AgentAttribute, Arguments, ClassInterceptor, ClassInvocation } from '../../../dependencies/core';
-import { DomainKnowledge } from '../Knowledge';
+import { DomainKnowledge } from '../DomainKnowledge';
 import { Domain } from '../Domain';
 // import { OnDemandClassConstructor } from './DomainAgentConstructor';
 
