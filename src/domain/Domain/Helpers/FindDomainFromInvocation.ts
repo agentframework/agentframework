@@ -1,7 +1,7 @@
 import { Arguments } from '../../../dependencies/core';
 import { IsDomain } from './IsDomain';
 import { FindDomain } from './FindDomain';
-import { Knowledge } from '../Knowledge';
+import { DomainKnowledge } from '../DomainKnowledge';
 import { Domain } from '../Domain';
 
 /**
@@ -22,7 +22,7 @@ export function FindDomainFromInvocation(params: Arguments, receiver: Function |
     }
   } else if (typeof receiver === 'object' && receiver != null) {
     // check: receiver is a domain
-    const domain = Knowledge.GetDomain(receiver);
+    const domain = DomainKnowledge.GetDomain(receiver);
     if (domain) {
       // console.log('👏 👏 👏 👏  receiver is a Domain', receiver.constructor.name);
       return domain;

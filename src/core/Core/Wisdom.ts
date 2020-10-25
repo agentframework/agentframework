@@ -12,124 +12,158 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Invocation } from './Interfaces/Invocation';
+import { Attribute } from './Interfaces/Attribute';
+import { set } from './Helpers/Prototype';
 
-export class AgentFrameworkMetadata {
-  // key: Proxy | Agent Constructor | Domain Agent Constructor, value: Original Constructor
-  private readonly _types = new WeakMap<Function, Function>();
+/**
+ *
+ */
+export type Annotation = {};
 
-  // key: class, prototype; value: annotation
-  private readonly _annotations = new WeakMap<Function, any>();
+/**
+ * metadata for a member. key: string, value: any
+ */
+export class Member extends Map<string, any> {
+  // metadata
+  readonly attributes: Array<Attribute> = [];
+}
 
-  // key: class prototype; value: Reflector type
-  private readonly _infos = new WeakMap<Function, Function>();
+/**
+ * Metadata for a property.
+ */
+export class Property extends Member {
+  descriptor?: PropertyDescriptor;
 
-  // key: function; value: Invocation
-  private readonly _functionInvocations = new WeakMap<Function, Invocation>();
+  parameters?: Map<number, Parameter>;
+  value?: Member;
 
-  // key: any; value: any
-  private readonly _registry = new Map<string, any>();
+  getter?: Member;
+  setter?: Member;
 
-  // key: string; value: symbol
-  // private readonly _symbols = new Map<string, symbol>();
-
-  /**
-   * Returns true if the type is an agent
-   */
-  IsAgent<T extends Function>(test: T): boolean {
-    return this._types.has(test);
+  protected constructor(
+    readonly target: object | Function,
+    readonly key: string | symbol,
+    descriptor?: PropertyDescriptor
+  ) {
+    super();
+    descriptor && (this.descriptor = descriptor);
   }
 
-  /**
-   * Returns original type of the agent
-   */
-  GetType<T extends Function>(agent: T): T | undefined {
-    return this._types.get(agent) as T;
-  }
-
-  /**
-   * Remember the relationship between type and agent
-   */
-  RememberType(agent: Function, type: Function): void {
-    this._types.set(agent, type);
-  }
-
-  // NOT WORKING BECAUSE PROXY !== ORIGIN FUNCTION
-  // AddType(agent: Function, origin: Function): void {
-  //   let top = agent;
-  //   console.log('agent', agent);
-  //   console.log('origin', origin);
-  //   while (top && top !== origin) {
-  //     console.log('prototype', top, origin, top === origin);
-  //     this.SetType(top, origin);
-  //     top = Object.getPrototypeOf(top);
-  //   }
-  // }
-
-  GetAnnotation(type: Function): any {
-    return this._annotations.get(type);
-  }
-
-  RememberAnnotation(type: Function, annotation: any): any {
-    this._annotations.set(type, annotation);
-    return annotation;
-  }
-
-  GetTypeInfo(type: Function): any {
-    return this._infos.get(type);
-  }
-
-  RememberTypeInfo(type: Function, info: any) {
-    this._infos.set(type, info);
-  }
-
-  GetFunctionInvocation(type: Function): Invocation | undefined {
-    return this._functionInvocations.get(type);
-  }
-
-  SetFunctionInvocation(type: Function, invocation: Invocation) {
-    this._functionInvocations.set(type, invocation);
-  }
-
-  GetOrCreate<T>(id: string, handler: () => T): T {
-    let found = this._registry.get(id);
-    /* istanbul ignore else */
-    if (!found) {
-      found = handler();
-      this._registry.set(id, found);
+  static find(
+    property: Annotation,
+    target: object | Function,
+    key: string | symbol,
+    descriptor?: PropertyDescriptor
+  ): Property {
+    const propertyDescriptor = Reflect.getOwnPropertyDescriptor(property, key);
+    let value: Property;
+    if (propertyDescriptor) {
+      value = propertyDescriptor.value;
+      // NOTE: just in case decorate parameter called at first and decorate property called at second
+      // if (descriptor && !value.descriptor) {
+      //   console.log('d', value);
+      //   value.descriptor = descriptor;
+      // }
+    } else {
+      property[key] = value = new Property(target, key, descriptor);
     }
-    return found;
+    return value;
+  }
+}
+
+export class Parameter extends Member {
+  protected constructor(readonly index: number) {
+    super();
   }
 
-  // GetOrCreateSymbol(id: string): symbol {
-  //   let found = this._symbols.get(id);
-  //   if (!found) {
-  //     found = Symbol(id);
-  //     this._symbols.set(id, found);
-  //   }
-  //   return found;
-  // }
+  static find(property: Property, index: number): Parameter {
+    const map = property.parameters || (property.parameters = new Map<number, Parameter>());
+    let value = map.get(index);
+    if (!value) {
+      map.set(index, (value = new Parameter(index)));
+    }
+    return value;
+  }
 }
 
-class AgentFrameworkMetadataHandler {}
+export class AgentFramework extends Map<Function | object | symbol | string, any> {
+  constructor() {
+    super();
 
-const Create: <T>(id: string, handler: () => T) => T = new Function(
-  'k',
-  'v',
-  'return k=Symbol.for(k),this[k]=this[k]||(this[k]=v())'
-) as any;
+    // ===============================================================================
+    // if one day the browser implemented Reflect.metadata. We will reflector all
+    // code related to metadata data in order to have a better performance.
+    // ===============================================================================
+    const { metadata }: any = Reflect;
 
-export const Wisdom = Create(
-  'AgentFramework',
-  () => new Proxy(new AgentFrameworkMetadata(), new AgentFrameworkMetadataHandler())
-);
+    //
+    // target   | property
+    // -----------------------------------------------
+    // Function + undefined     = Constructor
+    // Object   + PropertyKey   = Class member
+    // Function + PropertyKey   = Class static member
+    //
+    Reflect.set(Reflect, 'metadata', (key: string, value: any) => {
+      return (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) => {
+        let property;
+        if (typeof targetKey === 'undefined') {
+          target = Reflect.get(target, 'prototype');
+          property = 'constructor';
+        } else {
+          property = targetKey;
+        }
+        Property.find(this.add(target), target, property, descriptor).set(key, value);
+        /* istanbul ignore next */
+        return metadata && Reflect.apply(metadata, Reflect, [key, value])(target, targetKey, descriptor);
+      };
+    });
+  }
 
-// create metadata for satellites project
-export function GetOrCreate<T>(id: string, handler: () => T): T {
-  return Wisdom.GetOrCreate<T>(id, handler);
+  /**
+   * Get
+   */
+  get(type: Function | object | symbol | string): any | undefined {
+    return super.get(type);
+  }
+
+  /**
+   * find
+   */
+  add(type: Function | object): Annotation {
+    const found = this.get(type);
+    if (found) {
+      return found;
+    }
+
+    let created: Annotation;
+    if (type === Function.prototype) {
+      this.set(type, (created = Object.create(null)));
+      return created;
+    }
+
+    // check parent and build object prototype chain
+    const prototype = Reflect.getPrototypeOf(type);
+    this.set(type, (created = Object.create(prototype && this.add(prototype))));
+    return created;
+  }
 }
 
-//
-// export function GetOrCreateSymbol(id: string): symbol {
-//   return Wisdom.GetOrCreateSymbol(id);
-// }
+// AgentFramework Wisdom
+export const Wisdom: AgentFramework = Function(
+  '_',
+  'return this[__=Symbol.for(_.name)]=this[__]||(this[__]=new _())'
+)(AgentFramework);
+
+// create singleton metadata for satellites project
+// the memorize can be used on both class getter or static getter
+export function memorize<T>(agent: Function, key: string, type?: new () => T): T {
+  // const id1 = Reflect.getOwnPropertyDescriptor(agent, key);
+  const id = Symbol.for(agent.name + '.' + key);
+  let value = Wisdom.get(id);
+  /* istanbul ignore else */
+  if (!value) {
+    Wisdom.set(id, (value = new (type || WeakMap)()));
+  }
+  // console.log('know', agent, key, '====', value);
+  return set(agent, key, value);
+}

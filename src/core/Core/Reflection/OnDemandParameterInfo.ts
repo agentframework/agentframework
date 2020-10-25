@@ -13,19 +13,19 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { OnDemandMemberInfo } from './OnDemandMemberInfo';
-import { ParameterAnnotation } from '../Annotation/Annotation';
 import { MemberKinds } from '../Interfaces/MemberKinds';
 import { ParameterInfo } from '../Interfaces/ParameterInfo';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Attribute } from '../Interfaces/Attribute';
-import { AddAttributeToClassMethodParameter } from '../Annotation/AddAttribute';
+import { AddAttributeToMethodParameter } from '../Annotation/AddAttribute';
+import { Parameter } from '../Wisdom';
 
 /**
  * Parameter
  */
 export class OnDemandParameterInfo extends OnDemandMemberInfo implements ParameterInfo {
   constructor(
-    target: Function,
+    target: object | Function,
     propertyKey: string | symbol,
     readonly index: number,
     private readonly parent: PropertyInfo
@@ -59,7 +59,7 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
   addAttribute<U1 extends Attribute>(attribute: U1): void {
     // if the attribute provide a getInterceptor, that means this property may need inject
     // we don't call getInterceptor or getInitializer until user new() the agent class.
-    AddAttributeToClassMethodParameter(attribute, this.declaringType, this.key, this.index);
+    AddAttributeToMethodParameter(attribute, this.target, this.key, this.index);
   }
 
   // /**
@@ -75,7 +75,7 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
   //   );
   // }
 
-  protected get annotation(): ParameterAnnotation | undefined {
+  protected get annotation(): Parameter | undefined {
     const property = this.propertyAnnotationOrUndefined;
     return property && property.parameters && property.parameters.get(this.index);
     // return getter(this, 'annotation', parameter);

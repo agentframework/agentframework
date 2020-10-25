@@ -1,42 +1,37 @@
-import {
-  decorateClassProperty,
-  MemberKinds,
-  PropertyInfo,
-  Reflector
-} from '../../../lib';
+import { decorateMember, MemberKinds, PropertyInfo, Reflector } from '../../../lib';
 
 class Compiler {}
 
 class BaseLayer extends Compiler {
   status() {}
 
-  @decorateClassProperty({ type: 'getterSetter' })
+  @decorateMember({ type: 'getterSetter' })
   set getterSetter(value: string) {}
 }
 
 class MiddleLayer extends BaseLayer {
-  @decorateClassProperty({ require: 'operator' })
+  @decorateMember({ require: 'operator' })
   reset(): boolean {
     return false;
   }
 
-  @decorateClassProperty({ type: 'getter' })
+  @decorateMember({ type: 'getter' })
   get getter() {
     return this.constructor.name;
   }
 
-  @decorateClassProperty({ type: 'setter' })
+  @decorateMember({ type: 'setter' })
   set setter(value: any) {}
 
-  @decorateClassProperty({ type: 'getterSetter' })
+  @decorateMember({ type: 'getterSetter' })
   get getterSetter() {
     return this.constructor.name;
   }
 
-  @decorateClassProperty({ type: 'value' })
+  @decorateMember({ type: 'value' })
   field!: Date;
 
-  @decorateClassProperty({ type: 'value' })
+  @decorateMember({ type: 'value' })
   set value(value: any) {}
   get value() {
     return this.constructor.name;
@@ -44,14 +39,14 @@ class MiddleLayer extends BaseLayer {
 }
 
 class Application extends MiddleLayer {
-  @decorateClassProperty({ require: 'user' })
+  @decorateMember({ require: 'user' })
   version!: any;
 
   start(): Array<any> {
     return [];
   }
 
-  @decorateClassProperty({ require: 'admin' })
+  @decorateMember({ require: 'admin' })
   stop(): void {}
 }
 
@@ -202,6 +197,14 @@ describe('2.2. Type members', () => {
       expect(map.size).toBe(3);
       expect(map.get(Reflector(Application))).toBeInstanceOf(Array);
       expect(map.get(Reflector(MiddleLayer))).toBeInstanceOf(Array);
+    });
+
+    it('get attribute from static method', () => {
+      class StaticMemberTest22 {
+        @decorateMember({ a: 1 })
+        static run() {}
+      }
+      expect(Reflector(StaticMemberTest22).static.property('run').hasOwnAttribute()).toBeTrue();
     });
   });
 

@@ -1,13 +1,13 @@
-import { Knowledge } from '../Knowledge';
+import { DomainKnowledge } from '../DomainKnowledge';
 
 /**
  * extensible attribute
  */
 function AttributeDecorator<T extends Function>(target: T): T {
   const uuid = `attribute://${target.name}`;
-  const type = Knowledge.GetExtensible<T>(uuid);
+  const type = DomainKnowledge.GetExtensible<T>(uuid);
   if (!type) {
-    Knowledge.SetExtensible(uuid, target);
+    DomainKnowledge.SetExtensible(uuid, target);
     // Reflector(target).addAttribute(new ExtensibleAttribute());
     return target;
   }

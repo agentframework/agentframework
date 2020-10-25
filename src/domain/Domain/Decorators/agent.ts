@@ -24,7 +24,8 @@ limitations under the License. */
 
 import { Arguments, ClassInvocation, Reflector } from '../../../dependencies/core';
 import { CreateDomainAgent } from '../Factory/CreateDomainAgent';
-import { Knowledge } from '../Knowledge';
+import { DomainKnowledge } from '../DomainKnowledge';
+import { InMemoryDomain } from '../InMemoryDomain';
 
 /**
  * Define an agent
@@ -33,7 +34,7 @@ export function agent(): ClassDecorator {
   // return decorateAgent(new DomainAgentAttribute());
   // return decorateAgent(new DomainAgentAttribute(), [new ClassInitializerAttribute()]);
   return <F extends Function>(target: F): F => {
-    const domain = Knowledge.GetLocalDomain();
+    const domain = DomainKnowledge.GetLocalDomain(InMemoryDomain);
     // register this agent after create new instance
     Reflector(target).addAttribute({
       interceptor: {
@@ -44,6 +45,6 @@ export function agent(): ClassDecorator {
         },
       },
     });
-    return <F>Knowledge.GetDomainAgent(domain, target) || CreateDomainAgent<F>(domain, target);
+    return <F>DomainKnowledge.GetDomainAgent(domain, target) || CreateDomainAgent<F>(domain, target);
   };
 }

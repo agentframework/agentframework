@@ -280,7 +280,12 @@ export class OnDemandClassCompiler {
     return propertyDescriptor;
   }
 
-  static upgrade(properties: Array<PropertyInfo>, target: Function, receiver?: Function): any {
+  static upgrade(
+    proxy: object | Function,
+    properties: Array<PropertyInfo>,
+    target: Function,
+    receiver?: Function
+  ): any {
     const map: any = {};
 
     // only proxy property contains interceptor
@@ -295,7 +300,7 @@ export class OnDemandClassCompiler {
     }
 
     // use define properties is a little bit faster then define the property one by one
-    Object.defineProperties(target.prototype, map);
+    Object.defineProperties(proxy, map);
 
     return map;
   }

@@ -12,7 +12,7 @@ export class InitializableAttribute implements ClassInterceptor {
     let instance;
     const type = target.design.declaringType;
     // const init = (target: ClassInvocation, params: Arguments, receiver: any)
-    // console.log('proxy target', type);
+    // console.log('proxy target', typeof type, type, target.design.type);
     // console.log('proxy agent', receiver);
     // console.log('proxy ctor', params);
 

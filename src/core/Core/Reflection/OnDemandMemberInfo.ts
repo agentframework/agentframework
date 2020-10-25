@@ -12,11 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Wisdom } from '../Wisdom';
+import { Member, Property, Wisdom } from '../Wisdom';
 import { Attribute } from '../Interfaces/Attribute';
 import { Constructor } from '../Constructor';
 import { HasInterceptor } from '../Helpers/Filters';
-import { MemberAnnotation, PropertyAnnotation } from '../Annotation/Annotation';
 import { MemberKinds } from '../Interfaces/MemberKinds';
 import { MemberInfo } from '../Interfaces/MemberInfo';
 import { AbstractConstructor } from '../Constructor';
@@ -36,13 +35,20 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
   /**
    * create member
    */
-  constructor(readonly declaringType: Function, readonly key: string | symbol) {}
+  constructor(readonly target: object | Function, readonly key: string | symbol) {}
 
   /**
    * Get name
    */
   get name(): string {
     return this.key.toString();
+  }
+
+  get declaringType(): Function {
+    if (typeof this.target === 'object') {
+      return this.target.constructor;
+    }
+    return this.target;
   }
 
   /**
@@ -53,7 +59,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
   /**
    * Get metadata object
    */
-  protected abstract readonly annotation: MemberAnnotation | undefined;
+  protected abstract readonly annotation: Member | undefined;
 
   // /**
   //  * Return true if annotation exists
@@ -79,8 +85,8 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
   /**
    * Returns annotation of current property specified by the key.
    */
-  protected get propertyAnnotationOrUndefined(): PropertyAnnotation | undefined {
-    const annotation = Wisdom.GetAnnotation(this.declaringType);
+  protected get propertyAnnotationOrUndefined(): Property | undefined {
+    const annotation = Wisdom.get(this.target);
     if (!annotation) {
       return;
     }
@@ -114,7 +120,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
       const attributes = annotation.attributes;
       if (attributes.length) {
         if (type) {
-          return attributes.some(a => a instanceof type);
+          return attributes.some((a) => a instanceof type);
         } else {
           return true;
         }
@@ -131,7 +137,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
     if (annotation) {
       const attributes = annotation.attributes;
       if (attributes.length) {
-        const results = attributes.filter(a => a instanceof type);
+        const results = attributes.filter((a) => a instanceof type);
         return <U1>results[0];
       }
     }
@@ -149,7 +155,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
       const attributes = annotation.attributes;
       if (attributes.length) {
         if (type) {
-          return attributes.filter(a => a instanceof type) as Array<U1>;
+          return attributes.filter((a) => a instanceof type) as Array<U1>;
         } else {
           return <U1[]>attributes.slice(0);
         }
@@ -203,7 +209,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
     const annotation = this.annotation;
     if (annotation) {
       const attributes = annotation.attributes;
-      if (attributes.length) {
+      if (attributes && attributes.length) {
         return attributes.some(HasInterceptor);
       }
     }

@@ -2,7 +2,7 @@ import { Arguments } from '../../../dependencies/core';
 import { Agent, AnyClass } from '../ClassConstructor';
 import { CreateDomainAgent } from './CreateDomainAgent';
 import { Domain } from '../Domain';
-import { Knowledge } from '../Knowledge';
+import { DomainKnowledge } from '../DomainKnowledge';
 // import { Upgrade } from '../Helpers/Upgrade';
 // import { ClassInitializer } from '../Symbols';
 // import { ConstructorInvocation } from '@agentframework/core/Core/Compiler/Invocation/ConstructorInvocation';
@@ -26,7 +26,7 @@ export function ConstructDomainAgent<T>(
   // const AgentClass = Upgrade(<Constructor<T>>target);
 
   // upgrade to domain agent, all instance create from this type will belong to the domain
-  const DomainAgent = Knowledge.GetDomainAgent(domain, target) || CreateDomainAgent(domain, target);
+  const DomainAgent = DomainKnowledge.GetDomainAgent(domain, target) || CreateDomainAgent(domain, target);
 
   // if (target === DomainAgentClass) {
   // console.log('old ', target, IsAgent(target));

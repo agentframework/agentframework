@@ -6,7 +6,7 @@ import {
   Reflector,
   TypeInfo,
   decorateClass,
-  decorateClassProperty
+  decorateMember,
 } from '../../../lib';
 
 class Storage {}
@@ -26,8 +26,8 @@ class MiddleLayer extends BaseLayer {
       interceptor: {
         intercept(target: ParameterInvocation, params: Arguments, receiver: any): any {
           return target.invoke(params, receiver);
-        }
-      }
+        },
+      },
     })
     compiler?: Compiler
   ) {
@@ -39,8 +39,8 @@ class MiddleLayer extends BaseLayer {
   interceptor: {
     intercept(target: ParameterInvocation, params: Arguments, receiver: any): any {
       return target.invoke(params, receiver);
-    }
-  }
+    },
+  },
 })
 class Application extends MiddleLayer {}
 
@@ -75,7 +75,7 @@ describe('2.1. Type', () => {
     it('get descriptor', () => {
       expect(Reflector(CloudApplication).descriptor).toEqual(
         jasmine.objectContaining({
-          value: CloudApplication
+          value: CloudApplication,
         })
       );
     });
@@ -83,7 +83,7 @@ describe('2.1. Type', () => {
     it('get descriptor for annotated class', () => {
       expect(Reflector(Application).descriptor).toEqual(
         jasmine.objectContaining({
-          value: Application
+          value: Application,
         })
       );
     });
@@ -144,7 +144,7 @@ describe('2.1. Type', () => {
     });
 
     it('find types using filter function', () => {
-      const types = Reflector(Application).findTypes(type => {
+      const types = Reflector(Application).findTypes((type) => {
         return type.name.endsWith('Layer');
       });
       expect(types).toBeInstanceOf(Array);
@@ -173,26 +173,22 @@ describe('2.1. Type', () => {
       expect(types[2].hasOwnInterceptor()).toBeFalse();
       expect(types[3].hasOwnInterceptor()).toBeFalse();
     });
-  });
-
-  describe('# should no able to', () => {
-    it('annotate static method parameter', () => {
-      expect(() => {
-        class TempClass21 {
-          static Create(@decorateParameter({ a: 1 }) param: number) {}
-        }
-        expect(TempClass21).toBeDefined();
-      }).toThrowError('ParameterAttribute not allow declare on class static member');
-    });
 
     it('annotate static method', () => {
-      expect(() => {
-        class TempClass21 {
-          @decorateClassProperty({ a: 1 })
-          static Create(param: number) {}
-        }
-        expect(TempClass21).toBeDefined();
-      }).toThrowError('Attribute not allow declare on class static member');
+      class TempClass21 {
+        @decorateMember({ a: 1 })
+        static Create(param: number) {}
+      }
+
+      expect(Reflector(TempClass21).static.hasOwnProperties()).toBeTrue();
+    });
+
+    it('annotate static method parameter', () => {
+      class TempClass21 {
+        static Create(@decorateParameter({ a: 1 }) param: number) {}
+      }
+
+      expect(Reflector(TempClass21).static.property('Create').parameter(0).type).toBe(Number);
     });
   });
 });

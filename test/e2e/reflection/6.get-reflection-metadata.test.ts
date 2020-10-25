@@ -1,14 +1,16 @@
 /* tslint:disable */
 
-import { decorateClassProperty, Reflector } from '../../../lib';
+import { decorateMember, NotImplementedError, Reflector } from '../../../lib';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
+import { OnDemandTypeInfo } from '../../../src/core/Core/Reflection/OnDemandTypeInfo';
+import { NotSupportedError } from '../../../src/core/Core/Error/NotSupportedError';
 
 class MongoDB {
-  @decorateClassProperty(new RandomInterceptor())
+  @decorateMember(new RandomInterceptor())
   rnd1: any;
 
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   connect() {
     return 'connected';
   }
@@ -24,30 +26,42 @@ describe('Reflection get metadata ', () => {
   describe('# should no able to', () => {
     it('new Reflector', () => {
       const fn: any = Reflector;
-      expect(() => {
-        new fn(MongoDB);
-      }).toThrow();
+      expect(new fn(MongoDB)).toBeInstanceOf(OnDemandTypeInfo);
     });
 
     it('Reflector number', () => {
       expect(() => {
         Reflector(<any>1);
-      }).toThrow();
+      }).toThrowError(NotSupportedError, 'Reflector(number) is not supported');
     });
-    it('Reflector number', () => {
+    it('Reflector null', () => {
       expect(() => {
         Reflector(<any>null);
-      }).toThrow();
+      }).toThrowError(NotSupportedError, 'Reflector(null) is not supported');
     });
-    it('Reflector number', () => {
+    it('Reflector object', () => {
       expect(() => {
         Reflector({});
-      }).toThrow();
+      }).toThrowError(NotImplementedError, 'Reflector(Object {}) is not implemented yet');
     });
 
-    it('Reflector prototype', () => {
-      const fr = Reflector(MongoDB.prototype);
-      expect(fr).toBeTruthy();
+    it('Reflector static', () => {
+      expect(Reflector(MongoDB).static.type).toBe(MongoDB);
+    });
+
+    it('Reflector class prototype', () => {
+      expect(Reflector(MongoDB.prototype)).toBe(Reflector(MongoDB));
+    });
+
+    it('Reflector prototype ', () => {
+      expect(Reflector(MongoDB).prototype).toBe(Reflector(MongoDB));
+    });
+
+    it('Reflector instance', () => {
+      const m = new MongoDB();
+      expect(() => {
+        Reflector(m);
+      }).toThrowError(NotImplementedError, 'Reflector(MongoDB {}) is not implemented yet');
     });
   });
 });

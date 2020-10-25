@@ -1,22 +1,22 @@
 /* tslint:disable */
 
-import { AgentAttribute, decorateClassProperty, Reflector } from '../../../lib';
+import { AgentAttribute, decorateMember, Reflector } from '../../../lib';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 
 class MongoDB {
-  @decorateClassProperty(new RandomInterceptor())
+  @decorateMember(new RandomInterceptor())
   random!: Date;
 
-  @decorateClassProperty(new RandomInterceptor())
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RandomInterceptor())
+  @decorateMember(new RoundInterceptor())
   both: any;
 
-  @decorateClassProperty(new MetadataAttribute())
+  @decorateMember(new MetadataAttribute())
   metadata: any;
 
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   round(): any {}
 }
 
@@ -26,20 +26,20 @@ class MongoDB {
 // }
 
 class Redis {
-  @decorateClassProperty(new RandomInterceptor())
+  @decorateMember(new RandomInterceptor())
   random!: Date;
 }
 
 class MySQL {
-  @decorateClassProperty(new RandomInterceptor())
+  @decorateMember(new RandomInterceptor())
   random!: Date;
 
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   round(): any {}
 }
 
 class SQLServer {
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   round(): any {}
 }
 

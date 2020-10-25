@@ -1,5 +1,5 @@
 import { agent } from '../../../lib';
-import { decorateClassProperty } from '../../../lib';
+import { decorateMember } from '../../../lib';
 import { ClassInvocation } from '../../../lib';
 import { Arguments } from '../../../lib';
 
@@ -10,7 +10,7 @@ describe('4.6. getter interceptor', () => {
       class Class414 {
         a!: number;
 
-        @decorateClassProperty({
+        @decorateMember({
           interceptor: {
             intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
               return Math.floor(target.invoke(params, receiver));

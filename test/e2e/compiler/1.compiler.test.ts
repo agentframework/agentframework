@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { CreateAgent, decorateClassProperty, agent, IsAgent } from '../../../lib';
+import { CreateAgent, decorateMember, agent, IsAgent } from '../../../lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 import { AgentTrackerAttribute } from '../attributes/AgentTrackerAttribute';
 
@@ -13,7 +13,7 @@ class Connection {
 }
 
 class Database {
-  @decorateClassProperty(new InjectAttribute())
+  @decorateMember(new InjectAttribute())
   connection!: Connection;
 }
 

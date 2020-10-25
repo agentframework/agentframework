@@ -12,7 +12,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Reflector } from '../Reflector';
 import { TypeInfo } from '../Interfaces/TypeInfo';
 import { ClassInvocation } from '../Interfaces/TypeInvocations';
 
@@ -23,20 +22,14 @@ import { ClassInvocation } from '../Interfaces/TypeInvocations';
  * @hidden
  */
 export class AgentInvocation implements ClassInvocation {
-  /**
-   *
-   */
-  constructor(protected readonly target: Function) {}
+  constructor(readonly design: TypeInfo) {}
 
-  get design(): TypeInfo {
-    return Reflector(this.target);
-  }
 
   invoke([compiler, name, code, data]: any, receiver: any): any {
     // dont do any change if no changes to the target
     // that means no initializers defined
-    if (compiler === this.target || receiver === this.target) {
-      return this.target;
+    if (typeof code !== 'string') {
+      return receiver;
     }
     return Reflect.construct(compiler, [name, code + ` { /* [${data}] */ }`])(receiver);
   }

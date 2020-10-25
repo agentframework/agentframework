@@ -1,5 +1,5 @@
 import { agent } from '../../../lib';
-import { decorateClassProperty } from '../../../lib';
+import { decorateMember } from '../../../lib';
 import { PropertyInvocation } from '../../../lib';
 import { Arguments } from '../../../lib';
 
@@ -10,7 +10,7 @@ describe('4.8. Getter and Setter interceptor', () => {
       class Class481 {
         int: number | undefined;
 
-        @decorateClassProperty({
+        @decorateMember({
           interceptor: {
             intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
               expect(target.design.descriptor).toBeTruthy();
@@ -18,7 +18,7 @@ describe('4.8. Getter and Setter interceptor', () => {
             },
           },
         })
-        @decorateClassProperty({
+        @decorateMember({
           interceptor: {
             intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
               // console.log('before intercept', params);
@@ -69,7 +69,7 @@ describe('4.8. Getter and Setter interceptor', () => {
       class Class482 {
         int: number | undefined;
 
-        @decorateClassProperty({
+        @decorateMember({
           interceptor: {
             intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
               // console.log('before intercept', params);

@@ -4,7 +4,7 @@ import {
   agent,
   CreateAgent,
   decorate,
-  decorateClassProperty,
+  decorateMember,
   decorateParameter,
   IsAgent,
   Reflector,
@@ -14,12 +14,12 @@ import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 @agent()
 class Calculator {
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   round1(num: any) {
     return num;
   }
 
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   round2(num: any) {
     return num;
   }

@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { CreateAgent, AgentAttribute, decorateClassProperty, IsAgent, Reflector, decorateClass } from '../../../lib';
+import { CreateAgent, AgentAttribute, decorateMember, IsAgent, Reflector, decorateClass } from '../../../lib';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
@@ -11,21 +11,21 @@ import { BadRandomAttribute } from '../attributes/BadRandomAttribute';
 class MongoDB {
   connection: any;
 
-  @decorateClassProperty(new RandomInterceptor())
+  @decorateMember(new RandomInterceptor())
   random!: Date;
 
-  @decorateClassProperty(new RandomInterceptor())
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RandomInterceptor())
+  @decorateMember(new RoundInterceptor())
   both: any;
 
-  @decorateClassProperty(new MetadataAttribute())
+  @decorateMember(new MetadataAttribute())
   metadata: any;
 
   connect() {
     return 'connected';
   }
 
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   round(): any {}
 }
 

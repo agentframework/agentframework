@@ -3,7 +3,6 @@ import { Agent, AgentIdentifier, AgentParameters, AnyClass, Class } from './Clas
 import { ConstructDomainAgent } from './Factory/ConstructDomainAgent';
 import { TypeNotFoundError } from './Errors/TypeNotFoundError';
 import { AgentNotFoundError } from './Errors/AgentNotFoundError';
-import { Knowledge } from './Knowledge';
 // import { InitializeDomainAgent } from './Factory/InitializeDomainAgent';
 import { Domain } from './Domain';
 import { IsPromise } from './Helpers/IsPromise';
@@ -335,7 +334,4 @@ export class InMemoryDomain extends Domain implements Disposable {
   }
 }
 
-/**
- * Remember this type as local domain type
- */
-Knowledge.RememberDomainType(InMemoryDomain);
+

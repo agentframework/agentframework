@@ -1,4 +1,4 @@
-import { decorateClassProperty, Reflector, PropertyAttribute } from '../../../lib';
+import { decorateMember, Reflector, PropertyAttribute } from '../../../lib';
 
 class MethodAttribute implements PropertyAttribute {
   constructor(readonly method: string, readonly path?: string) {}
@@ -8,7 +8,7 @@ describe('3.3. Set class method attribute', () => {
   describe('# should able to', () => {
     it('add attribute to class method using custom function', () => {
       function method(method: string, path: string) {
-        return decorateClassProperty(new MethodAttribute(method, path));
+        return decorateMember(new MethodAttribute(method, path));
       }
 
       /*** user code begin ***/
@@ -26,7 +26,7 @@ describe('3.3. Set class method attribute', () => {
     });
 
     it('add attribute to class method using const', () => {
-      const get = decorateClassProperty(new MethodAttribute('GET'));
+      const get = decorateMember(new MethodAttribute('GET'));
 
       /*** user code begin ***/
       class MyController332 {
@@ -45,7 +45,7 @@ describe('3.3. Set class method attribute', () => {
     it('add attribute to class method using helper function', () => {
       /*** user code begin ***/
       class MyController333 {
-        @decorateClassProperty(new MethodAttribute('GET', '/list'))
+        @decorateMember(new MethodAttribute('GET', '/list'))
         listAllUser() {}
       }
       /*** user code end ***/

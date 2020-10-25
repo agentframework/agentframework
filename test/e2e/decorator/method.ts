@@ -1,9 +1,9 @@
 /* tslint:disable */
 
-import { Attribute, Interceptor, Invocation, decorateClassProperty, Arguments } from '../../../lib';
+import { Attribute, Interceptor, Invocation, decorateMember, Arguments } from '../../../lib';
 
 export function methodDecorator() {
-  return decorateClassProperty(new MethodDecoratorAttribute());
+  return decorateMember(new MethodDecoratorAttribute());
 }
 
 class MethodDecoratorAttribute implements Attribute, Interceptor {

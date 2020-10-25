@@ -4,7 +4,7 @@ import {
   agent,
   CreateAgent,
   decorate,
-  decorateClassProperty,
+  decorateMember,
   decorateParameter,
   Attribute,
   IsAgent,
@@ -38,12 +38,12 @@ class AgentChecker implements Attribute, Interceptor {
 @decorateClass(new AgentChecker())
 @agent()
 class Calculator {
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   round1(num: any) {
     return num;
   }
 
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   round2(num: any) {
     return num;
   }

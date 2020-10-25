@@ -34,38 +34,32 @@
 // Reflector(class).property(key).value.parameters(1).hasAttribute(...)
 
 // const metadataV1 = {
-// ['property or symbol']: {
-// attributes: [],
-// metadata: {},
-// parameters: [{ attributes: [], metadata: {} }]
-// }
+//   ['string | symbol']: {
+//     attributes: [],
+//     metadata: {},
+//     parameters: [{ attributes: [], metadata: {} }]
+//   }
 // };
 //
 // const metadataV2 = {
-// attributes: [],
-// metadata: {},
+//   ['string | symbol']: {
+//     attributes: [],
+//     metadata: {},
+//     parameters: [{ attributes: [], metadata: {} }],
 //
-// ['property']: {
-// attributes: [],
-// metadata: {},
-// parameters: [{ attributes: [], metadata: {} }],
+//     getter: {
+//       attributes: [],
+//       metadata: {},
+//     },
 //
-// getter: {
-// attributes: [],
-// metadata: {},
-// parameters: [{ attributes: [], metadata: {} }]
-// },
+//     setter: {
+//       attributes: [],
+//       metadata: {},
+//     },
 //
-// setter: {
-// attributes: [],
-// metadata: {},
-// parameters: [{ attributes: [], metadata: {} }]
-// },
-//
-// value: {
-// attributes: [],
-// metadata: {},
-// parameters: [{ attributes: [], metadata: {} }]
-// }
-// }
+//     value: {
+//       attributes: [],
+//       metadata: {},
+//     }
+//   }
 // };

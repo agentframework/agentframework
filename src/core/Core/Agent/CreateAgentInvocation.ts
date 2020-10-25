@@ -14,17 +14,16 @@ limitations under the License. */
 
 import { Invocation } from '../Interfaces/Invocation';
 import { InterceptorInvocation } from '../Compiler/Invocation/InterceptorInvocation';
-import { AgentInvocation } from './AgentInvocation';
-import { AgentAttribute } from './AgentAttribute';
+import { ClassAttribute } from '../Interfaces/TypeAttributes';
 import { CanDecorate } from '../Decorator/CanDecorate';
 
 /**
  * Build Agent using AgentAttribute
  */
-export function CreateAgentInvocation(type: Function, attribute: AgentAttribute): Invocation {
+export function CreateAgentInvocation(invocation: Invocation, attribute: ClassAttribute, target: Function): Invocation {
   // chain the pipeline
   // custom interceptors -> agent interceptor -> agent initializer -> agent invocation
-  let invocation: Invocation = new AgentInvocation(type);
+  let chain: Invocation = invocation;
 
   // // add single initializer into pipeline (mandatory)
   // const initializer = attribute.interceptor;
@@ -35,12 +34,12 @@ export function CreateAgentInvocation(type: Function, attribute: AgentAttribute)
   // }
 
   // add single interceptor into pipeline (optional)
-  if (CanDecorate(attribute, type)) {
+  if (CanDecorate(attribute, target)) {
     const interceptor = attribute.interceptor;
     if (interceptor && 'function' === typeof interceptor.intercept) {
-      invocation = new InterceptorInvocation(invocation, interceptor);
+      chain = new InterceptorInvocation(chain, interceptor);
     }
   }
 
-  return invocation;
+  return chain;
 }

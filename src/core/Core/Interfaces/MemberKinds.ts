@@ -15,13 +15,14 @@ limitations under the License. */
 export enum MemberKinds {
   None = 0,
   Class = 1,
-  Property = 2,
-  Parameter = 4,
-  // Field = 8,
-  // Method = 16,
-  // Getter = 32,
-  // Setter = 64,
-  // ConstructorParameter = 128,
-  // MethodParameter = 256,
+  Static = 2,
+  Property = 4,
+  Parameter = 8,
+  // Field = 16,
+  // Method = 32,
+  // Getter = 64,
+  // Setter = 128,
+  // ConstructorParameter = 256,
+  // MethodParameter = 512,
   All = 65535
 }

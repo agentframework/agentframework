@@ -1,14 +1,14 @@
 /* tslint:disable */
 
-import { decorateClassProperty, Reflector } from '../../../lib';
+import { decorateMember, Reflector } from '../../../lib';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 class MongoDB {
-  @decorateClassProperty(new RandomInterceptor())
+  @decorateMember(new RandomInterceptor())
   rnd1: any;
 
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   connect() {
     return 'connected';
   }

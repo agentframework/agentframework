@@ -3,13 +3,13 @@
 import {
   Attribute,
   Interceptor,
-  decorateClassProperty,
+  decorateMember,
   decorateClass,
   decorateParameter
 } from '../../../lib';
 
 export function fakeClassMemberDecorator() {
-  return decorateClassProperty(new PropertyDecoratorAttribute());
+  return decorateMember(new PropertyDecoratorAttribute());
 }
 
 export function fakeClassDecorator() {
@@ -17,11 +17,11 @@ export function fakeClassDecorator() {
 }
 
 export function fakeClassMethodDecorator() {
-  return decorateClassProperty(new PropertyDecoratorAttribute());
+  return decorateMember(new PropertyDecoratorAttribute());
 }
 
 export function fakeClassPropertyDecorator() {
-  return decorateClassProperty(new PropertyDecoratorAttribute());
+  return decorateMember(new PropertyDecoratorAttribute());
 }
 
 export function fakeParameterDecorator() {

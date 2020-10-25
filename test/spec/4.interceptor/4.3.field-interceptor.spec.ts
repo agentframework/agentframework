@@ -1,5 +1,5 @@
 import { agent } from '../../../lib';
-import { decorateClassProperty } from '../../../lib';
+import { decorateMember } from '../../../lib';
 import { ClassInvocation } from '../../../lib';
 import { Arguments } from '../../../lib';
 import { IsAgent } from '../../../lib';
@@ -9,7 +9,7 @@ describe('4.3. field interceptor', () => {
     it('intercept class field', () => {
       @agent()
       class Class431 {
-        @decorateClassProperty({
+        @decorateMember({
           interceptor: {
             intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
               if (typeof params[0] === 'number') {
@@ -41,7 +41,7 @@ describe('4.3. field interceptor', () => {
     it('get get set set set class field', () => {
       @agent()
       class Class432 {
-        @decorateClassProperty({
+        @decorateMember({
           interceptor: {
             intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
               if (typeof params[0] === 'number') {
@@ -85,7 +85,7 @@ describe('4.3. field interceptor', () => {
   it('set set get get get class field', () => {
     @agent()
     class Class432 {
-      @decorateClassProperty({
+      @decorateMember({
         interceptor: {
           intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
             if (typeof params[0] === 'number') {

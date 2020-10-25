@@ -1,4 +1,4 @@
-import { decorate, decorateClassProperty, MemberKinds, Reflector } from '../../../lib';
+import { decorate, decorateMember, MemberKinds, Reflector } from '../../../lib';
 import { ClassField } from '../Kinds';
 
 class Data24 {
@@ -9,12 +9,12 @@ class Data24 {
 class BaseLayer24 {}
 
 class MiddleLayer24 extends BaseLayer24 {
-  @decorateClassProperty({ require: 'operator' })
+  @decorateMember({ require: 'operator' })
   model!: string;
 }
 
 class Application24 extends MiddleLayer24 {
-  @decorateClassProperty({ require: 'operator' })
+  @decorateMember({ require: 'operator' })
   model!: string;
 }
 
@@ -101,5 +101,36 @@ describe('2.4. Type fields', () => {
     //     expect(runMethodParameter.kind).toBe(MemberKinds.Parameter | MemberKinds.MethodParameter);
     //   }
     // });
+  });
+
+  describe('# should not able to', () => {
+    it('decorate non-Static to static property', () => {
+      expect(() => {
+        class NotAllowStatic {
+          @decorate({ a: 1 }, MemberKinds.Property)
+          static Run() {}
+        }
+
+        expect(NotAllowStatic).toBeTruthy();
+      }).toThrowError('Object is not allow decorate on static property');
+    });
+
+    it('decorate non-static property to static property parameter', () => {
+      expect(() => {
+        class NotAllowStatic {
+          static Run(@decorate({ a: 1 }, MemberKinds.Property) name: string) {}
+        }
+        expect(NotAllowStatic).toBeTruthy();
+      }).toThrowError('Object is not allow decorate on method parameters');
+    });
+
+    it('decorate non-static parameter to static property parameter', () => {
+      expect(() => {
+        class NotAllowStatic {
+          static Run(@decorate({ a: 1 }, MemberKinds.Parameter) name: string) {}
+        }
+        expect(NotAllowStatic).toBeTruthy();
+      }).toThrowError('Object is not allow decorate on static method parameters');
+    });
   });
 });

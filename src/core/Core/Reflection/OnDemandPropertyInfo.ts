@@ -12,7 +12,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { PropertyAnnotation } from '../Annotation/Annotation';
 import { OnDemandMemberInfo } from './OnDemandMemberInfo';
 import { OnDemandParameterInfo } from './OnDemandParameterInfo';
 import { MemberKinds } from '../Interfaces/MemberKinds';
@@ -25,7 +24,8 @@ import { HasInterceptor } from '../Helpers/Filters';
 import { ParameterInfo } from '../Interfaces/ParameterInfo';
 import { MemberInfo } from '../Interfaces/MemberInfo';
 import { Attribute } from '../Interfaces/Attribute';
-import { AddAttributeToClassMember } from '../Annotation/AddAttribute';
+import { AddAttributeToMember } from '../Annotation/AddAttribute';
+import { Property } from '../Wisdom';
 
 /**
  * Property
@@ -84,7 +84,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
     return this.getOwnMetadata('design:type');
   }
 
-  protected get annotation(): PropertyAnnotation | undefined {
+  protected get annotation(): Property | undefined {
     return this.propertyAnnotationOrUndefined;
     // return cache(this, 'annotation', this.propertyAnnotation);
   }
@@ -159,7 +159,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
       return false;
     }
     // check property
-    if (annotation.attributes.length && annotation.attributes.some(HasInterceptor)) {
+    if (annotation.attributes && annotation.attributes.length && annotation.attributes.some(HasInterceptor)) {
       return true;
     }
     // check parameter
@@ -197,7 +197,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
     if (!parameter) {
       // passing `this` because parameter type metadata been added on property by TypeScript
       // always looking if we can remove this reference from parameter
-      parameter = new OnDemandParameterInfo(this.declaringType, this.key, index, this);
+      parameter = new OnDemandParameterInfo(this.target, this.key, index, this);
       this.parameters.set(index, parameter);
     }
     return parameter;
@@ -240,7 +240,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   }
 
   addAttribute<A4 extends Attribute>(attribute: A4): void {
-    AddAttributeToClassMember(attribute, this.declaringType, this.key);
+    AddAttributeToMember(attribute, this.target, this.key);
   }
 
   // hasParameterInterceptor(): boolean {

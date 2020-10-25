@@ -15,10 +15,7 @@ limitations under the License. */
 // import { Reflector } from '../Reflector';
 import { CanDecorate } from './CanDecorate';
 import { ParameterAttribute } from '../Interfaces/TypeAttributes';
-import {
-  AddAttributeToClassMethodParameter,
-  AddAttributeToClassConstructorParameter,
-} from '../Annotation/AddAttribute';
+import { AddAttributeToMethodParameter, AddAttributeToConstructorParameter } from '../Annotation/AddAttribute';
 import { ParameterDecorator } from './decorators';
 
 /**
@@ -27,21 +24,15 @@ import { ParameterDecorator } from './decorators';
 export function decorateParameter<T extends ParameterAttribute>(attribute: T): ParameterDecorator {
   return (target: object | Function, targetKey: string | symbol | undefined, parameterIndex: number): void => {
     if (CanDecorate(attribute, target, targetKey, parameterIndex)) {
-      if (typeof target === 'function') {
-        if (typeof targetKey !== 'undefined') {
-          throw new Error('ParameterAttribute not allow declare on class static member');
-        } else {
-          // console.log('add p ctor', target, typeof target);
-          AddAttributeToClassConstructorParameter(attribute, target, parameterIndex);
-        }
-        // Reflector(target)
-        //   .parameter(parameterIndex)
-        //   .addAttribute(attribute);
-      } /* istanbul ignore else */ else if (targetKey) {
-        // console.log('add p method', target, typeof target); // target is prototype
-        AddAttributeToClassMethodParameter(attribute, target.constructor, targetKey, parameterIndex);
+      if (targetKey != null) {
+        AddAttributeToMethodParameter(attribute, target, targetKey, parameterIndex);
         // Reflector(target)
         //   .property(propertyKey)
+        //   .parameter(parameterIndex)
+        //   .addAttribute(attribute);
+      } else {
+        AddAttributeToConstructorParameter(attribute, (target as Function).prototype, parameterIndex);
+        // Reflector(target)
         //   .parameter(parameterIndex)
         //   .addAttribute(attribute);
       }

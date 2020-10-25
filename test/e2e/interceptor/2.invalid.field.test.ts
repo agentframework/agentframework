@@ -1,10 +1,10 @@
 /* tslint:disable */
 
-import { CreateAgent, decorateClassProperty, IsAgent, Reflector } from '../../../lib';
+import { CreateAgent, decorateMember, IsAgent, Reflector } from '../../../lib';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 class Calculator {
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   RoundOnField!: number;
 }
 

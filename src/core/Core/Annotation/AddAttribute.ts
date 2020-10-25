@@ -12,62 +12,63 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Annotator } from './Annotator';
 import { Attribute } from '../Interfaces/Attribute';
+import { Wisdom, Property, Parameter } from '../Wisdom';
 
 /**
  * Reflector(target).addAttribute(attribute);
  */
-export function AddAttributeToClass(attribute: Attribute, type: Function): void {
+export function AddAttributeToClass(attribute: Attribute, target: object | Function): void {
   const key = 'constructor';
-  const typeAnnotation = Annotator.type(type);
-  const ctor = Annotator.property(typeAnnotation, type, key);
-  Annotator.addAttribute(ctor, attribute);
+  const annotation = Wisdom.add(target);
+  const property = Property.find(annotation, target, key);
+  property.attributes.push(attribute);
 }
 
 /**
  * Reflector(target).parameter(parameterIndex).addAttribute(attribute);
  */
-export function AddAttributeToClassConstructorParameter(
+export function AddAttributeToConstructorParameter(
   attribute: Attribute,
-  type: Function,
+  target: object | Function,
   parameterIndex: number
 ): void {
   const key = 'constructor';
-  const typeAnnotation = Annotator.type(type);
-  const annotation = Annotator.property(typeAnnotation, type, key);
-  const parameter = Annotator.parameter(annotation, type, key, parameterIndex);
-  Annotator.addAttribute(parameter, attribute);
+  const annotation = Wisdom.add(target);
+  const property = Property.find(annotation, target, key);
+  const parameter = Parameter.find(property, parameterIndex);
+  parameter.attributes.push(attribute);
 }
 
 /**
  * Reflector(target).property(targetKey).parameter(descriptor).addAttribute(attribute);
  */
-export function AddAttributeToClassMethodParameter(
+export function AddAttributeToMethodParameter(
   attribute: Attribute,
-  type: Function,
-  property: string | symbol,
+  target: object | Function,
+  key: string | symbol,
   parameterIndex: number
 ): void {
-  const typeAnnotation = Annotator.type(type);
-  const annotation = Annotator.property(typeAnnotation, type, property);
-  const parameter = Annotator.parameter(annotation, type, property, parameterIndex);
-  Annotator.addAttribute(parameter, attribute);
+  const annotation = Wisdom.add(target);
+  const property = Property.find(annotation, target, key);
+  const parameter = Parameter.find(property, parameterIndex);
+  parameter.attributes.push(attribute);
 }
 
 /**
  * Reflector(target).property(property, descriptor).addAttribute(attribute);
  */
-export function AddAttributeToClassMember(
+export function AddAttributeToMember(
   attribute: Attribute,
-  type: Function,
+  target: object | Function,
   key: string | symbol,
   descriptor?: PropertyDescriptor
 ): void {
-  const typeAnnotation = Annotator.type(type);
-  const annotation = Annotator.property(typeAnnotation, type, key, descriptor);
-  Annotator.addAttribute(annotation, attribute);
+  const annotation = Wisdom.add(target);
+  const property = Property.find(annotation, target, key, descriptor);
+  property.attributes.push(attribute);
 }
+
 
 // /**
 //  * Reflector(target).property(property).addAttribute(attribute);

@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { agent, decorateClassProperty, decorateParameter } from '../../../lib';
+import { agent, decorateMember, decorateParameter } from '../../../lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 
 class Connection {
@@ -32,7 +32,7 @@ class Database {
 
 @agent()
 class MongoDB {
-  @decorateClassProperty(new InjectAttribute())
+  @decorateMember(new InjectAttribute())
   database!: Database;
   connection!: Connection;
   user: string;

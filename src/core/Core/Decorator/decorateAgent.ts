@@ -12,18 +12,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Annotator } from './Annotator';
+// import { Reflector } from '../Reflector';
+import { CanDecorate } from './CanDecorate';
+import { AddAttributeToClass } from '../Annotation/AddAttribute';
+import { Attribute } from '../Interfaces/Attribute';
+import { ClassDecorator } from './decorators';
 
-export function AddMetadata(
-  key: string,
-  value: any,
-  target: Function | object,
-  property?: string | symbol,
-  descriptor?: PropertyDescriptor
-) {
-  const type = typeof target === 'function' ? target : target.constructor;
-  const targetKey = typeof property === 'undefined' ? 'constructor' : property;
-  const typeAnnotation = Annotator.type(type);
-  const annotation = Annotator.property(typeAnnotation, type, targetKey, descriptor);
-  Annotator.addMetadata(annotation, key, value);
+/**
+ * Decorate class with attribute
+ */
+export function decorateAgent<T extends Attribute>(attribute: T): ClassDecorator {
+  // upgrade prototype
+  return (target: Function): void => {
+    if (CanDecorate(attribute, target)) {
+      AddAttributeToClass(attribute, target);
+    }
+  };
 }

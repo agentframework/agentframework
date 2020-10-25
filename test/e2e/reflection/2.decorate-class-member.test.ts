@@ -1,22 +1,22 @@
 /* tslint:disable */
 
-import { decorateClassProperty, decorateParameter, Reflector } from '../../../lib';
+import { decorateMember, decorateParameter, Reflector } from '../../../lib';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 
 class MongoDB {
-  @decorateClassProperty(new RandomInterceptor())
+  @decorateMember(new RandomInterceptor())
   rnd1!: Date;
 
-  @decorateClassProperty(new RandomInterceptor())
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RandomInterceptor())
+  @decorateMember(new RoundInterceptor())
   both: any;
 
-  @decorateClassProperty(new MetadataAttribute())
+  @decorateMember(new MetadataAttribute())
   books: any;
 
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   connect(
     @decorateParameter(new RoundInterceptor()) a: Date,
     @decorateParameter(new RoundInterceptor()) b: RegExp
@@ -24,10 +24,10 @@ class MongoDB {
     return true;
   }
 
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   logs(): any {}
 
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   logs2(): any {}
 }
 

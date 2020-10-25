@@ -1,10 +1,10 @@
 import { Domain } from '../Domain';
-import { Knowledge } from '../Knowledge';
+import { DomainKnowledge } from '../DomainKnowledge';
 
 export function FindDomain(target: Function): Domain | undefined {
   let prototype = target.prototype;
   while (prototype) {
-    const domain = Knowledge.GetDomain(prototype.constructor);
+    const domain = DomainKnowledge.GetDomain(prototype.constructor);
     if (domain) {
       // console.log('FOUND');
       return domain;
