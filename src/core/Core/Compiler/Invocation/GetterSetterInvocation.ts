@@ -21,12 +21,15 @@ import { set } from '../../Helpers/Prototype';
  * @ignore
  * @hidden
  */
-export class FieldSetterInvocation implements PropertyInvocation {
+export class GetterSetterInvocation implements PropertyInvocation {
   constructor(readonly design: PropertyInfo) {}
 
   invoke(params: Arguments, receiver: any): any {
-    // how to know the value of a field before you create that class
-    // return the value from prototype is a good choose? NO, it may cause infinite loops
-    return set(receiver, this.design.key, params[0]);
+    if (params.length) {
+      // how to know the value of a field before you create that class
+      // return the value from prototype is a good choose? NO, it may cause infinite loops
+      return set(receiver, this.design.key, params[0]);
+    }
+    return params[0];
   }
 }

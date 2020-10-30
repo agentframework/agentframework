@@ -16,8 +16,6 @@ limitations under the License. */
 
 import { ChainFactory } from './Factory/ChainFactory';
 import { Invocation } from '../Interfaces/Invocation';
-import { FieldGetterInvocation } from './Invocation/FieldGetterInvocation';
-import { FieldSetterInvocation } from './Invocation/FieldSetterInvocation';
 import { DirectMethodInvocation } from './Invocation/DirectMethodInvocation';
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { ParameterInterceptor } from './Invocation/ParameterInterceptor';
@@ -26,6 +24,7 @@ import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { HasInterceptor } from '../Helpers/Filters';
 import { Attribute } from '../Interfaces/Attribute';
 import { define } from '../Helpers/Prototype';
+import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
 
 export class OnDemandClassCompiler {
   /**
@@ -113,18 +112,15 @@ export class OnDemandClassCompiler {
     const key = field.key;
     return {
       get() {
-        const origin = new FieldGetterInvocation(field);
+        const origin = new GetterSetterInvocation(field);
         const attributes = OnDemandClassCompiler.findPropertyInterceptors(field);
         const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
         const descriptor = {
           get() {
-            return chain.invoke([undefined], this);
+            return chain.invoke([], this);
             // return set(this, key, chain.invoke([undefined], this));
           },
           set(this: any) {
-            const origin = new FieldSetterInvocation(field);
-            const attributes = OnDemandClassCompiler.findPropertyInterceptors(field);
-            const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
             descriptor.set = function (this: any) {
               chain.invoke(arguments, this);
             };
@@ -134,24 +130,21 @@ export class OnDemandClassCompiler {
           configurable: true,
         };
         define(receiver.prototype, key, descriptor);
-        return chain.invoke([undefined], this);
+        return chain.invoke([], this);
         // return set(this, key, chain.invoke([undefined], this));
       },
       set(value: any) {
-        const origin = new FieldSetterInvocation(field);
+        const origin = new GetterSetterInvocation(field);
         const attributes = OnDemandClassCompiler.findPropertyInterceptors(field);
         const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
         const descriptor = {
           get() {
-            const origin = new FieldGetterInvocation(field);
-            const attributes = OnDemandClassCompiler.findPropertyInterceptors(field);
-            const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
             descriptor.get = function () {
-              return chain.invoke([undefined], this);
+              return chain.invoke([], this);
               // return set(this, key, chain.invoke([undefined], this));
             };
             define(receiver.prototype, key, descriptor);
-            return chain.invoke([undefined], this);
+            return chain.invoke([], this);
             // return set(this, key, chain.invoke([undefined], this));
           },
           set(this: any) {
@@ -166,11 +159,7 @@ export class OnDemandClassCompiler {
     };
   }
 
-  private static makeProperty(
-    property: PropertyInfo,
-    descriptor: PropertyDescriptor,
-    receiver: Function
-  ): PropertyDescriptor {
+  private static makeProperty(property: PropertyInfo, descriptor: PropertyDescriptor, receiver: Function): PropertyDescriptor {
     const key = property.key;
     const propertyDescriptor = Object.create(descriptor);
     // user can change this property
@@ -280,12 +269,7 @@ export class OnDemandClassCompiler {
     return propertyDescriptor;
   }
 
-  static upgrade(
-    proxy: object | Function,
-    properties: Array<PropertyInfo>,
-    target: Function,
-    receiver?: Function
-  ): any {
+  static upgrade(proxy: object | Function, properties: Array<PropertyInfo>, target: Function, receiver?: Function): any {
     const map: any = {};
 
     // only proxy property contains interceptor

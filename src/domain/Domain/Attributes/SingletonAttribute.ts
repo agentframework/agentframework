@@ -1,10 +1,4 @@
-import {
-  AnyConstructor,
-  Arguments,
-  PropertyInvocation,
-  PropertyInterceptor,
-  PropertyAttribute,
-} from '../../../dependencies/core';
+import { AnyConstructor, Arguments, PropertyInvocation, PropertyInterceptor, PropertyAttribute } from '../../../dependencies/core';
 import { FindDomainFromInvocation } from '../Helpers/FindDomainFromInvocation';
 
 export class SingletonAttribute<T extends object> implements PropertyAttribute, PropertyInterceptor {
@@ -56,12 +50,11 @@ export class SingletonAttribute<T extends object> implements PropertyAttribute, 
 
     // console.log('find singleton', type.name, 'from', domain.name);
 
-    return (
-      (customType && domain.getAgent(customType)) ||
-      (designType && domain.getAgent(designType)) ||
-      domain.construct(type, params)
+    const value =
+      (customType && domain.getAgent(customType)) || (designType && domain.getAgent(designType)) || domain.construct(type, params);
       // domain.construct(type) // do not include the parameters
-    );
+
+    return target.invoke([value], receiver);
     //
     // console.log('found', found);
     //

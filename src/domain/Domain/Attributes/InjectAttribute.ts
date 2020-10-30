@@ -1,10 +1,4 @@
-import {
-  PropertyAttribute,
-  PropertyInvocation,
-  PropertyInterceptor,
-  Arguments,
-  AnyConstructor,
-} from '../../../dependencies/core';
+import { PropertyAttribute, PropertyInvocation, PropertyInterceptor, Arguments, AnyConstructor } from '../../../dependencies/core';
 import { FindDomainFromInvocation } from '../Helpers/FindDomainFromInvocation';
 
 export class InjectAttribute<T extends object> implements PropertyAttribute, PropertyInterceptor {
@@ -40,6 +34,8 @@ export class InjectAttribute<T extends object> implements PropertyAttribute, Pro
       throw new Error('NoDomainFoundForInjection');
     }
 
-    return domain.getAgentOrThrow(type);
+    const value = domain.getAgentOrThrow(type);
+
+    return target.invoke([value], receiver);
   }
 }

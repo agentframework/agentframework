@@ -1,10 +1,4 @@
-import {
-  PropertyInvocation,
-  PropertyInterceptor,
-  PropertyAttribute,
-  Arguments,
-  AnyConstructor,
-} from '../../../dependencies/core';
+import { PropertyInvocation, PropertyInterceptor, PropertyAttribute, Arguments, AnyConstructor } from '../../../dependencies/core';
 import { FindDomainFromInvocation } from '../Helpers/FindDomainFromInvocation';
 import { Domain } from '../Domain';
 
@@ -27,11 +21,13 @@ export class TransitAttribute<T extends object> implements PropertyAttribute, Pr
 
     // if this object created by domain, the last argument is domain itself
     const domain = FindDomainFromInvocation(params, receiver);
+    let value;
     if (domain) {
       // console.log('get type', typeof receiver, type.name)
-      return domain.construct(type, params, true);
+      value = domain.construct(type, params, true);
     } else {
-      return Domain.construct(type, params);
+      value = Domain.construct(type, params);
     }
+    return target.invoke([value], receiver);
   }
 }
