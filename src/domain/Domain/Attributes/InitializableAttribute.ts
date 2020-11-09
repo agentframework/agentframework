@@ -18,9 +18,11 @@ export class InitializableAttribute implements ClassInterceptor {
 
     // create instance
     const initializerFunction = type[ClassInitializer];
+    console.log('init fn =', initializerFunction);
     // in case of human mistake, check prototype if no static initializer function found
     if (initializerFunction) {
       if (typeof initializerFunction === 'function') {
+
         const domain = FindDomainFromInvocation(params, receiver);
 
         // debugger;

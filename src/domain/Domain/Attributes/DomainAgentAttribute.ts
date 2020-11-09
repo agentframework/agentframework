@@ -9,7 +9,8 @@ export class DomainAgentAttribute extends AgentAttribute implements ClassInterce
   }
 
   get name() {
-    const name = this.domain.name;
+    // the name must be a valid class name.
+    const name = this.domain.constructor.name;
     const fdx = name.lastIndexOf('__');
     if (fdx > 0) {
       return name.slice(fdx + 2);
