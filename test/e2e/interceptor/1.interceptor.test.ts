@@ -4,22 +4,22 @@ import {
   agent,
   CreateAgent,
   decorate,
-  decorateClassProperty,
+  decorateMember,
   decorateParameter,
   IsAgent,
   Reflector,
-  MemberKinds
+  MemberKinds,
 } from '../../../lib';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 @agent()
 class Calculator {
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   round1(num: any) {
     return num;
   }
 
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   round2(num: any) {
     return num;
   }
@@ -58,9 +58,7 @@ describe('Interceptor', () => {
 
     // region round1
     it('get round1 attribute', () => {
-      const items = Reflector(Calculator)
-        .property('round1')
-        .getOwnAttributes(RoundInterceptor);
+      const items = Reflector(Calculator).property('round1').getOwnAttributes(RoundInterceptor);
       expect(items.length).toBe(1);
     });
 
@@ -79,9 +77,7 @@ describe('Interceptor', () => {
 
     // region round2
     it('get round2 attribute', () => {
-      const items = Reflector(Calculator)
-        .property('round2')
-        .getOwnAttributes(RoundInterceptor);
+      const items = Reflector(Calculator).property('round2').getOwnAttributes(RoundInterceptor);
       expect(items.length).toBe(1);
     });
 
@@ -100,9 +96,7 @@ describe('Interceptor', () => {
 
     // region round3
     it('get round3 attribute', () => {
-      const items = Reflector(Calculator)
-        .property('round3')
-        .getOwnAttributes(RoundInterceptor);
+      const items = Reflector(Calculator).property('round3').getOwnAttributes(RoundInterceptor);
       expect(items.length).toBe(1);
     });
 
@@ -121,9 +115,7 @@ describe('Interceptor', () => {
 
     // region round4
     it('get round4 attribute', () => {
-      const items = Reflector(Calculator)
-        .property('round4')
-        .getParameters();
+      const items = Reflector(Calculator).property('round4').getParameters();
       expect(items.length).toBe(1);
     });
 

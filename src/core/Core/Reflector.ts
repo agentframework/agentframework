@@ -22,23 +22,26 @@ import { NotSupportedError } from './Error/NotSupportedError';
  *
  * Access class member annotations
  *
- * Reflector(UserClass).property('main');
+ * Reflector(UserClass).property('main');               // for class member
+ * Reflector(UserClass).prototype.property('main');     // for class member
+ * Reflector(UserClass).static.property('main');        // for static member
  *
  * Access class static member annotations
  *
- * Reflector(UserClass).static.property('main');
+ * Reflector(UserClass.prototype).property('main');   // for class member
+ * Reflector(UserClass).property('main');             // for static member
  */
 export function Reflector(target: Function | object): TypeInfo {
-  let ctor: Function;
   if (typeof target === 'function') {
-    ctor = target;
+    // make sure get the prototype of origin type
+    return OnDemandTypeInfo.find(target.prototype);
   } else if (target == null) {
     throw new NotSupportedError(`Reflector(null)`);
   } else if (typeof target === 'object') {
     // if a object hasOwnPropertyDescriptor('constructor') then this object is a prototype
     // instance don't have own constructor property
     if (Reflect.getOwnPropertyDescriptor(target, 'constructor')) {
-      throw new NotImplementedError(`Reflector(${target.constructor.name}.prototype)`);
+      return OnDemandTypeInfo.find(target);
     } else {
       // object without own property constructor consider an instance
       throw new NotImplementedError(`Reflector(${target.constructor.name} {})`);
@@ -47,7 +50,4 @@ export function Reflector(target: Function | object): TypeInfo {
     // number, boolean, string and so on
     throw new NotSupportedError(`Reflector(${typeof target})`);
   }
-
-  // make sure get the prototype of origin type
-  return OnDemandTypeInfo.get(ctor);
 }

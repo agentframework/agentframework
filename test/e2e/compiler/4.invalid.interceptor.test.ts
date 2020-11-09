@@ -1,11 +1,11 @@
 /* tslint:disable */
 
-import { agent, decorateClassProperty, CreateAgent, IsAgent, Reflector } from '../../../lib';
+import { agent, decorateMember, CreateAgent, IsAgent, Reflector } from '../../../lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 
 @agent()
 class PostgreSQL {
-  @decorateClassProperty(new InjectAttribute())
+  @decorateMember(new InjectAttribute())
   connection: number = 1;
 }
 

@@ -17,15 +17,15 @@ import { MemberKinds } from '../Interfaces/MemberKinds';
 import { ParameterInfo } from '../Interfaces/ParameterInfo';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Attribute } from '../Interfaces/Attribute';
-import { AddAttributeToClassMethodParameter } from '../Annotation/AddAttribute';
-import {ParameterAnnotation} from "../Wisdom";
+import { AddAttributeToMethodParameter } from '../Annotation/AddAttribute';
+import { Parameter } from '../Annotation/Wisdom';
 
 /**
  * Parameter
  */
 export class OnDemandParameterInfo extends OnDemandMemberInfo implements ParameterInfo {
   constructor(
-    target: Function,
+    target: object | Function,
     propertyKey: string | symbol,
     readonly index: number,
     private readonly parent: PropertyInfo
@@ -38,13 +38,17 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
   }
 
   get kind(): MemberKinds {
-    let kind = MemberKinds.Parameter;
+    if (typeof this.target === 'function') {
+      return MemberKinds.Static | MemberKinds.Parameter;
+    }
+    return MemberKinds.Parameter;
+    // let kind = super.kind | MemberKinds.Parameter;
     // if (this.key === 'constructor') {
     //   kind |= MemberKinds.ConstructorParameter;
     // } else {
     //   kind |= MemberKinds.MethodParameter;
     // }
-    return kind;
+    // return kind;
   }
 
   get type(): Function | undefined {
@@ -59,7 +63,7 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
   addAttribute<U1 extends Attribute>(attribute: U1): void {
     // if the attribute provide a getInterceptor, that means this property may need inject
     // we don't call getInterceptor or getInitializer until user new() the agent class.
-    AddAttributeToClassMethodParameter(attribute, this.declaringType, this.key, this.index);
+    AddAttributeToMethodParameter(attribute, this.target, this.key, this.index);
   }
 
   // /**
@@ -75,7 +79,7 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
   //   );
   // }
 
-  protected get annotation(): ParameterAnnotation | undefined {
+  protected get annotation(): Parameter | undefined {
     const property = this.propertyAnnotationOrUndefined;
     return property && property.parameters && property.parameters.get(this.index);
     // return getter(this, 'annotation', parameter);

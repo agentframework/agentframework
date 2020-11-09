@@ -16,17 +16,17 @@ import { OnDemandMemberInfo } from './OnDemandMemberInfo';
 import { OnDemandParameterInfo } from './OnDemandParameterInfo';
 import { MemberKinds } from '../Interfaces/MemberKinds';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
-// import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
-// import { OnDemandPropertyGetterInfo } from './OnDemandPropertyGetterInfo';
-// import { OnDemandPropertySetterInfo } from './OnDemandPropertySetterInfo';
 import { HasInterceptor } from '../Helpers/Filters';
-// import { getter } from '../Helpers/Prototype';
 import { ParameterInfo } from '../Interfaces/ParameterInfo';
 import { MemberInfo } from '../Interfaces/MemberInfo';
 import { Attribute } from '../Interfaces/Attribute';
-import { AddAttributeToClassMember } from '../Annotation/AddAttribute';
-import { PropertyAnnotation } from '../Wisdom';
+import { AddAttributeToMember } from '../Annotation/AddAttribute';
+import { Property } from '../Annotation/Wisdom';
 
+// import { getter } from '../Helpers/Prototype';
+// import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
+// import { OnDemandPropertyGetterInfo } from './OnDemandPropertyGetterInfo';
+// import { OnDemandPropertySetterInfo } from './OnDemandPropertySetterInfo';
 /**
  * Property
  *
@@ -48,7 +48,8 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
       if (Reflect.has(annotation, 'descriptor')) {
         descriptor = annotation.descriptor;
       } else {
-        descriptor = Reflect.getOwnPropertyDescriptor(this.declaringType.prototype, this.key); // descriptor is undefined for virtual property
+        // descriptor is undefined for virtual property
+        descriptor = Reflect.getOwnPropertyDescriptor(this.declaringType.prototype, this.key);
         annotation.descriptor = descriptor;
       }
     }
@@ -57,7 +58,10 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   }
 
   get kind(): MemberKinds {
-    let kind = MemberKinds.Property;
+    if (typeof this.target === 'function') {
+      return MemberKinds.Static | MemberKinds.Property;
+    }
+    return MemberKinds.Property;
     // const descriptor = this.descriptor;
     // if (descriptor) {
     //   if (Reflect.has(descriptor, 'value')) {
@@ -73,7 +77,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
     // } else {
     //   kind |= MemberKinds.Field;
     // }
-    return kind;
+    // return kind;
   }
 
   get type(): Function | undefined {
@@ -84,7 +88,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
     return this.getOwnMetadata('design:type');
   }
 
-  protected get annotation(): PropertyAnnotation | undefined {
+  protected get annotation(): Property | undefined {
     return this.propertyAnnotationOrUndefined;
     // return cache(this, 'annotation', this.propertyAnnotation);
   }
@@ -159,7 +163,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
       return false;
     }
     // check property
-    if (annotation.attributes.length && annotation.attributes.some(HasInterceptor)) {
+    if (annotation.attributes && annotation.attributes.length && annotation.attributes.some(HasInterceptor)) {
       return true;
     }
     // check parameter
@@ -197,7 +201,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
     if (!parameter) {
       // passing `this` because parameter type metadata been added on property by TypeScript
       // always looking if we can remove this reference from parameter
-      parameter = new OnDemandParameterInfo(this.declaringType, this.key, index, this);
+      parameter = new OnDemandParameterInfo(this.target, this.key, index, this);
       this.parameters.set(index, parameter);
     }
     return parameter;
@@ -240,7 +244,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   }
 
   addAttribute<A4 extends Attribute>(attribute: A4): void {
-    AddAttributeToClassMember(attribute, this.declaringType, this.key);
+    AddAttributeToMember(attribute, this.target, this.key);
   }
 
   // hasParameterInterceptor(): boolean {

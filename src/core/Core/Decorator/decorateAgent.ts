@@ -12,3 +12,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+// import { Reflector } from '../Reflector';
+import { CanDecorate } from './CanDecorate';
+import { AddAttributeToClass } from '../Annotation/AddAttribute';
+import { Attribute } from '../Interfaces/Attribute';
+import { ClassDecorator } from './decorators';
+
+/**
+ * Decorate class with attribute
+ */
+export function decorateAgent<T extends Attribute>(attribute: T): ClassDecorator {
+  // upgrade prototype
+  return (target: Function): void => {
+    if (CanDecorate(attribute, target)) {
+      AddAttributeToClass(attribute, target);
+    }
+  };
+}

@@ -333,5 +333,3 @@ export class InMemoryDomain extends Domain implements Disposable {
     this.disposed = true;
   }
 }
-
-

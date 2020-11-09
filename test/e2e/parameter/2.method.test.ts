@@ -1,14 +1,6 @@
 /* tslint:disable */
 
-import {
-  agent,
-  decorateParameter,
-  Attribute,
-  Interceptor,
-  Invocation,
-  decorateClassProperty,
-  Arguments,
-} from '../../../lib';
+import { agent, decorateParameter, Attribute, Interceptor, Invocation, decorateMember, Arguments } from '../../../lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 
 class Connection {
@@ -44,7 +36,7 @@ class TypeFormatter implements Attribute, Interceptor {
 
 @agent()
 class MongoDB {
-  @decorateClassProperty(new InjectAttribute())
+  @decorateMember(new InjectAttribute())
   connection!: Connection;
 
   user: string;
@@ -55,7 +47,7 @@ class MongoDB {
     this.user = user;
   }
 
-  @decorateClassProperty(new TypeChecker())
+  @decorateMember(new TypeChecker())
   test11(@decorateParameter(new InjectAttribute()) db?: Database) {
     expect(arguments.length).toBe(1);
     expect(db).toBeTruthy();
@@ -63,7 +55,7 @@ class MongoDB {
     return db;
   }
 
-  @decorateClassProperty(new TypeChecker())
+  @decorateMember(new TypeChecker())
   test12(@decorateParameter(new InjectAttribute()) db?: Database) {
     expect(arguments.length).toBe(1);
     expect(db).toBeTruthy();
@@ -71,8 +63,8 @@ class MongoDB {
     return db;
   }
 
-  @decorateClassProperty(new TypeFormatter())
-  @decorateClassProperty(new TypeChecker())
+  @decorateMember(new TypeFormatter())
+  @decorateMember(new TypeChecker())
   test21(@decorateParameter(new InjectAttribute()) db?: Database) {
     expect(arguments.length).toBe(1);
     expect(db).toBeTruthy();
@@ -80,8 +72,8 @@ class MongoDB {
     return db;
   }
 
-  @decorateClassProperty(new TypeFormatter())
-  @decorateClassProperty(new TypeChecker())
+  @decorateMember(new TypeFormatter())
+  @decorateMember(new TypeChecker())
   test22(@decorateParameter(new InjectAttribute()) db?: Database) {
     expect(arguments.length).toBe(1);
     expect(db).toBeTruthy();

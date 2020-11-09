@@ -21,7 +21,9 @@ class MongoDB {
     expect(conn instanceof Connection).toBeTruthy();
     // console.log('MongoDB(', arguments, ')');
     this.user = user;
-    if (conn) { this.connection = conn; }
+    if (conn) {
+      this.connection = conn;
+    }
   }
 }
 

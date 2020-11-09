@@ -16,27 +16,30 @@ import { Attribute } from '../Interfaces/Attribute';
 import { CanDecorate } from './CanDecorate';
 import {
   AddAttributeToClass,
-  AddAttributeToClassMethodParameter,
-  AddAttributeToClassConstructorParameter,
-  AddAttributeToClassMember
+  AddAttributeToMethodParameter,
+  AddAttributeToConstructorParameter,
+  AddAttributeToMember,
 } from '../Annotation/AddAttribute';
 import { MemberKinds } from '../Interfaces/MemberKinds';
-import { Decorators } from './decorators';
+import { Decorator } from './decorators';
 
 /**
  * Decorate attribute to the target, throw if target not allowed
  */
-export function decorate<T extends Attribute>(attribute: T, allows?: MemberKinds): Decorators {
+export function decorate<T extends Attribute>(attribute: T, allows?: MemberKinds): Decorator {
   const allowed = typeof allows === 'undefined' ? MemberKinds.All : allows; // 511 = All
-  return (target: object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor | number): void => {
-    if (targetKey == null) {
-      if (typeof descriptor === 'number') {
+  return (target: object | Function, key?: string | symbol, descriptorOrIndex?: PropertyDescriptor | number): void => {
+    // if key == null then target == Function
+    if (key == null) {
+      // NOTE: always decorate constructor attribute and parameter attribute to class prototype
+      // unless MemberKinds specified MemberKinds.Static flags
+      if (typeof descriptorOrIndex === 'number') {
         // this is constructor parameter
         if (MemberKinds.Parameter !== (allowed & MemberKinds.Parameter)) {
           throw new TypeError(`${attribute.constructor.name} is not allow decorate on constructor parameters`);
         }
-        if (CanDecorate(attribute, target, targetKey, descriptor)) {
-          AddAttributeToClassConstructorParameter(attribute, target as Function, descriptor);
+        if (CanDecorate(attribute, target, key, descriptorOrIndex)) {
+          AddAttributeToConstructorParameter(attribute, (target as Function).prototype, descriptorOrIndex);
           // Reflector(target)
           //   .parameter(descriptor)
           //   .addAttribute(attribute);
@@ -46,34 +49,42 @@ export function decorate<T extends Attribute>(attribute: T, allows?: MemberKinds
         if (MemberKinds.Class !== (allowed & MemberKinds.Class)) {
           throw new TypeError(`${attribute.constructor.name} is not allow decorate on class`);
         }
-        if (CanDecorate(attribute, target, targetKey)) {
-          AddAttributeToClass(attribute, target as Function);
+        if (CanDecorate(attribute, target, key)) {
+          AddAttributeToClass(attribute, (target as Function).prototype);
           // Reflector(target)
           //   .addAttribute(attribute);
         }
       }
     } else {
-      if (typeof descriptor === 'number') {
-        // this is constructor parameter
+      if (typeof descriptorOrIndex === 'number') {
+        // this is method parameter
         if (MemberKinds.Parameter !== (allowed & MemberKinds.Parameter)) {
           throw new TypeError(`${attribute.constructor.name} is not allow decorate on method parameters`);
         }
 
-        if (CanDecorate(attribute, target, targetKey, descriptor)) {
-          AddAttributeToClassMethodParameter(attribute, target.constructor, targetKey, descriptor);
+        if (typeof target === 'function' && MemberKinds.Static !== (allowed & MemberKinds.Static)) {
+          throw new TypeError(`${attribute.constructor.name} is not allow decorate on static method parameters`);
+        }
+
+        if (CanDecorate(attribute, target, key, descriptorOrIndex)) {
+          AddAttributeToMethodParameter(attribute, target, key, descriptorOrIndex);
           // Reflector(target)
           //   .property(targetKey)
           //   .parameter(descriptorOrIndex)
           //   .addAttribute(attribute);
         }
       } else {
-        // this is constructor
+        // this is method
         if (MemberKinds.Property !== (allowed & MemberKinds.Property)) {
           throw new TypeError(`${attribute.constructor.name} is not allow decorate on property`);
         }
 
-        if (CanDecorate(attribute, target, targetKey)) {
-          AddAttributeToClassMember(attribute, target.constructor, targetKey);
+        if (typeof target === 'function' && MemberKinds.Static !== (allowed & MemberKinds.Static)) {
+          throw new TypeError(`${attribute.constructor.name} is not allow decorate on static property`);
+        }
+
+        if (CanDecorate(attribute, target, key)) {
+          AddAttributeToMember(attribute, target, key);
           // Reflector(target)
           //   .property(targetKey)
           //   .value

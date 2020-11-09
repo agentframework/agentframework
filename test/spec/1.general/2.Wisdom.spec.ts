@@ -1,4 +1,4 @@
-import { Wisdom } from '../../../src/core/Core/Wisdom';
+import { Wisdom } from '../../../src/core/Core/Annotation/Wisdom';
 
 describe('Wisdom!', () => {
   describe('# should able to', () => {
@@ -7,13 +7,13 @@ describe('Wisdom!', () => {
       class B extends A {}
       class C extends B {}
 
-      const tc: any = Wisdom.getOrCreate(C);
+      const tc: any = Wisdom.add(C);
       tc.ccc = <any>1;
-      const tb: any = Wisdom.getOrCreate(B);
+      const tb: any = Wisdom.add(B);
       tb.bbb = <any>2;
-      const ta: any = Wisdom.getOrCreate(A);
+      const ta: any = Wisdom.add(A);
       ta.aaa = <any>3;
-      const t: any = Wisdom.getOrCreate(Function.prototype);
+      const t: any = Wisdom.add(Function.prototype);
       t.ooo = <any>4;
 
       expect(Reflect.getPrototypeOf(t)).toBeNull();
@@ -44,13 +44,13 @@ describe('Wisdom!', () => {
       class B extends A {}
       class C extends B {}
 
-      const tc: any = Wisdom.getOrCreate(C.prototype);
+      const tc: any = Wisdom.add(C.prototype);
       tc.ccc = <any>1;
-      const tb: any = Wisdom.getOrCreate(B.prototype);
+      const tb: any = Wisdom.add(B.prototype);
       tb.bbb = <any>2;
-      const ta: any = Wisdom.getOrCreate(A.prototype);
+      const ta: any = Wisdom.add(A.prototype);
       ta.aaa = <any>3;
-      const t: any = Wisdom.getOrCreate(Object.prototype);
+      const t: any = Wisdom.add(Object.prototype);
       t.ooo = <any>4;
 
       expect(Reflect.getPrototypeOf(t)).toBeNull();

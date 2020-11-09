@@ -3,9 +3,14 @@ import { Filter } from './Filter';
 
 export interface TypeInfo extends PropertyInfo {
   /**
-   * Access static type info
+   * Access static annotation info
    */
   readonly static: TypeInfo;
+
+  /**
+   * Access prototype annotation info
+   */
+  readonly prototype: TypeInfo;
 
   /**
    * Get the type

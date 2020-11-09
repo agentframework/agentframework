@@ -1,16 +1,16 @@
 /* tslint:disable */
 
-import { decorateClassProperty, NotImplementedError, Reflector } from '../../../lib';
+import { decorateMember, NotImplementedError, Reflector } from '../../../lib';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { OnDemandTypeInfo } from '../../../src/core/Core/Reflection/OnDemandTypeInfo';
 import { NotSupportedError } from '../../../src/core/Core/Error/NotSupportedError';
 
 class MongoDB {
-  @decorateClassProperty(new RandomInterceptor())
+  @decorateMember(new RandomInterceptor())
   rnd1: any;
 
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   connect() {
     return 'connected';
   }
@@ -46,15 +46,15 @@ describe('Reflection get metadata ', () => {
     });
 
     it('Reflector static', () => {
-      expect(() => {
-        Reflector(MongoDB).static;
-      }).toThrowError(NotImplementedError, 'Reflector(MongoDB).static is not implemented yet');
+      expect(Reflector(MongoDB).static.type).toBe(MongoDB);
     });
 
-    it('Reflector prototype', () => {
-      expect(() => {
-        Reflector(MongoDB.prototype);
-      }).toThrowError(NotImplementedError, 'Reflector(MongoDB.prototype) is not implemented yet');
+    it('Reflector class prototype', () => {
+      expect(Reflector(MongoDB.prototype)).toBe(Reflector(MongoDB));
+    });
+
+    it('Reflector prototype ', () => {
+      expect(Reflector(MongoDB).prototype).toBe(Reflector(MongoDB));
     });
 
     it('Reflector instance', () => {

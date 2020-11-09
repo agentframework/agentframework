@@ -1,5 +1,5 @@
 import { PropertyAttribute } from '../../../lib';
-import { decorateClassProperty } from '../../../lib';
+import { decorateMember } from '../../../lib';
 import { Arguments, decorateParameter, Invocation, Reflector } from '../../../lib';
 
 class MethodAttribute implements PropertyAttribute {
@@ -7,22 +7,22 @@ class MethodAttribute implements PropertyAttribute {
 }
 
 function method(method: string, path: string) {
-  return decorateClassProperty(new MethodAttribute(method, path));
+  return decorateMember(new MethodAttribute(method, path));
 }
 
-const get = decorateClassProperty(new MethodAttribute('GET'));
+const get = decorateMember(new MethodAttribute('GET'));
 
 class Controller34 {
   @method('GET', '/base/user')
   listAllUser() {}
 
-  @decorateClassProperty(new MethodAttribute('POST', '/base/user'))
+  @decorateMember(new MethodAttribute('POST', '/base/user'))
   addUser() {}
 
   @get
   getUser(user: string) {}
 
-  @decorateClassProperty(new MethodAttribute('POST', '/base/user/rename'))
+  @decorateMember(new MethodAttribute('POST', '/base/user/rename'))
   renameUser() {}
 }
 
@@ -31,7 +31,7 @@ class UserController34 extends Controller34 {
   @method('GET', '/user')
   listAllUser() {}
 
-  @decorateClassProperty(new MethodAttribute('POST', '/user'))
+  @decorateMember(new MethodAttribute('POST', '/user'))
   addUser() {}
 
   @get
@@ -41,22 +41,22 @@ class UserController34 extends Controller34 {
       interceptor: {
         intercept(target: Invocation, params: Arguments, receiver: any): any {
           return target.invoke(params, receiver);
-        }
-      }
+        },
+      },
     })
     user: string
   ) {}
 
   @get
   @method('GET', '/user')
-  @decorateClassProperty(new MethodAttribute('POST', '/base/user/update'))
-  @decorateClassProperty({
+  @decorateMember(new MethodAttribute('POST', '/base/user/update'))
+  @decorateMember({
     role: 'user',
     interceptor: {
       intercept(target: Invocation, params: Arguments, receiver: any): any {
         return target.invoke(params, receiver);
-      }
-    }
+      },
+    },
   })
   updateUser(@decorateParameter({ role: 'user' }) user: string) {}
 
@@ -93,7 +93,7 @@ describe('3.4. Get class method attributes', () => {
 
     it('find attributes using inline filter function', () => {
       const property = Reflector(UserController34).property('updateUser');
-      expect(property.findOwnAttributes(attr => attr instanceof MethodAttribute).length).toBe(3);
+      expect(property.findOwnAttributes((attr) => attr instanceof MethodAttribute).length).toBe(3);
     });
 
     it('find attributes using external filter function with filter criteria', () => {

@@ -1,13 +1,13 @@
 /* tslint:disable */
 
-import { agent, CreateAgent, IsAgent, decorateClassProperty } from '../../../lib';
+import { agent, CreateAgent, IsAgent, decorateMember } from '../../../lib';
 import { BeforeRoundAttribute } from '../attributes/BeforeRoundAttribute';
 
 @agent()
 class Calculator {
   _round!: number;
 
-  @decorateClassProperty(new BeforeRoundAttribute())
+  @decorateMember(new BeforeRoundAttribute())
   set round(val: number) {
     // console.log('va', val);
     this._round = val;

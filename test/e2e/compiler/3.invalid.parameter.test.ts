@@ -44,9 +44,7 @@ describe('Initializer in Parameter', () => {
     });
 
     it('get inject attribute', () => {
-      const items = Reflector(MongoDB)
-        .getParameters()[0]
-        .getOwnAttributes(MetadataAttribute);
+      const items = Reflector(MongoDB).getParameters()[0].getOwnAttributes(MetadataAttribute);
       expect(items.length).toBe(1);
     });
   });

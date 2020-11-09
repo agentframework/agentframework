@@ -1,9 +1,9 @@
 /* tslint:disable */
 
-import { Attribute, decorateClassProperty } from '../../../lib';
+import { Attribute, decorateMember } from '../../../lib';
 
 export function propertyDecorator() {
-  return decorateClassProperty(new PropertyAttribute());
+  return decorateMember(new PropertyAttribute());
 }
 
 class PropertyAttribute implements Attribute {

@@ -3,7 +3,7 @@ import {
   agent,
   CreateAgent,
   singleton,
-  decorateClassProperty,
+  decorateMember,
   Arguments,
   PropertyInvocation,
   Reflector,
@@ -113,7 +113,7 @@ describe('6.3. @singleton decorator', () => {
       }
 
       class App635 {
-        @decorateClassProperty({
+        @decorateMember({
           interceptor: {
             intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
               return target.invoke([domain], null);

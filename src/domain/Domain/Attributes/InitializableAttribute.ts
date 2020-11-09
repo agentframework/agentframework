@@ -12,15 +12,17 @@ export class InitializableAttribute implements ClassInterceptor {
     let instance;
     const type = target.design.declaringType;
     // const init = (target: ClassInvocation, params: Arguments, receiver: any)
-    // console.log('proxy target', type);
+    // console.log('proxy target', typeof type, type, target.design.type);
     // console.log('proxy agent', receiver);
     // console.log('proxy ctor', params);
 
     // create instance
     const initializerFunction = type[ClassInitializer];
+    console.log('init fn =', initializerFunction);
     // in case of human mistake, check prototype if no static initializer function found
     if (initializerFunction) {
       if (typeof initializerFunction === 'function') {
+
         const domain = FindDomainFromInvocation(params, receiver);
 
         // debugger;

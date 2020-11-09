@@ -1,4 +1,4 @@
-import { Arguments, decorateClassProperty, decorateParameter, ParameterInvocation, Reflector } from '../../../lib';
+import { Arguments, decorateMember, decorateParameter, ParameterInvocation, Reflector } from '../../../lib';
 import { ClassMethod, ClassMethodParameter } from '../Kinds';
 
 class ParamAttribute {
@@ -20,7 +20,7 @@ class BaseLayer23 {
 }
 
 class MiddleLayer23 extends BaseLayer23 {
-  @decorateClassProperty({ require: 'operator' })
+  @decorateMember({ require: 'operator' })
   reset(s: number): boolean {
     throw new Error();
   }
@@ -31,7 +31,7 @@ class Application23 extends MiddleLayer23 {
     throw new Error();
   }
 
-  @decorateClassProperty({ require: 'admin' })
+  @decorateMember({ require: 'admin' })
   stop(): void {
     throw new Error();
   }

@@ -1,5 +1,5 @@
 import { agent } from '../../../lib';
-import { decorateClassProperty } from '../../../lib';
+import { decorateMember } from '../../../lib';
 import { ClassInvocation } from '../../../lib';
 import { Arguments } from '../../../lib';
 import { IsAgent } from '../../../lib';
@@ -7,7 +7,7 @@ import { IsAgent } from '../../../lib';
 describe('4.4. method interceptor', () => {
   @agent()
   class Class441 {
-    @decorateClassProperty({
+    @decorateMember({
       interceptor: {
         intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
           return target.invoke([Math.floor(params[0]), Math.floor(params[1])], receiver);

@@ -1,5 +1,5 @@
 import { agent } from '../../../lib';
-import { decorateClassProperty } from '../../../lib';
+import { decorateMember } from '../../../lib';
 import { ClassInvocation, ParameterInvocation } from '../../../lib';
 import { Arguments } from '../../../lib';
 import { decorateParameter } from '../../../lib';
@@ -9,22 +9,22 @@ describe('4.5. method parameter interceptor', () => {
     it('intercept class method and parameter', () => {
       @agent()
       class Class412 {
-        @decorateClassProperty({
+        @decorateMember({
           interceptor: {
             intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
               return target.invoke(params, receiver);
-            }
-          }
+            },
+          },
         })
         calc(
           @decorateParameter({
             interceptor: {
               intercept(target: ParameterInvocation, params: Arguments, receiver: any): any {
                 return Math.floor(params[target.design.index]);
-              }
-            }
+              },
+            },
           })
-            a: number
+          a: number
         ) {
           return a;
         }

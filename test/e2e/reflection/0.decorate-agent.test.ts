@@ -35,7 +35,7 @@ class MySQL {
   }
 }
 
-const Redis = (function() {
+const Redis = (function () {
   return class {};
 })();
 
@@ -65,8 +65,8 @@ describe('Decorate Agent', () => {
 
     it('new instance without name', () => {
       expect(() => {
-        CreateAgent(Redis)
-      }).toThrowError('InvalidConstructor')
+        CreateAgent(Redis);
+      }).toThrowError('InvalidConstructor');
     });
 
     it('construct instance', () => {

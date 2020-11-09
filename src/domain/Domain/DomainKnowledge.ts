@@ -9,17 +9,17 @@ export class DomainKnowledge {
 
   // key: Constructor | instance, value: Owner Domain
   static get domains() {
-    return memorize<WeakMap<Function | object, Domain>>(this, 'domains', WeakMap);
+    return memorize<WeakMap<Function | object, Domain>>(this, 'domains');
   }
 
   // key: Original Constructor, value: Agent Constructor
   static get agents() {
-    return memorize<WeakMap<Function, Function>>(this, 'agents', WeakMap);
+    return memorize<WeakMap<Function, Function>>(this, 'agents');
   }
 
   // key: Domain & Original Constructor, value: Domain Agent Constructor
   static get domainAgents() {
-    return memorize<WeakMap<Domain, Map<Function, Function>>>(this, 'domainAgents', WeakMap);
+    return memorize<WeakMap<Domain, Map<Function, Function>>>(this, 'domainAgents');
   }
 
   // key: string, value: Constructor
@@ -29,7 +29,7 @@ export class DomainKnowledge {
 
   // key: class
   static get initializers() {
-    return memorize<WeakMap<Function, Array<[Function, Function]>>>(this, 'initializers', WeakMap);
+    return memorize<WeakMap<Function, Array<[Function, Function]>>>(this, 'initializers');
   }
 
   static GetLocalDomain(domainType: Function): Domain {

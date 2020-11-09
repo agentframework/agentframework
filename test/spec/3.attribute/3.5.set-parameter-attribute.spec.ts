@@ -14,9 +14,7 @@ describe('3.5. Set class method attribute', () => {
         listAllUser(@mandatory() @mandatory() department: string, limit: number) {}
       }
       /*** user code end ***/
-      const parameter = Reflector(MyController351)
-        .property('listAllUser')
-        .parameter(0);
+      const parameter = Reflector(MyController351).property('listAllUser').parameter(0);
 
       expect(parameter.hasOwnAttribute()).toBeTrue();
       const mandatoryAttribute = parameter.getOwnAttribute(MandatoryAttribute);
@@ -32,9 +30,7 @@ describe('3.5. Set class method attribute', () => {
         listAllUser(@Mandatory department: string) {}
       }
       /*** user code end ***/
-      const parameter = Reflector(MyController352)
-        .property('listAllUser')
-        .getParameters()[0];
+      const parameter = Reflector(MyController352).property('listAllUser').getParameters()[0];
       expect(parameter).toBeTruthy();
       const mandatoryAttribute = parameter.getOwnAttribute(MandatoryAttribute);
       expect(mandatoryAttribute).toBeInstanceOf(MandatoryAttribute);
@@ -46,9 +42,7 @@ describe('3.5. Set class method attribute', () => {
         listAllUser(@decorateParameter(new MandatoryAttribute()) department: string) {}
       }
       /*** user code end ***/
-      const parameter = Reflector(MyController353)
-        .property('listAllUser')
-        .getParameter(0);
+      const parameter = Reflector(MyController353).property('listAllUser').getParameter(0);
 
       if (!parameter) {
         throw new Error('property should not null');
@@ -65,14 +59,9 @@ describe('3.5. Set class method attribute', () => {
         listAllUser(department: string) {}
       }
       /*** user code end ***/
-      Reflector(MyController353)
-        .property('listAllUser')
-        .parameter(0)
-        .addAttribute(new MandatoryAttribute());
+      Reflector(MyController353).property('listAllUser').parameter(0).addAttribute(new MandatoryAttribute());
 
-      const parameter1 = Reflector(MyController353)
-        .property('listAllUser')
-        .getParameter(0);
+      const parameter1 = Reflector(MyController353).property('listAllUser').getParameter(0);
       if (!parameter1) {
         throw new Error('property should not null');
       }

@@ -1,17 +1,17 @@
 /* tslint:disable */
 
-import { agent, CreateAgent, IsAgent, decorateClassProperty } from '../../../lib';
+import { agent, CreateAgent, IsAgent, decorateMember } from '../../../lib';
 import { BadRoundAttribute } from '../attributes/BadRoundAttribute';
 
 @agent()
 class Calculator {
-  @decorateClassProperty(new BadRoundAttribute())
+  @decorateMember(new BadRoundAttribute())
   round(val: number): number {
     // console.log('v1', val);
     return val;
   }
 
-  @decorateClassProperty(new BadRoundAttribute())
+  @decorateMember(new BadRoundAttribute())
   round1(val: number): number {
     // console.log('va2', val);
     return val;

@@ -1,4 +1,4 @@
-import { decorateClass, Arguments, agent, ClassInvocation, decorateClassProperty } from '../../../lib';
+import { decorateClass, Arguments, agent, ClassInvocation, decorateMember } from '../../../lib';
 
 describe('4.1. Class interceptor', () => {
   describe('# should able to', () => {
@@ -14,14 +14,13 @@ describe('4.1. Class interceptor', () => {
       class Class411 {
         constructor(readonly a: number) {}
 
-        @decorateClassProperty({ role: 'user' })
+        @decorateMember({ role: 'user' })
         Method411() {}
       }
 
       const instance = new Class411(3.5);
       expect(instance).toBeInstanceOf(Class411);
       expect(instance.a).toBe(3);
-
     });
   });
 });

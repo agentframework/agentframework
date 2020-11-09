@@ -1,10 +1,10 @@
 /* tslint:disable */
 
-import { CreateAgent, IsAgent, decorateClassProperty, agent } from '../../../lib';
+import { CreateAgent, IsAgent, decorateMember, agent } from '../../../lib';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 class Base {
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   get age(): number {
     return 1.2;
   }
@@ -12,7 +12,7 @@ class Base {
 
 @agent()
 class Calculator extends Base {
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   get age(): number {
     return 1.5;
   }

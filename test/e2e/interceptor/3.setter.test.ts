@@ -1,13 +1,13 @@
 /* tslint:disable */
 
-import { agent, CreateAgent, IsAgent, decorateClassProperty } from '../../../lib';
+import { agent, CreateAgent, IsAgent, decorateMember } from '../../../lib';
 import { BeforeRoundAttribute } from '../attributes/BeforeRoundAttribute';
 
 @agent()
 class Calculator {
   rounded!: number;
 
-  @decorateClassProperty(new BeforeRoundAttribute())
+  @decorateMember(new BeforeRoundAttribute())
   set round(val: number) {
     this.rounded = val;
   }
@@ -15,7 +15,6 @@ class Calculator {
 
 describe('Interceptor on setter Value', () => {
   describe('# should able to', () => {
-
     it('define agent', () => {
       expect(IsAgent(Calculator)).toBeTrue();
       expect(IsAgent(CreateAgent(Calculator))).toBeTrue();

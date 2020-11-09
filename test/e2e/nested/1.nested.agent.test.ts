@@ -1,5 +1,5 @@
 /* tslint:disable */
-import { CreateAgent, agent, decorateClass, decorateClassProperty, IsAgent } from '../../../lib';
+import { CreateAgent, agent, decorateClass, decorateMember, IsAgent } from '../../../lib';
 import { AgentChecker } from '../attributes/AgentChecker';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
@@ -10,26 +10,26 @@ import { MetadataAttribute } from '../attributes/MetadataAttribute';
 class Veicle {
   mileage!: number;
 
-  @decorateClassProperty(new RandomInterceptor())
+  @decorateMember(new RandomInterceptor())
   random!: Date;
 
-  @decorateClassProperty(new RandomInterceptor())
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RandomInterceptor())
+  @decorateMember(new RoundInterceptor())
   both: any;
 
-  @decorateClassProperty(new MetadataAttribute())
+  @decorateMember(new MetadataAttribute())
   metadata: any;
 
   light(name: string): void {
     console.log('turn on', name);
   }
 
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   round(): any {}
 }
 
 class Car extends Veicle {
-  @decorateClassProperty(new RandomInterceptor())
+  @decorateMember(new RandomInterceptor())
   random2!: Date;
 
   start() {

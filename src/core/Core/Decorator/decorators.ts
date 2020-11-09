@@ -1,7 +1,7 @@
 /**
  * This is universal decorator for all supported target
  */
-export interface Decorators {
+export interface Decorator {
   (target: object | Function, targetKey?: string | symbol, descriptorOrIndex?: PropertyDescriptor | number): void;
 }
 

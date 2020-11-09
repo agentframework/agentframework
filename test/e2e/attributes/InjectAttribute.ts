@@ -1,13 +1,14 @@
 /* tslint:disable */
 
-import { Interceptor, Invocation, Arguments, Attribute } from '../../../lib';
+import { Interceptor, Invocation, Arguments, Attribute, MemberKinds } from '../../../lib';
 
 export class InjectAttribute implements Attribute, Interceptor {
   get interceptor(): Interceptor {
     return this;
   }
+
   intercept(target: Invocation, parameters: Arguments, receiver: any): any {
-    if (target.design.kind == 2 && typeof parameters[0] !== 'undefined') {
+    if (target.design.kind == MemberKinds.Property && typeof parameters[0] !== 'undefined') {
       return target.invoke(parameters, receiver);
     }
     if (target.design.type) {

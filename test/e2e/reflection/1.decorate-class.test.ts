@@ -5,10 +5,10 @@ import {
   CreateAgent,
   AgentAttribute,
   decorateClass,
-  decorateClassProperty,
+  decorateMember,
   IsAgent,
   Reflector,
-  GetType
+  GetType,
 } from '../../../lib';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
@@ -20,21 +20,21 @@ import { AgentChecker } from '../attributes/AgentChecker';
 class MongoDB {
   connection: any;
 
-  @decorateClassProperty(new RandomInterceptor())
+  @decorateMember(new RandomInterceptor())
   random!: Date;
 
-  @decorateClassProperty(new RandomInterceptor())
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RandomInterceptor())
+  @decorateMember(new RoundInterceptor())
   both: any;
 
-  @decorateClassProperty(new MetadataAttribute())
+  @decorateMember(new MetadataAttribute())
   metadata: any;
 
   connect() {
     return 'connected';
   }
 
-  @decorateClassProperty(new RoundInterceptor())
+  @decorateMember(new RoundInterceptor())
   round(): any {}
 }
 

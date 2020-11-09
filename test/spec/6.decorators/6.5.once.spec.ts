@@ -1,4 +1,4 @@
-import {InMemoryDomain, agent, CreateAgent, once, Reflector, OnceAttribute} from '../../../lib';
+import { InMemoryDomain, agent, CreateAgent, once, Reflector, OnceAttribute } from '../../../lib';
 
 describe('6.5. @once decorator', () => {
   describe('# should able to', () => {

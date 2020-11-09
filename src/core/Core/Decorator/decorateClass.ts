@@ -23,9 +23,9 @@ import { ClassDecorator } from './decorators';
  */
 export function decorateClass<T extends Attribute>(attribute: T): ClassDecorator {
   // upgrade prototype
-  return function (target: Function): void {
-    if (CanDecorate(attribute, target)) {
-      AddAttributeToClass(attribute, target);
+  return (target: Function): void => {
+    if (CanDecorate(attribute, target.prototype)) {
+      AddAttributeToClass(attribute, target.prototype);
     }
   };
 }

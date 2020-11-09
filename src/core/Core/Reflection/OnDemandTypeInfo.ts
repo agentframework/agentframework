@@ -14,15 +14,14 @@ limitations under the License. */
 
 import { OnDemandPropertyInfo } from './OnDemandPropertyInfo';
 import { MemberKinds } from '../Interfaces/MemberKinds';
-import { PropertyAnnotation, memorize, Wisdom } from '../Wisdom';
+import { Property, memorize, Wisdom } from '../Annotation/Wisdom';
 import { TypeInfo } from '../Interfaces/TypeInfo';
 import { AbstractConstructor } from '../Constructor';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Filter } from '../Interfaces/Filter';
 import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToClass } from '../Annotation/AddAttribute';
-import { NotImplementedError } from '../Error/NotImplementedError';
-import { GetType, IsAgent } from '../Knowledge';
+import { GetType, IsAgent } from '../Type';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -51,6 +50,15 @@ import { GetType, IsAgent } from '../Knowledge';
 //   }
 // }
 
+export class TypeInfoCache {
+  /**
+   * get types map
+   */
+  static get types() {
+    return memorize<WeakMap<object | Function, OnDemandTypeInfo>>(this, 'types');
+  }
+}
+
 /**
  * Reflection information for user class
  *
@@ -58,23 +66,16 @@ import { GetType, IsAgent } from '../Knowledge';
  **/
 export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   /**
-   * get types map
-   */
-  static get types() {
-    return memorize<WeakMap<Function, OnDemandTypeInfo>>(this, 'types', WeakMap);
-  }
-
-  /**
    * Get TypeInfo from constructor
    */
-  static get(target: Function): OnDemandTypeInfo {
+  static find(target: object | Function): OnDemandTypeInfo {
     // make sure only create typeinfo for user classes
     const type = GetType(target) || target;
     // return new OnDemandTypeInfo(type);
-    let t = this.types.get(type);
+    let t = TypeInfoCache.types.get(type);
     if (!t) {
       t = new OnDemandTypeInfo(type);
-      this.types.set(type, t);
+      TypeInfoCache.types.set(type, t);
     }
     return t;
   }
@@ -86,12 +87,16 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
 
   // only allow create using factory method
   // make type as a property called constructor
-  private constructor(declaringType: Function) {
-    super(declaringType, 'constructor');
+  private constructor(target: object | Function) {
+    super(target, 'constructor');
   }
 
   get static(): TypeInfo {
-    throw new NotImplementedError(`Reflector(${this.declaringType.name}).static`);
+    return OnDemandTypeInfo.find(this.declaringType);
+  }
+
+  get prototype(): TypeInfo {
+    return OnDemandTypeInfo.find(this.declaringType.prototype);
   }
 
   get type(): AbstractConstructor<any> {
@@ -99,10 +104,13 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   }
 
   get name(): string {
-    return this.declaringType.name;
+    return this.type.name;
   }
 
   get kind(): MemberKinds.Class {
+    if (typeof this.target === 'function') {
+      return MemberKinds.Static | MemberKinds.Class;
+    }
     return MemberKinds.Class;
   }
 
@@ -116,19 +124,19 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * @cache
    */
   protected get base(): OnDemandTypeInfo | undefined {
-    const base = Reflect.getPrototypeOf(this.type.prototype);
+    const base = Reflect.getPrototypeOf(this.target);
     // ignore object as base type
-    if (!base || base.constructor === Object || IsAgent(base.constructor)) {
+    if (!base || base.constructor === Object || IsAgent(base)) {
       // stop if agent, because previous agent already
       return;
       // return cache(this, 'base', undefined);
     }
-    return OnDemandTypeInfo.get(base.constructor);
+    return OnDemandTypeInfo.find(base);
     // return cache(this, 'base', TypeInfo.get(base.constructor));
   }
 
   /**
-   * Returns prototypes
+   * Returns prototypes for this type
    *
    * @cache
    */
@@ -178,7 +186,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     //   this.properties.set(key, propertyInfo);
     // }
     // return propertyInfo;
-    return new OnDemandPropertyInfo(this.declaringType, key);
+    return new OnDemandPropertyInfo(this.target, key);
   }
 
   /**
@@ -225,7 +233,6 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
       return;
     }
     const descriptor = Reflect.getOwnPropertyDescriptor(annotations, key);
-    // const descriptor = Reflect.getOwnPropertyDescriptor(this.typeAnnotation, key);
     if (descriptor) {
       return this.property(key);
     }
@@ -236,17 +243,12 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Get annotated property in prototypes, return undefined if not found
    */
   getProperty(key: string | symbol): PropertyInfo | undefined {
-    // const annotation = this.typeAnnotationOrUndefined;
-    // if (!annotation) {
-    //   return;
-    // }
-    // const meta: PropertyAnnotation | undefined = Reflect.get(annotation, key);
-    const propertyAnnotation: PropertyAnnotation | undefined = Reflect.get(this.typeAnnotation, key);
+    const propertyAnnotation: Property | undefined = Reflect.get(this.typeAnnotation, key);
     if (propertyAnnotation) {
-      if (propertyAnnotation.type === this.declaringType) {
+      if (propertyAnnotation.target === this.target) {
         return this.getOwnProperty(key);
       } else {
-        return OnDemandTypeInfo.get(propertyAnnotation.type).getOwnProperty(key);
+        return OnDemandTypeInfo.find(propertyAnnotation.target).getOwnProperty(key);
       }
     }
     return;
@@ -305,7 +307,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   }
 
   addAttribute<A4 extends Attribute>(attribute: A4): void {
-    AddAttributeToClass(attribute, this.declaringType);
+    AddAttributeToClass(attribute, this.target);
   }
 
   /**
@@ -313,7 +315,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   protected get typeAnnotation(): object {
     // console.log('an', a++);
-    return Wisdom.getOrCreate(this.declaringType);
+    return Wisdom.add(this.target);
     // return cache(this, 'typeAnnotation', Annotator.get(this.declaringType));
   }
 
@@ -321,7 +323,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Get annotation store object or undefined
    */
   protected get typeAnnotationOrUndefined(): object | undefined {
-    return Wisdom.get(this.declaringType);
+    return Wisdom.get(this.target);
     // return cache(this, 'typeAnnotationOrUndefined', annotation);
   }
 
