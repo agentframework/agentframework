@@ -26,6 +26,9 @@ export class GetterSetterInvocation implements PropertyInvocation {
 
   invoke(params: Arguments, receiver: any): any {
     if (params.length) {
+      if (receiver == null) {
+        throw new SyntaxError('receiver is not an instance');
+      }
       // how to know the value of a field before you create that class
       // return the value from prototype is a good choose? NO, it may cause infinite loops
       return set(receiver, this.design.key, params[0]);
