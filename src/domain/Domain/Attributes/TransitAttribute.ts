@@ -1,4 +1,11 @@
-import { PropertyInvocation, PropertyInterceptor, PropertyAttribute, Arguments, AnyConstructor } from '../../../dependencies/core';
+import {
+  PropertyInvocation,
+  PropertyInterceptor,
+  PropertyAttribute,
+  Arguments,
+  AnyConstructor,
+  AgentFrameworkError
+} from '../../../dependencies/core';
 import { FindDomainFromInvocation } from '../Helpers/FindDomainFromInvocation';
 import { Domain } from '../Domain';
 
@@ -16,7 +23,7 @@ export class TransitAttribute<T extends object> implements PropertyAttribute, Pr
   intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
     const type = this.type || (target.design && target.design.type);
     if (!type) {
-      throw new TypeError('UnknownTransitType');
+      throw new AgentFrameworkError('UnknownTransitType');
     }
 
     // if this object created by domain, the last argument is domain itself

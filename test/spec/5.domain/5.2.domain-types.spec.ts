@@ -80,7 +80,7 @@ describe('5.2. Domain type', () => {
       expect(domain.getTypeOrThrow(B)).toBe(B);
       expect(() => {
         domain.getTypeOrThrow(C);
-      }).toThrowError(TypeNotFoundError, 'Type C not found');
+      }).toThrowError(TypeNotFoundError, 'TypeNotFound: C');
     });
   });
 });

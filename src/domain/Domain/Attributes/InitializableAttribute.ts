@@ -1,4 +1,10 @@
-import { Arguments, ClassInterceptor, ClassInvocation, TypeInfo } from '../../../dependencies/core';
+import {
+  AgentFrameworkError,
+  Arguments,
+  ClassInterceptor,
+  ClassInvocation,
+  TypeInfo
+} from '../../../dependencies/core';
 import { ClassInitializer } from '../Symbols';
 import { FindDomainFromInvocation } from '../Helpers/FindDomainFromInvocation';
 import { FindInitializers } from '../Helpers/FindInitializers';
@@ -50,7 +56,7 @@ export class InitializableAttribute implements ClassInterceptor {
         //   console.log('new Created', newCreated);
         // }
       } else {
-        throw new SyntaxError('ClassInitializerMustFunction');
+        throw new AgentFrameworkError('ClassInitializerMustFunction');
       }
     } else {
       // TODO: move this code to static check during compilation to avoid human mistakes

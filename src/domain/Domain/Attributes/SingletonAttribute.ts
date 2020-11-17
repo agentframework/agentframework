@@ -1,4 +1,11 @@
-import { AnyConstructor, Arguments, PropertyInvocation, PropertyInterceptor, PropertyAttribute } from '../../../dependencies/core';
+import {
+  AnyConstructor,
+  Arguments,
+  PropertyInvocation,
+  PropertyInterceptor,
+  PropertyAttribute,
+  AgentFrameworkError
+} from '../../../dependencies/core';
 import { FindDomainFromInvocation } from '../Helpers/FindDomainFromInvocation';
 
 export class SingletonAttribute<T extends object> implements PropertyAttribute, PropertyInterceptor {
@@ -18,7 +25,7 @@ export class SingletonAttribute<T extends object> implements PropertyAttribute, 
     const type = customType || designType;
 
     if (!type) {
-      throw new TypeError('UnknownSingletonType');
+      throw new AgentFrameworkError('UnknownSingletonType');
     }
 
     // if (target.design instanceof ParameterInfo) {
@@ -45,7 +52,7 @@ export class SingletonAttribute<T extends object> implements PropertyAttribute, 
     // console.log('find domain for type', receiver)
     const domain = FindDomainFromInvocation(params, receiver);
     if (!domain) {
-      throw new TypeError('NoDomainFoundForSingletonInjection');
+      throw new AgentFrameworkError('NoDomainFoundForSingletonInjection');
     }
 
     // console.log('find singleton', type.name, 'from', domain.name);

@@ -1,5 +1,13 @@
-import { PropertyAttribute, PropertyInvocation, PropertyInterceptor, Arguments, AnyConstructor } from '../../../dependencies/core';
+import {
+  PropertyAttribute,
+  PropertyInvocation,
+  PropertyInterceptor,
+  Arguments,
+  AnyConstructor,
+  AgentFrameworkError
+} from '../../../dependencies/core';
 import { FindDomainFromInvocation } from '../Helpers/FindDomainFromInvocation';
+import { DomainNotFoundError } from '../Errors/DomainNotFoundError';
 
 export class InjectAttribute<T extends object> implements PropertyAttribute, PropertyInterceptor {
   private readonly type?: AnyConstructor<T>;
@@ -20,7 +28,7 @@ export class InjectAttribute<T extends object> implements PropertyAttribute, Pro
   intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
     const type = this.type || (target.design && target.design.type);
     if (!type) {
-      throw new TypeError('UnknownInjectType');
+      throw new AgentFrameworkError('UnknownInjectType');
     }
     // console.log('target:', target.design.declaringType);
     // console.log('receiver:', receiver);
@@ -31,7 +39,7 @@ export class InjectAttribute<T extends object> implements PropertyAttribute, Pro
     // console.log('receiver', receiver);
     const domain = FindDomainFromInvocation(params, receiver);
     if (!domain) {
-      throw new Error('NoDomainFoundForInjection');
+      throw new DomainNotFoundError(`no domain to inject ${type.name}`);
     }
 
     const value = domain.getAgentOrThrow(type);

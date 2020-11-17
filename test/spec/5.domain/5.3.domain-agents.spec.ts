@@ -98,10 +98,10 @@ describe('5.3. Domain agent', () => {
       expect(domain.getAgentOrThrow(B)).toBeInstanceOf(B);
       expect(() => {
         domain.getAgentOrThrow(C);
-      }).toThrowError(AgentNotFoundError, 'Agent InMemoryDomain__C$ not found');
+      }).toThrowError(AgentNotFoundError, 'AgentNotFound: InMemoryDomain__C$');
       expect(() => {
         domain.getAgentOrThrow(D);
-      }).toThrowError('Agent D not found');
+      }).toThrowError('AgentNotFound: D');
       domain.dispose();
     });
   });

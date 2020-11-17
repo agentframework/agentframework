@@ -154,7 +154,7 @@ describe('6.3. @singleton decorator', () => {
 
       expect(() => {
         expect(app.service).toBeUndefined();
-      }).toThrowError(TypeError, 'NoDomainFoundForSingletonInjection');
+      }).toThrowError(AgentFrameworkError, 'NoDomainFoundForSingletonInjection');
     });
   });
 });
