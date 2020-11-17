@@ -119,6 +119,8 @@ export class AgentFramework extends Map<Function | object | symbol | string, any
         return metadata && Reflect.apply(metadata, Reflect, [key, value])(target, targetKey, descriptor);
       };
     });
+    // mark the time
+    Reflect['metadata']['now'] = Date.now();
   }
 
   /**
