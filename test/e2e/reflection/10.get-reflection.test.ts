@@ -64,7 +64,7 @@ describe('Reflection', () => {
     });
 
     it('get agents', () => {
-      expect(Reflector(MongoDB).findOwnProperties(p => p.hasInterceptor()).length).toBe(3);
+      expect(Reflector(MongoDB).findOwnProperties((p) => p.hasInterceptor()).length).toBe(3);
     });
 
     // it('get no agents', () => {

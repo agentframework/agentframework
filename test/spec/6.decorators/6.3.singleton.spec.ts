@@ -7,7 +7,7 @@ import {
   Arguments,
   PropertyInvocation,
   Reflector,
-  SingletonAttribute,
+  SingletonAttribute, AgentFrameworkError,
 } from '../../../lib';
 
 describe('6.3. @singleton decorator', () => {
@@ -116,7 +116,7 @@ describe('6.3. @singleton decorator', () => {
         @decorateMember({
           interceptor: {
             intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
-              return target.invoke([domain], null);
+              return target.invoke([domain], undefined);
             },
           },
         })
@@ -126,7 +126,35 @@ describe('6.3. @singleton decorator', () => {
 
       const app = domain.construct(App635);
 
-      expect(app.service).toBeInstanceOf(Service635);
+      expect(() => {
+        expect(app.service).toBeUndefined();
+      }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
+    });
+
+    it('create singleton using invalid receiver', () => {
+      const domain = new InMemoryDomain();
+
+      class Service636 {
+        //
+      }
+
+      class App636 {
+        @decorateMember({
+          interceptor: {
+            intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
+              return target.invoke([receiver], undefined);
+            },
+          },
+        })
+        @singleton()
+        readonly service!: Service636;
+      }
+
+      const app = domain.construct(App636);
+
+      expect(() => {
+        expect(app.service).toBeUndefined();
+      }).toThrowError(AgentFrameworkError, 'NoDomainFoundForSingletonInjection');
     });
   });
 });

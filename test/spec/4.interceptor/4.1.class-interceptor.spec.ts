@@ -21,7 +21,6 @@ describe('4.1. Class interceptor', () => {
       const instance = new Class411(3.5);
       expect(instance).toBeInstanceOf(Class411);
       expect(instance.a).toBe(3);
-
     });
   });
 });

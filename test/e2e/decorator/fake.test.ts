@@ -6,7 +6,7 @@ import {
   fakeClassDecorator,
   fakeClassMethodDecorator,
   fakeClassPropertyDecorator,
-  fakeParameterDecorator
+  fakeParameterDecorator,
 } from './fake';
 
 describe('Fake Decorator', () => {

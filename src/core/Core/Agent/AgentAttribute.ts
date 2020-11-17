@@ -19,8 +19,10 @@ import { Arguments } from '../Interfaces/Arguments';
 import { ConstructorInvocation } from '../Compiler/Invocation/ConstructorInvocation';
 import { OnDemandClassCompiler } from '../Compiler/OnDemandClassCompiler';
 import { FindExtendedClass } from '../Helpers/FindExtendedClass';
-import { Knowledge, RememberType } from '../Knowledge';
+import { RememberType } from '../Type';
 import { Reflector } from '../Reflector';
+import { Knowledge } from '../Annotation/Knowledge';
+import { AgentFrameworkError } from '../Error/AgentFrameworkError';
 
 /**
  * This attribute is for upgrade class to agent
@@ -86,7 +88,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     if (!invocation) {
       // upgrade properties
       const design = Reflector(target);
-      const result = design.findProperties((p) => p.hasInterceptor());
+      const result = design.findProperties(p => p.hasInterceptor());
       const properties = [];
 
       // NOTE: Static Constructor support, deep first
@@ -128,7 +130,8 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
 
         /* istanbul ignore next */
         if (target === newTarget) {
-          throw new TypeError('NotAllowModifyUserPrototype');
+          // not allowed to modify user class
+          throw new AgentFrameworkError('InvalidTarget');
         }
 
         // 2. find the proxy class

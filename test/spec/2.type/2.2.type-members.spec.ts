@@ -54,6 +54,11 @@ class CloudApplication extends Application {}
 
 class StandaloneApplication {}
 
+class BaseStaticApplication {
+  @decorateMember({ name: 'run' })
+  static run(n: number) {}
+}
+class StaticApplication extends BaseStaticApplication {}
 describe('2.2. Type members', () => {
   describe('# should able to', () => {
     it('check type properties', () => {
@@ -92,6 +97,22 @@ describe('2.2. Type members', () => {
       statusPropertyOfCloudApplication.addAttribute({});
       expect(statusPropertyOfCloudApplication.hasOwnAttribute()).toBeTrue();
       expect(statusPropertyOfCloudApplication.descriptor).toBeUndefined();
+    });
+
+    it('get static method property', () => {
+      expect(Reflector(StaticApplication).static.getOwnProperty('run')).toBeUndefined();
+      expect(Reflector(StaticApplication).static.getProperty('run')).toBeTruthy();
+      const run = Reflector(StaticApplication).static.getProperty('run');
+      if (run) {
+        expect(run.kind).toBe(MemberKinds.Static | MemberKinds.Property);
+      }
+    });
+
+    it('get static method parameter', () => {
+      const run = Reflector(StaticApplication).static.getProperty('run');
+      if (run) {
+        expect(run.parameter(0).kind).toBe(MemberKinds.Static | MemberKinds.Parameter);
+      }
     });
 
     it('get method property', () => {

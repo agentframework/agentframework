@@ -13,18 +13,18 @@ describe('4.5. method parameter interceptor', () => {
           interceptor: {
             intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
               return target.invoke(params, receiver);
-            }
-          }
+            },
+          },
         })
         calc(
           @decorateParameter({
             interceptor: {
               intercept(target: ParameterInvocation, params: Arguments, receiver: any): any {
                 return Math.floor(params[target.design.index]);
-              }
-            }
+              },
+            },
           })
-            a: number
+          a: number
         ) {
           return a;
         }

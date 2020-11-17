@@ -1,4 +1,4 @@
-import { CreateAgent } from '../../../dependencies/core';
+import { AgentFrameworkError, CreateAgent } from '../../../dependencies/core';
 import { DomainAgentAttribute } from '../Attributes/DomainAgentAttribute';
 import { DomainKnowledge } from '../DomainKnowledge';
 import { AnyClass, Class } from '../ClassConstructor';
@@ -8,7 +8,7 @@ export function CreateDomainAgent<T>(domain: Domain, type: AnyClass<T>): Class<T
   // check owner domain
   const owner = DomainKnowledge.GetDomain(type);
   if (owner && domain !== owner) {
-    throw new TypeError('NotSupportCreateAgentForOtherDomain');
+    throw new AgentFrameworkError('NotSupportCreateAgentForOtherDomain');
   }
 
   // 1. get original type if giving type is an agent type

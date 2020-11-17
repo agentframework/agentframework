@@ -34,16 +34,8 @@ class MongoDB {
 describe('Reflection Class Member', () => {
   describe('# should able to', () => {
     it('get method return type', () => {
-      expect(
-        Reflector(MongoDB)
-          .property('connect')
-          .getParameters()[0].type
-      ).toEqual(Date);
-      expect(
-        Reflector(MongoDB)
-          .property('connect')
-          .getParameters()[1].type
-      ).toEqual(RegExp);
+      expect(Reflector(MongoDB).property('connect').getParameters()[0].type).toEqual(Date);
+      expect(Reflector(MongoDB).property('connect').getParameters()[1].type).toEqual(RegExp);
     });
 
     it('get method param type', () => {
@@ -54,7 +46,7 @@ describe('Reflection Class Member', () => {
       const params = Reflector(MongoDB)
         .property('connect')
         .getParameters()
-        .map(p => p.type);
+        .map((p) => p.type);
       expect(params).toEqual([Date, RegExp]);
     });
 
@@ -101,16 +93,8 @@ describe('Reflection Class Member', () => {
 
   describe('# should not able to', () => {
     it('get 3rd param for getter', () => {
-      expect(
-        Reflector(MongoDB)
-          .property('rnd1')
-          .getParameters().length
-      ).toBe(0);
-      expect(
-        Reflector(MongoDB)
-          .property('rnd1')
-          .getParameters()[0]
-      ).toBeUndefined();
+      expect(Reflector(MongoDB).property('rnd1').getParameters().length).toBe(0);
+      expect(Reflector(MongoDB).property('rnd1').getParameters()[0]).toBeUndefined();
     });
   });
 });

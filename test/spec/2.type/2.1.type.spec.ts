@@ -64,6 +64,10 @@ describe('2.1. Type', () => {
       expect(Reflector(CloudApplication).kind).toBe(MemberKinds.Class);
     });
 
+    it('get static kind', () => {
+      expect(Reflector(CloudApplication).static.kind).toBe(MemberKinds.Class | MemberKinds.Static);
+    });
+
     it('get name', () => {
       expect(Reflector(CloudApplication).name).toBe('CloudApplication');
     });

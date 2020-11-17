@@ -12,8 +12,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Attribute } from './Interfaces/Attribute';
-import { set } from './Helpers/Prototype';
+import { Attribute } from '../Interfaces/Attribute';
+import { set } from '../Helpers/Prototype';
 
 /**
  *
@@ -24,6 +24,9 @@ export type Annotation = {};
  * metadata for a member. key: string, value: any
  */
 export class Member extends Map<string, any> {
+  constructor() {
+    super();
+  }
   // metadata
   readonly attributes: Array<Attribute> = [];
 }
@@ -35,8 +38,8 @@ export class Property extends Member {
   descriptor?: PropertyDescriptor;
 
   parameters?: Map<number, Parameter>;
-  value?: Member;
 
+  value?: Member;
   getter?: Member;
   setter?: Member;
 
@@ -61,7 +64,6 @@ export class Property extends Member {
       value = propertyDescriptor.value;
       // NOTE: just in case decorate parameter called at first and decorate property called at second
       // if (descriptor && !value.descriptor) {
-      //   console.log('d', value);
       //   value.descriptor = descriptor;
       // }
     } else {
@@ -117,6 +119,8 @@ export class AgentFramework extends Map<Function | object | symbol | string, any
         return metadata && Reflect.apply(metadata, Reflect, [key, value])(target, targetKey, descriptor);
       };
     });
+    // mark the time
+    Reflect['metadata']['now'] = Date.now();
   }
 
   /**
@@ -162,7 +166,7 @@ export function memorize<T>(agent: Function, key: string, type?: new () => T): T
   let value = Wisdom.get(id);
   /* istanbul ignore else */
   if (!value) {
-    Wisdom.set(id, (value = new (type || WeakMap)()));
+    Wisdom.set(id, (value = Reflect.construct(type || WeakMap, [])));
   }
   // console.log('know', agent, key, '====', value);
   return set(agent, key, value);

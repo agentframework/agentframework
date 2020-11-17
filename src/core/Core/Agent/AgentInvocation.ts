@@ -24,7 +24,6 @@ import { ClassInvocation } from '../Interfaces/TypeInvocations';
 export class AgentInvocation implements ClassInvocation {
   constructor(readonly design: TypeInfo) {}
 
-
   invoke([compiler, name, code, data]: any, receiver: any): any {
     // dont do any change if no changes to the target
     // that means no initializers defined

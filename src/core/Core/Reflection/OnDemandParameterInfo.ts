@@ -18,7 +18,7 @@ import { ParameterInfo } from '../Interfaces/ParameterInfo';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToMethodParameter } from '../Annotation/AddAttribute';
-import { Parameter } from '../Wisdom';
+import { Parameter } from '../Annotation/Wisdom';
 
 /**
  * Parameter
@@ -38,13 +38,17 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
   }
 
   get kind(): MemberKinds {
-    let kind = MemberKinds.Parameter;
+    if (typeof this.target === 'function') {
+      return MemberKinds.Static | MemberKinds.Parameter;
+    }
+    return MemberKinds.Parameter;
+    // let kind = super.kind | MemberKinds.Parameter;
     // if (this.key === 'constructor') {
     //   kind |= MemberKinds.ConstructorParameter;
     // } else {
     //   kind |= MemberKinds.MethodParameter;
     // }
-    return kind;
+    // return kind;
   }
 
   get type(): Function | undefined {

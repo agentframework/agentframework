@@ -14,8 +14,8 @@ describe('4.6. getter interceptor', () => {
           interceptor: {
             intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
               return Math.floor(target.invoke(params, receiver));
-            }
-          }
+            },
+          },
         })
         get getter() {
           return this.a;

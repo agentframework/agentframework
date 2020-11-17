@@ -1,8 +1,10 @@
-export class TypeNotFoundError extends TypeError {
+import { AgentFrameworkError } from '../../../dependencies/core';
+
+export class TypeNotFoundError extends AgentFrameworkError {
   readonly type: Function;
 
   constructor(type: Function) {
-    super(`Type ${type.name} not found`);
+    super(`TypeNotFound: ${type.name}`);
     this.type = type;
   }
 }

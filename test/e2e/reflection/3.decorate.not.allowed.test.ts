@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import {decorate, MemberKinds} from '../../../lib';
+import { decorate, MemberKinds, AgentFrameworkError } from '../../../lib';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 
 const a = new MetadataAttribute();
@@ -11,9 +11,9 @@ describe('decorate() and Not Allowed Target', () => {
     it('decorate constructor', () => {
       expect(() => {
         @decorate(a, noTarget)
-        class MongoDB { }
+        class MongoDB {}
         expect(MongoDB).toBeTruthy();
-      }).toThrowError('MetadataAttribute is not allow decorate on class');
+      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: MetadataAttribute is not allow decorate on class');
     });
 
     it('decorate class field', () => {
@@ -23,43 +23,43 @@ describe('decorate() and Not Allowed Target', () => {
           random!: Date;
         }
         expect(MongoDB).toBeTruthy();
-      }).toThrowError('MetadataAttribute is not allow decorate on property');
+      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: MetadataAttribute is not allow decorate on property');
     });
 
     it('decorate class non-function field', () => {
       expect(() => {
-        function MongoDB() { }
+        function MongoDB() {}
         Reflect.defineProperty(MongoDB.prototype, 'random', { value: 1 });
         const descr = Reflect.getOwnPropertyDescriptor(MongoDB.prototype, 'random');
         // another kind of class and decorator
         decorate(a, noTarget)(MongoDB.prototype, 'random', descr);
-      }).toThrowError('MetadataAttribute is not allow decorate on property');
+      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: MetadataAttribute is not allow decorate on property');
     });
 
     it('decorate constructor parameter', () => {
       expect(() => {
         class MongoDB {
-          constructor(p1: number, @decorate(a, noTarget) p2: Date) { }
+          constructor(p1: number, @decorate(a, noTarget) p2: Date) {}
         }
         expect(MongoDB).toBeTruthy();
-      }).toThrowError('MetadataAttribute is not allow decorate on constructor parameters');
+      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: MetadataAttribute is not allow decorate on constructor parameters');
     });
     it('decorate method', () => {
       expect(() => {
         class MongoDB {
           @decorate(a, noTarget)
-          round(p1: string, p2: Date): any { }
+          round(p1: string, p2: Date): any {}
         }
         expect(MongoDB).toBeTruthy();
-      }).toThrowError('MetadataAttribute is not allow decorate on property');
+      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: MetadataAttribute is not allow decorate on property');
     });
     it('decorate method parameter', () => {
       expect(() => {
         class MongoDB {
-          round(p1: string, @decorate(a, noTarget) p2: Date): any { }
+          round(p1: string, @decorate(a, noTarget) p2: Date): any {}
         }
         expect(MongoDB).toBeTruthy();
-      }).toThrowError('MetadataAttribute is not allow decorate on method parameters');
+      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: MetadataAttribute is not allow decorate on method parameters');
     });
     it('decorate getter', () => {
       expect(() => {
@@ -70,7 +70,7 @@ describe('decorate() and Not Allowed Target', () => {
           }
         }
         expect(MongoDB).toBeTruthy();
-      }).toThrowError('MetadataAttribute is not allow decorate on property');
+      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: MetadataAttribute is not allow decorate on property');
     });
     it('decorate setter', () => {
       expect(() => {
@@ -81,7 +81,7 @@ describe('decorate() and Not Allowed Target', () => {
           }
         }
         expect(MongoDB).toBeTruthy();
-      }).toThrowError('MetadataAttribute is not allow decorate on property');
+      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: MetadataAttribute is not allow decorate on property');
     });
   });
 });

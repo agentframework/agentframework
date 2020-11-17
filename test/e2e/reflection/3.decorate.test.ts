@@ -24,10 +24,10 @@ describe('decorate() and Target', () => {
         @decorate(a, MemberKinds.Property)
         random!: Date;
 
-        constructor(p1: number, @decorate(a, MemberKinds.Parameter) p2: Date) { }
+        constructor(p1: number, @decorate(a, MemberKinds.Parameter) p2: Date) {}
 
         @decorate(a, MemberKinds.Property)
-        round(p1: string, @decorate(a, MemberKinds.Parameter) p2: Date): any { }
+        round(p1: string, @decorate(a, MemberKinds.Parameter) p2: Date): any {}
 
         @decorate(a, MemberKinds.Property)
         get dob(): Date {
@@ -53,10 +53,10 @@ describe('decorate() and Target', () => {
         @decorate(a, MemberKinds.Property)
         random!: Date;
 
-        constructor(p1: number, @decorate(a, MemberKinds.Parameter) p2: Date) { }
+        constructor(p1: number, @decorate(a, MemberKinds.Parameter) p2: Date) {}
 
         @decorate(a, MemberKinds.Property)
-        round(p1: string, @decorate(a, MemberKinds.Parameter) p2: Date): any { }
+        round(p1: string, @decorate(a, MemberKinds.Parameter) p2: Date): any {}
 
         @decorate(a, MemberKinds.Property)
         get dob(): Date {

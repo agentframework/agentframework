@@ -81,14 +81,14 @@ describe('5.4. Domain construct', () => {
       const domain = new InMemoryDomain();
       expect(() => {
         domain.construct(R);
-      }).toThrowError('NotSupportObservableConstructor');
+      }).toThrowError('NotAllowConstructObservableObject');
     });
 
     it('construct Promise', () => {
       const domain = new InMemoryDomain();
       expect(() => {
         domain.construct(P);
-      }).toThrowError('NotSupportPromiseConstructor');
+      }).toThrowError('NotAllowConstructPromiseObject');
     });
 
     it('construct agent', () => {

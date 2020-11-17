@@ -20,22 +20,14 @@ describe('Reflection get attribute ', () => {
       expect(Reflector(MongoDB).getOwnAttributes().length).toBe(0);
     });
     it('check specified attribute', () => {
-      expect(
-        Reflector(MongoDB)
-          .property('connect')
-          .hasOwnAttribute(RandomInterceptor)
-      ).toBe(false);
+      expect(Reflector(MongoDB).property('connect').hasOwnAttribute(RandomInterceptor)).toBe(false);
     });
     it('check all attributes', () => {
       expect(Reflector(MongoDB).hasOwnAttribute()).toBe(false);
     });
 
     it('check not attributes', () => {
-      expect(
-        Reflector(MongoDB)
-          .property('rnd1')
-          .hasOwnAttribute()
-      ).toBe(true);
+      expect(Reflector(MongoDB).property('rnd1').hasOwnAttribute()).toBe(true);
     });
   });
 });

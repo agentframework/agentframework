@@ -7,6 +7,7 @@ import { AgentNotFoundError } from './Errors/AgentNotFoundError';
 import { Domain } from './Domain';
 import { IsPromise } from './Helpers/IsPromise';
 import { IsObservable } from './Helpers/IsObservable';
+import { AgentFrameworkError } from '../../dependencies/core';
 
 /**
  * In memory domain
@@ -111,11 +112,11 @@ export class InMemoryDomain extends Domain implements Disposable {
     // do not allow construct promise or observable using constructor
     if (IsPromise(agent)) {
       // drop agent
-      throw new Error('NotSupportPromiseConstructor');
+      throw new AgentFrameworkError('NotAllowConstructPromiseObject');
     }
 
     if (IsObservable(agent)) {
-      throw new Error('NotSupportObservableConstructor');
+      throw new AgentFrameworkError('NotAllowConstructObservableObject');
     }
 
     // no need register instance with domain
@@ -176,7 +177,7 @@ export class InMemoryDomain extends Domain implements Disposable {
         );
       } else if (IsObservable(newCreated)) {
         // TODO: add observable support later version
-        throw new Error('NotSupportObservableConstructor');
+        throw new AgentFrameworkError('NotSupportResolveObservableObject');
       } else {
         // no need register instance with domain
         // DomainCore.SetDomain(newCreated, this);
@@ -333,5 +334,3 @@ export class InMemoryDomain extends Domain implements Disposable {
     this.disposed = true;
   }
 }
-
-

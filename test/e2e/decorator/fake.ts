@@ -1,12 +1,6 @@
 /* tslint:disable */
 
-import {
-  Attribute,
-  Interceptor,
-  decorateMember,
-  decorateClass,
-  decorateParameter
-} from '../../../lib';
+import { Attribute, Interceptor, decorateMember, decorateClass, decorateParameter } from '../../../lib';
 
 export function fakeClassMemberDecorator() {
   return decorateMember(new PropertyDecoratorAttribute());

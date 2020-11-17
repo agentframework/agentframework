@@ -1,4 +1,4 @@
-import { decorate, decorateMember, MemberKinds, Reflector } from '../../../lib';
+import { AgentFrameworkError, decorate, decorateMember, MemberKinds, Reflector } from '../../../lib';
 import { ClassField } from '../Kinds';
 
 class Data24 {
@@ -112,7 +112,7 @@ describe('2.4. Type fields', () => {
         }
 
         expect(NotAllowStatic).toBeTruthy();
-      }).toThrowError('Object is not allow decorate on static property');
+      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: Object is not allow decorate on static property');
     });
 
     it('decorate non-static property to static property parameter', () => {
@@ -121,7 +121,7 @@ describe('2.4. Type fields', () => {
           static Run(@decorate({ a: 1 }, MemberKinds.Property) name: string) {}
         }
         expect(NotAllowStatic).toBeTruthy();
-      }).toThrowError('Object is not allow decorate on method parameters');
+      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: Object is not allow decorate on method parameters');
     });
 
     it('decorate non-static parameter to static property parameter', () => {
@@ -130,7 +130,7 @@ describe('2.4. Type fields', () => {
           static Run(@decorate({ a: 1 }, MemberKinds.Parameter) name: string) {}
         }
         expect(NotAllowStatic).toBeTruthy();
-      }).toThrowError('Object is not allow decorate on static method parameters');
+      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: Object is not allow decorate on static method parameters');
     });
   });
 });

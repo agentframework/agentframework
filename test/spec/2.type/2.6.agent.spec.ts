@@ -4,7 +4,7 @@ import {
   decorate,
   ParameterAttribute,
   ParameterInterceptor,
-  ParameterInvocation
+  ParameterInvocation,
 } from '../../../lib';
 
 class InjectAttribute implements ParameterAttribute, ParameterInterceptor {

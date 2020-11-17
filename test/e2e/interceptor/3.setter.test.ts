@@ -15,7 +15,6 @@ class Calculator {
 
 describe('Interceptor on setter Value', () => {
   describe('# should able to', () => {
-
     it('define agent', () => {
       expect(IsAgent(Calculator)).toBeTrue();
       expect(IsAgent(CreateAgent(Calculator))).toBeTrue();

@@ -12,8 +12,8 @@ describe('4.4. constructor parameter interceptor', () => {
         interceptor: {
           intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
             return target.invoke(params, receiver);
-          }
-        }
+          },
+        },
       })
       class Class411 {
         constructor(
@@ -21,8 +21,8 @@ describe('4.4. constructor parameter interceptor', () => {
             interceptor: {
               intercept(target: ParameterInvocation, params: Arguments, receiver: any): any {
                 return Math.floor(params[target.design.index]);
-              }
-            }
+              },
+            },
           })
           readonly a: number
         ) {}

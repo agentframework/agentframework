@@ -7,7 +7,6 @@ export function methodDecorator() {
 }
 
 class MethodDecoratorAttribute implements Attribute, Interceptor {
-
   beforeDecorate(target: Object | Function, targetKey?: string | symbol, descriptor?: PropertyDescriptor): boolean {
     return true;
   }
@@ -19,5 +18,4 @@ class MethodDecoratorAttribute implements Attribute, Interceptor {
   intercept(invocation: Invocation, parameters: Arguments, receiver: any): any {
     return invocation.invoke(parameters, receiver);
   }
-
 }

@@ -14,8 +14,7 @@ limitations under the License. */
 
 import { TypeInfo } from './Interfaces/TypeInfo';
 import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
-import { NotImplementedError } from './Error/NotImplementedError';
-import { NotSupportedError } from './Error/NotSupportedError';
+import { AgentFrameworkError } from './Error/AgentFrameworkError';
 
 /**
  * Reflector is the interface to access type data from class constructor or class prototype
@@ -36,7 +35,7 @@ export function Reflector(target: Function | object): TypeInfo {
     // make sure get the prototype of origin type
     return OnDemandTypeInfo.find(target.prototype);
   } else if (target == null) {
-    throw new NotSupportedError(`Reflector(null)`);
+    throw new AgentFrameworkError(`NotSupported: Reflector(null) is not supported`);
   } else if (typeof target === 'object') {
     // if a object hasOwnPropertyDescriptor('constructor') then this object is a prototype
     // instance don't have own constructor property
@@ -44,10 +43,10 @@ export function Reflector(target: Function | object): TypeInfo {
       return OnDemandTypeInfo.find(target);
     } else {
       // object without own property constructor consider an instance
-      throw new NotImplementedError(`Reflector(${target.constructor.name} {})`);
+      throw new AgentFrameworkError(`NotImplemented: Reflector(${target.constructor.name} {}) is not implemented yet`);
     }
   } else {
     // number, boolean, string and so on
-    throw new NotSupportedError(`Reflector(${typeof target})`);
+    throw new AgentFrameworkError(`NotSupported: Reflector(${typeof target}) is not supported`);
   }
 }

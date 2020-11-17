@@ -30,7 +30,9 @@ export type Class<T = any> = Constructor<T>;
 
 export type AgentIdentifier = AbstractConstructor<any>;
 
-export type AgentParameters<T, P extends Arguments = Arguments> = T extends new (...args: infer P) => any ? P : Arguments;
+export type AgentParameters<T, P extends Array<any> = Array<any>> = T extends new (...args: infer P) => any
+  ? P
+  : Arguments;
 
 export type Agent<T> = T extends AbstractConstructor<infer R> ? R : never;
 

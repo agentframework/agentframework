@@ -1,7 +1,7 @@
-import { ClassInvocation } from './Interfaces/TypeInvocations';
-import { Arguments } from './Interfaces/Arguments';
-import { FindExtendedClass } from './Helpers/FindExtendedClass';
-import { OnDemandClassCompiler } from './Compiler/OnDemandClassCompiler';
+import { ClassInvocation } from '../Interfaces/TypeInvocations';
+import { Arguments } from '../Interfaces/Arguments';
+import { FindExtendedClass } from '../Helpers/FindExtendedClass';
+import { OnDemandClassCompiler } from '../Compiler/OnDemandClassCompiler';
 
 export class InterceptorAttribute {
   get interceptor() {

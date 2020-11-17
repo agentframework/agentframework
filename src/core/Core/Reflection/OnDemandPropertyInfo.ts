@@ -16,17 +16,17 @@ import { OnDemandMemberInfo } from './OnDemandMemberInfo';
 import { OnDemandParameterInfo } from './OnDemandParameterInfo';
 import { MemberKinds } from '../Interfaces/MemberKinds';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
-// import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
-// import { OnDemandPropertyGetterInfo } from './OnDemandPropertyGetterInfo';
-// import { OnDemandPropertySetterInfo } from './OnDemandPropertySetterInfo';
 import { HasInterceptor } from '../Helpers/Filters';
-// import { getter } from '../Helpers/Prototype';
 import { ParameterInfo } from '../Interfaces/ParameterInfo';
 import { MemberInfo } from '../Interfaces/MemberInfo';
 import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToMember } from '../Annotation/AddAttribute';
-import { Property } from '../Wisdom';
+import { Property } from '../Annotation/Wisdom';
 
+// import { getter } from '../Helpers/Prototype';
+// import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
+// import { OnDemandPropertyGetterInfo } from './OnDemandPropertyGetterInfo';
+// import { OnDemandPropertySetterInfo } from './OnDemandPropertySetterInfo';
 /**
  * Property
  *
@@ -48,7 +48,8 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
       if (Reflect.has(annotation, 'descriptor')) {
         descriptor = annotation.descriptor;
       } else {
-        descriptor = Reflect.getOwnPropertyDescriptor(this.declaringType.prototype, this.key); // descriptor is undefined for virtual property
+        // descriptor is undefined for virtual property
+        descriptor = Reflect.getOwnPropertyDescriptor(this.declaringType.prototype, this.key);
         annotation.descriptor = descriptor;
       }
     }
@@ -57,7 +58,10 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   }
 
   get kind(): MemberKinds {
-    let kind = MemberKinds.Property;
+    if (typeof this.target === 'function') {
+      return MemberKinds.Static | MemberKinds.Property;
+    }
+    return MemberKinds.Property;
     // const descriptor = this.descriptor;
     // if (descriptor) {
     //   if (Reflect.has(descriptor, 'value')) {
@@ -73,7 +77,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
     // } else {
     //   kind |= MemberKinds.Field;
     // }
-    return kind;
+    // return kind;
   }
 
   get type(): Function | undefined {

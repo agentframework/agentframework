@@ -12,7 +12,7 @@ import {
   Invocation,
   Arguments,
   MemberKinds,
-  decorateClass
+  decorateClass,
 } from '../../../lib';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 

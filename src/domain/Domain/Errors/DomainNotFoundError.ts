@@ -1,5 +1,7 @@
-// export class DomainNotFoundError extends TypeError {
-//   constructor() {
-//     super(`DomainNotFound`);
-//   }
-// }
+import { AgentFrameworkError } from '../../../dependencies/core';
+
+export class DomainNotFoundError extends AgentFrameworkError {
+  constructor(message: string) {
+    super(`DomainNotFound: ${message}`);
+  }
+}

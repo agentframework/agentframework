@@ -1,5 +1,12 @@
 # Agent Framework 2.0.x ChangeLog
 
+## 2020-10-24, Version 2.0.0-rc.5, @e2tox
+
+**Notable Changes**
+
+-   Use AgentFrameworkError for all error
+-   Add prefix to all error message, details followed by ":"
+
 ## 2020-10-24, Version 2.0.0-rc.3, @e2tox
 
 **Notable Changes**

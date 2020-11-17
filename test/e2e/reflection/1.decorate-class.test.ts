@@ -8,7 +8,7 @@ import {
   decorateMember,
   IsAgent,
   Reflector,
-  GetType
+  GetType,
 } from '../../../lib';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';

@@ -24,5 +24,5 @@ export enum MemberKinds {
   // Setter = 128,
   // ConstructorParameter = 256,
   // MethodParameter = 512,
-  All = 65535
+  All = 65535,
 }

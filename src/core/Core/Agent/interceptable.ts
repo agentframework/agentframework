@@ -1,4 +1,4 @@
-import { decorateAgent } from './Decorator/decorateAgent';
+import { decorateAgent } from '../Decorator/decorateAgent';
 import { InterceptorAttribute } from './InterceptorAttribute';
 
 export function interceptable() {

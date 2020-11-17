@@ -9,7 +9,7 @@ class Calculator {
 }
 
 Reflect.defineProperty(Calculator.prototype, 'RoundOnField', {
-  value: 1
+  value: 1,
 });
 
 describe('Interceptor on Field', () => {
@@ -24,11 +24,7 @@ describe('Interceptor on Field', () => {
     });
 
     it('get the attribute', () => {
-      expect(
-        Reflector(Calculator)
-          .property('RoundOnField')
-          .getOwnAttributes(RoundInterceptor).length
-      ).toBe(1);
+      expect(Reflector(Calculator).property('RoundOnField').getOwnAttributes(RoundInterceptor).length).toBe(1);
     });
 
     it('create agent', () => {

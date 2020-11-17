@@ -18,7 +18,8 @@ limitations under the License. */
 export { AbstractConstructor, AnyConstructor, Constructor } from './Core/Constructor';
 export { Decorator, ClassDecorator, PropertyDecorator, ParameterDecorator } from './Core/Decorator/decorators';
 export { Arguments } from './Core/Interfaces/Arguments';
-export { NotImplementedError } from './Core/Error/NotImplementedError';
+export { AgentFrameworkError } from './Core/Error/AgentFrameworkError';
+// export { NotImplementedError } from './Core/Error/NotImplementedError';
 // export { NotSupportedError } from './Core/Error/NotSupportedError';
 
 /*************************************
@@ -83,14 +84,14 @@ export { Reflector } from './Core/Reflector';
 
 export { AgentAttribute } from './Core/Agent/AgentAttribute';
 export { CreateAgent } from './Core/Agent/CreateAgent';
-export { GetType, IsAgent } from './Core/Knowledge';
+export { GetType, IsAgent } from './Core/Type';
 
 /*************************************
  *   Wisdom
  *************************************/
-export { memorize } from './Core/Wisdom';
+export { memorize } from './Core/Annotation/Wisdom';
 
 /*************************************
  *   Static Interceptor
  *************************************/
-export { interceptable } from './Core/interceptable';
+export { interceptable } from './Core/Agent/interceptable';

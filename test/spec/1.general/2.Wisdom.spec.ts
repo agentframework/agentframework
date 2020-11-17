@@ -1,4 +1,4 @@
-import { Wisdom } from '../../../src/core/Core/Wisdom';
+import { Wisdom } from '../../../src/core/Core/Annotation/Wisdom';
 
 describe('Wisdom!', () => {
   describe('# should able to', () => {

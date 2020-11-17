@@ -41,7 +41,10 @@ export function FindDomainFromInvocation(params: Arguments, receiver: Function |
     if (IsDomain(parameter)) {
       return parameter;
     }
+
   }
+
+
 
   return;
 }

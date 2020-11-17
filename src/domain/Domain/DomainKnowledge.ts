@@ -17,7 +17,7 @@ export class DomainKnowledge {
     return memorize<WeakMap<Function, Function>>(this, 'agents');
   }
 
-  // key: Domain & Original Constructor, value: Domain Agent Constructor
+  // key: Domain + Original Constructor, value: Domain Agent Constructor
   static get domainAgents() {
     return memorize<WeakMap<Domain, Map<Function, Function>>>(this, 'domainAgents');
   }
@@ -48,11 +48,11 @@ export class DomainKnowledge {
     this.agents.set(type, agent);
   }
 
-  static GetDomain(key: object): Domain | undefined {
+  static GetDomain(key: object | Function): Domain | undefined {
     return this.domains.get(key);
   }
 
-  static RememberDomain(key: object, domain: Domain): void {
+  static RememberDomain(key: object | Function, domain: Domain): void {
     this.domains.set(key, domain);
   }
 

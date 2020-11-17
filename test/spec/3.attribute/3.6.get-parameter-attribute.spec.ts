@@ -5,7 +5,7 @@ import {
   Reflector,
   ParameterInvocation,
   Arguments,
-  agent
+  agent,
 } from '../../../lib';
 
 class OptionalAttribute implements ParameterAttribute {
@@ -63,9 +63,9 @@ describe('3.6. Get parameter attributes', () => {
     it('get annotated properties', () => {
       const type = Reflector(UserController34);
       expect(type.getOwnProperties().length).toBe(4);
-      expect(type.findOwnProperties(p => p.hasInterceptor()).length).toBe(2);
-      expect(type.findProperties(p => p.hasInterceptor()).size).toBe(1);
-      expect(type.findProperties(p => p.hasInterceptor()).get(type)).toBeTruthy();
+      expect(type.findOwnProperties((p) => p.hasInterceptor()).length).toBe(2);
+      expect(type.findProperties((p) => p.hasInterceptor()).size).toBe(1);
+      expect(type.findProperties((p) => p.hasInterceptor()).get(type)).toBeTruthy();
     });
 
     it('check interceptor', () => {
@@ -102,13 +102,13 @@ describe('3.6. Get parameter attributes', () => {
 
       expect(property.parameter(0).type).toBe(UserRepository);
       expect(property.parameter(0).hasOwnAttribute()).toBeFalse();
-      expect(property.parameter(0).findOwnAttributes(a => a instanceof InjectAttribute)).toEqual([]);
+      expect(property.parameter(0).findOwnAttributes((a) => a instanceof InjectAttribute)).toEqual([]);
       expect(property.parameter(0).getOwnAttribute(InjectAttribute)).toBeUndefined();
       expect(property.parameter(0).getOwnAttributes(InjectAttribute)).toEqual([]);
 
       expect(property.parameter(1).type).toBe(Object);
       expect(property.parameter(1).hasOwnAttribute()).toBeTrue();
-      expect(property.parameter(1).findOwnAttributes(a => a instanceof OptionalAttribute).length).toBe(1);
+      expect(property.parameter(1).findOwnAttributes((a) => a instanceof OptionalAttribute).length).toBe(1);
       expect(property.parameter(1).getOwnAttribute(OptionalAttribute)).toBeInstanceOf(OptionalAttribute);
       expect(property.parameter(1).getOwnAttributes(OptionalAttribute).length).toBe(1);
     });
@@ -127,8 +127,8 @@ describe('3.6. Get parameter attributes', () => {
 
     it('find attributes using inline filter function', () => {
       const property = Reflector(UserController34).property('listAllUser');
-      expect(property.parameter(0).findOwnAttributes(a => !!a).length).toBe(0);
-      expect(property.parameter(1).findOwnAttributes(a => !!a).length).toBe(1);
+      expect(property.parameter(0).findOwnAttributes((a) => !!a).length).toBe(0);
+      expect(property.parameter(1).findOwnAttributes((a) => !!a).length).toBe(1);
     });
 
     it('find attributes using external filter function with filter criteria', () => {

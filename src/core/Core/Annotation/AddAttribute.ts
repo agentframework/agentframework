@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Attribute } from '../Interfaces/Attribute';
-import { Wisdom, Property, Parameter } from '../Wisdom';
+import { Wisdom, Property, Parameter } from './Wisdom';
 
 /**
  * Reflector(target).addAttribute(attribute);
@@ -68,7 +68,6 @@ export function AddAttributeToMember(
   const property = Property.find(annotation, target, key, descriptor);
   property.attributes.push(attribute);
 }
-
 
 // /**
 //  * Reflector(target).property(property).addAttribute(attribute);

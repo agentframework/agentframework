@@ -41,8 +41,8 @@ class UserController34 extends Controller34 {
       interceptor: {
         intercept(target: Invocation, params: Arguments, receiver: any): any {
           return target.invoke(params, receiver);
-        }
-      }
+        },
+      },
     })
     user: string
   ) {}
@@ -55,8 +55,8 @@ class UserController34 extends Controller34 {
     interceptor: {
       intercept(target: Invocation, params: Arguments, receiver: any): any {
         return target.invoke(params, receiver);
-      }
-    }
+      },
+    },
   })
   updateUser(@decorateParameter({ role: 'user' }) user: string) {}
 
@@ -93,7 +93,7 @@ describe('3.4. Get class method attributes', () => {
 
     it('find attributes using inline filter function', () => {
       const property = Reflector(UserController34).property('updateUser');
-      expect(property.findOwnAttributes(attr => attr instanceof MethodAttribute).length).toBe(3);
+      expect(property.findOwnAttributes((attr) => attr instanceof MethodAttribute).length).toBe(3);
     });
 
     it('find attributes using external filter function with filter criteria', () => {
