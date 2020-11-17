@@ -21,6 +21,7 @@ import { OnDemandTypeInfo } from '../Reflection/OnDemandTypeInfo';
 import { HasInterceptor } from '../Helpers/Filters';
 import { ChainFactory } from '../Compiler/Factory/ChainFactory';
 import { Invocation } from '../Interfaces/Invocation';
+import { AgentFrameworkError } from '../Error/AgentFrameworkError';
 
 /**
  * Create a new agent from attribute, and add into Agent registry
@@ -41,7 +42,7 @@ export function CreateAgent<T extends Function>(target: T, strategy?: ClassAttri
   }
 
   if (!target.name) {
-    throw new SyntaxError('InvalidConstructor');
+    throw new AgentFrameworkError('InvalidClassName');
   }
 
   const proxy = strategy || new AgentAttribute();

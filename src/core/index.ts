@@ -18,7 +18,8 @@ limitations under the License. */
 export { AbstractConstructor, AnyConstructor, Constructor } from './Core/Constructor';
 export { Decorator, ClassDecorator, PropertyDecorator, ParameterDecorator } from './Core/Decorator/decorators';
 export { Arguments } from './Core/Interfaces/Arguments';
-export { NotImplementedError } from './Core/Error/NotImplementedError';
+export { AgentFrameworkError } from './Core/Error/AgentFrameworkError';
+// export { NotImplementedError } from './Core/Error/NotImplementedError';
 // export { NotSupportedError } from './Core/Error/NotSupportedError';
 
 /*************************************

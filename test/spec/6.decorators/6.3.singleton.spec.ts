@@ -7,7 +7,7 @@ import {
   Arguments,
   PropertyInvocation,
   Reflector,
-  SingletonAttribute,
+  SingletonAttribute, AgentFrameworkError,
 } from '../../../lib';
 
 describe('6.3. @singleton decorator', () => {
@@ -128,7 +128,7 @@ describe('6.3. @singleton decorator', () => {
 
       expect(() => {
         expect(app.service).toBeUndefined();
-      }).toThrowError(SyntaxError, 'receiver is not an instance');
+      }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
     });
 
     it('create singleton using invalid receiver', () => {

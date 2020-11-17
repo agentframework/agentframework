@@ -18,10 +18,11 @@ import {
   AddAttributeToClass,
   AddAttributeToMethodParameter,
   AddAttributeToConstructorParameter,
-  AddAttributeToMember,
+  AddAttributeToMember
 } from '../Annotation/AddAttribute';
 import { MemberKinds } from '../Interfaces/MemberKinds';
 import { Decorator } from './decorators';
+import { AgentFrameworkError } from '../Error/AgentFrameworkError';
 
 /**
  * Decorate attribute to the target, throw if target not allowed
@@ -36,7 +37,7 @@ export function decorate<T extends Attribute>(attribute: T, allows?: MemberKinds
       if (typeof descriptorOrIndex === 'number') {
         // this is constructor parameter
         if (MemberKinds.Parameter !== (allowed & MemberKinds.Parameter)) {
-          throw new TypeError(`${attribute.constructor.name} is not allow decorate on constructor parameters`);
+          throw new AgentFrameworkError(`InvalidDecorator: ${attribute.constructor.name} is not allow decorate on constructor parameters`);
         }
         if (CanDecorate(attribute, target, key, descriptorOrIndex)) {
           AddAttributeToConstructorParameter(attribute, (target as Function).prototype, descriptorOrIndex);
@@ -47,7 +48,7 @@ export function decorate<T extends Attribute>(attribute: T, allows?: MemberKinds
       } else {
         // this is constructor
         if (MemberKinds.Class !== (allowed & MemberKinds.Class)) {
-          throw new TypeError(`${attribute.constructor.name} is not allow decorate on class`);
+          throw new AgentFrameworkError(`InvalidDecorator: ${attribute.constructor.name} is not allow decorate on class`);
         }
         if (CanDecorate(attribute, target, key)) {
           AddAttributeToClass(attribute, (target as Function).prototype);
@@ -59,11 +60,11 @@ export function decorate<T extends Attribute>(attribute: T, allows?: MemberKinds
       if (typeof descriptorOrIndex === 'number') {
         // this is method parameter
         if (MemberKinds.Parameter !== (allowed & MemberKinds.Parameter)) {
-          throw new TypeError(`${attribute.constructor.name} is not allow decorate on method parameters`);
+          throw new AgentFrameworkError(`InvalidDecorator: ${attribute.constructor.name} is not allow decorate on method parameters`);
         }
 
         if (typeof target === 'function' && MemberKinds.Static !== (allowed & MemberKinds.Static)) {
-          throw new TypeError(`${attribute.constructor.name} is not allow decorate on static method parameters`);
+          throw new AgentFrameworkError(`InvalidDecorator: ${attribute.constructor.name} is not allow decorate on static method parameters`);
         }
 
         if (CanDecorate(attribute, target, key, descriptorOrIndex)) {
@@ -76,11 +77,11 @@ export function decorate<T extends Attribute>(attribute: T, allows?: MemberKinds
       } else {
         // this is method
         if (MemberKinds.Property !== (allowed & MemberKinds.Property)) {
-          throw new TypeError(`${attribute.constructor.name} is not allow decorate on property`);
+          throw new AgentFrameworkError(`InvalidDecorator: ${attribute.constructor.name} is not allow decorate on property`);
         }
 
         if (typeof target === 'function' && MemberKinds.Static !== (allowed & MemberKinds.Static)) {
-          throw new TypeError(`${attribute.constructor.name} is not allow decorate on static property`);
+          throw new AgentFrameworkError(`InvalidDecorator: ${attribute.constructor.name} is not allow decorate on static property`);
         }
 
         if (CanDecorate(attribute, target, key)) {

@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { CreateAgent, AgentAttribute, IsAgent, Reflector, decorateClass } from '../../../lib';
+import { CreateAgent, AgentAttribute, IsAgent, Reflector, decorateClass, AgentFrameworkError } from '../../../lib';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
 
 class BadAgentAttribute extends AgentAttribute {
@@ -66,7 +66,7 @@ describe('Decorate Agent', () => {
     it('new instance without name', () => {
       expect(() => {
         CreateAgent(Redis);
-      }).toThrowError('InvalidConstructor');
+      }).toThrowError(AgentFrameworkError, 'InvalidClassName');
     });
 
     it('construct instance', () => {

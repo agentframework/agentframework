@@ -1,10 +1,9 @@
 /* tslint:disable */
 
-import { decorateMember, NotImplementedError, Reflector } from '../../../lib';
+import { AgentFrameworkError, decorateMember, Reflector } from '../../../lib';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { OnDemandTypeInfo } from '../../../src/core/Core/Reflection/OnDemandTypeInfo';
-import { NotSupportedError } from '../../../src/core/Core/Error/NotSupportedError';
 
 class MongoDB {
   @decorateMember(new RandomInterceptor())
@@ -32,17 +31,17 @@ describe('Reflection get metadata ', () => {
     it('Reflector number', () => {
       expect(() => {
         Reflector(<any>1);
-      }).toThrowError(NotSupportedError, 'Reflector(number) is not supported');
+      }).toThrowError(AgentFrameworkError, 'NotSupported: Reflector(number) is not supported');
     });
     it('Reflector null', () => {
       expect(() => {
         Reflector(<any>null);
-      }).toThrowError(NotSupportedError, 'Reflector(null) is not supported');
+      }).toThrowError(AgentFrameworkError, 'NotSupported: Reflector(null) is not supported');
     });
     it('Reflector object', () => {
       expect(() => {
         Reflector({});
-      }).toThrowError(NotImplementedError, 'Reflector(Object {}) is not implemented yet');
+      }).toThrowError(AgentFrameworkError, 'NotImplemented: Reflector(Object {}) is not implemented yet');
     });
 
     it('Reflector static', () => {
@@ -61,7 +60,7 @@ describe('Reflection get metadata ', () => {
       const m = new MongoDB();
       expect(() => {
         Reflector(m);
-      }).toThrowError(NotImplementedError, 'Reflector(MongoDB {}) is not implemented yet');
+      }).toThrowError(AgentFrameworkError, 'NotImplemented: Reflector(MongoDB {}) is not implemented yet');
     });
   });
 });

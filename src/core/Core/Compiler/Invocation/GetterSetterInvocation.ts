@@ -16,6 +16,7 @@ import { PropertyInvocation } from '../../Interfaces/TypeInvocations';
 import { PropertyInfo } from '../../Interfaces/PropertyInfo';
 import { Arguments } from '../../Interfaces/Arguments';
 import { set } from '../../Helpers/Prototype';
+import { AgentFrameworkError } from '../../Error/AgentFrameworkError';
 
 /**
  * @ignore
@@ -27,7 +28,7 @@ export class GetterSetterInvocation implements PropertyInvocation {
   invoke(params: Arguments, receiver: any): any {
     if (params.length) {
       if (receiver == null) {
-        throw new SyntaxError('receiver is not an instance');
+        throw new AgentFrameworkError(`InvalidReceiver`);
       }
       // how to know the value of a field before you create that class
       // return the value from prototype is a good choose? NO, it may cause infinite loops
