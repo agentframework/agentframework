@@ -18,9 +18,9 @@ export class DomainKnowledge {
   }
 
   // key: Domain + Original Constructor, value: Domain Agent Constructor
-  static get domainAgents() {
-    return memorize<WeakMap<Domain, Map<Function, Function>>>(this, 'domainAgents');
-  }
+  // static get domainAgents() {
+  //   return memorize<WeakMap<Domain, Map<Function, Function>>>(this, 'domainAgents');
+  // }
 
   // key: string, value: Constructor
   static get extensibles() {
@@ -56,29 +56,29 @@ export class DomainKnowledge {
     this.domains.set(key, domain);
   }
 
-  /**
-   * Domain agent cache
-   */
-  static GetDomainAgent(domain: Domain, type: Function): Function | undefined {
-    // map for all domain specified types
-    const types = this.domainAgents.get(domain);
-    return types && types.get(type);
-  }
+  // /**
+  //  * Domain agent cache
+  //  */
+  // static GetDomainAgent(domain: Domain, type: Function): Function | undefined {
+  //   // map for all domain specified types
+  //   const types = this.domainAgents.get(domain);
+  //   return types && types.get(type);
+  // }
 
-  /**
-   * Domain agent cache
-   */
-  static RememberDomainAgent(domain: Domain, type: Function, agent: Function): void {
-    let types = this.domainAgents.get(domain);
-    if (!types) {
-      types = new Map<Function, Function>();
-      this.domainAgents.set(domain, types);
-    }
-    types.set(type, agent);
-    types.set(agent, agent);
-    // make reverse query easy
-    DomainKnowledge.RememberDomain(agent, domain);
-  }
+  // /**
+  //  * Domain agent cache
+  //  */
+  // static RememberDomainAgent(domain: Domain, type: Function, agent: Function): void {
+  //   // let types = this.domainAgents.get(domain);
+  //   // if (!types) {
+  //   //   types = new Map<Function, Function>();
+  //   //   this.domainAgents.set(domain, types);
+  //   // }
+  //   // types.set(type, agent);
+  //   // types.set(agent, agent);
+  //   // make reverse query easy
+  //   DomainKnowledge.RememberDomain(agent, domain);
+  // }
 
   static GetExtensible<T extends Function>(key: string): T | undefined {
     return <T>this.extensibles.get(key) || undefined;

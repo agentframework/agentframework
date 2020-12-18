@@ -27,17 +27,27 @@ export abstract class Domain implements DomainReference {
   /**
    * Check if have agent
    */
-  abstract hasAgent<T extends AgentIdentifier>(type: T): boolean;
+  abstract hasInstance<T extends AgentIdentifier>(type: T): boolean;
 
   /**
    * Get agent of giving type, return undefined if don't have
    */
-  abstract getAgent<T extends AgentIdentifier>(type: T): Agent<T> | undefined;
+  abstract getInstance<T extends AgentIdentifier>(type: T): Agent<T> | undefined;
 
   /**
    * Get agent of giving type, throw an error if don't have
    */
-  abstract getAgentOrThrow<T extends AgentIdentifier>(type: T): Agent<T>;
+  abstract getInstanceOrThrow<T extends AgentIdentifier>(type: T): Agent<T>;
+
+  /**
+   * Check if agent already exists
+   */
+  abstract hasAgent<T extends Class>(type: T): boolean;
+
+  /**
+   * Get agent for current type
+   */
+  abstract getAgent<T extends AnyClass>(type: T): T | undefined;
 
   /**
    * Check if have type registered
@@ -93,12 +103,12 @@ export abstract class Domain implements DomainReference {
   /**
    * Add an agent
    */
-  abstract addAgent<T extends AgentIdentifier>(type: T, agent: Agent<T>, explicit?: boolean): void;
+  abstract addInstance<T extends AgentIdentifier>(type: T, agent: Agent<T>, explicit?: boolean): void;
 
   /**
    * Set agent instance
    */
-  abstract setAgent<T extends AgentIdentifier>(type: T, agent: Agent<T>): void;
+  abstract setInstance<T extends AgentIdentifier>(type: T, agent: Agent<T>): void;
 
   // /**
   //  * Replace agent, throw error if origin agent not match
@@ -108,7 +118,7 @@ export abstract class Domain implements DomainReference {
   /**
    * Delete agent. do nothing if agent not match
    */
-  abstract removeAgent<T extends AgentIdentifier>(type: T, agent: Agent<T>): boolean;
+  abstract removeInstance<T extends AgentIdentifier>(type: T, agent: Agent<T>): boolean;
 
   // /**
   //  * Get all registered agents in this domain

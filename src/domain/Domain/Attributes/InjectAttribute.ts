@@ -42,7 +42,7 @@ export class InjectAttribute<T extends object> implements PropertyAttribute, Pro
       throw new DomainNotFoundError(`no domain to inject ${type.name}`);
     }
 
-    const value = domain.getAgentOrThrow(type);
+    const value = domain.getInstanceOrThrow(type);
 
     return target.invoke([value], receiver);
   }

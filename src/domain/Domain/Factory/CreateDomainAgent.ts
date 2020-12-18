@@ -34,7 +34,8 @@ export function CreateDomainAgent<T>(domain: Domain, type: AnyClass<T>): Class<T
   // const factory = Function(name, [`return`, `class`, `${name}$`, `extends`, name, '{}'].join(' '));
   // const newType = factory(type);
   // Knowledge.RememberType(domainAgent, type);
-  DomainKnowledge.RememberDomainAgent(domain, type, domainAgent);
+  // DomainKnowledge.RememberDomainAgent(domain, type, domainAgent);
+  DomainKnowledge.RememberDomain(domainAgent, domain);
 
   // console.log('create', newType.name, ' for domain', domain.name);
   return <Class<T>>domainAgent;
