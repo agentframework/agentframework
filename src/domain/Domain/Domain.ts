@@ -40,11 +40,6 @@ export abstract class Domain implements DomainReference {
   abstract getInstanceOrThrow<T extends AgentIdentifier>(type: T): Agent<T>;
 
   /**
-   * Check if agent already exists
-   */
-  abstract hasAgent<T extends Class>(type: T): boolean;
-
-  /**
    * Get agent for current type
    */
   abstract getAgent<T extends AnyClass>(type: T): T | undefined;
@@ -65,6 +60,11 @@ export abstract class Domain implements DomainReference {
   abstract getTypeOrThrow<T extends AnyClass, P extends T>(type: T): P;
 
   //region Factory
+  /**
+   * Create agent
+   */
+  abstract create<T extends AgentIdentifier>(type: T): T;
+
   /**
    * Inject an agent
    */

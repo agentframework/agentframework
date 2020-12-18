@@ -1,10 +1,9 @@
 import { AgentFrameworkError, CreateAgent } from '../../../dependencies/core';
 import { DomainAgentAttribute } from '../Attributes/DomainAgentAttribute';
 import { DomainKnowledge } from '../DomainKnowledge';
-import { AnyClass, Class } from '../ClassConstructor';
 import { Domain } from '../Domain';
 
-export function CreateDomainAgent<T>(domain: Domain, type: AnyClass<T>): Class<T> {
+export function CreateDomainAgent<T extends Function>(domain: Domain, type: T): T {
   // check owner domain
   const owner = DomainKnowledge.GetDomain(type);
   if (owner && domain !== owner) {
@@ -38,5 +37,5 @@ export function CreateDomainAgent<T>(domain: Domain, type: AnyClass<T>): Class<T
   DomainKnowledge.RememberDomain(domainAgent, domain);
 
   // console.log('create', newType.name, ' for domain', domain.name);
-  return <Class<T>>domainAgent;
+  return domainAgent;
 }

@@ -33,8 +33,8 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Unique types in this domain
    */
-  private readonly _types = new Map<AnyClass, Class>(); // type-type mapping
-  private readonly _agents = new Map<AnyClass, Class>(); // type-agent mapping
+  private readonly _types = new Map<any, any>(); // type-type mapping
+  private readonly _agents = new Map<any, any>(); // type-agent mapping
   private readonly _instances = new Map<any, any>(); // type-instance mapping
   private readonly _futureInstances = new Map<any, Promise<any>>();
 
@@ -66,22 +66,8 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Get agent
    */
-  hasAgent<T extends Class>(type: T): boolean {
-    return this._agents.has(type);
-  }
-
-  /**
-   * Get agent
-   */
   getAgent<T extends AnyClass>(type: T): T | undefined {
-    const agent = this._agents.get(type);
-    if (agent) {
-      return <T>agent;
-    }
-    const newCreatedAgent = CreateDomainAgent(this, type);
-    this._agents.set(type, newCreatedAgent);
-    this._agents.set(newCreatedAgent, newCreatedAgent);
-    return <T>newCreatedAgent;
+    return <T | undefined>this._agents.get(type);
   }
 
   /**
@@ -111,6 +97,16 @@ export class InMemoryDomain extends Domain implements Disposable {
 
   //region Factory
   /**
+   * Create agent
+   */
+  create<T extends AgentIdentifier>(type: T): T {
+    const newCreatedAgent = CreateDomainAgent<T>(this, type);
+    this._agents.set(type, newCreatedAgent);
+    this._agents.set(newCreatedAgent, newCreatedAgent);
+    return <any>newCreatedAgent;
+  }
+
+  /**
    * Inject an agent
    */
   construct<T extends AgentIdentifier>(target: T, params?: AgentParameters<T>, transit?: boolean): Agent<T> {
@@ -125,7 +121,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     const type = this.getType<T, any>(target) || target;
 
     // find agent
-    const agent = this.getAgent(type);
+    const agent = this.getAgent(type) || this.create(type);
 
     // console.log('construct', target.name, 'from', type.name);
     // initialize agent class
@@ -177,7 +173,7 @@ export class InMemoryDomain extends Domain implements Disposable {
       const type = this.getType<T, any>(target) || target;
 
       // find agent
-      const agent = this.getAgent(type);
+      const agent = this.getAgent(type) || this.create(type);
 
       // initialize agent class
       const newCreated: Promise<Agent<T>> = Reflect.construct(agent, params || []);
@@ -187,7 +183,7 @@ export class InMemoryDomain extends Domain implements Disposable {
           this._futureInstances.set(type, newCreated);
         }
         return newCreated.then(
-          instance => {
+          (instance) => {
             // no need register instance with domain
             // DomainCore.SetDomain(newCreatedAgent, this);
             if (!transit) {
@@ -197,7 +193,7 @@ export class InMemoryDomain extends Domain implements Disposable {
             // InitializeDomainAgent(type, newCreatedAgent);
             return instance;
           },
-          err => {
+          (err) => {
             if (!transit) {
               this._futureInstances.delete(type);
             }
@@ -338,27 +334,23 @@ export class InMemoryDomain extends Domain implements Disposable {
       return;
     }
     this.disposing = true;
-    const disposables = new Set<any>();
     for (const instance of this._instances.values()) {
-      disposables.add(instance);
-    }
-    for (const instance of disposables.keys()) {
       if (typeof instance === 'object' && instance != null && typeof instance.dispose === 'function') {
         //  only dispose the agent of current domain
         instance.dispose();
       }
     }
     for (const promise of this._futureInstances.values()) {
-      promise.then(instance => {
+      promise.then((instance) => {
         if (typeof instance === 'object' && instance != null && typeof instance.dispose === 'function') {
           // only dispose the agent of current domain
           instance.dispose();
         }
       });
     }
-    disposables.clear();
     this._futureInstances.clear();
     this._instances.clear();
+    this._agents.clear();
     this._types.clear();
     this.disposed = true;
   }

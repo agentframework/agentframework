@@ -1,4 +1,4 @@
-import { AgentIdentifier, Agent, AnyClass, Class } from './ClassConstructor';
+import { AgentIdentifier, Agent, AnyClass } from './ClassConstructor';
 
 /**
  * A remote domain reference
@@ -18,11 +18,6 @@ export interface DomainReference {
    * Get agent of giving type, throw an error if don't have
    */
   getInstanceOrThrow<T extends AgentIdentifier>(type: T): Agent<T>;
-
-  /**
-   * Get agent type
-   */
-  hasAgent<T extends Class>(type: T): boolean;
 
   /**
    * Get agent type
