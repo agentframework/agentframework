@@ -63,7 +63,7 @@ export abstract class Domain implements DomainReference {
   /**
    * Create agent
    */
-  abstract create<T extends AgentIdentifier>(type: T): T;
+  abstract createAgent<T extends AgentIdentifier>(type: T): T;
 
   /**
    * Inject an agent

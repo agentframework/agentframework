@@ -44,6 +44,6 @@ export function agent(): ClassDecorator {
         },
       },
     });
-    return domain.getAgent(target) || domain.create(target);
+    return domain.getAgent(target) || domain.createAgent(target);
   };
 }

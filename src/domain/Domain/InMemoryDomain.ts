@@ -99,7 +99,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Create agent
    */
-  create<T extends AgentIdentifier>(type: T): T {
+  createAgent<T extends AgentIdentifier>(type: T): T {
     const newCreatedAgent = CreateDomainAgent<T>(this, type);
     this._agents.set(type, newCreatedAgent);
     this._agents.set(newCreatedAgent, newCreatedAgent);
@@ -121,7 +121,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     const type = this.getType<T, any>(target) || target;
 
     // find agent
-    const agent = this.getAgent(type) || this.create(type);
+    const agent = this.getAgent(type) || this.createAgent(type);
 
     // console.log('construct', target.name, 'from', type.name);
     // initialize agent class
@@ -173,7 +173,7 @@ export class InMemoryDomain extends Domain implements Disposable {
       const type = this.getType<T, any>(target) || target;
 
       // find agent
-      const agent = this.getAgent(type) || this.create(type);
+      const agent = this.getAgent(type) || this.createAgent(type);
 
       // initialize agent class
       const newCreated: Promise<Agent<T>> = Reflect.construct(agent, params || []);
