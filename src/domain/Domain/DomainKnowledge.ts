@@ -44,6 +44,7 @@ export class DomainKnowledge {
   static GetAgent<T extends Function>(type: T): T | undefined {
     return this.agents.get(type) as T | undefined;
   }
+
   static RememberAgent<T extends Function>(type: T, agent: T): void {
     this.agents.set(type, agent);
   }

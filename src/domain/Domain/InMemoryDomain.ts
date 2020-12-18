@@ -187,15 +187,15 @@ export class InMemoryDomain extends Domain implements Disposable {
           this._futureInstances.set(type, newCreated);
         }
         return newCreated.then(
-          newCreatedAgent => {
+          instance => {
             // no need register instance with domain
             // DomainCore.SetDomain(newCreatedAgent, this);
             if (!transit) {
-              this.addInstance(type, newCreatedAgent);
+              this.addInstance(type, instance);
               this._futureInstances.delete(type);
             }
             // InitializeDomainAgent(type, newCreatedAgent);
-            return newCreatedAgent;
+            return instance;
           },
           err => {
             if (!transit) {
@@ -339,20 +339,20 @@ export class InMemoryDomain extends Domain implements Disposable {
     }
     this.disposing = true;
     const disposables = new Set<any>();
-    for (const agent of this._instances.values()) {
-      disposables.add(agent);
+    for (const instance of this._instances.values()) {
+      disposables.add(instance);
     }
-    for (const agent of disposables.keys()) {
-      if (typeof agent === 'object' && agent != null && typeof agent.dispose === 'function') {
+    for (const instance of disposables.keys()) {
+      if (typeof instance === 'object' && instance != null && typeof instance.dispose === 'function') {
         //  only dispose the agent of current domain
-        agent.dispose();
+        instance.dispose();
       }
     }
     for (const promise of this._futureInstances.values()) {
-      promise.then(agent => {
-        if (typeof agent === 'object' && agent != null && typeof agent.dispose === 'function') {
+      promise.then(instance => {
+        if (typeof instance === 'object' && instance != null && typeof instance.dispose === 'function') {
           // only dispose the agent of current domain
-          agent.dispose();
+          instance.dispose();
         }
       });
     }
