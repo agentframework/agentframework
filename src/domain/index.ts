@@ -10,8 +10,8 @@ export { Provider } from './Domain/Provider/Provider';
 export { DomainReference } from './Domain/DomainReference';
 export { Domain } from './Domain/Domain';
 
+// export { GetDomain } from './Domain/Helpers/GetDomain';
 export { FindDomain } from './Domain/Helpers/FindDomain';
-
 export { IsDomain } from './Domain/Helpers/IsDomain';
 
 // export { ExtensibleAttribute } from './Attributes/ExtensibleAttribute';

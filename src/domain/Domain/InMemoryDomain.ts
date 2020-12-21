@@ -1,21 +1,15 @@
+import { AgentFrameworkError } from '../../dependencies/core';
 import { Disposable } from './Helpers/Disposable';
 import { Agent, AgentIdentifier, AgentParameters, AnyClass, Class } from './ClassConstructor';
 import { Domain } from './Domain';
 import { IsPromise } from './Helpers/IsPromise';
 import { IsObservable } from './Helpers/IsObservable';
-import { AgentFrameworkError } from '../../dependencies/core';
 import { CreateDomainAgent } from './Factory/CreateDomainAgent';
 
 /**
  * In memory domain
  */
 export class InMemoryDomain extends Domain implements Disposable {
-  /**
-   * Default constructor for this domain
-   */
-  constructor() {
-    super();
-  }
 
   /**
    * Return true if this domain disposed

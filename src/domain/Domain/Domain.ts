@@ -13,7 +13,7 @@ export abstract class Domain implements DomainReference {
     return Reflect.construct(target, params);
   }
 
-  protected constructor() {
+  constructor() {
     DomainKnowledge.RememberDomain(this, this);
   }
 
