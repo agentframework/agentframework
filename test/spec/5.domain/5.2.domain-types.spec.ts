@@ -55,13 +55,13 @@ describe('5.2. Domain type', () => {
       expect(domain.getType(C)).toBeUndefined();
     });
 
-    // it('has type', () => {
-    //   const domain = new InMemoryDomain();
-    //   domain.addType(C);
-    //   expect(domain.hasType(A)).toBeTrue();
-    //   expect(domain.hasType(B)).toBeTrue();
-    //   expect(domain.hasType(C)).toBeTrue();
-    // });
+    it('has type', () => {
+      const domain = new InMemoryDomain();
+      domain.addType(C);
+      expect(domain.hasType(A)).toBeTrue();
+      expect(domain.hasType(B)).toBeTrue();
+      expect(domain.hasType(C)).toBeTrue();
+    });
 
     it('get type', () => {
       const domain = new InMemoryDomain();

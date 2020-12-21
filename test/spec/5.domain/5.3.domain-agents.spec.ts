@@ -70,15 +70,15 @@ describe('5.3. Domain agent', () => {
       domain.dispose();
     });
 
-    // it('has agent', () => {
-    //   const domain = new InMemoryDomain();
-    //   const agent = new B();
-    //   domain.addInstance(B, agent);
-    //   expect(domain.hasInstance(A)).toBeTrue();
-    //   expect(domain.hasInstance(B)).toBeTrue();
-    //   expect(domain.hasInstance(C)).toBeFalse();
-    //   domain.dispose();
-    // });
+    it('has agent', () => {
+      const domain = new InMemoryDomain();
+      const agent = new B();
+      domain.addInstance(B, agent);
+      expect(domain.hasInstance(A)).toBeTrue();
+      expect(domain.hasInstance(B)).toBeTrue();
+      expect(domain.hasInstance(C)).toBeFalse();
+      domain.dispose();
+    });
 
     it('get agent', () => {
       const domain = new InMemoryDomain();

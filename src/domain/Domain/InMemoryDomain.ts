@@ -36,12 +36,12 @@ export class InMemoryDomain extends Domain implements Disposable {
   private readonly _instances = new Map<any, any>(); // type-instance mapping
   private readonly _futureInstances = new Map<any, Promise<any>>();
 
-  // /**
-  //  * Check if have agent
-  //  */
-  // hasInstance<T extends AgentIdentifier>(type: T): boolean {
-  //   return this._instances.has(type);
-  // }
+  /**
+   * Check if have agent
+   */
+  hasInstance<T extends AgentIdentifier>(type: T): boolean {
+    return this._instances.has(type);
+  }
 
   /**
    * Get agent of giving type, return undefined if don't have
@@ -68,12 +68,12 @@ export class InMemoryDomain extends Domain implements Disposable {
     return <T | undefined>this._agents.get(type);
   }
 
-  // /**
-  //  * Check if have type registered
-  //  */
-  // hasType<T extends AnyClass>(type: T): boolean {
-  //   return this._types.has(type);
-  // }
+  /**
+   * Check if have type registered
+   */
+  hasType<T extends AnyClass>(type: T): boolean {
+    return this._types.has(type);
+  }
 
   /**
    * Get constructor for current type, return undefined if don't have

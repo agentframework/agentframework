@@ -4,10 +4,10 @@ import { AgentIdentifier, Agent, AnyClass } from './ClassConstructor';
  * A remote domain reference
  */
 export interface DomainReference {
-  // /**
-  //  * Check if have agent
-  //  */
-  // hasInstance<T extends AgentIdentifier>(type: T): boolean;
+  /**
+   * Check if have agent
+   */
+  hasInstance<T extends AgentIdentifier>(type: T): boolean;
 
   /**
    * Get instance of giving type, return undefined if don't have
@@ -24,10 +24,10 @@ export interface DomainReference {
    */
   getAgent<T extends AnyClass>(type: T): T | undefined;
 
-  // /**
-  //  * Check if have type registered
-  //  */
-  // hasType<T extends AnyClass>(type: T): boolean;
+  /**
+   * Check if have type registered
+   */
+  hasType<T extends AnyClass>(type: T): boolean;
 
   /**
    * Get constructor for current type, return undefined if don't have

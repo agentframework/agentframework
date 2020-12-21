@@ -24,10 +24,10 @@ export abstract class Domain implements DomainReference {
     return this.constructor.name;
   }
 
-  // /**
-  //  * Check if have agent
-  //  */
-  // abstract hasInstance<T extends AgentIdentifier>(type: T): boolean;
+  /**
+   * Check if have agent
+   */
+  abstract hasInstance<T extends AgentIdentifier>(type: T): boolean;
 
   /**
    * Get agent of giving type, return undefined if don't have
@@ -44,10 +44,10 @@ export abstract class Domain implements DomainReference {
    */
   abstract getAgent<T extends AnyClass>(type: T): T | undefined;
 
-  // /**
-  //  * Check if have type registered
-  //  */
-  // abstract hasType<T extends AnyClass>(type: T): boolean;
+  /**
+   * Check if have type registered
+   */
+  abstract hasType<T extends AnyClass>(type: T): boolean;
 
   /**
    * Get constructor for current type, return undefined if don't have
