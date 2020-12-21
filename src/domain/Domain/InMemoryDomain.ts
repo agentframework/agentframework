@@ -78,8 +78,8 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Get constructor for current type, return undefined if don't have
    */
-  getType<T extends AnyClass, P extends T>(type: T): P | undefined {
-    return this._types.has(type) ? <P>this._types.get(type) : undefined;
+  getType<T extends AnyClass>(type: T): T | undefined {
+    return this._types.has(type) ? <T>this._types.get(type) : undefined;
   }
 
   // /**
@@ -116,7 +116,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     }
 
     // find extended type
-    const type = this.getType<T, any>(target) || target;
+    const type = this.getType<T>(target) || target;
 
     // find agent
     const agent = this.getAgent(type) || this.createAgent(type);
@@ -168,7 +168,7 @@ export class InMemoryDomain extends Domain implements Disposable {
       }
 
       // find extended type
-      const type = this.getType<T, any>(target) || target;
+      const type = this.getType<T>(target) || target;
 
       // find agent
       const agent = this.getAgent(type) || this.createAgent(type);
@@ -181,7 +181,7 @@ export class InMemoryDomain extends Domain implements Disposable {
           this._futureInstances.set(type, newCreated);
         }
         return newCreated.then(
-          (instance) => {
+          instance => {
             // no need register instance with domain
             // DomainCore.SetDomain(newCreatedAgent, this);
             if (!transit) {
@@ -191,7 +191,7 @@ export class InMemoryDomain extends Domain implements Disposable {
             // InitializeDomainAgent(type, newCreatedAgent);
             return instance;
           },
-          (err) => {
+          err => {
             if (!transit) {
               this._futureInstances.delete(type);
             }
@@ -339,7 +339,7 @@ export class InMemoryDomain extends Domain implements Disposable {
       }
     }
     for (const promise of this._futureInstances.values()) {
-      promise.then((instance) => {
+      promise.then(instance => {
         if (typeof instance === 'object' && instance != null && typeof instance.dispose === 'function') {
           // only dispose the agent of current domain
           instance.dispose();

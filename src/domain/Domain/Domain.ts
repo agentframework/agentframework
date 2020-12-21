@@ -52,7 +52,7 @@ export abstract class Domain implements DomainReference {
   /**
    * Get constructor for current type, return undefined if don't have
    */
-  abstract getType<T extends AnyClass, P extends T>(type: T): P | undefined;
+  abstract getType<T extends AnyClass>(type: T): T | undefined;
 
   // /**
   //  * Get constructor for current type, throw an error if don't have

@@ -32,7 +32,7 @@ export interface DomainReference {
   /**
    * Get constructor for current type, return undefined if don't have
    */
-  getType<T extends AnyClass, P extends T>(type: T): P | undefined;
+  getType<T extends AnyClass>(type: T): T | undefined;
 
   // /**
   //  * Get constructor for current type, throw an error if don't have
