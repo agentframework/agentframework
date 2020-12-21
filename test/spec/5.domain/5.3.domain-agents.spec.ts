@@ -1,4 +1,4 @@
-import { InMemoryDomain, agent, FindDomain, AgentNotFoundError } from '../../../lib';
+import { InMemoryDomain, agent, FindDomain } from '../../../lib';
 
 describe('5.3. Domain agent', () => {
   class A {}
@@ -70,15 +70,15 @@ describe('5.3. Domain agent', () => {
       domain.dispose();
     });
 
-    it('has agent', () => {
-      const domain = new InMemoryDomain();
-      const agent = new B();
-      domain.addInstance(B, agent);
-      expect(domain.hasInstance(A)).toBeTrue();
-      expect(domain.hasInstance(B)).toBeTrue();
-      expect(domain.hasInstance(C)).toBeFalse();
-      domain.dispose();
-    });
+    // it('has agent', () => {
+    //   const domain = new InMemoryDomain();
+    //   const agent = new B();
+    //   domain.addInstance(B, agent);
+    //   expect(domain.hasInstance(A)).toBeTrue();
+    //   expect(domain.hasInstance(B)).toBeTrue();
+    //   expect(domain.hasInstance(C)).toBeFalse();
+    //   domain.dispose();
+    // });
 
     it('get agent', () => {
       const domain = new InMemoryDomain();
@@ -90,19 +90,19 @@ describe('5.3. Domain agent', () => {
       domain.dispose();
     });
 
-    it('get agent or throw', () => {
-      const domain = new InMemoryDomain();
-      const agent = new B();
-      domain.addInstance(B, agent);
-      expect(domain.getInstanceOrThrow(A)).toBeInstanceOf(B);
-      expect(domain.getInstanceOrThrow(B)).toBeInstanceOf(B);
-      expect(() => {
-        domain.getInstanceOrThrow(C);
-      }).toThrowError(AgentNotFoundError, 'AgentNotFound: InMemoryDomain__C$');
-      expect(() => {
-        domain.getInstanceOrThrow(D);
-      }).toThrowError('AgentNotFound: D');
-      domain.dispose();
-    });
+    // it('get agent or throw', () => {
+    //   const domain = new InMemoryDomain();
+    //   const agent = new B();
+    //   domain.addInstance(B, agent);
+    //   expect(domain.getInstanceOrThrow(A)).toBeInstanceOf(B);
+    //   expect(domain.getInstanceOrThrow(B)).toBeInstanceOf(B);
+    //   expect(() => {
+    //     domain.getInstanceOrThrow(C);
+    //   }).toThrowError(AgentNotFoundError, 'AgentNotFound: InMemoryDomain__C$');
+    //   expect(() => {
+    //     domain.getInstanceOrThrow(D);
+    //   }).toThrowError('AgentNotFound: D');
+    //   domain.dispose();
+    // });
   });
 });

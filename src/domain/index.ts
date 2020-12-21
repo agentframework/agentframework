@@ -1,7 +1,7 @@
 'use strict';
 
-export { AgentNotFoundError } from './Domain/Errors/AgentNotFoundError';
-export { TypeNotFoundError } from './Domain/Errors/TypeNotFoundError';
+// export { AgentNotFoundError } from './Domain/Errors/AgentNotFoundError';
+// export { TypeNotFoundError } from './Domain/Errors/TypeNotFoundError';
 // export { ExtensionNotFoundError } from './Domain/Errors/ExtensionNotFoundError';
 // export { DomainNotFoundError } from './Domain/Errors/DomainNotFoundError';
 

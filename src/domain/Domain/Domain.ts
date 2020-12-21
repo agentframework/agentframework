@@ -24,40 +24,40 @@ export abstract class Domain implements DomainReference {
     return this.constructor.name;
   }
 
-  /**
-   * Check if have agent
-   */
-  abstract hasInstance<T extends AgentIdentifier>(type: T): boolean;
+  // /**
+  //  * Check if have agent
+  //  */
+  // abstract hasInstance<T extends AgentIdentifier>(type: T): boolean;
 
   /**
    * Get agent of giving type, return undefined if don't have
    */
   abstract getInstance<T extends AgentIdentifier>(type: T): Agent<T> | undefined;
 
-  /**
-   * Get agent of giving type, throw an error if don't have
-   */
-  abstract getInstanceOrThrow<T extends AgentIdentifier>(type: T): Agent<T>;
+  // /**
+  //  * Get agent of giving type, throw an error if don't have
+  //  */
+  // abstract getInstanceOrThrow<T extends AgentIdentifier>(type: T): Agent<T>;
 
   /**
    * Get agent for current type
    */
   abstract getAgent<T extends AnyClass>(type: T): T | undefined;
 
-  /**
-   * Check if have type registered
-   */
-  abstract hasType<T extends AnyClass>(type: T): boolean;
+  // /**
+  //  * Check if have type registered
+  //  */
+  // abstract hasType<T extends AnyClass>(type: T): boolean;
 
   /**
    * Get constructor for current type, return undefined if don't have
    */
   abstract getType<T extends AnyClass, P extends T>(type: T): P | undefined;
 
-  /**
-   * Get constructor for current type, throw an error if don't have
-   */
-  abstract getTypeOrThrow<T extends AnyClass, P extends T>(type: T): P;
+  // /**
+  //  * Get constructor for current type, throw an error if don't have
+  //  */
+  // abstract getTypeOrThrow<T extends AnyClass, P extends T>(type: T): P;
 
   //region Factory
   /**

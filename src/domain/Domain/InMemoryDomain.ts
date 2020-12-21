@@ -1,7 +1,5 @@
 import { Disposable } from './Helpers/Disposable';
 import { Agent, AgentIdentifier, AgentParameters, AnyClass, Class } from './ClassConstructor';
-import { TypeNotFoundError } from './Errors/TypeNotFoundError';
-import { AgentNotFoundError } from './Errors/AgentNotFoundError';
 import { Domain } from './Domain';
 import { IsPromise } from './Helpers/IsPromise';
 import { IsObservable } from './Helpers/IsObservable';
@@ -38,12 +36,12 @@ export class InMemoryDomain extends Domain implements Disposable {
   private readonly _instances = new Map<any, any>(); // type-instance mapping
   private readonly _futureInstances = new Map<any, Promise<any>>();
 
-  /**
-   * Check if have agent
-   */
-  hasInstance<T extends AgentIdentifier>(type: T): boolean {
-    return this._instances.has(type);
-  }
+  // /**
+  //  * Check if have agent
+  //  */
+  // hasInstance<T extends AgentIdentifier>(type: T): boolean {
+  //   return this._instances.has(type);
+  // }
 
   /**
    * Get agent of giving type, return undefined if don't have
@@ -52,16 +50,16 @@ export class InMemoryDomain extends Domain implements Disposable {
     return this._instances.has(type) ? this._instances.get(type) : undefined;
   }
 
-  /**
-   * Get agent of giving type, throw an error if don't have
-   */
-  getInstanceOrThrow<T extends AgentIdentifier>(type: T): Agent<T> {
-    const agent = this.getInstance(type);
-    if (!agent) {
-      throw new AgentNotFoundError(type);
-    }
-    return agent;
-  }
+  // /**
+  //  * Get agent of giving type, throw an error if don't have
+  //  */
+  // getInstanceOrThrow<T extends AgentIdentifier>(type: T): Agent<T> {
+  //   const agent = this.getInstance(type);
+  //   if (!agent) {
+  //     throw new AgentNotFoundError(type);
+  //   }
+  //   return agent;
+  // }
 
   /**
    * Get agent
@@ -70,12 +68,12 @@ export class InMemoryDomain extends Domain implements Disposable {
     return <T | undefined>this._agents.get(type);
   }
 
-  /**
-   * Check if have type registered
-   */
-  hasType<T extends AnyClass>(type: T): boolean {
-    return this._types.has(type);
-  }
+  // /**
+  //  * Check if have type registered
+  //  */
+  // hasType<T extends AnyClass>(type: T): boolean {
+  //   return this._types.has(type);
+  // }
 
   /**
    * Get constructor for current type, return undefined if don't have
@@ -84,16 +82,16 @@ export class InMemoryDomain extends Domain implements Disposable {
     return this._types.has(type) ? <P>this._types.get(type) : undefined;
   }
 
-  /**
-   * Get constructor for current type, throw an error if don't have
-   */
-  getTypeOrThrow<T extends AnyClass, P extends T>(type: T): P {
-    const resolvedType = this.getType(type);
-    if (!resolvedType) {
-      throw new TypeNotFoundError(type);
-    }
-    return <P>resolvedType;
-  }
+  // /**
+  //  * Get constructor for current type, throw an error if don't have
+  //  */
+  // getTypeOrThrow<T extends AnyClass, P extends T>(type: T): P {
+  //   const resolvedType = this.getType(type);
+  //   if (!resolvedType) {
+  //     throw new TypeNotFoundError(type);
+  //   }
+  //   return <P>resolvedType;
+  // }
 
   //region Factory
   /**
@@ -107,7 +105,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   }
 
   /**
-   * Inject an agent
+   * Create and initial an agent
    */
   construct<T extends AgentIdentifier>(target: T, params?: AgentParameters<T>, transit?: boolean): Agent<T> {
     if (!transit) {
@@ -154,7 +152,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   }
 
   /**
-   * Resolve and inject an agent using factory method
+   * Create and initial an agent asynchronously
    */
   resolve<T extends AgentIdentifier>(target: T, params?: AgentParameters<T>, transit?: boolean): Promise<Agent<T>> {
     try {
