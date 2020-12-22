@@ -36,26 +36,24 @@ export class DomainKnowledge {
     if (this.domain) {
       return this.domain;
     }
-    const domain = Reflect.construct(domainType, []);
-    this.domain = domain;
-    return domain;
+    return (this.domain = Reflect.construct(domainType, []));
   }
 
-  static GetAgent<T extends Function>(type: T): T | undefined {
-    return this.agents.get(type) as T | undefined;
-  }
+  // static GetAgent<T extends Function>(type: T): T | undefined {
+  //   return this.agents.get(type) as T | undefined;
+  // }
 
-  static RememberAgent<T extends Function>(type: T, agent: T): void {
-    this.agents.set(type, agent);
-  }
+  // static RememberAgent<T extends Function>(type: T, agent: T): void {
+  //   this.agents.set(type, agent);
+  // }
 
-  static GetDomain(key: object | Function): Domain | undefined {
-    return this.domains.get(key);
-  }
+  // static GetDomain(key: object | Function): Domain | undefined {
+  //   return this.domains.get(key);
+  // }
 
-  static RememberDomain(key: object | Function, domain: Domain): void {
-    this.domains.set(key, domain);
-  }
+  // static RememberDomain(key: object | Function, domain: Domain): void {
+  //   this.domains.set(key, domain);
+  // }
 
   // /**
   //  * Domain agent cache
@@ -90,16 +88,16 @@ export class DomainKnowledge {
     return type;
   }
 
-  static HasInitializer(type: Function): boolean {
-    return this.initializers.has(type);
-  }
-
-  static GetInitializers(type: Function): Array<[Function, Function]> | undefined {
-    return this.initializers.get(type);
-  }
-
-  static SetInitializers(type: Function, ctor: Array<[Function, Function]>): void {
-    // console.log('cache', type, typeof type, '====>', ctor);
-    this.initializers.set(type, ctor);
-  }
+  // static HasInitializer(type: Function): boolean {
+  //   return this.initializers.has(type);
+  // }
+  //
+  // static GetInitializers(type: Function): Array<[Function, Function]> | undefined {
+  //   return this.initializers.get(type);
+  // }
+  //
+  // static SetInitializers(type: Function, ctor: Array<[Function, Function]>): void {
+  //   // console.log('cache', type, typeof type, '====>', ctor);
+  //   this.initializers.set(type, ctor);
+  // }
 }

@@ -1,6 +1,6 @@
 import { DomainReference } from './DomainReference';
 import { Agent, AgentIdentifier, AgentParameters, AnyClass, Class } from './ClassConstructor';
-import { DomainKnowledge } from './DomainKnowledge';
+import { RememberDomain } from './Helpers/RememberDomain';
 
 /**
  * Domain is a container of types and agents
@@ -14,7 +14,7 @@ export abstract class Domain implements DomainReference {
   }
 
   constructor() {
-    DomainKnowledge.RememberDomain(this, this);
+    RememberDomain(this, this);
   }
 
   /**

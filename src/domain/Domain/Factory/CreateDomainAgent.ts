@@ -1,11 +1,12 @@
 import { AgentFrameworkError, CreateAgent } from '../../../dependencies/core';
 import { DomainAgentAttribute } from '../Attributes/DomainAgentAttribute';
-import { DomainKnowledge } from '../DomainKnowledge';
 import { Domain } from '../Domain';
+import { GetDomain } from '../Helpers/GetDomain';
+import { RememberDomain } from '../Helpers/RememberDomain';
 
 export function CreateDomainAgent<T extends Function>(domain: Domain, type: T): T {
   // check owner domain
-  const owner = DomainKnowledge.GetDomain(type);
+  const owner = GetDomain(type);
   if (owner && domain !== owner) {
     throw new AgentFrameworkError('NotSupportCreateAgentForOtherDomain');
   }
@@ -34,7 +35,7 @@ export function CreateDomainAgent<T extends Function>(domain: Domain, type: T): 
   // const newType = factory(type);
   // Knowledge.RememberType(domainAgent, type);
   // DomainKnowledge.RememberDomainAgent(domain, type, domainAgent);
-  DomainKnowledge.RememberDomain(domainAgent, domain);
+  RememberDomain(domainAgent, domain);
 
   // console.log('create', newType.name, ' for domain', domain.name);
   return domainAgent;

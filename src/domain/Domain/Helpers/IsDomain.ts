@@ -7,5 +7,5 @@ import { Domain } from '../Domain';
  * @param target
  */
 export function IsDomain(target: any): target is Domain {
-  return target && DomainKnowledge.GetDomain(target) === target;
+  return target && DomainKnowledge.domains.get(target) === target;
 }
