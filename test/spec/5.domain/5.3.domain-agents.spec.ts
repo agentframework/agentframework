@@ -1,4 +1,4 @@
-import { InMemoryDomain, agent, FindDomain } from '../../../lib';
+import { InMemoryDomain, agent, FindDomain, GetDomain } from '../../../lib';
 
 describe('5.3. Domain agent', () => {
   class A {}
@@ -19,6 +19,10 @@ describe('5.3. Domain agent', () => {
   describe('# should able to', () => {
     it('find domain agent', () => {
       expect(FindDomain(B)).toBeDefined();
+    });
+
+    it('find domain agent', () => {
+      expect(GetDomain(B)).toBeDefined();
     });
 
     it('add agent', () => {
