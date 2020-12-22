@@ -1,16 +1,17 @@
-import { AgentFrameworkError } from '../../dependencies/core';
+import { AgentFrameworkError, CreateAgent } from '../../dependencies/core';
 import { Disposable } from './Helpers/Disposable';
 import { Agent, AgentIdentifier, AgentParameters, AnyClass, Class } from './ClassConstructor';
 import { Domain } from './Domain';
 import { IsPromise } from './Helpers/IsPromise';
 import { IsObservable } from './Helpers/IsObservable';
-import { CreateDomainAgent } from './Factory/CreateDomainAgent';
+import { GetDomain } from './Helpers/GetDomain';
+import { DomainAgentAttribute } from './Attributes/DomainAgentAttribute';
+import { RememberDomain } from './Helpers/RememberDomain';
 
 /**
  * In memory domain
  */
 export class InMemoryDomain extends Domain implements Disposable {
-
   /**
    * Return true if this domain disposed
    */
@@ -92,7 +93,36 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Create agent
    */
   createAgent<T extends AgentIdentifier>(type: T): T {
-    const newCreatedAgent = CreateDomainAgent<T>(this, type);
+    // check owner domain
+    const owner = GetDomain(type);
+    if (owner && this !== owner) {
+      throw new AgentFrameworkError('NotSupportCreateAgentForOtherDomain');
+    }
+
+    // 1. get original type if giving type is an agent type
+    // const origin = Knowledge.GetType(type);
+    // if (origin) {
+    //   // target is an agent already
+    //   // set the target to origin type to recreate this
+    //   // so create another proxy from this origin class
+    //   console.log('exists domain type', type);
+    //   type = origin;
+    // }
+
+    // if (typeof domain.constructor.name === 'function') {
+    //   debugger;
+    //   console.log('<< CREATE >>', domain.constructor.name, '====>', type.name);
+    // }
+
+    // upgrade to Agent only if interceptor or initializer found
+    const newCreatedAgent = CreateAgent(type, new DomainAgentAttribute(this));
+    // console.log('found', domain, type, newType)
+    // const name = Reflector(type).name;
+    // const factory = Function(name, [`return`, `class`, `${name}$`, `extends`, name, '{}'].join(' '));
+    // const newType = factory(type);
+    // Knowledge.RememberType(domainAgent, type);
+    // DomainKnowledge.RememberDomainAgent(domain, type, domainAgent);
+    RememberDomain(newCreatedAgent, this);
     this._agents.set(type, newCreatedAgent);
     this._agents.set(newCreatedAgent, newCreatedAgent);
     return <any>newCreatedAgent;
