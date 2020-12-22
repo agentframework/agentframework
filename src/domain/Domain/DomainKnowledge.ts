@@ -32,12 +32,12 @@ export class DomainKnowledge {
     return memorize<WeakMap<Function, Array<[Function, Function]>>>(this, 'initializers');
   }
 
-  static GetLocalDomain(domainType: Function): Domain {
-    if (this.domain) {
-      return this.domain;
-    }
-    return (this.domain = Reflect.construct(domainType, []));
-  }
+  // static GetLocalDomain(domainType: Function): Domain {
+  //   if (this.domain) {
+  //     return this.domain;
+  //   }
+  //   return (this.domain = Reflect.construct(domainType, []));
+  // }
 
   // static GetAgent<T extends Function>(type: T): T | undefined {
   //   return this.agents.get(type) as T | undefined;
@@ -79,14 +79,13 @@ export class DomainKnowledge {
   //   DomainKnowledge.RememberDomain(agent, domain);
   // }
 
-  static GetExtensible<T extends Function>(key: string): T | undefined {
-    return <T>this.extensibles.get(key) || undefined;
-  }
-
-  static SetExtensible<T extends Function>(key: string, type: T): T {
-    this.extensibles.set(key, type);
-    return type;
-  }
+  // static GetExtensible<T extends Function>(key: string): T | undefined {
+  //   return <T>this.extensibles.get(key) || undefined;
+  // }
+  //
+  // static SetExtensible<T extends Function>(key: string, type: T): void {
+  //   this.extensibles.set(key, type);
+  // }
 
   // static HasInitializer(type: Function): boolean {
   //   return this.initializers.has(type);

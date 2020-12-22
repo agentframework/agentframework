@@ -23,8 +23,8 @@ limitations under the License. */
 // }
 
 import { Arguments, ClassInvocation, Reflector } from '../../../dependencies/core';
-import { DomainKnowledge } from '../DomainKnowledge';
 import { InMemoryDomain } from '../InMemoryDomain';
+import { GetLocalDomain } from '../Helpers/GetLocalDomain';
 
 /**
  * Define an agent
@@ -33,7 +33,7 @@ export function agent(): ClassDecorator {
   // return decorateAgent(new DomainAgentAttribute());
   // return decorateAgent(new DomainAgentAttribute(), [new ClassInitializerAttribute()]);
   return <F extends Function>(target: F): F => {
-    const domain = DomainKnowledge.GetLocalDomain(InMemoryDomain);
+    const domain = GetLocalDomain(InMemoryDomain);
     // register this agent after create new instance
     Reflector(target).addAttribute({
       interceptor: {
