@@ -58,7 +58,7 @@ export class SingletonAttribute<T extends object> implements PropertyAttribute, 
     // console.log('find singleton', type.name, 'from', domain.name);
 
     const value =
-      (customType && domain.getAgent(customType)) || (designType && domain.getAgent(designType)) || domain.construct(type, params);
+      (customType && domain.getInstance(customType)) || (designType && domain.getInstance(designType)) || domain.construct(type, params);
       // domain.construct(type) // do not include the parameters
 
     return target.invoke([value], receiver);

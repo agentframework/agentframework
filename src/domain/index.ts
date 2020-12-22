@@ -1,17 +1,17 @@
 'use strict';
 
-export { AgentNotFoundError } from './Domain/Errors/AgentNotFoundError';
-export { TypeNotFoundError } from './Domain/Errors/TypeNotFoundError';
+// export { AgentNotFoundError } from './Domain/Errors/AgentNotFoundError';
+// export { TypeNotFoundError } from './Domain/Errors/TypeNotFoundError';
 // export { ExtensionNotFoundError } from './Domain/Errors/ExtensionNotFoundError';
 // export { DomainNotFoundError } from './Domain/Errors/DomainNotFoundError';
 
-export { Provider } from './Domain/Provider/Provider';
+// export { Provider } from './Domain/Provider/Provider';
 
 export { DomainReference } from './Domain/DomainReference';
 export { Domain } from './Domain/Domain';
 
 export { FindDomain } from './Domain/Helpers/FindDomain';
-
+export { GetDomain } from './Domain/Helpers/GetDomain';
 export { IsDomain } from './Domain/Helpers/IsDomain';
 
 // export { ExtensibleAttribute } from './Attributes/ExtensibleAttribute';

@@ -37,7 +37,7 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
     return this.index.toString();
   }
 
-  get kind(): MemberKinds {
+  get kind(): number {
     if (typeof this.target === 'function') {
       return MemberKinds.Static | MemberKinds.Parameter;
     }

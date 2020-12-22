@@ -1,19 +1,8 @@
-import { DomainKnowledge } from '../DomainKnowledge';
+import { GetSharedType } from '../Helpers/GetSharedType';
 
 /**
  * extensible attribute
  */
-function ExtensibleDecorator<T extends Function>(target: T): T {
-  const uuid = `class://${target.name}`;
-  const type = DomainKnowledge.GetExtensible<T>(uuid);
-  if (!type) {
-    DomainKnowledge.SetExtensible(uuid, target);
-    // Reflector(target).addAttribute(new ExtensibleAttribute());
-    return target;
-  }
-  return type;
-}
-
 export function extensible(): ClassDecorator {
-  return ExtensibleDecorator;
+  return target => GetSharedType(`class://${target.name}`, target);
 }

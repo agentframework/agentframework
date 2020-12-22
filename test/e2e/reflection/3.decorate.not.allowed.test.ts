@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { decorate, MemberKinds, AgentFrameworkError } from '../../../lib';
+import { decorate, AgentFrameworkError, MemberKinds } from '../../../lib';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 
 const a = new MetadataAttribute();
@@ -42,7 +42,10 @@ describe('decorate() and Not Allowed Target', () => {
           constructor(p1: number, @decorate(a, noTarget) p2: Date) {}
         }
         expect(MongoDB).toBeTruthy();
-      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: MetadataAttribute is not allow decorate on constructor parameters');
+      }).toThrowError(
+        AgentFrameworkError,
+        'InvalidDecorator: MetadataAttribute is not allow decorate on constructor parameters'
+      );
     });
     it('decorate method', () => {
       expect(() => {
@@ -59,7 +62,10 @@ describe('decorate() and Not Allowed Target', () => {
           round(p1: string, @decorate(a, noTarget) p2: Date): any {}
         }
         expect(MongoDB).toBeTruthy();
-      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: MetadataAttribute is not allow decorate on method parameters');
+      }).toThrowError(
+        AgentFrameworkError,
+        'InvalidDecorator: MetadataAttribute is not allow decorate on method parameters'
+      );
     });
     it('decorate getter', () => {
       expect(() => {

@@ -60,7 +60,7 @@ describe('6.2. @inject decorator', () => {
 
       expect(() => {
         expect(app.service).toBeUndefined();
-      }).toThrowError('AgentNotFound: InMemoryDomain__Service623$');
+      }).toThrowError('InjectInstanceNotExists: InMemoryDomain__Service623$');
     });
 
     it('inject non-existing agent using domain', () => {
@@ -79,7 +79,7 @@ describe('6.2. @inject decorator', () => {
 
       expect(() => {
         expect(app.service).toBeUndefined();
-      }).toThrowError('AgentNotFound: Service624');
+      }).toThrowError('InjectInstanceNotExists: Service624');
     });
 
     it('inject unknown', () => {
@@ -110,7 +110,7 @@ describe('6.2. @inject decorator', () => {
 
       expect(() => {
         expect(app626.service).toBeUndefined();
-      }).toThrowError('DomainNotFound: no domain to inject Service626');
+      }).toThrowError('DomainNotFound: Service626');
     });
   });
 });

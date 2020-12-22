@@ -1,4 +1,4 @@
-import { InMemoryDomain, agent, TypeNotFoundError } from '../../../lib';
+import { InMemoryDomain, agent } from '../../../lib';
 
 describe('5.2. Domain type', () => {
   class A {}
@@ -73,14 +73,14 @@ describe('5.2. Domain type', () => {
       expect(domain.getType(C)).toBe(C);
     });
 
-    it('get type or throw', () => {
-      const domain = new InMemoryDomain();
-      domain.addType(B);
-      expect(domain.getTypeOrThrow(A)).toBe(B);
-      expect(domain.getTypeOrThrow(B)).toBe(B);
-      expect(() => {
-        domain.getTypeOrThrow(C);
-      }).toThrowError(TypeNotFoundError, 'TypeNotFound: C');
-    });
+    // it('get type or throw', () => {
+    //   const domain = new InMemoryDomain();
+    //   domain.addType(B);
+    //   expect(domain.getTypeOrThrow(A)).toBe(B);
+    //   expect(domain.getTypeOrThrow(B)).toBe(B);
+    //   expect(() => {
+    //     domain.getTypeOrThrow(C);
+    //   }).toThrowError(TypeNotFoundError, 'TypeNotFound: C');
+    // });
   });
 });

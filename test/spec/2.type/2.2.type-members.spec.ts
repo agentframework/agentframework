@@ -182,7 +182,7 @@ describe('2.2. Type members', () => {
     });
 
     it('find own properties using external filter function with filter criteria', () => {
-      function IsKind(property: PropertyInfo, kind: MemberKinds): boolean {
+      function IsKind(property: PropertyInfo, kind: number): boolean {
         return !!(property.kind & kind);
       }
       const methods = Reflector(Application).findOwnProperties(IsKind, MemberKinds.Property);
@@ -210,7 +210,7 @@ describe('2.2. Type members', () => {
     });
 
     it('find all properties using external filter function with filter criteria', () => {
-      function IsKind(property: PropertyInfo, kind: MemberKinds): boolean {
+      function IsKind(property: PropertyInfo, kind: number): boolean {
         return !!(property.kind & kind);
       }
       const map = Reflector(Application).findProperties(IsKind, MemberKinds.Property);

@@ -1,6 +1,7 @@
 import { AgentAttribute, Arguments, ClassInterceptor, ClassInvocation } from '../../../dependencies/core';
-import { DomainKnowledge } from '../DomainKnowledge';
 import { Domain } from '../Domain';
+import { RememberAgent } from '../Helpers/RememberAgent';
+import { GetAgent } from '../Helpers/GetAgent';
 // import { OnDemandClassConstructor } from './DomainAgentConstructor';
 
 export class DomainAgentAttribute extends AgentAttribute implements ClassInterceptor {
@@ -26,7 +27,7 @@ export class DomainAgentAttribute extends AgentAttribute implements ClassInterce
     const agentName = params[1];
 
     // NOTE: check level 1 cache, the agent class which can share across domain
-    let agent = DomainKnowledge.GetAgent(receiver);
+    let agent = GetAgent(receiver);
     if (!agent) {
       // do not create agent if no attributes applied
       // if (
@@ -46,7 +47,7 @@ export class DomainAgentAttribute extends AgentAttribute implements ClassInterce
       // type = new Function(name, `return class ${newName}$ extends ${name} {}`)(type);
 
       //Knowledge.RememberType(agent, receiver);
-      DomainKnowledge.RememberAgent(receiver, agent);
+      RememberAgent(receiver, agent);
     }
 
     // console.log('====== AFTER ======', type.name);

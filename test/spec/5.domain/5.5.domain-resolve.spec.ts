@@ -44,7 +44,7 @@ describe('5.5. Domain resolve', () => {
     it('resolve type', async () => {
       const domain = new InMemoryDomain();
       const c1 = await domain.resolve(C);
-      const c = domain.getAgentOrThrow(C);
+      const c = domain.getInstance(C)!;
 
       expect(c1).toBeInstanceOf(C);
       expect(c1).toBe(c);
@@ -61,7 +61,7 @@ describe('5.5. Domain resolve', () => {
       const c1 = await domain.resolve(C);
       expect(c1).toBeInstanceOf(C);
 
-      const c = domain.getAgentOrThrow(C);
+      const c = domain.getInstance(C)!;
       expect(c1).toBe(c);
 
       const c2 = await domain.resolve(C, undefined, true);

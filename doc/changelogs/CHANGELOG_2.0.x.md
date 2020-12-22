@@ -1,5 +1,12 @@
 # Agent Framework 2.0.x ChangeLog
 
+## 2020-12-23, Version 2.0.0-rc.6, @e2tox
+
+**Notable Changes**
+
+-   Add method to get agent type
+-   Improve code
+
 ## 2020-11-17, Version 2.0.0-rc.5, @e2tox
 
 **Notable Changes**
