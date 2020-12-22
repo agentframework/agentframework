@@ -1,11 +1,10 @@
-import { MemberKinds } from './MemberKinds';
 import { AbstractConstructor } from '../Constructor';
 
 export interface Design {
   /**
    * Annotation type
    */
-  readonly kind: MemberKinds;
+  readonly kind: number;
 
   /**
    * Annotation name

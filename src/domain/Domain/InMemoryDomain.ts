@@ -186,7 +186,7 @@ export class InMemoryDomain extends Domain implements Disposable {
           return Promise.resolve(exists);
         }
         const pending = this._futureInstances.get(target);
-        if (IsPromise<Agent<T>>(pending)) {
+        if (pending) {
           return <Promise<Agent<T>>>pending;
         }
       }

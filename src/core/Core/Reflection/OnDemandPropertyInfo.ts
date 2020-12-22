@@ -57,7 +57,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
     // return cache(this, 'descriptor', descriptor);
   }
 
-  get kind(): MemberKinds {
+  get kind(): number {
     if (typeof this.target === 'function') {
       return MemberKinds.Static | MemberKinds.Property;
     }

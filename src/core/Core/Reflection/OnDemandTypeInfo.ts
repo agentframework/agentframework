@@ -107,7 +107,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     return this.type.name;
   }
 
-  get kind(): MemberKinds.Class {
+  get kind(): number {
     if (typeof this.target === 'function') {
       return MemberKinds.Static | MemberKinds.Class;
     }

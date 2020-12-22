@@ -12,17 +12,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-export enum MemberKinds {
-  None = 0,
-  Class = 1,
-  Static = 2,
-  Property = 4,
-  Parameter = 8,
+export class MemberKinds {
+  static None = 0;
+  static Class = 1;
+  static Static = 2;
+  static Property = 4;
+  static Parameter = 8;
   // Field = 16,
   // Method = 32,
   // Getter = 64,
   // Setter = 128,
   // ConstructorParameter = 256,
   // MethodParameter = 512,
-  All = 65535,
+  static All = 65535;
 }

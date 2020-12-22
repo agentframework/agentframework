@@ -16,7 +16,6 @@ import { Member, Property, Wisdom } from '../Annotation/Wisdom';
 import { Attribute } from '../Interfaces/Attribute';
 import { AbstractConstructor, Constructor } from '../Constructor';
 import { HasInterceptor } from '../Helpers/Filters';
-import { MemberKinds } from '../Interfaces/MemberKinds';
 import { MemberInfo } from '../Interfaces/MemberInfo';
 import { Filter } from '../Interfaces/Filter';
 // import { cache } from '../Helpers/Cache';
@@ -29,7 +28,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
   /**
    * Get member kind
    */
-  abstract readonly kind: MemberKinds;
+  abstract readonly kind: number;
 
   /**
    * create member
