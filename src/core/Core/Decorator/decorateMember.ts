@@ -15,12 +15,11 @@ limitations under the License. */
 import { CanDecorate } from './CanDecorate';
 import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToMember } from '../Annotation/AddAttribute';
-import { PropertyDecorator } from './decorators';
 
 /**
  * Decorate class properties (field, getter, setter and methods)
  */
-export function decorateMember<T extends Attribute>(attribute: T): PropertyDecorator {
+export function decorateMember<T extends Attribute>(attribute: T) {
   return (target: object | Function, targetKey: string | symbol, descriptor?: PropertyDescriptor): void => {
     // if (typeof target === 'function') {
     //   throw new Error('Attribute not allow declare on class static member');

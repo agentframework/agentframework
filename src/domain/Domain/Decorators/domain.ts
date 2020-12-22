@@ -8,6 +8,6 @@
 //   return target;
 // }
 //
-// export function domain(): ClassDecorator {
+// export function domain() {
 //   return DomainDecorator;
 // }

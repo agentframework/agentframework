@@ -1,4 +1,4 @@
-import { AnyConstructor, decorateMember, PropertyDecorator } from '../../../dependencies/core';
+import { AnyConstructor, decorateMember } from '../../../dependencies/core';
 import { InjectAttribute } from '../Attributes/InjectAttribute';
 
 /**
@@ -6,6 +6,6 @@ import { InjectAttribute } from '../Attributes/InjectAttribute';
  *
  * @param type
  */
-export function inject<T extends object>(type?: AnyConstructor<T>): PropertyDecorator {
+export function inject<T extends object>(type?: AnyConstructor<T>) {
   return decorateMember(new InjectAttribute(type));
 }

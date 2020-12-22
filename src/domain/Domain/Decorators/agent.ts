@@ -29,7 +29,7 @@ import { GetLocalDomain } from '../Helpers/GetLocalDomain';
 /**
  * Define an agent
  */
-export function agent(): ClassDecorator {
+export function agent() {
   // return decorateAgent(new DomainAgentAttribute());
   // return decorateAgent(new DomainAgentAttribute(), [new ClassInitializerAttribute()]);
   return <F extends Function>(target: F): F => {

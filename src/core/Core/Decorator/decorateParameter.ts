@@ -16,12 +16,11 @@ limitations under the License. */
 import { CanDecorate } from './CanDecorate';
 import { ParameterAttribute } from '../Interfaces/TypeAttributes';
 import { AddAttributeToMethodParameter, AddAttributeToConstructorParameter } from '../Annotation/AddAttribute';
-import { ParameterDecorator } from './decorators';
 
 /**
  * Decorate class method parameter
  */
-export function decorateParameter<T extends ParameterAttribute>(attribute: T): ParameterDecorator {
+export function decorateParameter<T extends ParameterAttribute>(attribute: T) {
   return (target: object | Function, targetKey: string | symbol | undefined, parameterIndex: number): void => {
     if (CanDecorate(attribute, target, targetKey, parameterIndex)) {
       if (targetKey != null) {

@@ -16,12 +16,11 @@ limitations under the License. */
 import { CanDecorate } from './CanDecorate';
 import { AddAttributeToClass } from '../Annotation/AddAttribute';
 import { Attribute } from '../Interfaces/Attribute';
-import { ClassDecorator } from './decorators';
 
 /**
  * Decorate class with attribute
  */
-export function decorateAgent<T extends Attribute>(attribute: T): ClassDecorator {
+export function decorateAgent<T extends Attribute>(attribute: T) {
   // upgrade prototype
   return (target: Function): void => {
     if (CanDecorate(attribute, target)) {

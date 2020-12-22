@@ -1,6 +1,6 @@
-import { decorateClass, ClassDecorator } from '../../../dependencies/core';
+import { decorateClass } from '../../../dependencies/core';
 import { InitializableAttribute } from '../Attributes/InitializableAttribute';
 
-export function initializable(): ClassDecorator {
+export function initializable() {
   return decorateClass(new InitializableAttribute());
 }
