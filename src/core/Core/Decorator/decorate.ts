@@ -26,7 +26,10 @@ import { AgentFrameworkError } from '../Error/AgentFrameworkError';
 /**
  * Decorate attribute to the target, throw if target not allowed
  */
-export function decorate<T extends Attribute>(attribute: T, allows?: number) {
+export function decorate<T extends Attribute>(
+  attribute: T,
+  allows?: number
+): (target: object | Function, targetKey?: string | symbol, descriptorOrIndex?: PropertyDescriptor | number) => void {
   const allowed = typeof allows === 'undefined' ? MemberKinds.All : allows; // 511 = All
   return (target: object | Function, key?: string | symbol, descriptorOrIndex?: PropertyDescriptor | number): void => {
     // if key == null then target == Function

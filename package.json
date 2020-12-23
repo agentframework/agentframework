@@ -38,9 +38,5 @@
   "bugs": {
     "url": "https://github.com/agentframework/agentframework/issues"
   },
-  "homepage": "https://github.com/agentframework/agentframework#readme",
-  "dependencies": {
-    "@types/jasmine": "^3.5.0",
-    "jasmine": "^3.5.0"
-  }
+  "homepage": "https://github.com/agentframework/agentframework#readme"
 }
