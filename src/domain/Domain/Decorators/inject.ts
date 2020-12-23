@@ -6,6 +6,6 @@ import { InjectAttribute } from '../Attributes/InjectAttribute';
  *
  * @param type
  */
-export function inject<T extends object>(type?: AnyConstructor<T>) {
+export function inject<T extends object>(type?: AnyConstructor<T>): PropertyDecorator {
   return decorateMember(new InjectAttribute(type));
 }

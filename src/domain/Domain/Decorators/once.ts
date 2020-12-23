@@ -1,7 +1,7 @@
 import { decorateMember } from '../../../dependencies/core';
 import { OnceAttribute } from '../Attributes/OnceAttribute';
 
-export function once() {
+export function once(): PropertyDecorator {
   return decorateMember(new OnceAttribute());
 }
 

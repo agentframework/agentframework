@@ -29,7 +29,7 @@ import { GetLocalDomain } from '../Helpers/GetLocalDomain';
 /**
  * Define an agent
  */
-export function agent() {
+export function agent(): ClassDecorator {
   // return decorateAgent(new DomainAgentAttribute());
   // return decorateAgent(new DomainAgentAttribute(), [new ClassInitializerAttribute()]);
   return <F extends Function>(target: F): F => {
@@ -41,8 +41,8 @@ export function agent() {
           const agent = target.invoke(params, receiver);
           domain.addInstance(receiver, agent);
           return agent;
-        },
-      },
+        }
+      }
     });
     return domain.getAgent(target) || domain.createAgent(target);
   };

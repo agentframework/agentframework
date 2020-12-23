@@ -1,6 +1,6 @@
 # Agent Framework 2.0.x ChangeLog
 
-## 2020-12-23, Version 2.0.0-rc.6, @e2tox
+## 2020-12-23, Version 2.0.0-rc.8, @e2tox
 
 **Notable Changes**
 

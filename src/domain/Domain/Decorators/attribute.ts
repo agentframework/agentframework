@@ -3,6 +3,6 @@ import { GetSharedType } from '../Helpers/GetSharedType';
 /**
  * extensible attribute
  */
-export function attribute() {
-  return (target: Function) => GetSharedType(`attribute://${target.name}`, target);
+export function attribute(): ClassDecorator {
+  return <F extends Function>(target: F): F => GetSharedType(`attribute://${target.name}`, target);
 }
