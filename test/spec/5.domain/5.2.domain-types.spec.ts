@@ -1,4 +1,4 @@
-import { InMemoryDomain, agent } from '../../../lib';
+import { InMemoryDomain, agent, InMemorySubDomain } from '../../../lib';
 
 describe('5.2. Domain type', () => {
   class A {}
@@ -7,6 +7,8 @@ describe('5.2. Domain type', () => {
   class B extends A {}
 
   class C extends B {}
+
+  class D {};
 
   describe('# should able to', () => {
     it('add type', () => {
@@ -71,6 +73,22 @@ describe('5.2. Domain type', () => {
       expect(domain.getType(A)).toBe(A);
       expect(domain.getType(B)).toBe(B);
       expect(domain.getType(C)).toBe(C);
+    });
+
+    it('get type from subdomain', () => {
+      const domain = new InMemoryDomain();
+      const sd = domain.construct(InMemorySubDomain);
+      domain.addType(A);
+      domain.addType(B);
+      sd.addType(C);
+      domain.addType(D);
+      expect(domain.getType(A)).toBe(A);
+      expect(domain.getType(B)).toBe(B);
+      expect(domain.getType(C)).toBeUndefined();
+      expect(sd.getType(A)).toBe(C);
+      expect(sd.getType(B)).toBe(C);
+      expect(sd.getType(C)).toBe(C);
+      expect(sd.getType(D)).toBe(D);
     });
 
     // it('get type or throw', () => {

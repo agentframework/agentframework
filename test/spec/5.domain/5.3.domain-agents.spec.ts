@@ -1,4 +1,4 @@
-import { InMemoryDomain, agent, FindDomain, GetDomain } from '../../../lib';
+import { InMemoryDomain, agent, FindDomain, GetDomain, InMemorySubDomain } from '../../../lib';
 
 describe('5.3. Domain agent', () => {
   class A {}
@@ -91,6 +91,20 @@ describe('5.3. Domain agent', () => {
       expect(domain.getInstance(A)).toBeInstanceOf(B);
       expect(domain.getInstance(B)).toBeInstanceOf(B);
       expect(domain.getInstance(C)).toBeUndefined();
+      domain.dispose();
+    });
+
+    it('get agent from subdomain', () => {
+      const domain = new InMemoryDomain();
+      const sd = domain.construct(InMemorySubDomain);
+      const agent = new B();
+      domain.addInstance(B, agent);
+      expect(domain.getInstance(A)).toBeInstanceOf(B);
+      expect(domain.getInstance(B)).toBeInstanceOf(B);
+      expect(domain.getInstance(C)).toBeUndefined();
+      expect(sd.getInstance(A)).toBeInstanceOf(B);
+      expect(sd.getInstance(B)).toBeInstanceOf(B);
+      expect(sd.getInstance(C)).toBeUndefined();
       domain.dispose();
     });
 
