@@ -1,5 +1,11 @@
 # Agent Framework 2.0.x ChangeLog
 
+## 2021-02-01, Version 2.0.0, @e2tox
+
+**Notable Changes**
+
+-   Release 2.0
+
 ## 2021-01-21, Version 2.0.0-rc.9, @e2tox
 
 **Notable Changes**
