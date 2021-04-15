@@ -19,7 +19,7 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 ---
 
-:lollipop: **Modernize:** 100% for TypeScript. Compatible with [ES2015](https://unpkg.com/agentframework/).
+:lollipop: **Modernize:** 100% for TypeScript. Compatible with [ES2015](https://unpkg.com/agentframework/). Side-effect free tree shaking.
 
 :zap: **Fast:** Use CodeGen to minimize overheads. Faster than es6 Proxy.
 
