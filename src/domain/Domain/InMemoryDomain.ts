@@ -243,7 +243,7 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Register type
    */
   addType<T extends object>(type: Class<T>): void {
-    let base: object = type.prototype;
+    let base: object | null | undefined = type.prototype;
     // this._types.add(<ClassConstructor<T>>type);
     while (base && base.constructor !== Object) {
       const ctor = base.constructor;
@@ -294,7 +294,7 @@ export class InMemoryDomain extends Domain implements Disposable {
 
     if (explicit) return;
 
-    let base: object = type.prototype;
+    let base: object | null | undefined = type.prototype;
     while (base && base.constructor !== Object) {
       const ctor = base.constructor;
       if (!this._instances.has(ctor)) {

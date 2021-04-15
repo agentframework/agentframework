@@ -1,7 +1,7 @@
 export function FindExtendedClass(target: Function, receiver: Function): Array<Function> {
   // console.log('\n');
   // console.log('target', target, '=====>', receiver);
-  let prototype: object = receiver.prototype;
+  let prototype: object | null | undefined = receiver.prototype;
   const extend: Array<Function> = [];
   while (prototype && prototype.constructor !== target) {
     extend.unshift(prototype.constructor);

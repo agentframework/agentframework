@@ -10,6 +10,7 @@ node_js:
   - '10'
   - '12'
   - '14'
+  - '15'
 
 env:
   - TS=typescript@3.0.3
@@ -23,7 +24,8 @@ env:
   - TS=typescript@3.8.3
   - TS=typescript@3.9.7
   - TS=typescript@4.0.5
-  - TS=typescript@4.1.3
+  - TS=typescript@4.1.5
+  - TS=typescript@4.2.4
 
 # NOTE: do not include @types/node to this project, because
 # @types/node:    interface IteratorResult<T> { };
