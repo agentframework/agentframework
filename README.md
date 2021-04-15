@@ -31,8 +31,8 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 | Date       | Version                                          | Status      |
 | ---------- | ------------------------------------------------ | ----------- |
-| 2021-02-01 | [2.0.0](doc/changelogs/CHANGELOG_2.0.x.md)       | Stable      |
-| 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)       | Maintenance |
+| 2021-04-14 | [2.0.0-rc.18](doc/changelogs/CHANGELOG_2.0.x.md) | Latest      |
+| 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)       | Stable      |
 | 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)      | Maintenance |
 
 ### Install
@@ -44,7 +44,7 @@ npm i agentframework
 ### Example code
 
 ```typescript
-import { agent, transit } from 'agentframework';
+import { agent, singleton } from 'agentframework';
 
 class ComponentA {
 	name = 'Agent Framework';
@@ -52,7 +52,7 @@ class ComponentA {
 
 @agent()
 class ProjectA {
-	@transit()
+	@singleton()
 	private component!: ComponentA;
 
 	constructor() {

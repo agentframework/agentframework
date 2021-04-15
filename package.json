@@ -1,6 +1,6 @@
 {
   "name": "agentframework",
-  "version": "2.0.0",
+  "version": "2.0.0-rc.18",
   "sideEffects": false,
   "engines": {
     "node": ">=8.0.0"
@@ -12,7 +12,7 @@
     "build": "tsc --noEmit",
     "test": "NODE_ENV=test ts-node tools/jasmine.ts --config=tools/jasmine.json",
     "coverage": "nyc npm run test",
-    "report": "open ./coverage/lcov-report/index.html"
+    "report": "open coverage/lcov-report/index.html"
   },
   "repository": {
     "type": "git",
@@ -38,9 +38,5 @@
   "bugs": {
     "url": "https://github.com/agentframework/agentframework/issues"
   },
-  "homepage": "https://github.com/agentframework/agentframework#readme",
-  "dependencies": {
-    "@types/jasmine": "^3.5.0",
-    "jasmine": "^3.5.0"
-  }
+  "homepage": "https://github.com/agentframework/agentframework#readme"
 }

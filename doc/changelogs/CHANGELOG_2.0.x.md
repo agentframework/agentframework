@@ -1,10 +1,10 @@
 # Agent Framework 2.0.x ChangeLog
 
-## 2021-02-01, Version 2.0.0, @e2tox
+## 2021-04-14, Version 2.0.0-rc.18, @e2tox
 
 **Notable Changes**
 
--   Release 2.0
+-   Rename `Domain.getInstance` to `Domain.getAgent`
 
 ## 2021-01-21, Version 2.0.0-rc.9, @e2tox
 
