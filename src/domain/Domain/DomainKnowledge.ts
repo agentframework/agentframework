@@ -7,7 +7,7 @@ import { Domain } from './Domain';
 export class Agents {
   // key: Original Constructor, value: Agent Constructor
   static get v1() {
-    return Remember<WeakMap<Function, Function>>(this, 'v1', Map);
+    return Remember<Map<Function, Function>>(this, 'v1', Map);
   }
 }
 
@@ -20,7 +20,7 @@ export class Domains {
   // key: Domain instance,        value: Domain instance
   // key: Domain Type Prototype,  value: Domain Type Prototype
   static get v1() {
-    return Remember<WeakMap<Function | object, Domain | undefined>>(this, 'v1');
+    return Remember<Map<Function | object, Domain | undefined>>(this, 'v1', Map);
   }
 }
 
@@ -30,7 +30,7 @@ export class Domains {
 export class DomainAgents {
   // key: Original Constructor, value: Agent Constructor
   static get v1() {
-    return Remember<WeakMap<Function, WeakMap<Domain, Function>>>(this, 'v1', Map);
+    return Remember<Map<Function, WeakMap<Domain, Function>>>(this, 'v1', Map);
   }
 }
 
@@ -50,6 +50,6 @@ export class NamedTypes {
 export class Initializers {
   // key: class, value: [Initializer Function, Class]
   static get v1() {
-    return Remember<WeakMap<Function, Array<[Function, Function]>>>(this, 'v1');
+    return Remember<Map<Function, Array<[Function, Function]>>>(this, 'v1', Map);
   }
 }

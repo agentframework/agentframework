@@ -169,9 +169,9 @@ export class InMemoryDomain extends Domain implements Disposable {
       const proxy = GetDomainAgent(this, type) || CreateDomainAgent(this, type);
 
       // initialize agent class
-      const newCreated: Promise<Agent<T>> = Reflect.construct(proxy, params || []);
+      const newCreated = Reflect.construct(proxy, params || []);
 
-      if (IsPromise(newCreated)) {
+      if (IsPromise<Agent<T>>(newCreated)) {
         if (singleton) {
           this._futureSingletons.set(type, newCreated);
         }
