@@ -34,6 +34,8 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 | 2021-04-19 | [2.0.0-rc.18](doc/changelogs/CHANGELOG_2.0.x.md) | Latest      |
 | 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)       | Stable      |
 | 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)      | Maintenance |
+| 2017-06-30 | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md)      | Maintenance |
+| 2016-11-03 | [0.2.28](doc/changelogs/CHANGELOG_0.2.x.md)      | EOL         |
 
 ### Install
 
