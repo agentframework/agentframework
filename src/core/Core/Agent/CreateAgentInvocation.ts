@@ -16,6 +16,7 @@ import { Invocation } from '../Interfaces/Invocation';
 import { InterceptorInvocation } from '../Compiler/Invocation/InterceptorInvocation';
 import { ClassAttribute } from '../Interfaces/TypeAttributes';
 import { CanDecorate } from '../Decorator/CanDecorate';
+import { GetInterceptor } from '../Helpers/Interceptor';
 
 /**
  * Build Agent using AgentAttribute
@@ -35,8 +36,8 @@ export function CreateAgentInvocation(invocation: Invocation, attribute: ClassAt
 
   // add single interceptor into pipeline (optional)
   if (CanDecorate(attribute, target)) {
-    const interceptor = attribute.interceptor;
-    if (interceptor && 'function' === typeof interceptor.intercept) {
+    const interceptor = GetInterceptor(attribute);
+    if (interceptor) {
       chain = new InterceptorInvocation(chain, interceptor);
     }
   }

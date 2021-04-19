@@ -12,14 +12,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Attribute } from '../Interfaces/Attribute';
-
-export function HasInterceptor(attribute: Attribute): boolean {
-  // we can not use attribute['interceptor'] because the interceptor maybe a getter field
-  // the Reflect.has() will checks the key on all prototypes of the attribute
-  return Reflect.has(attribute, 'interceptor');
-}
-
 // export function HasInitializer(attribute: any): boolean {
 //   // we don't use attribute['initializer'] because the initializer maybe a getter field
 //   // Reflect.has() checks the key on all prototype

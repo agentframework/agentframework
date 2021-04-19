@@ -4,9 +4,9 @@ import {
   PropertyAttribute,
   Arguments,
   AnyConstructor,
-  AgentFrameworkError
+  AgentFrameworkError,
 } from '../../../dependencies/core';
-import { FindDomainFromInvocation } from '../Helpers/FindDomainFromInvocation';
+import { GetDomainFromInvocation } from '../Helpers/GetDomainFromInvocation';
 import { Domain } from '../Domain';
 
 export class TransitAttribute<T extends object> implements PropertyAttribute, PropertyInterceptor {
@@ -27,7 +27,7 @@ export class TransitAttribute<T extends object> implements PropertyAttribute, Pr
     }
 
     // if this object created by domain, the last argument is domain itself
-    const domain = FindDomainFromInvocation(params, receiver);
+    const domain = GetDomainFromInvocation(target, params, receiver);
     let value;
     if (domain) {
       // console.log('get type', typeof receiver, type.name)

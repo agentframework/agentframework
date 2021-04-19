@@ -137,7 +137,60 @@ describe('6.1. @initializable decorator', () => {
       const app614 = domain.construct(App614);
 
       expect(app614.name).toBe('App614');
-      expect(app614).toBeInstanceOf(App614)
+      expect(app614).toBeInstanceOf(App614);
+    });
+
+    it('create slow static initializable agent', async () => {
+      const domain = new InMemoryDomain();
+      @initializable()
+      class App615 {
+        public name1: string | undefined;
+        static [ClassInitializer](domain: Domain, target: ClassInvocation, params: Arguments, receiver: typeof App615) {
+          const app = target.invoke<App615>(params, receiver);
+          app.name1 = 'App615$';
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve(app);
+            }, 100);
+          });
+        }
+      }
+      const app1 = domain.resolve(App615);
+      const app2 = domain.resolve(App615);
+      expect(app1 === app2).toBeFalse();
+      domain.dispose();
+      const a1 = await app1;
+      const a2 = await app2;
+      expect(a1 === a2).toBeTrue();
+      expect(a1.name1).toBe('App615$');
+    });
+
+    it('create slow static initializable agent after dispose', async () => {
+      const domain = new InMemoryDomain();
+      @initializable()
+      class App616 {
+        public name1: string | undefined;
+        static [ClassInitializer](domain: Domain, target: ClassInvocation, params: Arguments, receiver: typeof App616) {
+          const app = target.invoke<App616>(params, receiver);
+          app.name1 = 'App616$';
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve(app);
+            }, 100);
+          });
+        }
+        dispose() {
+          this.name1 = undefined;
+        }
+      }
+      const app1 = domain.resolve(App616);
+      const app2 = domain.resolve(App616);
+      expect(app1 === app2).toBeFalse();
+      domain.dispose();
+      const a1 = await app1;
+      const a2 = await app2;
+      expect(a1 === a2).toBeTrue();
+      expect(a1.name1).toBeUndefined();
     });
   });
 

@@ -14,38 +14,36 @@ limitations under the License. */
 
 import { CreateAgentInvocation } from './CreateAgentInvocation';
 import { AgentAttribute } from './AgentAttribute';
-import { GetType, RememberType } from '../Type';
+import { GetAgentType, RememberAgentType } from '../Helpers/AgentType';
 import { AgentInvocation } from './AgentInvocation';
 import { ClassAttribute } from '../Interfaces/TypeAttributes';
 import { OnDemandTypeInfo } from '../Reflection/OnDemandTypeInfo';
-import { HasInterceptor } from '../Helpers/Filters';
 import { ChainFactory } from '../Compiler/Factory/ChainFactory';
 import { Invocation } from '../Interfaces/Invocation';
 import { AgentFrameworkError } from '../Error/AgentFrameworkError';
+import { AbstractConstructor } from '../Constructor';
+import { HasInterceptor } from '../Helpers/Interceptor';
 
 /**
  * Create a new agent from attribute, and add into Agent registry
  *
- * @param target
+ * @param type
  * @param strategy
  */
-export function CreateAgent<T extends Function>(target: T, strategy?: ClassAttribute): T {
+export function CreateAgent<T extends AbstractConstructor<any>>(type: T, strategy?: ClassAttribute): T {
   // always create new agent using latest annotation
 
   // 1. get original type if giving type is an agent type
-  const origin = GetType(target);
-  if (origin) {
-    // target is an agent already
-    // set the target to origin type to recreate this
-    // so create another proxy from this origin class
-    target = origin;
-  }
+  // target is an agent already
+  // set the target to origin type to recreate this
+  // so create another proxy from this origin class
+  const target = GetAgentType(type) || type;
 
   if (!target.name) {
     throw new AgentFrameworkError('InvalidClassName');
   }
 
-  const proxy = strategy || new AgentAttribute();
+  const handlers = strategy || Reflect.construct(AgentAttribute, [type]);
 
   const design = OnDemandTypeInfo.find(target);
 
@@ -61,17 +59,17 @@ export function CreateAgent<T extends Function>(target: T, strategy?: ClassAttri
   // create an invocation for agent type.
   // this chain used to generate agent of this target
   // empty agent
-  const chain = CreateAgentInvocation(invocation, proxy, target);
+  const chain = CreateAgentInvocation(invocation, handlers, target);
 
   // create a new type from this invocation, initialize the agent using reflection info
   /* eslint-disable-next-line prefer-rest-params */
-  const agent = chain.invoke<T>([Function, target.name, proxy], target);
+  const agent = chain.invoke<T>([Function, target.name, handlers], target);
 
   // register new agent map to old type
   // key: Agent proxy, value: origin type
-  if (agent !== target) {
-    RememberType(agent, target);
-  }
+  // if (agent !== target) {
+  RememberAgentType(agent, target);
+  // }
 
   return agent;
 }

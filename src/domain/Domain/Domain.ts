@@ -1,83 +1,51 @@
-import { DomainReference } from './DomainReference';
-import { Agent, AgentIdentifier, AgentParameters, AnyClass, Class } from './ClassConstructor';
+import { DomainLike } from './DomainLike';
+import { Agent, AgentReference, AnyClass, Class, Params } from './ClassConstructor';
 import { RememberDomain } from './Helpers/RememberDomain';
 
 /**
  * Domain is a container of types and agents
  */
-export abstract class Domain implements DomainReference {
+export abstract class Domain implements DomainLike {
   /**
-   * Construct a new instance
+   * Get domain name
    */
-  static construct<T extends Function>(target: T, params: AgentParameters<T>): Agent<T> {
-    return Reflect.construct(target, params);
-  }
+  abstract readonly name: string;
 
+  /**
+   * default constructor
+   */
   constructor() {
     RememberDomain(this, this);
   }
 
   /**
-   * Domain name
+   * Construct a new instance
    */
-  get name(): string {
-    return this.constructor.name;
+  static construct<T extends Function>(target: T, params: Params<T>): Agent<T> {
+    return Reflect.construct(target, params);
   }
-
-  /**
-   * Check if have agent
-   */
-  abstract hasInstance<T extends AgentIdentifier>(type: T): boolean;
 
   /**
    * Get agent of giving type, return undefined if don't have
    */
-  abstract getInstance<T extends AgentIdentifier>(type: T): Agent<T> | undefined;
-
-  // /**
-  //  * Get agent of giving type, throw an error if don't have
-  //  */
-  // abstract getInstanceOrThrow<T extends AgentIdentifier>(type: T): Agent<T>;
-
-  /**
-   * Get agent for current type
-   */
-  abstract getAgent<T extends AnyClass>(type: T): T | undefined;
-
-  /**
-   * Check if have type registered
-   */
-  abstract hasType<T extends AnyClass>(type: T): boolean;
+  abstract getAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined;
 
   /**
    * Get constructor for current type, return undefined if don't have
    */
   abstract getType<T extends AnyClass>(type: T): T | undefined;
 
-  // /**
-  //  * Get constructor for current type, throw an error if don't have
-  //  */
-  // abstract getTypeOrThrow<T extends AnyClass, P extends T>(type: T): P;
-
   //region Factory
-  /**
-   * Create agent
-   */
-  abstract createAgent<T extends AgentIdentifier>(type: T): T;
-
   /**
    * Inject an agent
    */
-  abstract construct<T extends AgentIdentifier>(target: T, params?: AgentParameters<T>, transit?: boolean): Agent<T>;
+  abstract construct<T extends AnyClass>(target: T, params?: Params<T>, transit?: boolean): Agent<T>;
 
   /**
    * Resolve and inject an agent using factory method
    */
-  abstract resolve<T extends AgentIdentifier>(
-    target: T,
-    params?: AgentParameters<T>,
-    transit?: boolean
-  ): Promise<Agent<T>>;
+  abstract resolve<T extends AnyClass>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>>;
+
   //endregion
 
   /**
@@ -93,7 +61,7 @@ export abstract class Domain implements DomainReference {
   /**
    * Delete type mapping for giving type
    */
-  abstract removeType<T extends object>(type: Class<T>): void;
+  abstract removeType<T extends object>(type: AnyClass<T>): void;
 
   // /**
   //  * Get all registered types in this domain
@@ -103,22 +71,22 @@ export abstract class Domain implements DomainReference {
   /**
    * Add an agent
    */
-  abstract addInstance<T extends AgentIdentifier>(type: T, agent: Agent<T>, explicit?: boolean): void;
+  abstract addAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void;
 
   /**
    * Set agent instance
    */
-  abstract setInstance<T extends AgentIdentifier>(type: T, agent: Agent<T>): void;
-
-  // /**
-  //  * Replace agent, throw error if origin agent not match
-  //  */
-  // abstract replaceAgent<T extends AgentIdentifier>(type: T, origin: Agent<T>, replace: Agent<T>): void;
+  abstract setAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void;
 
   /**
    * Delete agent. do nothing if agent not match
    */
-  abstract removeInstance<T extends AgentIdentifier>(type: T, agent: Agent<T>): boolean;
+  abstract removeAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): boolean;
+
+  // /**
+  //  * Replace agent, throw error if origin agent not match
+  //  */
+  // abstract replaceAgent<T extends AgentIdentifier>(identifier: T, origin: Agent<T>, replace: Agent<T>): void;
 
   // /**
   //  * Get all registered agents in this domain

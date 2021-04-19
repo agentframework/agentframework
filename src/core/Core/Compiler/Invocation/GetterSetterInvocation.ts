@@ -15,7 +15,7 @@ limitations under the License. */
 import { PropertyInvocation } from '../../Interfaces/TypeInvocations';
 import { PropertyInfo } from '../../Interfaces/PropertyInfo';
 import { Arguments } from '../../Interfaces/Arguments';
-import { set } from '../../Helpers/Prototype';
+import { define } from '../../Helpers/Prototype';
 import { AgentFrameworkError } from '../../Error/AgentFrameworkError';
 
 /**
@@ -32,7 +32,9 @@ export class GetterSetterInvocation implements PropertyInvocation {
       }
       // how to know the value of a field before you create that class
       // return the value from prototype is a good choose? NO, it may cause infinite loops
-      return set(receiver, this.design.key, params[0]);
+      const value = params[0];
+      define(receiver, this.design.key, { value, writable: true, configurable: true });
+      return value;
     }
     return params[0];
   }

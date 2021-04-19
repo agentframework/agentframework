@@ -130,7 +130,10 @@ describe('2.4. Type fields', () => {
           static Run(@decorate({ a: 1 }, MemberKinds.Parameter) name: string) {}
         }
         expect(NotAllowStatic).toBeTruthy();
-      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: Object is not allow decorate on static method parameters');
+      }).toThrowError(
+        AgentFrameworkError,
+        'InvalidDecorator: Object is not allow decorate on static method parameters'
+      );
     });
   });
 });

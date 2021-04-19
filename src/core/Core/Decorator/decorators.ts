@@ -22,7 +22,6 @@
 // declare type MethodDecorator = <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>) => TypedPropertyDescriptor<T> | void;
 // declare type ParameterDecorator = (target: Object, propertyKey: string | symbol, parameterIndex: number) => void;
 
-
 // export interface MethodDecorator {
 //   (target: Object, targetKey: string | symbol, descriptor: PropertyDescriptor): void;
 // }

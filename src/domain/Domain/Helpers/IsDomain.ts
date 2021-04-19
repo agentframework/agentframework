@@ -1,11 +1,9 @@
-import { DomainKnowledge } from '../DomainKnowledge';
+import { Domains } from '../DomainKnowledge';
 import { Domain } from '../Domain';
 
 /**
  * `true` if target object is a domain
- *
- * @param target
  */
-export function IsDomain(target: any): target is Domain {
-  return target && DomainKnowledge.domains.get(target) === target;
+export function IsDomain(target: object): target is Domain {
+  return target && Domains.v1.get(target) === target;
 }

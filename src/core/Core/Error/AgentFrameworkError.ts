@@ -1,3 +1,1 @@
-export class AgentFrameworkError extends Error {
-
-}
+export class AgentFrameworkError extends Error {}

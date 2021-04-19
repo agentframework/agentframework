@@ -1,8 +1,8 @@
-import { GetSharedType } from '../Helpers/GetSharedType';
+import { GetNamedType } from '../Helpers/GetNamedType';
 
 /**
  * extensible attribute
  */
-export function extensible(): ClassDecorator {
-  return target => GetSharedType(`class://${target.name}`, target);
+export function extensible(id?: string): ClassDecorator {
+  return (target) => GetNamedType(id || `class://${target.name}`, target);
 }

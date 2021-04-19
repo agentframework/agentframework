@@ -21,11 +21,11 @@ import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { ParameterInterceptor } from './Invocation/ParameterInterceptor';
 import { ClassInvocation } from '../Interfaces/TypeInvocations';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
-import { HasInterceptor } from '../Helpers/Filters';
 import { Attribute } from '../Interfaces/Attribute';
 import { define } from '../Helpers/Prototype';
 import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
 import { AgentFrameworkError } from '../Error/AgentFrameworkError';
+import { HasInterceptor } from '../Helpers/Interceptor';
 
 export class OnDemandClassCompiler {
   /**
@@ -160,7 +160,11 @@ export class OnDemandClassCompiler {
     };
   }
 
-  private static makeProperty(property: PropertyInfo, descriptor: PropertyDescriptor, receiver: Function): PropertyDescriptor {
+  private static makeProperty(
+    property: PropertyInfo,
+    descriptor: PropertyDescriptor,
+    receiver: Function
+  ): PropertyDescriptor {
     const key = property.key;
     const propertyDescriptor = Object.create(descriptor);
     // user can change this property
@@ -270,7 +274,12 @@ export class OnDemandClassCompiler {
     return propertyDescriptor;
   }
 
-  static upgrade(proxy: object | Function, properties: Array<PropertyInfo>, target: Function, receiver?: Function): any {
+  static upgrade(
+    proxy: object | Function,
+    properties: Array<PropertyInfo>,
+    target: Function,
+    receiver?: Function
+  ): any {
     const map: any = {};
 
     // only proxy property contains interceptor

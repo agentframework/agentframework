@@ -1,6 +1,6 @@
 import { Domain } from '../Domain';
-import { DomainKnowledge } from '../DomainKnowledge';
+import { Domains } from '../DomainKnowledge';
 
-export function GetDomain(key: any): Domain | undefined {
-  return DomainKnowledge.domains.get(key);
+export function GetDomain(key: Function | object): Domain | undefined {
+  return Domains.v1.get(key);
 }

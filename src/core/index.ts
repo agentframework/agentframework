@@ -54,6 +54,7 @@ export { PropertyAttribute } from './Core/Interfaces/TypeAttributes';
  *************************************/
 export { Attribute } from './Core/Interfaces/Attribute';
 export { MemberKinds } from './Core/Interfaces/MemberKinds';
+
 export { decorate } from './Core/Decorator/decorate';
 export { decorateClass } from './Core/Decorator/decorateClass';
 export { decorateAgent } from './Core/Decorator/decorateAgent';
@@ -81,17 +82,21 @@ export { Reflector } from './Core/Reflector';
 /*************************************
  *   Agent API
  *************************************/
-
 export { AgentAttribute } from './Core/Agent/AgentAttribute';
 export { CreateAgent } from './Core/Agent/CreateAgent';
-export { GetType, IsAgent } from './Core/Type';
+export { GetAgentType, IsAgent } from './Core/Helpers/AgentType';
 
 /*************************************
  *   Wisdom
  *************************************/
-export { memorize } from './Core/Annotation/Wisdom';
 
 /*************************************
  *   Static Interceptor
  *************************************/
 export { interceptable } from './Core/Agent/interceptable';
+
+/*************************************
+ *   Set custom Interceptor to attribute
+ *************************************/
+export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from './Core/Helpers/Interceptor';
+export { Remember } from './Core/Wisdom/Remember';

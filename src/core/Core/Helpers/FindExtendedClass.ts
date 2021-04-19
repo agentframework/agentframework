@@ -1,3 +1,6 @@
+/**
+ * Return extended class between specified type
+ */
 export function FindExtendedClass(target: Function, receiver: Function): Array<Function> {
   // console.log('\n');
   // console.log('target', target, '=====>', receiver);

@@ -1,19 +1,34 @@
 import { InMemoryDomain } from './InMemoryDomain';
-import { Domain } from './Domain';
-import { FindDomain } from './Helpers/FindDomain';
-import { AnyClass, Agent, AgentIdentifier } from './ClassConstructor';
+import { GetDomain } from './Helpers/GetDomain';
+import { AnyClass, Agent, AgentReference } from './ClassConstructor';
 import { getter } from './Helpers/Prototype';
+import { SubDomain } from './SubDomain';
+import { DomainLike } from './DomainLike';
+import { GetSystemDomain } from './Helpers/GetSystemDomain';
 
-export class InMemorySubDomain extends InMemoryDomain {
-  protected get parent(): Domain | undefined {
-    return getter(this, 'parent', FindDomain(this.constructor));
+export class InMemorySubDomain extends InMemoryDomain implements SubDomain {
+  get parent(): DomainLike {
+    // GetDomain(this) will return this. So must use GetDomain(this.constructor)
+    return getter(this, 'parent', GetDomain(this.constructor) || GetSystemDomain());
+  }
+
+  // get name(): string {
+  //   return this.parent.name + '>>' + super.name;
+  // }
+
+  getOwnType<T extends AnyClass>(type: T): T | undefined {
+    return super.getType<T>(type);
   }
 
   getType<T extends AnyClass>(type: T): T | undefined {
-    return super.getType<T>(type) || (this.parent && this.parent.getType<T>(type));
+    return super.getType<T>(type) || this.parent.getType<T>(type);
   }
 
-  getInstance<T extends AgentIdentifier>(type: T): Agent<T> | undefined {
-    return super.getInstance<T>(type) || (this.parent && this.parent.getInstance<T>(type));
+  getOwnAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined {
+    return super.getAgent<T>(identifier);
+  }
+
+  getAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined {
+    return super.getAgent<T>(identifier) || this.parent.getAgent<T>(identifier);
   }
 }

@@ -1,9 +1,10 @@
-import { DomainKnowledge } from '../DomainKnowledge';
+import { Initializers } from '../DomainKnowledge';
 import { Initializer } from '../Symbols';
 
 export function FindInitializers(target: Function): Array<[Function, Function]> {
+  const initializers = Initializers.v1;
   // console.log('FI', target, typeof target);
-  const ctor = DomainKnowledge.initializers.get(target);
+  const ctor = initializers.get(target);
   if (ctor) {
     // console.log('HIT cache =================', target, ctor);
     return ctor;
@@ -31,13 +32,13 @@ export function FindInitializers(target: Function): Array<[Function, Function]> 
     for (const layer of found) {
       const type = layer[1];
       cache.push(layer);
-      if (!DomainKnowledge.initializers.has(type)) {
-        DomainKnowledge.initializers.set(type, cache.slice());
+      if (!initializers.has(type)) {
+        initializers.set(type, cache.slice());
       }
     }
   }
 
-  DomainKnowledge.initializers.set(target, found);
+  initializers.set(target, found);
   // console.log('*********', target.name, '==>', found);
 
   return found;

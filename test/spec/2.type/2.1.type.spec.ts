@@ -158,10 +158,10 @@ describe('2.1. Type', () => {
     });
 
     it('find types using filter function with filter criteria', () => {
-      function EndWith(type: TypeInfo, filterCriteria: string): boolean {
+      function NameEndWith(type: TypeInfo, filterCriteria: string): boolean {
         return type.name.endsWith(filterCriteria);
       }
-      const types = Reflector(Application).findTypes(EndWith, 'Layer');
+      const types = Reflector(Application).findTypes(NameEndWith, 'Layer');
       expect(types).toBeInstanceOf(Array);
       expect(types.length).toBe(2);
       expect(types[0]).toBe(Reflector(MiddleLayer));

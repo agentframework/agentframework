@@ -74,4 +74,14 @@ describe('2.6. Agent', () => {
       expect(Agent264).toBeDefined();
     });
   });
+
+  describe('# should not able to', () => {
+    it('upgrade type to agent twice', () => {
+      @agent()
+      @agent()
+      class Agent265 {}
+
+      expect(Agent265).toBeDefined();
+    });
+  });
 });

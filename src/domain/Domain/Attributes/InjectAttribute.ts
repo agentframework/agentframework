@@ -4,9 +4,9 @@ import {
   PropertyInterceptor,
   Arguments,
   AnyConstructor,
-  AgentFrameworkError
+  AgentFrameworkError,
 } from '../../../dependencies/core';
-import { FindDomainFromInvocation } from '../Helpers/FindDomainFromInvocation';
+import { GetDomainFromInvocation } from '../Helpers/GetDomainFromInvocation';
 
 export class InjectAttribute<T extends object> implements PropertyAttribute, PropertyInterceptor {
   private readonly type?: AnyConstructor<T>;
@@ -36,13 +36,13 @@ export class InjectAttribute<T extends object> implements PropertyAttribute, Pro
 
     // console.log('params', params);
     // console.log('receiver', receiver);
-    const domain = FindDomainFromInvocation(params, receiver);
+    const domain = GetDomainFromInvocation(target, params, receiver);
     if (!domain) {
       throw new AgentFrameworkError('DomainNotFound: ' + type.name);
       // throw new DomainNotFoundError(`no domain to inject ${type.name}`);
     }
 
-    const value = domain.getInstance(type);
+    const value = domain.getAgent(type);
     if (!value) {
       throw new AgentFrameworkError('InjectInstanceNotExists: ' + type.name);
     }

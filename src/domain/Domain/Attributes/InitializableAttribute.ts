@@ -3,10 +3,10 @@ import {
   Arguments,
   ClassInterceptor,
   ClassInvocation,
-  TypeInfo
+  TypeInfo,
 } from '../../../dependencies/core';
 import { ClassInitializer } from '../Symbols';
-import { FindDomainFromInvocation } from '../Helpers/FindDomainFromInvocation';
+import { GetDomainFromInvocation } from '../Helpers/GetDomainFromInvocation';
 import { FindInitializers } from '../Helpers/FindInitializers';
 
 export class InitializableAttribute implements ClassInterceptor {
@@ -28,7 +28,7 @@ export class InitializableAttribute implements ClassInterceptor {
     // in case of human mistake, check prototype if no static initializer function found
     if (initializerFunction) {
       if (typeof initializerFunction === 'function') {
-        const domain = FindDomainFromInvocation(params, receiver);
+        const domain = GetDomainFromInvocation(target, params, receiver);
 
         const newTarget = {
           get design(): TypeInfo {
@@ -44,7 +44,7 @@ export class InitializableAttribute implements ClassInterceptor {
               }
             }
             return instance;
-          }
+          },
         };
 
         // found class initializer function

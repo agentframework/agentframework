@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { CreateAgent, decorateMember, agent, IsAgent } from '../../../lib';
+import { CreateAgent, decorateMember, agent, IsAgent, GetAgentType } from '../../../lib';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 import { AgentTrackerAttribute } from '../attributes/AgentTrackerAttribute';
 
@@ -58,6 +58,8 @@ describe('Compiler', () => {
     it('create using decorator', () => {
       const MySQL$ = CreateAgent(MySQL);
       expect(IsAgent(MySQL$)).toBeTrue();
+      expect(IsAgent(MySQL$, MySQL)).toBeFalse();
+      expect(IsAgent(MySQL$, GetAgentType(MySQL))).toBeTrue();
       const db = new MySQL$();
       expect(db).not.toBeInstanceOf(MySQL);
       expect(db).toBeInstanceOf(MySQL$);

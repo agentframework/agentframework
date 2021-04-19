@@ -1,102 +1,55 @@
-import { memorize } from '../../dependencies/core';
+import { Remember } from '../../dependencies/core';
 import { Domain } from './Domain';
 
 /**
- * Knowledge of domain
+ * Get agent of giving type
  */
-export class DomainKnowledge {
-  static domain: Domain | undefined;
-
-  // key: Constructor | instance, value: Owner Domain
-  static get domains() {
-    return memorize<WeakMap<Function | object, Domain>>(this, 'domains');
-  }
-
+export class Agents {
   // key: Original Constructor, value: Agent Constructor
-  static get agents() {
-    return memorize<WeakMap<Function, Function>>(this, 'agents');
+  static get v1() {
+    return Remember<WeakMap<Function, Function>>(this, 'v1', Map);
   }
+}
 
-  // key: Domain + Original Constructor, value: Domain Agent Constructor
-  // static get domainAgents() {
-  //   return memorize<WeakMap<Domain, Map<Function, Function>>>(this, 'domainAgents');
-  // }
+/**
+ * Get domain of giving instance or type
+ */
+export class Domains {
+  // key: Agent Type,             value: Domain instance
+  // key: Agent Type Prototype,   value: Domain instance
+  // key: Domain instance,        value: Domain instance
+  // key: Domain Type Prototype,  value: Domain Type Prototype
+  static get v1() {
+    return Remember<WeakMap<Function | object, Domain | undefined>>(this, 'v1');
+  }
+}
 
+/**
+ * Get agent of giving domain and type
+ */
+export class DomainAgents {
+  // key: Original Constructor, value: Agent Constructor
+  static get v1() {
+    return Remember<WeakMap<Function, WeakMap<Domain, Function>>>(this, 'v1', Map);
+  }
+}
+
+/**
+ * Get type of giving string id
+ */
+export class NamedTypes {
   // key: string, value: Constructor
-  static get extensibles() {
-    return memorize<Map<string, Function>>(this, 'extensibles', Map);
+  static get v1() {
+    return Remember<Map<string, unknown>>(this, 'v1', Map);
   }
+}
 
-  // key: class
-  static get initializers() {
-    return memorize<WeakMap<Function, Array<[Function, Function]>>>(this, 'initializers');
+/**
+ * Get initializers of giving type
+ */
+export class Initializers {
+  // key: class, value: [Initializer Function, Class]
+  static get v1() {
+    return Remember<WeakMap<Function, Array<[Function, Function]>>>(this, 'v1');
   }
-
-  // static GetLocalDomain(domainType: Function): Domain {
-  //   if (this.domain) {
-  //     return this.domain;
-  //   }
-  //   return (this.domain = Reflect.construct(domainType, []));
-  // }
-
-  // static GetAgent<T extends Function>(type: T): T | undefined {
-  //   return this.agents.get(type) as T | undefined;
-  // }
-
-  // static RememberAgent<T extends Function>(type: T, agent: T): void {
-  //   this.agents.set(type, agent);
-  // }
-
-  // static GetDomain(key: object | Function): Domain | undefined {
-  //   return this.domains.get(key);
-  // }
-
-  // static RememberDomain(key: object | Function, domain: Domain): void {
-  //   this.domains.set(key, domain);
-  // }
-
-  // /**
-  //  * Domain agent cache
-  //  */
-  // static GetDomainAgent(domain: Domain, type: Function): Function | undefined {
-  //   // map for all domain specified types
-  //   const types = this.domainAgents.get(domain);
-  //   return types && types.get(type);
-  // }
-
-  // /**
-  //  * Domain agent cache
-  //  */
-  // static RememberDomainAgent(domain: Domain, type: Function, agent: Function): void {
-  //   // let types = this.domainAgents.get(domain);
-  //   // if (!types) {
-  //   //   types = new Map<Function, Function>();
-  //   //   this.domainAgents.set(domain, types);
-  //   // }
-  //   // types.set(type, agent);
-  //   // types.set(agent, agent);
-  //   // make reverse query easy
-  //   DomainKnowledge.RememberDomain(agent, domain);
-  // }
-
-  // static GetExtensible<T extends Function>(key: string): T | undefined {
-  //   return <T>this.extensibles.get(key) || undefined;
-  // }
-  //
-  // static SetExtensible<T extends Function>(key: string, type: T): void {
-  //   this.extensibles.set(key, type);
-  // }
-
-  // static HasInitializer(type: Function): boolean {
-  //   return this.initializers.has(type);
-  // }
-  //
-  // static GetInitializers(type: Function): Array<[Function, Function]> | undefined {
-  //   return this.initializers.get(type);
-  // }
-  //
-  // static SetInitializers(type: Function, ctor: Array<[Function, Function]>): void {
-  //   // console.log('cache', type, typeof type, '====>', ctor);
-  //   this.initializers.set(type, ctor);
-  // }
 }

@@ -1,40 +1,14 @@
-import { AnyConstructor, Arguments, Constructor, AbstractConstructor } from '../../dependencies/core';
-// import { ClassInitializer } from './Symbols';
-// import { Domain } from './Domain';
+import { Arguments, Constructor, AbstractConstructor } from '../../dependencies/core';
 
-// export interface ClassInitializerHandler<T, D extends Domain> {
-//   (domain: D, target: Constructor<T>, params: Arguments): T | Promise<T>;
-// }
-//
-// // AbstractClassConstructor make sure the class has proper initializer and finalizer implementation
-// export interface AbstractClassConstructor<T, D extends Domain = Domain> extends Function {
-//   readonly prototype: T;
-//   [ClassInitializer]?: ClassInitializerHandler<T, D>;
-// }
-//
-// export interface DefaultClassConstructor<T, D extends Domain> extends AbstractClassConstructor<T, D> {
-//   new (): T;
-// }
-//
-// export interface ParameterClassConstructor<T, D extends Domain> extends AbstractClassConstructor<T, D> {
-//   new (...params: Array<any>): T;
-// }
-//
-// export type ClassConstructor<T, D extends Domain = Domain> = DefaultClassConstructor<T, D> | ParameterClassConstructor<T, D>;
-//
-// export type AnyClassConstructor<T, D extends Domain = Domain> = ClassConstructor<T, D> | AbstractClassConstructor<T, D>;
-
-export type AnyClass<T = any> = AnyConstructor<T>;
+export type AnyClass<T = any> = AbstractConstructor<T>;
 
 export type Class<T = any> = Constructor<T>;
 
-export type AgentIdentifier = AbstractConstructor<any>;
+export type AgentReference = AnyClass | string | symbol;
 
-export type AgentParameters<T, P extends Array<any> = Array<any>> = T extends new (...args: infer P) => any
-  ? P
-  : Arguments;
+export type Params<T, P extends Arguments = Arguments> = T extends new (...args: infer P) => any ? P : Arguments;
 
-export type Agent<T> = T extends AbstractConstructor<infer R> ? R : never;
+export type Agent<T> = T extends string | symbol ? any : T extends AnyClass<infer R> ? R : never;
 
 // CustomConstructor is a helper interface to infer the return type from ClassInitializer function
 // interface CustomConstructor<T> extends Function {

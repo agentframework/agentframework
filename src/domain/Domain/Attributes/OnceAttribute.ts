@@ -3,7 +3,7 @@ import {
   PropertyInvocation,
   PropertyInterceptor,
   PropertyAttribute,
-  AgentFrameworkError
+  AgentFrameworkError,
 } from '../../../dependencies/core';
 
 export class OnceAttribute<T extends object> implements PropertyAttribute, PropertyInterceptor {
@@ -19,8 +19,6 @@ export class OnceAttribute<T extends object> implements PropertyAttribute, Prope
         get() {
           return value;
         },
-        enumerable: true,
-        configurable: true,
       });
     } else {
       throw new AgentFrameworkError('OnceOnlyAvailableOnGetter');

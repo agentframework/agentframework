@@ -14,14 +14,16 @@ limitations under the License. */
 
 import { OnDemandPropertyInfo } from './OnDemandPropertyInfo';
 import { MemberKinds } from '../Interfaces/MemberKinds';
-import { Property, memorize, Wisdom } from '../Annotation/Wisdom';
+import { Wisdom } from '../Wisdom/Wisdom';
 import { TypeInfo } from '../Interfaces/TypeInfo';
 import { AbstractConstructor } from '../Constructor';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Filter } from '../Interfaces/Filter';
 import { Attribute } from '../Interfaces/Attribute';
-import { AddAttributeToClass } from '../Annotation/AddAttribute';
-import { GetType, IsAgent } from '../Type';
+import { AddAttributeToClass } from '../Wisdom/AddAttribute';
+import { GetAgentType, IsAgent } from '../Helpers/AgentType';
+import { Remember } from '../Wisdom/Remember';
+import { Property } from '../Wisdom/Annotation';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -50,12 +52,12 @@ import { GetType, IsAgent } from '../Type';
 //   }
 // }
 
-export class TypeInfoCache {
+export class TypeInfos {
   /**
    * get types map
    */
-  static get types() {
-    return memorize<WeakMap<object | Function, OnDemandTypeInfo>>(this, 'types');
+  static get v1() {
+    return Remember<WeakMap<object | Function, OnDemandTypeInfo>>(this, 'v1');
   }
 }
 
@@ -68,16 +70,17 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   /**
    * Get TypeInfo from constructor
    */
-  static find(target: object | Function): OnDemandTypeInfo {
+  static find(target: object | Function): TypeInfo {
     // make sure only create typeinfo for user classes
-    const type = GetType(target) || target;
+    const type = GetAgentType(target) || target;
     // return new OnDemandTypeInfo(type);
-    let t = TypeInfoCache.types.get(type);
-    if (!t) {
-      t = new OnDemandTypeInfo(type);
-      TypeInfoCache.types.set(type, t);
+    const info = TypeInfos.v1.get(type);
+    if (info) {
+      return info;
     }
-    return t;
+    const newInfo = new OnDemandTypeInfo(type);
+    TypeInfos.v1.set(type, newInfo);
+    return newInfo;
   }
 
   /**
@@ -123,7 +126,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    *
    * @cache
    */
-  protected get base(): OnDemandTypeInfo | undefined {
+  get base(): TypeInfo | undefined {
     const base = Reflect.getPrototypeOf(this.target);
     // ignore object as base type
     if (!base || base.constructor === Object || IsAgent(base)) {
@@ -140,14 +143,16 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    *
    * @cache
    */
-  protected get types(): Array<OnDemandTypeInfo> {
+  protected get types(): Array<TypeInfo> {
     // this can cache because it never changes
-    const prototypes: Array<OnDemandTypeInfo> = [];
+    const prototypes: Array<TypeInfo> = [];
 
     /* eslint-disable-next-line @typescript-eslint/no-this-alias */
-    let current: OnDemandTypeInfo | undefined = this;
+    let current: TypeInfo | undefined = this;
+    // console.log();
     do {
       prototypes.push(current);
+      // console.log(this.target, '=', current.base);
       current = current.base;
     } while (current);
     return prototypes;

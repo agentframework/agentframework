@@ -18,8 +18,8 @@ import {
   AddAttributeToClass,
   AddAttributeToMethodParameter,
   AddAttributeToConstructorParameter,
-  AddAttributeToMember
-} from '../Annotation/AddAttribute';
+  AddAttributeToMember,
+} from '../Wisdom/AddAttribute';
 import { MemberKinds } from '../Interfaces/MemberKinds';
 import { AgentFrameworkError } from '../Error/AgentFrameworkError';
 

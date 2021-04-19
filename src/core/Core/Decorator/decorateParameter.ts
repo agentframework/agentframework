@@ -15,7 +15,7 @@ limitations under the License. */
 // import { Reflector } from '../Reflector';
 import { CanDecorate } from './CanDecorate';
 import { ParameterAttribute } from '../Interfaces/TypeAttributes';
-import { AddAttributeToMethodParameter, AddAttributeToConstructorParameter } from '../Annotation/AddAttribute';
+import { AddAttributeToMethodParameter, AddAttributeToConstructorParameter } from '../Wisdom/AddAttribute';
 
 /**
  * Decorate class method parameter

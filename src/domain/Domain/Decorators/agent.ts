@@ -23,8 +23,9 @@ limitations under the License. */
 // }
 
 import { Arguments, ClassInvocation, Reflector } from '../../../dependencies/core';
-import { InMemoryDomain } from '../InMemoryDomain';
-import { GetLocalDomain } from '../Helpers/GetLocalDomain';
+import { CreateDomainAgent } from '../Helpers/CreateDomainAgent';
+import { GetSystemDomain } from '../Helpers/GetSystemDomain';
+import { GetDomainAgent } from '../Helpers/GetDomainAgent';
 
 /**
  * Define an agent
@@ -33,17 +34,23 @@ export function agent(): ClassDecorator {
   // return decorateAgent(new DomainAgentAttribute());
   // return decorateAgent(new DomainAgentAttribute(), [new ClassInitializerAttribute()]);
   return <F extends Function>(target: F): F => {
-    const domain = GetLocalDomain(InMemoryDomain);
+    const domain = GetSystemDomain();
+    const type = domain.getType(target) || target;
+    const found = GetDomainAgent(domain, type);
+    if (found) {
+      return found;
+    }
     // register this agent after create new instance
-    Reflector(target).addAttribute({
+    Reflector(type).addAttribute({
       interceptor: {
         intercept(target: ClassInvocation, params: Arguments, receiver: Function) {
           const agent = target.invoke(params, receiver);
-          domain.addInstance(receiver, agent);
+          domain.addAgent(receiver, agent);
           return agent;
         }
       }
     });
-    return domain.getAgent(target) || domain.createAgent(target);
+    domain.addType(<any>type);
+    return CreateDomainAgent(domain, type);
   };
 }

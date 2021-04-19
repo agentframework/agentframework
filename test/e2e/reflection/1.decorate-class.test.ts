@@ -8,7 +8,7 @@ import {
   decorateMember,
   IsAgent,
   Reflector,
-  GetType,
+  GetAgentType,
 } from '../../../lib';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
@@ -45,7 +45,7 @@ describe('Decorate Class', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(GetType(CreateAgent(MongoDB))).not.toBe(MongoDB);
+      expect(GetAgentType(CreateAgent(MongoDB))).not.toBe(MongoDB);
     });
 
     it('new instance', () => {

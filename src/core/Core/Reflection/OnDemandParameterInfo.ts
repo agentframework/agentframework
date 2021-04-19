@@ -17,8 +17,8 @@ import { MemberKinds } from '../Interfaces/MemberKinds';
 import { ParameterInfo } from '../Interfaces/ParameterInfo';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Attribute } from '../Interfaces/Attribute';
-import { AddAttributeToMethodParameter } from '../Annotation/AddAttribute';
-import { Parameter } from '../Annotation/Wisdom';
+import { AddAttributeToMethodParameter } from '../Wisdom/AddAttribute';
+import { Parameter } from '../Wisdom/Annotation';
 
 /**
  * Parameter

@@ -13,6 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 export function getter<T>(target: object, key: string | symbol | number, value: T): T {
-  Reflect.defineProperty(target, key, { value, configurable: true });
+  Reflect.defineProperty(target, key, {
+    get() {
+      return value;
+    },
+  });
   return value;
 }

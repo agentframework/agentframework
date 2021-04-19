@@ -13,9 +13,14 @@ export interface TypeInfo extends PropertyInfo {
   readonly prototype: TypeInfo;
 
   /**
-   * Get the type
+   * Get original type
    */
   readonly type: Function;
+
+  /**
+   * Get base type info
+   */
+  readonly base: TypeInfo | undefined;
 
   /**
    * Returns property by key (create if not exist)

@@ -1,6 +1,6 @@
 import { Domain } from '../Domain';
-import { DomainKnowledge } from '../DomainKnowledge';
+import { Domains } from '../DomainKnowledge';
 
 export function RememberDomain(key: object | Function, domain: Domain): void {
-  DomainKnowledge.domains.set(key, domain);
+  Domains.v1.set(key, domain);
 }

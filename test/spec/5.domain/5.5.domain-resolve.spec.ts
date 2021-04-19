@@ -44,7 +44,7 @@ describe('5.5. Domain resolve', () => {
     it('resolve type', async () => {
       const domain = new InMemoryDomain();
       const c1 = await domain.resolve(C);
-      const c = domain.getInstance(C)!;
+      const c = domain.getAgent(C)!;
 
       expect(c1).toBeInstanceOf(C);
       expect(c1).toBe(c);
@@ -61,7 +61,7 @@ describe('5.5. Domain resolve', () => {
       const c1 = await domain.resolve(C);
       expect(c1).toBeInstanceOf(C);
 
-      const c = domain.getInstance(C)!;
+      const c = domain.getAgent(C)!;
       expect(c1).toBe(c);
 
       const c2 = await domain.resolve(C, undefined, true);
@@ -87,8 +87,8 @@ describe('5.5. Domain resolve', () => {
 
     it('resolve Promise with error', async () => {
       const domain = new InMemoryDomain();
-      expectAsync(domain.resolve(E)).toBeRejectedWithError('not ok');
-      expectAsync(domain.resolve(E)).toBeRejectedWithError('not ok');
+      await expectAsync(domain.resolve(E)).toBeRejectedWithError('not ok');
+      await expectAsync(domain.resolve(E)).toBeRejectedWithError('not ok');
     });
 
     it('resolve transit Promise', async () => {
@@ -100,8 +100,8 @@ describe('5.5. Domain resolve', () => {
 
     it('resolve transit Promise with error', async () => {
       const domain = new InMemoryDomain();
-      expectAsync(domain.resolve(E, undefined, true)).toBeRejectedWithError('not ok');
-      expectAsync(domain.resolve(E, undefined, true)).toBeRejectedWithError('not ok');
+      await expectAsync(domain.resolve(E, undefined, true)).toBeRejectedWithError('not ok');
+      await expectAsync(domain.resolve(E, undefined, true)).toBeRejectedWithError('not ok');
       domain.dispose();
     });
 
@@ -130,14 +130,14 @@ describe('5.5. Domain resolve', () => {
         }
       }
       const domain = new InMemoryDomain();
-      expectAsync(domain.resolve(Async)).toBeResolved();
-      expectAsync(domain.resolve(Pending)).toBeResolved();
+      await expectAsync(domain.resolve(Async)).toBeResolved();
+      await expectAsync(domain.resolve(Pending)).toBeResolved();
       domain.dispose();
     });
 
     it('resolve Observable', async () => {
       const domain = new InMemoryDomain();
-      expectAsync(domain.resolve(R)).toBeRejectedWithError('NotSupportObservableConstructor');
+      await expectAsync(domain.resolve(R)).toBeRejectedWithError('NotSupportResolveObservableObject');
     });
 
     it('construct agent', () => {
@@ -145,6 +145,11 @@ describe('5.5. Domain resolve', () => {
       expect(() => {
         domain.construct(D);
       }).toThrowError('NotSupportCreateAgentForOtherDomain');
+    });
+
+    it('resolve slow promise', async () => {
+      const domain = new InMemoryDomain();
+      await expectAsync(domain.resolve(R)).toBeRejectedWithError('NotSupportResolveObservableObject');
     });
   });
 });

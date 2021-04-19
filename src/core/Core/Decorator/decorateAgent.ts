@@ -14,7 +14,7 @@ limitations under the License. */
 
 // import { Reflector } from '../Reflector';
 import { CanDecorate } from './CanDecorate';
-import { AddAttributeToClass } from '../Annotation/AddAttribute';
+import { AddAttributeToClass } from '../Wisdom/AddAttribute';
 import { Attribute } from '../Interfaces/Attribute';
 
 /**

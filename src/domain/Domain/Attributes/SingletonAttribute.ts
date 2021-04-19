@@ -6,13 +6,17 @@ import {
   PropertyAttribute,
   AgentFrameworkError
 } from '../../../dependencies/core';
-import { FindDomainFromInvocation } from '../Helpers/FindDomainFromInvocation';
+import { GetDomainFromInvocation } from '../Helpers/GetDomainFromInvocation';
+// import { GetDomain } from '../Helpers/GetDomain';
 
 export class SingletonAttribute<T extends object> implements PropertyAttribute, PropertyInterceptor {
   private readonly type?: AnyConstructor<T>;
 
   constructor(type?: AnyConstructor<T>) {
     this.type = type;
+
+    // console.log('set custom type', type);
+    // console.log(new Error().stack);
   }
 
   get interceptor() {
@@ -50,16 +54,33 @@ export class SingletonAttribute<T extends object> implements PropertyAttribute, 
 
     // if this object created by domain, the last argument is domain itself
     // console.log('find domain for type', receiver)
-    const domain = FindDomainFromInvocation(params, receiver);
+    const domain = GetDomainFromInvocation(target, params, receiver);
     if (!domain) {
       throw new AgentFrameworkError('NoDomainFoundForSingletonInjection');
     }
 
     // console.log('find singleton', type.name, 'from', domain.name);
 
+    // console.log('receiver', receiver)
+    // console.log('domain', domain.constructor);
+    // console.log('get domain', GetDomain(receiver.constructor)?.constructor);
+    //
+    // console.log('Custom Type', customType);
+    // if (customType) {
+    //   console.log('Custom Instance', domain.getInstance(customType));
+    // }
+    //
+    // console.log('Design Type', designType);
+    // if (designType) {
+    //   console.log('Design Instance', domain.getInstance(designType));
+    // }
+    // console.log('found domain', domain?.constructor, 'from', receiver.constructor, 'for singleton', type);
+
     const value =
-      (customType && domain.getInstance(customType)) || (designType && domain.getInstance(designType)) || domain.construct(type, params);
-      // domain.construct(type) // do not include the parameters
+      (customType && domain.getAgent(customType)) ||
+      (designType && domain.getAgent(designType)) ||
+      domain.construct(type, params);
+    // domain.construct(type) // do not include the parameters
 
     return target.invoke([value], receiver);
     //

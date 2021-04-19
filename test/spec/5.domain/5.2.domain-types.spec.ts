@@ -8,7 +8,7 @@ describe('5.2. Domain type', () => {
 
   class C extends B {}
 
-  class D {};
+  class D {}
 
   describe('# should able to', () => {
     it('add type', () => {
@@ -60,9 +60,9 @@ describe('5.2. Domain type', () => {
     it('has type', () => {
       const domain = new InMemoryDomain();
       domain.addType(C);
-      expect(domain.hasType(A)).toBeTrue();
-      expect(domain.hasType(B)).toBeTrue();
-      expect(domain.hasType(C)).toBeTrue();
+      expect(domain.getType(A)).toBe(C);
+      expect(domain.getType(B)).toBe(C);
+      expect(domain.getType(C)).toBe(C);
     });
 
     it('get type', () => {
@@ -83,6 +83,7 @@ describe('5.2. Domain type', () => {
       sd.addType(C);
       domain.addType(D);
       expect(domain.getType(A)).toBe(A);
+      expect(sd.getOwnType(B)).toBe(C);
       expect(domain.getType(B)).toBe(B);
       expect(domain.getType(C)).toBeUndefined();
       expect(sd.getType(A)).toBe(C);
@@ -100,5 +101,14 @@ describe('5.2. Domain type', () => {
     //     domain.getTypeOrThrow(C);
     //   }).toThrowError(TypeNotFoundError, 'TypeNotFound: C');
     // });
+  });
+
+  describe('# should not able to', () => {
+    it('add type', () => {
+      const domain = new InMemoryDomain();
+      const a: any = new A();
+      domain.addType(a);
+      expect(domain.getType(a)).toBeTruthy();
+    });
   });
 });

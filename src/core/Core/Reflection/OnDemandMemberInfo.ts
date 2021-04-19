@@ -12,12 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Member, Property, Wisdom } from '../Annotation/Wisdom';
+import { Wisdom } from '../Wisdom/Wisdom';
 import { Attribute } from '../Interfaces/Attribute';
 import { AbstractConstructor, Constructor } from '../Constructor';
-import { HasInterceptor } from '../Helpers/Filters';
 import { MemberInfo } from '../Interfaces/MemberInfo';
 import { Filter } from '../Interfaces/Filter';
+import { HasInterceptor } from '../Helpers/Interceptor';
+import { Annotation, Property } from '../Wisdom/Annotation';
 // import { cache } from '../Helpers/Cache';
 
 // let a = 0;
@@ -57,7 +58,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
   /**
    * Get metadata object
    */
-  protected abstract readonly annotation: Member | undefined;
+  protected abstract readonly annotation: Annotation | undefined;
 
   // /**
   //  * Return true if annotation exists

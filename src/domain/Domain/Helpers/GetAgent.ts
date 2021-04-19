@@ -1,5 +1,5 @@
-import { DomainKnowledge } from '../DomainKnowledge';
+import { Agents } from '../DomainKnowledge';
 
 export function GetAgent<T extends Function>(type: T): T | undefined {
-  return DomainKnowledge.agents.get(type) as T | undefined;
+  return Agents.v1.get(type) as T | undefined;
 }

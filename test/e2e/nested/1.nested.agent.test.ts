@@ -21,7 +21,7 @@ class Veicle {
   metadata: any;
 
   light(name: string): void {
-    console.log('turn on', name);
+    // console.log('turn on', name);
   }
 
   @decorateMember(new RoundInterceptor())
@@ -33,7 +33,7 @@ class Car extends Veicle {
   random2!: Date;
 
   start() {
-    console.log('start');
+    // console.log('start');
   }
 }
 

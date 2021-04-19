@@ -60,7 +60,7 @@ describe('6.2. @inject decorator', () => {
 
       expect(() => {
         expect(app.service).toBeUndefined();
-      }).toThrowError('InjectInstanceNotExists: InMemoryDomain__Service623$');
+      }).toThrowError('InjectInstanceNotExists: Service623$');
     });
 
     it('inject non-existing agent using domain', () => {

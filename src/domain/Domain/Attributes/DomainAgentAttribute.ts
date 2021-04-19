@@ -1,23 +1,26 @@
 import { AgentAttribute, Arguments, ClassInterceptor, ClassInvocation } from '../../../dependencies/core';
-import { Domain } from '../Domain';
 import { RememberAgent } from '../Helpers/RememberAgent';
 import { GetAgent } from '../Helpers/GetAgent';
+// import { DomainLike } from '../DomainLike';
+// import { IsDomainType } from '../Helpers/IsDomain';
+// import { HasPrototype } from '../Helpers/HasPrototype';
+// import { Domain } from '../Domain';
 // import { OnDemandClassConstructor } from './DomainAgentConstructor';
 
 export class DomainAgentAttribute extends AgentAttribute implements ClassInterceptor {
-  constructor(private readonly domain: Domain) {
-    super();
-  }
+  // constructor(private readonly domain: DomainLike) {
+  //   super();
+  // }
 
-  get name() {
-    // the name must be a valid class name.
-    const name = this.domain.constructor.name;
-    const fdx = name.lastIndexOf('__');
-    if (fdx > 0) {
-      return name.slice(fdx + 2);
-    }
-    return name;
-  }
+  // get name() {
+  //   // the name must be a valid class name.
+  //   const name = this.domain.constructor.name;
+  //   const fdx = name.lastIndexOf('__');
+  //   if (fdx > 0) {
+  //     return name.slice(fdx + 2);
+  //   }
+  //   return name;
+  // }
 
   // target: the origin type
   // receiver: intercepted type
@@ -50,13 +53,19 @@ export class DomainAgentAttribute extends AgentAttribute implements ClassInterce
       RememberAgent(receiver, agent);
     }
 
-    // console.log('====== AFTER ======', type.name);
+    // console.log('====== AFTER ======', typeof receiver, receiver, HasPrototype(receiver.prototype, Domain.prototype));
 
     // NOTE: create a domain specified class which can register in current domain
     // console.log('c', this.domain.constructor.name);
-    //
 
-    const domainAgentName = `${this.name}__${agent.name}`;
+    // let domainAgentName: string;
+    // if (IsDomainType(receiver)) {
+    //   // do not modify domain type name
+    //   domainAgentName = agent.name;
+    // } else {
+    //   // add domain name as prefix for agent name
+    //   domainAgentName = `${this.domain.constructor.name}__${agent.name}`;
+    // }
 
     // console.log('new Name', this.domainName, newName);
 
@@ -66,6 +75,7 @@ export class DomainAgentAttribute extends AgentAttribute implements ClassInterce
     // make domain specified proxy
     // make sure name is not same with newName
 
+    const domainAgentName = agent.name;
     const code = `return class ${domainAgentName} extends ${agentName}`;
     // console.log('****type', type, type.toString());
 

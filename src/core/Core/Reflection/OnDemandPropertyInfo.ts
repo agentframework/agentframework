@@ -16,12 +16,12 @@ import { OnDemandMemberInfo } from './OnDemandMemberInfo';
 import { OnDemandParameterInfo } from './OnDemandParameterInfo';
 import { MemberKinds } from '../Interfaces/MemberKinds';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
-import { HasInterceptor } from '../Helpers/Filters';
 import { ParameterInfo } from '../Interfaces/ParameterInfo';
 import { MemberInfo } from '../Interfaces/MemberInfo';
 import { Attribute } from '../Interfaces/Attribute';
-import { AddAttributeToMember } from '../Annotation/AddAttribute';
-import { Property } from '../Annotation/Wisdom';
+import { AddAttributeToMember } from '../Wisdom/AddAttribute';
+import { HasInterceptor } from '../Helpers/Interceptor';
+import { Property } from '../Wisdom/Annotation';
 
 // import { getter } from '../Helpers/Prototype';
 // import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';

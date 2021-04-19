@@ -17,6 +17,7 @@ import { Invocation } from '../../Interfaces/Invocation';
 import { Interceptable } from '../../Interfaces/Interceptable';
 // import { InitializerInvocation } from '../Invocation/InitializerInvocation';
 import { InterceptorInvocation } from '../Invocation/InterceptorInvocation';
+import { GetInterceptor } from '../../Helpers/Interceptor';
 
 /**
  *
@@ -46,8 +47,8 @@ export class ChainFactory {
     // make invocation chain of interceptors
     if (interceptors.length) {
       for (const attribute of interceptors) {
-        const interceptor = attribute.interceptor;
-        if (interceptor && 'function' === typeof interceptor.intercept) {
+        const interceptor = GetInterceptor(attribute);
+        if (interceptor) {
           origin = new InterceptorInvocation(origin, interceptor);
         }
       }

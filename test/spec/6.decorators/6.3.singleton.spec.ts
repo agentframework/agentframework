@@ -7,7 +7,8 @@ import {
   Arguments,
   PropertyInvocation,
   Reflector,
-  SingletonAttribute, AgentFrameworkError,
+  SingletonAttribute,
+  AgentFrameworkError
 } from '../../../lib';
 
 describe('6.3. @singleton decorator', () => {
@@ -29,7 +30,11 @@ describe('6.3. @singleton decorator', () => {
 
       expect(app.service).toBeInstanceOf(Service631);
       expect(app.service2).toBe(app.service);
-      expect(Reflector(App631).property('service').hasOwnAttribute(SingletonAttribute)).toBeTrue();
+      expect(
+        Reflector(App631)
+          .property('service')
+          .hasOwnAttribute(SingletonAttribute)
+      ).toBeTrue();
     });
 
     it('create singleton agent using domain', () => {
@@ -113,14 +118,19 @@ describe('6.3. @singleton decorator', () => {
       }
 
       class App635 {
+        @singleton()
         @decorateMember({
           interceptor: {
-            intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
-              return target.invoke([domain], undefined);
-            },
-          },
+            intercept(target: PropertyInvocation, params: Arguments, receiver: App635): any {
+              expect(params.length).toBe(1);
+              expect(params[0].constructor.name).toBe('Service635$');
+              expect(receiver.constructor.name).toBe('App635$');
+              const ret = target.invoke([domain], undefined);
+              console.log('ret', ret);
+              return ret;
+            }
+          }
         })
-        @singleton()
         readonly service!: Service635;
       }
 
@@ -143,8 +153,8 @@ describe('6.3. @singleton decorator', () => {
           interceptor: {
             intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
               return target.invoke([receiver], undefined);
-            },
-          },
+            }
+          }
         })
         @singleton()
         readonly service!: Service636;

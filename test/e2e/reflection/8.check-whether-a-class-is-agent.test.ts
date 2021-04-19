@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { CreateAgent, agent, GetType, IsAgent } from '../../../lib';
+import { CreateAgent, agent, GetAgentType, IsAgent } from '../../../lib';
 
 @agent()
 class AgentClass {}
@@ -26,15 +26,17 @@ describe('Reflection Helper', () => {
     });
 
     it('get origin type of an agent', () => {
-      expect(GetType(AgentClass)!.prototype).toBe(Object.getPrototypeOf(Object.getPrototypeOf(AgentClass.prototype)));
+      expect(GetAgentType(AgentClass)!.prototype).toBe(
+        Object.getPrototypeOf(Object.getPrototypeOf(AgentClass.prototype))
+      );
     });
 
     it('get origin type of the upgraded class', () => {
-      expect(GetType(CreateAgent(NormalClass))).toBe(NormalClass);
+      expect(GetAgentType(CreateAgent(NormalClass))).toBe(NormalClass);
     });
 
     it('get origin type of the upgraded agent', () => {
-      expect(GetType(CreateAgent(AgentClass))).not.toBe(AgentClass);
+      expect(GetAgentType(CreateAgent(AgentClass))).not.toBe(AgentClass);
     });
   });
 });

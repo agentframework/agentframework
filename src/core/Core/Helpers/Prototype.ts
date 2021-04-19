@@ -12,18 +12,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-export function define<T>(target: object, key: string | symbol | number, value: T): T {
-  // const config: PropertyDescriptor = Object.assign({ configurable: true, enumerable: true }, value);
+export function define<T>(target: object, key: string | symbol | number, value: T): void {
   Reflect.defineProperty(target, key, value);
-  return value;
-}
-
-export function getter<T>(target: object, key: string | symbol | number, value: T): T {
-  Reflect.defineProperty(target, key, { value, configurable: true });
-  return value;
-}
-
-export function set<T>(target: object, key: string | symbol | number, value: T): T {
-  Reflect.defineProperty(target, key, { value, writable: true, enumerable: true, configurable: true });
-  return value;
 }

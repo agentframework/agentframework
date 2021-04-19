@@ -19,9 +19,9 @@ import { Arguments } from '../Interfaces/Arguments';
 import { ConstructorInvocation } from '../Compiler/Invocation/ConstructorInvocation';
 import { OnDemandClassCompiler } from '../Compiler/OnDemandClassCompiler';
 import { FindExtendedClass } from '../Helpers/FindExtendedClass';
-import { RememberType } from '../Type';
+import { RememberAgentType } from '../Helpers/AgentType';
 import { Reflector } from '../Reflector';
-import { Knowledge } from '../Annotation/Knowledge';
+import { Invocations } from '../Knowledge';
 import { AgentFrameworkError } from '../Error/AgentFrameworkError';
 
 /**
@@ -57,13 +57,13 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     // console.log('nnnnnn', newTarget, receiver)
 
     // this is the only way to detect the proxy
-    RememberType(newTarget, receiver);
+    RememberAgentType(newTarget, receiver);
 
     // create the class
     const agent = target.invoke<Function>([Function, name, code, 'agent code'], newTarget);
 
     // this is the only way to detect the proxy
-    RememberType(agent, receiver);
+    RememberAgentType(agent, receiver);
 
     return agent;
   }
@@ -81,7 +81,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
 
     // cache the constructor invocation
     // so do not support change annotation after first time created the type
-    let invocation = Knowledge.invocations.get(target);
+    let invocation = Invocations.v1.get(target);
     // console.log('☀️ ☀️ ☀️ 1', target.name, newTarget.name, !!constructor);
 
     // analysis this object
@@ -92,7 +92,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
       const properties = [];
 
       // NOTE: Static Constructor support, deep first
-      // for (const ctor of FindStaticConstructors(target.prototype)) {
+      // for (const ctor of FindStaticConstructors(target.prot1otype)) {
       //   console.log('ctor', ctor, ctor.name);
       //   // mark before call to make sure the constructor never call again
       //   Core.MarkStaticConstructor(ctor);
@@ -150,7 +150,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
       // find interceptors from design attributes and create chain for them
       invocation = OnDemandClassCompiler.createConstructorInterceptor(origin);
 
-      Knowledge.invocations.set(target, invocation);
+      Invocations.v1.set(target, invocation);
     }
 
     // console.log('construct', newTarget, parameters);

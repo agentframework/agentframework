@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { CanDecorate } from './CanDecorate';
 import { Attribute } from '../Interfaces/Attribute';
-import { AddAttributeToMember } from '../Annotation/AddAttribute';
+import { AddAttributeToMember } from '../Wisdom/AddAttribute';
 
 /**
  * Decorate class properties (field, getter, setter and methods)
