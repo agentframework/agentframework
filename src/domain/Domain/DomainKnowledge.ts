@@ -30,7 +30,7 @@ export class Domains {
 export class DomainAgents {
   // key: Original Constructor, value: Agent Constructor
   static get v1() {
-    return Remember<Map<Function, WeakMap<Domain, Function>>>(this, 'v1', Map);
+    return Remember<Map<Function, Map<Domain, Function>>>(this, 'v1', Map);
   }
 }
 
