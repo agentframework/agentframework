@@ -57,7 +57,7 @@ export class TypeInfos {
    * get types map
    */
   static get v1() {
-    return Remember<Map<object | Function, OnDemandTypeInfo>>(this, 'v1', Map);
+    return Remember<Map<Function | object, OnDemandTypeInfo>>(this, 'v1', Map);
   }
 }
 
@@ -128,12 +128,15 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   get base(): TypeInfo | undefined {
     const base = Reflect.getPrototypeOf(this.target);
-    // ignore object as base type
-    if (!base || base.constructor === Object || IsAgent(base)) {
-      // stop if agent, because previous agent already
+    if (!base) {
       return;
-      // return cache(this, 'base', undefined);
     }
+
+    // ignore object as base type
+    if (base === Function.prototype || base === Object.prototype || IsAgent(base)) {
+      return;
+    }
+
     return OnDemandTypeInfo.find(base);
     // return cache(this, 'base', TypeInfo.get(base.constructor));
   }
@@ -319,7 +322,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Get annotation store object
    */
   protected get typeAnnotation(): object {
-    // console.log('an', a++);
+    // console.log('an');
     return Wisdom.add(this.target);
     // return cache(this, 'typeAnnotation', Annotator.get(this.declaringType));
   }

@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 import { Attribute } from '../Interfaces/Attribute';
 import { Wisdom } from './Wisdom';
-import { Annotator } from './Annotator';
+import { FindProperty, FindParameter } from './Annotator';
 
 /**
  * Reflector(target).addAttribute(attribute);
@@ -21,7 +21,7 @@ import { Annotator } from './Annotator';
 export function AddAttributeToClass(attribute: Attribute, target: object | Function): void {
   const key = 'constructor';
   const soul = Wisdom.add(target);
-  const property = Annotator.findProperty(soul, target, key);
+  const property = FindProperty(soul, target, key);
   property.attributes.push(attribute);
 }
 
@@ -35,8 +35,8 @@ export function AddAttributeToConstructorParameter(
 ): void {
   const key = 'constructor';
   const soul = Wisdom.add(target);
-  const property = Annotator.findProperty(soul, target, key);
-  const parameter = Annotator.findParameter(property, parameterIndex);
+  const property = FindProperty(soul, target, key);
+  const parameter = FindParameter(property, parameterIndex);
   parameter.attributes.push(attribute);
 }
 
@@ -50,8 +50,8 @@ export function AddAttributeToMethodParameter(
   parameterIndex: number
 ): void {
   const soul = Wisdom.add(target);
-  const property = Annotator.findProperty(soul, target, key);
-  const parameter = Annotator.findParameter(property, parameterIndex);
+  const property = FindProperty(soul, target, key);
+  const parameter = FindParameter(property, parameterIndex);
   parameter.attributes.push(attribute);
 }
 
@@ -65,6 +65,6 @@ export function AddAttributeToMember(
   descriptor?: PropertyDescriptor
 ): void {
   const soul = Wisdom.add(target);
-  const property = Annotator.findProperty(soul, target, key, descriptor);
+  const property = FindProperty(soul, target, key, descriptor);
   property.attributes.push(attribute);
 }

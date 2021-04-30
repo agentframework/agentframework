@@ -1,7 +1,8 @@
 /* tslint:disable */
 
-import { CreateAgent, AgentAttribute, IsAgent, Reflector, decorateClass, AgentFrameworkError } from '../../../lib';
+import { IsAgent, Reflector, decorateClass, AgentFrameworkError } from '../../../lib';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
+import { AgentAttribute, CreateAgent } from '../../../src/core';
 
 class BadAgentAttribute extends AgentAttribute {
   get interceptor() {
@@ -35,7 +36,7 @@ class MySQL {
   }
 }
 
-const Redis = (function () {
+const Redis = (function() {
   return class {};
 })();
 

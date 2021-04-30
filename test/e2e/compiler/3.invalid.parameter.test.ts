@@ -1,8 +1,9 @@
-import { agent } from '../../../lib';
 /* tslint:disable */
 
-import { CreateAgent, decorateParameter, IsAgent, Reflector } from '../../../lib';
+import { agent } from '../../../lib';
+import { decorateParameter, IsAgent, Reflector } from '../../../lib';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
+import { CreateAgent } from '../../../src/core';
 
 class Connection {
   static count = 0;
@@ -44,7 +45,9 @@ describe('Initializer in Parameter', () => {
     });
 
     it('get inject attribute', () => {
-      const items = Reflector(MongoDB).getParameters()[0].getOwnAttributes(MetadataAttribute);
+      const items = Reflector(MongoDB)
+        .getParameters()[0]
+        .getOwnAttributes(MetadataAttribute);
       expect(items.length).toBe(1);
     });
   });

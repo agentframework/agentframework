@@ -1,15 +1,12 @@
-import { AbstractConstructor, AgentFrameworkError, ClassAttribute, CreateAgent } from '../../../dependencies/core';
+import { AgentFrameworkError, ClassAttribute, CreateAgent } from '../../../dependencies/core';
 import { DomainAgentAttribute } from '../Attributes/DomainAgentAttribute';
 import { Domain } from '../Domain';
 import { GetDomain } from './GetDomain';
 import { RememberDomain } from './RememberDomain';
 import { RememberDomainAgent } from './RememberDomainAgent';
+import { AnyClass } from '../Class';
 
-export function CreateDomainAgent<T extends AbstractConstructor<any>>(
-  domain: Domain,
-  type: T,
-  strategy?: ClassAttribute
-): T {
+export function CreateDomainAgent<T extends AnyClass>(domain: Domain, type: T, strategy?: ClassAttribute): T {
   // check owner domain
   const owner = GetDomain(type);
   if (owner && domain !== owner) {

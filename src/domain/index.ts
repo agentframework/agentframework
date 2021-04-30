@@ -1,24 +1,19 @@
 'use strict';
 
-// export { AgentNotFoundError } from './Domain/Errors/AgentNotFoundError';
-// export { TypeNotFoundError } from './Domain/Errors/TypeNotFoundError';
-// export { ExtensionNotFoundError } from './Domain/Errors/ExtensionNotFoundError';
-// export { DomainNotFoundError } from './Domain/Errors/DomainNotFoundError';
-// export { Provider } from './Domain/Provider/Provider';
-
+/*************************************
+ *   Domain
+ *************************************/
 export { DomainLike } from './Domain/DomainLike';
 export { Domain } from './Domain/Domain';
-export { SubDomain } from './Domain/SubDomain';
+export { SubDomainLike } from './Domain/SubDomainLike';
 
-// export { FindDomain } from './Domain/Helpers/FindDomain';
-
-// export { RememberDomain } from './Domain/Helpers/RememberDomain';
 export { GetDomain } from './Domain/Helpers/GetDomain';
 export { GetSystemDomain } from './Domain/Helpers/GetSystemDomain';
 export { IsDomain } from './Domain/Helpers/IsDomain';
-// export { IsDomainType } from './Domain/Helpers/IsDomainType';
 
-// export { ExtensibleAttribute } from './Attributes/ExtensibleAttribute';
+/*************************************
+ *   Dependence Injection
+ *************************************/
 export { SingletonAttribute } from './Domain/Attributes/SingletonAttribute';
 export { TransitAttribute } from './Domain/Attributes/TransitAttribute';
 export { InjectAttribute } from './Domain/Attributes/InjectAttribute';
@@ -33,13 +28,19 @@ export { inject } from './Domain/Decorators/inject';
 export { once } from './Domain/Decorators/once';
 export { agent } from './Domain/Decorators/agent';
 
+/*************************************
+ *   Factory Method
+ *************************************/
 export { Initializer } from './Domain/Symbols';
 export { ClassInitializer } from './Domain/Symbols';
 
-// export { AbstractClassConstructor } from './Domain/ClassConstructor';
-// export { ClassConstructor } from './Domain/ClassConstructor';
-// export { AnyClassConstructor } from './Domain/ClassConstructor';
-export { Class, AnyClass, AgentReference, Params, Agent } from './Domain/ClassConstructor';
+/*************************************
+ *   Class
+ *************************************/
+export { Class, AnyClass, AgentReference, Params, Agent } from './Domain/Class';
 
+/*************************************
+ *   In Memory Domain Implementation
+ *************************************/
 export { InMemoryDomain } from './Domain/InMemoryDomain';
 export { InMemorySubDomain } from './Domain/InMemorySubDomain';

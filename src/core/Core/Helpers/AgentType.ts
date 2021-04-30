@@ -1,4 +1,3 @@
-import { Constructor } from '../Constructor';
 import { Types } from '../Knowledge';
 
 export function RememberAgentType<T extends Function>(agent: T, type: T): void {
@@ -9,14 +8,14 @@ export function RememberAgentType<T extends Function>(agent: T, type: T): void {
 /**
  * Find original type of the agent (if have)
  */
-export function GetAgentType<T extends object | Function>(type: T): T | undefined {
+export function GetAgentType<T extends Function | object>(type: T): T | undefined {
   return Types.v1.get(type) as T;
 }
 
 /**
  * Return true if giving type is an agent
  */
-export function IsAgent<T extends Constructor<unknown>>(test: object | Function, type?: T): test is T {
+export function IsAgent<T extends Function>(test: Function | object, type?: T): test is T {
   const found = Types.v1.get(test);
   if (type) {
     return found === type;

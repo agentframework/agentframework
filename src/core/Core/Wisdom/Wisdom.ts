@@ -13,10 +13,18 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Soul } from './Soul';
-import { Annotator } from './Annotator';
+import { FindProperty } from './Annotator';
 import { define } from '../Helpers/Prototype';
 
-export class AgentFramework extends Map<Function | object, any> {
+export class AgentFramework extends WeakMap<Function | object, any> {
+  /**
+   * for troubleshot
+   */
+  get name() {
+    return 'agentframework@2.0.0-rc.20';
+    // return /* tsb::insert "require('package.json').version" */;
+  }
+
   constructor() {
     super();
 
@@ -44,7 +52,7 @@ export class AgentFramework extends Map<Function | object, any> {
           proto = target;
           prop = targetKey;
         }
-        Annotator.findProperty(this.add(proto), proto, prop, descriptor).set(key, value);
+        FindProperty(this.add(proto), proto, prop, descriptor).set(key, value);
         /* istanbul ignore next */
         return metadata && Reflect.apply(metadata, Reflect, [key, value])(proto, targetKey, descriptor);
       };
@@ -54,17 +62,18 @@ export class AgentFramework extends Map<Function | object, any> {
     Reflect['metadata']['now'] = Date.now();
   }
 
-  /* istanbul ignore next */
+  [Symbol.for('Deno.symbols.customInspect')]() {
+    return this.name;
+  }
+
   [Symbol.for('nodejs.util.inspect.custom')]() {
-    return this.constructor;
-    // return /* tsb::insert: require('package.json').version */;
-    // return `${this.constructor.name}@#VERSION <${this.toString()}>`;
+    return this.name;
   }
 
   // /**
   //  * Get
   //  */
-  // get(type: Function | object | symbol | string): any | undefined {
+  // get(type: Function | object): any | undefined {
   //   return super.get(type);
   // }
 
@@ -73,9 +82,6 @@ export class AgentFramework extends Map<Function | object, any> {
     return value;
   }
 
-  /**
-   * find
-   */
   add(type: Function | object): Soul {
     const found = this.get(type);
     if (found) {
@@ -91,16 +97,31 @@ export class AgentFramework extends Map<Function | object, any> {
     return this.set(type, Object.create(prototype && this.add(prototype)));
   }
 
-  get knowledge() {
+  /**
+   * key: string, value: any
+   */
+  get value(): Map<string, any> {
     const value = this.get(this) || this.set(this, new Map());
-    define(this, 'knowledge', { value });
+    define(this, 'value', { value });
     return value;
   }
+
+  // static get wisdom() {
+  //   return Function('_', 'return ((_,__)=>this[_]||(this[_]=new __()))(Symbol.for(_.name),_)')(this);
+  // }
+  //
+  // static add(type: Function | object): Soul {
+  //   return this.wisdom.add(type);
+  // }
+  //
+  // static get(type: Function | object): Soul | undefined {
+  //   return this.wisdom.get(type);
+  // }
 }
 
 // create singleton metadata for satellites project
 // AgentFramework Wisdom
-export const Wisdom: AgentFramework = Function(
+export const Wisdom = Function(
   '_',
   'return ((_,__)=>this[_]||(this[_]=new __()))(Symbol.for(_.name),_)'
-)(AgentFramework);
+)(AgentFramework) as AgentFramework;

@@ -1,5 +1,5 @@
 import { DomainLike } from './DomainLike';
-import { Agent, AgentReference, AnyClass, Class, Params } from './ClassConstructor';
+import { Agent, AgentReference, AnyClass, Class, Params } from './Class';
 import { RememberDomain } from './Helpers/RememberDomain';
 
 /**
@@ -14,7 +14,7 @@ export abstract class Domain implements DomainLike {
   /**
    * default constructor
    */
-  constructor() {
+  protected constructor() {
     RememberDomain(this, this);
   }
 

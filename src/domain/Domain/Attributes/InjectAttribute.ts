@@ -3,15 +3,15 @@ import {
   PropertyInvocation,
   PropertyInterceptor,
   Arguments,
-  AnyConstructor,
-  AgentFrameworkError,
+  AgentFrameworkError
 } from '../../../dependencies/core';
+import { AnyClass } from '../Class';
 import { GetDomainFromInvocation } from '../Helpers/GetDomainFromInvocation';
 
-export class InjectAttribute<T extends object> implements PropertyAttribute, PropertyInterceptor {
-  private readonly type?: AnyConstructor<T>;
+export class InjectAttribute implements PropertyAttribute, PropertyInterceptor {
+  private readonly type?: AnyClass;
 
-  constructor(type?: AnyConstructor<T>) {
+  constructor(type?: AnyClass) {
     // if (typeof type === 'string') {
     //   // lookup type from local type registration
     //   throw new Error('NotSupportInjectUsingName');

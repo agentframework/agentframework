@@ -1,7 +1,6 @@
 import {
   InMemoryDomain,
   agent,
-  CreateAgent,
   singleton,
   decorateMember,
   Arguments,
@@ -10,6 +9,7 @@ import {
   SingletonAttribute,
   AgentFrameworkError
 } from '../../../lib';
+import { CreateAgent } from '../../../src/core';
 
 describe('6.3. @singleton decorator', () => {
   describe('# should able to', () => {

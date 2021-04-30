@@ -2,7 +2,6 @@
 
 import {
   agent,
-  CreateAgent,
   decorate,
   decorateMember,
   decorateParameter,
@@ -11,6 +10,7 @@ import {
   MemberKinds,
 } from '../../../lib';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
+import { CreateAgent } from '../../../src/core';
 
 @agent()
 class Calculator {

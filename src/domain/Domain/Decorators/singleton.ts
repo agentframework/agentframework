@@ -1,6 +1,7 @@
-import { AnyConstructor, decorateMember } from '../../../dependencies/core';
+import { decorateMember } from '../../../dependencies/core';
 import { SingletonAttribute } from '../Attributes/SingletonAttribute';
+import { AnyClass } from '../Class';
 
-export function singleton<T extends object>(type?: AnyConstructor<T>): PropertyDecorator {
+export function singleton(type?: AnyClass): PropertyDecorator {
   return decorateMember(new SingletonAttribute(type));
 }

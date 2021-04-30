@@ -10,7 +10,7 @@ export class Types {
   // core
   // key: Agent Proxy | Agent Constructor | Domain Agent Constructor, value: Original Constructor
   static get v1() {
-    return Remember<Map<Function | object, Function>>(this, 'v1', Map);
+    return Remember<Map<Function | object, Function | object>>(this, 'v1', Map);
   }
 }
 

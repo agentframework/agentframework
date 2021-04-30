@@ -12,18 +12,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-export interface AbstractConstructor<T> extends Function {
+export interface AbstractConstructor<T = object> extends Function {
   readonly prototype: T;
 }
 
-export interface DefaultConstructor<T> extends AbstractConstructor<T> {
+export interface DefaultConstructor<T = object> extends AbstractConstructor<T> {
   new (): T;
 }
 
-export interface ParameterConstructor<T> extends AbstractConstructor<T> {
+export interface ParameterConstructor<T = object> extends AbstractConstructor<T> {
   new (...params: any[]): T;
 }
 
 export type Constructor<T> = DefaultConstructor<T> | ParameterConstructor<T>;
 
-export type AnyConstructor<T> = Constructor<T> | AbstractConstructor<T>;
+export type AnyConstructor<T> = AbstractConstructor<T> | DefaultConstructor<T> | ParameterConstructor<T>;

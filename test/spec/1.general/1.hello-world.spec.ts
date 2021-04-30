@@ -1,4 +1,5 @@
-import { agent, transit, CreateAgent, InMemoryDomain } from '../../../lib';
+import { agent, transit, InMemoryDomain } from '../../../lib';
+import { CreateAgent } from '../../../src/core';
 
 describe('Hello world!', () => {
   describe('# should able to', () => {

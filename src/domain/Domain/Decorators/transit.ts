@@ -1,6 +1,7 @@
-import { decorateMember, AnyConstructor } from '../../../dependencies/core';
+import { decorateMember } from '../../../dependencies/core';
 import { TransitAttribute } from '../Attributes/TransitAttribute';
+import { AnyClass } from '../Class';
 
-export function transit<T extends object>(type?: AnyConstructor<T>): PropertyDecorator {
+export function transit(type?: AnyClass): PropertyDecorator {
   return decorateMember(new TransitAttribute(type));
 }

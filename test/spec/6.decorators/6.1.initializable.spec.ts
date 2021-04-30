@@ -1,5 +1,6 @@
-import { InMemoryDomain, Domain, initializable, ClassInitializer, Initializer, CreateAgent } from '../../../lib';
+import { InMemoryDomain, Domain, initializable, ClassInitializer, Initializer } from '../../../lib';
 import { Arguments, ClassInvocation } from '../../../lib';
+import { CreateAgent } from '../../../src/core';
 
 describe('6.1. @initializable decorator', () => {
   describe('# should able to', () => {
@@ -148,7 +149,7 @@ describe('6.1. @initializable decorator', () => {
         static [ClassInitializer](domain: Domain, target: ClassInvocation, params: Arguments, receiver: typeof App615) {
           const app = target.invoke<App615>(params, receiver);
           app.name1 = 'App615$';
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             setTimeout(() => {
               resolve(app);
             }, 100);
@@ -173,7 +174,7 @@ describe('6.1. @initializable decorator', () => {
         static [ClassInitializer](domain: Domain, target: ClassInvocation, params: Arguments, receiver: typeof App616) {
           const app = target.invoke<App616>(params, receiver);
           app.name1 = 'App616$';
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             setTimeout(() => {
               resolve(app);
             }, 100);

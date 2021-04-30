@@ -1,4 +1,4 @@
-import { AgentReference, Agent, AnyClass, Params, Class } from './ClassConstructor';
+import { AgentReference, Agent, AnyClass, Params, Class } from './Class';
 
 /**
  * A remote domain reference

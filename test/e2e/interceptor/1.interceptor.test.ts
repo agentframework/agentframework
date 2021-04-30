@@ -1,15 +1,7 @@
 /* tslint:disable */
 
-import {
-  agent,
-  CreateAgent,
-  decorate,
-  decorateMember,
-  decorateParameter,
-  IsAgent,
-  Reflector,
-  MemberKinds,
-} from '../../../lib';
+import { agent, decorate, decorateMember, decorateParameter, IsAgent, Reflector, MemberKinds } from '../../../lib';
+import { CreateAgent } from '../../../src/core';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 @agent()
@@ -58,7 +50,9 @@ describe('Interceptor', () => {
 
     // region round1
     it('get round1 attribute', () => {
-      const items = Reflector(Calculator).property('round1').getOwnAttributes(RoundInterceptor);
+      const items = Reflector(Calculator)
+        .property('round1')
+        .getOwnAttributes(RoundInterceptor);
       expect(items.length).toBe(1);
     });
 
@@ -77,7 +71,9 @@ describe('Interceptor', () => {
 
     // region round2
     it('get round2 attribute', () => {
-      const items = Reflector(Calculator).property('round2').getOwnAttributes(RoundInterceptor);
+      const items = Reflector(Calculator)
+        .property('round2')
+        .getOwnAttributes(RoundInterceptor);
       expect(items.length).toBe(1);
     });
 
@@ -96,7 +92,9 @@ describe('Interceptor', () => {
 
     // region round3
     it('get round3 attribute', () => {
-      const items = Reflector(Calculator).property('round3').getOwnAttributes(RoundInterceptor);
+      const items = Reflector(Calculator)
+        .property('round3')
+        .getOwnAttributes(RoundInterceptor);
       expect(items.length).toBe(1);
     });
 
@@ -115,7 +113,9 @@ describe('Interceptor', () => {
 
     // region round4
     it('get round4 attribute', () => {
-      const items = Reflector(Calculator).property('round4').getParameters();
+      const items = Reflector(Calculator)
+        .property('round4')
+        .getParameters();
       expect(items.length).toBe(1);
     });
 

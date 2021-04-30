@@ -4,8 +4,13 @@ import { Attribute } from '../Interfaces/Attribute';
  * metadata for a member. key: string, value: any
  */
 export class Annotation extends Map<string, any> {
+  constructor() {
+    super();
+    this.attributes = [];
+  }
+
   // metadata
-  readonly attributes: Array<Attribute> = [];
+  readonly attributes: Array<Attribute>;
 }
 
 /**

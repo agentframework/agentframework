@@ -1,20 +1,16 @@
 import { InMemoryDomain } from './InMemoryDomain';
 import { GetDomain } from './Helpers/GetDomain';
-import { AnyClass, Agent, AgentReference } from './ClassConstructor';
+import { AnyClass, Agent, AgentReference } from './Class';
 import { getter } from './Helpers/Prototype';
-import { SubDomain } from './SubDomain';
+import { SubDomainLike } from './SubDomainLike';
 import { DomainLike } from './DomainLike';
 import { GetSystemDomain } from './Helpers/GetSystemDomain';
 
-export class InMemorySubDomain extends InMemoryDomain implements SubDomain {
+export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
   get parent(): DomainLike {
     // GetDomain(this) will return this. So must use GetDomain(this.constructor)
     return getter(this, 'parent', GetDomain(this.constructor) || GetSystemDomain());
   }
-
-  // get name(): string {
-  //   return this.parent.name + '>>' + super.name;
-  // }
 
   getOwnType<T extends AnyClass>(type: T): T | undefined {
     return super.getType<T>(type);

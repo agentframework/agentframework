@@ -1,11 +1,12 @@
 /* tslint:disable */
 
-import { CreateAgent, AgentAttribute, decorateMember, IsAgent, Reflector, decorateClass } from '../../../lib';
+import { decorateMember, IsAgent, Reflector, decorateClass } from '../../../lib';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 import { BadAgentChecker } from '../attributes/BadAgentChecker';
 import { BadRandomAttribute } from '../attributes/BadRandomAttribute';
+import { AgentAttribute, CreateAgent } from '../../../src/core';
 
 @decorateClass(new BadRandomAttribute())
 class MongoDB {

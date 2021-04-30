@@ -1,4 +1,5 @@
-import { InMemoryDomain, agent, inject, CreateAgent, Reflector, InjectAttribute } from '../../../lib';
+import { InMemoryDomain, agent, inject, Reflector, InjectAttribute } from '../../../lib';
+import { CreateAgent } from '../../../src/core';
 
 describe('6.2. @inject decorator', () => {
   describe('# should able to', () => {
@@ -20,7 +21,11 @@ describe('6.2. @inject decorator', () => {
 
       expect(app.service).toBe(service);
 
-      expect(Reflector(App621).property('service').hasOwnAttribute(InjectAttribute)).toBeTrue();
+      expect(
+        Reflector(App621)
+          .property('service')
+          .hasOwnAttribute(InjectAttribute)
+      ).toBeTrue();
     });
 
     it('create inject agent using domain', () => {

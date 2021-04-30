@@ -1,22 +1,20 @@
 import {
-  AnyConstructor,
   Arguments,
   PropertyInvocation,
   PropertyInterceptor,
   PropertyAttribute,
   AgentFrameworkError
 } from '../../../dependencies/core';
+import { AnyClass } from '../Class';
 import { GetDomainFromInvocation } from '../Helpers/GetDomainFromInvocation';
+
 // import { GetDomain } from '../Helpers/GetDomain';
 
-export class SingletonAttribute<T extends object> implements PropertyAttribute, PropertyInterceptor {
-  private readonly type?: AnyConstructor<T>;
+export class SingletonAttribute implements PropertyAttribute, PropertyInterceptor {
+  private readonly type?: AnyClass;
 
-  constructor(type?: AnyConstructor<T>) {
+  constructor(type?: AnyClass) {
     this.type = type;
-
-    // console.log('set custom type', type);
-    // console.log(new Error().stack);
   }
 
   get interceptor() {

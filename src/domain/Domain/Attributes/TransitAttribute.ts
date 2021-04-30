@@ -3,16 +3,16 @@ import {
   PropertyInterceptor,
   PropertyAttribute,
   Arguments,
-  AnyConstructor,
-  AgentFrameworkError,
+  AgentFrameworkError
 } from '../../../dependencies/core';
 import { GetDomainFromInvocation } from '../Helpers/GetDomainFromInvocation';
 import { Domain } from '../Domain';
+import { AnyClass } from '../Class';
 
-export class TransitAttribute<T extends object> implements PropertyAttribute, PropertyInterceptor {
-  private readonly type?: AnyConstructor<T>;
+export class TransitAttribute implements PropertyAttribute, PropertyInterceptor {
+  private readonly type?: AnyClass;
 
-  constructor(type?: AnyConstructor<T>) {
+  constructor(type?: AnyClass) {
     this.type = type;
   }
 

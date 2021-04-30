@@ -1,4 +1,5 @@
-import { decorateMember, Invocation, Arguments, interceptable, agent, decorateAgent, Reflector } from '../../../lib';
+import { decorateMember, Invocation, Arguments, agent, decorateAgent, Reflector } from '../../../lib';
+import { interceptable } from '../../../src/core';
 
 describe('6.8. @interceptable decorator', () => {
   describe('# should able to', () => {
@@ -13,8 +14,8 @@ describe('6.8. @interceptable decorator', () => {
           interceptor: {
             intercept(target: Invocation, params: Arguments, receiver: any): any {
               return Math.floor(params[0]);
-            },
-          },
+            }
+          }
         })
         static run(n?: number) {
           return n;
@@ -37,7 +38,7 @@ describe('6.8. @interceptable decorator', () => {
 
     it('create static initializable agent', () => {
       @decorateAgent({
-        name: 'cool',
+        name: 'cool'
       })
       class App683 {
         static run(n?: number) {
@@ -53,7 +54,7 @@ describe('6.8. @interceptable decorator', () => {
       @decorateAgent({
         beforeDecorate(): boolean {
           return false;
-        },
+        }
       })
       class App685 {
         static run(n?: number) {

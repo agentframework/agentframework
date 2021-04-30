@@ -1,9 +1,10 @@
 /* tslint:disable */
 
-import { AgentAttribute, decorateMember, Reflector } from '../../../lib';
+import { decorateMember, Reflector } from '../../../lib';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
+import { AgentAttribute } from '../../../src/core';
 
 class MongoDB {
   @decorateMember(new RandomInterceptor())
@@ -64,7 +65,7 @@ describe('Reflection', () => {
     });
 
     it('get agents', () => {
-      expect(Reflector(MongoDB).findOwnProperties((p) => p.hasInterceptor()).length).toBe(3);
+      expect(Reflector(MongoDB).findOwnProperties(p => p.hasInterceptor()).length).toBe(3);
     });
 
     // it('get no agents', () => {

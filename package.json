@@ -1,6 +1,6 @@
 {
   "name": "agentframework",
-  "version": "2.0.0-rc.18",
+  "version": "2.0.0-rc.20",
   "sideEffects": false,
   "engines": {
     "node": ">=8.0.0"
@@ -8,7 +8,7 @@
   "description": "TypeScript that scales",
   "scripts": {
     "cov": "npm run coverage && npm run report",
-    "dev": "NODE_ENV=test tsmon tools/jasmine.ts --config=tools/jasmine.json",
+    "dev": "NODE_ENV=test tsmon tools/jasmine.ts --config=tools/jasmine.dev.json",
     "build": "tsc --noEmit",
     "test": "NODE_ENV=test ts-node tools/jasmine.ts --config=tools/jasmine.json",
     "coverage": "nyc npm run test",

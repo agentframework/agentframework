@@ -16,9 +16,9 @@ limitations under the License. */
  *   Common
  *************************************/
 export { AbstractConstructor, AnyConstructor, Constructor } from './Core/Constructor';
-// export { Decorator, ClassDecorator, PropertyDecorator, ParameterDecorator } from './Core/Decorator/decorators';
 export { Arguments } from './Core/Interfaces/Arguments';
 export { AgentFrameworkError } from './Core/Error/AgentFrameworkError';
+// export { Decorator, ClassDecorator, PropertyDecorator, ParameterDecorator } from './Core/Decorator/decorators';
 // export { NotImplementedError } from './Core/Error/NotImplementedError';
 // export { NotSupportedError } from './Core/Error/NotSupportedError';
 
@@ -82,13 +82,8 @@ export { Reflector } from './Core/Reflector';
 /*************************************
  *   Agent API
  *************************************/
-export { AgentAttribute } from './Core/Agent/AgentAttribute';
-export { CreateAgent } from './Core/Agent/CreateAgent';
-export { GetAgentType, IsAgent } from './Core/Helpers/AgentType';
-
-/*************************************
- *   Wisdom
- *************************************/
+export { IsAgent } from './Core/Helpers/AgentType';
+export { GetAgentType } from './Core/Helpers/AgentType';
 
 /*************************************
  *   Static Interceptor
@@ -96,7 +91,13 @@ export { GetAgentType, IsAgent } from './Core/Helpers/AgentType';
 export { interceptable } from './Core/Agent/interceptable';
 
 /*************************************
- *   Set custom Interceptor to attribute
+ *   Custom Interceptor
  *************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from './Core/Helpers/Interceptor';
+
+/*************************************
+ *   Internal Use
+ *************************************/
+export { CreateAgent } from './Core/Agent/CreateAgent';
+export { AgentAttribute } from './Core/Agent/AgentAttribute';
 export { Remember } from './Core/Wisdom/Remember';

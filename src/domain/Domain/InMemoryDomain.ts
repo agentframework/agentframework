@@ -1,6 +1,6 @@
 import { AgentFrameworkError } from '../../dependencies/core';
 import { Disposable } from './Helpers/Disposable';
-import { Agent, AgentReference, Params, AnyClass, Class } from './ClassConstructor';
+import { Agent, AgentReference, Params, AnyClass, Class } from './Class';
 import { Domain } from './Domain';
 import { IsPromise } from './Helpers/IsPromise';
 import { IsObservable } from './Helpers/IsObservable';
@@ -12,6 +12,16 @@ import { GetDomainAgent } from './Helpers/GetDomainAgent';
  * In memory domain
  */
 export class InMemoryDomain extends Domain implements Disposable {
+  /**
+   *
+   */
+  constructor() {
+    super();
+    Reflect.defineProperty(this, '_types', { value: new Map() });
+    Reflect.defineProperty(this, '_agents', { value: new Map() });
+    Reflect.defineProperty(this, '_incomingAgents', { value: new Map() });
+  }
+
   /**
    * Return true if this domain disposed
    */
@@ -26,9 +36,9 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Unique types in this domain
    */
-  private readonly _types = new Map<any, any>(); // type-type mapping
-  private readonly _singletons = new Map<any, any>(); // type-instance mapping
-  private readonly _futureSingletons = new Map<any, Promise<any>>();
+  private readonly _types!: Map<AnyClass, any>; // type-type mapping
+  private readonly _agents!: Map<AgentReference, any>; // type-instance mapping
+  private readonly _incomingAgents!: Map<any, Promise<any>>;
 
   /**
    * Domain name
@@ -48,7 +58,7 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Get agent of giving type, return undefined if don't have
    */
   getAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined {
-    return this._singletons.get(identifier);
+    return this._agents.get(identifier);
   }
 
   // /**
@@ -99,8 +109,8 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Create and initial an agent
    */
   construct<T extends AnyClass>(target: T, params?: Params<T>, transit?: boolean): Agent<T> {
-    const singleton = !transit;
-    if (singleton) {
+    const register = !transit;
+    if (register) {
       const exists = this.getAgent(target);
       if (exists !== undefined) {
         return exists;
@@ -110,12 +120,12 @@ export class InMemoryDomain extends Domain implements Disposable {
     // find extended type
     const type = this.getType<T>(target) || target;
 
-    // find agent
-    const proxy = GetDomainAgent(this, type) || CreateDomainAgent(this, type);
+    // find domainAgent
+    const domainAgent = GetDomainAgent(this, type) || CreateDomainAgent(this, type);
 
     // console.log('construct', target.name, 'from', type.name);
     // initialize agent class
-    const agent = Reflect.construct(proxy, params || []);
+    const agent = Reflect.construct(domainAgent, params || []);
 
     // console.log('AGENT ====>', agent.constructor.name);
 
@@ -135,7 +145,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     //   RememberDomain(instance, this);
     // }
 
-    if (singleton) {
+    if (register) {
       // register agent to domain only if not transit
       this.addAgent(type, agent);
     }
@@ -150,13 +160,13 @@ export class InMemoryDomain extends Domain implements Disposable {
    */
   resolve<T extends AnyClass>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>> {
     try {
-      const singleton = !transit;
-      if (singleton) {
+      const register = !transit;
+      if (register) {
         const exists = this.getAgent(target);
         if (exists !== undefined) {
           return Promise.resolve(exists);
         }
-        const pending = this._futureSingletons.get(target);
+        const pending = this._incomingAgents.get(target);
         if (pending) {
           return <Promise<Agent<T>>>pending;
         }
@@ -165,15 +175,15 @@ export class InMemoryDomain extends Domain implements Disposable {
       // find extended type
       const type = this.getType<T>(target) || target;
 
-      // find agent
-      const proxy = GetDomainAgent(this, type) || CreateDomainAgent(this, type);
+      // find domainAgent
+      const domainAgent = GetDomainAgent(this, type) || CreateDomainAgent(this, type);
 
       // initialize agent class
-      const newCreated = Reflect.construct(proxy, params || []);
+      const newCreated = Reflect.construct(domainAgent, params || []);
 
       if (IsPromise<Agent<T>>(newCreated)) {
-        if (singleton) {
-          this._futureSingletons.set(type, newCreated);
+        if (register) {
+          this._incomingAgents.set(type, newCreated);
         }
         return newCreated.then(
           agent => {
@@ -181,16 +191,16 @@ export class InMemoryDomain extends Domain implements Disposable {
             // if (agent === target) {
             //   RememberDomain(instance, this);
             // }
-            if (singleton) {
+            if (register) {
               this.addAgent(type, agent);
-              this._futureSingletons.delete(type);
+              this._incomingAgents.delete(type);
             }
             // InitializeDomainAgent(type, newCreatedAgent);
             return agent;
           },
           err => {
             if (!transit) {
-              this._futureSingletons.delete(type);
+              this._incomingAgents.delete(type);
             }
             throw err;
           }
@@ -216,10 +226,10 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Register type
    */
   addType<T extends object>(type: Class<T>): void {
-    let ctor: object | null | undefined = type;
+    let ctor: Function | null | undefined = type;
     while (ctor && !this._types.has(ctor) && Function.prototype !== ctor) {
       this._types.set(ctor, type);
-      ctor = Reflect.getPrototypeOf(ctor);
+      ctor = Reflect.getPrototypeOf(ctor) as Function;
     }
   }
 
@@ -228,13 +238,13 @@ export class InMemoryDomain extends Domain implements Disposable {
    */
   addAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void {
     if (typeof identifier === 'function') {
-      let ctor: object | null | undefined = identifier;
-      while (ctor && !this._singletons.has(ctor) && Function.prototype !== ctor) {
-        this._singletons.set(ctor, agent);
-        ctor = Reflect.getPrototypeOf(ctor);
+      let ctor: Function | null | undefined = identifier;
+      while (ctor && !this._agents.has(ctor) && Function.prototype !== ctor) {
+        this._agents.set(ctor, agent);
+        ctor = Reflect.getPrototypeOf(ctor) as Function;
       }
     } else {
-      this._singletons.set(identifier, agent);
+      this._agents.set(identifier, agent);
     }
   }
 
@@ -265,7 +275,7 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Set agent instance
    */
   setAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void {
-    this._singletons.set(identifier, agent);
+    this._agents.set(identifier, agent);
   }
 
   // /**
@@ -292,8 +302,8 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Delete agent. do nothing if agent not match
    */
   removeAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): boolean {
-    if (this._singletons.has(identifier) && this._singletons.get(identifier) === agent) {
-      this._singletons.delete(identifier);
+    if (this._agents.has(identifier) && this._agents.get(identifier) === agent) {
+      this._agents.delete(identifier);
       // do not dispose because this agent may used by others
       return true;
     }
@@ -320,7 +330,7 @@ export class InMemoryDomain extends Domain implements Disposable {
       return;
     }
     this.disposing = true;
-    for (const promise of this._futureSingletons.values()) {
+    for (const promise of this._incomingAgents.values()) {
       promise.then(agent => {
         if (typeof agent === 'object' && agent != null && typeof agent.dispose === 'function') {
           // only dispose the agent of current domain
@@ -328,15 +338,14 @@ export class InMemoryDomain extends Domain implements Disposable {
         }
       });
     }
-    for (const agent of this._singletons.values()) {
+    for (const agent of this._agents.values()) {
       if (typeof agent === 'object' && agent != null && typeof agent.dispose === 'function') {
         //  only dispose the agent of current domain
         agent.dispose();
       }
     }
-    this._futureSingletons.clear();
-    this._singletons.clear();
-    // this._agents.clear();
+    this._incomingAgents.clear();
+    this._agents.clear();
     this._types.clear();
     this.disposed = true;
   }
