@@ -1,6 +1,20 @@
+/* Copyright 2016 Ling Zhang
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. */
+
 import { InMemoryDomain } from './InMemoryDomain';
 import { GetDomain } from './Helpers/GetDomain';
-import { AnyClass, Agent, AgentReference } from './Class';
+import { Agent, AgentReference } from './Agent';
 import { getter } from './Helpers/Prototype';
 import { SubDomainLike } from './SubDomainLike';
 import { DomainLike } from './DomainLike';
@@ -12,11 +26,11 @@ export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
     return getter(this, 'parent', GetDomain(this.constructor) || GetSystemDomain());
   }
 
-  getOwnType<T extends AnyClass>(type: T): T | undefined {
+  getOwnType<T extends Function>(type: T): T | undefined {
     return super.getType<T>(type);
   }
 
-  getType<T extends AnyClass>(type: T): T | undefined {
+  getType<T extends Function>(type: T): T | undefined {
     return super.getType<T>(type) || this.parent.getType<T>(type);
   }
 

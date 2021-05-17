@@ -21,7 +21,6 @@ import { OnDemandTypeInfo } from '../Reflection/OnDemandTypeInfo';
 import { ChainFactory } from '../Compiler/Factory/ChainFactory';
 import { Invocation } from '../Interfaces/Invocation';
 import { AgentFrameworkError } from '../Error/AgentFrameworkError';
-import { AbstractConstructor } from '../Constructor';
 import { HasInterceptor } from '../Helpers/Interceptor';
 
 /**
@@ -30,7 +29,7 @@ import { HasInterceptor } from '../Helpers/Interceptor';
  * @param type
  * @param strategy
  */
-export function CreateAgent<T extends AbstractConstructor<any>>(type: T, strategy?: ClassAttribute): T {
+export function CreateAgent<T extends Function>(type: T, strategy?: ClassAttribute): T {
   // always create new agent using latest annotation
 
   // 1. get original type if giving type is an agent type

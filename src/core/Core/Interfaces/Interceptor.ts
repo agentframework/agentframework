@@ -19,5 +19,5 @@ import { Arguments } from './Arguments';
  * Intercept an method call
  */
 export interface Interceptor {
-  intercept(target: Invocation, params: Arguments, receiver: any): any;
+  intercept(target: Invocation, params: Arguments, receiver: unknown): unknown;
 }

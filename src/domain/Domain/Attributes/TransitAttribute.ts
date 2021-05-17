@@ -1,3 +1,17 @@
+/* Copyright 2016 Ling Zhang
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. */
+
 import {
   PropertyInvocation,
   PropertyInterceptor,
@@ -7,12 +21,11 @@ import {
 } from '../../../dependencies/core';
 import { GetDomainFromInvocation } from '../Helpers/GetDomainFromInvocation';
 import { Domain } from '../Domain';
-import { AnyClass } from '../Class';
 
 export class TransitAttribute implements PropertyAttribute, PropertyInterceptor {
-  private readonly type?: AnyClass;
+  private readonly type?: Function;
 
-  constructor(type?: AnyClass) {
+  constructor(type?: Function) {
     this.type = type;
   }
 

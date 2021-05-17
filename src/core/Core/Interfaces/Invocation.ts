@@ -24,5 +24,5 @@ export interface Invocation {
   /**
    * call next function
    */
-  invoke<T>(params: Arguments, receiver: any): T;
+  invoke<T>(params: Arguments, receiver: unknown): T;
 }

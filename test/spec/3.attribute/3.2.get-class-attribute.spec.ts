@@ -1,4 +1,5 @@
-import { decorateClass, Reflector, ClassAttribute, Attribute, Constructor } from '../../../lib';
+import { decorateClass, Reflector, ClassAttribute, Attribute } from '../../../lib';
+import { Class } from '../../../src/core';
 
 /**
  * The tests shows 3 ways to add attribute to a class at design time
@@ -78,7 +79,7 @@ describe('3.2. Get class attribute', () => {
 
     it('find attribute using filter function', () => {
       const type = Reflector(UserController321);
-      function FindAttributeByType(attribute: Attribute, type: Constructor<any>): boolean {
+      function FindAttributeByType(attribute: Attribute, type: Class<any>): boolean {
         return attribute instanceof type;
       }
       const found = type.findOwnAttributes(FindAttributeByType, ControllerAttribute);

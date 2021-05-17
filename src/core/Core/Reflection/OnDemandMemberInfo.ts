@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { Wisdom } from '../Wisdom/Wisdom';
 import { Attribute } from '../Interfaces/Attribute';
-import { AbstractConstructor, Constructor } from '../Constructor';
+import { Class } from '../Class';
 import { MemberInfo } from '../Interfaces/MemberInfo';
 import { Filter } from '../Interfaces/Filter';
 import { HasInterceptor } from '../Helpers/Interceptor';
@@ -53,7 +53,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
   /**
    * Get type
    */
-  abstract type: AbstractConstructor<any> | undefined;
+  abstract type: Function | undefined;
 
   /**
    * Get metadata object
@@ -70,7 +70,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    *
    * @param {Attribute} attribute
    */
-  abstract addAttribute<U1 extends Attribute>(attribute: U1): void;
+  abstract addAttribute<A4 extends Attribute>(attribute: A4): void;
 
   // /**
   //  * Returns annotation of current property specified by the key; (create if not exists)
@@ -113,13 +113,13 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    * @param type
    * @returns {boolean}
    */
-  hasOwnAttribute<U2 extends Attribute>(type?: Constructor<U2>): boolean {
+  hasOwnAttribute<A1 extends Attribute>(type?: Class<A1>): boolean {
     const annotation = this.annotation;
     if (annotation) {
       const attributes = annotation.attributes;
       if (attributes.length) {
         if (type) {
-          return attributes.some((a) => a instanceof type);
+          return attributes.some(a => a instanceof type);
         } else {
           return true;
         }
@@ -131,13 +131,13 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
   /**
    * Get specified attribute
    */
-  getOwnAttribute<U1 extends Attribute>(type: Constructor<U1>): U1 | undefined {
+  getOwnAttribute<A2 extends Attribute>(type: Class<A2>): A2 | undefined {
     const annotation = this.annotation;
     if (annotation) {
       const attributes = annotation.attributes;
       if (attributes.length) {
-        const results = attributes.filter((a) => a instanceof type);
-        return <U1>results[0];
+        const results = attributes.filter(a => a instanceof type);
+        return <A2>results[0];
       }
     }
     return;
@@ -148,15 +148,15 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    *
    * @returns {Array<Attribute>}
    */
-  getOwnAttributes<U1 extends Attribute>(type?: Constructor<U1>): U1[] {
+  getOwnAttributes<A3 extends Attribute>(type?: Class<A3>): Array<A3> {
     const annotation = this.annotation;
     if (annotation) {
       const attributes = annotation.attributes;
       if (attributes.length) {
         if (type) {
-          return attributes.filter((a) => a instanceof type) as Array<U1>;
+          return attributes.filter(a => a instanceof type) as Array<A3>;
         } else {
-          return <U1[]>attributes.slice(0);
+          return <A3[]>attributes.slice(0);
         }
       }
     }

@@ -60,7 +60,7 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
     return;
   }
 
-  addAttribute<U1 extends Attribute>(attribute: U1): void {
+  addAttribute<A4 extends Attribute>(attribute: A4): void {
     // if the attribute provide a getInterceptor, that means this property may need inject
     // we don't call getInterceptor or getInitializer until user new() the agent class.
     AddAttributeToMethodParameter(attribute, this.target, this.key, this.index);

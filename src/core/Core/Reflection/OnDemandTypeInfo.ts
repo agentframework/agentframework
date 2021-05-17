@@ -16,7 +16,6 @@ import { OnDemandPropertyInfo } from './OnDemandPropertyInfo';
 import { MemberKinds } from '../Interfaces/MemberKinds';
 import { Wisdom } from '../Wisdom/Wisdom';
 import { TypeInfo } from '../Interfaces/TypeInfo';
-import { AbstractConstructor } from '../Constructor';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Filter } from '../Interfaces/Filter';
 import { Attribute } from '../Interfaces/Attribute';
@@ -102,7 +101,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     return OnDemandTypeInfo.find(this.declaringType.prototype);
   }
 
-  get type(): AbstractConstructor<any> {
+  get type(): Function {
     return this.declaringType;
   }
 

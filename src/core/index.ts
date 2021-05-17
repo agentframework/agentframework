@@ -12,15 +12,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+'use strict';
+
 /*************************************
  *   Common
  *************************************/
-export { AbstractConstructor, AnyConstructor, Constructor } from './Core/Constructor';
 export { Arguments } from './Core/Interfaces/Arguments';
 export { AgentFrameworkError } from './Core/Error/AgentFrameworkError';
-// export { Decorator, ClassDecorator, PropertyDecorator, ParameterDecorator } from './Core/Decorator/decorators';
-// export { NotImplementedError } from './Core/Error/NotImplementedError';
-// export { NotSupportedError } from './Core/Error/NotSupportedError';
+export { Class } from './Core/Class';
 
 /*************************************
  *   AOP
@@ -41,14 +40,6 @@ export { PropertyInvocation } from './Core/Interfaces/TypeInvocations';
 export { PropertyInterceptor } from './Core/Interfaces/TypeInterceptors';
 export { PropertyAttribute } from './Core/Interfaces/TypeAttributes';
 
-// export { FieldInvocation } from './Core/Interfaces/TypeInvocations';
-// export { FieldInterceptor } from './Core/Interfaces/TypeInterceptors';
-// export { ClassFieldAttribute } from './Core/Interfaces/TypeAttributes';
-
-// export { MethodInvocation } from './Core/Interfaces/TypeInvocations';
-// export { MethodInterceptor } from './Core/Interfaces/TypeInterceptors';
-// export { ClassMethodAttribute } from './Core/Interfaces/TypeAttributes';
-
 /*************************************
  *   Annotation
  *************************************/
@@ -60,13 +51,6 @@ export { decorateClass } from './Core/Decorator/decorateClass';
 export { decorateAgent } from './Core/Decorator/decorateAgent';
 export { decorateMember } from './Core/Decorator/decorateMember';
 export { decorateParameter } from './Core/Decorator/decorateParameter';
-
-// export { decorateField } from './Core/Decorator/decorateClassField';
-// export { decorateMethod } from './Core/Decorator/decorateClassMethod';
-// export { decorateSetter } from './Core/Decorator/decorateClassSetter';
-// export { decorateGetter } from './Core/Decorator/decorateClassGetter';
-// export { decorateMethodParameter } from './Core/Decorator/decorateClassMethodParameter';
-// export { decorateConstructorParameter } from './Core/Decorator/decorateClassConstructorParameter';
 
 /*************************************
  *   Reflection
@@ -96,8 +80,27 @@ export { interceptable } from './Core/Agent/interceptable';
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from './Core/Helpers/Interceptor';
 
 /*************************************
- *   Internal Use
+ *   Unstable API
  *************************************/
+// export { Decorator, ClassDecorator, PropertyDecorator, ParameterDecorator } from './Core/Decorator/decorators';
+// export { NotImplementedError } from './Core/Error/NotImplementedError';
+// export { NotSupportedError } from './Core/Error/NotSupportedError';
+
+// export { FieldInvocation } from './Core/Interfaces/TypeInvocations';
+// export { FieldInterceptor } from './Core/Interfaces/TypeInterceptors';
+// export { ClassFieldAttribute } from './Core/Interfaces/TypeAttributes';
+
+// export { MethodInvocation } from './Core/Interfaces/TypeInvocations';
+// export { MethodInterceptor } from './Core/Interfaces/TypeInterceptors';
+// export { ClassMethodAttribute } from './Core/Interfaces/TypeAttributes';
+
+// export { decorateField } from './Core/Decorator/decorateClassField';
+// export { decorateMethod } from './Core/Decorator/decorateClassMethod';
+// export { decorateSetter } from './Core/Decorator/decorateClassSetter';
+// export { decorateGetter } from './Core/Decorator/decorateClassGetter';
+// export { decorateMethodParameter } from './Core/Decorator/decorateClassMethodParameter';
+// export { decorateConstructorParameter } from './Core/Decorator/decorateClassConstructorParameter';
+
 export { CreateAgent } from './Core/Agent/CreateAgent';
 export { AgentAttribute } from './Core/Agent/AgentAttribute';
 export { Remember } from './Core/Wisdom/Remember';

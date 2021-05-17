@@ -12,12 +12,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+'use strict';
+
 /*************************************
  *   Common
  *************************************/
 export { AgentFrameworkError } from '../src/core/index';
 export { Arguments } from '../src/core/index';
-export { AbstractConstructor, AnyConstructor, Constructor } from '../src/core/index';
+export { Class } from '../src/core/index';
 
 /*************************************
  *   AOP
@@ -94,15 +96,10 @@ export { IsDomain } from '../src/domain/index';
 export { SingletonAttribute } from '../src/domain/index';
 export { TransitAttribute } from '../src/domain/index';
 export { InjectAttribute } from '../src/domain/index';
-export { OnceAttribute } from '../src/domain/index';
-
 export { initializable } from '../src/domain/index';
-export { extensible } from '../src/domain/index';
-export { attribute } from '../src/domain/index';
 export { singleton } from '../src/domain/index';
 export { transit } from '../src/domain/index';
 export { inject } from '../src/domain/index';
-export { once } from '../src/domain/index';
 export { agent } from '../src/domain/index';
 
 /*************************************
@@ -114,7 +111,7 @@ export { ClassInitializer } from '../src/domain/index';
 /*************************************
  *   Class
  *************************************/
-export { Class, AnyClass, AgentReference, Params, Agent } from '../src/domain/index';
+export { AgentReference, Params, Agent } from '../src/domain/index';
 
 /*************************************
  *   In Memory Domain Implementation

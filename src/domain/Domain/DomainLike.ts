@@ -1,4 +1,19 @@
-import { AgentReference, Agent, AnyClass, Params, Class } from './Class';
+/* Copyright 2016 Ling Zhang
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. */
+
+import { Class } from '../../dependencies/core';
+import { AgentReference, Agent, Params } from './Agent';
 
 /**
  * A remote domain reference
@@ -37,7 +52,7 @@ export interface DomainLike {
   /**
    * Get constructor for current type, return undefined if don't have
    */
-  getType<T extends AnyClass>(type: T): T | undefined;
+  getType<T extends Function>(type: T): T | undefined;
 
   // /**
   //  * Get constructor for current type, throw an error if don't have
@@ -47,12 +62,12 @@ export interface DomainLike {
   /**
    * Inject an agent
    */
-  construct<T extends AnyClass>(target: T, params?: Params<T>, transit?: boolean): Agent<T>;
+  construct<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Agent<T>;
 
   /**
    * Resolve and inject an agent using factory method
    */
-  resolve<T extends AnyClass>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>>;
+  resolve<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>>;
 
   /**
    * Register a new type, without rewrite any existing types
@@ -62,12 +77,12 @@ export interface DomainLike {
   /**
    * Replace type
    */
-  setType<T extends object>(type: AnyClass<T>, replacement: Class<T>): void;
+  setType<T extends object>(type: Class<T>, replacement: Class<T>): void;
 
   /**
    * Delete type mapping for giving type
    */
-  removeType<T extends object>(type: AnyClass<T>): void;
+  removeType<T extends object>(type: Class<T>): void;
 
   /**
    * Add an agent

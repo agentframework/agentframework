@@ -1,14 +1,34 @@
-import { Arguments, Constructor, AbstractConstructor } from '../../dependencies/core';
+/* Copyright 2016 Ling Zhang
 
-export type AnyClass<T = any> = AbstractConstructor<T>;
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-export type Class<T = any> = Constructor<T>;
+    http://www.apache.org/licenses/LICENSE-2.0
 
-export type AgentReference = AnyClass | string | symbol;
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. */
 
-export type Params<T, P extends Arguments = Arguments> = T extends new (...args: infer P) => any ? P : Arguments;
+import { Arguments, Class } from '../../dependencies/core';
 
-export type Agent<T> = T extends string | symbol ? any : T extends AnyClass<infer R> ? R : never;
+// export interface DefaultConstructor<T extends object> extends Class<T> {
+//   new (): T;
+// }
+//
+// export interface ParameterConstructor<T extends object> extends Class<T> {
+//   new (...params: any[]): T;
+// }
+
+// export type Constructor<T extends object> = DefaultConstructor<T> | ParameterConstructor<T>;
+
+export type AgentReference = Function | string | symbol;
+
+export type Params<T> = T extends new (...args: infer P) => any ? P : Arguments;
+
+export type Agent<T> = T extends Class<infer R> ? R : T extends string | symbol ? any : never;
 
 // CustomConstructor is a helper interface to infer the return type from ClassInitializer function
 // interface CustomConstructor<T> extends Function {

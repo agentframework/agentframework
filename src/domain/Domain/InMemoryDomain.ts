@@ -1,6 +1,20 @@
-import { AgentFrameworkError } from '../../dependencies/core';
+/* Copyright 2016 Ling Zhang
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. */
+
+import { AgentFrameworkError, Class } from '../../dependencies/core';
 import { Disposable } from './Helpers/Disposable';
-import { Agent, AgentReference, Params, AnyClass, Class } from './Class';
+import { Agent, AgentReference, Params } from './Agent';
 import { Domain } from './Domain';
 import { IsPromise } from './Helpers/IsPromise';
 import { IsObservable } from './Helpers/IsObservable';
@@ -36,7 +50,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Unique types in this domain
    */
-  private readonly _types!: Map<AnyClass, any>; // type-type mapping
+  private readonly _types!: Map<Function, any>; // type-type mapping
   private readonly _agents!: Map<AgentReference, any>; // type-instance mapping
   private readonly _incomingAgents!: Map<any, Promise<any>>;
 
@@ -82,7 +96,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Get constructor for current type, return undefined if don't have
    */
-  getType<T extends AnyClass>(type: T): T | undefined {
+  getType<T extends Function>(type: T): T | undefined {
     return this._types.get(type);
   }
 
@@ -108,7 +122,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Create and initial an agent
    */
-  construct<T extends AnyClass>(target: T, params?: Params<T>, transit?: boolean): Agent<T> {
+  construct<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Agent<T> {
     const register = !transit;
     if (register) {
       const exists = this.getAgent(target);
@@ -158,7 +172,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Create and initial an agent asynchronously
    */
-  resolve<T extends AnyClass>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>> {
+  resolve<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>> {
     try {
       const register = !transit;
       if (register) {
@@ -251,7 +265,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Replace type
    */
-  setType<T extends object>(type: AnyClass<T>, replacement: Class<T>): void {
+  setType<T extends object>(type: Class<T>, replacement: Class<T>): void {
     // this._types.add(replacement);
     this._types.set(type, replacement);
   }
@@ -294,7 +308,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Delete type mapping for giving type
    */
-  removeType<T extends object>(type: AnyClass<T>): void {
+  removeType<T extends object>(type: Class<T>): void {
     this._types.delete(type);
   }
 

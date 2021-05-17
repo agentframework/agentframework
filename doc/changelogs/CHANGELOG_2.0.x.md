@@ -1,5 +1,13 @@
 # Agent Framework 2.0.x ChangeLog
 
+## 2021-05-17, Version 2.0.0-rc.20, @e2tox
+
+**Notable Changes**
+
+-   Remove internal class from exports
+-   Remove duplicate class interface
+-   Remove unstable exports
+
 ## 2021-04-19, Version 2.0.0-rc.18, @e2tox
 
 **Notable Changes**
