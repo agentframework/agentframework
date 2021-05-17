@@ -1,4 +1,4 @@
-import { extensible } from '../../../lib';
+import { extensible } from '../../../src/dependencies/domain';
 
 describe('6.7. @extensible decorator', () => {
   describe('# should able to', () => {
