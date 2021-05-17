@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2015",
+    "lib": ["ES2015"],
     "module": "commonjs",
     "locale": "en-US",
     "strict": true,

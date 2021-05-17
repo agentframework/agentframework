@@ -1,5 +1,5 @@
 import { Domain } from '../Domain';
-import { Arguments, ClassInvocation } from '../../../core';
+import { Arguments, ClassInvocation } from '../../../dependencies/core';
 
 /**
  *
