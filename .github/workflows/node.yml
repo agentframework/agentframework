@@ -23,5 +23,7 @@ jobs:
       - run: npm i jasmine@3.5.0 @types/jasmine@3.5.0 typescript@${{ matrix.ts }}
       - run: npm run build
       - run: npm run coverage
-      - run: npm i coveralls@2
-      - run: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+      - uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
