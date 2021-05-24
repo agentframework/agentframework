@@ -8,9 +8,9 @@
   "description": "TypeScript that scales",
   "scripts": {
     "cov": "npm run coverage && npm run report",
-    "dev": "NODE_ENV=test tsmon tools/jasmine.ts --config=tools/jasmine.dev.json",
+    "dev": "tsmon tools/jasmine.ts --config=tools/jasmine.dev.json",
     "build": "tsc --noEmit",
-    "test": "NODE_ENV=test ts-node tools/jasmine.ts --config=tools/jasmine.json",
+    "test": "ts-node tools/jasmine.ts --config=tools/jasmine.json",
     "coverage": "nyc npm run test",
     "report": "open coverage/lcov-report/index.html"
   },
