@@ -19,8 +19,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
-      - run: npm i -g ts-node@8 nyc@15
-      - run: npm i jasmine@3.5.0 @types/jasmine@3.5.0 ${{ matrix.ts }}
+      - run: npm i -g ts-node@8 nyc@15 typescript@${{ matrix.ts }}
+      - run: npm i jasmine@3.5.0 @types/jasmine@3.5.0 typescript@${{ matrix.ts }}
       - run: npm run build
       - run: npm run coverage
       - run: npm i coveralls@2
