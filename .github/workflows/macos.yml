@@ -1,0 +1,28 @@
+name: TypeScript CI on MacOS
+
+on: [push]
+
+jobs:
+  test-node:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-11, macos-10.15]
+        node: [16, 15, 14, 12, 10, 8]
+        ts: [4.3.5, 4.2.4, 4.1.5, 4.0.5, 3.9.7, 3.8.3, 3.7.5, 3.6.5, 3.5.1, 3.4.5, 3.3.4000, 3.2.4, 3.1.6, 3.0.3]
+      fail-fast: false
+      max-parallel: 6
+    name: ${{ matrix.os }}, Node.js ${{ matrix.node }}, TS ${{ matrix.ts }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm i -g ts-node@8 nyc@15 typescript@${{ matrix.ts }}
+      - run: npm i jasmine@3.5.0 @types/jasmine@3.5.0 typescript@${{ matrix.ts }}
+      - run: npm run build
+      - run: npm run coverage
+      - uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
