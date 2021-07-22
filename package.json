@@ -5,6 +5,7 @@
   "engines": {
     "node": ">=8.0.0"
   },
+  "main": "lib/index.ts",
   "description": "TypeScript that scales",
   "scripts": {
     "cov": "npm run coverage && npm run report",
