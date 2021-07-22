@@ -54,6 +54,9 @@ export type { AgentReference, Params, Agent } from './Domain/Agent';
 export { InMemoryDomain } from './Domain/InMemoryDomain';
 export { InMemorySubDomain } from './Domain/InMemorySubDomain';
 
+export type { Disposable } from './Domain/Helpers/Disposable';
+export { IsDisposable } from './Domain/Helpers/Disposable';
+
 /*************************************
  *   Unstable API
  *************************************/

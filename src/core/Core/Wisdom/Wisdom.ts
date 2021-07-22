@@ -32,7 +32,8 @@ export class AgentFramework extends WeakMap<Function | object, any> {
     // if one day the browser implemented Reflect.metadata. We will reflector all
     // code related to metadata data in order to have a better performance.
     // ===============================================================================
-    const { metadata }: any = Reflect;
+    const meta = 'metadata';
+    const metadata: any = Reflect[meta];
 
     //
     // target   | property
@@ -41,7 +42,7 @@ export class AgentFramework extends WeakMap<Function | object, any> {
     // Object   + PropertyKey   = Class member
     // Function + PropertyKey   = Class static member
     //
-    Reflect.set(Reflect, 'metadata', (key: string, value: any) => {
+    Reflect.set(Reflect, meta, (key: string, value: any) => {
       return (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) => {
         let proto;
         let prop;
