@@ -32,8 +32,11 @@ export class AgentFramework extends WeakMap<Function | object, any> {
     // if one day the browser implemented Reflect.metadata. We will reflector all
     // code related to metadata data in order to have a better performance.
     // ===============================================================================
-    const meta = 'metadata';
-    const metadata: any = Reflect[meta];
+    const r = Reflect;
+    const m = 'metadata';
+    const id = 'now';
+    const metadata: Function | undefined = r[m] && r[m].bind(r);
+    const wisdom = this;
 
     //
     // target   | property
@@ -42,25 +45,25 @@ export class AgentFramework extends WeakMap<Function | object, any> {
     // Object   + PropertyKey   = Class member
     // Function + PropertyKey   = Class static member
     //
-    Reflect.set(Reflect, meta, (key: string, value: any) => {
-      return (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) => {
-        let proto;
-        let prop;
-        if (typeof targetKey === 'undefined') {
-          proto = (<Function>target).prototype;
-          prop = 'constructor';
+    r.set(r, m, function (key: string, value: any) {
+      return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
+        let newTarget;
+        let newTargetKey;
+        if (arguments.length === 1) {
+          newTarget = (<Function>target).prototype;
+          newTargetKey = 'constructor';
         } else {
-          proto = target;
-          prop = targetKey;
+          newTarget = target;
+          newTargetKey = targetKey!;
         }
-        FindProperty(this.add(proto), proto, prop, descriptor).set(key, value);
+        FindProperty(wisdom.add(newTarget), newTarget, newTargetKey, descriptor).set(key, value);
         /* istanbul ignore next */
-        return metadata && Reflect.apply(metadata, Reflect, [key, value])(proto, targetKey, descriptor);
+        return metadata && metadata(key, value)(target, targetKey, descriptor);
       };
     });
 
     // mark the time
-    Reflect['metadata']['now'] = Date.now();
+    r[m][id] = Date.now();
   }
 
   [Symbol.for('Deno.symbols.customInspect')]() {
@@ -126,3 +129,33 @@ export const Wisdom = Function(
   '_',
   'return ((_,__)=>this[_]||(this[_]=new __()))(Symbol.for(_.name),_)'
 )(AgentFramework) as AgentFramework;
+
+/**
+ * tslib.__decorate implementation
+ */
+export function __decorate(decorators: Function[], target: any, key?: string | symbol, desc?: any): any {
+  console.log('__decorate', decorators, target, key, desc);
+  return () => false;
+}
+
+/**
+ * tslib.__metadata implementation
+ */
+export function __metadata(metadataKey: any, metadataValue: any): Function | void {
+  return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
+    if (arguments.length === 1) {
+      target = (<Function>target).prototype;
+      targetKey = 'constructor';
+    }
+    FindProperty(Wisdom.add(target), target, targetKey!, descriptor).set(metadataKey, metadataValue);
+  };
+}
+
+/**
+ * tslib.__param implementation
+ */
+export function __param(paramIndex: number, decorator: Function): Function {
+  return function (target: Function | object, targetKey: string | symbol) {
+    decorator(target, targetKey, paramIndex);
+  };
+}
