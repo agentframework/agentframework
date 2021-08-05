@@ -1,5 +1,11 @@
 # Agent Framework 2.0.x ChangeLog
 
+## 2021-08-06, Version 2.0.0-dev.20210806, @e2tox
+
+**Notable Changes**
+
+-   Add `__decorate`, `__param`, `__metadata` helper for better performance
+
 ## 2021-05-17, Version 2.0.0-rc.20, @e2tox
 
 **Notable Changes**

@@ -141,12 +141,19 @@ export const Wisdom = Function(
  * tslib.__decorate implementation
  */
 export function __decorate(decorators: Function[], target: object, key: string | symbol, desc: any): any {
+  desc = desc || Reflect.getOwnPropertyDescriptor(target, key);
   for (let i = decorators.length - 1; i >= 0; i--) {
-    decorators[i](target, key, desc);
+    desc = decorators[i](target, key, desc);
+  }
+  if (desc) {
+    Reflect.defineProperty(target, key, desc);
   }
 }
 
-export function __decorateClass(decorators: Function[], target: Function): any {
+/**
+ * tslib.__decorate class implementation
+ */
+export function __agent(decorators: Function[], target: Function): any {
   for (let i = decorators.length - 1; i >= 0; i--) {
     target = decorators[i](target) || target;
   }
