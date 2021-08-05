@@ -142,12 +142,8 @@ export const Wisdom = Function(
  */
 /* istanbul ignore next */
 export function __decorate(decorators: Function[], target: object, key: string | symbol, desc: any): any {
-  desc = desc || Reflect.getOwnPropertyDescriptor(target, key);
   for (let i = decorators.length - 1; i >= 0; i--) {
-    desc = decorators[i](target, key, desc);
-  }
-  if (desc) {
-    Reflect.defineProperty(target, key, desc);
+    decorators[i](target, key, desc);
   }
 }
 
