@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Remember } from '../../dependencies/core';
-import { Domain } from './Domain';
+import type { Domain } from './Domain';
 
 /**
  * Get agent of giving type

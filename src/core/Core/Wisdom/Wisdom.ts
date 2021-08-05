@@ -25,11 +25,11 @@ export class AgentFramework extends WeakMap<Function | object, any> {
   }
 
   get version(): string {
-    return /* replace::release.version */ 'dev';
+    return /* replace::release.version */ '0.0.0';
   }
 
   get timestamp(): string {
-    return /* replace::release.timestamp */ '';
+    return /* replace::release.timestamp */ '2016-11-03T00:00:00.000Z';
   }
 
   constructor() {
@@ -140,9 +140,15 @@ export const Wisdom = Function(
 /**
  * tslib.__decorate implementation
  */
-export function __decorate(decorators: Function[], target: any, key?: string | symbol, desc?: any): any {
+export function __decorate(decorators: Function[], target: object, key: string | symbol, desc: any): any {
   for (let i = decorators.length - 1; i >= 0; i--) {
-    target = decorators[i](target, key, desc) || target;
+    decorators[i](target, key, desc);
+  }
+}
+
+export function __decorateClass(decorators: Function[], target: Function): any {
+  for (let i = decorators.length - 1; i >= 0; i--) {
+    target = decorators[i](target) || target;
   }
   return target;
 }
@@ -150,7 +156,7 @@ export function __decorate(decorators: Function[], target: any, key?: string | s
 /**
  * tslib.__metadata implementation
  */
-export function __metadata(metadataKey: any, metadataValue: any): Function | void {
+export function __metadata(metadataKey: string, metadataValue: any): Function | void {
   return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
     if (arguments.length === 1) {
       target = (<Function>target).prototype;
