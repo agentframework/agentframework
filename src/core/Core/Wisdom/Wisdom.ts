@@ -140,6 +140,7 @@ export const Wisdom = Function(
 /**
  * tslib.__decorate implementation
  */
+/* istanbul ignore next */
 export function __decorate(decorators: Function[], target: object, key: string | symbol, desc: any): any {
   desc = desc || Reflect.getOwnPropertyDescriptor(target, key);
   for (let i = decorators.length - 1; i >= 0; i--) {
@@ -153,6 +154,7 @@ export function __decorate(decorators: Function[], target: object, key: string |
 /**
  * tslib.__decorate class implementation
  */
+/* istanbul ignore next */
 export function __agent(decorators: Function[], target: Function): any {
   for (let i = decorators.length - 1; i >= 0; i--) {
     target = decorators[i](target) || target;
@@ -163,6 +165,7 @@ export function __agent(decorators: Function[], target: Function): any {
 /**
  * tslib.__metadata implementation
  */
+/* istanbul ignore next */
 export function __metadata(metadataKey: string, metadataValue: any): Function | void {
   return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
     if (arguments.length === 1) {
@@ -176,6 +179,7 @@ export function __metadata(metadataKey: string, metadataValue: any): Function | 
 /**
  * tslib.__param implementation
  */
+/* istanbul ignore next */
 export function __param(paramIndex: number, decorator: Function): Function {
   return function (target: Function | object, targetKey: string | symbol) {
     decorator(target, targetKey, paramIndex);
