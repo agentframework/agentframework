@@ -20,12 +20,16 @@ export class AgentFramework extends WeakMap<Function | object, any> {
   /**
    * for troubleshot
    */
-  get name() {
-    return /* tsb::release.name */ 'agentframework';
+  get name(): string {
+    return /* replace::release.name */ 'agentframework';
   }
 
-  get version() {
-    return /* tsb::release.version */ '2.0.0';
+  get version(): string {
+    return /* replace::release.version */ 'dev';
+  }
+
+  get timestamp(): string {
+    return /* replace::release.timestamp */ '';
   }
 
   constructor() {
@@ -137,8 +141,14 @@ export const Wisdom = Function(
  * tslib.__decorate implementation
  */
 export function __decorate(decorators: Function[], target: any, key?: string | symbol, desc?: any): any {
-  for (let i = decorators.length - 1; i >= 0; i--) {
-    target = decorators[i](target, key, desc);
+  if (arguments.length > 3) {
+    for (let i = decorators.length - 1; i >= 0; i--) {
+      decorators[i](target, key, desc);
+    }
+  } else {
+    for (let i = decorators.length - 1; i >= 0; i--) {
+      target = decorators[i](target);
+    }
   }
   return target;
 }
