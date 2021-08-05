@@ -141,14 +141,8 @@ export const Wisdom = Function(
  * tslib.__decorate implementation
  */
 export function __decorate(decorators: Function[], target: any, key?: string | symbol, desc?: any): any {
-  if (arguments.length > 3) {
-    for (let i = decorators.length - 1; i >= 0; i--) {
-      decorators[i](target, key, desc);
-    }
-  } else {
-    for (let i = decorators.length - 1; i >= 0; i--) {
-      target = decorators[i](target);
-    }
+  for (let i = decorators.length - 1; i >= 0; i--) {
+    target = decorators[i](target, key, desc) || target;
   }
   return target;
 }
