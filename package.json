@@ -1,6 +1,6 @@
 {
   "name": "agentframework",
-  "version": "2.0.0-rc.20",
+  "version": "2.0.0",
   "sideEffects": false,
   "engines": {
     "node": ">=8.0.0"
@@ -39,8 +39,5 @@
   "bugs": {
     "url": "https://github.com/agentframework/agentframework/issues"
   },
-  "homepage": "https://github.com/agentframework/agentframework#readme",
-  "dependencies": {
-    "typescript": "^4.3.5"
-  }
+  "homepage": "https://github.com/agentframework/agentframework#readme"
 }

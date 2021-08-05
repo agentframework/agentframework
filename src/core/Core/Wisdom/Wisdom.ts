@@ -21,8 +21,11 @@ export class AgentFramework extends WeakMap<Function | object, any> {
    * for troubleshot
    */
   get name() {
-    return 'agentframework@2.0.0-rc.20';
-    // return /* tsb::insert "require('package.json').version" */;
+    return /* tsb::release.name */ 'agentframework';
+  }
+
+  get version() {
+    return /* tsb::release.version */ '2.0.0';
   }
 
   constructor() {
@@ -67,11 +70,11 @@ export class AgentFramework extends WeakMap<Function | object, any> {
   }
 
   [Symbol.for('Deno.symbols.customInspect')]() {
-    return this.name;
+    return this.name + '@' + this.version;
   }
 
   [Symbol.for('nodejs.util.inspect.custom')]() {
-    return this.name;
+    return this.name + '@' + this.version;
   }
 
   // /**
@@ -133,31 +136,11 @@ export const Wisdom = Function(
 /**
  * tslib.__decorate implementation
  */
-export function __decorateClass(decorators: Function[], target: any): any {
+export function __decorate(decorators: Function[], target: any, key?: string | symbol, desc?: any): any {
   for (let i = decorators.length - 1; i >= 0; i--) {
-    const decorator = decorators[i];
-    if (typeof decorator === 'function') {
-      target = decorator(target);
-    }
+    target = decorators[i](target, key, desc);
   }
   return target;
-}
-
-/**
- * tslib.__decorate implementation
- */
-export function __decorateMember(decorators: Function[], target: any, key: string | symbol, desc?: any): any {
-  desc = desc || Object.getOwnPropertyDescriptor(target, key!);
-  for (let i = decorators.length - 1; i >= 0; i--) {
-    const decorator = decorators[i];
-    if (typeof decorator === 'function') {
-      desc = decorator(target, key, desc);
-    }
-  }
-  if (desc) {
-    Object.defineProperty(target, key!, desc);
-  }
-  return;
 }
 
 /**
