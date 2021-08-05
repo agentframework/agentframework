@@ -63,6 +63,8 @@ export type { Filter } from '../src/core/index';
 
 export { Reflector } from '../src/core/index';
 
+export { __decorateClass, __decorateMember, __metadata, __param } from '../src/core/index';
+
 /*************************************
  *   Agent API
  *************************************/

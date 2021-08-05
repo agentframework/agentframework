@@ -133,9 +133,31 @@ export const Wisdom = Function(
 /**
  * tslib.__decorate implementation
  */
-export function __decorate(decorators: Function[], target: any, key?: string | symbol, desc?: any): any {
-  console.log('__decorate', decorators, target, key, desc);
-  return () => false;
+export function __decorateClass(decorators: Function[], target: any): any {
+  for (let i = decorators.length - 1; i >= 0; i--) {
+    const decorator = decorators[i];
+    if (typeof decorator === 'function') {
+      target = decorator(target);
+    }
+  }
+  return target;
+}
+
+/**
+ * tslib.__decorate implementation
+ */
+export function __decorateMember(decorators: Function[], target: any, key: string | symbol, desc?: any): any {
+  desc = desc || Object.getOwnPropertyDescriptor(target, key!);
+  for (let i = decorators.length - 1; i >= 0; i--) {
+    const decorator = decorators[i];
+    if (typeof decorator === 'function') {
+      desc = decorator(target, key, desc);
+    }
+  }
+  if (desc) {
+    Object.defineProperty(target, key!, desc);
+  }
+  return;
 }
 
 /**

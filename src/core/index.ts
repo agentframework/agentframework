@@ -104,3 +104,5 @@ export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } f
 export { CreateAgent } from './Core/Agent/CreateAgent';
 export { AgentAttribute } from './Core/Agent/AgentAttribute';
 export { Remember } from './Core/Wisdom/Remember';
+
+export { __decorateClass, __decorateMember, __metadata, __param } from './Core/Wisdom/Wisdom';
