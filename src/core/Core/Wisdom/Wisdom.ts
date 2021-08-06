@@ -141,9 +141,20 @@ export const Wisdom = Function(
  * tslib.__decorate implementation
  */
 /* istanbul ignore next */
-export function __decorate(decorators: Function[], target: object, key: string | symbol, desc: any): any {
+export function __decorate(
+  decorators: Function[],
+  target: object | Function,
+  targetKey: string | symbol,
+  desc: PropertyDescriptor | undefined | null /* field=undefined. method,getter,setter = null*/
+): any {
+  if (desc === null) {
+    desc = Reflect.getOwnPropertyDescriptor(target, targetKey);
+  }
   for (let i = decorators.length - 1; i >= 0; i--) {
-    decorators[i](target, key, desc);
+    desc = decorators[i](target, targetKey, desc);
+  }
+  if (desc) {
+    Reflect.defineProperty(target, targetKey, desc);
   }
 }
 
@@ -151,7 +162,7 @@ export function __decorate(decorators: Function[], target: object, key: string |
  * tslib.__decorate class implementation
  */
 /* istanbul ignore next */
-export function __agent(decorators: Function[], target: Function): any {
+export function __agent(decorators: Function[], target: object | Function): any {
   for (let i = decorators.length - 1; i >= 0; i--) {
     target = decorators[i](target) || target;
   }

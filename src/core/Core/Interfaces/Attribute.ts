@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { Interceptor } from './Interceptor';
 
-export interface Attribute extends Object {
+export interface Attribute {
   /**
    * Before decoration hook. Return false to stop decorate this attribute to a class
    *
