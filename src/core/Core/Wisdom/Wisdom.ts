@@ -124,7 +124,6 @@ export const Wisdom = Function(
 /**
  * tslib.__decorate implementation
  */
-/* istanbul ignore next */
 export function __decorate(
   decorators: Function[],
   target: object | Function,
@@ -146,7 +145,6 @@ export function __decorate(
 /**
  * tslib.__decorate class implementation
  */
-/* istanbul ignore next */
 export function __agent(decorators: Function[], target: object | Function): any {
   for (let i = decorators.length - 1; i >= 0; i--) {
     target = decorators[i](target) || target;
@@ -157,7 +155,6 @@ export function __agent(decorators: Function[], target: object | Function): any 
 /**
  * tslib.__metadata implementation
  */
-/* istanbul ignore next */
 export function __metadata(metadataKey: string, metadataValue: any): Function {
   return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
     if (!targetKey) {
@@ -171,7 +168,6 @@ export function __metadata(metadataKey: string, metadataValue: any): Function {
 /**
  * tslib.__param implementation
  */
-/* istanbul ignore next */
 export function __param(paramIndex: number, decorator: Function): Function {
   return function (target: Function | object, targetKey: string | symbol) {
     decorator(target, targetKey, paramIndex);
