@@ -18,7 +18,7 @@ import { AddAttributeToClass } from '../Wisdom/AddAttribute';
 import { Attribute } from '../Interfaces/Attribute';
 
 /**
- * Decorate class with attribute
+ * Decorate agent with attribute (this attribute will be used for upgrade agent)
  */
 export function decorateAgent<T extends Attribute>(attribute: T) {
   // upgrade prototype

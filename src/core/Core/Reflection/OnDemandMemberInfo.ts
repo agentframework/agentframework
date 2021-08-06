@@ -17,7 +17,7 @@ import { Attribute } from '../Interfaces/Attribute';
 import { Class } from '../Class';
 import { MemberInfo } from '../Interfaces/MemberInfo';
 import { Filter } from '../Interfaces/Filter';
-import { HasInterceptor } from '../Helpers/Interceptor';
+import { HasInterceptor } from '../Helpers/CustomInterceptor';
 import { Annotation, Property } from '../Wisdom/Annotation';
 // import { cache } from '../Helpers/Cache';
 

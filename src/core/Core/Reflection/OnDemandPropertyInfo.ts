@@ -20,7 +20,7 @@ import { ParameterInfo } from '../Interfaces/ParameterInfo';
 import { MemberInfo } from '../Interfaces/MemberInfo';
 import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToMember } from '../Wisdom/AddAttribute';
-import { HasInterceptor } from '../Helpers/Interceptor';
+import { HasInterceptor } from '../Helpers/CustomInterceptor';
 import { Property } from '../Wisdom/Annotation';
 
 // import { getter } from '../Helpers/Prototype';

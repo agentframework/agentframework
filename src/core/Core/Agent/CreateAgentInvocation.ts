@@ -16,7 +16,7 @@ import { Invocation } from '../Interfaces/Invocation';
 import { InterceptorInvocation } from '../Compiler/Invocation/InterceptorInvocation';
 import { ClassAttribute } from '../Interfaces/TypeAttributes';
 import { CanDecorate } from '../Decorator/CanDecorate';
-import { GetInterceptor } from '../Helpers/Interceptor';
+import { GetInterceptor } from '../Helpers/CustomInterceptor';
 
 /**
  * Build Agent using AgentAttribute

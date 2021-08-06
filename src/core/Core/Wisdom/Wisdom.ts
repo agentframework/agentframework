@@ -14,7 +14,6 @@ limitations under the License. */
 
 import { Soul } from './Soul';
 import { FindProperty } from './Annotator';
-import { define } from '../Helpers/Prototype';
 
 export class AgentFramework extends WeakMap<Function | object, any> {
   /**
@@ -71,6 +70,8 @@ export class AgentFramework extends WeakMap<Function | object, any> {
 
     // mark the time
     r[m][id] = Date.now();
+
+    this.set(this, new Map());
   }
 
   [Symbol.for('Deno.symbols.customInspect')]() {
@@ -88,6 +89,9 @@ export class AgentFramework extends WeakMap<Function | object, any> {
   //   return super.get(type);
   // }
 
+  /**
+   * returns value instead this object
+   */
   set<V>(key: Function | object, value: V): V {
     super.set(key, value);
     return value;
@@ -106,15 +110,6 @@ export class AgentFramework extends WeakMap<Function | object, any> {
     // check parent and build object prototype chain
     const prototype = Reflect.getPrototypeOf(type);
     return this.set(type, Object.create(prototype && this.add(prototype)));
-  }
-
-  /**
-   * key: string, value: any
-   */
-  get value(): Map<string, any> {
-    const value = this.get(this) || this.set(this, new Map());
-    define(this, 'value', { value });
-    return value;
   }
 
   // static get wisdom() {
@@ -150,11 +145,12 @@ export function __decorate(
   if (desc === null) {
     desc = Reflect.getOwnPropertyDescriptor(target, targetKey);
   }
+  let modified = desc;
   for (let i = decorators.length - 1; i >= 0; i--) {
-    desc = decorators[i](target, targetKey, desc);
+    modified = decorators[i](target, targetKey, modified || desc);
   }
-  if (desc) {
-    Reflect.defineProperty(target, targetKey, desc);
+  if (modified) {
+    Reflect.defineProperty(target, targetKey, modified);
   }
 }
 
@@ -175,11 +171,11 @@ export function __agent(decorators: Function[], target: object | Function): any 
 /* istanbul ignore next */
 export function __metadata(metadataKey: string, metadataValue: any): Function | void {
   return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
-    if (arguments.length === 1) {
+    if (!targetKey) {
       target = (<Function>target).prototype;
       targetKey = 'constructor';
     }
-    FindProperty(Wisdom.add(target), target, targetKey!, descriptor).set(metadataKey, metadataValue);
+    FindProperty(Wisdom.add(target), target, targetKey, descriptor).set(metadataKey, metadataValue);
   };
 }
 

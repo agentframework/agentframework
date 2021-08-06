@@ -14,7 +14,10 @@ limitations under the License. */
 
 import { Interceptor } from './Interceptor';
 
-export interface Attribute {
+/**
+ * Attribute. extend from Object is required for type checking of { } attribute
+ */
+export interface Attribute extends Object {
   /**
    * Before decoration hook. Return false to stop decorate this attribute to a class
    *

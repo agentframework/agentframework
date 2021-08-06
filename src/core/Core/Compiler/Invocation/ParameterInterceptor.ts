@@ -19,7 +19,7 @@ import { ChainFactory } from '../Factory/ChainFactory';
 import { PropertyInfo } from '../../Interfaces/PropertyInfo';
 import { define } from '../../Helpers/Prototype';
 import { Interceptable } from '../../Interfaces/Interceptable';
-import { HasInterceptor } from '../../Helpers/Interceptor';
+import { HasInterceptor } from '../../Helpers/CustomInterceptor';
 
 /**
  let MongoDB = class MongoDB {

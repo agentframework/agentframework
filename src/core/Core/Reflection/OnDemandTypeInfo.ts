@@ -20,7 +20,7 @@ import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Filter } from '../Interfaces/Filter';
 import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToClass } from '../Wisdom/AddAttribute';
-import { GetAgentType, IsAgent } from '../Helpers/AgentType';
+import { GetAgentType, IsAgent } from '../Helpers/AgentHelper';
 import { Remember } from '../Wisdom/Remember';
 import { Property } from '../Wisdom/Annotation';
 
@@ -56,7 +56,7 @@ export class TypeInfos {
    * get types map
    */
   static get v1() {
-    return Remember<Map<Function | object, OnDemandTypeInfo>>(this, 'v1', Map);
+    return Remember<WeakMap<Function | object, OnDemandTypeInfo>>(this, 'v1', Map);
   }
 }
 

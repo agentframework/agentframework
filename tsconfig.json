@@ -18,5 +18,9 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["lib", "src", "test", "tools"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "baseUrl": ".",
+  "paths": {
+    "agentframework": ["./lib/index.ts"]
+  }
 }

@@ -66,8 +66,8 @@ export { Reflector } from './Core/Reflector';
 /*************************************
  *   Agent API
  *************************************/
-export { IsAgent } from './Core/Helpers/AgentType';
-export { GetAgentType } from './Core/Helpers/AgentType';
+export { IsAgent } from './Core/Helpers/AgentHelper';
+export { GetAgentType } from './Core/Helpers/AgentHelper';
 
 /*************************************
  *   Static Interceptor
@@ -77,7 +77,7 @@ export { interceptable } from './Core/Agent/interceptable';
 /*************************************
  *   Custom Interceptor
  *************************************/
-export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from './Core/Helpers/Interceptor';
+export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from './Core/Helpers/CustomInterceptor';
 
 /*************************************
  *   Unstable API

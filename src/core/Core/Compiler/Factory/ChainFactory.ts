@@ -17,7 +17,7 @@ import { Invocation } from '../../Interfaces/Invocation';
 import { Interceptable } from '../../Interfaces/Interceptable';
 // import { InitializerInvocation } from '../Invocation/InitializerInvocation';
 import { InterceptorInvocation } from '../Invocation/InterceptorInvocation';
-import { GetInterceptor } from '../../Helpers/Interceptor';
+import { GetInterceptor } from '../../Helpers/CustomInterceptor';
 
 /**
  *

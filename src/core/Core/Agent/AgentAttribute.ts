@@ -19,7 +19,7 @@ import { Arguments } from '../Interfaces/Arguments';
 import { ConstructorInvocation } from '../Compiler/Invocation/ConstructorInvocation';
 import { OnDemandClassCompiler } from '../Compiler/OnDemandClassCompiler';
 import { FindExtendedClass } from '../Helpers/FindExtendedClass';
-import { RememberAgentType } from '../Helpers/AgentType';
+import { RememberAgentType } from '../Helpers/AgentHelper';
 import { Reflector } from '../Reflector';
 import { Invocations } from '../Knowledge';
 import { AgentFrameworkError } from '../Error/AgentFrameworkError';

@@ -14,14 +14,14 @@ limitations under the License. */
 
 import { CreateAgentInvocation } from './CreateAgentInvocation';
 import { AgentAttribute } from './AgentAttribute';
-import { GetAgentType, RememberAgentType } from '../Helpers/AgentType';
+import { GetAgentType, RememberAgentType } from '../Helpers/AgentHelper';
 import { AgentInvocation } from './AgentInvocation';
 import { ClassAttribute } from '../Interfaces/TypeAttributes';
 import { OnDemandTypeInfo } from '../Reflection/OnDemandTypeInfo';
 import { ChainFactory } from '../Compiler/Factory/ChainFactory';
 import { Invocation } from '../Interfaces/Invocation';
 import { AgentFrameworkError } from '../Error/AgentFrameworkError';
-import { HasInterceptor } from '../Helpers/Interceptor';
+import { HasInterceptor } from '../Helpers/CustomInterceptor';
 
 /**
  * Create a new agent from attribute, and add into Agent registry

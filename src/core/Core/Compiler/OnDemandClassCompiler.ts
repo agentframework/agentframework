@@ -25,7 +25,7 @@ import { Attribute } from '../Interfaces/Attribute';
 import { define } from '../Helpers/Prototype';
 import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
 import { AgentFrameworkError } from '../Error/AgentFrameworkError';
-import { HasInterceptor } from '../Helpers/Interceptor';
+import { HasInterceptor } from '../Helpers/CustomInterceptor';
 
 export class OnDemandClassCompiler {
   /**
