@@ -18,32 +18,32 @@ limitations under the License. */
  *   Common
  *************************************/
 export { AgentFrameworkError } from '../src/core/index';
-export type { Arguments } from '../src/core/index';
-export type { Class } from '../src/core/index';
+export { Arguments } from '../src/core/index';
+export { Class } from '../src/core/index';
 
 /*************************************
  *   AOP
  *************************************/
-export type { Invocation } from '../src/core/index';
-export type { Interceptor } from '../src/core/index';
-export type { Interceptable } from '../src/core/index';
+export { Invocation } from '../src/core/index';
+export { Interceptor } from '../src/core/index';
+export { Interceptable } from '../src/core/index';
 
-export type { ClassInvocation } from '../src/core/index';
-export type { ClassInterceptor } from '../src/core/index';
-export type { ClassAttribute } from '../src/core/index';
+export { ClassInvocation } from '../src/core/index';
+export { ClassInterceptor } from '../src/core/index';
+export { ClassAttribute } from '../src/core/index';
 
-export type { ParameterInvocation } from '../src/core/index';
-export type { ParameterInterceptor } from '../src/core/index';
-export type { ParameterAttribute } from '../src/core/index';
+export { ParameterInvocation } from '../src/core/index';
+export { ParameterInterceptor } from '../src/core/index';
+export { ParameterAttribute } from '../src/core/index';
 
-export type { PropertyInvocation } from '../src/core/index';
-export type { PropertyInterceptor } from '../src/core/index';
-export type { PropertyAttribute } from '../src/core/index';
+export { PropertyInvocation } from '../src/core/index';
+export { PropertyInterceptor } from '../src/core/index';
+export { PropertyAttribute } from '../src/core/index';
 
 /*************************************
  *   Annotation
  *************************************/
-export type { Attribute } from '../src/core/index';
+export { Attribute } from '../src/core/index';
 export { MemberKinds } from '../src/core/index';
 
 export { decorate } from '../src/core/index';
@@ -55,11 +55,11 @@ export { decorateParameter } from '../src/core/index';
 /*************************************
  *   Reflection
  *************************************/
-export type { MemberInfo } from '../src/core/index';
-export type { PropertyInfo } from '../src/core/index';
-export type { TypeInfo } from '../src/core/index';
-export type { ParameterInfo } from '../src/core/index';
-export type { Filter } from '../src/core/index';
+export { MemberInfo } from '../src/core/index';
+export { PropertyInfo } from '../src/core/index';
+export { TypeInfo } from '../src/core/index';
+export { ParameterInfo } from '../src/core/index';
+export { Filter } from '../src/core/index';
 
 export { Reflector } from '../src/core/index';
 
@@ -82,9 +82,9 @@ export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } f
 /*************************************
  *   Domain
  *************************************/
-export type { DomainLike } from '../src/domain/index';
+export { DomainLike } from '../src/domain/index';
 export { Domain } from '../src/domain/index';
-export type { SubDomainLike } from '../src/domain/index';
+export { SubDomainLike } from '../src/domain/index';
 
 export { GetDomain } from '../src/domain/index';
 export { GetSystemDomain } from '../src/domain/index';
@@ -111,7 +111,7 @@ export { ClassInitializer } from '../src/domain/index';
 /*************************************
  *   Class
  *************************************/
-export type { AgentReference, Params, Agent } from '../src/domain/index';
+export { AgentReference, Params, Agent } from '../src/domain/index';
 
 /*************************************
  *   In Memory Domain Implementation

@@ -17,33 +17,33 @@ limitations under the License. */
 /*************************************
  *   Common
  *************************************/
-export type { Arguments } from './Core/Interfaces/Arguments';
+export { Arguments } from './Core/Interfaces/Arguments';
 export { AgentFrameworkError } from './Core/Error/AgentFrameworkError';
-export type { Class } from './Core/Class';
+export { Class } from './Core/Class';
 
 /*************************************
  *   AOP
  *************************************/
-export type { Invocation } from './Core/Interfaces/Invocation';
-export type { Interceptor } from './Core/Interfaces/Interceptor';
-export type { Interceptable } from './Core/Interfaces/Interceptable';
+export { Invocation } from './Core/Interfaces/Invocation';
+export { Interceptor } from './Core/Interfaces/Interceptor';
+export { Interceptable } from './Core/Interfaces/Interceptable';
 
-export type { ClassInvocation } from './Core/Interfaces/TypeInvocations';
-export type { ClassInterceptor } from './Core/Interfaces/TypeInterceptors';
-export type { ClassAttribute } from './Core/Interfaces/TypeAttributes';
+export { ClassInvocation } from './Core/Interfaces/TypeInvocations';
+export { ClassInterceptor } from './Core/Interfaces/TypeInterceptors';
+export { ClassAttribute } from './Core/Interfaces/TypeAttributes';
 
-export type { ParameterInvocation } from './Core/Interfaces/TypeInvocations';
-export type { ParameterInterceptor } from './Core/Interfaces/TypeInterceptors';
-export type { ParameterAttribute } from './Core/Interfaces/TypeAttributes';
+export { ParameterInvocation } from './Core/Interfaces/TypeInvocations';
+export { ParameterInterceptor } from './Core/Interfaces/TypeInterceptors';
+export { ParameterAttribute } from './Core/Interfaces/TypeAttributes';
 
-export type { PropertyInvocation } from './Core/Interfaces/TypeInvocations';
-export type { PropertyInterceptor } from './Core/Interfaces/TypeInterceptors';
-export type { PropertyAttribute } from './Core/Interfaces/TypeAttributes';
+export { PropertyInvocation } from './Core/Interfaces/TypeInvocations';
+export { PropertyInterceptor } from './Core/Interfaces/TypeInterceptors';
+export { PropertyAttribute } from './Core/Interfaces/TypeAttributes';
 
 /*************************************
  *   Annotation
  *************************************/
-export type { Attribute } from './Core/Interfaces/Attribute';
+export { Attribute } from './Core/Interfaces/Attribute';
 export { MemberKinds } from './Core/Interfaces/MemberKinds';
 
 export { decorate } from './Core/Decorator/decorate';
@@ -55,11 +55,11 @@ export { decorateParameter } from './Core/Decorator/decorateParameter';
 /*************************************
  *   Reflection
  *************************************/
-export type { MemberInfo } from './Core/Interfaces/MemberInfo';
-export type { PropertyInfo } from './Core/Interfaces/PropertyInfo';
-export type { TypeInfo } from './Core/Interfaces/TypeInfo';
-export type { ParameterInfo } from './Core/Interfaces/ParameterInfo';
-export type { Filter } from './Core/Interfaces/Filter';
+export { MemberInfo } from './Core/Interfaces/MemberInfo';
+export { PropertyInfo } from './Core/Interfaces/PropertyInfo';
+export { TypeInfo } from './Core/Interfaces/TypeInfo';
+export { ParameterInfo } from './Core/Interfaces/ParameterInfo';
+export { Filter } from './Core/Interfaces/Filter';
 
 export { Reflector } from './Core/Reflector';
 

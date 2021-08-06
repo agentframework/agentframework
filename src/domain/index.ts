@@ -17,9 +17,9 @@ limitations under the License. */
 /*************************************
  *   Domain
  *************************************/
-export type { DomainLike } from './Domain/DomainLike';
+export { DomainLike } from './Domain/DomainLike';
 export { Domain } from './Domain/Domain';
-export type { SubDomainLike } from './Domain/SubDomainLike';
+export { SubDomainLike } from './Domain/SubDomainLike';
 
 export { GetDomain } from './Domain/Helpers/GetDomain';
 export { GetSystemDomain } from './Domain/Helpers/GetSystemDomain';
@@ -46,7 +46,7 @@ export { ClassInitializer } from './Domain/Symbols';
 /*************************************
  *   Class
  *************************************/
-export type { AgentReference, Params, Agent } from './Domain/Agent';
+export { AgentReference, Params, Agent } from './Domain/Agent';
 
 /*************************************
  *   In Memory Domain Implementation
@@ -54,7 +54,7 @@ export type { AgentReference, Params, Agent } from './Domain/Agent';
 export { InMemoryDomain } from './Domain/InMemoryDomain';
 export { InMemorySubDomain } from './Domain/InMemorySubDomain';
 
-export type { Disposable } from './Domain/Helpers/Disposable';
+export { Disposable } from './Domain/Helpers/Disposable';
 export { IsDisposable } from './Domain/Helpers/Disposable';
 
 /*************************************
