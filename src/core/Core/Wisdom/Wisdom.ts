@@ -157,7 +157,7 @@ export function __agent(decorators: Function[], target: object | Function): any 
  * tslib.__metadata implementation
  */
 /* istanbul ignore next */
-export function __metadata(metadataKey: string, metadataValue: any): Function | void {
+export function __metadata(metadataKey: string, metadataValue: any): Function {
   return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
     if (!targetKey) {
       target = (<Function>target).prototype;
