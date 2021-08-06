@@ -82,10 +82,11 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
 
   get type(): Function | undefined {
     //return super.getOwnMetadata('design:returntype') || super.getOwnMetadata('design:type');
-    if (this.descriptor) {
+    const type = this.getOwnMetadata('design:type');
+    if (type && type.prototype === Function.prototype && this.descriptor) {
       return this.getOwnMetadata('design:returntype');
     }
-    return this.getOwnMetadata('design:type');
+    return type;
   }
 
   protected get annotation(): Property | undefined {
