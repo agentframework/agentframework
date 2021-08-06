@@ -122,4 +122,4 @@ export { InMemorySubDomain } from '../src/domain/index';
 /************************************
  *    Internal uses
  ************************************/
-export { __decorate, __agent, __metadata, __param } from '../src/core/index';
+export { __agent, __decorate, __metadata, __param } from '../src/core/index';

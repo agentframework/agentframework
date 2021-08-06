@@ -111,18 +111,6 @@ export class AgentFramework extends WeakMap<Function | object, any> {
     const prototype = Reflect.getPrototypeOf(type);
     return this.set(type, Object.create(prototype && this.add(prototype)));
   }
-
-  // static get wisdom() {
-  //   return Function('_', 'return ((_,__)=>this[_]||(this[_]=new __()))(Symbol.for(_.name),_)')(this);
-  // }
-  //
-  // static add(type: Function | object): Soul {
-  //   return this.wisdom.add(type);
-  // }
-  //
-  // static get(type: Function | object): Soul | undefined {
-  //   return this.wisdom.get(type);
-  // }
 }
 
 // create singleton metadata for satellites project
