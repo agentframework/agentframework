@@ -1,4 +1,4 @@
-name: Node.js Tests on Ubuntu
+name: Coveralls
 
 on:
   push:
