@@ -24,7 +24,7 @@ export class AgentFramework extends WeakMap<Function | object, any> {
   }
 
   get version(): string {
-    return /* replace::release.version */ '0.0.0';
+    return /* replace::release.version */ '2.0.0';
   }
 
   get timestamp(): string {
@@ -41,6 +41,7 @@ export class AgentFramework extends WeakMap<Function | object, any> {
     const r = Reflect;
     const m = 'metadata';
     const id = 'now';
+    /* istanbul ignore next */
     const metadata: Function | undefined = r[m] && r[m].bind(r);
     const wisdom = this;
 

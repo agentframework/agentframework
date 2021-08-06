@@ -31,6 +31,7 @@ export class InMemoryDomain extends Domain implements Disposable {
    */
   constructor() {
     super();
+    // these fields enumerable: false, configurable: false, writable: false
     Reflect.defineProperty(this, '_types', { value: new Map() });
     Reflect.defineProperty(this, '_agents', { value: new Map() });
     Reflect.defineProperty(this, '_incomingAgents', { value: new Map() });
@@ -200,7 +201,7 @@ export class InMemoryDomain extends Domain implements Disposable {
           this._incomingAgents.set(type, newCreated);
         }
         return newCreated.then(
-          agent => {
+          (agent) => {
             // no need register instance with domain
             // if (agent === target) {
             //   RememberDomain(instance, this);
@@ -212,7 +213,7 @@ export class InMemoryDomain extends Domain implements Disposable {
             // InitializeDomainAgent(type, newCreatedAgent);
             return agent;
           },
-          err => {
+          (err) => {
             if (!transit) {
               this._incomingAgents.delete(type);
             }
@@ -345,7 +346,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     }
     this.disposing = true;
     for (const promise of this._incomingAgents.values()) {
-      promise.then(agent => {
+      promise.then((agent) => {
         if (typeof agent === 'object' && agent != null && typeof agent.dispose === 'function') {
           // only dispose the agent of current domain
           agent.dispose();

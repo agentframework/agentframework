@@ -55,10 +55,11 @@ export { InMemoryDomain } from './Domain/InMemoryDomain';
 export { InMemorySubDomain } from './Domain/InMemorySubDomain';
 
 export { Disposable } from './Domain/Helpers/Disposable';
-export { IsDisposable } from './Domain/Helpers/Disposable';
+// export { IsDisposable } from './Domain/Helpers/Disposable';
 
 /*************************************
  *   Unstable API
  *************************************/
 export { extensible } from './Domain/Decorators/extensible';
 // export { attribute } from './Domain/Decorators/attribute';
+// export { Test } from './Test';

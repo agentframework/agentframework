@@ -122,4 +122,5 @@ export { InMemorySubDomain } from '../src/domain/index';
 /************************************
  *    Internal uses
  ************************************/
+/* istanbul ignore next */
 export { __agent, __decorate, __metadata, __param } from '../src/core/index';
