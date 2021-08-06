@@ -1,4 +1,4 @@
-name: TypeScript CI on MacOS
+name: Node.js Tests on MacOS
 
 on: [push]
 

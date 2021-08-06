@@ -1,4 +1,4 @@
-name: TypeScript CI on Windows
+name: Node.js Tests on Windows
 
 on: [push]
 

@@ -1,4 +1,4 @@
-name: TypeScript CI on Ubuntu
+name: Node.js Tests on Ubuntu
 
 on: [push]
 
