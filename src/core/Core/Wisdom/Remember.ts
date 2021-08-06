@@ -16,7 +16,7 @@ limitations under the License. */
 import { define } from '../Helpers/Prototype';
 import { Wisdom } from './Wisdom';
 
-export function Remember<T>(container: Function, containerKey: string, type?: new () => T): T {
+export function Remember<T>(container: Function, containerKey: string, type?: new () => any): T {
   let map = Wisdom.get(Wisdom);
   const topic = container.name + '.' + containerKey;
   let value = map.get(topic);
