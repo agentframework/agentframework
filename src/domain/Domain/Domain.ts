@@ -29,7 +29,7 @@ export abstract class Domain implements DomainLike {
   /**
    * default constructor
    */
-  protected constructor() {
+  constructor() {
     RememberDomain(this, this);
   }
 

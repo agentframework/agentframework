@@ -1,15 +1,14 @@
 /* tslint:disable */
 
-import { Arguments, Interceptor, Invocation } from '../../../lib';
-import { OnDemandTypeInfo } from '../../../src/core/Core/Reflection/OnDemandTypeInfo';
+import { Arguments, Interceptor, Invocation, MemberKinds } from '../../../lib';
 
 export class AgentTrackerAttribute implements Interceptor {
   get interceptor(): Interceptor {
     return this;
   }
   intercept(target: Invocation, parameters: Arguments, receiver: any): any {
-    if (!(target.design instanceof OnDemandTypeInfo)) {
-      throw new Error('design is not a Type');
+    if ((target.design.kind & MemberKinds.Class) !== MemberKinds.Class) {
+      throw new Error('design is not a Type: ' + target.design.kind);
     }
     return target.invoke(parameters, receiver);
   }

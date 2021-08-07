@@ -22,21 +22,44 @@ import { CreateDomainAgent } from './Helpers/CreateDomainAgent';
 import { GetDomainAgent } from './Helpers/GetDomainAgent';
 // import { DomainKnowledge } from './DomainKnowledge';
 
+class InMemory {
+  static readonly _types = new WeakMap<object, Map<Function, any>>(); // type-type mapping
+  static readonly _agents = new WeakMap<object, Map<AgentReference, any>>(); // type-instance mapping
+  static readonly _incomingAgents = new WeakMap<object, Map<any, Promise<any>>>();
+
+  // type-agent mapping
+  static types(domain: Domain): Map<Function, any> {
+    let value = this._types.get(domain);
+    if (!value) {
+      value = new Map();
+      this._types.set(domain, value);
+    }
+    return value;
+  }
+
+  // type-instance mapping
+  static agents(domain: Domain): Map<AgentReference, any> {
+    let value = this._agents.get(domain);
+    if (!value) {
+      value = new Map();
+      this._agents.set(domain, value);
+    }
+    return value;
+  }
+
+  static incomingAgents(domain: Domain): Map<any, Promise<any>> {
+    let value = this._incomingAgents.get(domain);
+    if (!value) {
+      value = new Map();
+      this._incomingAgents.set(domain, value);
+    }
+    return value;
+  }
+}
 /**
  * In memory domain
  */
 export class InMemoryDomain extends Domain implements Disposable {
-  /**
-   *
-   */
-  constructor() {
-    super();
-    // these fields enumerable: false, configurable: false, writable: false
-    Reflect.defineProperty(this, '_types', { value: new Map() });
-    Reflect.defineProperty(this, '_agents', { value: new Map() });
-    Reflect.defineProperty(this, '_incomingAgents', { value: new Map() });
-  }
-
   /**
    * Return true if this domain disposed
    */
@@ -46,14 +69,6 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Return true if this domain disposing
    */
   disposing?: boolean;
-
-  // privates
-  /**
-   * Unique types in this domain
-   */
-  private readonly _types!: Map<Function, any>; // type-type mapping
-  private readonly _agents!: Map<AgentReference, any>; // type-instance mapping
-  private readonly _incomingAgents!: Map<any, Promise<any>>;
 
   /**
    * Domain name
@@ -73,7 +88,7 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Get agent of giving type, return undefined if don't have
    */
   getAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined {
-    return this._agents.get(identifier);
+    return InMemory.agents(this).get(identifier);
   }
 
   // /**
@@ -98,7 +113,7 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Get constructor for current type, return undefined if don't have
    */
   getType<T extends Function>(type: T): T | undefined {
-    return this._types.get(type);
+    return InMemory.types(this).get(type);
   }
 
   // /**
@@ -175,13 +190,14 @@ export class InMemoryDomain extends Domain implements Disposable {
    */
   resolve<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>> {
     try {
+      const _incomingAgents = InMemory.incomingAgents(this);
       const register = !transit;
       if (register) {
         const exists = this.getAgent(target);
         if (exists !== undefined) {
           return Promise.resolve(exists);
         }
-        const pending = this._incomingAgents.get(target);
+        const pending = _incomingAgents.get(target);
         if (pending) {
           return <Promise<Agent<T>>>pending;
         }
@@ -198,7 +214,7 @@ export class InMemoryDomain extends Domain implements Disposable {
 
       if (IsPromise<Agent<T>>(newCreated)) {
         if (register) {
-          this._incomingAgents.set(type, newCreated);
+          _incomingAgents.set(type, newCreated);
         }
         return newCreated.then(
           (agent) => {
@@ -208,14 +224,14 @@ export class InMemoryDomain extends Domain implements Disposable {
             // }
             if (register) {
               this.addAgent(type, agent);
-              this._incomingAgents.delete(type);
+              _incomingAgents.delete(type);
             }
             // InitializeDomainAgent(type, newCreatedAgent);
             return agent;
           },
           (err) => {
             if (!transit) {
-              this._incomingAgents.delete(type);
+              _incomingAgents.delete(type);
             }
             throw err;
           }
@@ -242,8 +258,9 @@ export class InMemoryDomain extends Domain implements Disposable {
    */
   addType<T extends object>(type: Class<T>): void {
     let ctor: Function | null | undefined = type;
-    while (ctor && !this._types.has(ctor) && Function.prototype !== ctor) {
-      this._types.set(ctor, type);
+    const types = InMemory.types(this);
+    while (ctor && !types.has(ctor) && Function.prototype !== ctor) {
+      types.set(ctor, type);
       ctor = Reflect.getPrototypeOf(ctor) as Function;
     }
   }
@@ -252,14 +269,15 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Add an agent
    */
   addAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void {
+    const _agents = InMemory.agents(this);
     if (typeof identifier === 'function') {
       let ctor: Function | null | undefined = identifier;
-      while (ctor && !this._agents.has(ctor) && Function.prototype !== ctor) {
-        this._agents.set(ctor, agent);
+      while (ctor && !_agents.has(ctor) && Function.prototype !== ctor) {
+        _agents.set(ctor, agent);
         ctor = Reflect.getPrototypeOf(ctor) as Function;
       }
     } else {
-      this._agents.set(identifier, agent);
+      _agents.set(identifier, agent);
     }
   }
 
@@ -268,7 +286,7 @@ export class InMemoryDomain extends Domain implements Disposable {
    */
   setType<T extends object>(type: Class<T>, replacement: Class<T>): void {
     // this._types.add(replacement);
-    this._types.set(type, replacement);
+    InMemory.types(this).set(type, replacement);
   }
 
   // /**
@@ -290,7 +308,7 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Set agent instance
    */
   setAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void {
-    this._agents.set(identifier, agent);
+    InMemory.agents(this).set(identifier, agent);
   }
 
   // /**
@@ -310,15 +328,16 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Delete type mapping for giving type
    */
   removeType<T extends object>(type: Class<T>): void {
-    this._types.delete(type);
+    InMemory.types(this).delete(type);
   }
 
   /**
    * Delete agent. do nothing if agent not match
    */
   removeAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): boolean {
-    if (this._agents.has(identifier) && this._agents.get(identifier) === agent) {
-      this._agents.delete(identifier);
+    const _agents = InMemory.agents(this);
+    if (_agents.has(identifier) && _agents.get(identifier) === agent) {
+      _agents.delete(identifier);
       // do not dispose because this agent may used by others
       return true;
     }
@@ -344,8 +363,10 @@ export class InMemoryDomain extends Domain implements Disposable {
     if (this.disposed) {
       return;
     }
+    const _incomingAgents = InMemory.incomingAgents(this);
+    const _agents = InMemory.agents(this);
     this.disposing = true;
-    for (const promise of this._incomingAgents.values()) {
+    for (const promise of _incomingAgents.values()) {
       promise.then((agent) => {
         if (typeof agent === 'object' && agent != null && typeof agent.dispose === 'function') {
           // only dispose the agent of current domain
@@ -353,15 +374,15 @@ export class InMemoryDomain extends Domain implements Disposable {
         }
       });
     }
-    for (const agent of this._agents.values()) {
+    for (const agent of _agents.values()) {
       if (typeof agent === 'object' && agent != null && typeof agent.dispose === 'function') {
         //  only dispose the agent of current domain
         agent.dispose();
       }
     }
-    this._incomingAgents.clear();
-    this._agents.clear();
-    this._types.clear();
+    _incomingAgents.clear();
+    _agents.clear();
+    InMemory.types(this).clear();
     this.disposed = true;
   }
 }

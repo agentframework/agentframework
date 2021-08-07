@@ -3,7 +3,6 @@
 import { AgentFrameworkError, decorateMember, Reflector } from '../../../lib';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
-import { OnDemandTypeInfo } from '../../../src/core/Core/Reflection/OnDemandTypeInfo';
 
 class MongoDB {
   @decorateMember(new RandomInterceptor())
@@ -25,7 +24,7 @@ describe('Reflection get metadata ', () => {
   describe('# should no able to', () => {
     it('new Reflector', () => {
       const fn: any = Reflector;
-      expect(new fn(MongoDB)).toBeInstanceOf(OnDemandTypeInfo);
+      expect(new fn(MongoDB).constructor.name).toBe('OnDemandTypeInfo');
     });
 
     it('Reflector number', () => {

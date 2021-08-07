@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { IsAgent, Reflector, decorateClass, AgentFrameworkError } from '../../../lib';
+import { IsAgent, Reflector, decorateClass } from '../../../lib';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
 import { AgentAttribute, CreateAgent } from '../../../src/core';
 
@@ -36,9 +36,6 @@ class MySQL {
   }
 }
 
-const Redis = (function() {
-  return class {};
-})();
 
 describe('Decorate Agent', () => {
   describe('# MongoDB should able to', () => {
@@ -64,11 +61,7 @@ describe('Decorate Agent', () => {
       expect(Reflect.getPrototypeOf(db)).toBe(MongoDB.prototype);
     });
 
-    it('new instance without name', () => {
-      expect(() => {
-        CreateAgent(Redis);
-      }).toThrowError(AgentFrameworkError, 'InvalidClassName');
-    });
+
 
     it('construct instance', () => {
       const db = Reflect.construct(MongoDB, []);

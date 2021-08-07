@@ -1,7 +1,6 @@
 /* tslint:disable */
 
-import { Arguments, Attribute, Interceptor, Invocation } from '../../../lib';
-import { OnDemandPropertyInfo } from '../../../src/core/Core/Reflection/OnDemandPropertyInfo';
+import { Arguments, Attribute, Interceptor, Invocation  } from '../../../lib';
 
 export class BeforeRoundAttribute implements Attribute, Interceptor {
   beforeDecorate(
@@ -15,7 +14,7 @@ export class BeforeRoundAttribute implements Attribute, Interceptor {
   intercept(target: Invocation, parameters: Arguments, receiver: any): any {
     if (target.design) {
       // console.log('design', target.design)
-      expect(target.design instanceof OnDemandPropertyInfo).toBeTruthy();
+      expect(target.design.constructor.name).toBe('OnDemandPropertyInfo');
     } else {
       expect(target.design).toBeUndefined();
     }
