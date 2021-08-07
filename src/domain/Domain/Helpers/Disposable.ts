@@ -29,9 +29,9 @@ export interface Disposable {
   dispose?(): void;
 }
 
-export function IsDisposable(type: undefined | Disposable): type is object & Disposable {
-  if (type && typeof type === 'object' && type['dispose'] && typeof type['dispose'] === 'function') {
-    return true;
-  }
-  return false;
-}
+// export function IsDisposable(type: undefined | Disposable): type is object & Disposable {
+//   if (type && typeof type === 'object' && type['dispose'] && typeof type['dispose'] === 'function') {
+//     return true;
+//   }
+//   return false;
+// }

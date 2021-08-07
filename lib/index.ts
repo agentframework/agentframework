@@ -80,6 +80,14 @@ export { interceptable } from '../src/core/index';
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/core/index';
 
 /*************************************
+ *   Create Agent
+ *************************************/
+import { CreateAgent as CreateAgentInternal } from '../src/core/index';
+export function CreateAgent<T extends Function>(type: T): T {
+  return CreateAgentInternal(type);
+}
+
+/*************************************
  *   Domain
  *************************************/
 export { DomainLike } from '../src/domain/index';

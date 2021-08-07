@@ -101,6 +101,9 @@ export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } f
 // export { decorateMethodParameter } from './Core/Decorator/decorateClassMethodParameter';
 // export { decorateConstructorParameter } from './Core/Decorator/decorateClassConstructorParameter';
 
+/************************************
+ *    Internal uses
+ ************************************/
 export { CreateAgent } from './Core/Agent/CreateAgent';
 export { AgentAttribute } from './Core/Agent/AgentAttribute';
 export { Remember } from './Core/Wisdom/Remember';

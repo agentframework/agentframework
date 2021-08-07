@@ -16,14 +16,14 @@ limitations under the License. */
 import { define } from '../Helpers/Prototype';
 import { Wisdom } from './Wisdom';
 
-export function Remember<T>(container: Function, key: string, type?: new () => any): T {
+export function Remember<T>(agent: Function, key: string, type?: new () => any): T {
   let map = Wisdom.get(Wisdom);
-  const topic = container.name + '.' + key;
+  const topic = agent.name + '.' + key;
   let value = map.get(topic);
   /* istanbul ignore next */
   if (!value) {
     map.set(topic, (value = Reflect.construct(type || WeakMap, [])));
   }
-  define(container, key, { value });
+  define(agent, key, { value });
   return value;
 }
