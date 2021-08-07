@@ -1,5 +1,11 @@
 # Agent Framework 2.0.x ChangeLog
 
+## 2021-08-07, Version 2.0.0-dev.20210807, @e2tox
+
+**Notable Changes**
+
+-   Fix a bug that `OnDemandPropertyInfo.type` return incorrect value.
+
 ## 2021-08-06, Version 2.0.0-dev.20210806, @e2tox
 
 **Notable Changes**
