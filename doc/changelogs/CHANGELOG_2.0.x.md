@@ -1,5 +1,13 @@
 # Agent Framework 2.0.x ChangeLog
 
+
+## 2021-08-07, Version 2.0.0-rc.20210807
+
+**Notable Changes**
+
+-	Fix a bug that cause Reflector not working
+
+
 ## 2021-08-07, Version 2.0.0-dev.20210807, @e2tox
 
 **Notable Changes**
