@@ -123,4 +123,3 @@ export { InMemorySubDomain } from '../src/domain/index';
  *    Internal uses
  ************************************/
 export { __agent, __decorate, __metadata, __param } from '../src/core/index';
-// export * from '../release/lib/index.js'
