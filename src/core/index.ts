@@ -17,16 +17,22 @@ limitations under the License. */
 /*************************************
  *   Common
  *************************************/
-export { Arguments } from './Core/Interfaces/Arguments';
 export { AgentFrameworkError } from './Core/Error/AgentFrameworkError';
+export { Arguments } from './Core/Interfaces/Arguments';
 export { Class } from './Core/Class';
 
 /*************************************
- *   AOP
+ *   Metadata Interface
  *************************************/
+export { MemberInfo } from './Core/Interfaces/MemberInfo';
+export { PropertyInfo } from './Core/Interfaces/PropertyInfo';
+export { TypeInfo } from './Core/Interfaces/TypeInfo';
+export { ParameterInfo } from './Core/Interfaces/ParameterInfo';
+export { Filter } from './Core/Interfaces/Filter';
+
 export { Invocation } from './Core/Interfaces/Invocation';
 export { Interceptor } from './Core/Interfaces/Interceptor';
-export { Interceptable } from './Core/Interfaces/Interceptable';
+export { Attribute } from './Core/Interfaces/Attribute';
 
 export { ClassInvocation } from './Core/Interfaces/TypeInvocations';
 export { ClassInterceptor } from './Core/Interfaces/TypeInterceptors';
@@ -41,9 +47,8 @@ export { PropertyInterceptor } from './Core/Interfaces/TypeInterceptors';
 export { PropertyAttribute } from './Core/Interfaces/TypeAttributes';
 
 /*************************************
- *   Annotation
+ *   Metadata API
  *************************************/
-export { Attribute } from './Core/Interfaces/Attribute';
 export { MemberKinds } from './Core/Interfaces/MemberKinds';
 
 export { decorate } from './Core/Decorator/decorate';
@@ -51,15 +56,6 @@ export { decorateClass } from './Core/Decorator/decorateClass';
 export { decorateAgent } from './Core/Decorator/decorateAgent';
 export { decorateMember } from './Core/Decorator/decorateMember';
 export { decorateParameter } from './Core/Decorator/decorateParameter';
-
-/*************************************
- *   Reflection
- *************************************/
-export { MemberInfo } from './Core/Interfaces/MemberInfo';
-export { PropertyInfo } from './Core/Interfaces/PropertyInfo';
-export { TypeInfo } from './Core/Interfaces/TypeInfo';
-export { ParameterInfo } from './Core/Interfaces/ParameterInfo';
-export { Filter } from './Core/Interfaces/Filter';
 
 export { Reflector } from './Core/Reflector';
 
@@ -70,18 +66,27 @@ export { IsAgent } from './Core/Helpers/AgentHelper';
 export { GetAgentType } from './Core/Helpers/AgentHelper';
 
 /*************************************
- *   Static Interceptor
- *************************************/
-export { interceptable } from './Core/Agent/interceptable';
-
-/*************************************
  *   Custom Interceptor
  *************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from './Core/Helpers/CustomInterceptor';
 
+/************************************
+ *    Custom Helpers
+ ************************************/
+export { __decorate, __agent, __metadata, __param } from './Core/Wisdom/Wisdom';
+
 /*************************************
  *   Unstable API
  *************************************/
+export { CreateAgent } from './Core/Agent/CreateAgent';
+export { AgentAttribute } from './Core/Agent/AgentAttribute';
+export { Remember } from './Core/Wisdom/Remember';
+export { AddAttributeToClass } from './Core/Wisdom/AddAttribute';
+
+/*************************************
+ *   Unstable API: Static Interceptor
+ *************************************/
+export { interceptable } from './Core/Agent/interceptable';
 // export { Decorator, ClassDecorator, PropertyDecorator, ParameterDecorator } from './Core/Decorator/decorators';
 // export { NotImplementedError } from './Core/Error/NotImplementedError';
 // export { NotSupportedError } from './Core/Error/NotSupportedError';
@@ -100,11 +105,3 @@ export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } f
 // export { decorateGetter } from './Core/Decorator/decorateClassGetter';
 // export { decorateMethodParameter } from './Core/Decorator/decorateClassMethodParameter';
 // export { decorateConstructorParameter } from './Core/Decorator/decorateClassConstructorParameter';
-
-/************************************
- *    Internal uses
- ************************************/
-export { CreateAgent } from './Core/Agent/CreateAgent';
-export { AgentAttribute } from './Core/Agent/AgentAttribute';
-export { Remember } from './Core/Wisdom/Remember';
-export { __decorate, __agent, __metadata, __param } from './Core/Wisdom/Wisdom';

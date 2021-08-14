@@ -1,4 +1,4 @@
-import { InMemoryDomain, Domain, initializable, ClassInitializer, Initializer } from '../../../lib';
+import { InMemoryDomain, Domain, ClassInitializer, Initializer } from '../../../lib';
 import { Arguments, ClassInvocation } from '../../../lib';
 import { CreateAgent } from '../../../src/core';
 
@@ -6,7 +6,7 @@ describe('6.1. @initializable decorator', () => {
   describe('# should able to', () => {
     it('create static initializable agent', () => {
       const domain = new InMemoryDomain();
-      @initializable()
+
       class App611 {
         public name1: string | undefined;
         static [ClassInitializer](domain: Domain, target: ClassInvocation, params: Arguments, receiver: typeof App611) {
@@ -43,7 +43,6 @@ describe('6.1. @initializable decorator', () => {
         }
       }
 
-      @initializable()
       class App612 extends Base612 {
         name: string | undefined;
         [Initializer]() {
@@ -58,7 +57,6 @@ describe('6.1. @initializable decorator', () => {
         }
       }
 
-      @initializable()
       class Service612 extends ServiceBase612 {
         name: string | undefined;
         [Initializer]() {
@@ -87,7 +85,7 @@ describe('6.1. @initializable decorator', () => {
     });
 
     it('create async initializable agent', async () => {
-      @initializable()
+      // @initializable()
       class Root613 {
         root: string | undefined;
         [Initializer]() {
@@ -130,7 +128,7 @@ describe('6.1. @initializable decorator', () => {
 
     it('create class without initializer', () => {
       const domain = new InMemoryDomain();
-      @initializable()
+      // @initializable()
       class App614 {
         name: string | undefined = 'App614';
       }
@@ -143,7 +141,7 @@ describe('6.1. @initializable decorator', () => {
 
     it('create slow static initializable agent', async () => {
       const domain = new InMemoryDomain();
-      @initializable()
+      // @initializable()
       class App615 {
         public name1: string | undefined;
         static [ClassInitializer](domain: Domain, target: ClassInvocation, params: Arguments, receiver: typeof App615) {
@@ -168,7 +166,7 @@ describe('6.1. @initializable decorator', () => {
 
     it('create slow static initializable agent after dispose', async () => {
       const domain = new InMemoryDomain();
-      @initializable()
+      // @initializable()
       class App616 {
         public name1: string | undefined;
         static [ClassInitializer](domain: Domain, target: ClassInvocation, params: Arguments, receiver: typeof App616) {
@@ -198,7 +196,7 @@ describe('6.1. @initializable decorator', () => {
   describe('# should not able to', () => {
     it('create invalid class initializer  agent', () => {
       const domain = new InMemoryDomain();
-      @initializable()
+      // @initializable()
       class App612 {
         name: string | undefined;
         static [ClassInitializer] = {};

@@ -12,12 +12,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AgentFrameworkError, ClassAttribute, CreateAgent } from '../../../dependencies/core';
+import { AddAttributeToClass, AgentFrameworkError, ClassAttribute, CreateAgent } from '../../../dependencies/core';
 import { DomainAgentAttribute } from '../Attributes/DomainAgentAttribute';
 import { Domain } from '../Domain';
 import { GetDomain } from './GetDomain';
 import { RememberDomain } from './RememberDomain';
 import { RememberDomainAgent } from './RememberDomainAgent';
+import { ClassInitializer, Initializer } from '../Symbols';
+import { InitializableAttribute } from '../Attributes/InitializableAttribute';
 
 export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, strategy?: ClassAttribute): T {
   // check owner domain
@@ -40,6 +42,10 @@ export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, s
   //   debugger;
   //   console.log('<< CREATE >>', domain.constructor.name, '====>', type.name);
   // }
+  // implement domain agent features: initializable
+  if (type[ClassInitializer] || type.prototype[Initializer]) {
+    AddAttributeToClass(new InitializableAttribute(), type.prototype);
+  }
 
   const createAgentStrategy =
     strategy ||

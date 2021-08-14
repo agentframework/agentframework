@@ -134,7 +134,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
           throw new AgentFrameworkError('InvalidTarget');
         }
 
-        // 2. find the proxy class
+        // 2. find the proxy class (at least 1 proxy)
         const proxies = FindExtendedClass(target, newTarget);
 
         // quick check, ignore if keys are been declared

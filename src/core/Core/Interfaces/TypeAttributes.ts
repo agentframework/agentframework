@@ -19,24 +19,24 @@ import { ClassInterceptor, ParameterInterceptor, PropertyInterceptor } from './T
  * Attribute applies to class
  */
 export interface ClassAttribute extends Attribute {
-  readonly interceptor?: ClassInterceptor;
   beforeDecorate?(target: Function): boolean;
+  readonly interceptor?: ClassInterceptor;
 }
 
 /**
  *
  */
 export interface PropertyAttribute extends Attribute {
-  readonly interceptor?: PropertyInterceptor;
   beforeDecorate?(target: object, key: string | symbol): boolean;
+  readonly interceptor?: PropertyInterceptor;
 }
 
 /**
  * Attribute applies to class parameter
  */
 export interface ParameterAttribute extends Attribute {
-  readonly interceptor?: ParameterInterceptor;
   beforeDecorate?(target: Function, key: undefined, index: number): boolean;
+  readonly interceptor?: ParameterInterceptor;
 }
 //
 // /**

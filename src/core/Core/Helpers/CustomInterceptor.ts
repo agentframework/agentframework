@@ -19,11 +19,7 @@ import { Interceptors } from '../Knowledge';
 /**
  * Set custom interceptor for giving type of attribute
  */
-export function SetCustomInterceptor(
-  type: Function,
-  custom: Function,
-  meta?: unknown
-): void {
+export function SetCustomInterceptor(type: Function, custom: Function, meta?: unknown): void {
   Interceptors.v1.set(type, [custom, meta]);
 }
 

@@ -18,7 +18,6 @@ import { DirectParameterInvocation } from './DirectParameterInvocation';
 import { ChainFactory } from '../Factory/ChainFactory';
 import { PropertyInfo } from '../../Interfaces/PropertyInfo';
 import { define } from '../../Helpers/Prototype';
-import { Interceptable } from '../../Interfaces/Interceptable';
 import { HasInterceptor } from '../../Helpers/CustomInterceptor';
 
 /**
@@ -54,7 +53,7 @@ export class ParameterInterceptor implements Interceptor {
     const parameters = this.property.getParameters();
     for (const parameter of parameters) {
       const idx = parameter.index;
-      const interceptors = parameter.findOwnAttributes<Interceptable>(HasInterceptor);
+      const interceptors = parameter.findOwnAttributes(HasInterceptor);
       if (interceptors.length) {
         const origin = new DirectParameterInvocation(parameter);
         invocations.set(idx, ChainFactory.chainInterceptorAttributes(origin, interceptors));

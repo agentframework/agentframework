@@ -14,10 +14,11 @@ limitations under the License. */
 
 import { Invocation } from '../../Interfaces/Invocation';
 // import { IInitializerAttribute } from '../../Interfaces/IInitializerAttribute';
-import { Interceptable } from '../../Interfaces/Interceptable';
 // import { InitializerInvocation } from '../Invocation/InitializerInvocation';
 import { InterceptorInvocation } from '../Invocation/InterceptorInvocation';
 import { GetInterceptor } from '../../Helpers/CustomInterceptor';
+import { Attribute } from '../../Interfaces/Attribute';
+
 
 /**
  *
@@ -43,7 +44,7 @@ export class ChainFactory {
    * @ignore
    * @hidden
    */
-  static chainInterceptorAttributes(origin: Invocation, interceptors: Array<Interceptable>): Invocation {
+  static chainInterceptorAttributes(origin: Invocation, interceptors: Array<Attribute>): Invocation {
     // make invocation chain of interceptors
     if (interceptors.length) {
       for (const attribute of interceptors) {

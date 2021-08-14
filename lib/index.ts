@@ -22,11 +22,17 @@ export { Arguments } from '../src/core/index';
 export { Class } from '../src/core/index';
 
 /*************************************
- *   AOP
+ *   Metadata Interface
  *************************************/
+export { MemberInfo } from '../src/core/index';
+export { PropertyInfo } from '../src/core/index';
+export { TypeInfo } from '../src/core/index';
+export { ParameterInfo } from '../src/core/index';
+export { Filter } from '../src/core/index';
+
 export { Invocation } from '../src/core/index';
 export { Interceptor } from '../src/core/index';
-export { Interceptable } from '../src/core/index';
+export { Attribute } from '../src/core/index';
 
 export { ClassInvocation } from '../src/core/index';
 export { ClassInterceptor } from '../src/core/index';
@@ -41,9 +47,8 @@ export { PropertyInterceptor } from '../src/core/index';
 export { PropertyAttribute } from '../src/core/index';
 
 /*************************************
- *   Annotation
+ *   Metadata API
  *************************************/
-export { Attribute } from '../src/core/index';
 export { MemberKinds } from '../src/core/index';
 
 export { decorate } from '../src/core/index';
@@ -51,15 +56,6 @@ export { decorateClass } from '../src/core/index';
 export { decorateAgent } from '../src/core/index';
 export { decorateMember } from '../src/core/index';
 export { decorateParameter } from '../src/core/index';
-
-/*************************************
- *   Reflection
- *************************************/
-export { MemberInfo } from '../src/core/index';
-export { PropertyInfo } from '../src/core/index';
-export { TypeInfo } from '../src/core/index';
-export { ParameterInfo } from '../src/core/index';
-export { Filter } from '../src/core/index';
 
 export { Reflector } from '../src/core/index';
 
@@ -70,22 +66,14 @@ export { IsAgent } from '../src/core/index';
 export { GetAgentType } from '../src/core/index';
 
 /*************************************
- *   Static Interceptor
- *************************************/
-export { interceptable } from '../src/core/index';
-
-/*************************************
  *   Custom Interceptor
  *************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/core/index';
 
-/*************************************
- *   Create Agent
- *************************************/
-import { CreateAgent as CreateAgentInternal } from '../src/core/index';
-export function CreateAgent<T extends Function>(type: T): T {
-  return CreateAgentInternal(type);
-}
+/************************************
+ *    Custom Helpers
+ ************************************/
+export { __agent, __decorate, __metadata, __param } from '../src/core/index';
 
 /*************************************
  *   Domain
@@ -104,7 +92,7 @@ export { IsDomain } from '../src/domain/index';
 export { SingletonAttribute } from '../src/domain/index';
 export { TransitAttribute } from '../src/domain/index';
 export { InjectAttribute } from '../src/domain/index';
-export { initializable } from '../src/domain/index';
+// export { initializable } from '../src/domain/index';
 export { singleton } from '../src/domain/index';
 export { transit } from '../src/domain/index';
 export { inject } from '../src/domain/index';
@@ -126,8 +114,3 @@ export { AgentReference, Params, Agent } from '../src/domain/index';
  *************************************/
 export { InMemoryDomain } from '../src/domain/index';
 export { InMemorySubDomain } from '../src/domain/index';
-
-/************************************
- *    Internal uses
- ************************************/
-export { __agent, __decorate, __metadata, __param } from '../src/core/index';

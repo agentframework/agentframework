@@ -50,7 +50,7 @@ export class InitializableAttribute implements ClassInterceptor {
           },
           invoke(params: Arguments, receiver: any): any {
             const instance = target.invoke(params, receiver);
-            // after create instance
+            // after create instance, call custom Initializer
             const initializers = FindInitializers(type);
             if (initializers.length) {
               for (const layer of initializers) {
@@ -80,12 +80,11 @@ export class InitializableAttribute implements ClassInterceptor {
       // console.log('call target.invoke');
       instance = target.invoke(params, receiver);
 
-      // after create instance
+      // after create instance, call custom Initializer
       const initializers = FindInitializers(type);
-      if (initializers.length) {
-        for (const layer of initializers) {
-          Reflect.apply(layer[0], instance, params);
-        }
+      // no need check length here because length here always >= 1
+      for (const layer of initializers) {
+        Reflect.apply(layer[0], instance, params);
       }
     }
 

@@ -22,11 +22,11 @@ limitations under the License. */
 //   return CreateAgent(target);
 // }
 
-import { Reflector } from '../../../dependencies/core';
 import { CreateDomainAgent } from '../Helpers/CreateDomainAgent';
 import { GetSystemDomain } from '../Helpers/GetSystemDomain';
 import { GetDomainAgent } from '../Helpers/GetDomainAgent';
 import { RegisterDomainAgentAttribute } from '../Attributes/RegisterDomainAgentAttribute';
+import { AddAttributeToClass } from '../../../dependencies/core';
 
 /**
  * Define an agent
@@ -39,7 +39,7 @@ export function agent(): ClassDecorator {
     if (found) {
       return found;
     }
-    Reflector(type).addAttribute(new RegisterDomainAgentAttribute(domain));
+    AddAttributeToClass(new RegisterDomainAgentAttribute(domain), type.prototype);
     domain.addType(<any>type);
     return CreateDomainAgent(domain, type);
   };

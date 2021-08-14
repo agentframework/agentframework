@@ -31,7 +31,7 @@ export { IsDomain } from './Domain/Helpers/IsDomain';
 export { SingletonAttribute } from './Domain/Attributes/SingletonAttribute';
 export { TransitAttribute } from './Domain/Attributes/TransitAttribute';
 export { InjectAttribute } from './Domain/Attributes/InjectAttribute';
-export { initializable } from './Domain/Decorators/initializable';
+// export { initializable } from './Domain/Decorators/initializable';
 export { singleton } from './Domain/Decorators/singleton';
 export { transit } from './Domain/Decorators/transit';
 export { inject } from './Domain/Decorators/inject';
@@ -54,12 +54,12 @@ export { AgentReference, Params, Agent } from './Domain/Agent';
 export { InMemoryDomain } from './Domain/InMemoryDomain';
 export { InMemorySubDomain } from './Domain/InMemorySubDomain';
 
-export { Disposable } from './Domain/Helpers/Disposable';
-// export { IsDisposable } from './Domain/Helpers/Disposable';
 
 /*************************************
  *   Unstable API
  *************************************/
+export { Disposable } from './Domain/Helpers/Disposable';
+// export { IsDisposable } from './Domain/Helpers/Disposable';
 export { extensible } from './Domain/Decorators/extensible';
 // export { attribute } from './Domain/Decorators/attribute';
 // export { Test } from './Test';
