@@ -41,14 +41,12 @@ export function FindInitializers(target: Function): Array<[Function, Function]> 
   // console.log('map', target.name, map);
 
   // make cache for next calls
-  if (found.length) {
-    const cache = new Array<[Function, Function]>();
-    for (const layer of found) {
-      const type = layer[1];
-      cache.push(layer);
-      if (!initializers.has(type)) {
-        initializers.set(type, cache.slice());
-      }
+  const cache = new Array<[Function, Function]>();
+  for (const layer of found) {
+    const type = layer[1];
+    cache.push(layer);
+    if (!initializers.has(type)) {
+      initializers.set(type, cache.slice());
     }
   }
 

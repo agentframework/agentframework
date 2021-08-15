@@ -53,15 +53,10 @@ describe('6.1. @initializable decorator', () => {
       }
 
       class ServiceBase612 extends Base612 {
-        serviceBase: string | undefined;
-        [Initializer]() {
-          this.serviceBase = 'ServiceBase612$';
-          this.name = this.serviceBase;
-        }
+        service: string | undefined;
       }
 
       class Service612 extends ServiceBase612 {
-        service: string | undefined;
         [Initializer]() {
           this.service = 'Service612$';
           this.name = this.service;
@@ -79,7 +74,6 @@ describe('6.1. @initializable decorator', () => {
       expect(svc1).toBeInstanceOf(Service612);
       expect(svc1.root).toBe('Root612$');
       expect(svc1.base).toBe('Base612$');
-      expect(svc1.serviceBase).toBe('ServiceBase612$');
       expect(svc1.service).toBe('Service612$');
       expect(svc1.name).toBe('Service612$');
 
@@ -96,7 +90,6 @@ describe('6.1. @initializable decorator', () => {
 
       expect(svc2.root).toBe('Root612$');
       expect(svc2.base).toBe('Base612$');
-      expect(svc2.serviceBase).toBe('ServiceBase612$');
       expect(svc2.service).toBe('Service612$');
       expect(svc2.name).toBe('Service612$');
 
