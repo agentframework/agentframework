@@ -44,7 +44,7 @@ install:
 
 script:
   - yarn run build
-  - yarn run coverage
+  - yarn run test:coverage
 
 after_script:
   - npm i coveralls@2
