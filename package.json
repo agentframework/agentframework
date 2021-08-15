@@ -9,14 +9,10 @@
   "description": "TypeScript that scales",
   "scripts": {
     "cov": "npm run test:coverage && npm run report",
-    "cov:e2e": "npm run test:coverage:e2e && npm run report",
     "dev": "tsmon tools/jasmine.ts --config=tools/jasmine.json",
-    "dev:e2e": "tsmon tools/jasmine.ts --config=tools/jasmine.e2e.json",
     "build": "tsc --noEmit",
     "test": "ts-node tools/jasmine.ts --config=tools/jasmine.json",
-    "test:e2e": "ts-node tools/jasmine.ts --config=tools/jasmine.e2e.json",
     "test:coverage": "nyc npm run test",
-    "test:coverage:e2e": "nyc npm run test:e2e",
     "report": "open coverage/lcov-report/index.html"
   },
   "repository": {
