@@ -1,6 +1,12 @@
 # Agent Framework 2.0.x ChangeLog
 
-## 2021-08-14, Version 2.0.0-dev.20210815
+## 2021-08-16, Version 2.0.0-rc
+
+**Notable Changes**
+
+-   Remove unstable code
+
+## 2021-08-15, Version 2.0.0-dev.20210815
 
 **Notable Changes**
 
