@@ -19,7 +19,8 @@ import { GetDomain } from './GetDomain';
 import { RememberDomain } from './RememberDomain';
 import { RememberDomainAgent } from './RememberDomainAgent';
 import { ClassInitializer, Initializer } from '../Symbols';
-import { InitializableAttribute } from '../Attributes/InitializableAttribute';
+import { InitializerAttribute } from '../Attributes/InitializerAttribute';
+import { ClassInitializerAttribute } from '../Attributes/ClassInitializerAttribute';
 
 export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, strategy?: ClassAttribute): T {
   // check owner domain
@@ -42,9 +43,15 @@ export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, s
   //   debugger;
   //   console.log('<< CREATE >>', domain.constructor.name, '====>', type.name);
   // }
-  // implement domain agent features: initializable
-  if (type[ClassInitializer] || type.prototype[Initializer]) {
-    AddAttributeToClass(new InitializableAttribute(), type.prototype);
+
+  // NOTE: Design pattern: Custom method
+  if (Reflect.has(type.prototype, Initializer)) {
+    // InitializerAttribute must before ClassInitializerAttribute
+    AddAttributeToClass(new InitializerAttribute(), type.prototype);
+  }
+  // NOTE: Design pattern: Factory method
+  if (Reflect.has(type, ClassInitializer)) {
+    AddAttributeToClass(new ClassInitializerAttribute(), type.prototype);
   }
 
   const createAgentStrategy =

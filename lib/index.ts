@@ -76,17 +76,6 @@ export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } f
 export { __agent, __decorate, __metadata, __param } from '../src/core/index';
 
 /*************************************
- *   Domain
- *************************************/
-export { DomainLike } from '../src/domain/index';
-export { Domain } from '../src/domain/index';
-export { SubDomainLike } from '../src/domain/index';
-
-export { GetDomain } from '../src/domain/index';
-export { GetSystemDomain } from '../src/domain/index';
-export { IsDomain } from '../src/domain/index';
-
-/*************************************
  *   Dependence Injection
  *************************************/
 export { SingletonAttribute } from '../src/domain/index';
@@ -99,15 +88,22 @@ export { inject } from '../src/domain/index';
 export { agent } from '../src/domain/index';
 
 /*************************************
+ *   Domain
+ *************************************/
+export { AgentReference, Params, Agent } from '../src/domain/index';
+export { DomainLike } from '../src/domain/index';
+export { Domain } from '../src/domain/index';
+export { SubDomainLike } from '../src/domain/index';
+
+export { GetDomain } from '../src/domain/index';
+export { GetSystemDomain } from '../src/domain/index';
+export { IsDomain } from '../src/domain/index';
+
+/*************************************
  *   Factory Method
  *************************************/
 export { Initializer } from '../src/domain/index';
 export { ClassInitializer } from '../src/domain/index';
-
-/*************************************
- *   Class
- *************************************/
-export { AgentReference, Params, Agent } from '../src/domain/index';
 
 /*************************************
  *   In Memory Domain Implementation

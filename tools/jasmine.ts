@@ -1,5 +1,5 @@
-declare function require(name: string): any;
-declare const process: any;
+// declare function require(name: string): any;
+// declare const process: any;
 
 // require('reflect-metadata');
 const fs = require('fs');

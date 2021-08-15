@@ -30,9 +30,11 @@ describe('6.1. @initializable decorator', () => {
 
     it('create initializable agent', () => {
       class Root612 {
+        name: string | undefined;
         root: string | undefined;
         [Initializer]() {
-          this.root = 'Base612$';
+          this.root = 'Root612$';
+          this.name = this.root;
         }
       }
 
@@ -40,56 +42,76 @@ describe('6.1. @initializable decorator', () => {
         base: string | undefined;
         [Initializer]() {
           this.base = 'Base612$';
+          this.name = this.base;
         }
       }
 
       class App612 extends Base612 {
-        name: string | undefined;
         [Initializer]() {
           this.name = 'App612$';
         }
       }
 
       class ServiceBase612 extends Base612 {
-        base: string | undefined;
+        serviceBase: string | undefined;
         [Initializer]() {
-          this.base = 'SericeBase612$';
+          this.serviceBase = 'ServiceBase612$';
+          this.name = this.serviceBase;
         }
       }
 
       class Service612 extends ServiceBase612 {
-        name: string | undefined;
+        service: string | undefined;
         [Initializer]() {
-          this.name = 'Service612$';
+          this.service = 'Service612$';
+          this.name = this.service;
         }
       }
       const domain = new InMemoryDomain();
 
       const app1 = domain.construct(App612);
       expect(app1).toBeInstanceOf(App612);
+      expect(app1.root).toBe('Root612$');
+      expect(app1.base).toBe('Base612$');
       expect(app1.name).toBe('App612$');
 
       const svc1 = domain.construct(Service612);
       expect(svc1).toBeInstanceOf(Service612);
+      expect(svc1.root).toBe('Root612$');
+      expect(svc1.base).toBe('Base612$');
+      expect(svc1.serviceBase).toBe('ServiceBase612$');
+      expect(svc1.service).toBe('Service612$');
       expect(svc1.name).toBe('Service612$');
 
       const domain2 = new InMemoryDomain();
 
       const app2 = domain2.construct(App612);
       expect(app2).toBeInstanceOf(App612);
+      expect(app2.root).toBe('Root612$');
+      expect(app2.base).toBe('Base612$');
       expect(app2.name).toBe('App612$');
 
       const svc2 = domain2.construct(Service612);
       expect(svc2).toBeInstanceOf(Service612);
+
+      expect(svc2.root).toBe('Root612$');
+      expect(svc2.base).toBe('Base612$');
+      expect(svc2.serviceBase).toBe('ServiceBase612$');
+      expect(svc2.service).toBe('Service612$');
       expect(svc2.name).toBe('Service612$');
+
+      expect(app1).not.toBe(app2);
+      expect(svc1).not.toBe(svc2);
     });
 
     it('create async initializable agent', async () => {
       // @initializable()
       class Root613 {
+        name: string | undefined;
         root: string | undefined;
         [Initializer]() {
-          this.root = 'Base613$';
+          this.root = 'Root613$';
+          this.name = this.root;
         }
       }
 
@@ -97,11 +119,11 @@ describe('6.1. @initializable decorator', () => {
         base: string | undefined;
         [Initializer]() {
           this.base = 'Base613$';
+          this.name = this.base;
         }
       }
 
       class App613 extends Base613 {
-        name: string | undefined;
         [Initializer]() {
           this.name = 'App613$';
         }
@@ -117,13 +139,19 @@ describe('6.1. @initializable decorator', () => {
 
       const app1 = await domain.resolve(App613);
       expect(app1).toBeInstanceOf(App613);
+      expect(app1.root).toBe('Root613$');
+      expect(app1.base).toBe('Base613$');
       expect(app1.name).toBe('App613$');
 
       const domain2 = new InMemoryDomain();
 
       const app2 = await domain2.resolve(App613);
       expect(app2).toBeInstanceOf(App613);
+      expect(app2.root).toBe('Root613$');
+      expect(app2.base).toBe('Base613$');
       expect(app2.name).toBe('App613$');
+
+      expect(app1).not.toBe(app2);
     });
 
     it('create class without initializer', () => {
@@ -147,7 +175,7 @@ describe('6.1. @initializable decorator', () => {
         static [ClassInitializer](domain: Domain, target: ClassInvocation, params: Arguments, receiver: typeof App615) {
           const app = target.invoke<App615>(params, receiver);
           app.name1 = 'App615$';
-          return new Promise(resolve => {
+          return new Promise((resolve) => {
             setTimeout(() => {
               resolve(app);
             }, 100);
@@ -172,7 +200,7 @@ describe('6.1. @initializable decorator', () => {
         static [ClassInitializer](domain: Domain, target: ClassInvocation, params: Arguments, receiver: typeof App616) {
           const app = target.invoke<App616>(params, receiver);
           app.name1 = 'App616$';
-          return new Promise(resolve => {
+          return new Promise((resolve) => {
             setTimeout(() => {
               resolve(app);
             }, 100);
@@ -203,7 +231,7 @@ describe('6.1. @initializable decorator', () => {
       }
       expect(() => {
         domain.construct(App612);
-      }).toThrowError('ClassInitializerMustFunction');
+      }).toThrowError('ClassInitializerIsNotFunction');
     });
   });
 });

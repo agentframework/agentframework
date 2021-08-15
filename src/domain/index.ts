@@ -26,7 +26,18 @@ export { GetSystemDomain } from './Domain/Helpers/GetSystemDomain';
 export { IsDomain } from './Domain/Helpers/IsDomain';
 
 /*************************************
- *   Dependence Injection
+ *   Class
+ *************************************/
+export { AgentReference, Params, Agent } from './Domain/Agent';
+
+/*************************************
+ *   In Memory Domain Implementation
+ *************************************/
+export { InMemoryDomain } from './Domain/InMemoryDomain';
+export { InMemorySubDomain } from './Domain/InMemorySubDomain';
+
+/*************************************
+ *   Design Pattern: Dependence Injection
  *************************************/
 export { SingletonAttribute } from './Domain/Attributes/SingletonAttribute';
 export { TransitAttribute } from './Domain/Attributes/TransitAttribute';
@@ -38,22 +49,10 @@ export { inject } from './Domain/Decorators/inject';
 export { agent } from './Domain/Decorators/agent';
 
 /*************************************
- *   Factory Method
+ *   Design Pattern: Factory Method
  *************************************/
 export { Initializer } from './Domain/Symbols';
 export { ClassInitializer } from './Domain/Symbols';
-
-/*************************************
- *   Class
- *************************************/
-export { AgentReference, Params, Agent } from './Domain/Agent';
-
-/*************************************
- *   In Memory Domain Implementation
- *************************************/
-export { InMemoryDomain } from './Domain/InMemoryDomain';
-export { InMemorySubDomain } from './Domain/InMemorySubDomain';
-
 
 /*************************************
  *   Unstable API

@@ -1,18 +1,22 @@
 # Agent Framework 2.0.x ChangeLog
 
+## 2021-08-14, Version 2.0.0-dev.20210815
+
+**Notable Changes**
+
+-   Remove duplicate code
 
 ## 2021-08-14, Version 2.0.0-rc.20210814
 
 **Notable Changes**
 
--	Remove unstable api
+-   Remove unstable api
 
 ## 2021-08-07, Version 2.0.0-rc.20210807
 
 **Notable Changes**
 
--	Fix a bug that cause Reflector not working
-
+-   Fix a bug that cause Reflector not working
 
 ## 2021-08-07, Version 2.0.0-dev.20210807, @e2tox
 
