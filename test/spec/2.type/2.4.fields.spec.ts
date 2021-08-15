@@ -1,4 +1,4 @@
-import { AgentFrameworkError, decorate, decorateMember, MemberKinds, Reflector } from '../../../lib';
+import { AgentFrameworkError, decorate, decorateMember, MemberKinds, Reflector } from '../../../src';
 import { ClassField } from '../Kinds';
 
 class Data24 {

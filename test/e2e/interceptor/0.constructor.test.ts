@@ -12,7 +12,7 @@ import {
   Arguments,
   MemberKinds,
   decorateClass
-} from '../../../lib';
+} from '../../../src';
 import { CreateAgent } from '../../../src/core';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 

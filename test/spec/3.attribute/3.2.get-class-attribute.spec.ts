@@ -1,4 +1,4 @@
-import { decorateClass, Reflector, ClassAttribute, Attribute } from '../../../lib';
+import { decorateClass, Reflector, ClassAttribute, Attribute } from '../../../src';
 import { Class } from '../../../src/core';
 
 /**

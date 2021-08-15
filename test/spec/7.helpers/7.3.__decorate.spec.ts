@@ -1,4 +1,4 @@
-import { __decorate } from '../../../lib';
+import { __decorate } from '../../../src';
 
 class ClassA {
   run(): void {}

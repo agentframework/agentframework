@@ -1,8 +1,8 @@
-import { agent } from '../../../lib';
-import { decorateMember } from '../../../lib';
-import { ClassInvocation } from '../../../lib';
-import { Arguments } from '../../../lib';
-import { IsAgent } from '../../../lib';
+import { agent } from '../../../src';
+import { decorateMember } from '../../../src';
+import { ClassInvocation } from '../../../src';
+import { Arguments } from '../../../src';
+import { IsAgent } from '../../../src';
 
 describe('4.4. method interceptor', () => {
   @agent()

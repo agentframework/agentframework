@@ -1,7 +1,7 @@
 /* tslint:disable */
 
-import { agent, decorateMember, decorateParameter } from '../../../lib';
-import { InjectAttribute } from '../attributes/InjectAttribute';
+import { agent, decorateMember, decorateParameter } from '../../../src';
+import {InjectAttribute, InjectParameterAttribute} from '../attributes/InjectAttribute';
 
 class Connection {
   static count = 0;
@@ -36,7 +36,7 @@ class MongoDB {
   database!: Database;
   connection!: Connection;
   user: string;
-  constructor(user: string, @decorateParameter(new InjectAttribute()) conn?: Connection) {
+  constructor(user: string, @decorateParameter(new InjectParameterAttribute()) conn?: Connection) {
     // expect(arguments.length).toBe(2);
     // expect(user).toBe('test');
     // expect(conn).toBeTruthy();

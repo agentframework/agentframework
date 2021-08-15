@@ -1,5 +1,5 @@
-import { InMemoryDomain, Domain, ClassInitializer, Initializer } from '../../../lib';
-import { Arguments, ClassInvocation } from '../../../lib';
+import { InMemoryDomain, Domain, ClassInitializer, Initializer } from '../../../src';
+import { Arguments, ClassInvocation } from '../../../src';
 import { CreateAgent } from '../../../src/core';
 
 describe('6.1. @initializable decorator', () => {

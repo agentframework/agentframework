@@ -8,7 +8,7 @@ import {
   Reflector,
   SingletonAttribute,
   AgentFrameworkError,
-} from '../../../lib';
+} from '../../../src';
 import { CreateAgent } from '../../../src/core';
 
 describe('6.3. @singleton decorator', () => {

@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Arguments, Attribute, Interceptor, Invocation } from '../../../lib';
+import { Arguments, Attribute, Interceptor, Invocation } from '../../../src';
 
 export class RandomInterceptor implements Attribute, Interceptor {
   beforeDecorate(

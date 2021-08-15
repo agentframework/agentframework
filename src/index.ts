@@ -60,6 +60,12 @@ export { decorateParameter } from '../src/core/index';
 export { Reflector } from '../src/core/index';
 
 /*************************************
+ *   Agent API
+ *************************************/
+export { IsAgent } from '../src/core/index';
+export { GetAgentType } from '../src/core/index';
+
+/*************************************
  *   Custom Interceptor
  *************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/core/index';
@@ -82,31 +88,25 @@ export { inject } from '../src/domain/index';
 export { agent } from '../src/domain/index';
 
 /*************************************
- *   Agent API
+ *   Domain
  *************************************/
-// export { IsAgent } from '../src/core/index';
-// export { GetAgentType } from '../src/core/index';
+export { AgentReference, Params, Agent } from '../src/domain/index';
+export { DomainLike } from '../src/domain/index';
+export { Domain } from '../src/domain/index';
+export { SubDomainLike } from '../src/domain/index';
 
-/*************************************
- *   Domain API
- *************************************/
-// export { AgentReference, Params, Agent } from '../src/domain/index';
-// export { DomainLike } from '../src/domain/index';
-// export { Domain } from '../src/domain/index';
-// export { SubDomainLike } from '../src/domain/index';
-//
-// export { GetDomain } from '../src/domain/index';
-// export { GetSystemDomain } from '../src/domain/index';
-// export { IsDomain } from '../src/domain/index';
+export { GetDomain } from '../src/domain/index';
+export { GetSystemDomain } from '../src/domain/index';
+export { IsDomain } from '../src/domain/index';
 
 /*************************************
  *   Factory Method
  *************************************/
-// export { Initializer } from '../src/domain/index';
-// export { ClassInitializer } from '../src/domain/index';
+export { Initializer } from '../src/domain/index';
+export { ClassInitializer } from '../src/domain/index';
 
 /*************************************
  *   In Memory Domain Implementation
  *************************************/
-// export { InMemoryDomain } from '../src/domain/index';
-// export { InMemorySubDomain } from '../src/domain/index';
+export { InMemoryDomain } from '../src/domain/index';
+export { InMemorySubDomain } from '../src/domain/index';

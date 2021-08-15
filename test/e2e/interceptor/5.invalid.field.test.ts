@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { decorateMember, IsAgent, Reflector } from '../../../lib';
+import { decorateMember, IsAgent, Reflector } from '../../../src';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { CreateAgent } from '../../../src/core';
 
@@ -71,7 +71,15 @@ describe('Interceptor on Field', () => {
       const Agent = CreateAgent(Bar);
 
       const a = new Agent();
-      expect(a.foo).toBe(3);
+      a.foo = 10.5;
+      // console.log('Re1', Reflect.getOwnPropertyDescriptor(Reflect.getPrototypeOf(a)!, 'foo')!.set!.toString());
+      a.foo = 9.5;
+      // console.log('Re2', Reflect.getOwnPropertyDescriptor(Reflect.getPrototypeOf(a)!, 'foo')!.set!.toString());
+      expect(a.foo).toBe(10);
+      a.foo = 9.5;
+      a.foo = 8.5;
+      a.foo = 7.5;
+      expect(a.foo).toBe(8);
     });
   });
 });

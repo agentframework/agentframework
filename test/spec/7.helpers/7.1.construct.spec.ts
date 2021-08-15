@@ -1,4 +1,4 @@
-// import { InMemoryDomain, Construct, FindDomain } from '../../../lib';
+// import { InMemoryDomain, Construct, FindDomain } from '../../../src';
 //
 // class ClassA {}
 //

@@ -1,6 +1,6 @@
 // /* tslint:disable */
 //
-// import { decorateMember, agent, IsAgent, GetAgentType } from '../../../lib';
+// import { decorateMember, agent, IsAgent, GetAgentType } from '../../../src';
 // import { InjectAttribute } from '../attributes/InjectAttribute';
 // import { AgentTrackerAttribute } from '../attributes/AgentTrackerAttribute';
 //

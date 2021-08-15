@@ -1,4 +1,4 @@
-// import { __param } from '../../../lib';
+// import { __param } from '../../../src';
 //
 // class ClassA {}
 //

@@ -113,11 +113,11 @@ export class OnDemandClassCompiler {
    */
   private static makeField(field: PropertyInfo, receiver: Function): PropertyDescriptor {
     const key = field.key;
+    const fieldInvoker = new GetterSetterInvocation(field);
     return {
       get() {
-        const origin = new GetterSetterInvocation(field);
         const attributes = OnDemandClassCompiler.findPropertyInterceptors(field);
-        const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
+        const chain = ChainFactory.chainInterceptorAttributes(fieldInvoker, attributes);
         const descriptor = {
           get() {
             return chain.invoke([], this);
@@ -137,9 +137,8 @@ export class OnDemandClassCompiler {
         // return set(this, key, chain.invoke([undefined], this));
       },
       set(this: any) {
-        const origin = new GetterSetterInvocation(field);
         const attributes = OnDemandClassCompiler.findPropertyInterceptors(field);
-        const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
+        const chain = ChainFactory.chainInterceptorAttributes(fieldInvoker, attributes);
         const descriptor = {
           get() {
             descriptor.get = function () {
@@ -195,22 +194,22 @@ export class OnDemandClassCompiler {
       } else {
         propertyDescriptor = {
           enumerable: descriptor.enumerable,
-          configurable: descriptor.configurable,
+          configurable: true,
         };
+
+        const propertyInvoker = new GetterSetterInvocation(property);
 
         // getter and setter
         propertyDescriptor.get = function (this: any) {
-          const origin = new GetterSetterInvocation(property);
           const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
-          const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
+          const chain = ChainFactory.chainInterceptorAttributes(propertyInvoker, attributes);
           const descriptor = {
             get() {
               return chain.invoke([], this);
             },
             set(value: any) {
-              const origin = new GetterSetterInvocation(property);
               const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
-              const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
+              const chain = ChainFactory.chainInterceptorAttributes(propertyInvoker, attributes);
               descriptor.set = function () {
                 chain.invoke(arguments, this);
               };
@@ -223,14 +222,12 @@ export class OnDemandClassCompiler {
           return chain.invoke([], this);
         };
         propertyDescriptor.set = function (this: any) {
-          const origin = new GetterSetterInvocation(property);
           const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
-          const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
+          const chain = ChainFactory.chainInterceptorAttributes(propertyInvoker, attributes);
           const descriptor = {
             get() {
-              const origin = new GetterSetterInvocation(property);
               const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
-              const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
+              const chain = ChainFactory.chainInterceptorAttributes(propertyInvoker, attributes);
               descriptor.get = function () {
                 return chain.invoke([], this);
               };
@@ -242,6 +239,7 @@ export class OnDemandClassCompiler {
             },
             configurable: true,
           };
+          // console.log('called set', receiver, Reflect.getOwnPropertyDescriptor(receiver.prototype, key));
           define(receiver.prototype, key, descriptor);
           return chain.invoke(arguments, this);
         };

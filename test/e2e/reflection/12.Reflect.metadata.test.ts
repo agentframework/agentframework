@@ -1,7 +1,7 @@
 /* tslint:disable */
 
 // declare var require: any;
-// import { Reflector } from '../../../lib';
+// import { Reflector } from '../../../src';
 
 describe('Reflect metadata', () => {
   describe('# should able to', () => {

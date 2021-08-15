@@ -1,4 +1,4 @@
-import { decorateClass, Arguments, agent, ClassInvocation, decorateMember } from '../../../lib';
+import { decorateClass, Arguments, agent, ClassInvocation, decorateMember } from '../../../src';
 
 describe('4.1. Class interceptor', () => {
   describe('# should able to', () => {

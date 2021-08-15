@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { decorateMember, decorateParameter, Reflector } from '../../../lib';
+import { decorateMember, decorateParameter, Reflector } from '../../../src';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';

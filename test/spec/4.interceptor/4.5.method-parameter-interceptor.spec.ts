@@ -1,8 +1,8 @@
-import { agent } from '../../../lib';
-import { decorateMember } from '../../../lib';
-import { ClassInvocation, ParameterInvocation } from '../../../lib';
-import { Arguments } from '../../../lib';
-import { decorateParameter } from '../../../lib';
+import { agent } from '../../../src';
+import { decorateMember } from '../../../src';
+import { ClassInvocation, ParameterInvocation } from '../../../src';
+import { Arguments } from '../../../src';
+import { decorateParameter } from '../../../src';
 
 describe('4.5. method parameter interceptor', () => {
   describe('# should able to', () => {

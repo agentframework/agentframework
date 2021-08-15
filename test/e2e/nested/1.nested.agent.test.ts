@@ -1,5 +1,5 @@
 /* tslint:disable */
-import { agent, decorateClass, decorateMember, IsAgent } from '../../../lib';
+import { agent, decorateClass, decorateMember, IsAgent } from '../../../src';
 import { AgentChecker } from '../attributes/AgentChecker';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';

@@ -1,4 +1,4 @@
-import { InMemoryDomain, Domain, IsDomain, InMemorySubDomain, GetSystemDomain } from '../../../lib';
+import { InMemoryDomain, Domain, IsDomain, InMemorySubDomain, GetSystemDomain } from '../../../src';
 
 describe('5.1. Create domain', () => {
   describe('# should able to', () => {

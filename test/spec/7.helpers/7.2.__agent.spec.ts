@@ -1,4 +1,4 @@
-import { __agent } from '../../../lib';
+import { __agent } from '../../../src';
 
 class ClassA {}
 

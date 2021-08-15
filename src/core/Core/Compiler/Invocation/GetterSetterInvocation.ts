@@ -15,7 +15,6 @@ limitations under the License. */
 import { PropertyInvocation } from '../../Interfaces/TypeInvocations';
 import { PropertyInfo } from '../../Interfaces/PropertyInfo';
 import { Arguments } from '../../Interfaces/Arguments';
-import { define } from '../../Helpers/Prototype';
 import { AgentFrameworkError } from '../../Error/AgentFrameworkError';
 
 /**
@@ -23,9 +22,11 @@ import { AgentFrameworkError } from '../../Error/AgentFrameworkError';
  * @hidden
  */
 export class GetterSetterInvocation implements PropertyInvocation {
-  constructor(readonly design: PropertyInfo) {}
+  constructor(readonly design: PropertyInfo, readonly values = new WeakMap<any, any>()) {}
 
   invoke(params: Arguments, receiver: any): any {
+    const key = this.design.key;
+
     if (params.length) {
       // this is setter
       if (receiver == null) {
@@ -33,28 +34,21 @@ export class GetterSetterInvocation implements PropertyInvocation {
       }
       // how to know the value of a field before you create that class
       // return the value from prototype is a good choose? NO, it may cause infinite loops
-      const value = params[0];
-      define(receiver, this.design.key, { value, writable: true, configurable: true });
-      return value;
+      this.values.set(receiver, params[0]);
+      return params[0];
+      // GetterSetterCache.set(receiver, key, value);
+      // define(receiver, key, { value, writable: true, configurable: true });
+      // return value;
     } else {
       // note: can not call receiver[key] here because infinite loop
+      if (this.values.has(receiver)) {
+        return this.values.get(receiver);
+      }
       const prototype = this.design.declaringType.prototype;
-      const key = this.design.key;
-
       // console.log('getter', receiver, '----', Reflect.has(prototype, key), '-->', Reflect.get(prototype, key));
-
       if (Reflect.has(prototype, key)) {
         // console.log('getter', Reflect.get(this.design.declaringType.prototype, this.design.key));
         return Reflect.get(prototype, key);
-      }
-      const field = Reflect.getOwnPropertyDescriptor(receiver, key);
-      if (field) {
-        if (Reflect.has(field, 'value')) {
-          return field.value;
-        }
-        if (field.get) {
-          return Reflect.apply(field.get, receiver, []);
-        }
       }
       return;
     }

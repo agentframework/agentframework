@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { IsAgent, Reflector, decorateClass } from '../../../lib';
+import { IsAgent, Reflector, decorateClass } from '../../../src';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
 import { AgentAttribute, CreateAgent } from '../../../src/core';
 

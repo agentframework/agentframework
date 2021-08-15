@@ -1,7 +1,7 @@
 /* tslint:disable */
 
-import { agent, decorateParameter, Attribute, Interceptor, Invocation, decorateMember, Arguments } from '../../../lib';
-import { InjectAttribute } from '../attributes/InjectAttribute';
+import { agent, decorateParameter, Attribute, Interceptor, Invocation, decorateMember, Arguments } from '../../../src';
+import {InjectAttribute, InjectParameterAttribute} from '../attributes/InjectAttribute';
 
 class Connection {
   static count = 0;
@@ -48,7 +48,7 @@ class MongoDB {
   }
 
   @decorateMember(new TypeChecker())
-  test11(@decorateParameter(new InjectAttribute()) db?: Database) {
+  test11(@decorateParameter(new InjectParameterAttribute()) db?: Database) {
     expect(arguments.length).toBe(1);
     expect(db).toBeTruthy();
     expect(db instanceof Database).toBeTruthy();
@@ -56,16 +56,7 @@ class MongoDB {
   }
 
   @decorateMember(new TypeChecker())
-  test12(@decorateParameter(new InjectAttribute()) db?: Database) {
-    expect(arguments.length).toBe(1);
-    expect(db).toBeTruthy();
-    expect(db instanceof Database).toBeTruthy();
-    return db;
-  }
-
-  @decorateMember(new TypeFormatter())
-  @decorateMember(new TypeChecker())
-  test21(@decorateParameter(new InjectAttribute()) db?: Database) {
+  test12(@decorateParameter(new InjectParameterAttribute()) db?: Database) {
     expect(arguments.length).toBe(1);
     expect(db).toBeTruthy();
     expect(db instanceof Database).toBeTruthy();
@@ -74,7 +65,16 @@ class MongoDB {
 
   @decorateMember(new TypeFormatter())
   @decorateMember(new TypeChecker())
-  test22(@decorateParameter(new InjectAttribute()) db?: Database) {
+  test21(@decorateParameter(new InjectParameterAttribute()) db?: Database) {
+    expect(arguments.length).toBe(1);
+    expect(db).toBeTruthy();
+    expect(db instanceof Database).toBeTruthy();
+    return db;
+  }
+
+  @decorateMember(new TypeFormatter())
+  @decorateMember(new TypeChecker())
+  test22(@decorateParameter(new InjectParameterAttribute()) db?: Database) {
     expect(arguments.length).toBe(1);
     expect(db).toBeTruthy();
     expect(db instanceof Database).toBeTruthy();

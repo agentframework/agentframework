@@ -1,4 +1,4 @@
-import { __agent, __decorate, __metadata, MemberKinds, Reflector, __param } from '../../../lib';
+import { __agent, __decorate, __metadata, MemberKinds, Reflector, __param } from '../../../src';
 
 class ClassA {
   run(num: Number, name: string): boolean {

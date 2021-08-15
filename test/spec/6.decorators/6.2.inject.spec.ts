@@ -1,4 +1,4 @@
-import { InMemoryDomain, agent, inject, Reflector, InjectAttribute } from '../../../lib';
+import { InMemoryDomain, agent, inject, Reflector, InjectAttribute } from '../../../src';
 import { CreateAgent } from '../../../src/core';
 
 describe('6.2. @inject decorator', () => {

@@ -1,4 +1,4 @@
-import { decorate, decorateClass, MemberKinds, Reflector } from '../../../lib';
+import { decorate, decorateClass, MemberKinds, Reflector } from '../../../src';
 
 /**
  * The tests shows 3 ways to add attribute to a class at design time

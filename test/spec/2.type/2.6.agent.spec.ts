@@ -5,7 +5,7 @@ import {
   ParameterAttribute,
   ParameterInterceptor,
   ParameterInvocation,
-} from '../../../lib';
+} from '../../../src';
 
 class InjectAttribute implements ParameterAttribute, ParameterInterceptor {
   constructor(readonly type?: any) {}

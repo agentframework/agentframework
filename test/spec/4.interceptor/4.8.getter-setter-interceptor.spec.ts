@@ -1,7 +1,7 @@
-import { agent } from '../../../lib';
-import { decorateMember } from '../../../lib';
-import { PropertyInvocation } from '../../../lib';
-import { Arguments } from '../../../lib';
+import { agent } from '../../../src';
+import { decorateMember } from '../../../src';
+import { PropertyInvocation } from '../../../src';
+import { Arguments } from '../../../src';
 
 describe('4.8. Getter and Setter interceptor', () => {
   describe('# should able to', () => {

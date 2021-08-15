@@ -1,4 +1,4 @@
-// import { attribute } from '../../../lib';
+// import { attribute } from '../../../src';
 //
 // describe('6.6. @attribute decorator', () => {
 //   describe('# should able to', () => {

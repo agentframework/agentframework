@@ -1,4 +1,4 @@
-import { decorateMember, Invocation, Arguments, agent, decorateAgent, Reflector } from '../../../lib';
+import { decorateMember, Invocation, Arguments, agent, decorateAgent, Reflector } from '../../../src';
 import { interceptable } from '../../../src/core';
 
 describe('6.8. @interceptable decorator', () => {

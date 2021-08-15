@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { agent } from '../../../lib';
+import { agent } from '../../../src';
 import { propertyDecorator } from './property';
 
 @agent()

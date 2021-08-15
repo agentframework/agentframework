@@ -1,6 +1,6 @@
-import { PropertyAttribute } from '../../../lib';
-import { decorateMember } from '../../../lib';
-import { Arguments, decorateParameter, Invocation, Reflector } from '../../../lib';
+import { PropertyAttribute } from '../../../src';
+import { decorateMember } from '../../../src';
+import { Arguments, decorateParameter, Invocation, Reflector } from '../../../src';
 
 class MethodAttribute implements PropertyAttribute {
   constructor(readonly method: string, readonly path?: string) {}

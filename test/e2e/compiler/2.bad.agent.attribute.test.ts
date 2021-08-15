@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { decorateMember, Interceptor, Attribute } from '../../../lib';
+import { decorateMember, Interceptor, Attribute } from '../../../src';
 import { CreateAgent, AgentAttribute } from '../../../src/core';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 

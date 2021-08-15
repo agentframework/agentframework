@@ -1,13 +1,13 @@
 /* tslint:disable */
 
-import { agent, decorateMember, IsAgent, Reflector } from '../../../lib';
+import { agent, decorateMember, IsAgent, Reflector } from '../../../src';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 import { CreateAgent } from '../../../src/core';
 
 @agent()
 class PostgreSQL {
   @decorateMember(new InjectAttribute())
-  connection: number = 1;
+  connection: number = 1241;
 }
 
 describe('Invalid Initializer', () => {
@@ -46,7 +46,7 @@ describe('Invalid Initializer', () => {
       // const s2: any = Reflect.getOwnPropertyDescriptor(Reflect.getPrototypeOf(db.constructor.prototype), 'connection');
       // console.log('DB 2', s2.get.toString());
       // console.log('DB 2', s2.set.toString());
-      expect(db.connection).toBe(1);
+      expect(db.connection).toBe(1241);
     });
   });
 });

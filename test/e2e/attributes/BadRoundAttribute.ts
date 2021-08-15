@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Interceptor, Attribute } from '../../../lib';
+import { Interceptor, Attribute } from '../../../src';
 
 export class BadRoundAttribute implements Attribute {
   beforeDecorate(

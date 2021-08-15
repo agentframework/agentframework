@@ -1,4 +1,4 @@
-import { decorateMember, MemberKinds, PropertyInfo, Reflector } from '../../../lib';
+import { decorateMember, MemberKinds, PropertyInfo, Reflector } from '../../../src';
 
 class Compiler {}
 

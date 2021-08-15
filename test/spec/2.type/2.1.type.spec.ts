@@ -7,7 +7,9 @@ import {
   TypeInfo,
   decorateClass,
   decorateMember,
-} from '../../../lib';
+  agent,
+  GetAgentType,
+} from '../../../src';
 
 class Storage {}
 
@@ -50,26 +52,51 @@ class CloudApplication extends Application {
   }
 }
 
+@agent()
+class AgentApplication extends CloudApplication {}
+
 describe('2.1. Type', () => {
   describe('# should able to', () => {
     it('get type', () => {
       expect(Reflector(CloudApplication).type).toBe(CloudApplication);
     });
 
+    it('get agent type', () => {
+      expect(Reflector(AgentApplication).type).toBe(GetAgentType(AgentApplication)!);
+      expect(Reflector(AgentApplication).type).not.toBe(AgentApplication);
+    });
+
     it('get declaringType', () => {
       expect(Reflector(CloudApplication).declaringType).toBe(CloudApplication);
+    });
+
+    it('get agent declaringType', () => {
+      expect(Reflector(AgentApplication).declaringType).toBe(GetAgentType(AgentApplication)!);
+      expect(Reflector(AgentApplication).declaringType).not.toBe(AgentApplication);
     });
 
     it('get kind', () => {
       expect(Reflector(CloudApplication).kind).toBe(MemberKinds.Class);
     });
 
+    it('get agent kind', () => {
+      expect(Reflector(AgentApplication).kind).toBe(MemberKinds.Class);
+    });
+
     it('get static kind', () => {
       expect(Reflector(CloudApplication).static.kind).toBe(MemberKinds.Class | MemberKinds.Static);
     });
 
+    it('get agent static kind', () => {
+      expect(Reflector(AgentApplication).static.kind).toBe(MemberKinds.Class | MemberKinds.Static);
+    });
+
     it('get name', () => {
       expect(Reflector(CloudApplication).name).toBe('CloudApplication');
+    });
+
+    it('get agent name', () => {
+      expect(Reflector(AgentApplication).name).toBe('AgentApplication');
     });
 
     it('get key', () => {

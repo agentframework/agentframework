@@ -8,7 +8,7 @@ import {
   decorateClass,
   GetCustomInterceptor,
   RemoveCustomInterceptor,
-} from '../../../lib';
+} from '../../../src';
 
 describe('4.9. External interceptor', () => {
   describe('# should able to', () => {
