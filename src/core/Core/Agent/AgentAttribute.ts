@@ -54,7 +54,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     // use different constructor for different configuration
     const newTarget = new Proxy(receiver, proxy);
     // newTarget['id'] = 1;
-    // console.log('nnnnnn', newTarget, receiver)
+    // console.log(newTarget, receiver)
 
     // this is the only way to detect the proxy
     RememberAgentType(newTarget, receiver);
@@ -75,7 +75,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     // GEN 1: this.design.type = origin type
     // GEN 2: this.receiver = intercepted type
     //        target === receiver
-    // GEN 3: newTarget = Proxied
+    // GEN 3: newTarget = Proxy
 
     // Note: static constructor support
 
@@ -92,7 +92,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
       const properties = [];
 
       // NOTE: Static Constructor support, deep first
-      // for (const ctor of FindStaticConstructors(target.prot1otype)) {
+      // for (const ctor of FindStaticConstructors(target.prototype)) {
       //   console.log('ctor', ctor, ctor.name);
       //   // mark before call to make sure the constructor never call again
       //   Core.MarkStaticConstructor(ctor);

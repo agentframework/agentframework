@@ -1,9 +1,9 @@
 {
   "watermarks": {
-    "lines": [80, 100],
-    "functions": [80, 100],
-    "branches": [80, 100],
-    "statements": [80, 100]
+    "lines": [90, 100],
+    "functions": [90, 100],
+    "branches": [90, 100],
+    "statements": [90, 100]
   },
   "cache": false,
   "check-coverage": false,
