@@ -1,5 +1,5 @@
 /* tslint:disable */
-import { decorateMember, agent, IsAgent, GetAgentType, InjectAttribute, AgentFrameworkError } from '../../../../lib';
+import { decorateMember, agent, IsAgent, GetAgentType, InjectAttribute, AgentFrameworkError } from '../../../';
 import { AgentTrackerAttribute } from '../../../../test/e2e/attributes/AgentTrackerAttribute';
 import { CreateAgent } from './CreateAgent';
 
