@@ -34,12 +34,12 @@ env:
 # typescript:     type IteratorResult<T, TReturn = any> = IteratorYieldResult<T> | IteratorReturnResult<TReturn>;
 # tsc error:      TS2300: Duplicate identifier 'IteratorResult'.
 
-# before_install:
-#  - export NV=`node -v | sed 's/[^0-9.]*\([0-9.]*\).*/\1/'`
+ before_install:
+  - export NV=`node -v | sed 's/[^0-9.]*\([0-9.]*\).*/\1/'`
 
 install:
   - npm i -g ts-node@8 nyc@15
-  - npm i jasmine@3.5.0 @types/jasmine@3.5.0 ${TS}
+  - npm i jasmine@3.5.0 @types/jasmine@3.5.0 @types/node@${NV} ${TS}
 #  - npm i @types/node@~${NV}
 
 script:
