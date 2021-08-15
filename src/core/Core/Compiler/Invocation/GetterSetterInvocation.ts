@@ -27,6 +27,7 @@ export class GetterSetterInvocation implements PropertyInvocation {
 
   invoke(params: Arguments, receiver: any): any {
     if (params.length) {
+      // this is setter
       if (receiver == null) {
         throw new AgentFrameworkError(`InvalidReceiver`);
       }
@@ -35,7 +36,27 @@ export class GetterSetterInvocation implements PropertyInvocation {
       const value = params[0];
       define(receiver, this.design.key, { value, writable: true, configurable: true });
       return value;
+    } else {
+      // note: can not call receiver[key] here because infinite loop
+      const prototype = this.design.declaringType.prototype;
+      const key = this.design.key;
+
+      // console.log('getter', receiver, '----', Reflect.has(prototype, key), '-->', Reflect.get(prototype, key));
+
+      if (Reflect.has(prototype, key)) {
+        // console.log('getter', Reflect.get(this.design.declaringType.prototype, this.design.key));
+        return Reflect.get(prototype, key);
+      }
+      const field = Reflect.getOwnPropertyDescriptor(receiver, key);
+      if (field) {
+        if (Reflect.has(field, 'value')) {
+          return field.value;
+        }
+        if (field.get) {
+          return Reflect.apply(field.get, receiver, []);
+        }
+      }
+      return;
     }
-    return params[0];
   }
 }

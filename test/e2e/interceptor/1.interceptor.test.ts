@@ -50,9 +50,7 @@ describe('Interceptor', () => {
 
     // region round1
     it('get round1 attribute', () => {
-      const items = Reflector(Calculator)
-        .property('round1')
-        .getOwnAttributes(RoundInterceptor);
+      const items = Reflector(Calculator).property('round1').getOwnAttributes(RoundInterceptor);
       expect(items.length).toBe(1);
     });
 
@@ -65,15 +63,13 @@ describe('Interceptor', () => {
     it('get round1 invalid value', () => {
       const ca = new Calculator();
       expect(ca).toBeTruthy();
-      expect(ca.round1('text')).toBe(0);
+      expect(ca.round1('text')).toBeNaN();
     });
     // endregion
 
     // region round2
     it('get round2 attribute', () => {
-      const items = Reflector(Calculator)
-        .property('round2')
-        .getOwnAttributes(RoundInterceptor);
+      const items = Reflector(Calculator).property('round2').getOwnAttributes(RoundInterceptor);
       expect(items.length).toBe(1);
     });
 
@@ -86,15 +82,13 @@ describe('Interceptor', () => {
     it('get round2 invalid value', () => {
       const ca = new Calculator();
       expect(ca).toBeTruthy();
-      expect(ca.round2('text')).toBe(0);
+      expect(ca.round2('text')).toBeNaN();
     });
     // endregion
 
     // region round3
     it('get round3 attribute', () => {
-      const items = Reflector(Calculator)
-        .property('round3')
-        .getOwnAttributes(RoundInterceptor);
+      const items = Reflector(Calculator).property('round3').getOwnAttributes(RoundInterceptor);
       expect(items.length).toBe(1);
     });
 
@@ -107,15 +101,13 @@ describe('Interceptor', () => {
     it('get round3 invalid value', () => {
       const ca = new Calculator();
       expect(ca).toBeTruthy();
-      expect(ca.round3('text')).toBe(0);
+      expect(ca.round3('text')).toBeNaN();
     });
     // endregion
 
     // region round4
     it('get round4 attribute', () => {
-      const items = Reflector(Calculator)
-        .property('round4')
-        .getParameters();
+      const items = Reflector(Calculator).property('round4').getParameters();
       expect(items.length).toBe(1);
     });
 
@@ -128,7 +120,7 @@ describe('Interceptor', () => {
     it('get round4 invalid value', () => {
       const ca = new Calculator();
       expect(ca).toBeTruthy();
-      expect(ca.round4('text')).toBe(0);
+      expect(ca.round4('text')).toBeNaN();
     });
     // endregion
   });

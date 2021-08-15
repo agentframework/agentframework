@@ -45,6 +45,8 @@ describe('6.8. @interceptable decorator', () => {
           return n;
         }
       }
+
+
       expect(Reflector(App683).static.hasOwnAttribute()).toBeTrue();
     });
   });

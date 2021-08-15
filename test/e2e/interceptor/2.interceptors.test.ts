@@ -1,14 +1,6 @@
 /* tslint:disable */
 
-import {
-  agent,
-  decorate,
-  decorateMember,
-  decorateParameter,
-  IsAgent,
-  Reflector,
-  MemberKinds,
-} from '../../../lib';
+import { agent, decorate, decorateMember, decorateParameter, IsAgent, Reflector, MemberKinds } from '../../../lib';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { CreateAgent } from '../../../src/core';
 
@@ -75,7 +67,7 @@ describe('Interceptor', () => {
     it('get round1 invalid value', () => {
       const ca = new Calculator();
       expect(ca).toBeTruthy();
-      expect(ca.round1('text')).toBe(0);
+      expect(ca.round1('text')).toBeNaN();
     });
     // endregion
 
@@ -94,7 +86,7 @@ describe('Interceptor', () => {
     it('get round2 invalid value', () => {
       const ca = new Calculator();
       expect(ca).toBeTruthy();
-      expect(ca.round2('text')).toBe(0);
+      expect(ca.round2('text')).toBeNaN();
     });
     // endregion
 
@@ -113,7 +105,7 @@ describe('Interceptor', () => {
     it('get round3 invalid value', () => {
       const ca = new Calculator();
       expect(ca).toBeTruthy();
-      expect(ca.round3('text')).toBe(0);
+      expect(ca.round3('text')).toBeNaN();
     });
     // endregion
 
@@ -132,7 +124,7 @@ describe('Interceptor', () => {
     it('get round4 invalid value', () => {
       const ca = new Calculator();
       expect(ca).toBeTruthy();
-      expect(ca.round4('text')).toBe(0);
+      expect(ca.round4('text')).toBeNaN();
     });
     // endregion
   });

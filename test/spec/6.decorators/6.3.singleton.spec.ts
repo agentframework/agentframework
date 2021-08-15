@@ -7,7 +7,7 @@ import {
   PropertyInvocation,
   Reflector,
   SingletonAttribute,
-  AgentFrameworkError
+  AgentFrameworkError,
 } from '../../../lib';
 import { CreateAgent } from '../../../src/core';
 
@@ -30,11 +30,7 @@ describe('6.3. @singleton decorator', () => {
 
       expect(app.service).toBeInstanceOf(Service631);
       expect(app.service2).toBe(app.service);
-      expect(
-        Reflector(App631)
-          .property('service')
-          .hasOwnAttribute(SingletonAttribute)
-      ).toBeTrue();
+      expect(Reflector(App631).property('service').hasOwnAttribute(SingletonAttribute)).toBeTrue();
     });
 
     it('create singleton agent using domain', () => {
@@ -128,8 +124,8 @@ describe('6.3. @singleton decorator', () => {
               const ret = target.invoke([domain], undefined);
               console.log('ret', ret);
               return ret;
-            }
-          }
+            },
+          },
         })
         readonly service!: Service635;
       }
@@ -141,7 +137,7 @@ describe('6.3. @singleton decorator', () => {
       }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
     });
 
-    it('create singleton using invalid receiver', () => {
+    it('create singleton without domain', () => {
       const domain = new InMemoryDomain();
 
       class Service636 {
@@ -153,8 +149,8 @@ describe('6.3. @singleton decorator', () => {
           interceptor: {
             intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
               return target.invoke([receiver], undefined);
-            }
-          }
+            },
+          },
         })
         @singleton()
         readonly service!: Service636;
@@ -165,6 +161,42 @@ describe('6.3. @singleton decorator', () => {
       expect(() => {
         expect(app.service).toBeUndefined();
       }).toThrowError(AgentFrameworkError, 'NoDomainFoundForSingletonInjection');
+    });
+
+    it('create interceptor on invalid property', () => {
+      const domain = new InMemoryDomain();
+
+      class App637 {
+        @decorateMember({
+          interceptor: {
+            intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
+              return target.invoke([receiver], undefined);
+            },
+          },
+        })
+        run() {
+          return true;
+        }
+      }
+
+      const config = Reflect.getOwnPropertyDescriptor(App637.prototype, 'run');
+
+      if (config) {
+        config.value = null;
+        Reflect.defineProperty(App637.prototype, 'run', config);
+        // console.log('config', Reflect.getOwnPropertyDescriptor(App637.prototype, 'run'));
+
+        const plain = new App637();
+        expect(plain.run).toBeNull();
+
+        const desc = Reflector(App637).property('run').descriptor;
+        if (desc) {
+          desc.value = null;
+        }
+        expect(() => {
+          domain.construct(App637);
+        }).toThrowError(AgentFrameworkError, 'InvalidProperty: App637.run');
+      }
     });
   });
 });
