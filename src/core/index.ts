@@ -73,7 +73,8 @@ export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } f
 /************************************
  *    Custom Helpers
  ************************************/
-export { __decorate, __agent, __metadata, __param } from './Core/Wisdom/Wisdom';
+export { __agent, __decorate, __param } from './Core/Wisdom/DecoratorHelper';
+export { __metadata } from './Core/Wisdom/Wisdom';
 
 /*************************************
  *   Unstable API

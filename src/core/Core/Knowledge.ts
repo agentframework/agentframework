@@ -15,14 +15,16 @@ limitations under the License. */
 import { Invocation } from './Interfaces/Invocation';
 import { Remember } from './Wisdom/Remember';
 
+
+
 /**
  * Get original type of giving agent
  */
 export class Types {
   // core
   // key: Agent Proxy | Agent Constructor | Domain Agent Constructor, value: Original Constructor
-  static get v1() {
-    return Remember<WeakMap<Function | object, Function | object>>(this, 'v1', Map);
+  static get v1(): any {
+    return Remember<WeakMap<Function | object, Function | object>>(this, 'Types', 'v1', Map);
   }
 }
 
@@ -31,7 +33,7 @@ export class Types {
  */
 export class Invocations {
   static get v1() {
-    return Remember<WeakMap<Function, Invocation>>(this, 'v1', Map);
+    return Remember<WeakMap<Function, Invocation>>(this, 'Invocations', 'v1', Map);
   }
 }
 
@@ -40,6 +42,6 @@ export class Invocations {
  */
 export class Interceptors {
   static get v1() {
-    return Remember<WeakMap<Function, [Function, unknown]>>(this, 'v1', Map);
+    return Remember<WeakMap<Function, [Function, unknown]>>(this, 'Interceptors', 'v1', Map);
   }
 }

@@ -56,7 +56,7 @@ export class TypeInfos {
    * get types map
    */
   static get v1() {
-    return Remember<WeakMap<Function | object, OnDemandTypeInfo>>(this, 'v1', Map);
+    return Remember<WeakMap<Function | object, OnDemandTypeInfo>>(this, 'TypeInfos', 'v1', Map);
   }
 }
 

@@ -14,26 +14,42 @@ limitations under the License. */
 
 import { Soul } from './Soul';
 import { FindProperty } from './Annotator';
+import { define } from '../Helpers/Prototype';
 
-export class AgentFramework extends WeakMap<Function | object, any> {
+function init(this: any, target: any): any {
+  let key;
+  return (key = Symbol.for(target.id)), Reflect[key] || Reflect.construct(target, [key]);
+}
+
+@init
+export class Wisdom extends WeakMap<any, any> {
   /**
    * for troubleshot
    */
-  get name(): string {
-    return /* replace::release.name */ 'agentframework';
+  static get id(): string {
+    return 'agentframework';
   }
 
-  get version(): string {
+  static get version(): string {
     return /* replace::release.version */ '2.0.0';
   }
 
-  get timestamp(): string {
+  static get timestamp(): string {
     return /* replace::release.timestamp */ '2016-11-03T00:00:00.000Z';
+  }
+
+  /* istanbul ignore next */
+  static get(type: Function | object): any {
+    /* codegen */
+  }
+
+  /* istanbul ignore next */
+  static add(type: Function | object): any {
+    /* codegen */
   }
 
   constructor() {
     super();
-
     // ===============================================================================
     // if one day the browser implemented Reflect.metadata. We will reflector all
     // code related to metadata data in order to have a better performance.
@@ -44,7 +60,6 @@ export class AgentFramework extends WeakMap<Function | object, any> {
     /* istanbul ignore next */
     const metadata: Function | undefined = r[m] && r[m].bind(r);
     const wisdom = this;
-
     //
     // target   | property
     // -----------------------------------------------
@@ -52,7 +67,7 @@ export class AgentFramework extends WeakMap<Function | object, any> {
     // Object   + PropertyKey   = Class member
     // Function + PropertyKey   = Class static member
     //
-    r.set(r, m, function (key: string, value: any) {
+    function value(key: string, value: any) {
       return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
         let newTarget;
         let newTargetKey;
@@ -67,28 +82,28 @@ export class AgentFramework extends WeakMap<Function | object, any> {
         /* istanbul ignore next */
         return metadata && metadata(key, value)(target, targetKey, descriptor);
       };
-    });
-
+    }
     // mark the time
-    r[m][id] = Date.now();
-
-    this.set(this, new Map());
+    value[id] = Date.now();
+    define(r, m, { value });
+    define(r, arguments[0], { value: wisdom });
+    wisdom.set(wisdom, new Map());
   }
 
-  [Symbol.for('Deno.symbols.customInspect')]() {
-    return this.name + '@' + this.version;
-  }
-
-  [Symbol.for('nodejs.util.inspect.custom')]() {
-    return this.name + '@' + this.version;
-  }
-
-  // /**
-  //  * Get
-  //  */
-  // get(type: Function | object): any | undefined {
-  //   return super.get(type);
+  // [Symbol.for('Deno.symbols.customInspect')]() {
+  //   return AgentFramework.id + '@' + AgentFramework.version;
   // }
+  //
+  // [Symbol.for('nodejs.util.inspect.custom')]() {
+  //   return AgentFramework.id + '@' + AgentFramework.version;
+  // }
+
+  /**
+   * Get
+   */
+  get(type: Function | object): any | undefined {
+    return super.get(type || this);
+  }
 
   /**
    * returns value instead this object
@@ -114,44 +129,6 @@ export class AgentFramework extends WeakMap<Function | object, any> {
   }
 }
 
-// create singleton metadata for satellites project
-// AgentFramework Wisdom
-export const Wisdom = Function(
-  '_',
-  'return ((_,__)=>this[_]||(this[_]=new __()))(Symbol.for(_.name),_)'
-)(AgentFramework) as AgentFramework;
-
-/**
- * tslib.__decorate implementation
- */
-export function __decorate(
-  decorators: Function[],
-  target: object | Function,
-  targetKey: string | symbol,
-  desc: PropertyDescriptor | undefined | null /* field=undefined. method,getter,setter = null*/
-): any {
-  if (desc === null) {
-    desc = Reflect.getOwnPropertyDescriptor(target, targetKey);
-  }
-  let modified = desc;
-  for (let i = decorators.length - 1; i >= 0; i--) {
-    modified = decorators[i](target, targetKey, modified || desc);
-  }
-  if (modified) {
-    Reflect.defineProperty(target, targetKey, modified);
-  }
-}
-
-/**
- * tslib.__decorate class implementation
- */
-export function __agent(decorators: Function[], target: object | Function): any {
-  for (let i = decorators.length - 1; i >= 0; i--) {
-    target = decorators[i](target) || target;
-  }
-  return target;
-}
-
 /**
  * tslib.__metadata implementation
  */
@@ -162,14 +139,5 @@ export function __metadata(metadataKey: string, metadataValue: any): Function {
       targetKey = 'constructor';
     }
     FindProperty(Wisdom.add(target), target, targetKey, descriptor).set(metadataKey, metadataValue);
-  };
-}
-
-/**
- * tslib.__param implementation
- */
-export function __param(paramIndex: number, decorator: Function): Function {
-  return function (target: Function | object, targetKey: string | symbol) {
-    decorator(target, targetKey, paramIndex);
   };
 }

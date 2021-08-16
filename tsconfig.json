@@ -15,7 +15,11 @@
     "preserveConstEnums": true,
     "suppressImplicitAnyIndexErrors": true,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "agentframework": ["./lib/index"]
+    }
   },
   "include": ["lib", "src", "test", "tools"],
   "exclude": ["node_modules"]

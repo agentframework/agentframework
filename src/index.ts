@@ -73,7 +73,7 @@ export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } f
 /************************************
  *    Custom Helpers
  ************************************/
-export { __agent, __decorate, __metadata, __param } from '../src/core/index';
+export { __agent, __decorate, __param, __metadata } from '../src/core/index';
 
 /*************************************
  *   Dependence Injection
