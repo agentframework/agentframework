@@ -90,14 +90,6 @@ export class Wisdom extends WeakMap<any, any> {
     wisdom.set(wisdom, new Map());
   }
 
-  // [Symbol.for('Deno.symbols.customInspect')]() {
-  //   return AgentFramework.id + '@' + AgentFramework.version;
-  // }
-  //
-  // [Symbol.for('nodejs.util.inspect.custom')]() {
-  //   return AgentFramework.id + '@' + AgentFramework.version;
-  // }
-
   /**
    * Get
    */
