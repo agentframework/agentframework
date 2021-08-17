@@ -44,6 +44,8 @@ describe('6.1. @initializable decorator', () => {
           this.root = 'Root612$';
           this.name = this.root;
         }
+
+        hello() {}
       }
 
       class Base612 extends Root612 {

@@ -20,7 +20,7 @@ export function CanDecorate(
   targetKey?: string | symbol,
   descriptor?: PropertyDescriptor | number
 ): boolean {
-  if (typeof attribute.beforeDecorate === 'function') {
+  if ('function' === typeof attribute.beforeDecorate) {
     return attribute.beforeDecorate(target, targetKey, descriptor);
   }
   return true;

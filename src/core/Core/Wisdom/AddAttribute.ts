@@ -19,10 +19,7 @@ import { FindProperty, FindParameter } from './Annotator';
  * Reflector(target).addAttribute(attribute);
  */
 export function AddAttributeToClass(attribute: Attribute, target: object | Function): void {
-  const key = 'constructor';
-  const soul = Wisdom.add(target);
-  const property = FindProperty(soul, target, key);
-  property.attributes.push(attribute);
+  AddAttributeToMember(attribute, target, 'constructor');
 }
 
 /**
@@ -33,11 +30,7 @@ export function AddAttributeToConstructorParameter(
   target: object | Function,
   parameterIndex: number
 ): void {
-  const key = 'constructor';
-  const soul = Wisdom.add(target);
-  const property = FindProperty(soul, target, key);
-  const parameter = FindParameter(property, parameterIndex);
-  parameter.attributes.push(attribute);
+  AddAttributeToMethodParameter(attribute, target, 'constructor', parameterIndex);
 }
 
 /**

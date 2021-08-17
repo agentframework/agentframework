@@ -17,11 +17,11 @@ import { InitializerAttribute } from '../Attributes/InitializerAttribute';
 import { StaticInitializerAttribute } from '../Attributes/StaticInitializerAttribute';
 import { Initializer } from '../Symbols';
 
-export function initializable(key: PropertyKey = Initializer): ClassDecorator {
+export function initializable(): ClassDecorator {
   return (type: Function): void => {
     // NOTE: Design pattern: Factory method
     // InitializerAttribute must before ClassInitializerAttribute
-    AddAttributeToClass(new InitializerAttribute(key), type.prototype);
-    AddAttributeToClass(new StaticInitializerAttribute(key), type.prototype);
+    AddAttributeToClass(new InitializerAttribute(Initializer), type.prototype);
+    AddAttributeToClass(new StaticInitializerAttribute(Initializer), type.prototype);
   };
 }

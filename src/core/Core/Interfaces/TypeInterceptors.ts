@@ -17,15 +17,15 @@ import { Interceptor } from './Interceptor';
 import { Arguments } from './Arguments';
 
 export interface ClassInterceptor extends Interceptor {
-  intercept(target: ClassInvocation, params: Arguments, receiver: any): any;
+  intercept(target: ClassInvocation, params: Arguments, receiver: unknown): unknown;
 }
 
 export interface PropertyInterceptor extends Interceptor {
-  intercept(target: PropertyInvocation, params: Arguments, receiver: any): any;
+  intercept(target: PropertyInvocation, params: Arguments, receiver: unknown): unknown;
 }
 
 export interface ParameterInterceptor extends Interceptor {
-  intercept(target: ParameterInvocation, params: Arguments, receiver: any): any;
+  intercept(target: ParameterInvocation, params: Arguments, receiver: unknown): unknown;
 }
 //
 // export interface FieldInterceptor extends Interceptor {

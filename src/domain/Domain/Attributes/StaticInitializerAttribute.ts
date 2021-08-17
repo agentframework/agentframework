@@ -21,7 +21,7 @@ export class StaticInitializerAttribute implements ClassInterceptor {
     return this;
   }
 
-  intercept(target: ClassInvocation, params: Arguments, receiver: any) {
+  intercept(target: ClassInvocation, params: Arguments, receiver: Function): object {
     const declaringType = target.design.declaringType;
     const initializer = Reflect.get(declaringType, this.key, receiver);
     if (initializer) {

@@ -69,7 +69,7 @@ export { Reflector } from '../src/core/index';
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/core/index';
 
 /************************************
- *    Custom Helpers
+ *    TSLIB Re-work
  ************************************/
 /**
  * @internal
@@ -77,7 +77,7 @@ export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } f
 export { __agent, __decorate, __param, __metadata } from '../src/core/index';
 
 /*************************************
- *   Unstable API: Agent API
+ *   Unstable API: Agent
  *************************************/
 // export { IsAgent } from '../src/core/index';
 // export { GetAgentType } from '../src/core/index';
@@ -85,13 +85,20 @@ export { __agent, __decorate, __param, __metadata } from '../src/core/index';
 // export { AgentAttribute } from '../src/core/index';
 
 /*************************************
- *   Unstable API: Reflector
+ *   Unstable API: Attribute
  *************************************/
-// export { remember } from '../src/core/index';
+// export { CanDecorate } from '../src/core/index';
+// export {
+//   AddAttributeToClass,
+//   AddAttributeToConstructorParameter,
+//   AddAttributeToMethodParameter,
+//   AddAttributeToMember,
+// } from '../src/core/index';
 
 /*************************************
- *   Unstable API: Static Interceptor
+ *   Unstable API: Decorator
  *************************************/
+// export { remember } from '../src/core/index';
 // export { interceptable } from '../src/core/index';
 
 /*************************************
@@ -128,13 +135,9 @@ export { InitializerHandler, StaticInitializerHandler } from '../src/domain/inde
 // export { SubDomainLike } from '../src/domain/index';
 //
 // export { GetDomain } from '../src/domain/index';
-// export { GetDomainFromInvocation } from '../src/domain/index';
 // export { GetSystemDomain } from '../src/domain/index';
 // export { IsDomain } from '../src/domain/index';
 
-/*************************************
- *   Class
- *************************************/
 // export { AgentReference, Params, Agent } from '../src/domain/index';
 
 /*************************************
@@ -144,7 +147,7 @@ export { InitializerHandler, StaticInitializerHandler } from '../src/domain/inde
 // export { InMemorySubDomain } from '../src/domain/index';
 
 /*************************************
- *   Unstable API
+ *   Lifecycle API
  *************************************/
 // export { Disposable } from '../src/domain/index';
 // export { extensible } from '../src/domain/index';
