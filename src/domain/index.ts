@@ -33,8 +33,8 @@ export { agent } from './Domain/Decorators/agent';
  *   Design Pattern: Factory Method
  *************************************/
 export { initializable } from './Domain/Decorators/initializable';
-export { Initializer, ClassInitializer } from './Domain/Symbols';
-export { InitializerHandler, ClassInitializerHandler } from './Domain/Symbols';
+export { Initializer } from './Domain/Symbols';
+export { InitializerHandler, StaticInitializerHandler } from './Domain/Symbols';
 
 /*************************************
  *   Domain

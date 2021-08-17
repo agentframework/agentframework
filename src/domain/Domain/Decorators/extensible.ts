@@ -17,6 +17,6 @@ import { GetNamedType } from '../Helpers/GetNamedType';
 /**
  * extensible attribute
  */
-export function extensible(id?: string): ClassDecorator {
-  return (target) => GetNamedType(id || `class://${target.name}`, target);
+export function extensible(key?: string): ClassDecorator {
+  return (target) => GetNamedType(key || `class://${target.name}`, target);
 }

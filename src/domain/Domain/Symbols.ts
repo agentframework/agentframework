@@ -16,8 +16,6 @@ import { Arguments, ClassInvocation } from '../../dependencies/core';
 
 export type InitializerHandler = (target: ClassInvocation, params: Arguments, receiver: any) => void;
 
-export type ClassInitializerHandler = (target: ClassInvocation, params: Arguments, receiver: any) => object;
+export type StaticInitializerHandler = (target: ClassInvocation, params: Arguments, receiver: any) => object;
 
 export const Initializer: unique symbol = Symbol.for('AgentFramework.Initializer');
-
-export const ClassInitializer = Initializer;

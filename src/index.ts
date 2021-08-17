@@ -115,8 +115,8 @@ export { agent } from '../src/domain/index';
  *   Design Pattern: Factory Method
  *************************************/
 export { initializable } from '../src/domain/index';
-export { Initializer, ClassInitializer } from '../src/domain/index';
-export { InitializerHandler, ClassInitializerHandler } from '../src/domain/index';
+export { Initializer } from '../src/domain/index';
+export { InitializerHandler, StaticInitializerHandler } from '../src/domain/index';
 
 /*************************************
  *   Domain
