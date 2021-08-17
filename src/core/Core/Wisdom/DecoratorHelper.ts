@@ -1,4 +1,14 @@
 /**
+ * tslib.__decorate class implementation
+ */
+export function __agent(decorators: Function[], target: object | Function): any {
+  for (let i = decorators.length - 1; i >= 0; i--) {
+    target = decorators[i](target) || target;
+  }
+  return target;
+}
+
+/**
  * tslib.__decorate implementation
  */
 export function __decorate(
@@ -17,16 +27,6 @@ export function __decorate(
   if (modified) {
     Reflect.defineProperty(target, targetKey, modified);
   }
-}
-
-/**
- * tslib.__decorate class implementation
- */
-export function __agent(decorators: Function[], target: object | Function): any {
-  for (let i = decorators.length - 1; i >= 0; i--) {
-    target = decorators[i](target) || target;
-  }
-  return target;
 }
 
 /**

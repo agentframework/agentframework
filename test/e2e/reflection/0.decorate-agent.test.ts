@@ -2,7 +2,7 @@
 
 import { IsAgent, Reflector, decorateClass } from '../../../src';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
-import { AgentAttribute, CreateAgent } from '../../../src/core';
+import { AgentAttribute, CreateAgent } from '../../../src';
 
 class BadAgentAttribute extends AgentAttribute {
   get interceptor() {

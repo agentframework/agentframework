@@ -1,7 +1,7 @@
 /* tslint:disable */
 
 import { decorateMember, Interceptor, Attribute } from '../../../src';
-import { CreateAgent, AgentAttribute } from '../../../src/core';
+import { CreateAgent, AgentAttribute } from '../../../src';
 import { InjectAttribute } from '../attributes/InjectAttribute';
 
 class Connection {

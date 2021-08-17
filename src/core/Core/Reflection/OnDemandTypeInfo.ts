@@ -21,7 +21,7 @@ import { Filter } from '../Interfaces/Filter';
 import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToClass } from '../Wisdom/AddAttribute';
 import { GetAgentType, IsAgent } from '../Helpers/AgentHelper';
-import { Remember } from '../Wisdom/Remember';
+import { remember } from '../Wisdom/Remember';
 import { Property } from '../Wisdom/Annotation';
 
 // class TypeIteratorResult {
@@ -55,8 +55,9 @@ export class TypeInfos {
   /**
    * get types map
    */
-  static get v1() {
-    return Remember<WeakMap<Function | object, OnDemandTypeInfo>>(this, 'TypeInfos', 'v1', Map);
+  @remember('TypeInfos')
+  static get v1(): WeakMap<Function | object, OnDemandTypeInfo> {
+    return new Map();
   }
 }
 

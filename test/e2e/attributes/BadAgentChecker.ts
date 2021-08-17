@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { AgentAttribute } from '../../../src/core';
+import { AgentAttribute } from '../../../src';
 
 export class BadAgentChecker extends AgentAttribute {
   beforeDecorate(

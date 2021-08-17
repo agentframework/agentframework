@@ -16,31 +16,22 @@ limitations under the License. */
 import { define } from '../Helpers/Prototype';
 import { Wisdom } from './Wisdom';
 
-export function Remember<T>(target: Function, id: string, key: string, type?: new () => any): T {
-  let map = Wisdom.get(Wisdom);
-  const topic = id + '.' + key;
-  let value = map.get(topic);
-  /* istanbul ignore next */
-  if (!value) {
-    map.set(topic, (value = Reflect.construct(type || WeakMap, [])));
-  }
-  define(target, key, { value });
-  return value;
+export function remember(key: string) {
+  return (target: object | Function, targetKey: string | symbol, descriptor: any): any => {
+    return {
+      get() {
+        const wisdom = Wisdom.get(Wisdom);
+        const id = key + '.' + String(targetKey);
+        let value = wisdom.get(id);
+        /* istanbul ignore next */
+        if (!value) {
+          const { get } = descriptor || Reflect.getOwnPropertyDescriptor(target, targetKey);
+          wisdom.set(id, (value = Reflect.apply(get, target, [])));
+        }
+        define(target, targetKey, { value });
+        return value;
+      },
+      configurable: true,
+    };
+  };
 }
-//
-// type a = (type: any) => any;
-// export function RememberTag(ts: TemplateStringsArray, owner: any): a {
-//   console.log('ts', ts, owner);
-//   const [id, key] = ts;
-//   return (type) => {
-//     let map = Wisdom.get(Wisdom);
-//     const topic = id + '.' + key;
-//     let value = map.get(topic);
-//     /* istanbul ignore next */
-//     if (!value) {
-//       map.set(topic, (value = Reflect.construct(type || WeakMap, [])));
-//     }
-//     define(owner, key, { value });
-//     return value;
-//   };
-// }

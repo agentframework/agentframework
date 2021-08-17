@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Remember } from '../../dependencies/core';
+import { remember } from '../../dependencies/core';
 import { Domain } from './Domain';
 
 /**
@@ -20,8 +20,9 @@ import { Domain } from './Domain';
  */
 export class Agents {
   // key: Original Constructor, value: Agent Constructor
-  static get v1() {
-    return Remember<WeakMap<Function, Function>>(this, 'Agents', 'v1', Map);
+  @remember('Agents')
+  static get v1(): WeakMap<Function, Function> {
+    return new Map();
   }
 }
 
@@ -33,8 +34,9 @@ export class Domains {
   // key: Agent Type Prototype,   value: Domain instance
   // key: Domain instance,        value: Domain instance
   // key: Domain Type Prototype,  value: Domain Type Prototype
-  static get v1() {
-    return Remember<WeakMap<Function | object, Domain | undefined>>(this, 'Domains', 'v1', Map);
+  @remember('Domains')
+  static get v1(): WeakMap<Function | object, Domain | undefined> {
+    return new Map();
   }
 }
 
@@ -43,8 +45,9 @@ export class Domains {
  */
 export class DomainAgents {
   // key: Original Constructor, value: Agent Constructor
-  static get v1() {
-    return Remember<WeakMap<Function, Map<Domain, Function>>>(this, 'DomainAgents', 'v1', Map);
+  @remember('DomainAgents')
+  static get v1(): WeakMap<Function, Map<Domain, Function>> {
+    return new Map();
   }
 }
 
@@ -53,8 +56,9 @@ export class DomainAgents {
  */
 export class NamedTypes {
   // key: string, value: Constructor
-  static get v1() {
-    return Remember<Map<string, unknown>>(this, 'NamedTypes', 'v1', Map);
+  @remember('NamedTypes')
+  static get v1(): Map<string, unknown> {
+    return new Map();
   }
 }
 
@@ -63,7 +67,8 @@ export class NamedTypes {
  */
 export class Initializers {
   // key: class, value: [Initializer Function, Class]
-  static get v1() {
-    return Remember<WeakMap<Function, Array<[Function, Function]>>>(this, 'Initializers', 'v1', Map);
+  @remember('Initializers')
+  static get v1(): WeakMap<Function, Array<[Function, Function]>> {
+    return new Map();
   }
 }

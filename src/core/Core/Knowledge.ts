@@ -13,9 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Invocation } from './Interfaces/Invocation';
-import { Remember } from './Wisdom/Remember';
-
-
+import { remember } from './Wisdom/Remember';
 
 /**
  * Get original type of giving agent
@@ -23,8 +21,9 @@ import { Remember } from './Wisdom/Remember';
 export class Types {
   // core
   // key: Agent Proxy | Agent Constructor | Domain Agent Constructor, value: Original Constructor
-  static get v1(): any {
-    return Remember<WeakMap<Function | object, Function | object>>(this, 'Types', 'v1', Map);
+  @remember('Types')
+  static get v1(): WeakMap<Function | object, Function | object> {
+    return new Map();
   }
 }
 
@@ -32,8 +31,9 @@ export class Types {
  * Get invocations of giving type
  */
 export class Invocations {
-  static get v1() {
-    return Remember<WeakMap<Function, Invocation>>(this, 'Invocations', 'v1', Map);
+  @remember('Invocations')
+  static get v1(): WeakMap<Function, Invocation> {
+    return new Map();
   }
 }
 
@@ -41,7 +41,8 @@ export class Invocations {
  * Get interceptors of giving type
  */
 export class Interceptors {
-  static get v1() {
-    return Remember<WeakMap<Function, [Function, unknown]>>(this, 'Interceptors', 'v1', Map);
+  @remember('Interceptors')
+  static get v1(): WeakMap<Function, [Function, unknown]> {
+    return new Map();
   }
 }

@@ -15,6 +15,10 @@ limitations under the License. */
 'use strict';
 
 /*************************************
+ *   START CORE
+ *************************************/
+
+/*************************************
  *   Common
  *************************************/
 export { AgentFrameworkError } from '../src/core/index';
@@ -60,12 +64,6 @@ export { decorateParameter } from '../src/core/index';
 export { Reflector } from '../src/core/index';
 
 /*************************************
- *   Agent API
- *************************************/
-export { IsAgent } from '../src/core/index';
-export { GetAgentType } from '../src/core/index';
-
-/*************************************
  *   Custom Interceptor
  *************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/core/index';
@@ -73,7 +71,34 @@ export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } f
 /************************************
  *    Custom Helpers
  ************************************/
-export { __agent, __decorate, __param, __metadata } from '../src/core/index';
+export { __agent, __decorate, __param } from '../src/core/index';
+export { __metadata } from '../src/core/index';
+
+/*************************************
+ *   Unstable API: Agent API
+ *************************************/
+export { IsAgent } from '../src/core/index';
+export { GetAgentType } from '../src/core/index';
+export { CreateAgent } from '../src/core/index';
+export { AgentAttribute } from '../src/core/index';
+
+/*************************************
+ *   Unstable API: Reflector
+ *************************************/
+export { remember } from '../src/core/index';
+
+/*************************************
+ *   Unstable API: Static Interceptor
+ *************************************/
+export { interceptable } from '../src/core/index';
+
+/*************************************
+ *   END CORE
+ *************************************/
+
+/*************************************
+ *   START DOMAIN
+ *************************************/
 
 /*************************************
  *   Dependence Injection
@@ -81,7 +106,6 @@ export { __agent, __decorate, __param, __metadata } from '../src/core/index';
 export { SingletonAttribute } from '../src/domain/index';
 export { TransitAttribute } from '../src/domain/index';
 export { InjectAttribute } from '../src/domain/index';
-// export { initializable } from '../src/domain/index';
 export { singleton } from '../src/domain/index';
 export { transit } from '../src/domain/index';
 export { inject } from '../src/domain/index';
@@ -90,7 +114,6 @@ export { agent } from '../src/domain/index';
 /*************************************
  *   Domain
  *************************************/
-export { AgentReference, Params, Agent } from '../src/domain/index';
 export { DomainLike } from '../src/domain/index';
 export { Domain } from '../src/domain/index';
 export { SubDomainLike } from '../src/domain/index';
@@ -100,13 +123,28 @@ export { GetSystemDomain } from '../src/domain/index';
 export { IsDomain } from '../src/domain/index';
 
 /*************************************
- *   Factory Method
+ *   Class
  *************************************/
-export { Initializer } from '../src/domain/index';
-export { ClassInitializer } from '../src/domain/index';
+export { AgentReference, Params, Agent } from '../src/domain/index';
 
 /*************************************
  *   In Memory Domain Implementation
  *************************************/
 export { InMemoryDomain } from '../src/domain/index';
 export { InMemorySubDomain } from '../src/domain/index';
+
+/*************************************
+ *   Design Pattern: Factory Method
+ *************************************/
+export { Initializer } from '../src/domain/index';
+export { ClassInitializer } from '../src/domain/index';
+
+/*************************************
+ *   Unstable API
+ *************************************/
+export { Disposable } from '../src/domain/index';
+export { extensible } from '../src/domain/index';
+
+/*************************************
+ *   END DOMAIN
+ *************************************/

@@ -6,7 +6,7 @@ import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 import { BadAgentChecker } from '../attributes/BadAgentChecker';
 import { BadRandomAttribute } from '../attributes/BadRandomAttribute';
-import { AgentAttribute, CreateAgent } from '../../../src/core';
+import { AgentAttribute, CreateAgent } from '../../../src';
 
 @decorateClass(new BadRandomAttribute())
 class MongoDB {

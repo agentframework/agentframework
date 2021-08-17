@@ -4,7 +4,7 @@ import { decorateMember, Reflector } from '../../../src';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
-import { AgentAttribute } from '../../../src/core';
+import { AgentAttribute } from '../../../src';
 
 class MongoDB {
   @decorateMember(new RandomInterceptor())

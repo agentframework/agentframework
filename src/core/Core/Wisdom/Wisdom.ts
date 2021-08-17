@@ -14,12 +14,7 @@ limitations under the License. */
 
 import { Soul } from './Soul';
 import { FindProperty } from './Annotator';
-import { define } from '../Helpers/Prototype';
-
-function init(this: any, target: any): any {
-  let key;
-  return (key = Symbol.for(target.id)), Reflect[key] || Reflect.construct(target, [key]);
-}
+import { define, init } from '../Helpers/Prototype';
 
 @init
 export class Wisdom extends WeakMap<any, any> {
@@ -93,9 +88,9 @@ export class Wisdom extends WeakMap<any, any> {
   /**
    * Get
    */
-  get(type: Function | object): any | undefined {
-    return super.get(type || this);
-  }
+  // get(type: Function | object): any | undefined {
+  //   return super.get(type || this);
+  // }
 
   /**
    * returns value instead this object
@@ -126,7 +121,7 @@ export class Wisdom extends WeakMap<any, any> {
  */
 export function __metadata(metadataKey: string, metadataValue: any): Function {
   return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
-    if (!targetKey) {
+    if (targetKey == null) {
       target = (<Function>target).prototype;
       targetKey = 'constructor';
     }

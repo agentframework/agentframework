@@ -9,7 +9,7 @@ import {
   SingletonAttribute,
   AgentFrameworkError,
 } from '../../../src';
-import { CreateAgent } from '../../../src/core';
+import { CreateAgent } from '../../../src';
 
 describe('6.3. @singleton decorator', () => {
   describe('# should able to', () => {

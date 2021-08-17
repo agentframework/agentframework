@@ -15,3 +15,8 @@ limitations under the License. */
 export function define<T>(target: object, key: string | symbol | number, value: T): void {
   Reflect.defineProperty(target, key, value);
 }
+
+export function init(this: any, type: any): any {
+  let key;
+  return (key = Symbol.for(type.id)), Reflect.get(Reflect, 'key') || Reflect.construct(type, [key]);
+}

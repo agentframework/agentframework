@@ -3,7 +3,7 @@
 import { agent } from '../../../src';
 import { decorateParameter, IsAgent, Reflector } from '../../../src';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
-import { CreateAgent } from '../../../src/core';
+import { CreateAgent } from '../../../src';
 
 class Connection {
   static count = 0;

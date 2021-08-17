@@ -16,9 +16,10 @@
     "suppressImplicitAnyIndexErrors": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
+    "stripInternal": true,
     "baseUrl": ".",
     "paths": {
-      "agentframework": ["./lib/index"]
+      "agentframework": ["src/index"]
     }
   },
   "include": ["lib", "src", "test", "tools"],

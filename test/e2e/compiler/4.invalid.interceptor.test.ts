@@ -2,7 +2,7 @@
 
 import { agent, decorateMember, IsAgent, Reflector } from '../../../src';
 import { InjectAttribute } from '../attributes/InjectAttribute';
-import { CreateAgent } from '../../../src/core';
+import { CreateAgent } from '../../../src';
 
 @agent()
 class PostgreSQL {

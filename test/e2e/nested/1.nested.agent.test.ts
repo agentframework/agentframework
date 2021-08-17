@@ -4,7 +4,7 @@ import { AgentChecker } from '../attributes/AgentChecker';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
-import { CreateAgent } from '../../../src/core';
+import { CreateAgent } from '../../../src';
 
 @agent()
 @decorateClass(new AgentChecker())

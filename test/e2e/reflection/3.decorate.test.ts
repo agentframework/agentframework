@@ -3,7 +3,7 @@
 import { decorate, IsAgent, MemberKinds } from '../../../src';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
-import { CreateAgent } from '../../../src/core';
+import { CreateAgent } from '../../../src';
 
 /**
  *   Constructor = 1,

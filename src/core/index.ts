@@ -15,6 +15,10 @@ limitations under the License. */
 'use strict';
 
 /*************************************
+ *   START CORE
+ *************************************/
+
+/*************************************
  *   Common
  *************************************/
 export { AgentFrameworkError } from './Core/Error/AgentFrameworkError';
@@ -60,12 +64,6 @@ export { decorateParameter } from './Core/Decorator/decorateParameter';
 export { Reflector } from './Core/Reflector';
 
 /*************************************
- *   Agent API
- *************************************/
-export { IsAgent } from './Core/Helpers/AgentHelper';
-export { GetAgentType } from './Core/Helpers/AgentHelper';
-
-/*************************************
  *   Custom Interceptor
  *************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from './Core/Helpers/CustomInterceptor';
@@ -77,17 +75,28 @@ export { __agent, __decorate, __param } from './Core/Wisdom/DecoratorHelper';
 export { __metadata } from './Core/Wisdom/Wisdom';
 
 /*************************************
- *   Unstable API
+ *   Unstable API: Agent API
  *************************************/
+export { IsAgent } from './Core/Helpers/AgentHelper';
+export { GetAgentType } from './Core/Helpers/AgentHelper';
 export { CreateAgent } from './Core/Agent/CreateAgent';
 export { AgentAttribute } from './Core/Agent/AgentAttribute';
-export { Remember } from './Core/Wisdom/Remember';
+
+/*************************************
+ *   Unstable API: Reflector
+ *************************************/
+export { remember } from './Core/Wisdom/Remember';
 export { AddAttributeToClass } from './Core/Wisdom/AddAttribute';
 
 /*************************************
  *   Unstable API: Static Interceptor
  *************************************/
 export { interceptable } from './Core/Agent/interceptable';
+
+/*************************************
+ *   END CORE
+ *************************************/
+
 // export { Decorator, ClassDecorator, PropertyDecorator, ParameterDecorator } from './Core/Decorator/decorators';
 // export { NotImplementedError } from './Core/Error/NotImplementedError';
 // export { NotSupportedError } from './Core/Error/NotSupportedError';

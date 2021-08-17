@@ -1,5 +1,5 @@
 import { InMemoryDomain, agent, transit, Reflector, TransitAttribute } from '../../../src';
-import { CreateAgent } from '../../../src/core';
+import { CreateAgent } from '../../../src';
 
 describe('6.4. @transit decorator', () => {
   describe('# should able to', () => {

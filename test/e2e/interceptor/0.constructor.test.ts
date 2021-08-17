@@ -13,7 +13,7 @@ import {
   MemberKinds,
   decorateClass
 } from '../../../src';
-import { CreateAgent } from '../../../src/core';
+import { CreateAgent } from '../../../src';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 class AgentChecker implements Attribute, Interceptor {

@@ -15,6 +15,21 @@ limitations under the License. */
 'use strict';
 
 /*************************************
+ *   START DOMAIN
+ *************************************/
+
+/*************************************
+ *   Dependence Injection
+ *************************************/
+export { SingletonAttribute } from './Domain/Attributes/SingletonAttribute';
+export { TransitAttribute } from './Domain/Attributes/TransitAttribute';
+export { InjectAttribute } from './Domain/Attributes/InjectAttribute';
+export { singleton } from './Domain/Decorators/singleton';
+export { transit } from './Domain/Decorators/transit';
+export { inject } from './Domain/Decorators/inject';
+export { agent } from './Domain/Decorators/agent';
+
+/*************************************
  *   Domain
  *************************************/
 export { DomainLike } from './Domain/DomainLike';
@@ -37,18 +52,6 @@ export { InMemoryDomain } from './Domain/InMemoryDomain';
 export { InMemorySubDomain } from './Domain/InMemorySubDomain';
 
 /*************************************
- *   Design Pattern: Dependence Injection
- *************************************/
-export { SingletonAttribute } from './Domain/Attributes/SingletonAttribute';
-export { TransitAttribute } from './Domain/Attributes/TransitAttribute';
-export { InjectAttribute } from './Domain/Attributes/InjectAttribute';
-// export { initializable } from './Domain/Decorators/initializable';
-export { singleton } from './Domain/Decorators/singleton';
-export { transit } from './Domain/Decorators/transit';
-export { inject } from './Domain/Decorators/inject';
-export { agent } from './Domain/Decorators/agent';
-
-/*************************************
  *   Design Pattern: Factory Method
  *************************************/
 export { Initializer } from './Domain/Symbols';
@@ -58,7 +61,11 @@ export { ClassInitializer } from './Domain/Symbols';
  *   Unstable API
  *************************************/
 export { Disposable } from './Domain/Helpers/Disposable';
-// export { IsDisposable } from './Domain/Helpers/Disposable';
 export { extensible } from './Domain/Decorators/extensible';
+// export { IsDisposable } from './Domain/Helpers/Disposable';
 // export { attribute } from './Domain/Decorators/attribute';
 // export { Test } from './Test';
+
+/*************************************
+ *   END DOMAIN
+ *************************************/

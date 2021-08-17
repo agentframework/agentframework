@@ -2,7 +2,7 @@
 
 import { decorateMember, IsAgent, Reflector } from '../../../src';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
-import { CreateAgent } from '../../../src/core';
+import { CreateAgent } from '../../../src';
 
 class Calculator {
   @decorateMember(new RoundInterceptor())
