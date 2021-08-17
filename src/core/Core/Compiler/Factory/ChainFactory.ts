@@ -19,7 +19,6 @@ import { InterceptorInvocation } from '../Invocation/InterceptorInvocation';
 import { GetInterceptor } from '../../Helpers/CustomInterceptor';
 import { Attribute } from '../../Interfaces/Attribute';
 
-
 /**
  *
  */
@@ -44,16 +43,16 @@ export class ChainFactory {
    * @ignore
    * @hidden
    */
-  static chainInterceptorAttributes(origin: Invocation, interceptors: Array<Attribute>): Invocation {
+  static chainInterceptorAttributes(current: Invocation, attributes: Array<Attribute>): Invocation {
     // make invocation chain of interceptors
-    if (interceptors.length) {
-      for (const attribute of interceptors) {
+    if (attributes.length) {
+      for (const attribute of attributes) {
         const interceptor = GetInterceptor(attribute);
         if (interceptor) {
-          origin = new InterceptorInvocation(origin, interceptor);
+          current = new InterceptorInvocation(current, interceptor);
         }
       }
     }
-    return origin;
+    return current;
   }
 }

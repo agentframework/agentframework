@@ -1,14 +1,13 @@
 .idea/
+.DS_Store
 .rpt2_cache/
 .nyc_output/
 release/
 coverage/
 node_modules/
+yarn.lock
+package-lock.json
 *.log
 *.js
 *.js.map
 *.d.ts
-.DS_Store
-
-
-

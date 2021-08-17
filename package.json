@@ -3,7 +3,8 @@
   "version": "2.0.0",
   "sideEffects": false,
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=8",
+    "typescript": ">=3"
   },
   "main": "lib/index.ts",
   "description": "TypeScript that scales",

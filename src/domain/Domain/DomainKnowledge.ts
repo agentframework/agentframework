@@ -21,8 +21,8 @@ import { Domain } from './Domain';
 export class Agents {
   // key: Original Constructor, value: Agent Constructor
   @remember('Agents')
-  static get v1(): WeakMap<Function, Function> {
-    return new Map();
+  static get v1() {
+    return new Map<Function, Function>();
   }
 }
 
@@ -35,8 +35,8 @@ export class Domains {
   // key: Domain instance,        value: Domain instance
   // key: Domain Type Prototype,  value: Domain Type Prototype
   @remember('Domains')
-  static get v1(): WeakMap<Function | object, Domain | undefined> {
-    return new Map();
+  static get v1() {
+    return new Map<Function | object, Domain | undefined>();
   }
 }
 
@@ -46,8 +46,8 @@ export class Domains {
 export class DomainAgents {
   // key: Original Constructor, value: Agent Constructor
   @remember('DomainAgents')
-  static get v1(): WeakMap<Function, Map<Domain, Function>> {
-    return new Map();
+  static get v1() {
+    return new Map<Function, Map<Domain, Function>>();
   }
 }
 
@@ -57,8 +57,8 @@ export class DomainAgents {
 export class NamedTypes {
   // key: string, value: Constructor
   @remember('NamedTypes')
-  static get v1(): Map<string, unknown> {
-    return new Map();
+  static get v1() {
+    return new Map<string, unknown>();
   }
 }
 
@@ -68,7 +68,7 @@ export class NamedTypes {
 export class Initializers {
   // key: class, value: [Initializer Function, Class]
   @remember('Initializers')
-  static get v1(): WeakMap<Function, Array<[Function, Function]>> {
-    return new Map();
+  static get v1() {
+    return new Map<Function, Array<[Function, Function]>>();
   }
 }

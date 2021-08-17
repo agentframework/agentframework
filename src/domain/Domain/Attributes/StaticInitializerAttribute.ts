@@ -12,10 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Arguments, ClassInterceptor, ClassInvocation } from '../../../dependencies/core';
-import { FindInitializers } from '../Helpers/FindInitializers';
+import { AgentFrameworkError, Arguments, ClassInterceptor, ClassInvocation } from '../../../dependencies/core';
 
-export class InitializerAttribute implements ClassInterceptor {
+export class StaticInitializerAttribute implements ClassInterceptor {
   constructor(readonly key: PropertyKey) {}
 
   get interceptor() {
@@ -23,13 +22,15 @@ export class InitializerAttribute implements ClassInterceptor {
   }
 
   intercept(target: ClassInvocation, params: Arguments, receiver: any) {
-    // after create instance, call custom Initializer
-    const instance = target.invoke(params, receiver);
-    // call sequence: root -> base -> child
-    const results = FindInitializers(receiver, this.key);
-    for (const [initializer] of results) {
-      Reflect.apply(initializer, instance, params);
+    const declaringType = target.design.declaringType;
+    const initializer = Reflect.get(declaringType, this.key, receiver);
+    if (initializer) {
+      if ('function' !== typeof initializer) {
+        throw new AgentFrameworkError('ClassInitializerIsNotFunction');
+      }
+      return Reflect.apply(initializer, declaringType, arguments);
+    } else {
+      return target.invoke(params, receiver);
     }
-    return instance;
   }
 }

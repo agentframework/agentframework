@@ -12,16 +12,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AddAttributeToClass, AgentFrameworkError, ClassAttribute, CreateAgent } from '../../../dependencies/core';
+import { AgentFrameworkError, ClassAttribute, CreateAgent } from '../../../dependencies/core';
 import { DomainAgentAttribute } from '../Attributes/DomainAgentAttribute';
 import { Domain } from '../Domain';
 import { GetDomain } from './GetDomain';
 import { RememberDomain } from './RememberDomain';
 import { RememberDomainAgent } from './RememberDomainAgent';
-import { ClassInitializer, Initializer } from '../Symbols';
-import { InitializerAttribute } from '../Attributes/InitializerAttribute';
-import { ClassInitializerAttribute } from '../Attributes/ClassInitializerAttribute';
 
+/**
+ * This function only called once per domain
+ */
 export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, strategy?: ClassAttribute): T {
   // check owner domain
   const owner = GetDomain(type);
@@ -44,16 +44,6 @@ export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, s
   //   console.log('<< CREATE >>', domain.constructor.name, '====>', type.name);
   // }
 
-  // NOTE: Design pattern: Custom method
-  if (Reflect.has(type.prototype, Initializer)) {
-    // InitializerAttribute must before ClassInitializerAttribute
-    AddAttributeToClass(new InitializerAttribute(), type.prototype);
-  }
-  // NOTE: Design pattern: Factory method
-  if (Reflect.has(type, ClassInitializer)) {
-    AddAttributeToClass(new ClassInitializerAttribute(), type.prototype);
-  }
-
   const createAgentStrategy =
     strategy ||
     domain.getAgent(DomainAgentAttribute) ||
@@ -61,7 +51,9 @@ export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, s
 
   // upgrade to Agent only if interceptor or initializer found
   const newCreatedAgent = CreateAgent(type, createAgentStrategy);
-  // console.log('found', domain, type, newType)
+  // console.log();
+  // console.log('found 1', type.name);
+  // console.log('found 2', newCreatedAgent.name);
   // const name = Reflector(type).name;
   // const factory = Function(name, [`return`, `class`, `${name}$`, `extends`, name, '{}'].join(' '));
   // const newType = factory(type);

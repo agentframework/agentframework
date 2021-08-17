@@ -22,8 +22,8 @@ export class Types {
   // core
   // key: Agent Proxy | Agent Constructor | Domain Agent Constructor, value: Original Constructor
   @remember('Types')
-  static get v1(): WeakMap<Function | object, Function | object> {
-    return new Map();
+  static get v1() {
+    return new WeakMap<Function | object, Function | object>();
   }
 }
 
@@ -32,8 +32,8 @@ export class Types {
  */
 export class Invocations {
   @remember('Invocations')
-  static get v1(): WeakMap<Function, Invocation> {
-    return new Map();
+  static get v1() {
+    return new WeakMap<Function, Invocation>();
   }
 }
 
@@ -42,7 +42,7 @@ export class Invocations {
  */
 export class Interceptors {
   @remember('Interceptors')
-  static get v1(): WeakMap<Function, [Function, unknown]> {
-    return new Map();
+  static get v1() {
+    return new WeakMap<Function, [Function, unknown]>();
   }
 }

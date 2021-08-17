@@ -88,7 +88,6 @@ export { __agent, __decorate, __param, __metadata } from '../src/core/index';
  *   Unstable API: Reflector
  *************************************/
 // export { remember } from '../src/core/index';
-// export { AddAttributeToClass } from '../src/core/index';
 
 /*************************************
  *   Unstable API: Static Interceptor
@@ -104,7 +103,7 @@ export { __agent, __decorate, __param, __metadata } from '../src/core/index';
  *************************************/
 
 /*************************************
- *   Dependence Injection
+ *   Design Pattern: Dependence Injection
  *************************************/
 export { SingletonAttribute } from '../src/domain/index';
 export { TransitAttribute } from '../src/domain/index';
@@ -115,6 +114,13 @@ export { inject } from '../src/domain/index';
 export { agent } from '../src/domain/index';
 
 /*************************************
+ *   Design Pattern: Factory Method
+ *************************************/
+export { initializable } from '../src/domain/index';
+export { Initializer, ClassInitializer } from '../src/domain/index';
+export { InitializerHandler, ClassInitializerHandler } from '../src/domain/index';
+
+/*************************************
  *   Domain
  *************************************/
 // export { DomainLike } from '../src/domain/index';
@@ -122,6 +128,7 @@ export { agent } from '../src/domain/index';
 // export { SubDomainLike } from '../src/domain/index';
 //
 // export { GetDomain } from '../src/domain/index';
+// export { GetDomainFromInvocation } from '../src/domain/index';
 // export { GetSystemDomain } from '../src/domain/index';
 // export { IsDomain } from '../src/domain/index';
 
@@ -135,12 +142,6 @@ export { agent } from '../src/domain/index';
  *************************************/
 // export { InMemoryDomain } from '../src/domain/index';
 // export { InMemorySubDomain } from '../src/domain/index';
-
-/*************************************
- *   Design Pattern: Factory Method
- *************************************/
-// export { Initializer } from '../src/domain/index';
-// export { ClassInitializer } from '../src/domain/index';
 
 /*************************************
  *   Unstable API

@@ -12,6 +12,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+import { Arguments, ClassInvocation } from '../../dependencies/core';
+
+export type InitializerHandler = (target: ClassInvocation, params: Arguments, receiver: any) => void;
+
+export type ClassInitializerHandler = (target: ClassInvocation, params: Arguments, receiver: any) => object;
+
 export const Initializer: unique symbol = Symbol.for('AgentFramework.Initializer');
 
-export const ClassInitializer: unique symbol = Symbol.for('AgentFramework.ClassInitializer');
+export const ClassInitializer = Initializer;

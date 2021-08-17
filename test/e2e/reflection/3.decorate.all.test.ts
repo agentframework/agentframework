@@ -35,7 +35,7 @@ describe('decorate() and All Target', () => {
 
         @decorate(a, AllTargets)
         set date(d: Date) {
-          console.log('set', d);
+          // console.log('set', d);
         }
       }
 
@@ -70,7 +70,7 @@ describe('decorate() and All Target', () => {
 
         @decorate(a, MemberKinds.Property)
         set date(d: Date) {
-          console.log('set', d);
+          // console.log('set', d);
         }
       }
 

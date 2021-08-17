@@ -19,7 +19,7 @@ limitations under the License. */
  *************************************/
 
 /*************************************
- *   Dependence Injection
+ *   Design Pattern: Dependence Injection
  *************************************/
 export { SingletonAttribute } from './Domain/Attributes/SingletonAttribute';
 export { TransitAttribute } from './Domain/Attributes/TransitAttribute';
@@ -28,6 +28,13 @@ export { singleton } from './Domain/Decorators/singleton';
 export { transit } from './Domain/Decorators/transit';
 export { inject } from './Domain/Decorators/inject';
 export { agent } from './Domain/Decorators/agent';
+
+/*************************************
+ *   Design Pattern: Factory Method
+ *************************************/
+export { initializable } from './Domain/Decorators/initializable';
+export { Initializer, ClassInitializer } from './Domain/Symbols';
+export { InitializerHandler, ClassInitializerHandler } from './Domain/Symbols';
 
 /*************************************
  *   Domain
@@ -52,19 +59,10 @@ export { InMemoryDomain } from './Domain/InMemoryDomain';
 export { InMemorySubDomain } from './Domain/InMemorySubDomain';
 
 /*************************************
- *   Design Pattern: Factory Method
- *************************************/
-export { Initializer } from './Domain/Symbols';
-export { ClassInitializer } from './Domain/Symbols';
-
-/*************************************
  *   Unstable API
  *************************************/
 export { Disposable } from './Domain/Helpers/Disposable';
 export { extensible } from './Domain/Decorators/extensible';
-// export { IsDisposable } from './Domain/Helpers/Disposable';
-// export { attribute } from './Domain/Decorators/attribute';
-// export { Test } from './Test';
 
 /*************************************
  *   END DOMAIN

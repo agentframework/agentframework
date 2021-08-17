@@ -1,25 +1,32 @@
-import { InMemoryDomain, Domain, ClassInitializer, Initializer } from '../../../src';
+import { InMemoryDomain, Initializer, agent, initializable } from '../../../src';
 import { Arguments, ClassInvocation } from '../../../src';
 import { CreateAgent } from '../../../src';
 
 describe('6.1. @initializable decorator', () => {
   describe('# should able to', () => {
     it('create static initializable agent', () => {
-      const domain = new InMemoryDomain();
+      // const domain = new InMemoryDomain();
 
+      @agent()
+      @initializable()
       class App611 {
         public name1: string | undefined;
-        static [ClassInitializer](domain: Domain, target: ClassInvocation, params: Arguments, receiver: typeof App611) {
-          const app = target.invoke<App611>(params, receiver);
-          app.name1 = 'App611$';
-          return app;
+        static get [Initializer]() {
+          // console.log('this outside', this.name);
+          return function (this: any, target: ClassInvocation, params: Arguments, receiver: typeof App611) {
+            // console.log('this inside', this.name);
+            // console.log('receiver inside', receiver.name);
+            const app = target.invoke<App611>(params, receiver);
+            app.name1 = 'App611$';
+            return app;
+          };
         }
       }
-      const app1 = domain.construct(App611);
+      const app1 = new App611(); //domain.construct(App611);
       expect(app1).toBeInstanceOf(App611);
       expect(app1.name1).toBe('App611$');
 
-      const app2 = domain.construct(App611);
+      const app2 = new App611(); //domain.construct(App611);
       expect(app2).toBeInstanceOf(App611);
       expect(app2.name1).toBe('App611$');
 
@@ -29,6 +36,7 @@ describe('6.1. @initializable decorator', () => {
     });
 
     it('create initializable agent', () => {
+      @initializable()
       class Root612 {
         name: string | undefined;
         root: string | undefined;
@@ -98,7 +106,7 @@ describe('6.1. @initializable decorator', () => {
     });
 
     it('create async initializable agent', async () => {
-      // @initializable()
+      @initializable()
       class Root613 {
         name: string | undefined;
         root: string | undefined;
@@ -121,7 +129,7 @@ describe('6.1. @initializable decorator', () => {
           this.name = 'App613$';
         }
 
-        static [ClassInitializer](domain: Domain, target: ClassInvocation, params: Arguments, receiver: typeof App613) {
+        static [Initializer](target: ClassInvocation, params: Arguments, receiver: typeof App613) {
           const ins = target.invoke(params, receiver);
           expect(ins).toBeInstanceOf(target.design.type);
           return Promise.resolve(ins);
@@ -162,10 +170,10 @@ describe('6.1. @initializable decorator', () => {
 
     it('create slow static initializable agent', async () => {
       const domain = new InMemoryDomain();
-      // @initializable()
+      @initializable()
       class App615 {
         public name1: string | undefined;
-        static [ClassInitializer](domain: Domain, target: ClassInvocation, params: Arguments, receiver: typeof App615) {
+        static [Initializer](target: ClassInvocation, params: Arguments, receiver: typeof App615) {
           const app = target.invoke<App615>(params, receiver);
           app.name1 = 'App615$';
           return new Promise((resolve) => {
@@ -187,10 +195,10 @@ describe('6.1. @initializable decorator', () => {
 
     it('create slow static initializable agent after dispose', async () => {
       const domain = new InMemoryDomain();
-      // @initializable()
+      @initializable()
       class App616 {
         public name1: string | undefined;
-        static [ClassInitializer](domain: Domain, target: ClassInvocation, params: Arguments, receiver: typeof App616) {
+        static [Initializer](target: ClassInvocation, params: Arguments, receiver: typeof App616) {
           const app = target.invoke<App616>(params, receiver);
           app.name1 = 'App616$';
           return new Promise((resolve) => {
@@ -215,16 +223,52 @@ describe('6.1. @initializable decorator', () => {
   });
 
   describe('# should not able to', () => {
-    it('create invalid class initializer  agent', () => {
+    it('create agent with invalid class initializer', () => {
       const domain = new InMemoryDomain();
-      // @initializable()
-      class App612 {
-        name: string | undefined;
-        static [ClassInitializer] = {};
+      @initializable()
+      class App621 {
+        static [Initializer] = {};
       }
       expect(() => {
-        domain.construct(App612);
+        domain.construct(App621);
       }).toThrowError('ClassInitializerIsNotFunction');
+    });
+
+    it('create agent with null class initializer', () => {
+      const domain = new InMemoryDomain();
+      @initializable()
+      class App622 {
+        static [Initializer]() {
+          return null;
+        }
+      }
+      expect(() => {
+        domain.construct(App622);
+      }).toThrowError('ConstructorReturnNonObject');
+    });
+
+    it('create agent with undefined class initializer', () => {
+      @agent()
+      @initializable()
+      class App623 {
+        static [Initializer]() {}
+      }
+      expect(() => {
+        new App623();
+      }).toThrowError('ConstructorReturnNonObject');
+    });
+
+    it('create agent with number class initializer', () => {
+      @agent()
+      @initializable()
+      class App623 {
+        static [Initializer]() {
+          return 1;
+        }
+      }
+      expect(() => {
+        new App623();
+      }).toThrowError('ConstructorReturnNonObject');
     });
   });
 });

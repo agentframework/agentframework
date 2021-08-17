@@ -69,13 +69,13 @@ export { Reflector } from './Core/Reflector';
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from './Core/Helpers/CustomInterceptor';
 
 /************************************
- *    Custom Helpers
+ *    TSLIB Re-work
  ************************************/
 export { __agent, __decorate, __param } from './Core/Wisdom/DecoratorHelper';
 export { __metadata } from './Core/Wisdom/Wisdom';
 
 /*************************************
- *   Unstable API: Agent API
+ *   Unstable API: Agent
  *************************************/
 export { IsAgent } from './Core/Helpers/AgentHelper';
 export { GetAgentType } from './Core/Helpers/AgentHelper';
@@ -83,14 +83,20 @@ export { CreateAgent } from './Core/Agent/CreateAgent';
 export { AgentAttribute } from './Core/Agent/AgentAttribute';
 
 /*************************************
- *   Unstable API: Reflector
+ *   Unstable API: Attribute
  *************************************/
-export { remember } from './Core/Wisdom/Remember';
-export { AddAttributeToClass } from './Core/Wisdom/AddAttribute';
+export { CanDecorate } from './Core/Decorator/CanDecorate';
+export {
+  AddAttributeToClass,
+  AddAttributeToConstructorParameter,
+  AddAttributeToMethodParameter,
+  AddAttributeToMember,
+} from './Core/Wisdom/AddAttribute';
 
 /*************************************
- *   Unstable API: Static Interceptor
+ *   Unstable API: Decorator
  *************************************/
+export { remember } from './Core/Wisdom/Remember';
 export { interceptable } from './Core/Agent/interceptable';
 
 /*************************************

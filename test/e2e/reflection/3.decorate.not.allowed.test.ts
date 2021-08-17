@@ -83,7 +83,7 @@ describe('decorate() and Not Allowed Target', () => {
         class MongoDB {
           @decorate(a, noTarget)
           set date(d: Date) {
-            console.log('set', d);
+            // console.log('set', d);
           }
         }
         expect(MongoDB).toBeTruthy();

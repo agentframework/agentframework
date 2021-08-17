@@ -13,9 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Initializers } from '../DomainKnowledge';
-import { Initializer } from '../Symbols';
 
-export function FindInitializers(target: Function): Array<[Function, Function]> {
+export function FindInitializers(target: Function, key: PropertyKey): Array<[Function, Function]> {
   const initializers = Initializers.v1;
   // console.log('FI', target, typeof target);
   const ctor = initializers.get(target);
@@ -29,8 +28,8 @@ export function FindInitializers(target: Function): Array<[Function, Function]> 
 
   let prototype = target.prototype;
   while (prototype && prototype.constructor !== Object) {
-    const descriptor = Reflect.getOwnPropertyDescriptor(prototype, Initializer);
-    if (descriptor && typeof descriptor.value == 'function') {
+    const descriptor = Reflect.getOwnPropertyDescriptor(prototype, key);
+    if (descriptor && 'function' === typeof descriptor.value) {
       found.unshift([descriptor.value, prototype.constructor]);
       // map.set(descriptor.value, prototype.constructor);
     }

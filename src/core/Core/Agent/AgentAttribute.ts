@@ -88,7 +88,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     if (!invocation) {
       // upgrade properties
       const design = Reflector(target);
-      const result = design.findProperties(p => p.hasInterceptor());
+      const result = design.findProperties((p) => p.hasInterceptor());
       const properties = [];
 
       // NOTE: Static Constructor support, deep first
@@ -153,8 +153,12 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
       Invocations.v1.set(target, invocation);
     }
 
-    // console.log('construct', newTarget, parameters);
-    return invocation.invoke(params, newTarget);
+    const instance = invocation.invoke(params, newTarget);
+    // raise error before construct proxy
+    if (null === instance || 'object' !== typeof instance) {
+      throw new AgentFrameworkError('ConstructorReturnNonObject');
+    }
+    return instance;
     // return new Proxy(invocation.invoke(params, newTarget), {
     //   getPrototypeOf<T extends Function>(target: T): object | null {
     //     return {};
