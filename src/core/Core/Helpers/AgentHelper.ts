@@ -14,9 +14,13 @@ limitations under the License. */
 
 import { Types } from '../Knowledge';
 
-export function RememberAgentType<T extends Function>(agent: T, type: T): void {
+export function RememberAgentType(agent: Function, type: Function): Function {
+  if (Types.v1.has(agent)) {
+    console.log('has', agent);
+  }
   Types.v1.set(agent, type);
   Types.v1.set(agent.prototype, type.prototype);
+  return agent;
 }
 
 /**

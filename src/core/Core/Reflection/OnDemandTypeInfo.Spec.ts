@@ -1,4 +1,4 @@
-import { OnDemandTypeInfo } from '../../src/core/Core/Reflection/OnDemandTypeInfo';
+import { OnDemandTypeInfo } from './OnDemandTypeInfo';
 
 describe('OnDemandTypeInfo', () => {
   describe('# should able to', () => {

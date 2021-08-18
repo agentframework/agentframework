@@ -13,11 +13,11 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { AgentFrameworkError, ClassAttribute, CreateAgent } from '../../../dependencies/core';
-import { DomainAgentAttribute } from '../Attributes/DomainAgentAttribute';
+import { DomainAgentAttribute } from './DomainAgentAttribute';
 import { Domain } from '../Domain';
-import { GetDomain } from './GetDomain';
-import { RememberDomain } from './RememberDomain';
-import { RememberDomainAgent } from './RememberDomainAgent';
+import { GetDomain } from '../Helpers/GetDomain';
+import { RememberDomain } from '../Helpers/RememberDomain';
+import { RememberDomainAgent } from '../Helpers/RememberDomainAgent';
 
 /**
  * This function only called once per domain
@@ -44,13 +44,13 @@ export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, s
   //   console.log('<< CREATE >>', domain.constructor.name, '====>', type.name);
   // }
 
-  const createAgentStrategy =
+  const attribute =
     strategy ||
     domain.getAgent(DomainAgentAttribute) ||
     Reflect.construct(domain.getType(DomainAgentAttribute) || DomainAgentAttribute, [domain]);
 
   // upgrade to Agent only if interceptor or initializer found
-  const newCreatedAgent = CreateAgent(type, createAgentStrategy);
+  const newCreatedAgent = CreateAgent(type, attribute);
   // console.log();
   // console.log('found 1', type.name);
   // console.log('found 2', newCreatedAgent.name);

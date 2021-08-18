@@ -16,19 +16,25 @@ limitations under the License. */
 import { define } from '../Helpers/Prototype';
 import { Wisdom } from './Wisdom';
 
-export function remember(key: string) {
+export function remember(key?: string) {
   return (target: object | Function, targetKey: string | symbol, descriptor: any): any => {
     return {
       get() {
-        const wisdom = Wisdom.get(Wisdom);
-        const id = key + '.' + String(targetKey);
-        let value = wisdom.get(id);
-        /* istanbul ignore next */
-        if (!value) {
-          const { get } = descriptor || Reflect.getOwnPropertyDescriptor(target, targetKey);
-          wisdom.set(id, (value = Reflect.apply(get, target, [])));
+        let value;
+        if (key) {
+          const wisdom = Wisdom.get(Wisdom);
+          const id = key + '.' + String(targetKey);
+          value = wisdom.get(id);
+          if (!value) {
+            const { get } = descriptor;
+            wisdom.set(id, (value = Reflect.apply(get, target, [])));
+          }
+          define(target, targetKey, { value });
+        } else {
+          const { get } = descriptor;
+          value = Reflect.apply(get, target, []);
+          define(this, targetKey, { value });
         }
-        define(target, targetKey, { value });
         return value;
       },
       configurable: true,

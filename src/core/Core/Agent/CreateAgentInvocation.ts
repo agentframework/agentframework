@@ -16,29 +16,35 @@ import { Invocation } from '../Interfaces/Invocation';
 import { InterceptorInvocation } from '../Compiler/Invocation/InterceptorInvocation';
 import { Attribute } from '../Interfaces/Attribute';
 import { CanDecorate } from '../Decorator/CanDecorate';
-import { GetInterceptor } from '../Helpers/CustomInterceptor';
+import { GetInterceptor, HasInterceptor } from '../Helpers/CustomInterceptor';
+import { ChainFactory } from '../Compiler/Factory/ChainFactory';
+import { AgentInvocation } from './AgentInvocation';
 
 /**
  * Build Agent using AgentAttribute
  */
-export function CreateAgentInvocation(current: Invocation, attribute: Attribute, target: Function): Invocation {
-  // chain the pipeline
-  // custom interceptors -> agent interceptor -> agent initializer -> agent invocation
-  // // add single initializer into pipeline (mandatory)
-  // const initializer = attribute.interceptor;
-  // if (initializer && 'function' === typeof initializer.intercept) {
-  //   invocation = new InitializerInvocation(invocation, initializer);
-  // } else {
-  //   throw new Error('InvalidAgentAttribute');
-  // }
+export function CreateAgentInvocation(target: Function, attribute: Attribute): Invocation {
+  //
+  const invocation = new AgentInvocation(target);
+  const design = invocation.design;
 
+  // todo: cache the chain for this target
+  let chain: Invocation = invocation;
+  // chain user defined class attribute
+  if (design.hasOwnInterceptor()) {
+    const interceptors = design.findOwnAttributes(HasInterceptor);
+    //.concat(property.value.findOwnAttributes(HasInterceptor));
+    chain = ChainFactory.chainInterceptorAttributes(chain, interceptors);
+  }
+
+  // todo: cache do not include this attribute
   // add single interceptor into pipeline (optional)
   if (CanDecorate(attribute, target)) {
     const interceptor = GetInterceptor(attribute);
     if (interceptor) {
-      current = new InterceptorInvocation(current, interceptor);
+      chain = new InterceptorInvocation(chain, interceptor);
     }
   }
 
-  return current;
+  return chain;
 }

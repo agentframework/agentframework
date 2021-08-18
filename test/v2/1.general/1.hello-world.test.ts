@@ -1,5 +1,4 @@
-import { agent, transit, InMemoryDomain } from '../../../src';
-import { CreateAgent } from '../../../src';
+import { agent, transit, InMemoryDomain, CreateAgent } from '../../../src';
 
 describe('Hello world!', () => {
   describe('# should able to', () => {

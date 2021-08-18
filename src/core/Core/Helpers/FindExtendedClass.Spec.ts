@@ -1,4 +1,4 @@
-import { FindExtendedClass } from '../../src/core/Core/Helpers/FindExtendedClass';
+import { FindExtendedClass } from './FindExtendedClass';
 
 describe('FindExtendedClass', () => {
   class Base {}
@@ -26,7 +26,7 @@ describe('FindExtendedClass', () => {
       const Hacked = new Proxy(End.prototype, {
         getPrototypeOf(target: any): object | null {
           return target;
-        }
+        },
       });
       const found = FindExtendedClass(Base, <Function>{ prototype: Hacked });
       expect(found).toBeDefined();

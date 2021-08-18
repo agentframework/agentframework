@@ -13,8 +13,6 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Invocation } from '../../Interfaces/Invocation';
-// import { IInitializerAttribute } from '../../Interfaces/IInitializerAttribute';
-// import { InitializerInvocation } from '../Invocation/InitializerInvocation';
 import { InterceptorInvocation } from '../Invocation/InterceptorInvocation';
 import { GetInterceptor } from '../../Helpers/CustomInterceptor';
 import { Attribute } from '../../Interfaces/Attribute';
@@ -23,22 +21,6 @@ import { Attribute } from '../../Interfaces/Attribute';
  *
  */
 export class ChainFactory {
-  // /**
-  //  * @ignore
-  //  * @hidden
-  //  */
-  // static chainInitializerAttributes(origin: IInvocation, attributes: Array<IInitializerAttribute>): IInvocation {
-  //   // make invocation chain of interceptors
-  //   for (const attribute of attributes) {
-  //     const initializer = attribute.initializer;
-  //     // skip if initializer return false
-  //     if (initializer && 'function' === typeof initializer.initialize) {
-  //       origin = new InitializerInvocation(origin, initializer);
-  //     }
-  //   }
-  //   return origin;
-  // }
-
   /**
    * @ignore
    * @hidden

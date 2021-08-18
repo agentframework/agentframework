@@ -14,14 +14,8 @@ limitations under the License. */
 
 import { CreateAgentInvocation } from './CreateAgentInvocation';
 import { AgentAttribute } from './AgentAttribute';
-import { GetAgentType, RememberAgentType } from '../Helpers/AgentHelper';
-import { AgentInvocation } from './AgentInvocation';
+import { GetAgentType } from '../Helpers/AgentHelper';
 import { ClassAttribute } from '../Interfaces/TypeAttributes';
-import { OnDemandTypeInfo } from '../Reflection/OnDemandTypeInfo';
-import { ChainFactory } from '../Compiler/Factory/ChainFactory';
-import { Invocation } from '../Interfaces/Invocation';
-import { AgentFrameworkError } from '../Error/AgentFrameworkError';
-import { HasInterceptor } from '../Helpers/CustomInterceptor';
 
 /**
  * Create a new agent from attribute, and add into Agent registry
@@ -36,39 +30,24 @@ export function CreateAgent<T extends Function>(type: T, strategy?: ClassAttribu
   // target is an agent already
   // set the target to origin type to recreate this
   // so create another proxy from this origin class
-  const target = GetAgentType(type) || type;
+  const attribute = strategy || Reflect.construct(AgentAttribute, []);
 
-  if (!target.name) {
-    throw new AgentFrameworkError('InvalidClassName');
-  }
-
-  const handlers = strategy || Reflect.construct(AgentAttribute, [type]);
-
-  const design = OnDemandTypeInfo.find(target);
-
-  let invocation: Invocation = new AgentInvocation(design);
-
-  if (design.hasOwnInterceptor()) {
-    const interceptors = design.findOwnAttributes(HasInterceptor);
-    //.concat(property.value.findOwnAttributes(HasInterceptor));
-    invocation = ChainFactory.chainInterceptorAttributes(invocation, interceptors);
-  }
-
+  const receiver = GetAgentType(type) || type;
   // classic
   // create an invocation for agent type.
   // this chain used to generate agent of this target
   // empty agent
-  const chain = CreateAgentInvocation(invocation, handlers, target);
+  const chain = CreateAgentInvocation(receiver, attribute);
 
   // create a new type from this invocation, initialize the agent using reflection info
   /* eslint-disable-next-line prefer-rest-params */
-  const agent = chain.invoke<T>([Function, target.name, handlers], target);
+  const newAgent = chain.invoke<T>([receiver.name, attribute, Proxy], receiver);
 
   // register new agent map to old type
   // key: Agent proxy, value: origin type
-  // if (agent !== target) {
-  RememberAgentType(agent, target);
+  // if (newAgent !== receiver) {
+  //   RememberAgentType(newAgent, receiver);
   // }
 
-  return agent;
+  return newAgent;
 }

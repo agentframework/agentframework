@@ -1,8 +1,6 @@
 // /* tslint:disable */
-// import { InMemoryDomain } from '@agentframework/domain/Domain/InMemoryDomain';
-// import { ClassInitializer, Domain, initializable, Initializer, inject } from '@agentframework/domain';
-// import { Arguments, ClassInvocation } from '@agentframework/core';
-// import { Suite } from 'benchmark';
+// import { InMemoryDomain, initializable, Initializer, inject } from 'agentframework';
+// import { Arguments, ClassInvocation } from 'agentframework';
 //
 // export class RocketFuel {
 //   constructor(readonly main: string) {}
@@ -27,7 +25,7 @@
 // }
 //
 // export class HeavyRocket extends Rocket {
-//   static [ClassInitializer](domain: Domain, target: ClassInvocation, params: Arguments, receiver: Function) {
+//   static [Initializer](target: ClassInvocation, params: Arguments, receiver: Function) {
 //     return target.invoke(params, receiver);
 //   }
 //   [Initializer]() {
@@ -102,7 +100,7 @@
 //
 // describe('Create DomainAgent With Initializer', () => {
 //   describe('# should able to', () => {
-//     it('create new domain agent', async () => {
+//     it('create domain agent', async () => {
 //       const domain = new InMemoryDomain();
 //       const fuel = domain.construct(MixedRocketFuel, ['LOX', 'RP-1']);
 //
@@ -121,25 +119,30 @@
 //       const domain = new InMemoryDomain();
 //       domain.construct(MixedRocketFuel, ['LOX', 'RP-1']);
 //
+//       function padEnd(text: string, len: number, placeholder: string): string {
+//         const need = len - text.length;
+//         return text + placeholder.repeat(need);
+//       }
+//       const Suite = require('benchmark').Suite;
 //       new Suite('domain', {
 //         maxTime: 30,
 //       })
-//         .add('New domain and class constructor'.padEnd(50, '.'), () => {
+//         .add(padEnd('New domain and class constructor', 50, '.'), () => {
 //           const local = new InMemoryDomain();
 //           return local.construct(Dragon);
 //         })
-//         .add('New domain and agent initializer'.padEnd(50, '.'), () => {
+//         .add(padEnd('New domain and agent initializer', 50, '.'), () => {
 //           const local = new InMemoryDomain();
 //           return local.construct(Falcon);
 //         })
-//         .add('Same domain with agent initializer'.padEnd(50, '.'), () => {
+//         .add(padEnd('Same domain with agent initializer', 50, '.'), () => {
 //           return domain.construct(Falcon, [], true);
 //         })
-//         .add('Same domain with class constructor'.padEnd(50, '.'), () => {
+//         .add(padEnd('Same domain with class constructor', 50, '.'), () => {
 //           return domain.construct(Dragon, [], true);
 //         })
 //         .on('cycle', function (event: any) {
-//           console.log(String(event.target));
+//           // console.log(String(event.target));
 //         })
 //         .on('complete', function () {
 //           done();

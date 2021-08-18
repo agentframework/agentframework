@@ -15,6 +15,7 @@ limitations under the License. */
 import { AgentAttribute, Arguments, ClassInterceptor, ClassInvocation } from '../../../dependencies/core';
 import { RememberAgent } from '../Helpers/RememberAgent';
 import { GetAgent } from '../Helpers/GetAgent';
+// import { RememberAgentType } from '../../../core/Core/Helpers/AgentHelper';
 // import { DomainLike } from '../DomainLike';
 // import { IsDomainType } from '../Helpers/IsDomain';
 // import { HasPrototype } from '../Helpers/HasPrototype';
@@ -39,9 +40,9 @@ export class DomainAgentAttribute extends AgentAttribute implements ClassInterce
   // target: the origin type
   // receiver: intercepted type
   intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
-    // console.log('====== BEFORE ======', name);
+    // console.log('====== BEFORE ======', params);
     // create a new function
-    const agentName = params[1];
+    // const value = params[1];
 
     // NOTE: check level 1 cache, the agent class which can share across domain
     let agent = GetAgent(receiver);
@@ -89,13 +90,13 @@ export class DomainAgentAttribute extends AgentAttribute implements ClassInterce
     // make domain specified proxy
     // make sure name is not same with newName
 
-    const domainAgentName = agent.name;
-    const code = `return class ${domainAgentName} extends ${agentName}`;
-    // console.log('****type', type, type.toString());
-
     // Create another Proxy here impact performance too much
     // const newTarget = new Proxy(agent, new OnDemandClassConstructor());
-    const domainAgent = target.invoke<any>([Function, agentName, code, 'domain agent code'], agent);
+
+    // return class extends newAgent {};
+    const domainAgent = target.invoke<any>(params, agent);
+
+    // RememberAgentType(domainAgent, target.design.declaringType);
 
     // console.log('****domainAgent', domainAgent, domainAgent.toString());
     // debugger;

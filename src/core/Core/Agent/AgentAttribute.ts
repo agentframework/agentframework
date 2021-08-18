@@ -38,7 +38,8 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
   /**
    * Create type hook (called after script loaded)
    */
-  intercept(target: ClassInvocation, [compiler, name, proxy]: any, receiver: Function): Function {
+  intercept(target: ClassInvocation, params: any, receiver: Function): Function {
+    const [, attribute, compiler] = params;
     // receiver is target
     // generate a new class proxy for target
     // this proxy class will
@@ -48,24 +49,27 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
 
     // minimal code to generate a class
     // this class will add on top of the Proxy class
-    const code = `return class ${name}$ extends ${name}`;
+    // const code = `return class ${name}$ extends ${name}`;
 
     // using proxy to make better constructor
     // use different constructor for different configuration
-    const newTarget = new Proxy(receiver, proxy);
+    const newReceiver = Reflect.construct(compiler, [receiver, attribute]);
     // newTarget['id'] = 1;
     // console.log(newTarget, receiver)
 
     // this is the only way to detect the proxy
-    RememberAgentType(newTarget, receiver);
+    RememberAgentType(newReceiver, target.design.declaringType);
 
     // create the class
-    const agent = target.invoke<Function>([Function, name, code, 'agent code'], newTarget);
+    const newAgent = target.invoke<Function>(params, newReceiver);
+
+    // console.log('new name', name);
+    // console.log('===>', agent, agent.toString());
 
     // this is the only way to detect the proxy
-    RememberAgentType(agent, receiver);
+    // RememberAgentType(newAgent, target.design.declaringType);
 
-    return agent;
+    return newAgent;
   }
 
   /**
@@ -77,8 +81,6 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     //        target === receiver
     // GEN 3: newTarget = Proxy
 
-    // Note: static constructor support
-
     // cache the constructor invocation
     // so do not support change annotation after first time created the type
     let invocation = Invocations.v1.get(target);
@@ -86,8 +88,16 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
 
     // analysis this object
     if (!invocation) {
-      // upgrade properties
       const design = Reflector(target);
+      // build invocation chain
+      const origin = new ConstructorInvocation(target, design);
+
+      // find interceptors from design attributes and create chain for them
+      invocation = OnDemandClassCompiler.createConstructorInterceptor(origin);
+
+      Invocations.v1.set(target, invocation);
+      // upgrade properties
+
       const result = design.findProperties((p) => p.hasInterceptor());
       const properties = [];
 
@@ -143,14 +153,6 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
       }
 
       // TODO: add interceptor for static properties
-
-      // build invocation chain
-      const origin = new ConstructorInvocation(target, design);
-
-      // find interceptors from design attributes and create chain for them
-      invocation = OnDemandClassCompiler.createConstructorInterceptor(origin);
-
-      Invocations.v1.set(target, invocation);
     }
 
     const instance = invocation.invoke(params, newTarget);

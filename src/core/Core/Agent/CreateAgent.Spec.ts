@@ -1,6 +1,14 @@
 /* tslint:disable */
-import { decorateMember, agent, IsAgent, GetAgentType, InjectAttribute, AgentFrameworkError } from '../../../';
-import { AgentTrackerAttribute } from '../../../../test/e2e/attributes/AgentTrackerAttribute';
+import {
+  decorateMember,
+  agent,
+  IsAgent,
+  GetAgentType,
+  InjectAttribute,
+  Interceptor,
+  ClassInvocation,
+  Arguments,
+} from '../../../';
 import { CreateAgent } from './CreateAgent';
 
 class Connection {
@@ -35,15 +43,25 @@ class Redis extends Database {
   }
 }
 
-const InvalidRedis = (function () {
+const NoNameRedis = (function () {
   return class {};
 })();
+
+class CustomAgentAttribute implements Interceptor {
+  get interceptor(): Interceptor {
+    return this;
+  }
+  intercept(target: ClassInvocation, parameters: Arguments, receiver: any): any {
+    return target.invoke<Function>(parameters, receiver);
+  }
+}
 
 describe('Compiler', () => {
   describe('# should able to', () => {
     it('create using factory', () => {
       const MongoDB$ = CreateAgent(MongoDB);
       const db = new MongoDB$();
+      expect(MongoDB$.prototype).toBeInstanceOf(MongoDB);
       expect(db).toBeInstanceOf(MongoDB);
       expect(db).toBeInstanceOf(MongoDB$);
       expect(Reflect.getPrototypeOf(db)).toBe(MongoDB$.prototype);
@@ -51,7 +69,7 @@ describe('Compiler', () => {
     });
 
     it('create using custom factory', () => {
-      const MongoDB$ = CreateAgent(MongoDB, new AgentTrackerAttribute());
+      const MongoDB$ = CreateAgent(MongoDB, new CustomAgentAttribute());
       expect(IsAgent(MongoDB$)).toBeFalse();
       const db = new MongoDB$();
       expect(db).toBeInstanceOf(MongoDB);
@@ -69,19 +87,23 @@ describe('Compiler', () => {
     });
 
     it('create using custom decorator', () => {
-      const Redis$ = CreateAgent(Redis, new AgentTrackerAttribute());
+      const Redis$ = CreateAgent(Redis, new CustomAgentAttribute());
       const db = new Redis$();
+      expect(IsAgent(db)).toBeFalse();
+      expect(Redis$).toBe(Redis);
       expect(db).toBeInstanceOf(Redis);
       expect(db).toBeInstanceOf(Redis$);
-      expect(Redis$).toBe(Redis);
+      expect(Redis$.prototype).toBe(Redis.prototype);
+    });
+
+    it('new create agent without name', () => {
+      const RedisAgent = CreateAgent(NoNameRedis);
+      const redis$ = new RedisAgent();
+      expect(redis$).toBeInstanceOf(RedisAgent);
+      expect(redis$).toBeInstanceOf(NoNameRedis);
+      expect(RedisAgent.prototype).toBeInstanceOf(NoNameRedis);
     });
   });
 
-  describe('# should no able to', () => {
-    it('new create agent without name', () => {
-      expect(() => {
-        CreateAgent(InvalidRedis);
-      }).toThrowError(AgentFrameworkError, 'InvalidClassName');
-    });
-  });
+  describe('# should no able to', () => {});
 });

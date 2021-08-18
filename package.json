@@ -11,6 +11,7 @@
   "scripts": {
     "cov": "npm run test:coverage && npm run report",
     "dev": "tsmon tools/jasmine.ts --config=tools/jasmine.json",
+    "dev:spec": "tsmon tools/jasmine.ts --config=tools/jasmine.spec.json",
     "build": "tsc --noEmit",
     "test": "ts-node tools/jasmine.ts --config=tools/jasmine.json",
     "test:coverage": "nyc npm run test",
