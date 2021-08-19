@@ -24,7 +24,7 @@ import { DomainAgentAttribute } from './DomainAgentAttribute';
 
 export class RegisterDomainAgentAttribute extends DomainAgentAttribute {
   constructor(readonly domain: Domain) {
-    super();
+    super(true);
   }
 
   construct<T extends Function>(target: T, params: Arguments, newTarget: T): any {

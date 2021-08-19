@@ -8,6 +8,7 @@ import {
   Reflector,
   SingletonAttribute,
   AgentFrameworkError,
+  IsAgent,
 } from '../../../src';
 import { CreateAgent } from '../../../src';
 
@@ -118,12 +119,15 @@ describe('6.3. @singleton decorator', () => {
         @decorateMember({
           interceptor: {
             intercept(target: PropertyInvocation, params: Arguments, receiver: App635): any {
+              console.log('params[0]', params[0], params[0].constructor.toString());
               expect(params.length).toBe(1);
               expect(params[0].constructor.name).toBe('Service635$');
+              expect(IsAgent(params[0].constructor.prototype)).toBeTrue();
+              expect(IsAgent(params[0].constructor)).toBeTrue();
+              expect(IsAgent(params[0])).toBeFalse();
               expect(receiver.constructor.name).toBe('App635$');
-              const ret = target.invoke([domain], undefined);
-              console.log('ret', ret);
-              return ret;
+              // will throw error next line
+              return target.invoke([domain], undefined);
             },
           },
         })

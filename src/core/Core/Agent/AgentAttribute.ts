@@ -24,11 +24,13 @@ import { Invocations } from '../Knowledge';
 import { AgentFrameworkError } from '../Error/AgentFrameworkError';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { ChainFactory } from '../Compiler/ChainFactory';
+import { Wisdom } from '../Wisdom/Wisdom';
 
 /**
  * This attribute is for upgrade class to agent
  */
 export class AgentAttribute implements ClassAttribute, ClassInterceptor {
+  constructor(readonly callCustomCompiler: boolean = false) {}
   /**
    *
    */
@@ -40,37 +42,81 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
    * Create type hook (called after script loaded)
    */
   intercept(target: ClassInvocation, params: any, receiver: Function): Function {
+    const hasStatic = Wisdom.get(receiver);
+    const hasPrototype = Wisdom.get(receiver.prototype);
     const [, attribute, compiler] = params;
-    // receiver is target
-    // generate a new class proxy for target
-    // this proxy class will
-    //    1. as a factory to create new agent
-    //    2. as a base class to extend
-    // const name = receiver.name;
 
-    // minimal code to generate a class
-    // this class will add on top of the Proxy class
-    // const code = `return class ${name}$ extends ${name}`;
+    if (hasStatic) {
+      // console.log('Agent Static', receiver);
+      // console.log(Wisdom.get(receiver));
+      // const design = target.design;
+      // const oldTarget = design.declaringType;
+      // // create agent type
+      // const newTarget: Function = target.invoke(params, receiver);
+      //
+      // /* istanbul ignore next */
+      // if (oldTarget === newTarget) {
+      //   // not allow modify user class prototype
+      //   return newTarget;
+      // }
+      //
+      // const result = design.findProperties((p) => p.hasInterceptor());
+      // const properties = new Map<PropertyKey, PropertyInfo>();
+      //
+      // if (result.size) {
+      //   for (const infos of result.values()) {
+      //     for (const info of infos) {
+      //       properties.set(info.key, info);
+      //     }
+      //   }
+      // }
+      //
+      // if (properties.size) {
+      //   // 2. find the proxy class
+      //   const found = FindExtendedClass(oldTarget, newTarget);
+      //
+      //   // don't generate property interceptor if no extended class
+      //   // quick check, ignore if keys are been declared
+      //   // ownKeys() >= 1 because constructor is one key always have
+      //   OnDemandClassCompiler.upgrade(found[0], properties, found[0], found[1]);
+      // }
+    }
 
-    // using proxy to make better constructor
-    // use different constructor for different configuration
-    const newReceiver = Reflect.construct(compiler, [receiver, attribute]);
-    // newTarget['id'] = 1;
-    // console.log(newTarget, receiver)
+    if (hasPrototype || (hasStatic && hasStatic['constructor'])) {
+      // receiver is target
+      // generate a new class proxy for target
+      // this proxy class will
+      //    1. as a factory to create new agent
+      //    2. as a base class to extend
+      // const name = receiver.name;
 
-    // this is the only way to detect the proxy
-    RememberAgentType(newReceiver, target.design.declaringType);
+      // minimal code to generate a class
+      // this class will add on top of the Proxy class
+      // const code = `return class ${name}$ extends ${name}`;
 
-    // create the class
-    const newAgent = target.invoke<Function>(params, newReceiver);
+      // using proxy to make better constructor
+      // use different constructor for different configuration
+      const newReceiver = Reflect.construct(compiler, [receiver, attribute]);
+      RememberAgentType(newReceiver, target.design.declaringType);
 
-    // console.log('new name', name);
-    // console.log('===>', agent, agent.toString());
+      // create the class
+      const newAgent = target.invoke<Function>(params, newReceiver);
 
-    // this is the only way to detect the proxy
-    // RememberAgentType(newAgent, target.design.declaringType);
+      // console.log('new name', name);
+      // console.log('===>', agent, agent.toString());
 
-    return newAgent;
+      // this is the only way to detect the proxy
+      // RememberAgentType(newAgent, target.design.declaringType);
+      return newAgent;
+    } else if (this.callCustomCompiler) {
+      const newReceiver = Reflect.construct(compiler, [receiver, attribute]);
+      RememberAgentType(newReceiver, target.design.declaringType);
+      return newReceiver;
+    }
+
+    // }
+    //
+    return receiver;
   }
 
   /**
@@ -146,8 +192,6 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
         // ownKeys() >= 1 because constructor is one key always have
         OnDemandClassCompiler.upgrade(found[0].prototype, properties, found[0], found[1]);
       }
-
-      // TODO: add interceptor for static properties
     }
 
     const instance = invocation.invoke(params, newTarget);

@@ -68,6 +68,11 @@ export { Reflector } from '../src/core/index';
  *************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/core/index';
 
+/*************************************
+ *   API: Agent
+ *************************************/
+export { IsAgent } from '../src/core/index';
+
 /************************************
  *    TSLIB Re-work
  ************************************/
@@ -76,10 +81,10 @@ export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } f
  */
 export { __agent, __decorate, __param, __metadata } from '../src/core/index';
 
+
 /*************************************
  *   Unstable API: Agent
  *************************************/
-// export { IsAgent } from '../src/core/index';
 // export { GetAgentType } from '../src/core/index';
 // export { CreateAgent } from '../src/core/index';
 // export { AgentAttribute } from '../src/core/index';

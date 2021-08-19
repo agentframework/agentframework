@@ -33,18 +33,9 @@ export class Wisdom extends WeakMap<any, any> {
     return /* replace::release.timestamp */ '2016-11-03T00:00:00.000Z';
   }
 
-  /* istanbul ignore next */
-  static get(type: Function | object): any {
-    /* codegen */
-  }
-
-  /* istanbul ignore next */
-  static add(type: Function | object): any {
-    /* codegen */
-  }
-
   constructor(readonly reflect: typeof Reflect, key: PropertyKey) {
     super();
+
     // ===============================================================================
     // if one day the browser implemented Reflect.metadata. We will reflector all
     // code related to metadata data in order to have a better performance.
@@ -84,6 +75,21 @@ export class Wisdom extends WeakMap<any, any> {
     define(r, m, { value });
     define(r, key, { value: wisdom });
     wisdom.set(wisdom, new Map());
+  }
+
+  /* istanbul ignore next */
+  static has(type: Function | object): boolean {
+    return /* codegen */ false;
+  }
+
+  /* istanbul ignore next */
+  static get(type: Function | object): any {
+    return /* codegen */ undefined;
+  }
+
+  /* istanbul ignore next */
+  static add(type: Function | object): any {
+    return /* codegen */ undefined;
   }
 
   /**

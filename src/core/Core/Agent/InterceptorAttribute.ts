@@ -23,7 +23,8 @@ export class InterceptorAttribute {
   }
 
   intercept(target: ClassInvocation, params: Arguments, receiver: any) {
-    const oldTarget = target.design.declaringType;
+    const design = target.design;
+    const oldTarget = design.declaringType;
     // create agent type
     const newTarget: Function = target.invoke(params, receiver);
 
@@ -33,10 +34,9 @@ export class InterceptorAttribute {
       return newTarget;
     }
 
-    // NOTE: Static Constructor support, deep first
-    const result = target.design.findProperties((p) => p.hasOwnInterceptor());
-
+    const result = design.findProperties((p) => p.hasInterceptor());
     const properties = new Map<PropertyKey, PropertyInfo>();
+
     if (result.size) {
       for (const infos of result.values()) {
         for (const info of infos) {
@@ -44,10 +44,6 @@ export class InterceptorAttribute {
         }
       }
     }
-
-    // if (!properties.length) {
-    //   return newTarget;
-    // }
 
     if (properties.size) {
       // 2. find the proxy class

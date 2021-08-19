@@ -272,7 +272,9 @@ export class InMemoryDomain extends Domain implements Disposable {
     const _agents = InMemory.agents(this);
     if (typeof identifier === 'function') {
       let ctor: Function | null | undefined = identifier;
+      console.log('add agent 1', identifier, agent)
       while (ctor && !_agents.has(ctor) && Function.prototype !== ctor) {
+        console.log('add agent 2', ctor, agent)
         _agents.set(ctor, agent);
         ctor = Reflect.getPrototypeOf(ctor) as Function;
       }

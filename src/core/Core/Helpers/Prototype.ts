@@ -19,7 +19,7 @@ export function define<T extends object>(target: T, key: string | symbol | numbe
 
 export function init(impl: typeof Reflect) {
   return function (this: any, type: any): any {
-    const id = Symbol.for(type.id || type.name);
+    const id = Symbol.for(type.id);
     return impl.get(impl, id) || impl.construct(type, [impl, id]);
   };
 }

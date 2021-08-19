@@ -52,7 +52,7 @@ describe('Decorate Agent', () => {
       class SQLServer {}
 
       const SQL = CreateAgent(SQLServer, new AgentAttribute());
-      expect(IsAgent(SQL)).toBe(true);
+      expect(IsAgent(SQL)).toBe(false);
     });
 
     it('new instance', () => {

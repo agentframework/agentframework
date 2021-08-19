@@ -61,11 +61,11 @@ describe('Compiler', () => {
     it('create using factory', () => {
       const MongoDB$ = CreateAgent(MongoDB);
       const db = new MongoDB$();
-      expect(MongoDB$.prototype).toBeInstanceOf(MongoDB);
+      expect(MongoDB$.prototype).toBe(MongoDB.prototype)
       expect(db).toBeInstanceOf(MongoDB);
       expect(db).toBeInstanceOf(MongoDB$);
       expect(Reflect.getPrototypeOf(db)).toBe(MongoDB$.prototype);
-      expect(Reflect.getPrototypeOf(MongoDB$.prototype)).toBe(MongoDB.prototype);
+      expect(MongoDB$.prototype).toBe(MongoDB.prototype);
     });
 
     it('create using custom factory', () => {
@@ -78,9 +78,9 @@ describe('Compiler', () => {
 
     it('create using decorator', () => {
       const MySQL$ = CreateAgent(MySQL);
-      expect(IsAgent(MySQL$)).toBeTrue();
+      expect(IsAgent(MySQL$)).toBeFalse();
       expect(IsAgent(MySQL$, MySQL)).toBeFalse();
-      expect(IsAgent(MySQL$, GetAgentType(MySQL))).toBeTrue();
+      expect(IsAgent(MySQL$, GetAgentType(MySQL))).toBeFalse();
       const db = new MySQL$();
       expect(db).not.toBeInstanceOf(MySQL);
       expect(db).toBeInstanceOf(MySQL$);
@@ -101,7 +101,7 @@ describe('Compiler', () => {
       const redis$ = new RedisAgent();
       expect(redis$).toBeInstanceOf(RedisAgent);
       expect(redis$).toBeInstanceOf(NoNameRedis);
-      expect(RedisAgent.prototype).toBeInstanceOf(NoNameRedis);
+      expect(RedisAgent.prototype).toBe(NoNameRedis.prototype);
     });
   });
 

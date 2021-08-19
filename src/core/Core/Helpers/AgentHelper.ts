@@ -14,6 +14,9 @@ limitations under the License. */
 
 import { Types } from '../Knowledge';
 
+/**
+ * @internal
+ */
 export function RememberAgentType(agent: Function, type: Function): void {
   Types.v1.set(agent, type);
   Types.v1.set(agent.prototype, type.prototype);

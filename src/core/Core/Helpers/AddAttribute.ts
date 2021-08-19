@@ -57,6 +57,8 @@ export function AddAttributeToMember(
   key: string | symbol,
   descriptor?: PropertyDescriptor
 ): void {
+  // console.log();
+  // console.log('target', typeof target, target);
   const soul = Wisdom.add(target);
   const property = FindProperty(soul, target, key, descriptor);
   property.attributes.push(attribute);

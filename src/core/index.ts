@@ -68,6 +68,11 @@ export { Reflector } from './Core/Reflection/Reflector';
  *************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from './Core/Helpers/CustomInterceptor';
 
+/*************************************
+ *   API: Agent
+ *************************************/
+export { IsAgent } from './Core/Helpers/AgentHelper';
+
 /************************************
  *    TSLIB Re-work
  ************************************/
@@ -77,7 +82,6 @@ export { __metadata } from './Core/Wisdom/Wisdom';
 /*************************************
  *   Unstable API: Agent
  *************************************/
-export { IsAgent } from './Core/Helpers/AgentHelper';
 export { GetAgentType } from './Core/Helpers/AgentHelper';
 export { CreateAgent } from './Core/Agent/CreateAgent';
 export { AgentAttribute } from './Core/Agent/AgentAttribute';
