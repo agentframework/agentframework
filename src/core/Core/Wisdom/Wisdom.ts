@@ -16,7 +16,7 @@ import { Soul } from './Soul';
 import { FindProperty } from './Annotator';
 import { define, init } from '../Helpers/Prototype';
 
-@init
+@init(Reflect)
 export class Wisdom extends WeakMap<any, any> {
   /**
    * for troubleshot
@@ -43,15 +43,16 @@ export class Wisdom extends WeakMap<any, any> {
     /* codegen */
   }
 
-  constructor() {
+  constructor(readonly reflect: typeof Reflect, key: PropertyKey) {
     super();
     // ===============================================================================
     // if one day the browser implemented Reflect.metadata. We will reflector all
     // code related to metadata data in order to have a better performance.
     // ===============================================================================
-    const r = Reflect;
+    const r = reflect;
     const m = 'metadata';
-    const id = 'now';
+    const ts = 'now';
+    const now = new Date();
     /* istanbul ignore next */
     const metadata: Function | undefined = r[m] && r[m].bind(r);
     const wisdom = this;
@@ -79,9 +80,9 @@ export class Wisdom extends WeakMap<any, any> {
       };
     }
     // mark the time
-    value[id] = Date.now();
+    value[ts] = now.getTime();
     define(r, m, { value });
-    define(r, arguments[0], { value: wisdom });
+    define(r, key, { value: wisdom });
     wisdom.set(wisdom, new Map());
   }
 
@@ -111,7 +112,7 @@ export class Wisdom extends WeakMap<any, any> {
     }
 
     // check parent and build object prototype chain
-    const prototype = Reflect.getPrototypeOf(type);
+    const prototype = this.reflect.getPrototypeOf(type);
     return this.set(type, Object.create(prototype && this.add(prototype)));
   }
 }

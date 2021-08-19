@@ -12,12 +12,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-export function define<T extends object>(target: T, key: string | symbol | number, value: PropertyDescriptor) {
+export function define<T extends object>(target: T, key: string | symbol | number, value: object): T {
   Reflect.defineProperty(target, key, value);
   return target;
 }
 
-export function init(this: any, type: any): any {
-  let key;
-  return (key = Symbol.for(type.id)), Reflect.get(Reflect, 'key') || Reflect.construct(type, [key]);
+export function init(impl: typeof Reflect) {
+  return function (this: any, type: any): any {
+    const id = Symbol.for(type.id || type.name);
+    return impl.get(impl, id) || impl.construct(type, [impl, id]);
+  };
 }
