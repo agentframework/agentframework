@@ -35,6 +35,7 @@ export class AgentInvocation implements ClassInvocation {
     }
     const value = `${name}$`;
     const newReceiver = define(class extends receiver {}, 'name', { value });
-    return RememberAgentType(newReceiver, this.target);
+    RememberAgentType(newReceiver, this.target);
+    return newReceiver;
   }
 }
