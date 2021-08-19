@@ -40,7 +40,7 @@ describe('Reflection get metadata ', () => {
     it('Reflector object', () => {
       expect(() => {
         Reflector({});
-      }).toThrowError(AgentFrameworkError, 'NotImplemented: Reflector(Object {}) is not implemented yet');
+      }).toThrowError(AgentFrameworkError, 'NotSupported: Reflector(Object {}) is not supported');
     });
 
     it('Reflector static', () => {
@@ -59,7 +59,7 @@ describe('Reflection get metadata ', () => {
       const m = new MongoDB();
       expect(() => {
         Reflector(m);
-      }).toThrowError(AgentFrameworkError, 'NotImplemented: Reflector(MongoDB {}) is not implemented yet');
+      }).toThrowError(AgentFrameworkError, 'NotSupported: Reflector(MongoDB {}) is not supported');
     });
   });
 });

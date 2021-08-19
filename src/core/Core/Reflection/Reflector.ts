@@ -43,7 +43,7 @@ export function Reflector(target: Function | object): TypeInfo {
       return OnDemandTypeInfo.find(target);
     } else {
       // object without own property constructor consider an instance
-      throw new AgentFrameworkError(`NotImplemented: Reflector(${target.constructor.name} {}) is not implemented yet`);
+      throw new AgentFrameworkError(`NotSupported: Reflector(${target.constructor.name} {}) is not supported`);
     }
   } else {
     // number, boolean, string and so on
