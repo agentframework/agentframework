@@ -17,8 +17,9 @@ import { Invocation } from '../../Interfaces/Invocation';
 import { DirectParameterInvocation } from './DirectParameterInvocation';
 import { ChainFactory } from '../Factory/ChainFactory';
 import { PropertyInfo } from '../../Interfaces/PropertyInfo';
-import { define } from '../../Helpers/Prototype';
+// import { define } from '../../Helpers/Prototype';
 import { HasInterceptor } from '../../Helpers/CustomInterceptor';
+import { remember } from '../../Wisdom/Remember';
 
 /**
  let MongoDB = class MongoDB {
@@ -48,6 +49,7 @@ export class ParameterInterceptor implements Interceptor {
   /**
    * Build or get invocation
    */
+  @remember()
   get invocations(): Map<number, Invocation> | undefined {
     const invocations = new Map<number, Invocation>();
     const parameters = this.property.getParameters();
@@ -59,9 +61,7 @@ export class ParameterInterceptor implements Interceptor {
         invocations.set(idx, ChainFactory.chainInterceptorAttributes(origin, interceptors));
       }
     }
-    const value = invocations.size ? invocations : undefined;
-    define(this, 'invocations', { value });
-    return value;
+    return invocations.size ? invocations : undefined;
   }
 
   intercept(target: Invocation, params: Array<any>, receiver: any): any {

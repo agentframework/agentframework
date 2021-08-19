@@ -32,7 +32,7 @@ export function remember(key?: string) {
           define(target, targetKey, { value });
         } else {
           const { get } = descriptor;
-          value = Reflect.apply(get, target, []);
+          value = Reflect.apply(get, this, []);
           define(this, targetKey, { value });
         }
         return value;
