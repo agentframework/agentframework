@@ -19,9 +19,9 @@ import { TypeInfo } from '../Interfaces/TypeInfo';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Filter } from '../Interfaces/Filter';
 import { Attribute } from '../Interfaces/Attribute';
-import { AddAttributeToClass } from '../Wisdom/AddAttribute';
+import { AddAttributeToClass } from '../Helpers/AddAttribute';
 import { GetAgentType, IsAgent } from '../Helpers/AgentHelper';
-import { remember } from '../Wisdom/Remember';
+import { remember } from '../Helpers/Remember';
 import { Property } from '../Wisdom/Annotation';
 
 // class TypeIteratorResult {

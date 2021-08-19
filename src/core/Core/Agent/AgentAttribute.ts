@@ -16,13 +16,14 @@ import { ClassAttribute } from '../Interfaces/TypeAttributes';
 import { ClassInvocation } from '../Interfaces/TypeInvocations';
 import { ClassInterceptor } from '../Interfaces/TypeInterceptors';
 import { Arguments } from '../Interfaces/Arguments';
-import { ConstructorInvocation } from '../Compiler/Invocation/ConstructorInvocation';
 import { OnDemandClassCompiler } from '../Compiler/OnDemandClassCompiler';
 import { FindExtendedClass } from '../Helpers/FindExtendedClass';
 import { RememberAgentType } from '../Helpers/AgentHelper';
-import { Reflector } from '../Reflector';
+import { Reflector } from '../Reflection/Reflector';
 import { Invocations } from '../Knowledge';
 import { AgentFrameworkError } from '../Error/AgentFrameworkError';
+import { PropertyInfo } from '../Interfaces/PropertyInfo';
+import { ChainFactory } from '../Compiler/ChainFactory';
 
 /**
  * This attribute is for upgrade class to agent
@@ -89,17 +90,15 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     // analysis this object
     if (!invocation) {
       const design = Reflector(target);
-      // build invocation chain
-      const origin = new ConstructorInvocation(target, design);
 
       // find interceptors from design attributes and create chain for them
-      invocation = OnDemandClassCompiler.createConstructorInterceptor(origin);
+      invocation = ChainFactory.createConstructorInterceptor(target, design);
 
       Invocations.v1.set(target, invocation);
       // upgrade properties
 
       const result = design.findProperties((p) => p.hasInterceptor());
-      const properties = [];
+      const properties = new Map<PropertyKey, PropertyInfo>();
 
       // NOTE: Static Constructor support, deep first
       // for (const ctor of FindStaticConstructors(target.prototype)) {
@@ -119,13 +118,15 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
       //   }
       // }
       if (result.size) {
-        for (const array of result.values()) {
-          properties.push(...array);
+        for (const infos of result.values()) {
+          for (const info of infos) {
+            properties.set(info.key, info);
+          }
         }
       }
 
       // don't generate property interceptor if no extended class
-      if (properties.length) {
+      if (properties.size) {
         // 1. find all possible fields from design
         // todo: call make dynamic constructor
         // console.log('=========================== A     ===========================');
@@ -138,18 +139,12 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
         // result is map<key,array>
         // console.log('found', this.design.name, result, properties);
 
-        /* istanbul ignore next */
-        if (target === newTarget) {
-          // not allowed to modify user class
-          throw new AgentFrameworkError('InvalidTarget');
-        }
-
         // 2. find the proxy class (at least 1 proxy)
-        const proxies = FindExtendedClass(target, newTarget);
+        const found = FindExtendedClass(target, newTarget);
 
         // quick check, ignore if keys are been declared
         // ownKeys() >= 1 because constructor is one key always have
-        OnDemandClassCompiler.upgrade(proxies[0].prototype, properties, proxies[0], proxies[1]);
+        OnDemandClassCompiler.upgrade(found[0].prototype, properties, found[0], found[1]);
       }
 
       // TODO: add interceptor for static properties

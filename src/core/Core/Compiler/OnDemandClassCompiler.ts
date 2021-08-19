@@ -14,12 +14,10 @@ limitations under the License. */
 
 // utilize code gen
 
-import { ChainFactory } from './Factory/ChainFactory';
-import { Invocation } from '../Interfaces/Invocation';
-import { DirectMethodInvocation } from './Invocation/DirectMethodInvocation';
+import { ChainFactory } from './ChainFactory';
+import { MethodInvocation } from './Invocation/MethodInvocation';
 import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { ParameterInterceptor } from './Invocation/ParameterInterceptor';
-import { ClassInvocation } from '../Interfaces/TypeInvocations';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { define } from '../Helpers/Prototype';
 import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
@@ -28,13 +26,29 @@ import { HasInterceptor } from '../Helpers/CustomInterceptor';
 import { Attribute } from '../Interfaces/Attribute';
 
 export class OnDemandClassCompiler {
-  /**
-   * Create interceptor for field initializer
-   */
-  private static findPropertyInterceptors(property: PropertyInfo): Array<Attribute> {
-    const attributes = property.findOwnAttributes(HasInterceptor);
-    //.concat(property.value.findOwnAttributes(HasInterceptor));
-    return attributes;
+  static upgrade(
+    proxy: object | Function,
+    properties: Map<PropertyKey, PropertyInfo>,
+    target: Function,
+    receiver?: Function
+  ): any {
+    const map: any = {};
+
+    // only proxy property contains interceptor
+    // property without interceptor is metadata only attribute
+    for (const [key, property] of properties.entries()) {
+      const descriptor = property.descriptor;
+      if (descriptor) {
+        map[key] = OnDemandClassCompiler.makeProperty(property, descriptor, receiver || target);
+      } else {
+        map[key] = OnDemandClassCompiler.makeField(property, receiver || target);
+      }
+    }
+
+    // use define properties is a little bit faster then define the property one by one
+    Object.defineProperties(proxy, map);
+
+    return map;
   }
 
   // /**
@@ -77,28 +91,6 @@ export class OnDemandClassCompiler {
   //   return new InterceptorInvocation(intercepted, new ParameterInterceptor(property));
   // }
 
-  /**
-   * Create constructor interceptor
-   */
-  static createConstructorInterceptor(origin: ClassInvocation): Invocation {
-    // console.log('createMethodInterceptor', origin.target.name, origin.design.name);
-    const type = origin.design;
-
-    // find all attribute from prototype
-    // const interceptors = property.findOwnAttributes(HasInterceptor);
-    const interceptorArrays: Array<Array<Attribute>> = type
-      .findTypes()
-      .map((type) => type.findOwnAttributes(HasInterceptor));
-    const emptyArray: Array<Attribute> = [];
-    const interceptors: Array<Attribute> = emptyArray.concat(...interceptorArrays);
-
-    // create interceptor
-    const intercepted = ChainFactory.chainInterceptorAttributes(origin, interceptors);
-
-    // create parameter invocation if have
-    return new InterceptorInvocation(intercepted, new ParameterInterceptor(type));
-  }
-
   // static createParameterInterceptor(origin: IParameterInvocation, interceptors): IInvocation {
   //   const design = origin.design;
   //
@@ -109,6 +101,15 @@ export class OnDemandClassCompiler {
   // }
 
   /**
+   * Create interceptor for field initializer
+   */
+  private static findOwnPropertyInterceptors(property: PropertyInfo): Array<Attribute> {
+    const attributes = property.findOwnAttributes(HasInterceptor);
+    //.concat(property.value.findOwnAttributes(HasInterceptor));
+    return attributes;
+  }
+
+  /**
    * Field will only call interceptor for only 1 time
    */
   private static makeField(field: PropertyInfo, receiver: Function): PropertyDescriptor {
@@ -116,7 +117,7 @@ export class OnDemandClassCompiler {
     const fieldInvoker = new GetterSetterInvocation(field);
     return {
       get() {
-        const attributes = OnDemandClassCompiler.findPropertyInterceptors(field);
+        const attributes = OnDemandClassCompiler.findOwnPropertyInterceptors(field);
         const chain = ChainFactory.chainInterceptorAttributes(fieldInvoker, attributes);
         const descriptor = {
           get() {
@@ -137,7 +138,7 @@ export class OnDemandClassCompiler {
         // return set(this, key, chain.invoke([undefined], this));
       },
       set(this: any) {
-        const attributes = OnDemandClassCompiler.findPropertyInterceptors(field);
+        const attributes = OnDemandClassCompiler.findOwnPropertyInterceptors(field);
         const chain = ChainFactory.chainInterceptorAttributes(fieldInvoker, attributes);
         const descriptor = {
           get() {
@@ -179,8 +180,8 @@ export class OnDemandClassCompiler {
       // value only
       if (typeof method === 'function') {
         propertyDescriptor.value = function (this: any) {
-          const origin = new DirectMethodInvocation(property, method);
-          const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
+          const origin = new MethodInvocation(property, method);
+          const attributes = OnDemandClassCompiler.findOwnPropertyInterceptors(property);
           const chain = new InterceptorInvocation(
             ChainFactory.chainInterceptorAttributes(origin, attributes),
             new ParameterInterceptor(property)
@@ -201,14 +202,14 @@ export class OnDemandClassCompiler {
 
         // getter and setter
         propertyDescriptor.get = function (this: any) {
-          const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
+          const attributes = OnDemandClassCompiler.findOwnPropertyInterceptors(property);
           const chain = ChainFactory.chainInterceptorAttributes(propertyInvoker, attributes);
           const descriptor = {
             get() {
               return chain.invoke([], this);
             },
             set(value: any) {
-              const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
+              const attributes = OnDemandClassCompiler.findOwnPropertyInterceptors(property);
               const chain = ChainFactory.chainInterceptorAttributes(propertyInvoker, attributes);
               descriptor.set = function () {
                 chain.invoke(arguments, this);
@@ -222,11 +223,11 @@ export class OnDemandClassCompiler {
           return chain.invoke([], this);
         };
         propertyDescriptor.set = function (this: any) {
-          const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
+          const attributes = OnDemandClassCompiler.findOwnPropertyInterceptors(property);
           const chain = ChainFactory.chainInterceptorAttributes(propertyInvoker, attributes);
           const descriptor = {
             get() {
-              const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
+              const attributes = OnDemandClassCompiler.findOwnPropertyInterceptors(property);
               const chain = ChainFactory.chainInterceptorAttributes(propertyInvoker, attributes);
               descriptor.get = function () {
                 return chain.invoke([], this);
@@ -250,16 +251,16 @@ export class OnDemandClassCompiler {
         if (typeof setterMethod === 'function') {
           // getter and setter
           propertyDescriptor.get = function (this: any) {
-            const origin = new DirectMethodInvocation(property, getterMethod);
-            const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
+            const origin = new MethodInvocation(property, getterMethod);
+            const attributes = OnDemandClassCompiler.findOwnPropertyInterceptors(property);
             const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
             const descriptor = {
               get() {
                 return chain.invoke([], this);
               },
               set(value: any) {
-                const origin = new DirectMethodInvocation(property, setterMethod);
-                const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
+                const origin = new MethodInvocation(property, setterMethod);
+                const attributes = OnDemandClassCompiler.findOwnPropertyInterceptors(property);
                 const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
                 descriptor.set = function () {
                   chain.invoke(arguments, this);
@@ -273,13 +274,13 @@ export class OnDemandClassCompiler {
             return chain.invoke([], this);
           };
           propertyDescriptor.set = function (this: any) {
-            const origin = new DirectMethodInvocation(property, setterMethod);
-            const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
+            const origin = new MethodInvocation(property, setterMethod);
+            const attributes = OnDemandClassCompiler.findOwnPropertyInterceptors(property);
             const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
             const descriptor = {
               get() {
-                const origin = new DirectMethodInvocation(property, getterMethod);
-                const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
+                const origin = new MethodInvocation(property, getterMethod);
+                const attributes = OnDemandClassCompiler.findOwnPropertyInterceptors(property);
                 const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
                 descriptor.get = function () {
                   return chain.invoke([undefined], this);
@@ -298,8 +299,8 @@ export class OnDemandClassCompiler {
         } else {
           // getter, no setter
           propertyDescriptor.get = function (this: any) {
-            const origin = new DirectMethodInvocation(property, getterMethod);
-            const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
+            const origin = new MethodInvocation(property, getterMethod);
+            const attributes = OnDemandClassCompiler.findOwnPropertyInterceptors(property);
             const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
             propertyDescriptor.get = function (this: any) {
               return chain.invoke([], this);
@@ -311,8 +312,8 @@ export class OnDemandClassCompiler {
       } else if (typeof setterMethod === 'function') {
         // setter
         propertyDescriptor.set = function (this: any) {
-          const origin = new DirectMethodInvocation(property, setterMethod);
-          const attributes = OnDemandClassCompiler.findPropertyInterceptors(property);
+          const origin = new MethodInvocation(property, setterMethod);
+          const attributes = OnDemandClassCompiler.findOwnPropertyInterceptors(property);
           const chain = ChainFactory.chainInterceptorAttributes(origin, attributes);
           propertyDescriptor.set = function (this: any) {
             return chain.invoke(arguments, this);
@@ -328,30 +329,5 @@ export class OnDemandClassCompiler {
     // console.log('descriptor', descriptor);
     // console.log('propertyDescriptor', propertyDescriptor);
     return propertyDescriptor;
-  }
-
-  static upgrade(
-    proxy: object | Function,
-    properties: Array<PropertyInfo>,
-    target: Function,
-    receiver?: Function
-  ): any {
-    const map: any = {};
-
-    // only proxy property contains interceptor
-    // property without interceptor is metadata only attribute
-    for (const property of properties) {
-      const descriptor = property.descriptor;
-      if (descriptor) {
-        map[property.key] = OnDemandClassCompiler.makeProperty(property, descriptor, receiver || target);
-      } else {
-        map[property.key] = OnDemandClassCompiler.makeField(property, receiver || target);
-      }
-    }
-
-    // use define properties is a little bit faster then define the property one by one
-    Object.defineProperties(proxy, map);
-
-    return map;
   }
 }

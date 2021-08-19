@@ -14,12 +14,12 @@ limitations under the License. */
 
 import { Interceptor } from '../../Interfaces/Interceptor';
 import { Invocation } from '../../Interfaces/Invocation';
-import { DirectParameterInvocation } from './DirectParameterInvocation';
-import { ChainFactory } from '../Factory/ChainFactory';
+import { MethodParameterInvocation } from './MethodParameterInvocation';
+import { ChainFactory } from '../ChainFactory';
 import { PropertyInfo } from '../../Interfaces/PropertyInfo';
 // import { define } from '../../Helpers/Prototype';
 import { HasInterceptor } from '../../Helpers/CustomInterceptor';
-import { remember } from '../../Wisdom/Remember';
+import { remember } from '../../Helpers/Remember';
 
 /**
  let MongoDB = class MongoDB {
@@ -44,7 +44,7 @@ import { remember } from '../../Wisdom/Remember';
 
  */
 export class ParameterInterceptor implements Interceptor {
-  constructor(private readonly property: PropertyInfo) {}
+  constructor(readonly parent: PropertyInfo) {}
 
   /**
    * Build or get invocation
@@ -52,12 +52,12 @@ export class ParameterInterceptor implements Interceptor {
   @remember()
   get invocations(): Map<number, Invocation> | undefined {
     const invocations = new Map<number, Invocation>();
-    const parameters = this.property.getParameters();
+    const parameters = this.parent.getParameters();
     for (const parameter of parameters) {
       const idx = parameter.index;
       const interceptors = parameter.findOwnAttributes(HasInterceptor);
       if (interceptors.length) {
-        const origin = new DirectParameterInvocation(parameter);
+        const origin = new MethodParameterInvocation(parameter);
         invocations.set(idx, ChainFactory.chainInterceptorAttributes(origin, interceptors));
       }
     }

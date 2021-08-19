@@ -61,7 +61,7 @@ export { decorateAgent } from './Core/Decorator/decorateAgent';
 export { decorateMember } from './Core/Decorator/decorateMember';
 export { decorateParameter } from './Core/Decorator/decorateParameter';
 
-export { Reflector } from './Core/Reflector';
+export { Reflector } from './Core/Reflection/Reflector';
 
 /*************************************
  *   Custom Interceptor
@@ -71,7 +71,7 @@ export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } f
 /************************************
  *    TSLIB Re-work
  ************************************/
-export { __agent, __decorate, __param } from './Core/Wisdom/DecoratorHelper';
+export { __agent, __decorate, __param } from './Core/Helpers/DecoratorHelper';
 export { __metadata } from './Core/Wisdom/Wisdom';
 
 /*************************************
@@ -85,18 +85,15 @@ export { AgentAttribute } from './Core/Agent/AgentAttribute';
 /*************************************
  *   Unstable API: Attribute
  *************************************/
-export { CanDecorate } from './Core/Decorator/CanDecorate';
-export {
-  AddAttributeToClass,
-  AddAttributeToConstructorParameter,
-  AddAttributeToMethodParameter,
-  AddAttributeToMember,
-} from './Core/Wisdom/AddAttribute';
+// AddAttributeToConstructorParameter,
+// AddAttributeToMethodParameter,
+// AddAttributeToMember,
+export { AddAttributeToClass } from './Core/Helpers/AddAttribute';
 
 /*************************************
  *   Unstable API: Decorator
  *************************************/
-export { remember } from './Core/Wisdom/Remember';
+export { remember } from './Core/Helpers/Remember';
 export { interceptable } from './Core/Agent/interceptable';
 
 /*************************************

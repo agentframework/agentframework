@@ -12,9 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { TypeInfo } from './Interfaces/TypeInfo';
-import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
-import { AgentFrameworkError } from './Error/AgentFrameworkError';
+import { TypeInfo } from '../Interfaces/TypeInfo';
+import { OnDemandTypeInfo } from './OnDemandTypeInfo';
+import { AgentFrameworkError } from '../Error/AgentFrameworkError';
 
 /**
  * Reflector is the interface to access type data from class constructor or class prototype

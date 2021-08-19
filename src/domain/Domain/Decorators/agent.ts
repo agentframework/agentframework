@@ -24,9 +24,8 @@ limitations under the License. */
 
 import { CreateDomainAgent } from '../Agent/CreateDomainAgent';
 import { GetDomainAgent } from '../Agent/GetDomainAgent';
+import { RegisterDomainAgentAttribute } from '../Agent/RegisterDomainAgentAttribute';
 import { GetSystemDomain } from '../Helpers/GetSystemDomain';
-import { RegisterDomainAgentAttribute } from '../Attributes/RegisterDomainAgentAttribute';
-import { AddAttributeToClass } from '../../../dependencies/core';
 
 /**
  * Define an agent
@@ -39,8 +38,7 @@ export function agent(): ClassDecorator {
     if (found) {
       return found;
     }
-    AddAttributeToClass(new RegisterDomainAgentAttribute(domain), type.prototype);
     domain.addType(<any>type);
-    return CreateDomainAgent(domain, type);
+    return CreateDomainAgent(domain, type, new RegisterDomainAgentAttribute(domain));
   };
 }

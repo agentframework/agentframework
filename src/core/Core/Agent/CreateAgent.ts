@@ -12,10 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { CreateAgentInvocation } from './CreateAgentInvocation';
 import { AgentAttribute } from './AgentAttribute';
 import { GetAgentType } from '../Helpers/AgentHelper';
 import { ClassAttribute } from '../Interfaces/TypeAttributes';
+import { ChainFactory } from '../Compiler/ChainFactory';
 
 /**
  * Create a new agent from attribute, and add into Agent registry
@@ -37,7 +37,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: ClassAttribu
   // create an invocation for agent type.
   // this chain used to generate agent of this target
   // empty agent
-  const chain = CreateAgentInvocation(receiver, attribute);
+  const chain = ChainFactory.createAgentInterceptor(receiver, attribute);
 
   // create a new type from this invocation, initialize the agent using reflection info
   /* eslint-disable-next-line prefer-rest-params */

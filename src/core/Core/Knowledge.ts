@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Invocation } from './Interfaces/Invocation';
-import { remember } from './Wisdom/Remember';
+import { remember } from './Helpers/Remember';
 
 /**
  * Get original type of giving agent

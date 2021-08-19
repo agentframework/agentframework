@@ -24,13 +24,13 @@ import { Design } from '../../Interfaces/Design';
  * @hidden
  */
 export class InterceptorInvocation implements Invocation {
-  constructor(private readonly _next: Invocation, private readonly _interceptor: Interceptor) {}
+  constructor(readonly next: Invocation, readonly interceptor: Interceptor) {}
 
   get design(): Design {
-    return this._next.design;
+    return this.next.design;
   }
 
   invoke(params: Arguments, receiver: any): any {
-    return this._interceptor.intercept(this._next, params, receiver);
+    return this.interceptor.intercept(this.next, params, receiver);
   }
 }

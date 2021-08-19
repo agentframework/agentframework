@@ -12,8 +12,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 import { Attribute } from '../Interfaces/Attribute';
-import { Wisdom } from './Wisdom';
-import { FindProperty, FindParameter } from './Annotator';
+import { Wisdom } from '../Wisdom/Wisdom';
+import { FindProperty, FindParameter } from '../Wisdom/Annotator';
 
 /**
  * Reflector(target).addAttribute(attribute);

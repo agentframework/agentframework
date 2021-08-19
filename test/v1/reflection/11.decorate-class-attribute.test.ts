@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { decorateMember, IsAgent, Reflector, decorateClass } from '../../../src';
+import { decorateMember, IsAgent, Reflector, decorateClass, AgentFrameworkError } from '../../../src';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
@@ -37,7 +37,9 @@ describe('Decorate class attribute', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(CreateAgent(MongoDB, new BadAgentChecker())).toBe(MongoDB);
+      expect(() => {
+        CreateAgent(MongoDB, new BadAgentChecker());
+      }).toThrowError(AgentFrameworkError, 'NoPermissionToCreateAgent');
     });
 
     it('new instance', () => {

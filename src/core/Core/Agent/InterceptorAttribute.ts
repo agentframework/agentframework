@@ -15,6 +15,7 @@ import { ClassInvocation } from '../Interfaces/TypeInvocations';
 import { Arguments } from '../Interfaces/Arguments';
 import { FindExtendedClass } from '../Helpers/FindExtendedClass';
 import { OnDemandClassCompiler } from '../Compiler/OnDemandClassCompiler';
+import { PropertyInfo } from '../Interfaces/PropertyInfo';
 
 export class InterceptorAttribute {
   get interceptor() {
@@ -33,12 +34,14 @@ export class InterceptorAttribute {
     }
 
     // NOTE: Static Constructor support, deep first
-    const result = target.design.findProperties(p => p.hasOwnInterceptor());
+    const result = target.design.findProperties((p) => p.hasOwnInterceptor());
 
-    const properties = [];
+    const properties = new Map<PropertyKey, PropertyInfo>();
     if (result.size) {
-      for (const array of result.values()) {
-        properties.push(...array);
+      for (const infos of result.values()) {
+        for (const info of infos) {
+          properties.set(info.key, info);
+        }
       }
     }
 
@@ -46,13 +49,15 @@ export class InterceptorAttribute {
     //   return newTarget;
     // }
 
-    // 2. find the proxy class
-    const proxies = FindExtendedClass(oldTarget, newTarget);
+    if (properties.size) {
+      // 2. find the proxy class
+      const found = FindExtendedClass(oldTarget, newTarget);
 
-    // don't generate property interceptor if no extended class
-    // quick check, ignore if keys are been declared
-    // ownKeys() >= 1 because constructor is one key always have
-    OnDemandClassCompiler.upgrade(proxies[0], properties, proxies[0], proxies[1]);
+      // don't generate property interceptor if no extended class
+      // quick check, ignore if keys are been declared
+      // ownKeys() >= 1 because constructor is one key always have
+      OnDemandClassCompiler.upgrade(found[0], properties, found[0], found[1]);
+    }
 
     return newTarget;
   }

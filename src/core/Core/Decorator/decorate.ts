@@ -19,7 +19,7 @@ import {
   AddAttributeToMethodParameter,
   AddAttributeToConstructorParameter,
   AddAttributeToMember,
-} from '../Wisdom/AddAttribute';
+} from '../Helpers/AddAttribute';
 import { MemberKinds } from '../Interfaces/MemberKinds';
 import { AgentFrameworkError } from '../Error/AgentFrameworkError';
 

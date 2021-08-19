@@ -12,21 +12,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { ParameterInvocation } from '../../Interfaces/TypeInvocations';
-import { ParameterInfo } from '../../Interfaces/ParameterInfo';
+import { PropertyInvocation } from '../../Interfaces/TypeInvocations';
+import { PropertyInfo } from '../../Interfaces/PropertyInfo';
 import { Arguments } from '../../Interfaces/Arguments';
 
 /**
- * @ignore
- * @hidden
+ * invoke without interceptors, better performance
  */
-export class DirectParameterInvocation implements ParameterInvocation {
-  constructor(readonly design: ParameterInfo) {}
+export class MethodInvocation implements PropertyInvocation {
+  constructor(readonly design: PropertyInfo, readonly target: Function) {}
 
-  // parameters[0] = value of index
-  // parameters[1] = index of this parameter
-  // parameters[2] = all parameters
   invoke(params: Arguments, receiver: any): any {
-    return params[this.design.index];
+    return Reflect.apply(this.target, receiver, params);
   }
 }

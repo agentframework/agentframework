@@ -78,8 +78,8 @@ describe('3.6. Get parameter attributes', () => {
       expect(type.hasInterceptor()).toBeFalse();
       expect(type.hasOwnInterceptor()).toBeFalse();
 
-      expect(Reflector(Controller34).hasInterceptor()).toBeTrue();
-      expect(Reflector(Controller34).hasOwnInterceptor()).toBeTrue();
+      expect(Reflector(Controller34).hasInterceptor()).toBeTrue(); // has parameter interceptor
+      expect(Reflector(Controller34).hasOwnInterceptor()).toBeFalse(); // don't have ctor interceptor
 
       expect(Reflector(Base34).hasInterceptor()).toBeFalse();
       expect(Reflector(Base34).hasOwnInterceptor()).toBeFalse();

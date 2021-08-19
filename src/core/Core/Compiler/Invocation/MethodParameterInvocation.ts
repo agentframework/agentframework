@@ -12,19 +12,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-// import { Reflector } from '../Reflector';
-import { CanDecorate } from './CanDecorate';
-import { AddAttributeToClass } from '../Helpers/AddAttribute';
-import { Attribute } from '../Interfaces/Attribute';
+import { ParameterInvocation } from '../../Interfaces/TypeInvocations';
+import { ParameterInfo } from '../../Interfaces/ParameterInfo';
+import { Arguments } from '../../Interfaces/Arguments';
 
 /**
- * Decorate agent with attribute (this attribute will be used for upgrade agent)
+ * @ignore
+ * @hidden
  */
-export function decorateAgent<T extends Attribute>(attribute: T) {
-  // upgrade prototype
-  return (target: Function): void => {
-    if (CanDecorate(attribute, target)) {
-      AddAttributeToClass(attribute, target);
-    }
-  };
+export class MethodParameterInvocation implements ParameterInvocation {
+  constructor(readonly design: ParameterInfo) {}
+
+  // parameters[0] = value of index
+  // parameters[1] = index of this parameter
+  // parameters[2] = all parameters
+  invoke(params: Arguments, receiver: unknown): any {
+    return params[this.design.index];
+  }
 }

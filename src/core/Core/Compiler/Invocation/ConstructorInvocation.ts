@@ -21,13 +21,9 @@ import { Arguments } from '../../Interfaces/Arguments';
  * @hidden
  */
 export class ConstructorInvocation implements ClassInvocation {
-  constructor(protected readonly target: Function, readonly _design: TypeInfo) {}
+  constructor(readonly design: TypeInfo, readonly target: Function) {}
 
-  get design(): TypeInfo {
-    return this._design;
-  }
-
-  invoke(params: Arguments, receiver: any): any {
+  invoke(params: Arguments, receiver: Function): any {
     return Reflect.construct(this.target, params, receiver);
   }
 }

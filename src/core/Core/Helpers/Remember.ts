@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // the memorize can be used on both class getter or static getter
-import { define } from '../Helpers/Prototype';
-import { Wisdom } from './Wisdom';
+import { define } from './Prototype';
+import { Wisdom } from '../Wisdom/Wisdom';
 
 export function remember(key?: string) {
   return (target: object | Function, targetKey: string | symbol, descriptor: any): any => {

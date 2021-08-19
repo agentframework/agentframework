@@ -41,14 +41,14 @@ export function RemoveCustomInterceptor(type: Function): void {
  * Get interceptor for giving type of attribute
  */
 export function GetInterceptor(attribute: Attribute): Interceptor | undefined {
-  const interceptor = attribute.interceptor;
-  if (interceptor && 'object' === typeof interceptor && 'function' === typeof interceptor.intercept) {
-    return interceptor;
-  }
   const found = Interceptors.v1.get(attribute.constructor);
   // console.log('find', attribute.constructor, '===', interceptorType)
   if (found) {
     return Reflect.construct(found[0], [attribute, found[1]]);
+  }
+  const interceptor = attribute.interceptor;
+  if (interceptor && 'object' === typeof interceptor && 'function' === typeof interceptor.intercept) {
+    return interceptor;
   }
   return;
 }

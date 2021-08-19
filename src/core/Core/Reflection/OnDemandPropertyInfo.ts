@@ -19,7 +19,7 @@ import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { ParameterInfo } from '../Interfaces/ParameterInfo';
 import { MemberInfo } from '../Interfaces/MemberInfo';
 import { Attribute } from '../Interfaces/Attribute';
-import { AddAttributeToMember } from '../Wisdom/AddAttribute';
+import { AddAttributeToMember } from '../Helpers/AddAttribute';
 import { HasInterceptor } from '../Helpers/CustomInterceptor';
 import { Property } from '../Wisdom/Annotation';
 
