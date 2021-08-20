@@ -42,11 +42,11 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
    * Create type hook (called after script loaded)
    */
   intercept(target: ClassInvocation, params: any, receiver: Function): Function {
-    const hasStatic = Wisdom.get(receiver);
-    const hasPrototype = Wisdom.get(receiver.prototype);
+    const staticMeta = Wisdom.get(receiver);
+    const meta = Wisdom.get(receiver.prototype);
     const [, attribute, compiler] = params;
 
-    if (hasStatic) {
+    if (staticMeta) {
       // console.log('Agent Static', receiver);
       // console.log(Wisdom.get(receiver));
       // const design = target.design;
@@ -82,7 +82,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
       // }
     }
 
-    if (hasPrototype || (hasStatic && hasStatic['constructor'])) {
+    if (meta || (staticMeta && staticMeta['constructor'])) {
       // receiver is target
       // generate a new class proxy for target
       // this proxy class will
@@ -112,11 +112,9 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
       const newReceiver = Reflect.construct(compiler, [receiver, attribute]);
       RememberAgentType(newReceiver, target.design.declaringType);
       return newReceiver;
+    } else {
+      return receiver;
     }
-
-    // }
-    //
-    return receiver;
   }
 
   /**

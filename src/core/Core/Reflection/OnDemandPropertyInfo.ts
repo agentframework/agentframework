@@ -22,6 +22,7 @@ import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToMember } from '../Helpers/AddAttribute';
 import { HasInterceptor } from '../Helpers/CustomInterceptor';
 import { Property } from '../Wisdom/Annotation';
+import { remember } from '../Helpers/Remember';
 
 // import { getter } from '../Helpers/Prototype';
 // import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
@@ -41,6 +42,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   /**
    * Returns descriptor of this property. undefined if this is a field
    */
+  @remember()
   get descriptor(): PropertyDescriptor | undefined {
     let descriptor: PropertyDescriptor | undefined;
     const annotation = this.annotation;
@@ -54,11 +56,10 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
       }
     }
     return descriptor;
-    // return cache(this, 'descriptor', descriptor);
   }
 
   get kind(): number {
-    if (typeof this.target === 'function') {
+    if ('function' === typeof this.target) {
       return MemberKinds.Static | MemberKinds.Property;
     }
     return MemberKinds.Property;
@@ -156,7 +157,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   // }
 
   /**
-   * Return true if annotated any interceptor
+   * Return true if annotated any interceptor on this or parameter
    */
   hasInterceptor(): boolean {
     const annotation = this.annotation;

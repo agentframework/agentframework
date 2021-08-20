@@ -126,6 +126,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    *
    * @cache
    */
+  @remember()
   get base(): TypeInfo | undefined {
     const base = Reflect.getPrototypeOf(this.target);
     if (!base) {
@@ -138,7 +139,6 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     }
 
     return OnDemandTypeInfo.find(base);
-    // return cache(this, 'base', TypeInfo.get(base.constructor));
   }
 
   /**
@@ -146,6 +146,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    *
    * @cache
    */
+  @remember()
   protected get types(): Array<TypeInfo> {
     // this can cache because it never changes
     const prototypes: Array<TypeInfo> = [];
@@ -159,7 +160,6 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
       current = current.base;
     } while (current);
     return prototypes;
-    // return cache(this, 'prototypes', prototypes);
   }
 
   // /**
@@ -318,23 +318,6 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     AddAttributeToClass(attribute, this.target);
   }
 
-  /**
-   * Get annotation store object
-   */
-  protected get typeAnnotation(): object {
-    // console.log('an');
-    return Wisdom.add(this.target);
-    // return cache(this, 'typeAnnotation', Annotator.get(this.declaringType));
-  }
-
-  /**
-   * Get annotation store object or undefined
-   */
-  protected get typeAnnotationOrUndefined(): object | undefined {
-    return Wisdom.get(this.target);
-    // return cache(this, 'typeAnnotationOrUndefined', annotation);
-  }
-
   protected getOwnMetadata(key: string): any | undefined {
     const annotation = this.annotation;
     if (annotation && annotation.has(key)) {
@@ -345,5 +328,19 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
       return Reflect['getOwnMetadata'](key, this.declaringType);
     }
     return;
+  }
+
+  /**
+   * Get annotation store object
+   */
+  protected get typeAnnotation(): object {
+    return Wisdom.add(this.target);
+  }
+
+  /**
+   * Get annotation store object or undefined
+   */
+  protected get typeAnnotationOrUndefined(): object | undefined {
+    return Wisdom.get(this.target);
   }
 }

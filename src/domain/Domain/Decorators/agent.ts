@@ -33,12 +33,12 @@ import { GetSystemDomain } from '../Helpers/GetSystemDomain';
 export function agent(): ClassDecorator {
   return <F extends Function>(target: F): F => {
     const domain = GetSystemDomain();
+    // todo: should we call getType here?
     const type = domain.getType(target) || target;
     const found = GetDomainAgent(domain, type);
     if (found) {
       return found;
     }
-    domain.addType(<any>type);
     return CreateDomainAgent(domain, type, new RegisterDomainAgentAttribute(domain));
   };
 }
