@@ -27,7 +27,11 @@ describe('Reflection Helper', () => {
     });
 
     it('get origin type of an agent', () => {
-      expect(GetAgentType(AgentClass)?.prototype).toBe(Object.getPrototypeOf(AgentClass.prototype));
+      const a = GetAgentType(AgentClass);
+      expect(a).toBeDefined();
+      if (a) {
+        expect(a.prototype).toBe(Object.getPrototypeOf(AgentClass.prototype));
+      }
     });
 
     it('get origin type of the upgraded class', () => {
