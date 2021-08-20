@@ -70,27 +70,40 @@ export { IsAgent } from './Core/Helpers/AgentHelper';
 export { GetAgentType } from './Core/Helpers/AgentHelper';
 
 /*************************************
- *   Advanced: Create Agent API
+ *   (Advanced): Create Agent API
  *************************************/
-export { CreateAgent } from './Core/Agent/CreateAgent';
+export { CreateAgentClass } from './Core/Agent/CreateAgentClass';
 export { AgentAttribute } from './Core/Agent/AgentAttribute';
 
 /*************************************
- *   Advanced: Custom Interceptor API
+ *   (Advanced): Custom Interceptor API
  *************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from './Core/Helpers/CustomInterceptor';
 
 /*************************************
- *   Decorator: @remember()
+ *   Getter Decorator: @remember()
  *************************************/
-export { remember } from './Core/Decorators/remember';
+export { remember } from './Core/Decorators/Remember/remember';
 
 /*************************************
- *   Decorator: @initializable()
+ *   Class Decorator: @initializable()
  *************************************/
-export { initializable } from './Core/Decorators/Initializer/initializable';
-export { Initializer } from './Core/Decorators/Initializer/Symbols';
-export { InitializerHandler, StaticInitializerHandler } from './Core/Decorators/Initializer/Symbols';
+export { initializable } from './Core/Decorators/Initializable/initializable';
+export { Initializer } from './Core/Decorators/Initializable/Symbols';
+export { InitializerHandler, StaticInitializerHandler } from './Core/Decorators/Initializable/Symbols';
+
+/*************************************
+ *   Class Decorator: @extensible()
+ *************************************/
+export { exclusive } from './Core/Decorators/Exclusive/exclusive';
+
+/*************************************
+ *   Class Decorator: @agent()
+ *************************************/
+export { agent } from './Core/Decorators/Agent/agent';
+export { singleton } from './Core/Decorators/Agent/singleton';
+export { transit } from './Core/Decorators/Agent/transit';
+export { inject } from './Core/Decorators/Agent/inject';
 
 /************************************
  *    TSLIB Re-work

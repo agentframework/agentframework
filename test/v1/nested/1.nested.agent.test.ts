@@ -4,7 +4,7 @@ import { AgentChecker } from '../attributes/AgentChecker';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
-import { CreateAgent } from '../../../src';
+import { CreateAgentClass } from '../../../src';
 
 @agent()
 @decorateClass(new AgentChecker())
@@ -80,12 +80,12 @@ describe('Nested Agent', () => {
     });
 
     it('decorate agent twice', () => {
-      const NewCar = CreateAgent(Car);
+      const NewCar = CreateAgentClass(Car);
       expect(IsAgent(NewCar)).toBeTruthy();
     });
 
     it('get agent local field', () => {
-      const NewCar = CreateAgent(Car);
+      const NewCar = CreateAgentClass(Car);
       const car = new NewCar();
       expect(typeof car.random2).toBe('number');
     });

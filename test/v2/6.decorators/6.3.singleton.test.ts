@@ -6,11 +6,10 @@ import {
   Arguments,
   PropertyInvocation,
   Reflector,
-  SingletonAttribute,
   AgentFrameworkError,
   IsAgent,
 } from '../../../src';
-import { CreateAgent } from '../../../src';
+import { CreateAgentClass } from '../../../src';
 
 describe('6.3. @singleton decorator', () => {
   describe('# should able to', () => {
@@ -31,7 +30,7 @@ describe('6.3. @singleton decorator', () => {
 
       expect(app.service).toBeInstanceOf(Service631);
       expect(app.service2).toBe(app.service);
-      expect(Reflector(App631).property('service').hasOwnAttribute(SingletonAttribute)).toBeTrue();
+      expect(Reflector(App631).property('service').hasOwnAttribute()).toBeTrue();
     });
 
     it('create singleton agent using domain', () => {
@@ -98,7 +97,7 @@ describe('6.3. @singleton decorator', () => {
         readonly service!: Service634;
       }
 
-      const Agent626 = CreateAgent(App634);
+      const Agent626 = CreateAgentClass(App634);
 
       const app626 = new Agent626();
 

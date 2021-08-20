@@ -3,7 +3,7 @@
 import { decorate, IsAgent, MemberKinds } from '../../../src';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
-import { CreateAgent } from '../../../src';
+import { CreateAgentClass } from '../../../src';
 
 /**
  *   Constructor = 1,
@@ -41,7 +41,7 @@ describe('decorate() and Target', () => {
         }
       }
 
-      const MongoDB$ = CreateAgent(MongoDB);
+      const MongoDB$ = CreateAgentClass(MongoDB);
       expect(MongoDB$).not.toBe(MongoDB);
       expect(IsAgent(MongoDB$)).toBeTruthy();
     });
@@ -70,7 +70,7 @@ describe('decorate() and Target', () => {
         }
       }
 
-      const MongoDB$ = CreateAgent(MongoDB);
+      const MongoDB$ = CreateAgentClass(MongoDB);
       expect(MongoDB$).not.toBe(MongoDB);
       expect(IsAgent(MongoDB$)).toBeTruthy();
     });

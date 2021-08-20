@@ -50,16 +50,3 @@ export class DomainAgents {
     return new Map<Function, Map<Domain, Function>>();
   }
 }
-
-/**
- * Get type of giving string id
- */
-export class NamedTypes {
-  // key: string, value: Constructor
-  @remember('NamedTypes')
-  static get v1() {
-    return new Map<string, unknown>();
-  }
-}
-
-

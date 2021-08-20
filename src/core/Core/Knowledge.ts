@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Invocation } from './Interfaces/Invocation';
-import { remember } from './Decorators/remember';
+import { remember } from './Decorators/Remember/remember';
 
 /**
  * Get original type of giving agent
@@ -55,5 +55,24 @@ export class Initializers {
   @remember('Initializers')
   static get v1() {
     return new WeakMap<Function, Array<[Function, Function]>>();
+  }
+}
+
+/**
+ * Get type of giving string id
+ */
+export class NamedTypes {
+  // key: string, value: Constructor
+  @remember('NamedTypes')
+  static get v1() {
+    return new Map<string, unknown>();
+  }
+}
+
+export class Agents {
+  // key: class, value: singleton instance
+  @remember('Agents')
+  static get v1() {
+    return new WeakMap<Function, Function>();
   }
 }

@@ -12,11 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { GetNamedType } from '../Helpers/GetNamedType';
+import { decorateMember } from '../../Decorator/decorateMember';
+import { InjectAttribute } from './InjectAttribute';
 
-/**
- * extensible attribute
- */
-export function extensible(key?: string): ClassDecorator {
-  return (target) => GetNamedType(key || `class://${target.name}`, target);
+export function inject(type?: Function): PropertyDecorator {
+  return decorateMember(new InjectAttribute(type));
 }

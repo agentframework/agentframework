@@ -6,7 +6,7 @@ import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 import { BadAgentChecker } from '../attributes/BadAgentChecker';
 import { BadRandomAttribute } from '../attributes/BadRandomAttribute';
-import { AgentAttribute, CreateAgent } from '../../../src';
+import { AgentAttribute, CreateAgentClass } from '../../../src';
 
 @decorateClass(new BadRandomAttribute())
 class MongoDB {
@@ -38,7 +38,7 @@ describe('Decorate class attribute', () => {
 
     it('re-upgrade agent', () => {
       expect(() => {
-        CreateAgent(MongoDB, new BadAgentChecker());
+        CreateAgentClass(MongoDB, new BadAgentChecker());
       }).toThrowError(AgentFrameworkError, 'NoPermissionToCreateAgent');
     });
 

@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AgentFrameworkError, ClassAttribute, CreateAgent } from '../../../dependencies/core';
+import { AgentFrameworkError, ClassAttribute, CreateAgentClass } from '../../../dependencies/core';
 import { DomainAgentAttribute } from './DomainAgentAttribute';
 import { Domain } from '../Domain';
 import { GetDomain } from '../Helpers/GetDomain';
@@ -50,7 +50,7 @@ export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, s
     Reflect.construct(domain.getType(DomainAgentAttribute) || DomainAgentAttribute, [domain]);
 
   // upgrade to Agent only if interceptor or initializer found
-  const newCreatedAgent = CreateAgent(type, attribute);
+  const newCreatedAgent = CreateAgentClass(type, attribute);
   // console.log();
   // console.log('found 1', type.name);
   // console.log('found 2', newCreatedAgent.name);

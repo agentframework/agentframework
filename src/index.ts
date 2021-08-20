@@ -70,27 +70,40 @@ export { IsAgent } from '../src/core/index';
 export { GetAgentType } from '../src/core/index';
 
 /*************************************
- *   Advanced: Create Agent API
+ *   (Advanced): Create Agent API
  *************************************/
-export { CreateAgent } from '../src/core/index';
+export { CreateAgentClass } from '../src/core/index';
 export { AgentAttribute } from '../src/core/index';
 
 /*************************************
- *   Advanced: Custom Interceptor API
+ *   (Advanced): Custom Interceptor API
  *************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/core/index';
 
 /*************************************
- *   Decorator: @remember()
+ *   Getter Decorator: @remember()
  *************************************/
 export { remember } from '../src/core/index';
 
 /*************************************
- *   Decorator: @initializable()
+ *   Class Decorator: @initializable()
  *************************************/
 export { initializable } from '../src/core/index';
 export { Initializer } from '../src/core/index';
 export { InitializerHandler, StaticInitializerHandler } from '../src/core/index';
+
+/*************************************
+ *   Class Decorator: @extensible()
+ *************************************/
+export { exclusive } from '../src/core/index';
+
+/*************************************
+ *   Class Decorator: @agent()
+ *************************************/
+export { agent } from '../src/core/index';
+export { singleton } from '../src/core/index';
+export { transit } from '../src/core/index';
+export { inject } from '../src/core/index';
 
 /************************************
  *    TSLIB Re-work
@@ -120,13 +133,13 @@ export { __metadata } from '../src/core/index';
 /*************************************
  *   Design Pattern: Dependence Injection
  *************************************/
-export { SingletonAttribute } from '../src/domain/index';
-export { TransitAttribute } from '../src/domain/index';
-export { InjectAttribute } from '../src/domain/index';
-export { singleton } from '../src/domain/index';
-export { transit } from '../src/domain/index';
-export { inject } from '../src/domain/index';
-export { agent } from '../src/domain/index';
+// export { SingletonAttribute } from '../src/domain/index';
+// export { TransitAttribute } from '../src/domain/index';
+// export { InjectAttribute } from '../src/domain/index';
+// export { singleton } from '../src/domain/index';
+// export { transit } from '../src/domain/index';
+// export { inject } from '../src/domain/index';
+// export { agent } from '../src/domain/index';
 
 /*************************************
  *   Domain
@@ -154,7 +167,6 @@ export { InMemorySubDomain } from '../src/domain/index';
  *   Unstable API
  *************************************/
 export { Disposable } from '../src/domain/index';
-export { extensible } from '../src/domain/index';
 
 /*************************************
  *   END DOMAIN

@@ -1,7 +1,7 @@
 /* tslint:disable */
 
 import { agent, decorate, decorateMember, decorateParameter, IsAgent, Reflector, MemberKinds } from '../../../src';
-import { CreateAgent } from '../../../src';
+import { CreateAgentClass } from '../../../src';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 @agent()
@@ -33,7 +33,7 @@ describe('Interceptor', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(IsAgent(CreateAgent(Calculator))).toBeTrue();
+      expect(IsAgent(CreateAgentClass(Calculator))).toBeTrue();
     });
 
     it('new instance', () => {

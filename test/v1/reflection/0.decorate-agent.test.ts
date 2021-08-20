@@ -2,7 +2,7 @@
 
 import { IsAgent, Reflector, decorateClass } from '../../../src';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
-import { AgentAttribute, CreateAgent } from '../../../src';
+import { AgentAttribute, CreateAgentClass } from '../../../src';
 
 class BadAgentAttribute extends AgentAttribute {
   get interceptor() {
@@ -44,14 +44,14 @@ describe('Decorate Agent', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(CreateAgent(MongoDB, new BadAgentAttribute())).toBe(MongoDB);
+      expect(CreateAgentClass(MongoDB, new BadAgentAttribute())).toBe(MongoDB);
     });
 
     it('upgrade agent with not attribute', () => {
       @decorateClass(new DisabledMetadataAttribute())
       class SQLServer {}
 
-      const SQL = CreateAgent(SQLServer, new AgentAttribute());
+      const SQL = CreateAgentClass(SQLServer, new AgentAttribute());
       expect(IsAgent(SQL)).toBe(false);
     });
 
@@ -76,7 +76,7 @@ describe('Decorate Agent', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(CreateAgent(MySQL, new BadAgentAttribute())).toBe(MySQL);
+      expect(CreateAgentClass(MySQL, new BadAgentAttribute())).toBe(MySQL);
     });
 
     it('new instance', () => {

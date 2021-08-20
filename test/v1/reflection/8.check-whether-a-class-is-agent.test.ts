@@ -1,7 +1,7 @@
 /* tslint:disable */
 
 import { agent, IsAgent } from '../../../src';
-import { CreateAgent, GetAgentType } from '../../../src';
+import { CreateAgentClass, GetAgentType } from '../../../src';
 
 @agent()
 class AgentClass {}
@@ -11,11 +11,11 @@ class NormalClass {}
 describe('Reflection Helper', () => {
   describe('# should able to', () => {
     it('create a new agent from existing agent', () => {
-      expect(CreateAgent(AgentClass)).toBeTruthy();
+      expect(CreateAgentClass(AgentClass)).toBeTruthy();
     });
 
     it('create a new agent from existing class', () => {
-      expect(CreateAgent(NormalClass)).toBeTruthy();
+      expect(CreateAgentClass(NormalClass)).toBeTruthy();
     });
 
     it('check agent', () => {
@@ -35,11 +35,11 @@ describe('Reflection Helper', () => {
     });
 
     it('get origin type of the upgraded class', () => {
-      expect(GetAgentType(CreateAgent(NormalClass))).toBeUndefined();
+      expect(GetAgentType(CreateAgentClass(NormalClass))).toBeUndefined();
     });
 
     it('get origin type of the upgraded agent', () => {
-      expect(GetAgentType(CreateAgent(AgentClass))).not.toBe(AgentClass);
+      expect(GetAgentType(CreateAgentClass(AgentClass))).not.toBe(AgentClass);
     });
   });
 });

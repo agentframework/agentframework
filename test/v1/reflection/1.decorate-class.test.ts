@@ -5,7 +5,7 @@ import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
 import { AgentChecker } from '../attributes/AgentChecker';
-import { AgentAttribute, CreateAgent, GetAgentType } from '../../../src';
+import { AgentAttribute, CreateAgentClass, GetAgentType } from '../../../src';
 
 @agent()
 @decorateClass(new AgentChecker())
@@ -37,7 +37,7 @@ describe('Decorate Class', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(GetAgentType(CreateAgent(MongoDB))).not.toBe(MongoDB);
+      expect(GetAgentType(CreateAgentClass(MongoDB))).not.toBe(MongoDB);
     });
 
     it('new instance', () => {

@@ -21,7 +21,7 @@ import { Filter } from '../Interfaces/Filter';
 import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToClass } from '../Helpers/AddAttribute';
 import { GetAgentType, IsAgent } from '../Helpers/AgentHelper';
-import { remember } from '../Decorators/remember';
+import { remember } from '../Decorators/Remember/remember';
 import { Property } from '../Wisdom/Annotation';
 
 // class TypeIteratorResult {

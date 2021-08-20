@@ -13,7 +13,7 @@ import {
   MemberKinds,
   decorateClass
 } from '../../../src';
-import { CreateAgent } from '../../../src';
+import { CreateAgentClass } from '../../../src';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 class AgentChecker implements Attribute, Interceptor {
@@ -65,7 +65,7 @@ describe('Interceptor on Constructor', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(IsAgent(CreateAgent(Calculator))).toBeTrue();
+      expect(IsAgent(CreateAgentClass(Calculator))).toBeTrue();
     });
 
     it('new instance', () => {

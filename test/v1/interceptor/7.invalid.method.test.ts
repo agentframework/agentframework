@@ -1,7 +1,7 @@
 /* tslint:disable */
 
 import { agent, IsAgent, decorateMember } from '../../../src';
-import { CreateAgent } from '../../../src';
+import { CreateAgentClass } from '../../../src';
 import { BadRoundAttribute } from '../attributes/BadRoundAttribute';
 
 @agent()
@@ -23,7 +23,7 @@ describe('Interceptor on Invalid Setter Value', () => {
   describe('# should able to', () => {
     it('define agent', () => {
       expect(IsAgent(Calculator)).toBe(true);
-      expect(IsAgent(CreateAgent(Calculator))).toBe(true);
+      expect(IsAgent(CreateAgentClass(Calculator))).toBe(true);
     });
 
     it('create agent', () => {

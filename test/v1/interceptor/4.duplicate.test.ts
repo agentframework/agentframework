@@ -2,7 +2,7 @@
 
 import { IsAgent, decorateMember, agent } from '../../../src';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
-import { CreateAgent } from '../../../src';
+import { CreateAgentClass } from '../../../src';
 
 class Base {
   @decorateMember(new RoundInterceptor())
@@ -26,7 +26,7 @@ describe('Duplicate Interceptors', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(IsAgent(CreateAgent(Calculator))).toBeTrue();
+      expect(IsAgent(CreateAgentClass(Calculator))).toBeTrue();
     });
   });
 });

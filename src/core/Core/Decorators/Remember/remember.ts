@@ -13,9 +13,12 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // the memorize can be used on both class getter or static getter
-import { define } from '../Helpers/Prototype';
-import { Wisdom } from '../Wisdom/Wisdom';
+import { define } from '../../Helpers/Prototype';
+import { Wisdom } from '../../Wisdom/Wisdom';
 
+/**
+ * only apply to getter
+ */
 export function remember(key?: string) {
   return (target: object | Function, targetKey: string | symbol, descriptor: any): any => {
     return {
@@ -23,7 +26,7 @@ export function remember(key?: string) {
         const receiver = 'function' === typeof target ? target : this;
         let value;
         if (key) {
-          // bulletproof call syntax against tools like "terser"
+          // note: bulletproof syntax against tools like "terser"
           const wisdom = Wisdom.get(Wisdom);
           const id = key + '.' + String(targetKey);
           value = wisdom.get(id);

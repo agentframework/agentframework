@@ -1,5 +1,5 @@
-import { InMemoryDomain, agent, inject, Reflector, InjectAttribute } from '../../../src';
-import { CreateAgent } from '../../../src';
+import { InMemoryDomain, agent, inject, Reflector } from '../../../src';
+import { CreateAgentClass } from '../../../src';
 
 describe('6.2. @inject decorator', () => {
   describe('# should able to', () => {
@@ -24,7 +24,7 @@ describe('6.2. @inject decorator', () => {
       expect(
         Reflector(App621)
           .property('service')
-          .hasOwnAttribute(InjectAttribute)
+          .hasOwnAttribute()
       ).toBeTrue();
     });
 
@@ -109,7 +109,7 @@ describe('6.2. @inject decorator', () => {
         readonly service!: Service626;
       }
 
-      const Agent626 = CreateAgent(App626);
+      const Agent626 = CreateAgentClass(App626);
 
       const app626 = new Agent626();
 

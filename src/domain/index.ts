@@ -57,7 +57,6 @@ export { InMemorySubDomain } from './Domain/InMemorySubDomain';
  *   Unstable API
  *************************************/
 export { Disposable } from './Domain/Helpers/Disposable';
-export { extensible } from './Domain/Decorators/extensible';
 
 /*************************************
  *   END DOMAIN

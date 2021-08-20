@@ -1,9 +1,9 @@
-import { extensible } from '../../../src';
+import { exclusive } from '../../../src';
 
 describe('6.7. @extensible decorator', () => {
   describe('# should able to', () => {
     it('create extensible class 1', () => {
-      @extensible()
+      @exclusive()
       class NoUser {
         id: number = 1;
       }
@@ -15,7 +15,7 @@ describe('6.7. @extensible decorator', () => {
     });
 
     it('create extensible class 2', () => {
-      @extensible()
+      @exclusive()
       class NoUser {
         id: number = 2;
       }
@@ -27,7 +27,7 @@ describe('6.7. @extensible decorator', () => {
     });
 
     it('create extensible class 1', () => {
-      @extensible('test')
+      @exclusive('test')
       class NoUser {
         id: number = 3;
       }
@@ -39,7 +39,7 @@ describe('6.7. @extensible decorator', () => {
     });
 
     it('create extensible class 2', () => {
-      @extensible('test')
+      @exclusive('test')
       class NoUser {
         id: number = 4;
       }

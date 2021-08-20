@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { NamedTypes } from '../DomainKnowledge';
+import { NamedTypes } from '../../Knowledge';
 
 export function GetNamedType<T>(name: string, type: T): T {
   const types = NamedTypes.v1;
