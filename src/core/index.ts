@@ -114,6 +114,7 @@ export { __metadata } from './Core/Wisdom/Wisdom';
 /*************************************
  *   Internal API: Attribute Helper
  *************************************/
+// export { CanDecorate } from  './Core/Helpers/AddAttribute';
 // export {
 //   AddAttributeToClass,
 //   AddAttributeToConstructorParameter,
