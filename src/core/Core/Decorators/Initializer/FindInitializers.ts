@@ -12,7 +12,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Initializers } from '../DomainKnowledge';
+import { Initializers } from "../../Knowledge";
+
 
 export function FindInitializers(target: Function, key: PropertyKey): Array<[Function, Function]> {
   const initializers = Initializers.v1;

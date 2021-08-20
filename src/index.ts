@@ -64,33 +64,50 @@ export { decorateParameter } from '../src/core/index';
 export { Reflector } from '../src/core/index';
 
 /*************************************
- *   Custom Interceptor
+ *   Agent API
+ *************************************/
+export { IsAgent } from '../src/core/index';
+export { GetAgentType } from '../src/core/index';
+
+/*************************************
+ *   Advanced: Create Agent API
+ *************************************/
+export { CreateAgent } from '../src/core/index';
+export { AgentAttribute } from '../src/core/index';
+
+/*************************************
+ *   Advanced: Custom Interceptor API
  *************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/core/index';
 
+/*************************************
+ *   Decorator: @remember()
+ *************************************/
+export { remember } from '../src/core/index';
+
+/*************************************
+ *   Decorator: @initializable()
+ *************************************/
+export { initializable } from '../src/core/index';
+export { Initializer } from '../src/core/index';
+export { InitializerHandler, StaticInitializerHandler } from '../src/core/index';
+
 /************************************
- *    Custom Helpers
+ *    TSLIB Re-work
  ************************************/
 export { __agent, __decorate, __param } from '../src/core/index';
 export { __metadata } from '../src/core/index';
 
 /*************************************
- *   Unstable API: Agent API
+ *   Internal API: Attribute Helper
  *************************************/
-export { IsAgent } from '../src/core/index';
-export { GetAgentType } from '../src/core/index';
-export { CreateAgent } from '../src/core/index';
-export { AgentAttribute } from '../src/core/index';
-
-/*************************************
- *   Unstable API: Reflector
- *************************************/
-export { remember } from '../src/core/index';
-
-/*************************************
- *   Unstable API: Static Interceptor
- *************************************/
-export { interceptable } from '../src/core/index';
+// export { CanDecorate } from '../src/core/index';
+// export {
+//   AddAttributeToClass,
+//   AddAttributeToConstructorParameter,
+//   AddAttributeToMethodParameter,
+//   AddAttributeToMember,
+// } from '../src/core/index';
 
 /*************************************
  *   END CORE
@@ -110,13 +127,6 @@ export { singleton } from '../src/domain/index';
 export { transit } from '../src/domain/index';
 export { inject } from '../src/domain/index';
 export { agent } from '../src/domain/index';
-
-/*************************************
- *   Design Pattern: Factory Method
- *************************************/
-export { initializable } from '../src/domain/index';
-export { Initializer } from '../src/domain/index';
-export { InitializerHandler, StaticInitializerHandler } from '../src/domain/index';
 
 /*************************************
  *   Domain

@@ -28,14 +28,13 @@ export class RegisterDomainAgentAttribute extends DomainAgentAttribute {
   }
 
   intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
-    const newReceiver = super.intercept(target, params, receiver);
-    this.domain.addType(newReceiver);
-    return newReceiver;
+    this.domain.addType(target.design.declaringType);
+    return super.intercept(target, params, receiver);
   }
 
-  construct<T extends Function>(target: T, params: Arguments, newTarget: T): any {
-    const agent = super.construct(target, params, newTarget);
-    this.domain.addAgent(newTarget, agent);
+  construct<T extends Function>(target: T, params: Arguments, receiver: T): any {
+    const agent = super.construct(target, params, receiver);
+    this.domain.addAgent(receiver, agent);
     return agent;
   }
 }

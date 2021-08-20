@@ -100,6 +100,7 @@ export class ChainFactory {
     // todo: cache the chain for this target
     let chain: Invocation = invocation;
     // chain user defined class attribute
+
     if (design.hasOwnInterceptor()) {
       const interceptors = design.findOwnAttributes(HasInterceptor);
       //.concat(property.value.findOwnAttributes(HasInterceptor));

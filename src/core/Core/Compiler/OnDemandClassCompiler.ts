@@ -27,10 +27,10 @@ import { Attribute } from '../Interfaces/Attribute';
 
 export class OnDemandClassCompiler {
   static upgrade(
-    proxy: object | Function,
+    proxy: Function | object,
     properties: Map<PropertyKey, PropertyInfo>,
-    target: Function,
-    receiver?: Function
+    target: Function | object,
+    receiver?: Function | object
   ): any {
     const map: any = {};
 
@@ -112,7 +112,7 @@ export class OnDemandClassCompiler {
   /**
    * Field will only call interceptor for only 1 time
    */
-  private static makeField(field: PropertyInfo, receiver: Function): PropertyDescriptor {
+  private static makeField(field: PropertyInfo, receiver: Function | object): PropertyDescriptor {
     const key = field.key;
     const fieldInvoker = new GetterSetterInvocation(field);
     return {
@@ -128,12 +128,12 @@ export class OnDemandClassCompiler {
             descriptor.set = function (this: any) {
               chain.invoke(arguments, this);
             };
-            define(receiver.prototype, key, descriptor);
+            define(receiver, key, descriptor);
             chain.invoke(arguments, this);
           },
           configurable: true,
         };
-        define(receiver.prototype, key, descriptor);
+        define(receiver, key, descriptor);
         return chain.invoke([], this);
         // return set(this, key, chain.invoke([undefined], this));
       },
@@ -146,7 +146,7 @@ export class OnDemandClassCompiler {
               return chain.invoke([], this);
               // return set(this, key, chain.invoke([undefined], this));
             };
-            define(receiver.prototype, key, descriptor);
+            define(receiver, key, descriptor);
             return chain.invoke([], this);
             // return set(this, key, chain.invoke([undefined], this));
           },
@@ -155,7 +155,11 @@ export class OnDemandClassCompiler {
           },
           configurable: true,
         };
-        define(receiver.prototype, key, descriptor);
+
+        // console.log('set receiver', receiver['prototype']);
+        // console.log('set this',this);
+
+        define(receiver, key, descriptor);
         return chain.invoke(arguments, this);
       },
       configurable: true,
@@ -165,7 +169,7 @@ export class OnDemandClassCompiler {
   private static makeProperty(
     property: PropertyInfo,
     descriptor: PropertyDescriptor,
-    receiver: Function
+    receiver: Function | object
   ): PropertyDescriptor {
     const key = property.key;
     let propertyDescriptor = Object.create(descriptor);
@@ -189,7 +193,7 @@ export class OnDemandClassCompiler {
           propertyDescriptor.value = function (this: any) {
             return chain.invoke(arguments, this);
           };
-          define(receiver.prototype, key, propertyDescriptor);
+          define(receiver, key, propertyDescriptor);
           return chain.invoke(arguments, this);
         };
       } else {
@@ -214,12 +218,12 @@ export class OnDemandClassCompiler {
               descriptor.set = function () {
                 chain.invoke(arguments, this);
               };
-              define(receiver.prototype, key, descriptor);
+              define(receiver, key, descriptor);
               chain.invoke(arguments, this);
             },
             configurable: true,
           };
-          define(receiver.prototype, key, descriptor);
+          define(receiver, key, descriptor);
           return chain.invoke([], this);
         };
         propertyDescriptor.set = function (this: any) {
@@ -232,7 +236,7 @@ export class OnDemandClassCompiler {
               descriptor.get = function () {
                 return chain.invoke([], this);
               };
-              define(receiver.prototype, key, descriptor);
+              define(receiver, key, descriptor);
               return chain.invoke([], this);
             },
             set(this: any) {
@@ -241,7 +245,7 @@ export class OnDemandClassCompiler {
             configurable: true,
           };
           // console.log('called set', receiver, Reflect.getOwnPropertyDescriptor(receiver.prototype, key));
-          define(receiver.prototype, key, descriptor);
+          define(receiver, key, descriptor);
           return chain.invoke(arguments, this);
         };
       }
@@ -265,12 +269,12 @@ export class OnDemandClassCompiler {
                 descriptor.set = function () {
                   chain.invoke(arguments, this);
                 };
-                define(receiver.prototype, key, descriptor);
+                define(receiver, key, descriptor);
                 chain.invoke(arguments, this);
               },
               configurable: true,
             };
-            define(receiver.prototype, key, descriptor);
+            define(receiver, key, descriptor);
             return chain.invoke([], this);
           };
           propertyDescriptor.set = function (this: any) {
@@ -285,7 +289,7 @@ export class OnDemandClassCompiler {
                 descriptor.get = function () {
                   return chain.invoke([undefined], this);
                 };
-                define(receiver.prototype, key, descriptor);
+                define(receiver, key, descriptor);
                 return chain.invoke([undefined], this);
               },
               set(this: any) {
@@ -293,7 +297,7 @@ export class OnDemandClassCompiler {
               },
               configurable: true,
             };
-            define(receiver.prototype, key, descriptor);
+            define(receiver, key, descriptor);
             return chain.invoke(arguments, this);
           };
         } else {
@@ -305,7 +309,7 @@ export class OnDemandClassCompiler {
             propertyDescriptor.get = function (this: any) {
               return chain.invoke([], this);
             };
-            define(receiver.prototype, key, propertyDescriptor);
+            define(receiver, key, propertyDescriptor);
             return chain.invoke([], this);
           };
         }
@@ -318,7 +322,7 @@ export class OnDemandClassCompiler {
           propertyDescriptor.set = function (this: any) {
             return chain.invoke(arguments, this);
           };
-          define(receiver.prototype, key, propertyDescriptor);
+          define(receiver, key, propertyDescriptor);
           return chain.invoke(arguments, this);
         };
       } else {

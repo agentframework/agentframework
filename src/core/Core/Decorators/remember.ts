@@ -13,27 +13,29 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // the memorize can be used on both class getter or static getter
-import { define } from './Prototype';
+import { define } from '../Helpers/Prototype';
 import { Wisdom } from '../Wisdom/Wisdom';
 
 export function remember(key?: string) {
   return (target: object | Function, targetKey: string | symbol, descriptor: any): any => {
     return {
       get() {
+        const receiver = 'function' === typeof target ? target : this;
         let value;
         if (key) {
+          // bulletproof call syntax against tools like "terser"
           const wisdom = Wisdom.get(Wisdom);
           const id = key + '.' + String(targetKey);
           value = wisdom.get(id);
           if (!value) {
             const { get } = descriptor;
-            wisdom.set(id, (value = Reflect.apply(get, target, [])));
+            wisdom.set(id, (value = Reflect.apply(get, receiver, [])));
           }
-          define(target, targetKey, { value });
+          define(receiver, targetKey, { value });
         } else {
           const { get } = descriptor;
-          value = Reflect.apply(get, this, []);
-          define(this, targetKey, { value });
+          value = Reflect.apply(get, receiver, []);
+          define(receiver, targetKey, { value });
         }
         return value;
       },

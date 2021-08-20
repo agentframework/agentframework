@@ -64,14 +64,33 @@ export { decorateParameter } from '../src/core/index';
 export { Reflector } from '../src/core/index';
 
 /*************************************
- *   Custom Interceptor
+ *   Agent API
+ *************************************/
+export { IsAgent } from '../src/core/index';
+export { GetAgentType } from '../src/core/index';
+
+/*************************************
+ *   Advanced: Create Agent API
+ *************************************/
+export { CreateAgent } from '../src/core/index';
+export { AgentAttribute } from '../src/core/index';
+
+/*************************************
+ *   Advanced: Custom Interceptor API
  *************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/core/index';
 
 /*************************************
- *   API: Agent
+ *   Decorator: @remember()
  *************************************/
-export { IsAgent } from '../src/core/index';
+export { remember } from '../src/core/index';
+
+/*************************************
+ *   Decorator: @initializable()
+ *************************************/
+export { initializable } from '../src/core/index';
+export { Initializer } from '../src/core/index';
+export { InitializerHandler, StaticInitializerHandler } from '../src/core/index';
 
 /************************************
  *    TSLIB Re-work
@@ -81,16 +100,8 @@ export { IsAgent } from '../src/core/index';
  */
 export { __agent, __decorate, __param, __metadata } from '../src/core/index';
 
-
 /*************************************
- *   Unstable API: Agent
- *************************************/
-// export { GetAgentType } from '../src/core/index';
-// export { CreateAgent } from '../src/core/index';
-// export { AgentAttribute } from '../src/core/index';
-
-/*************************************
- *   Unstable API: Attribute
+ *   Internal API: Attribute Helper
  *************************************/
 // export { CanDecorate } from '../src/core/index';
 // export {
@@ -99,12 +110,6 @@ export { __agent, __decorate, __param, __metadata } from '../src/core/index';
 //   AddAttributeToMethodParameter,
 //   AddAttributeToMember,
 // } from '../src/core/index';
-
-/*************************************
- *   Unstable API: Decorator
- *************************************/
-// export { remember } from '../src/core/index';
-// export { interceptable } from '../src/core/index';
 
 /*************************************
  *   END CORE
@@ -126,13 +131,6 @@ export { inject } from '../src/domain/index';
 export { agent } from '../src/domain/index';
 
 /*************************************
- *   Design Pattern: Factory Method
- *************************************/
-export { initializable } from '../src/domain/index';
-export { Initializer } from '../src/domain/index';
-export { InitializerHandler, StaticInitializerHandler } from '../src/domain/index';
-
-/*************************************
  *   Domain
  *************************************/
 // export { DomainLike } from '../src/domain/index';
@@ -143,6 +141,9 @@ export { InitializerHandler, StaticInitializerHandler } from '../src/domain/inde
 // export { GetSystemDomain } from '../src/domain/index';
 // export { IsDomain } from '../src/domain/index';
 
+/*************************************
+ *   Class
+ *************************************/
 // export { AgentReference, Params, Agent } from '../src/domain/index';
 
 /*************************************

@@ -22,7 +22,7 @@ import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToMember } from '../Helpers/AddAttribute';
 import { HasInterceptor } from '../Helpers/CustomInterceptor';
 import { Property } from '../Wisdom/Annotation';
-import { remember } from '../Helpers/Remember';
+import { remember } from '../Decorators/remember';
 
 // import { getter } from '../Helpers/Prototype';
 // import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';

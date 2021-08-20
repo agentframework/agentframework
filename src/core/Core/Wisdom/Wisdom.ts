@@ -14,23 +14,56 @@ limitations under the License. */
 
 import { Soul } from './Soul';
 import { FindProperty } from './Annotator';
-import { define, init } from '../Helpers/Prototype';
+import { define, hook } from '../Helpers/Prototype';
 
-@init(Reflect)
+@hook(Reflect)
 export class Wisdom extends WeakMap<any, any> {
   /**
-   * for troubleshot
+   * @internal
    */
   static get id(): string {
     return 'agentframework';
   }
 
+  /**
+   * @internal
+   */
   static get version(): string {
     return /* replace::release.version */ '2.0.0';
   }
 
+  /**
+   * @internal
+   */
   static get timestamp(): string {
     return /* replace::release.timestamp */ '2016-11-03T00:00:00.000Z';
+  }
+
+  /**
+   * @internal
+   */
+  /* istanbul ignore next */
+  static has(type: Function | object): boolean {
+    /* ignore this dummy code, for placeholder only */
+    return !!this.get(type);
+  }
+
+  /**
+   * @internal
+   */
+  /* istanbul ignore next */
+  static get(type: Function | object): any {
+    /* ignore this dummy code, for placeholder only */
+    return this.add(type);
+  }
+
+  /**
+   * @internal
+   */
+  /* istanbul ignore next */
+  static add(type: Function | object): any {
+    /* ignore this dummy code, for placeholder only */
+    return this.has(type);
   }
 
   constructor(readonly reflect: typeof Reflect, key: PropertyKey) {
@@ -75,21 +108,6 @@ export class Wisdom extends WeakMap<any, any> {
     define(r, m, { value });
     define(r, key, { value: wisdom });
     wisdom.set(wisdom, new Map());
-  }
-
-  /* istanbul ignore next */
-  static has(type: Function | object): boolean {
-    return /* codegen */ false;
-  }
-
-  /* istanbul ignore next */
-  static get(type: Function | object): any {
-    return /* codegen */ undefined;
-  }
-
-  /* istanbul ignore next */
-  static add(type: Function | object): any {
-    return /* codegen */ undefined;
   }
 
   /**

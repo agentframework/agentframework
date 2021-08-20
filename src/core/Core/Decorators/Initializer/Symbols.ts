@@ -12,12 +12,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { decorateAgent } from '../Decorator/decorateAgent';
-import { InterceptorAttribute } from './InterceptorAttribute';
+import { Arguments } from '../../Interfaces/Arguments';
+import { ClassInvocation } from '../../Interfaces/TypeInvocations';
 
-/**
- * Enable interceptor for static member
- */
-export function interceptable() {
-  return decorateAgent(new InterceptorAttribute());
-}
+export type InitializerHandler = (target: ClassInvocation, params: Arguments, receiver: any) => void;
+
+export type StaticInitializerHandler = (target: ClassInvocation, params: Arguments, receiver: any) => object;
+
+export const Initializer: unique symbol = Symbol.for('AgentFramework.Initializer');

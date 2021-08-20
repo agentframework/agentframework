@@ -45,6 +45,12 @@ describe('Interceptor on Field', () => {
       expect(agent.RoundOnField).toBeNaN();
       agent.RoundOnField = 1.52412423;
       expect(agent.RoundOnField).toBe(2);
+      agent.RoundOnField = 4.54354;
+      expect(agent.RoundOnField).toBe(5);
+      agent.RoundOnField = 7.3455;
+      expect(agent.RoundOnField).toBe(7);
+      agent.RoundOnField = 4.64354;
+      expect(agent.RoundOnField).toBe(5);
     });
 
     it('create agent with field value', () => {

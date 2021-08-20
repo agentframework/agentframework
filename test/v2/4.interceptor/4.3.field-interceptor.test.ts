@@ -86,9 +86,7 @@ describe('4.3. field interceptor', () => {
           interceptor: {
             intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
               if (typeof params[0] === 'number') {
-                const newParams = [Math.floor(params[0])];
-                // modify parameters
-                return target.invoke(newParams, receiver);
+                return target.invoke([Math.floor(params[0])], receiver);
               }
               return Math.floor(target.invoke(params, receiver));
             },

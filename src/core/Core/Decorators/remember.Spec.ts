@@ -1,4 +1,4 @@
-import { remember } from './Remember';
+import { remember } from './remember';
 
 describe('Remember!', () => {
   describe('# should able to', () => {

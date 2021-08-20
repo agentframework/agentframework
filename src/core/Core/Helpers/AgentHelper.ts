@@ -26,7 +26,7 @@ export function RememberAgentType(agent: Function, type: Function): void {
  * Find original type of the agent (if have)
  */
 export function GetAgentType<T extends Function | object>(type: T): T | undefined {
-  return Types.v1.get(type) as T;
+  return <T | undefined>Types.v1.get(type);
 }
 
 /**

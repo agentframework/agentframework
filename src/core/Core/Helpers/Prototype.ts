@@ -12,14 +12,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+/**
+ * @internal
+ */
 export function define<T extends object>(target: T, key: string | symbol | number, value: object): T {
   Reflect.defineProperty(target, key, value);
   return target;
 }
 
-export function init(impl: typeof Reflect) {
+/**
+ * @internal
+ */
+export function hook(impl: typeof Reflect) {
   return function (this: any, type: any): any {
     const id = Symbol.for(type.id);
-    return impl.get(impl, id) || impl.construct(type, [impl, id]);
+    return impl[id] || impl.construct(type, [impl, id]);
   };
 }

@@ -62,13 +62,4 @@ export class NamedTypes {
   }
 }
 
-/**
- * Get initializers of giving type
- */
-export class Initializers {
-  // key: class, value: [Initializer Function, Class]
-  @remember('Initializers')
-  static get v1() {
-    return new Map<Function, Array<[Function, Function]>>();
-  }
-}
+

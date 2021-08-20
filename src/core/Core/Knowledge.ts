@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Invocation } from './Interfaces/Invocation';
-import { remember } from './Helpers/Remember';
+import { remember } from './Decorators/remember';
 
 /**
  * Get original type of giving agent
@@ -44,5 +44,16 @@ export class Interceptors {
   @remember('Interceptors')
   static get v1() {
     return new WeakMap<Function, [Function, unknown]>();
+  }
+}
+
+/**
+ * Get initializers of giving type
+ */
+export class Initializers {
+  // key: class, value: [Initializer Function, Class]
+  @remember('Initializers')
+  static get v1() {
+    return new WeakMap<Function, Array<[Function, Function]>>();
   }
 }

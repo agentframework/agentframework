@@ -64,14 +64,33 @@ export { decorateParameter } from './Core/Decorator/decorateParameter';
 export { Reflector } from './Core/Reflection/Reflector';
 
 /*************************************
- *   Custom Interceptor
+ *   Agent API
+ *************************************/
+export { IsAgent } from './Core/Helpers/AgentHelper';
+export { GetAgentType } from './Core/Helpers/AgentHelper';
+
+/*************************************
+ *   Advanced: Create Agent API
+ *************************************/
+export { CreateAgent } from './Core/Agent/CreateAgent';
+export { AgentAttribute } from './Core/Agent/AgentAttribute';
+
+/*************************************
+ *   Advanced: Custom Interceptor API
  *************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from './Core/Helpers/CustomInterceptor';
 
 /*************************************
- *   API: Agent
+ *   Decorator: @remember()
  *************************************/
-export { IsAgent } from './Core/Helpers/AgentHelper';
+export { remember } from './Core/Decorators/remember';
+
+/*************************************
+ *   Decorator: @initializable()
+ *************************************/
+export { initializable } from './Core/Decorators/Initializer/initializable';
+export { Initializer } from './Core/Decorators/Initializer/Symbols';
+export { InitializerHandler, StaticInitializerHandler } from './Core/Decorators/Initializer/Symbols';
 
 /************************************
  *    TSLIB Re-work
@@ -80,25 +99,14 @@ export { __agent, __decorate, __param } from './Core/Helpers/DecoratorHelper';
 export { __metadata } from './Core/Wisdom/Wisdom';
 
 /*************************************
- *   Unstable API: Agent
+ *   Internal API: Attribute Helper
  *************************************/
-export { GetAgentType } from './Core/Helpers/AgentHelper';
-export { CreateAgent } from './Core/Agent/CreateAgent';
-export { AgentAttribute } from './Core/Agent/AgentAttribute';
-
-/*************************************
- *   Unstable API: Attribute
- *************************************/
-// AddAttributeToConstructorParameter,
-// AddAttributeToMethodParameter,
-// AddAttributeToMember,
-export { AddAttributeToClass } from './Core/Helpers/AddAttribute';
-
-/*************************************
- *   Unstable API: Decorator
- *************************************/
-export { remember } from './Core/Helpers/Remember';
-export { interceptable } from './Core/Agent/interceptable';
+// export {
+//   AddAttributeToClass,
+//   AddAttributeToConstructorParameter,
+//   AddAttributeToMethodParameter,
+//   AddAttributeToMember,
+// } from './Core/Helpers/AddAttribute';
 
 /*************************************
  *   END CORE

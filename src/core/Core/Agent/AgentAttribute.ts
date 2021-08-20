@@ -30,7 +30,7 @@ import { Wisdom } from '../Wisdom/Wisdom';
  * This attribute is for upgrade class to agent
  */
 export class AgentAttribute implements ClassAttribute, ClassInterceptor {
-  constructor(readonly callCustomCompiler: boolean = false) {}
+  constructor(readonly hasAgentInterceptor: boolean = false) {}
   /**
    *
    */
@@ -42,85 +42,54 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
    * Create type hook (called after script loaded)
    */
   intercept(target: ClassInvocation, params: any, receiver: Function): Function {
-    const staticMeta = Wisdom.get(receiver);
+    const agentMeta = Wisdom.get(receiver);
     const meta = Wisdom.get(receiver.prototype);
-    const [, attribute, compiler] = params;
+    let newReceiver = receiver;
 
-    if (staticMeta) {
-      // console.log('Agent Static', receiver);
-      // console.log(Wisdom.get(receiver));
-      // const design = target.design;
-      // const oldTarget = design.declaringType;
-      // // create agent type
-      // const newTarget: Function = target.invoke(params, receiver);
-      //
-      // /* istanbul ignore next */
-      // if (oldTarget === newTarget) {
-      //   // not allow modify user class prototype
-      //   return newTarget;
-      // }
-      //
-      // const result = design.findProperties((p) => p.hasInterceptor());
-      // const properties = new Map<PropertyKey, PropertyInfo>();
-      //
-      // if (result.size) {
-      //   for (const infos of result.values()) {
-      //     for (const info of infos) {
-      //       properties.set(info.key, info);
-      //     }
-      //   }
-      // }
-      //
-      // if (properties.size) {
-      //   // 2. find the proxy class
-      //   const found = FindExtendedClass(oldTarget, newTarget);
-      //
-      //   // don't generate property interceptor if no extended class
-      //   // quick check, ignore if keys are been declared
-      //   // ownKeys() >= 1 because constructor is one key always have
-      //   OnDemandClassCompiler.upgrade(found[0], properties, found[0], found[1]);
-      // }
+    const hasAttributes = meta || (agentMeta && agentMeta['constructor']);
+    const hasAgentAttributes = agentMeta && Reflect.ownKeys(agentMeta).some((key) => key !== 'constructor');
+
+    if (hasAttributes || hasAgentAttributes || this.hasAgentInterceptor) {
+      const [, attribute, compiler] = params;
+      newReceiver = Reflect.construct(compiler, [receiver, attribute]);
+      RememberAgentType(newReceiver, target.design.declaringType);
     }
 
-    if (meta || (staticMeta && staticMeta['constructor'])) {
-      // receiver is target
-      // generate a new class proxy for target
-      // this proxy class will
-      //    1. as a factory to create new agent
-      //    2. as a base class to extend
-      // const name = receiver.name;
-
-      // minimal code to generate a class
-      // this class will add on top of the Proxy class
-      // const code = `return class ${name}$ extends ${name}`;
-
-      // using proxy to make better constructor
-      // use different constructor for different configuration
-      const newReceiver = Reflect.construct(compiler, [receiver, attribute]);
-      RememberAgentType(newReceiver, target.design.declaringType);
-
-      // create the class
-      const newAgent = target.invoke<Function>(params, newReceiver);
-
-      // console.log('new name', name);
-      // console.log('===>', agent, agent.toString());
-
-      // this is the only way to detect the proxy
-      // RememberAgentType(newAgent, target.design.declaringType);
-      return newAgent;
-    } else if (this.callCustomCompiler) {
-      const newReceiver = Reflect.construct(compiler, [receiver, attribute]);
-      RememberAgentType(newReceiver, target.design.declaringType);
-      return newReceiver;
-    } else {
-      return receiver;
+    if (hasAttributes || hasAgentAttributes) {
+      newReceiver = target.invoke<Function>(params, newReceiver);
     }
+
+    if (hasAgentAttributes) {
+      const design = target.design;
+      const declaringType = design.declaringType;
+
+      const result = design.findProperties((p) => p.hasInterceptor());
+      const properties = new Map<PropertyKey, PropertyInfo>();
+
+      // note: not all attribute has interceptor
+      if (result.size) {
+        for (const infos of result.values()) {
+          for (const info of infos) {
+            properties.set(info.key, info);
+          }
+        }
+      }
+
+      if (properties.size) {
+        // 2. find the proxy class
+        const found = FindExtendedClass(declaringType, newReceiver);
+        const agent = found[0];
+        OnDemandClassCompiler.upgrade(agent, properties, agent, found[1]);
+      }
+    }
+
+    return newReceiver;
   }
 
   /**
    * Constructor hook (called when user construct the class)
    */
-  construct<T extends Function>(target: T, params: Arguments, newTarget: T): any {
+  construct<T extends Function>(target: T, params: Arguments, receiver: T): any {
     // GEN 1: this.design.type = origin type
     // GEN 2: this.receiver = intercepted type
     //        target === receiver
@@ -184,15 +153,15 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
         // console.log('found', this.design.name, result, properties);
 
         // 2. find the proxy class (at least 1 proxy)
-        const found = FindExtendedClass(target, newTarget);
-
+        const found = FindExtendedClass(target, receiver);
+        const agent = found[0].prototype;
         // quick check, ignore if keys are been declared
         // ownKeys() >= 1 because constructor is one key always have
-        OnDemandClassCompiler.upgrade(found[0].prototype, properties, found[0], found[1]);
+        OnDemandClassCompiler.upgrade(agent, properties, agent, found[1] && found[1].prototype);
       }
     }
 
-    const instance = invocation.invoke(params, newTarget);
+    const instance = invocation.invoke(params, receiver);
     // raise error before construct proxy
     if (null === instance || 'object' !== typeof instance) {
       throw new AgentFrameworkError('ConstructorReturnNonObject');
