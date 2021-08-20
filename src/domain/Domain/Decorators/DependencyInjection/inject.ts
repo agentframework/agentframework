@@ -12,12 +12,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-export function GetRootType(type: any): Function {
-  let root: any = type;
-  let base: any = type;
-  while (base && base !== Function.prototype) {
-    root = base;
-    base = Reflect.getPrototypeOf(base);
-  }
-  return root;
+import { decorateMember } from '../../../../dependencies/core';
+import { InjectAttribute } from './InjectAttribute';
+
+/**
+ * Inject an existing instance in current domain scope. will be `null` if no matching instance found.
+ *
+ * @param type
+ */
+export function inject(type?: Function): PropertyDecorator {
+  return decorateMember(new InjectAttribute(type));
 }

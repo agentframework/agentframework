@@ -21,15 +21,10 @@ limitations under the License. */
 /*************************************
  *   Design Pattern: Dependence Injection
  *************************************/
-export { SingletonAttribute } from './Domain/Attributes/SingletonAttribute';
-export { TransitAttribute } from './Domain/Attributes/TransitAttribute';
-export { InjectAttribute } from './Domain/Attributes/InjectAttribute';
-export { singleton } from './Domain/Decorators/singleton';
-export { transit } from './Domain/Decorators/transit';
-export { inject } from './Domain/Decorators/inject';
+export { singleton } from './Domain/Decorators/DependencyInjection/singleton';
+export { transit } from './Domain/Decorators/DependencyInjection/transit';
+export { inject } from './Domain/Decorators/DependencyInjection/inject';
 export { agent } from './Domain/Decorators/agent';
-
-
 
 /*************************************
  *   Domain

@@ -12,14 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { decorateMember } from '../../../dependencies/core';
-import { InjectAttribute } from '../Attributes/InjectAttribute';
+import { decorateMember } from '../../../../dependencies/core';
+import { SingletonAttribute } from './SingletonAttribute';
 
-/**
- * Inject an existing instance in current domain scope. will be `null` if no matching instance found.
- *
- * @param type
- */
-export function inject(type?: Function): PropertyDecorator {
-  return decorateMember(new InjectAttribute(type));
+export function singleton<T extends Function>(type?: T): PropertyDecorator {
+  return decorateMember(new SingletonAttribute(type));
 }

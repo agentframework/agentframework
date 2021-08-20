@@ -21,7 +21,7 @@ import {
   AddAttributeToMember,
 } from '../Helpers/AddAttribute';
 import { MemberKinds } from '../Interfaces/MemberKinds';
-import { AgentFrameworkError } from '../Error/AgentFrameworkError';
+import { AgentFrameworkError } from '../AgentFrameworkError';
 
 /**
  * Decorate attribute to the target, throw if target not allowed

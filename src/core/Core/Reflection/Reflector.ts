@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { TypeInfo } from '../Interfaces/TypeInfo';
 import { OnDemandTypeInfo } from './OnDemandTypeInfo';
-import { AgentFrameworkError } from '../Error/AgentFrameworkError';
+import { AgentFrameworkError } from '../AgentFrameworkError';
 
 /**
  * Reflector is the interface to access type data from class constructor or class prototype

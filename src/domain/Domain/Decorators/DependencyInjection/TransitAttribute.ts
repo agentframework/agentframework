@@ -12,13 +12,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { CreateAgentClass } from '../../Agent/CreateAgentClass';
-import { AgentFrameworkError } from '../../Error/AgentFrameworkError';
-import { Arguments } from '../../Interfaces/Arguments';
-import { PropertyInterceptor } from '../../Interfaces/TypeInterceptors';
-import { PropertyInvocation } from '../../Interfaces/TypeInvocations';
+import {
+  PropertyInvocation,
+  PropertyInterceptor,
+  PropertyAttribute,
+  Arguments,
+  AgentFrameworkError
+} from '../../../../dependencies/core';
+import { GetDomainFromInvocation } from '../../Helpers/GetDomainFromInvocation';
+import { Domain } from '../../Domain';
 
-export class TransitAttribute implements PropertyInterceptor {
+export class TransitAttribute implements PropertyAttribute, PropertyInterceptor {
   private readonly type?: Function;
 
   constructor(type?: Function) {
@@ -30,15 +34,20 @@ export class TransitAttribute implements PropertyInterceptor {
   }
 
   intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
-    const customType = this.type;
-    const designType = target.design && target.design.type;
-    const type = customType || designType;
+    const type = this.type || (target.design && target.design.type);
     if (!type) {
       throw new AgentFrameworkError('UnknownTransitType');
     }
 
-    const AgentClass = CreateAgentClass(type);
-    const agent = Reflect.construct(AgentClass, params);
-    return target.invoke([agent], receiver);
+    // if this object created by domain, the last argument is domain itself
+    const domain = GetDomainFromInvocation(target, params, receiver);
+    let value;
+    if (domain) {
+      // console.log('get type', typeof receiver, type.name)
+      value = domain.construct(type, params, true);
+    } else {
+      value = Domain.construct(type, params);
+    }
+    return target.invoke([value], receiver);
   }
 }

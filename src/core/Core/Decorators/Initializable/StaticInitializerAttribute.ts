@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AgentFrameworkError } from '../../Error/AgentFrameworkError';
+import { AgentFrameworkError } from '../../AgentFrameworkError';
 import { Arguments } from '../../Interfaces/Arguments';
 import { ClassInterceptor } from '../../Interfaces/TypeInterceptors';
 import { ClassInvocation } from '../../Interfaces/TypeInvocations';

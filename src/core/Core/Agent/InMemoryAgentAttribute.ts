@@ -1,4 +1,4 @@
-import { AgentAttribute } from '../../Agent/AgentAttribute';
+import { AgentAttribute } from './AgentAttribute';
 
 export class InMemoryAgentAttribute extends AgentAttribute {
 

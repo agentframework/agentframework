@@ -12,14 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AgentFrameworkError } from '../../Error/AgentFrameworkError';
+import { AgentFrameworkError } from '../../AgentFrameworkError';
 import { Arguments } from '../../Interfaces/Arguments';
 import { PropertyInterceptor } from '../../Interfaces/TypeInterceptors';
 import { PropertyInvocation } from '../../Interfaces/TypeInvocations';
 import { Agents } from '../../Knowledge';
-import { construct } from './construct';
 
-export class SingletonAttribute implements PropertyInterceptor {
+export class InjectAttribute implements PropertyInterceptor {
   private readonly type?: Function;
 
   constructor(type?: Function) {
@@ -34,13 +33,11 @@ export class SingletonAttribute implements PropertyInterceptor {
     const customType = this.type;
     const designType = target.design && target.design.type;
     const type = customType || designType;
-
     if (!type) {
-      throw new AgentFrameworkError('UnknownSingletonType');
+      throw new AgentFrameworkError('UnknownInjectType');
     }
 
-    const agent =
-      (customType && Agents.v1.get(customType)) || (designType && Agents.v1.get(designType)) || construct(type, params);
+    const agent = (customType && Agents.v1.get(customType)) || (designType && Agents.v1.get(designType));
 
     return target.invoke([agent], receiver);
   }

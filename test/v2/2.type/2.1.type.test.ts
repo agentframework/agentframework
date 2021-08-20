@@ -7,9 +7,10 @@ import {
   TypeInfo,
   decorateClass,
   decorateMember,
-  agent,
   GetAgentType,
 } from '../../../src';
+import { agent } from '../../../src/domain';
+
 
 class Storage {}
 

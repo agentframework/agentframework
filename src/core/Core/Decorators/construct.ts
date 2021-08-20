@@ -1,6 +1,6 @@
-import { CreateAgentClass } from '../../Agent/CreateAgentClass';
-import { Arguments } from '../../Interfaces/Arguments';
-import { Agents } from '../../Knowledge';
+import { CreateAgentClass } from '../Agent/CreateAgentClass';
+import { Arguments } from '../Interfaces/Arguments';
+import { Agents } from '../Knowledge';
 
 export function construct(type: Function, params: Arguments): any {
   const AgentClass = CreateAgentClass(type);

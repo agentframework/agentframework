@@ -21,15 +21,14 @@ import { ParameterInterceptor } from './Invocation/ParameterInterceptor';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { define } from '../Helpers/Prototype';
 import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
-import { AgentFrameworkError } from '../Error/AgentFrameworkError';
+import { AgentFrameworkError } from '../AgentFrameworkError';
 import { HasInterceptor } from '../Helpers/CustomInterceptor';
 import { Attribute } from '../Interfaces/Attribute';
 
 export class OnDemandClassCompiler {
   static upgrade(
-    proxy: Function | object,
-    properties: Map<PropertyKey, PropertyInfo>,
     target: Function | object,
+    properties: Map<PropertyKey, PropertyInfo>,
     receiver?: Function | object
   ): any {
     const map: any = {};
@@ -46,7 +45,7 @@ export class OnDemandClassCompiler {
     }
 
     // use define properties is a little bit faster then define the property one by one
-    Object.defineProperties(proxy, map);
+    Object.defineProperties(target, map);
 
     return map;
   }

@@ -1,7 +1,7 @@
 /* tslint:disable */
 import { decorateMember, agent, IsAgent, GetAgentType, Interceptor, ClassInvocation, Arguments } from '../../../';
 import { CreateAgentClass } from './CreateAgentClass';
-import { InjectAttribute } from '../Decorators/Agent/InjectAttribute';
+import { InjectAttribute } from '../Decorators/DependencyInjection/InjectAttribute';
 
 class Connection {
   static count = 0;
@@ -74,8 +74,7 @@ describe('Compiler', () => {
       expect(IsAgent(MySQL$, MySQL)).toBeFalse();
       expect(IsAgent(MySQL$, GetAgentType(MySQL))).toBeFalse();
       const db = new MySQL$();
-      console.log('MySQL$', db);
-      expect(db).not.toBeInstanceOf(MySQL);
+      expect(db).toBeInstanceOf(MySQL);
       expect(db).toBeInstanceOf(MySQL$);
     });
 

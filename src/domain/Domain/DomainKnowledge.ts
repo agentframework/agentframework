@@ -22,7 +22,7 @@ export class Agents {
   // key: Original Constructor, value: Agent Constructor
   @remember('Agents')
   static get v1() {
-    return new Map<Function, Function>();
+    return new WeakMap<Function, Function>();
   }
 }
 
@@ -36,7 +36,7 @@ export class Domains {
   // key: Domain Type Prototype,  value: Domain Type Prototype
   @remember('Domains')
   static get v1() {
-    return new Map<Function | object, Domain | undefined>();
+    return new WeakMap<Function | object, Domain | undefined>();
   }
 }
 
@@ -47,6 +47,6 @@ export class DomainAgents {
   // key: Original Constructor, value: Agent Constructor
   @remember('DomainAgents')
   static get v1() {
-    return new Map<Function, Map<Domain, Function>>();
+    return new WeakMap<Function, Map<Domain, Function>>();
   }
 }

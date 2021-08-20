@@ -1,7 +1,7 @@
 /* tslint:disable */
 
-import { agent, IsAgent } from '../../../src';
-import { CreateAgentClass, GetAgentType } from '../../../src';
+import { CreateAgentClass, GetAgentType, IsAgent } from '../../../src';
+import { agent } from '../../../src/domain';
 
 @agent()
 class AgentClass {}

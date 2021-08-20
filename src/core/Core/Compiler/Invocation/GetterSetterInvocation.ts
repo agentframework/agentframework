@@ -15,7 +15,7 @@ limitations under the License. */
 import { PropertyInvocation } from '../../Interfaces/TypeInvocations';
 import { PropertyInfo } from '../../Interfaces/PropertyInfo';
 import { Arguments } from '../../Interfaces/Arguments';
-import { AgentFrameworkError } from '../../Error/AgentFrameworkError';
+import { AgentFrameworkError } from '../../AgentFrameworkError';
 
 /**
  * @ignore
@@ -34,16 +34,15 @@ export class GetterSetterInvocation implements PropertyInvocation {
       }
       // how to know the value of a field before you create that class
       // return the value from prototype is a good choose? NO, it may cause infinite loops
+      // note: GetterSetterInvocation is shared across all instance of same type
       this.values.set(receiver, params[0]);
       return params[0];
-      // GetterSetterCache.set(receiver, key, value);
-      // define(receiver, key, { value, writable: true, configurable: true });
-      // return value;
     } else {
       // note: can not call receiver[key] here because infinite loop
       if (this.values.has(receiver)) {
         return this.values.get(receiver);
       }
+      // read value from prototype of declaringType
       const prototype = this.design.declaringType.prototype;
       // console.log('getter', receiver, '----', Reflect.has(prototype, key), '-->', Reflect.get(prototype, key));
       if (Reflect.has(prototype, key)) {

@@ -13,16 +13,17 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import {
+  Arguments,
   PropertyInvocation,
   PropertyInterceptor,
   PropertyAttribute,
-  Arguments,
-  AgentFrameworkError
-} from '../../../dependencies/core';
-import { GetDomainFromInvocation } from '../Helpers/GetDomainFromInvocation';
-import { Domain } from '../Domain';
+  AgentFrameworkError,
+} from '../../../../dependencies/core';
+import { GetDomainFromInvocation } from '../../Helpers/GetDomainFromInvocation';
 
-export class TransitAttribute implements PropertyAttribute, PropertyInterceptor {
+// import { GetDomain } from '../Helpers/GetDomain';
+
+export class SingletonAttribute implements PropertyAttribute, PropertyInterceptor {
   private readonly type?: Function;
 
   constructor(type?: Function) {
@@ -34,20 +35,27 @@ export class TransitAttribute implements PropertyAttribute, PropertyInterceptor 
   }
 
   intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
-    const type = this.type || (target.design && target.design.type);
+    const customType = this.type;
+    const designType = target.design && target.design.type;
+    const type = customType || designType;
+
     if (!type) {
-      throw new AgentFrameworkError('UnknownTransitType');
+      throw new AgentFrameworkError('UnknownSingletonType');
     }
 
+    // console.log('singleton', type, 'receiver', receiver);
     // if this object created by domain, the last argument is domain itself
+    // console.log('find domain for type', receiver)
     const domain = GetDomainFromInvocation(target, params, receiver);
-    let value;
-    if (domain) {
-      // console.log('get type', typeof receiver, type.name)
-      value = domain.construct(type, params, true);
-    } else {
-      value = Domain.construct(type, params);
+    if (!domain) {
+      throw new AgentFrameworkError('NoDomainFoundForSingletonInjection');
     }
+
+    const value =
+      (customType && domain.getAgent(customType)) ||
+      (designType && domain.getAgent(designType)) ||
+      domain.construct(type, params);
+
     return target.invoke([value], receiver);
   }
 }

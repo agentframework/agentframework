@@ -1,4 +1,4 @@
-import { InMemoryDomain } from '../../../src';
+import { InMemoryDomain } from '../../../src/domain';
 
 describe('5.6. Domain instance', () => {
   const domain = new InMemoryDomain();

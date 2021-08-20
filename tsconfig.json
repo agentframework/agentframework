@@ -17,9 +17,9 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "stripInternal": true,
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
-      "agentframework": ["src/index"]
+      "agentframework": ["index"]
     }
   },
   "include": ["lib", "src", "test", "tools"],

@@ -29,21 +29,6 @@ export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, s
     throw new AgentFrameworkError('NotSupportCreateAgentForOtherDomain');
   }
 
-  // 1. get original type if giving type is an agent type
-  // const origin = Knowledge.GetType(type);
-  // if (origin) {
-  //   // target is an agent already
-  //   // set the target to origin type to recreate this
-  //   // so create another proxy from this origin class
-  //   console.log('exists domain type', type);
-  //   type = origin;
-  // }
-
-  // if (typeof domain.constructor.name === 'function') {
-  //   debugger;
-  //   console.log('<< CREATE >>', domain.constructor.name, '====>', type.name);
-  // }
-
   const attribute =
     strategy ||
     domain.getAgent(DomainAgentAttribute) ||
@@ -51,21 +36,12 @@ export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, s
 
   // upgrade to Agent only if interceptor or initializer found
   const newCreatedAgent = CreateAgentClass(type, attribute);
-  // console.log();
-  // console.log('found 1', type.name);
-  // console.log('found 2', newCreatedAgent.name);
-  // const name = Reflector(type).name;
-  // const factory = Function(name, [`return`, `class`, `${name}$`, `extends`, name, '{}'].join(' '));
-  // const newType = factory(type);
-  // Knowledge.RememberType(domainAgent, type);
-  // DomainKnowledge.RememberDomainAgent(domain, type, domainAgent);
+
   RememberDomain(newCreatedAgent, domain);
   RememberDomain(newCreatedAgent.prototype, domain);
 
   RememberDomainAgent(domain, type, newCreatedAgent);
   RememberDomainAgent(domain, newCreatedAgent, newCreatedAgent);
-  // this._upgrades.set(type, newCreatedAgent);
-  // this._upgrades.set(newCreatedAgent, newCreatedAgent);
 
   return newCreatedAgent;
 }

@@ -21,7 +21,7 @@ limitations under the License. */
 /*************************************
  *   Common
  *************************************/
-export { AgentFrameworkError } from './Core/Error/AgentFrameworkError';
+export { AgentFrameworkError } from './Core/AgentFrameworkError';
 export { Arguments } from './Core/Interfaces/Arguments';
 export { Class } from './Core/Class';
 
@@ -100,10 +100,10 @@ export { exclusive } from './Core/Decorators/Exclusive/exclusive';
 /*************************************
  *   Class Decorator: @agent()
  *************************************/
-export { agent } from './Core/Decorators/Agent/agent';
-export { singleton } from './Core/Decorators/Agent/singleton';
-export { transit } from './Core/Decorators/Agent/transit';
-export { inject } from './Core/Decorators/Agent/inject';
+export { agent } from './Core/Decorators/agent';
+export { singleton } from './Core/Decorators/DependencyInjection/singleton';
+export { transit } from './Core/Decorators/DependencyInjection/transit';
+export { inject } from './Core/Decorators/DependencyInjection/inject';
 
 /************************************
  *    TSLIB Re-work

@@ -21,7 +21,7 @@ import { AgentInvocation } from './Invocation/AgentInvocation';
 import { TypeInfo } from '../Interfaces/TypeInfo';
 import { ConstructorInvocation } from './Invocation/ConstructorInvocation';
 import { CanDecorate } from '../Decorator/CanDecorate';
-import { AgentFrameworkError } from '../Error/AgentFrameworkError';
+import { AgentFrameworkError } from '../AgentFrameworkError';
 
 /**
  *

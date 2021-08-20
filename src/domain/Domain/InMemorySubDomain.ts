@@ -15,15 +15,16 @@ limitations under the License. */
 import { InMemoryDomain } from './InMemoryDomain';
 import { GetDomain } from './Helpers/GetDomain';
 import { Agent, AgentReference } from './Agent';
-import { getter } from './Helpers/Prototype';
 import { SubDomainLike } from './SubDomainLike';
 import { DomainLike } from './DomainLike';
 import { GetSystemDomain } from './Helpers/GetSystemDomain';
+import { remember } from '../../dependencies/core';
 
 export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
+  @remember()
   get parent(): DomainLike {
     // GetDomain(this) will return this. So must use GetDomain(this.constructor)
-    return getter(this, 'parent', GetDomain(this.constructor) || GetSystemDomain());
+    return GetDomain(this.constructor) || GetSystemDomain();
   }
 
   getOwnType<T extends Function>(type: T): T | undefined {

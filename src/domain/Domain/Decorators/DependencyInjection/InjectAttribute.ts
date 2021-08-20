@@ -18,8 +18,8 @@ import {
   PropertyInterceptor,
   Arguments,
   AgentFrameworkError
-} from '../../../dependencies/core';
-import { GetDomainFromInvocation } from '../Helpers/GetDomainFromInvocation';
+} from '../../../../dependencies/core';
+import { GetDomainFromInvocation } from '../../Helpers/GetDomainFromInvocation';
 
 export class InjectAttribute implements PropertyAttribute, PropertyInterceptor {
   private readonly type?: Function;
