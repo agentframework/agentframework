@@ -16,11 +16,12 @@ import { AgentFrameworkError } from '../../AgentFrameworkError';
 import { Arguments } from '../../Interfaces/Arguments';
 import { PropertyInterceptor } from '../../Interfaces/TypeInterceptors';
 import { PropertyInvocation } from '../../Interfaces/TypeInvocations';
-import { Agents } from '../../Knowledge';
-import { construct } from '../construct';
+import { Singletons } from '../../Knowledge';
+import { CreateAgent } from '../../Compiler/CreateAgent';
+import { IsAgent } from '../../Helpers/AgentHelper';
 
 export class SingletonAttribute implements PropertyInterceptor {
-  private readonly type?: Function;
+  readonly type?: Function;
 
   constructor(type?: Function) {
     this.type = type;
@@ -38,9 +39,20 @@ export class SingletonAttribute implements PropertyInterceptor {
       throw new AgentFrameworkError('UnknownSingletonType');
     }
 
-    const agent =
-      (customType && Agents.v1.get(customType)) || (designType && Agents.v1.get(designType)) || construct(type, params);
+    const existsAgent = (customType && Singletons.v1.get(customType)) || (designType && Singletons.v1.get(designType));
+    if ('undefined' === typeof existsAgent) {
+      // create new
+      let agentType;
+      if (IsAgent(type)) {
+        agentType = type;
+      } else {
+        agentType = CreateAgent(type);
+      }
+      const newAgent = Reflect.construct(agentType, params);
+      Singletons.v1.set(type, newAgent);
+      return target.invoke([newAgent], receiver);
+    }
 
-    return target.invoke([agent], receiver);
+    return target.invoke([existsAgent], receiver);
   }
 }

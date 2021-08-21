@@ -19,14 +19,6 @@ limitations under the License. */
  *************************************/
 
 /*************************************
- *   Design Pattern: Dependence Injection
- *************************************/
-export { singleton } from './Domain/Decorators/DependencyInjection/singleton';
-export { transit } from './Domain/Decorators/DependencyInjection/transit';
-export { inject } from './Domain/Decorators/DependencyInjection/inject';
-export { agent } from './Domain/Decorators/agent';
-
-/*************************************
  *   Domain
  *************************************/
 export { DomainLike } from './Domain/DomainLike';
@@ -47,6 +39,14 @@ export { AgentReference, Params, Agent } from './Domain/Agent';
  *************************************/
 export { InMemoryDomain } from './Domain/InMemoryDomain';
 export { InMemorySubDomain } from './Domain/InMemorySubDomain';
+
+/*************************************
+ *   Design Pattern: Dependence Injection
+ *************************************/
+export { singleton } from './Domain/Decorators/DependencyInjection/singleton';
+export { transit } from './Domain/Decorators/DependencyInjection/transit';
+export { inject } from './Domain/Decorators/DependencyInjection/inject';
+export { agent } from './Domain/Decorators/agent';
 
 /*************************************
  *   Unstable API

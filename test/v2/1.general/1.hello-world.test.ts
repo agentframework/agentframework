@@ -1,4 +1,4 @@
-import { agent, transit, InMemoryDomain, CreateAgentClass } from '../../../src';
+import { agent, transit, InMemoryDomain, CreateAgent } from '../../../src';
 
 describe('Hello world!', () => {
   describe('# should able to', () => {
@@ -57,7 +57,7 @@ describe('Hello world!', () => {
       // CreateAgent() will upgrade ProjectA class to an agent
       // so the @transit will take effects
       // CreateAgent won't create any domain. so @singleton will not work in this example.
-      const ProjectA$ = CreateAgentClass(ProjectA);
+      const ProjectA$ = CreateAgent(ProjectA);
 
       const project = new ProjectA$();
 

@@ -20,9 +20,9 @@ import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Filter } from '../Interfaces/Filter';
 import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToClass } from '../Helpers/AddAttribute';
-import { GetAgentType, IsAgent } from '../Helpers/AgentHelper';
 import { remember } from '../Decorators/Remember/remember';
 import { Property } from '../Wisdom/Annotation';
+import { GetType, IsAgent } from '../Helpers/AgentHelper';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -72,7 +72,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   static find(target: object | Function): TypeInfo {
     // make sure only create typeinfo for user classes
-    const type = GetAgentType(target) || target;
+    const type = GetType(target) || target;
     // return new OnDemandTypeInfo(type);
     const info = TypeInfos.v1.get(type);
     if (info) {

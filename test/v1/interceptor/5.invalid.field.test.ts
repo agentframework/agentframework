@@ -2,7 +2,7 @@
 
 import { decorateMember, IsAgent, Reflector } from '../../../src';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
-import { CreateAgentClass } from '../../../src';
+import { CreateAgent } from '../../../src';
 
 class Calculator {
   @decorateMember(new RoundInterceptor())
@@ -27,11 +27,11 @@ describe('Interceptor on Field', () => {
   describe('# should able to', () => {
     it('define agent', () => {
       expect(IsAgent(Calculator)).toBeFalse();
-      expect(CreateAgentClass(Calculator)).toBeTruthy();
+      expect(CreateAgent(Calculator)).toBeTruthy();
     });
 
     it('re-upgrade agent', () => {
-      expect(CreateAgentClass(CreateAgentClass(Calculator))).toBeTruthy();
+      expect(CreateAgent(CreateAgent(Calculator))).toBeTruthy();
     });
 
     it('get the attribute', () => {
@@ -39,7 +39,7 @@ describe('Interceptor on Field', () => {
     });
 
     it('create agent', () => {
-      const Agent = CreateAgentClass(Calculator);
+      const Agent = CreateAgent(Calculator);
       const agent = new Agent();
       expect(agent).toBeTruthy();
       expect(agent.RoundOnField).toBeNaN();
@@ -54,7 +54,7 @@ describe('Interceptor on Field', () => {
     });
 
     it('create agent with field value', () => {
-      const Agent = CreateAgentClass(Foo);
+      const Agent = CreateAgent(Foo);
       const agent = new Agent();
 
       Reflect.defineProperty(Foo.prototype, 'bar', {
@@ -74,7 +74,7 @@ describe('Interceptor on Field', () => {
         value: 3.33333,
       });
 
-      const Agent = CreateAgentClass(Bar);
+      const Agent = CreateAgent(Bar);
 
       const a = new Agent();
       a.foo = 10.5;

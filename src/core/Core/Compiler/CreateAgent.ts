@@ -13,9 +13,9 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { AgentAttribute } from './AgentAttribute';
-import { GetAgentType } from '../Helpers/AgentHelper';
 import { ClassAttribute } from '../Interfaces/TypeAttributes';
-import { ChainFactory } from '../Compiler/ChainFactory';
+import { ChainFactory } from './ChainFactory';
+import { GetType, RememberAgent } from '../Helpers/AgentHelper';
 
 /**
  * Create a new agent from attribute, and add into Agent registry
@@ -23,7 +23,7 @@ import { ChainFactory } from '../Compiler/ChainFactory';
  * @param type
  * @param strategy
  */
-export function CreateAgentClass<T extends Function>(type: T, strategy?: ClassAttribute): T {
+export function CreateAgent<T extends Function>(type: T, strategy?: ClassAttribute): T {
   // always create new agent using latest annotation
 
   // 1. get original type if giving type is an agent type
@@ -32,7 +32,8 @@ export function CreateAgentClass<T extends Function>(type: T, strategy?: ClassAt
   // so create another proxy from this origin class
   const attribute = strategy || Reflect.construct(AgentAttribute, []);
 
-  const receiver = GetAgentType(type) || type;
+  // ALWAYS create agent from raw type
+  const receiver = GetType(type) || type;
   // classic
   // create an invocation for agent type.
   // this chain used to generate agent of this target
@@ -46,7 +47,7 @@ export function CreateAgentClass<T extends Function>(type: T, strategy?: ClassAt
   // register new agent map to old type
   // key: Agent proxy, value: origin type
   // if (newAgent !== receiver) {
-  //   RememberAgentType(newAgent, receiver);
+  RememberAgent(newAgent, receiver);
   // }
 
   return newAgent;

@@ -12,8 +12,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Agents } from '../DomainKnowledge';
+import { SingletonAgents } from '../DomainKnowledge';
 
-export function RememberAgent<T extends Function>(type: T, agent: T): void {
-  Agents.v1.set(type, agent);
+export function GetSingletonAgent<T extends Function>(type: T): T | undefined {
+  return SingletonAgents.v1.get(type) as T | undefined;
 }

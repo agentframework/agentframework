@@ -1,6 +1,6 @@
 import { InMemoryDomain, Initializer, agent, initializable } from '../../../src';
 import { Arguments, ClassInvocation } from '../../../src';
-import { CreateAgentClass } from '../../../src';
+import { CreateAgent } from '../../../src';
 
 describe('6.1. @initializable decorator', () => {
   describe('# should able to', () => {
@@ -30,7 +30,7 @@ describe('6.1. @initializable decorator', () => {
       expect(app2).toBeInstanceOf(App611);
       expect(app2.name1).toBe('App611$');
 
-      const App611Agent = CreateAgentClass(App611);
+      const App611Agent = CreateAgent(App611);
       const app3 = new App611Agent();
       expect(app3).toBeDefined();
     });
@@ -108,6 +108,7 @@ describe('6.1. @initializable decorator', () => {
     });
 
     it('create async initializable agent', async () => {
+
       @initializable()
       class Root613 {
         name: string | undefined;

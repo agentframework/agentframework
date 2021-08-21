@@ -67,12 +67,13 @@ export { Reflector } from '../src/core/index';
  *   Agent API
  *************************************/
 export { IsAgent } from '../src/core/index';
+export { GetType } from '../src/core/index';
 export { GetAgentType } from '../src/core/index';
 
 /*************************************
  *   (Advanced): Create Agent API
  *************************************/
-export { CreateAgentClass } from '../src/core/index';
+export { CreateAgent } from '../src/core/index';
 export { AgentAttribute } from '../src/core/index';
 
 /*************************************
@@ -103,7 +104,6 @@ export { exclusive } from '../src/core/index';
 export { agent } from '../src/core/index';
 export { singleton } from '../src/core/index';
 export { transit } from '../src/core/index';
-export { inject } from '../src/core/index';
 
 /************************************
  *    TSLIB Re-work

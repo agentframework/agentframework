@@ -12,9 +12,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { decorateMember } from '../../Decorator/decorateMember';
-import { InjectAttribute } from './InjectAttribute';
+import { SingletonAgents } from '../DomainKnowledge';
 
-export function inject(type?: Function): PropertyDecorator {
-  return decorateMember(new InjectAttribute(type));
+export function RememberSingletonAgent<T extends Function>(type: T, agent: T): void {
+  SingletonAgents.v1.set(type, agent);
 }

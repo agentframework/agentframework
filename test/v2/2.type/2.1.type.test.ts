@@ -7,7 +7,7 @@ import {
   TypeInfo,
   decorateClass,
   decorateMember,
-  GetAgentType,
+  GetType,
 } from '../../../src';
 import { agent } from '../../../src/domain';
 
@@ -63,7 +63,7 @@ describe('2.1. Type', () => {
     });
 
     it('get agent type', () => {
-      expect(Reflector(AgentApplication).type).toBe(GetAgentType(AgentApplication)!);
+      expect(Reflector(AgentApplication).type).toBe(GetType(AgentApplication)!);
       expect(Reflector(AgentApplication).type).not.toBe(AgentApplication);
     });
 
@@ -72,7 +72,7 @@ describe('2.1. Type', () => {
     });
 
     it('get agent declaringType', () => {
-      expect(Reflector(AgentApplication).declaringType).toBe(GetAgentType(AgentApplication)!);
+      expect(Reflector(AgentApplication).declaringType).toBe(GetType(AgentApplication)!);
       expect(Reflector(AgentApplication).declaringType).not.toBe(AgentApplication);
     });
 

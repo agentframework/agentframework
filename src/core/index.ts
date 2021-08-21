@@ -66,14 +66,12 @@ export { Reflector } from './Core/Reflection/Reflector';
 /*************************************
  *   Agent API
  *************************************/
-export { IsAgent } from './Core/Helpers/AgentHelper';
-export { GetAgentType } from './Core/Helpers/AgentHelper';
 
 /*************************************
  *   (Advanced): Create Agent API
  *************************************/
-export { CreateAgentClass } from './Core/Agent/CreateAgentClass';
-export { AgentAttribute } from './Core/Agent/AgentAttribute';
+export { CreateAgent } from './Core/Compiler/CreateAgent';
+export { AgentAttribute } from './Core/Compiler/AgentAttribute';
 
 /*************************************
  *   (Advanced): Custom Interceptor API
@@ -103,13 +101,13 @@ export { exclusive } from './Core/Decorators/Exclusive/exclusive';
 export { agent } from './Core/Decorators/agent';
 export { singleton } from './Core/Decorators/DependencyInjection/singleton';
 export { transit } from './Core/Decorators/DependencyInjection/transit';
-export { inject } from './Core/Decorators/DependencyInjection/inject';
 
 /************************************
  *    TSLIB Re-work
  ************************************/
 export { __agent, __decorate, __param } from './Core/Helpers/DecoratorHelper';
 export { __metadata } from './Core/Wisdom/Wisdom';
+export { IsAgent, GetAgentType, GetType } from './Core/Helpers/AgentHelper';
 
 /*************************************
  *   Internal API: Attribute Helper

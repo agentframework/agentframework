@@ -1,4 +1,4 @@
-import { CreateAgentClass, Reflector } from '../../../../dependencies/core';
+import { CreateAgent, Reflector } from '../../../../dependencies/core';
 import { InMemoryDomain, agent, inject } from '../../../../dependencies/domain';
 
 describe('Domain @inject() decorator', () => {
@@ -105,7 +105,7 @@ describe('Domain @inject() decorator', () => {
         readonly service!: Service626;
       }
 
-      const Agent626 = CreateAgentClass(App626);
+      const Agent626 = CreateAgent(App626);
 
       const app626 = new Agent626();
 

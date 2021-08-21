@@ -2,7 +2,7 @@
 
 import { agent, decorate, decorateMember, decorateParameter, IsAgent, Reflector, MemberKinds } from '../../../src';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
-import { CreateAgentClass } from '../../../src';
+import { CreateAgent } from '../../../src';
 
 @agent()
 class Calculator {
@@ -37,7 +37,7 @@ describe('Interceptor', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(IsAgent(CreateAgentClass(Calculator))).toBeTrue();
+      expect(IsAgent(CreateAgent(Calculator))).toBeTrue();
     });
 
     it('new instance', () => {

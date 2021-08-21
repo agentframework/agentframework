@@ -1,4 +1,4 @@
-import { CreateAgentClass, Reflector } from '../../../../dependencies/core';
+import { CreateAgent, Reflector } from '../../../../dependencies/core';
 import { InMemoryDomain, agent, transit } from '../../../../dependencies/domain';
 
 describe('Domain @transit() decorator', () => {
@@ -56,7 +56,7 @@ describe('Domain @transit() decorator', () => {
         readonly service2!: Service643;
       }
 
-      const Agent626 = CreateAgentClass(App643);
+      const Agent626 = CreateAgent(App643);
 
       const app626 = new Agent626();
 

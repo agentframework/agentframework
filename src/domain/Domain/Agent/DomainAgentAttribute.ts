@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { AgentAttribute, Arguments, ClassInterceptor, ClassInvocation } from '../../../dependencies/core';
-import { RememberAgent } from '../Helpers/RememberAgent';
-import { GetAgent } from '../Helpers/GetAgent';
+import { RememberSingletonAgent } from '../Helpers/RememberSingletonAgent';
+import { GetSingletonAgent } from '../Helpers/GetSingletonAgent';
 // import { RememberAgentType } from '../../../core/Core/Helpers/AgentHelper';
 // import { DomainLike } from '../DomainLike';
 // import { IsDomainType } from '../Helpers/IsDomain';
@@ -45,7 +45,7 @@ export class DomainAgentAttribute extends AgentAttribute implements ClassInterce
     // const value = params[1];
 
     // NOTE: check level 1 cache, the agent class which can share across domain
-    let agent = GetAgent(receiver);
+    let agent = GetSingletonAgent(receiver);
     if (!agent) {
       // do not create agent if no attributes applied
       // if (
@@ -65,7 +65,7 @@ export class DomainAgentAttribute extends AgentAttribute implements ClassInterce
       // type = new Function(name, `return class ${newName}$ extends ${name} {}`)(type);
 
       //Knowledge.RememberType(agent, receiver);
-      RememberAgent(receiver, agent);
+      RememberSingletonAgent(receiver, agent);
     }
 
     // console.log('====== AFTER ======', typeof receiver, receiver, HasPrototype(receiver.prototype, Domain.prototype));

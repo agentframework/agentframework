@@ -1,5 +1,15 @@
 /* tslint:disable */
-import { AgentAttribute, CreateAgentClass, IsAgent, Reflector } from '../../../dependencies/core';
+import {
+  AgentAttribute,
+  Arguments,
+  CreateAgent,
+  decorateMember,
+  GetAgentType,
+  GetType,
+  Invocation,
+  IsAgent,
+  Reflector,
+} from '../../../dependencies/core';
 import { agent } from '../../../dependencies/domain';
 
 @agent()
@@ -16,7 +26,7 @@ describe('Domain @agent() decorator', () => {
     });
 
     it('re-upgrade agent', () => {
-      const newAgent = CreateAgentClass(MongoDB);
+      const newAgent = CreateAgent(MongoDB);
       expect(newAgent).not.toBe(MongoDB);
     });
 
@@ -35,7 +45,7 @@ describe('Domain @agent() decorator', () => {
       @agent()
       @agent()
       class DoubleClass {}
-      const DoubleAgent = CreateAgentClass(DoubleClass);
+      const DoubleAgent = CreateAgent(DoubleClass);
       expect(DoubleClass).not.toBe(DoubleAgent);
       expect(DoubleAgent).not.toBe(DoubleClass);
 
@@ -45,7 +55,63 @@ describe('Domain @agent() decorator', () => {
 
       const dc = new DoubleClass();
       expect(dc).toBeInstanceOf(DoubleClass);
-      expect(dc).toBeInstanceOf(DoubleAgent);
+      expect(dc).not.toBeInstanceOf(DoubleAgent);
+    });
+
+    it('nest agent', () => {
+      class Base {
+        @decorateMember({
+          interceptor: {
+            intercept(target: Invocation, params: Arguments, receiver: unknown): unknown {
+              return Math.floor(params[0]);
+            },
+          },
+        })
+        static floorBase(num: number) {
+          return num;
+        }
+      }
+
+      @agent()
+      class Middle extends Base {
+        @decorateMember({
+          interceptor: {
+            intercept(target: Invocation, params: Arguments, receiver: unknown): unknown {
+              return Math.floor(params[0]);
+            },
+          },
+        })
+        static floorMiddle(num: number) {
+          return num;
+        }
+      }
+
+      @agent()
+      class End extends Middle {
+        @decorateMember({
+          interceptor: {
+            intercept(target: Invocation, params: Arguments, receiver: unknown): unknown {
+              return Math.floor(params[0]);
+            },
+          },
+        })
+        static floorEnd(num: number) {
+          return num;
+        }
+      }
+
+      const EndAgent = CreateAgent(End);
+      expect(EndAgent).not.toBe(End);
+
+      expect(End.floorEnd(3.9)).toBe(3);
+      expect(End.floorMiddle(6.5)).toBe(6);
+      expect(End.floorBase(128937.332897)).toBe(128937.332897);
+
+      expect(GetAgentType<Function>(End)).toBe(GetType<Function>(End));
+      expect(GetAgentType<Function>(Middle)).toBe(GetType<Function>(Middle));
+      expect(GetAgentType<Function>(Base)).toBe(GetType<Function>(Base));
+
+      expect(Reflect.getPrototypeOf(GetType<Function>(End)!)).toBe(Middle);
     });
   });
 

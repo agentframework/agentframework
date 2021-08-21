@@ -1,5 +1,5 @@
 /* tslint:disable */
-import { AgentAttribute, CreateAgentClass, IsAgent, Reflector } from '../../../dependencies/core';
+import { AgentAttribute, CreateAgent, IsAgent, Reflector } from '../../../dependencies/core';
 import { agent } from '../../../dependencies/domain';
 
 @agent()
@@ -16,7 +16,7 @@ describe('Domain @agent() decorator', () => {
     });
 
     it('re-upgrade agent', () => {
-      const newAgent = CreateAgentClass(MongoDB);
+      const newAgent = CreateAgent(MongoDB);
       expect(newAgent).not.toBe(MongoDB);
     });
 
@@ -35,7 +35,9 @@ describe('Domain @agent() decorator', () => {
       @agent()
       @agent()
       class DoubleClass {}
-      const DoubleAgent = CreateAgentClass(DoubleClass);
+
+      const DoubleAgent = CreateAgent(DoubleClass);
+
       expect(DoubleClass).not.toBe(DoubleAgent);
       expect(DoubleAgent).not.toBe(DoubleClass);
 
@@ -45,7 +47,7 @@ describe('Domain @agent() decorator', () => {
 
       const dc = new DoubleClass();
       expect(dc).toBeInstanceOf(DoubleClass);
-      expect(dc).toBeInstanceOf(DoubleAgent);
+      expect(dc).not.toBeInstanceOf(DoubleAgent);
     });
   });
 

@@ -16,15 +16,15 @@ import { ClassAttribute } from '../Interfaces/TypeAttributes';
 import { ClassInvocation } from '../Interfaces/TypeInvocations';
 import { ClassInterceptor } from '../Interfaces/TypeInterceptors';
 import { Arguments } from '../Interfaces/Arguments';
-import { OnDemandClassCompiler } from '../Compiler/OnDemandClassCompiler';
+import { OnDemandClassCompiler } from './OnDemandClassCompiler';
 import { FindExtendedClass } from '../Helpers/FindExtendedClass';
-import { RememberAgentType } from '../Helpers/AgentHelper';
 import { Reflector } from '../Reflection/Reflector';
 import { Invocations } from '../Knowledge';
 import { AgentFrameworkError } from '../AgentFrameworkError';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
-import { ChainFactory } from '../Compiler/ChainFactory';
+import { ChainFactory } from './ChainFactory';
 import { Wisdom } from '../Wisdom/Wisdom';
+import { RememberType } from '../Helpers/AgentHelper';
 
 /**
  * This attribute is for upgrade class to agent
@@ -43,35 +43,27 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
    */
   intercept(target: ClassInvocation, params: any, receiver: Function): Function {
     const agentMeta = Wisdom.get(receiver);
-    const meta = Wisdom.get(receiver.prototype);
     let newReceiver = receiver;
 
-    const hasAttributes = meta || (agentMeta && agentMeta['constructor']);
     const hasAgentAttributes = agentMeta && Reflect.ownKeys(agentMeta).some((key) => key !== 'constructor');
 
-    if (hasAttributes || hasAgentAttributes || this.hasAgentInterceptor) {
-      const [, attribute, compiler] = params;
-      newReceiver = Reflect.construct(compiler, [receiver, attribute]);
-      RememberAgentType(newReceiver, target.design.declaringType);
-    }
+    const [, attribute, compiler] = params;
+    newReceiver = Reflect.construct(compiler, [newReceiver, attribute]);
+    RememberType(newReceiver, target.design.declaringType);
 
-    if (hasAttributes || hasAgentAttributes) {
-      newReceiver = target.invoke<Function>(params, newReceiver);
-    }
+    newReceiver = target.invoke<Function>(params, newReceiver);
 
     if (hasAgentAttributes) {
       const design = target.design;
       const declaringType = design.declaringType;
 
-      const interceptors = design.findProperties((p) => p.hasInterceptor());
+      const interceptors = design.findOwnProperties((p) => p.hasInterceptor());
       const properties = new Map<PropertyKey, PropertyInfo>();
 
       // note: not all attribute has interceptor
-      if (interceptors.size) {
-        for (const type of interceptors.values()) {
-          for (const property of type) {
-            properties.set(property.key, property);
-          }
+      if (interceptors.length) {
+        for (const property of interceptors) {
+          properties.set(property.key, property);
         }
       }
 

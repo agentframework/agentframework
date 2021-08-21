@@ -12,14 +12,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { CreateAgentClass } from '../../Agent/CreateAgentClass';
+import { CreateAgent } from '../../Compiler/CreateAgent';
 import { AgentFrameworkError } from '../../AgentFrameworkError';
 import { Arguments } from '../../Interfaces/Arguments';
 import { PropertyInterceptor } from '../../Interfaces/TypeInterceptors';
 import { PropertyInvocation } from '../../Interfaces/TypeInvocations';
 
 export class TransitAttribute implements PropertyInterceptor {
-  private readonly type?: Function;
+  readonly type?: Function;
 
   constructor(type?: Function) {
     this.type = type;
@@ -37,7 +37,9 @@ export class TransitAttribute implements PropertyInterceptor {
       throw new AgentFrameworkError('UnknownTransitType');
     }
 
-    const AgentClass = CreateAgentClass(type);
+    const AgentClass = CreateAgent(type);
+    // console.log('TransitClass from', type);
+    // console.log('TransitClass to', AgentClass);
     const agent = Reflect.construct(AgentClass, params);
     return target.invoke([agent], receiver);
   }

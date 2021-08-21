@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { CreateAgentClass, GetAgentType, IsAgent } from '../../../src';
+import { CreateAgent, GetType, IsAgent } from '../../../src';
 import { agent } from '../../../src/domain';
 
 @agent()
@@ -11,11 +11,11 @@ class NormalClass {}
 describe('Reflection Helper', () => {
   describe('# should able to', () => {
     it('create a new agent from existing agent', () => {
-      expect(CreateAgentClass(AgentClass)).toBeTruthy();
+      expect(CreateAgent(AgentClass)).toBeTruthy();
     });
 
     it('create a new agent from existing class', () => {
-      expect(CreateAgentClass(NormalClass)).toBeTruthy();
+      expect(CreateAgent(NormalClass)).toBeTruthy();
     });
 
     it('check agent', () => {
@@ -28,18 +28,18 @@ describe('Reflection Helper', () => {
 
     it('get origin type of an agent', () => {
       expect(IsAgent(AgentClass)).toBeTrue();
-      const a = GetAgentType(AgentClass);
+      const a = GetType(AgentClass);
       expect(a).toBeDefined();
       expect(a).not.toBe(AgentClass);
       expect(a!.prototype).not.toBe(AgentClass.prototype);
     });
 
     it('get origin type of the upgraded class', () => {
-      expect(GetAgentType(CreateAgentClass(NormalClass))).toBeUndefined();
+      expect(GetType(CreateAgent(NormalClass))).toBe(NormalClass);
     });
 
     it('get origin type of the upgraded agent', () => {
-      expect(GetAgentType(CreateAgentClass(AgentClass))).not.toBe(AgentClass);
+      expect(GetType(CreateAgent(AgentClass))).not.toBe(AgentClass);
     });
   });
 });

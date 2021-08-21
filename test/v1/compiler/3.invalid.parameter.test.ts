@@ -3,7 +3,7 @@
 import { agent } from '../../../src';
 import { decorateParameter, IsAgent, Reflector } from '../../../src';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
-import { CreateAgentClass } from '../../../src';
+import { CreateAgent } from '../../../src';
 
 class Connection {
   static count = 0;
@@ -30,7 +30,7 @@ describe('Initializer in Parameter', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(IsAgent(CreateAgentClass(MongoDB))).toBeTrue();
+      expect(IsAgent(CreateAgent(MongoDB))).toBeTrue();
     });
 
     it('new instance', () => {

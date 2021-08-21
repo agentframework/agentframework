@@ -1,7 +1,7 @@
 /* tslint:disable */
-import { decorateMember, agent, IsAgent, GetAgentType, Interceptor, ClassInvocation, Arguments } from '../../../';
-import { CreateAgentClass } from './CreateAgentClass';
-import { InjectAttribute } from '../Decorators/DependencyInjection/InjectAttribute';
+import { decorateMember, agent, IsAgent, Interceptor, ClassInvocation, Arguments } from '../../index';
+import { CreateAgent } from './CreateAgent';
+import { TransitAttribute } from '../Decorators/DependencyInjection/TransitAttribute';
 
 class Connection {
   static count = 0;
@@ -12,7 +12,7 @@ class Connection {
 }
 
 class Database {
-  @decorateMember(new InjectAttribute())
+  @decorateMember(new TransitAttribute())
   connection!: Connection;
 }
 
@@ -23,7 +23,7 @@ class MongoDB extends Database {
 }
 
 @agent()
-class MySQL extends Database {
+class MySQLAgent extends Database {
   run(cmd: any) {
     return 3.1;
   }
@@ -51,49 +51,48 @@ class CustomAgentAttribute implements Interceptor {
 describe('Compiler', () => {
   describe('# should able to', () => {
     it('create using factory', () => {
-      const MongoDB$ = CreateAgentClass(MongoDB);
+      const MongoDB$ = CreateAgent(MongoDB);
       const db = new MongoDB$();
-      expect(MongoDB$.prototype).toBe(MongoDB.prototype);
+      expect(MongoDB$.prototype).toBeInstanceOf(MongoDB);
       expect(db).toBeInstanceOf(MongoDB);
       expect(db).toBeInstanceOf(MongoDB$);
       expect(Reflect.getPrototypeOf(db)).toBe(MongoDB$.prototype);
-      expect(MongoDB$.prototype).toBe(MongoDB.prototype);
     });
 
     it('create using custom factory', () => {
-      const MongoDB$ = CreateAgentClass(MongoDB, new CustomAgentAttribute());
-      expect(IsAgent(MongoDB$)).toBeFalse();
+      const MongoDB$ = CreateAgent(MongoDB, new CustomAgentAttribute());
+      expect(IsAgent(MongoDB$)).toBeTrue();
       const db = new MongoDB$();
       expect(db).toBeInstanceOf(MongoDB);
       expect(db).toBeInstanceOf(MongoDB$);
     });
 
     it('create using decorator', () => {
-      const MySQL$ = CreateAgentClass(MySQL);
-      expect(IsAgent(MySQL$)).toBeFalse();
-      expect(IsAgent(MySQL$, MySQL)).toBeFalse();
-      expect(IsAgent(MySQL$, GetAgentType(MySQL))).toBeFalse();
+      const MySQL$ = CreateAgent(MySQLAgent);
+      expect(IsAgent(MySQL$)).toBeTrue();
       const db = new MySQL$();
-      expect(db).toBeInstanceOf(MySQL);
+      expect(db).not.toBeInstanceOf(MySQLAgent); // MySQLAgent here is another agent
       expect(db).toBeInstanceOf(MySQL$);
     });
 
     it('create using custom decorator', () => {
-      const Redis$ = CreateAgentClass(Redis, new CustomAgentAttribute());
+      const Redis$ = CreateAgent(Redis, new CustomAgentAttribute());
       const db = new Redis$();
       expect(IsAgent(db)).toBeFalse();
-      expect(Redis$).toBe(Redis);
+      expect(IsAgent(Reflect.getPrototypeOf(db)!)).toBeTrue();
+      expect(IsAgent(Redis$)).toBeTrue();
+      expect(IsAgent(Reflect.getPrototypeOf(Redis$)!)).toBeFalse();
       expect(db).toBeInstanceOf(Redis);
       expect(db).toBeInstanceOf(Redis$);
-      expect(Redis$.prototype).toBe(Redis.prototype);
+      expect(Redis$.prototype).toBeInstanceOf(Redis);
     });
 
     it('new create agent without name', () => {
-      const RedisAgent = CreateAgentClass(NoNameRedis);
+      const RedisAgent = CreateAgent(NoNameRedis);
       const redis$ = new RedisAgent();
       expect(redis$).toBeInstanceOf(RedisAgent);
       expect(redis$).toBeInstanceOf(NoNameRedis);
-      expect(RedisAgent.prototype).toBe(NoNameRedis.prototype);
+      expect(RedisAgent.prototype).toBeInstanceOf(NoNameRedis);
     });
   });
 

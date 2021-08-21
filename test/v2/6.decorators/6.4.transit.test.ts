@@ -1,5 +1,5 @@
 import { InMemoryDomain, agent, transit, Reflector } from '../../../src';
-import { CreateAgentClass } from '../../../src';
+import { CreateAgent } from '../../../src';
 
 describe('6.4. @transit decorator', () => {
   describe('# should able to', () => {
@@ -56,7 +56,7 @@ describe('6.4. @transit decorator', () => {
         readonly service2!: Service643;
       }
 
-      const Agent626 = CreateAgentClass(App643);
+      const Agent626 = CreateAgent(App643);
 
       const app626 = new Agent626();
 

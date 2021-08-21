@@ -15,12 +15,9 @@ limitations under the License. */
 import { remember } from '../../dependencies/core';
 import { Domain } from './Domain';
 
-/**
- * Get agent of giving type
- */
-export class Agents {
-  // key: Original Constructor, value: Agent Constructor
-  @remember('Agents')
+export class SingletonAgents {
+  // key: class, value: singleton instance
+  @remember('SingletonAgents')
   static get v1() {
     return new WeakMap<Function, Function>();
   }

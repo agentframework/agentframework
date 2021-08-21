@@ -1,4 +1,4 @@
-import { agent, GetAgentType } from '../../../src';
+import { agent, GetType } from '../../../src';
 import { decorateMember } from '../../../src';
 import { ClassInvocation } from '../../../src';
 import { Arguments } from '../../../src';
@@ -127,7 +127,7 @@ describe('4.3. field interceptor', () => {
         total!: number;
       }
 
-      const original = GetAgentType(Class434);
+      const original = GetType(Class434);
       if (original) {
         Reflect.defineProperty(original.prototype, 'total', {
           configurable: true,

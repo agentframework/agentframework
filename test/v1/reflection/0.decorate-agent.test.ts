@@ -2,7 +2,7 @@
 
 import { IsAgent, Reflector, decorateClass } from '../../../src';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
-import { AgentAttribute, CreateAgentClass } from '../../../src';
+import { AgentAttribute, CreateAgent } from '../../../src';
 
 class BadAgentAttribute extends AgentAttribute {
   get interceptor() {
@@ -36,7 +36,6 @@ class MySQL {
   }
 }
 
-
 describe('Decorate Agent', () => {
   describe('# MongoDB should able to', () => {
     it('detect agent', () => {
@@ -44,15 +43,15 @@ describe('Decorate Agent', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(CreateAgentClass(MongoDB, new BadAgentAttribute())).toBe(MongoDB);
+      expect(CreateAgent(MongoDB, new BadAgentAttribute()).prototype).toBeInstanceOf(MongoDB);
     });
 
     it('upgrade agent with not attribute', () => {
       @decorateClass(new DisabledMetadataAttribute())
       class SQLServer {}
 
-      const SQL = CreateAgentClass(SQLServer, new AgentAttribute());
-      expect(IsAgent(SQL)).toBe(false);
+      const SQL = CreateAgent(SQLServer, new AgentAttribute());
+      expect(IsAgent(SQL)).toBe(true);
     });
 
     it('new instance', () => {
@@ -60,8 +59,6 @@ describe('Decorate Agent', () => {
       expect(db instanceof MongoDB).toBe(true);
       expect(Reflect.getPrototypeOf(db)).toBe(MongoDB.prototype);
     });
-
-
 
     it('construct instance', () => {
       const db = Reflect.construct(MongoDB, []);
@@ -76,7 +73,7 @@ describe('Decorate Agent', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(CreateAgentClass(MySQL, new BadAgentAttribute())).toBe(MySQL);
+      expect(CreateAgent(MySQL, new BadAgentAttribute()).prototype).toBeInstanceOf(MySQL);
     });
 
     it('new instance', () => {

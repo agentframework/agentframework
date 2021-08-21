@@ -1,7 +1,7 @@
 import {
   AgentFrameworkError,
   Arguments,
-  CreateAgentClass,
+  CreateAgent,
   decorateMember,
   IsAgent,
   PropertyInvocation,
@@ -95,7 +95,7 @@ describe('Domain @singleton() decorator', () => {
         readonly service!: Service31115;
       }
 
-      const Agent = CreateAgentClass(App31115);
+      const Agent = CreateAgent(App31115);
 
       const agent = new Agent();
 

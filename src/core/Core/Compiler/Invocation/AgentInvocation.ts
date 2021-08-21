@@ -16,7 +16,7 @@ import { define } from '../../Helpers/Prototype';
 import { TypeInfo } from '../../Interfaces/TypeInfo';
 import { ClassInvocation } from '../../Interfaces/TypeInvocations';
 import { OnDemandTypeInfo } from '../../Reflection/OnDemandTypeInfo';
-import { RememberAgentType } from '../../Helpers/AgentHelper';
+import { RememberType } from '../../Helpers/AgentHelper';
 
 /**
  * Upgrade class to agent
@@ -30,12 +30,9 @@ export class AgentInvocation implements ClassInvocation {
   invoke([name]: any, receiver: any): any {
     // dont do any change if no changes to the target
     // that means no initializers defined
-    if (this.target === receiver) {
-      return receiver;
-    }
     const value = `${name}$`;
     const newReceiver = define(class extends receiver {}, 'name', { value });
-    RememberAgentType(newReceiver, this.target);
+    RememberType(newReceiver, this.target);
     return newReceiver;
   }
 }

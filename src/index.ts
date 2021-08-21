@@ -67,12 +67,13 @@ export { Reflector } from '../src/core/index';
  *   Agent API
  *************************************/
 export { IsAgent } from '../src/core/index';
+export { GetType } from '../src/core/index';
 export { GetAgentType } from '../src/core/index';
 
 /*************************************
  *   (Advanced): Create Agent API
  *************************************/
-export { CreateAgentClass } from '../src/core/index';
+export { CreateAgent } from '../src/core/index';
 export { AgentAttribute } from '../src/core/index';
 
 /*************************************
@@ -103,7 +104,6 @@ export { exclusive } from '../src/core/index';
 export { agent } from '../src/core/index';
 export { singleton } from '../src/core/index';
 export { transit } from '../src/core/index';
-export { inject } from '../src/core/index';
 
 /************************************
  *    TSLIB Re-work
@@ -131,17 +131,6 @@ export { __metadata } from '../src/core/index';
  *************************************/
 
 /*************************************
- *   Design Pattern: Dependence Injection
- *************************************/
-// export { SingletonAttribute } from '../src/domain/index';
-// export { TransitAttribute } from '../src/domain/index';
-// export { InjectAttribute } from '../src/domain/index';
-// export { singleton } from '../src/domain/index';
-// export { transit } from '../src/domain/index';
-// export { inject } from '../src/domain/index';
-// export { agent } from '../src/domain/index';
-
-/*************************************
  *   Domain
  *************************************/
 export { DomainLike } from '../src/domain/index';
@@ -162,6 +151,14 @@ export { AgentReference, Params, Agent } from '../src/domain/index';
  *************************************/
 export { InMemoryDomain } from '../src/domain/index';
 export { InMemorySubDomain } from '../src/domain/index';
+
+/*************************************
+ *   Design Pattern: Dependence Injection
+ *************************************/
+// export { singleton } from '../src/domain/index';
+// export { transit } from '../src/domain/index';
+// export { inject } from '../src/domain/index';
+// export { agent } from '../src/domain/index';
 
 /*************************************
  *   Unstable API

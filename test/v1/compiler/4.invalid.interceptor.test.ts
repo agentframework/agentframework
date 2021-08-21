@@ -2,7 +2,7 @@
 
 import { agent, decorateMember, IsAgent, Reflector } from '../../../src';
 import { InjectAttribute } from '../attributes/InjectAttribute';
-import { CreateAgentClass } from '../../../src';
+import { CreateAgent } from '../../../src';
 
 @agent()
 class PostgreSQL {
@@ -17,7 +17,7 @@ describe('Invalid Initializer', () => {
     });
 
     it('re-upgrade agent', () => {
-      expect(IsAgent(CreateAgentClass(PostgreSQL))).toBeTrue();
+      expect(IsAgent(CreateAgent(PostgreSQL))).toBeTrue();
     });
 
     it('get inject attribute', () => {

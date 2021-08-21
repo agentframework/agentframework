@@ -16,18 +16,6 @@ import { Invocation } from './Interfaces/Invocation';
 import { remember } from './Decorators/Remember/remember';
 
 /**
- * Get original type of giving agent
- */
-export class Types {
-  // core
-  // key: Agent Proxy | Agent Constructor | Domain Agent Constructor, value: Original Constructor
-  @remember('Types')
-  static get v1() {
-    return new WeakMap<Function | object, Function | object>();
-  }
-}
-
-/**
  * Get invocations of giving type
  */
 export class Invocations {
@@ -59,13 +47,14 @@ export class Initializers {
 }
 
 /**
- * Get type of giving string id
+ * Get original type of giving agent
  */
-export class NamedTypes {
-  // key: string, value: Constructor
-  @remember('NamedTypes')
+export class Types {
+  // core
+  // key: Agent Proxy | Agent Constructor | Domain Agent Constructor, value: Original Constructor
+  @remember('Types')
   static get v1() {
-    return new Map<string, unknown>();
+    return new WeakMap<Function | object, Function | object>();
   }
 }
 
@@ -73,6 +62,25 @@ export class Agents {
   // key: class, value: singleton instance
   @remember('Agents')
   static get v1() {
-    return new WeakMap<Function, Function>();
+    return new WeakMap<Function | object, Function | object>();
+  }
+}
+
+export class Singletons {
+  // key: class, value: singleton instance
+  @remember('Singletons')
+  static get v1() {
+    return new WeakMap<Function, object>();
+  }
+}
+
+/**
+ * Get type of giving string id
+ */
+export class NamedTypes {
+  // key: string, value: Constructor
+  @remember('NamedTypes')
+  static get v1() {
+    return new Map<string, unknown>();
   }
 }
