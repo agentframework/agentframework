@@ -94,7 +94,7 @@ export { Initializer } from '../src/core/index';
 export { InitializerHandler, StaticInitializerHandler } from '../src/core/index';
 
 /*************************************
- *   Class Decorator: @extensible()
+ *   Class Decorator: @exclusive()
  *************************************/
 export { exclusive } from '../src/core/index';
 

@@ -1,6 +1,6 @@
-import { InMemoryDomain, Initializer, agent, initializable } from '../../../src';
-import { Arguments, ClassInvocation } from '../../../src';
-import { CreateAgent } from '../../../src';
+import { InMemoryDomain, agent } from '../../../src/dependencies/domain';
+import { Arguments, ClassInvocation } from '../../../src/dependencies/core';
+import { CreateAgent, Initializer, initializable } from '../../../src/dependencies/core';
 
 describe('6.1. @initializable decorator', () => {
   describe('# should able to', () => {
@@ -108,7 +108,6 @@ describe('6.1. @initializable decorator', () => {
     });
 
     it('create async initializable agent', async () => {
-
       @initializable()
       class Root613 {
         name: string | undefined;

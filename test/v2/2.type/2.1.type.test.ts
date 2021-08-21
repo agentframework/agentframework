@@ -8,7 +8,7 @@ import {
   decorateClass,
   decorateMember,
   GetType,
-} from '../../../src';
+} from '../../../src/dependencies/core';
 import { agent } from '../../../src/domain';
 
 

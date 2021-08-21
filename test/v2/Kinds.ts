@@ -1,4 +1,4 @@
-import { MemberKinds } from '../../src';
+import { MemberKinds } from '../../src/dependencies/core';
 
 export const ClassField = MemberKinds.Property; // | MemberKinds.Field;
 export const ClassMethod = MemberKinds.Property; //| MemberKinds.Method;

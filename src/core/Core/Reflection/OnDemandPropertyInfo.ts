@@ -39,6 +39,10 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   // readonly property: PropertyKey;
   protected parameters: Map<number, OnDemandParameterInfo> | undefined;
 
+  get annotation(): Property | undefined {
+    return this.propertyAnnotationOrUndefined;
+  }
+
   /**
    * Returns descriptor of this property. undefined if this is a field
    */
@@ -88,11 +92,6 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
       return this.getOwnMetadata('design:returntype');
     }
     return type;
-  }
-
-  protected get annotation(): Property | undefined {
-    return this.propertyAnnotationOrUndefined;
-    // return cache(this, 'annotation', this.propertyAnnotation);
   }
 
   // protected get annotated(): boolean {

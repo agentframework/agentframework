@@ -34,7 +34,7 @@ export interface TypeInfo extends PropertyInfo {
   /**
    * Get base type info
    */
-  readonly base: TypeInfo | undefined;
+  readonly base: TypeInfo | null | undefined;
 
   /**
    * Returns property by key (create if not exist)

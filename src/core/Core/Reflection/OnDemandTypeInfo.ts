@@ -127,15 +127,15 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * @cache
    */
   @remember()
-  get base(): TypeInfo | undefined {
+  get base(): TypeInfo | null | undefined {
     const base = Reflect.getPrototypeOf(this.target);
     if (!base) {
-      return;
+      return null;
     }
 
     // ignore object as base type
     if (base === Function.prototype || base === Object.prototype || IsAgent(base)) {
-      return;
+      return null;
     }
 
     return OnDemandTypeInfo.find(base);
@@ -152,7 +152,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     const prototypes: Array<TypeInfo> = [];
 
     /* eslint-disable-next-line @typescript-eslint/no-this-alias */
-    let current: TypeInfo | undefined = this;
+    let current: TypeInfo | null | undefined = this;
     // console.log();
     do {
       prototypes.push(current);
@@ -333,14 +333,16 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   /**
    * Get annotation store object
    */
-  protected get typeAnnotation(): object {
+  @remember()
+  get typeAnnotation(): object {
     return Wisdom.add(this.target);
   }
 
   /**
    * Get annotation store object or undefined
    */
-  protected get typeAnnotationOrUndefined(): object | undefined {
+  @remember()
+  get typeAnnotationOrUndefined(): object | undefined {
     return Wisdom.get(this.target);
   }
 }

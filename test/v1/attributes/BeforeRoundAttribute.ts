@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Arguments, Attribute, Interceptor, Invocation  } from '../../../src';
+import { Arguments, Attribute, Interceptor, Invocation  } from '../../../src/dependencies/core';
 
 export class BeforeRoundAttribute implements Attribute, Interceptor {
   beforeDecorate(

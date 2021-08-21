@@ -38,7 +38,9 @@ export function remember(key?: string) {
         } else {
           const { get } = descriptor;
           value = Reflect.apply(get, receiver, []);
-          define(receiver, targetKey, { value });
+          if ('undefined' !== typeof value) {
+            define(receiver, targetKey, { value });
+          }
         }
         return value;
       },

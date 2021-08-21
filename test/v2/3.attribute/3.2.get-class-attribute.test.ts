@@ -1,5 +1,5 @@
-import { decorateClass, Reflector, ClassAttribute, Attribute } from '../../../src';
-import { Class } from '../../../src';
+import { decorateClass, Reflector, ClassAttribute, Attribute } from '../../../src/dependencies/core';
+import { Class } from '../../../src/dependencies/core';
 
 /**
  * The tests shows 3 ways to add attribute to a class at design time

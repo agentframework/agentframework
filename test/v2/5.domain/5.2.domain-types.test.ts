@@ -1,4 +1,4 @@
-import { InMemoryDomain, InMemorySubDomain } from '../../../src';
+import { InMemoryDomain, InMemorySubDomain } from '../../../src/dependencies/domain';
 import { agent } from '../../../src/domain';
 
 describe('5.2. Domain type', () => {

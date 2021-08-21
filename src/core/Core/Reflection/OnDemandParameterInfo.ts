@@ -33,12 +33,17 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
     super(target, propertyKey);
   }
 
+  get annotation(): Parameter | undefined {
+    const property = this.propertyAnnotationOrUndefined;
+    return property && property.parameters && property.parameters.get(this.index);
+  }
+
   get name(): string {
     return this.index.toString();
   }
 
   get kind(): number {
-    if (typeof this.target === 'function') {
+    if ('function' === typeof this.target) {
       return MemberKinds.Static | MemberKinds.Parameter;
     }
     return MemberKinds.Parameter;
@@ -78,10 +83,4 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
   //     annotation.parameters.has(this.index)
   //   );
   // }
-
-  protected get annotation(): Parameter | undefined {
-    const property = this.propertyAnnotationOrUndefined;
-    return property && property.parameters && property.parameters.get(this.index);
-    // return getter(this, 'annotation', parameter);
-  }
 }

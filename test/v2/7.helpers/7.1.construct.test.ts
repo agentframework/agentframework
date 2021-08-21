@@ -1,4 +1,4 @@
-// import { InMemoryDomain, Construct, FindDomain } from '../../../src';
+// import { InMemoryDomain, Construct, FindDomain } from '../../../src/dependencies/core';
 //
 // class ClassA {}
 //

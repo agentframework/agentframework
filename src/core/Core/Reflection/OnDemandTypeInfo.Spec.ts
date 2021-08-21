@@ -41,33 +41,33 @@ describe('OnDemandTypeInfo', () => {
   describe('# should not able to', () => {
     it('get base for Object instance', () => {
       const info = OnDemandTypeInfo.find({});
-      expect(info.base).toBeUndefined();
+      expect(info.base).toBeFalsy();
     });
     it('get base for Object', () => {
       const info = OnDemandTypeInfo.find(Object);
-      expect(info.base).toBeUndefined();
+      expect(info.base).toBeFalsy();
     });
     it('get base for Object.prototype', () => {
       const info = OnDemandTypeInfo.find(Object.prototype);
-      expect(info.base).toBeUndefined();
+      expect(info.base).toBeFalsy();
     });
     it('get base for Function', () => {
       const info = OnDemandTypeInfo.find(Function);
-      expect(info.base).toBeUndefined();
+      expect(info.base).toBeFalsy();
     });
     it('get base for Function.prototype', () => {
       const info = OnDemandTypeInfo.find(Function.prototype);
-      expect(info.base).toBeUndefined();
+      expect(info.base).toBeFalsy();
     });
     it('get base from type', () => {
       const info = OnDemandTypeInfo.find(BaseType);
       expect(info).toBeInstanceOf(OnDemandTypeInfo);
-      expect(info.base).toBeUndefined();
+      expect(info.base).toBeFalsy();
     });
     it('get base from prototype', () => {
       const info = OnDemandTypeInfo.find(BaseType.prototype);
       expect(info).toBeInstanceOf(OnDemandTypeInfo);
-      expect(info.base).toBeUndefined();
+      expect(info.base).toBeFalsy();
     });
   });
 });

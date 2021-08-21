@@ -1,4 +1,4 @@
-import { remember } from '../../../src';
+import { remember } from '../../../src/dependencies/core';
 
 class ClassA {
   @remember('Random')

@@ -23,8 +23,8 @@ import { Invocations } from '../Knowledge';
 import { AgentFrameworkError } from '../AgentFrameworkError';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { ChainFactory } from './ChainFactory';
-import { Wisdom } from '../Wisdom/Wisdom';
 import { RememberType } from '../Helpers/AgentHelper';
+import { Wisdom } from '../Wisdom/Wisdom';
 
 /**
  * This attribute is for upgrade class to agent
@@ -43,12 +43,11 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
    */
   intercept(target: ClassInvocation, params: any, receiver: Function): Function {
     const agentMeta = Wisdom.get(receiver);
-    let newReceiver = receiver;
-
+    // console.log('agentMeta', agentMeta);
     const hasAgentAttributes = agentMeta && Reflect.ownKeys(agentMeta).some((key) => key !== 'constructor');
 
     const [, attribute, compiler] = params;
-    newReceiver = Reflect.construct(compiler, [newReceiver, attribute]);
+    let newReceiver = Reflect.construct(compiler, [receiver, attribute]);
     RememberType(newReceiver, target.design.declaringType);
 
     newReceiver = target.invoke<Function>(params, newReceiver);

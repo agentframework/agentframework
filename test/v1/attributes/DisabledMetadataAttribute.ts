@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Attribute } from '../../../src';
+import { Attribute } from '../../../src/dependencies/core';
 
 export class DisabledMetadataAttribute implements Attribute {
   beforeDecorate(

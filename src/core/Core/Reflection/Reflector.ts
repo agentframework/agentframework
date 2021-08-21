@@ -40,7 +40,7 @@ export function Reflector(target: Function | object): TypeInfo {
     // if a object hasOwnPropertyDescriptor('constructor') then this object is a prototype
     // instance don't have own constructor property
     if (Reflect.getOwnPropertyDescriptor(target, 'constructor')) {
-      return OnDemandTypeInfo.find(target);
+      return OnDemandTypeInfo.find(<object>target);
     } else {
       // object without own property constructor consider an instance
       throw new AgentFrameworkError(`NotSupported: Reflector(${target.constructor.name} {}) is not supported`);

@@ -1,4 +1,4 @@
-import { ParameterAttribute } from '../../../src';
+import { ParameterAttribute } from '../../../src/dependencies/core';
 import {
   decorateParameter,
   ParameterInterceptor,
@@ -6,7 +6,7 @@ import {
   ParameterInvocation,
   Arguments,
   agent,
-} from '../../../src';
+} from '../../../src/dependencies/core';
 
 class OptionalAttribute implements ParameterAttribute {
   constructor(readonly type: any) {}

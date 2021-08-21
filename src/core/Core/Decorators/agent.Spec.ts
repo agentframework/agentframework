@@ -19,7 +19,7 @@ class MongoDB {
   }
 }
 
-describe('Domain @agent() decorator', () => {
+describe('Core @agent() decorator', () => {
   describe('# should able to', () => {
     it('detect agent', () => {
       expect(IsAgent(MongoDB)).toBe(true);

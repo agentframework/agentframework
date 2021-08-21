@@ -12,8 +12,8 @@ import {
   Arguments,
   MemberKinds,
   decorateClass
-} from '../../../src';
-import { CreateAgent } from '../../../src';
+} from '../../../src/dependencies/core';
+import { CreateAgent } from '../../../src/dependencies/core';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 
 class AgentChecker implements Attribute, Interceptor {

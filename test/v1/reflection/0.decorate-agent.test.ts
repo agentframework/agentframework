@@ -1,8 +1,8 @@
 /* tslint:disable */
 
-import { IsAgent, Reflector, decorateClass } from '../../../src';
+import { IsAgent, Reflector, decorateClass } from '../../../src/dependencies/core';
 import { DisabledMetadataAttribute } from '../attributes/DisabledMetadataAttribute';
-import { AgentAttribute, CreateAgent } from '../../../src';
+import { AgentAttribute, CreateAgent } from '../../../src/dependencies/core';
 
 class BadAgentAttribute extends AgentAttribute {
   get interceptor() {

@@ -19,6 +19,7 @@ import { MemberInfo } from '../Interfaces/MemberInfo';
 import { Filter } from '../Interfaces/Filter';
 import { HasInterceptor } from '../Helpers/CustomInterceptor';
 import { Annotation, Property } from '../Wisdom/Annotation';
+import { remember } from '../Decorators/Remember/remember';
 // import { cache } from '../Helpers/Cache';
 
 // let a = 0;
@@ -43,8 +44,9 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
     return this.key.toString();
   }
 
+  @remember()
   get declaringType(): Function {
-    if (typeof this.target === 'object') {
+    if ('object' === typeof this.target) {
       return this.target.constructor;
     }
     return this.target;
@@ -58,7 +60,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
   /**
    * Get metadata object
    */
-  protected abstract readonly annotation: Annotation | undefined;
+  abstract readonly annotation: Annotation | undefined;
 
   // /**
   //  * Return true if annotation exists
@@ -84,6 +86,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
   /**
    * Returns annotation of current property specified by the key.
    */
+  @remember()
   protected get propertyAnnotationOrUndefined(): Property | undefined {
     const annotation = Wisdom.get(this.target);
     if (!annotation) {
@@ -94,7 +97,6 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
       return;
     }
     return property.value;
-    // return cache(this, 'propertyAnnotationOrUndefined', property.value);
   }
 
   // /**
@@ -119,7 +121,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
       const attributes = annotation.attributes;
       if (attributes.length) {
         if (type) {
-          return attributes.some(a => a instanceof type);
+          return attributes.some((a) => a instanceof type);
         } else {
           return true;
         }
@@ -136,7 +138,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
     if (annotation) {
       const attributes = annotation.attributes;
       if (attributes.length) {
-        const results = attributes.filter(a => a instanceof type);
+        const results = attributes.filter((a) => a instanceof type);
         return <A2>results[0];
       }
     }
@@ -154,7 +156,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
       const attributes = annotation.attributes;
       if (attributes.length) {
         if (type) {
-          return attributes.filter(a => a instanceof type) as Array<A3>;
+          return attributes.filter((a) => a instanceof type) as Array<A3>;
         } else {
           return <A3[]>attributes.slice(0);
         }

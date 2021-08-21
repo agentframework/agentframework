@@ -1,8 +1,8 @@
 /* tslint:disable */
 
-import { agent, decorateMember, IsAgent, Reflector } from '../../../src';
+import { agent, decorateMember, IsAgent, Reflector } from '../../../src/dependencies/core';
 import { InjectAttribute } from '../attributes/InjectAttribute';
-import { CreateAgent } from '../../../src';
+import { CreateAgent } from '../../../src/dependencies/core';
 
 @agent()
 class PostgreSQL {

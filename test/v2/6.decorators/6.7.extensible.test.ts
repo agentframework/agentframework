@@ -1,4 +1,4 @@
-import { exclusive } from '../../../src';
+import { exclusive } from '../../../src/dependencies/core';
 
 describe('6.7. @extensible decorator', () => {
   describe('# should able to', () => {

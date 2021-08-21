@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { agent, decorateParameter, Attribute, Interceptor, Invocation, decorateMember, Arguments } from '../../../src';
+import { agent, decorateParameter, Attribute, Interceptor, Invocation, decorateMember, Arguments } from '../../../src/dependencies/core';
 import {InjectAttribute, InjectParameterAttribute} from '../attributes/InjectAttribute';
 
 class Connection {

@@ -1,4 +1,4 @@
-import { AgentFrameworkError, decorate, decorateMember, MemberKinds, Reflector } from '../../../src';
+import { AgentFrameworkError, decorate, decorateMember, MemberKinds, Reflector } from '../../../src/dependencies/core';
 import { ClassField } from '../Kinds';
 
 class Data24 {

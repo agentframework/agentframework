@@ -1,8 +1,8 @@
 /* tslint:disable */
 
-import { IsAgent, decorateMember, agent } from '../../../src';
+import { IsAgent, decorateMember, agent } from '../../../src/dependencies/core';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
-import { CreateAgent } from '../../../src';
+import { CreateAgent } from '../../../src/dependencies/core';
 
 class Base {
   @decorateMember(new RoundInterceptor())

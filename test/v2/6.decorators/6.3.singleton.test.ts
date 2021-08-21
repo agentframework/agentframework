@@ -8,8 +8,8 @@
 //   Reflector,
 //   AgentFrameworkError,
 //   IsAgent,
-// } from '../../../src';
-// import { CreateAgentClass } from '../../../src';
+// } from '../../../src/dependencies/core';
+// import { CreateAgentClass } from '../../../src/dependencies/core';
 //
 // describe('6.3. @singleton decorator', () => {
 //   describe('# should able to', () => {

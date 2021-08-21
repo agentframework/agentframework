@@ -1,4 +1,4 @@
-import { Arguments, decorateMember, decorateParameter, ParameterInvocation, Reflector } from '../../../src';
+import { Arguments, decorateMember, decorateParameter, ParameterInvocation, Reflector } from '../../../src/dependencies/core';
 import { ClassMethod, ClassMethodParameter } from '../Kinds';
 
 class ParamAttribute {

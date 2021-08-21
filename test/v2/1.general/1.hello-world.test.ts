@@ -1,4 +1,5 @@
-import { agent, transit, InMemoryDomain, CreateAgent } from '../../../src';
+import { agent, transit, InMemoryDomain } from '../../../src/dependencies/domain';
+import { CreateAgent } from '../../../src/dependencies/core';
 
 describe('Hello world!', () => {
   describe('# should able to', () => {

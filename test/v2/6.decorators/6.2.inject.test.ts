@@ -1,5 +1,5 @@
-// import { InMemoryDomain, agent, inject, Reflector } from '../../../src';
-// import { CreateAgentClass } from '../../../src';
+// import { InMemoryDomain, agent, inject, Reflector } from '../../../src/dependencies/core';
+// import { CreateAgentClass } from '../../../src/dependencies/core';
 //
 // describe('6.2. @inject decorator', () => {
 //   describe('# should able to', () => {

@@ -1,4 +1,4 @@
-import { decorateMember, Reflector, PropertyAttribute } from '../../../src';
+import { decorateMember, Reflector, PropertyAttribute } from '../../../src/dependencies/core';
 
 class MethodAttribute implements PropertyAttribute {
   constructor(readonly method: string, readonly path?: string) {}

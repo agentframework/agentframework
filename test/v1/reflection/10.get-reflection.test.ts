@@ -1,10 +1,10 @@
 /* tslint:disable */
 
-import { decorateMember, Reflector } from '../../../src';
+import { decorateMember, Reflector } from '../../../src/dependencies/core';
 import { RandomInterceptor } from '../attributes/RandomInterceptor';
 import { RoundInterceptor } from '../attributes/RoundInterceptor';
 import { MetadataAttribute } from '../attributes/MetadataAttribute';
-import { AgentAttribute } from '../../../src';
+import { AgentAttribute } from '../../../src/dependencies/core';
 
 class MongoDB {
   @decorateMember(new RandomInterceptor())

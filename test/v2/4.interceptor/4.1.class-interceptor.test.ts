@@ -1,4 +1,4 @@
-import { decorateClass, Arguments, agent, ClassInvocation, decorateMember, decorateAgent } from '../../../src';
+import { decorateClass, Arguments, agent, ClassInvocation, decorateMember, decorateAgent } from '../../../src/dependencies/core';
 
 describe('4.1. Class interceptor', () => {
   describe('# should able to', () => {
