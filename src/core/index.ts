@@ -66,6 +66,7 @@ export { Reflector } from './Core/Reflection/Reflector';
 /*************************************
  *   Agent API
  *************************************/
+export { IsAgent, GetAgentType, GetType } from './Core/Helpers/AgentHelper';
 
 /*************************************
  *   (Advanced): Create Agent API
@@ -91,7 +92,7 @@ export { Initializer } from './Core/Decorators/Initializable/Symbols';
 export { InitializerHandler, StaticInitializerHandler } from './Core/Decorators/Initializable/Symbols';
 
 /*************************************
- *   Class Decorator: @extensible()
+ *   Class Decorator: @exclusive()
  *************************************/
 export { exclusive } from './Core/Decorators/Exclusive/exclusive';
 
@@ -107,7 +108,6 @@ export { transit } from './Core/Decorators/DependencyInjection/transit';
  ************************************/
 export { __agent, __decorate, __param } from './Core/Helpers/DecoratorHelper';
 export { __metadata } from './Core/Wisdom/Wisdom';
-export { IsAgent, GetAgentType, GetType } from './Core/Helpers/AgentHelper';
 
 /*************************************
  *   Internal API: Attribute Helper

@@ -66,9 +66,7 @@ export { Reflector } from '../src/core/index';
 /*************************************
  *   Agent API
  *************************************/
-export { IsAgent } from '../src/core/index';
-export { GetType } from '../src/core/index';
-export { GetAgentType } from '../src/core/index';
+export { IsAgent, GetAgentType, GetType } from '../src/core/index';
 
 /*************************************
  *   (Advanced): Create Agent API

@@ -20,7 +20,7 @@ describe('6.8. @interceptable decorator', () => {
         }
       }
 
-      expect(App681.run(1.5)).toBe(1);
+      expect(App681.run(1.5)).toBe(1.5);
     });
 
     it('create static initializable agent without interceptor', () => {
@@ -66,7 +66,7 @@ describe('6.8. @interceptable decorator', () => {
         }
       }
       expect(App683).toBeTruthy();
-      expect(App683.run(4.90327)).toBe(4);
+      expect(App683.run(4.90327)).toBe(4.90327);
       const app = new App683();
       expect(app.run(2334.22)).toBe(2334);
     });
