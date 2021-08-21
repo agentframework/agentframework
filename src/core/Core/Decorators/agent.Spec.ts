@@ -103,8 +103,8 @@ describe('Core @agent() decorator', () => {
       const EndAgent = CreateAgent(End);
       expect(EndAgent).not.toBe(End);
 
-      expect(End.floorEnd(3.9)).toBe(3);
-      expect(End.floorMiddle(6.5)).toBe(6);
+      expect(End.floorEnd(3.9)).toBe(3.9);
+      expect(End.floorMiddle(6.5)).toBe(6.5);
       expect(End.floorBase(128937.332897)).toBe(128937.332897);
 
       expect(GetAgentType<Function>(End)).toBe(GetType<Function>(End));

@@ -26,7 +26,7 @@ import { HasInterceptor } from '../Helpers/CustomInterceptor';
 import { Attribute } from '../Interfaces/Attribute';
 
 export class OnDemandClassCompiler {
-  static upgrade(
+  static emit(
     target: Function | object,
     properties: Map<PropertyKey, PropertyInfo>,
     receiver?: Function | object

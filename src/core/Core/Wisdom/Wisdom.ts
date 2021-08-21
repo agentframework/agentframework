@@ -14,9 +14,9 @@ limitations under the License. */
 
 import { Soul } from './Soul';
 import { FindProperty } from './Annotator';
-import { define, hook } from '../Helpers/Prototype';
+import { define, mount } from '../Helpers/Prototype';
 
-@hook(Reflect)
+@mount(Reflect)
 export class Wisdom extends WeakMap<any, any> {
   /**
    * @internal

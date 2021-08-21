@@ -24,7 +24,7 @@ import { AgentFrameworkError } from '../AgentFrameworkError';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { ChainFactory } from './ChainFactory';
 import { RememberType } from '../Helpers/AgentHelper';
-import { Wisdom } from '../Wisdom/Wisdom';
+// import { Wisdom } from '../Wisdom/Wisdom';
 
 /**
  * This attribute is for upgrade class to agent
@@ -42,9 +42,10 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
    * Create type hook (called after script loaded)
    */
   intercept(target: ClassInvocation, params: any, receiver: Function): Function {
-    const agentMeta = Wisdom.get(receiver);
+    // for static decorators
+    // const agentMeta = Wisdom.get(receiver);
     // console.log('agentMeta', agentMeta);
-    const hasAgentAttributes = agentMeta && Reflect.ownKeys(agentMeta).some((key) => key !== 'constructor');
+    // const hasAgentAttributes = agentMeta && Reflect.ownKeys(agentMeta).some((key) => key !== 'constructor');
 
     const [, attribute, compiler] = params;
     let newReceiver = Reflect.construct(compiler, [receiver, attribute]);
@@ -52,27 +53,27 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
 
     newReceiver = target.invoke<Function>(params, newReceiver);
 
-    if (hasAgentAttributes) {
-      const design = target.design;
-      const declaringType = design.declaringType;
-
-      const interceptors = design.findOwnProperties((p) => p.hasInterceptor());
-      const properties = new Map<PropertyKey, PropertyInfo>();
-
-      // note: not all attribute has interceptor
-      if (interceptors.length) {
-        for (const property of interceptors) {
-          properties.set(property.key, property);
-        }
-      }
-
-      if (properties.size) {
-        // 2. find the proxy class
-        const found = FindExtendedClass(declaringType, newReceiver);
-        const agent = found[0];
-        OnDemandClassCompiler.upgrade(agent, properties, found[1]);
-      }
-    }
+    // if (hasAgentAttributes) {
+    //   const design = target.design;
+    //   const declaringType = design.declaringType;
+    //
+    //   const interceptors = design.findOwnProperties((p) => p.hasInterceptor());
+    //   const properties = new Map<PropertyKey, PropertyInfo>();
+    //
+    //   // note: not all attribute has interceptor
+    //   if (interceptors.length) {
+    //     for (const property of interceptors) {
+    //       properties.set(property.key, property);
+    //     }
+    //   }
+    //
+    //   if (properties.size) {
+    //     // 2. find the proxy class
+    //     const found = FindExtendedClass(declaringType, newReceiver);
+    //     const agent = found[0];
+    //     OnDemandClassCompiler.emit(agent, properties, found[1]);
+    //   }
+    // }
 
     return newReceiver;
   }
@@ -136,7 +137,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
         const agent = found[0].prototype;
         // quick check, ignore if keys are been declared
         // ownKeys() >= 1 because constructor is one key always have
-        OnDemandClassCompiler.upgrade(agent, properties, found[1] && found[1].prototype);
+        OnDemandClassCompiler.emit(agent, properties, found[1] && found[1].prototype);
       }
     }
 

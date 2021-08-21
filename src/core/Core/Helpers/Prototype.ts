@@ -23,7 +23,7 @@ export function define<T extends object>(target: T, key: string | symbol | numbe
 /**
  * @internal
  */
-export function hook(impl: typeof Reflect) {
+export function mount(impl: typeof Reflect) {
   return function (this: any, type: any): any {
     const id = Symbol.for(type.id);
     return impl[id] || impl.construct(type, [impl, id]);
