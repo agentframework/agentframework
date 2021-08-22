@@ -1,6 +1,6 @@
 import { agent } from '../../../src/dependencies/core';
 import { decorateMember } from '../../../src/dependencies/core';
-import { ClassInvocation } from '../../../src/dependencies/core';
+import { TypeInvocation } from '../../../src/dependencies/core';
 import { Arguments } from '../../../src/dependencies/core';
 
 describe('4.6. getter interceptor', () => {
@@ -12,7 +12,7 @@ describe('4.6. getter interceptor', () => {
 
         @decorateMember({
           interceptor: {
-            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
+            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
               return Math.floor(target.invoke(params, receiver));
             },
           },

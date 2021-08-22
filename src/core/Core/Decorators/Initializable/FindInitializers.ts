@@ -12,11 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Initializers } from "../../Knowledge";
-
+import { ClassInitializers } from '../../Knowledge';
 
 export function FindInitializers(target: Function, key: PropertyKey): Array<[Function, Function]> {
-  const initializers = Initializers.v1;
+  const initializers = ClassInitializers.v1;
   // console.log('FI', target, typeof target);
   const ctor = initializers.get(target);
   if (ctor) {

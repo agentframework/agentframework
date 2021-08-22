@@ -19,7 +19,7 @@
     "stripInternal": true,
     "baseUrl": "src",
     "paths": {
-      "agentframework": ["index"]
+      "agentframework": ["core/index"]
     }
   },
   "include": ["lib", "src", "test", "tools"],

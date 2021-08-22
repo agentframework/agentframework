@@ -147,7 +147,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * @cache
    */
   @remember()
-  protected get types(): Array<TypeInfo> {
+  get types(): ReadonlyArray<TypeInfo> {
     // this can cache because it never changes
     const prototypes: Array<TypeInfo> = [];
 
@@ -217,7 +217,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   /**
    * Return all own properties
    */
-  getOwnProperties(): Array<PropertyInfo> {
+  getOwnProperties(): ReadonlyArray<PropertyInfo> {
     const properties = new Array<PropertyInfo>();
     const annotations = this.typeAnnotationOrUndefined;
     if (!annotations) {
@@ -269,7 +269,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * @param filterCriteria
    * @returns {Map<PropertyKey, OnDemandPropertyInfo>}
    */
-  findOwnProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): Array<PropertyInfo> {
+  findOwnProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): ReadonlyArray<PropertyInfo> {
     const properties = new Array<PropertyInfo>();
     for (const property of this.getOwnProperties()) {
       if (filter(property, filterCriteria)) {
@@ -286,8 +286,8 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * @param filterCriteria
    * @returns {Map<TypeInfo, Array<PropertyInfo>>}
    */
-  findProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): Map<TypeInfo, Array<PropertyInfo>> {
-    const layers = new Map<TypeInfo, Array<PropertyInfo>>();
+  findProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): Map<TypeInfo, ReadonlyArray<PropertyInfo>> {
+    const layers = new Map<TypeInfo, ReadonlyArray<PropertyInfo>>();
     for (const type of this.types) {
       const found = type.findOwnProperties(filter, filterCriteria);
       if (found.length) {
@@ -300,7 +300,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   /**
    * Find types from prototype chain
    */
-  findTypes(filter?: Filter<TypeInfo>, filterCriteria?: any): Array<TypeInfo> {
+  findTypes(filter?: Filter<TypeInfo>, filterCriteria?: any): ReadonlyArray<TypeInfo> {
     if (!filter) {
       return this.types.slice(0);
     }

@@ -23,10 +23,10 @@ import { Design } from '../../Interfaces/Design';
  * @ignore
  * @hidden
  */
-export class InterceptorInvocation implements Invocation {
-  constructor(readonly next: Invocation, readonly interceptor: Interceptor) {}
+export class InterceptorInvocation<T extends Design> implements Invocation<T> {
+  constructor(readonly next: Invocation<T>, readonly interceptor: Interceptor<T>) {}
 
-  get design(): Design {
+  get design(): T {
     return this.next.design;
   }
 

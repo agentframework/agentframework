@@ -17,7 +17,7 @@ import { Arguments } from '../../Interfaces/Arguments';
 import { PropertyInterceptor } from '../../Interfaces/TypeInterceptors';
 import { PropertyInvocation } from '../../Interfaces/TypeInvocations';
 import { Singletons } from '../../Knowledge';
-import { CreateAgent } from '../../Compiler/CreateAgent';
+import { CreateAgent } from '../../Agent/CreateAgent';
 import { IsAgent } from '../../Helpers/AgentHelper';
 
 export class SingletonAttribute implements PropertyInterceptor {

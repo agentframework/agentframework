@@ -87,7 +87,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    * Returns annotation of current property specified by the key.
    */
   @remember()
-  protected get propertyAnnotationOrUndefined(): Property | undefined {
+  get propertyAnnotationOrUndefined(): Property | undefined {
     const annotation = Wisdom.get(this.target);
     if (!annotation) {
       return;
@@ -150,7 +150,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    *
    * @returns {Array<Attribute>}
    */
-  getOwnAttributes<A3 extends Attribute>(type?: Class<A3>): Array<A3> {
+  getOwnAttributes<A3 extends Attribute>(type?: Class<A3>): ReadonlyArray<A3> {
     const annotation = this.annotation;
     if (annotation) {
       const attributes = annotation.attributes;
@@ -170,7 +170,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    *
    * @returns {Array<Attribute>}
    */
-  findOwnAttributes<A5 extends Attribute>(filter: Filter<Attribute>, filterCriteria?: any): Array<A5> {
+  findOwnAttributes<A5 extends Attribute>(filter: Filter<Attribute>, filterCriteria?: any): ReadonlyArray<A5> {
     const annotation = this.annotation;
     const found: A5[] = [];
     if (annotation) {
@@ -185,6 +185,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
     }
     return found;
   }
+
 
   /**
    * Return an array of all the attributes which provide getInitializer method
@@ -210,11 +211,28 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
     const annotation = this.annotation;
     if (annotation) {
       const attributes = annotation.attributes;
-      if (attributes && attributes.length) {
+      if (attributes.length) {
         return attributes.some(HasInterceptor);
       }
     }
     return false;
+  }
+
+  /**
+   * Return an array of all the attributes which provide getter interceptor
+   *
+   * @returns {Array<Attribute>}
+   */
+  getOwnInterceptors(): ReadonlyArray<Attribute> {
+    // todo: find a way to cache it
+    const annotation = this.annotation;
+    if (annotation) {
+      const attributes = annotation.attributes;
+      if (attributes.length) {
+        return attributes.filter(HasInterceptor);
+      }
+    }
+    return [];
   }
 
   /**

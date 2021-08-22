@@ -1,6 +1,6 @@
 import { agent } from '../../../src/dependencies/core';
 import { decorateClass } from '../../../src/dependencies/core';
-import { ClassInvocation, ParameterInvocation } from '../../../src/dependencies/core';
+import { TypeInvocation, ParameterInvocation } from '../../../src/dependencies/core';
 import { Arguments } from '../../../src/dependencies/core';
 import { decorateParameter } from '../../../src/dependencies/core';
 
@@ -10,7 +10,7 @@ describe('4.4. constructor parameter interceptor', () => {
       @agent()
       @decorateClass({
         interceptor: {
-          intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
+          intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
             return target.invoke(params, receiver);
           },
         },

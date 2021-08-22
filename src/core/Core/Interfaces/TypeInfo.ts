@@ -42,14 +42,14 @@ export interface TypeInfo extends PropertyInfo {
   property(key: PropertyKey): PropertyInfo;
 
   /**
-   * Return true if any properties annotated, not include the constructor
+   * Return true if any properties annotated, not include constructor
    */
   hasOwnProperties(): boolean;
 
   /**
    * Find all own properties
    */
-  getOwnProperties(): Array<PropertyInfo>;
+  getOwnProperties(): ReadonlyArray<PropertyInfo>;
 
   /**
    * Find own property by key
@@ -57,22 +57,22 @@ export interface TypeInfo extends PropertyInfo {
   getOwnProperty(key: PropertyKey): PropertyInfo | undefined;
 
   /**
-   * Find property in own properties or prototype properties by key
+   * Find property in own properties or prototype properties by key, results: current -> base -> root -> Object
    */
   getProperty(key: PropertyKey): PropertyInfo | undefined;
 
   /**
    * Find properties
    */
-  findOwnProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): Array<PropertyInfo>;
+  findOwnProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): ReadonlyArray<PropertyInfo>;
 
   /**
-   * Find properties from own properties or prototype properties
+   * Find properties from own properties or prototype properties, results: current -> middle -> root -> Object
    */
-  findProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): Map<TypeInfo, Array<PropertyInfo>>;
+  findProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): Map<TypeInfo, ReadonlyArray<PropertyInfo>>;
 
   /**
-   * Find types from prototype chain
+   * Find types from prototype chain, results: current -> middle -> root -> Object
    */
-  findTypes(filter?: Filter<TypeInfo>, filterCriteria?: any): Array<TypeInfo>;
+  findTypes(filter?: Filter<TypeInfo>, filterCriteria?: any): ReadonlyArray<TypeInfo>;
 }

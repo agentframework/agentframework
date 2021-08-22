@@ -12,21 +12,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { ClassInvocation, PropertyInvocation, ParameterInvocation } from './TypeInvocations';
 import { Interceptor } from './Interceptor';
-import { Arguments } from './Arguments';
+import { TypeInfo } from './TypeInfo';
+import { PropertyInfo } from './PropertyInfo';
+import { ParameterInfo } from './ParameterInfo';
 
-export interface ClassInterceptor extends Interceptor {
-  intercept(target: ClassInvocation, params: Arguments, receiver: unknown): unknown;
-}
+export interface ClassInterceptor extends Interceptor<TypeInfo> {}
 
-export interface PropertyInterceptor extends Interceptor {
-  intercept(target: PropertyInvocation, params: Arguments, receiver: unknown): unknown;
-}
+export interface PropertyInterceptor extends Interceptor<PropertyInfo> {}
 
-export interface ParameterInterceptor extends Interceptor {
-  intercept(target: ParameterInvocation, params: Arguments, receiver: unknown): unknown;
-}
+export interface ParameterInterceptor extends Interceptor<ParameterInfo> {}
 //
 // export interface FieldInterceptor extends Interceptor {
 //   intercept(target: FieldInvocation, params: Arguments, receiver: any): any;

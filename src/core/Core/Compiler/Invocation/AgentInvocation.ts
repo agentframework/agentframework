@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { define } from '../../Helpers/Prototype';
 import { TypeInfo } from '../../Interfaces/TypeInfo';
-import { ClassInvocation } from '../../Interfaces/TypeInvocations';
+import { TypeInvocation } from '../../Interfaces/TypeInvocations';
 import { OnDemandTypeInfo } from '../../Reflection/OnDemandTypeInfo';
 import { RememberType } from '../../Helpers/AgentHelper';
 
@@ -24,13 +24,13 @@ import { RememberType } from '../../Helpers/AgentHelper';
  * @ignore
  * @hidden
  */
-export class AgentInvocation implements ClassInvocation {
+export class AgentInvocation implements TypeInvocation {
   constructor(readonly target: Function, readonly design: TypeInfo = OnDemandTypeInfo.find(target)) {}
 
-  invoke([name]: any, receiver: any): any {
+  invoke([id]: any, receiver: any): any {
     // dont do any change if no changes to the target
     // that means no initializers defined
-    const value = `${name}$`;
+    const value = `${id}$`;
     const newReceiver = define(class extends receiver {}, 'name', { value });
     RememberType(newReceiver, this.target);
     return newReceiver;

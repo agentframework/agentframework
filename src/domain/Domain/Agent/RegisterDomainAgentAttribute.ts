@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Arguments, ClassInvocation } from '../../../dependencies/core';
+import { Arguments, TypeInvocation } from '../../../dependencies/core';
 import { Domain } from '../Domain';
 import { DomainAgentAttribute } from './DomainAgentAttribute';
 // import { RememberAgentType } from '../../../core/Core/Helpers/AgentHelper';
@@ -24,12 +24,13 @@ import { DomainAgentAttribute } from './DomainAgentAttribute';
 
 export class RegisterDomainAgentAttribute extends DomainAgentAttribute {
   constructor(readonly domain: Domain) {
-    super(true);
+    super();
   }
 
-  intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
-    this.domain.addType(target.design.declaringType);
-    return super.intercept(target, params, receiver);
+  intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+    const type = super.intercept(target, params, receiver);
+    this.domain.addType(type);
+    return type;
   }
 
   construct<T extends Function>(target: T, params: Arguments, receiver: T): any {

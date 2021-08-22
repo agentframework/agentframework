@@ -38,18 +38,18 @@ export interface ParameterAttribute extends Attribute {
   beforeDecorate?(target: Function, key: undefined, index: number): boolean;
   readonly interceptor?: ParameterInterceptor;
 }
-//
-// /**
-//  * Attribute applies to class field
-//  */
+
+/**
+ * Attribute applies to class field
+ */
 // export interface ClassFieldAttribute extends Attribute, Interceptable {
 //   readonly interceptor?: FieldInterceptor;
 //   beforeDecorate?(target: object, key: string | symbol): boolean;
 // }
-//
-// /**
-//  * Attribute applies to class method
-//  */
+
+/**
+ * Attribute applies to class method
+ */
 // export interface ClassMethodAttribute extends Attribute, Interceptable {
 //   readonly interceptor?: MethodInterceptor;
 //   beforeDecorate?(target: object, key: string | symbol, descriptor: PropertyDescriptor): boolean;

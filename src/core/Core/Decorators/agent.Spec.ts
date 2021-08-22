@@ -9,8 +9,8 @@ import {
   Invocation,
   IsAgent,
   Reflector,
+  agent,
 } from '../../../dependencies/core';
-import { agent } from '../../../dependencies/domain';
 
 @agent()
 class MongoDB {

@@ -12,24 +12,44 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Invocation } from './Interfaces/Invocation';
 import { remember } from './Decorators/Remember/remember';
+import { TypeInvocation } from './Interfaces/TypeInvocations';
 
 /**
- * Get invocations of giving type
+ * Get original type of giving agent
  */
-export class Invocations {
-  @remember('Invocations')
+export class Types {
+  // core
+  // key: agent | class, value: class
+  @remember('Types')
   static get v1() {
-    return new WeakMap<Function, Invocation>();
+    return new WeakMap<Function | object, Function | object>();
+  }
+}
+
+export class Agents {
+  // key: agent | agent.prototype, value: class | class.prototype
+  @remember('Agents')
+  static get v1() {
+    return new WeakMap<Function | object, Function | object>();
   }
 }
 
 /**
- * Get interceptors of giving type
+ * Get invocations of giving type
  */
-export class Interceptors {
-  @remember('Interceptors')
+export class ClassInvocations {
+  @remember('ClassInvocations')
+  static get v1() {
+    return new WeakMap<Function, TypeInvocation>();
+  }
+}
+
+/**
+ * Get interceptors of giving attribute
+ */
+export class CustomInterceptors {
+  @remember('CustomInterceptors')
   static get v1() {
     return new WeakMap<Function, [Function, unknown]>();
   }
@@ -38,31 +58,11 @@ export class Interceptors {
 /**
  * Get initializers of giving type
  */
-export class Initializers {
+export class ClassInitializers {
   // key: class, value: [Initializer Function, Class]
-  @remember('Initializers')
+  @remember('ClassInitializers')
   static get v1() {
     return new WeakMap<Function, Array<[Function, Function]>>();
-  }
-}
-
-/**
- * Get original type of giving agent
- */
-export class Types {
-  // core
-  // key: Agent Proxy | Agent Constructor | Domain Agent Constructor, value: Original Constructor
-  @remember('Types')
-  static get v1() {
-    return new WeakMap<Function | object, Function | object>();
-  }
-}
-
-export class Agents {
-  // key: class, value: singleton instance
-  @remember('Agents')
-  static get v1() {
-    return new WeakMap<Function | object, Function | object>();
   }
 }
 
@@ -75,11 +75,11 @@ export class Singletons {
 }
 
 /**
- * Get type of giving string id
+ * Get object of giving string id
  */
-export class NamedTypes {
+export class Namespaces {
   // key: string, value: Constructor
-  @remember('NamedTypes')
+  @remember('Namespaces')
   static get v1() {
     return new Map<string, unknown>();
   }

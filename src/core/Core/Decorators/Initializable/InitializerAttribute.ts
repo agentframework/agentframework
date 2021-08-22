@@ -1,6 +1,6 @@
 import { Arguments } from '../../Interfaces/Arguments';
 import { ClassInterceptor } from '../../Interfaces/TypeInterceptors';
-import { ClassInvocation } from '../../Interfaces/TypeInvocations';
+import { TypeInvocation } from '../../Interfaces/TypeInvocations';
 import { FindInitializers } from './FindInitializers';
 
 export class InitializerAttribute implements ClassInterceptor {
@@ -10,7 +10,7 @@ export class InitializerAttribute implements ClassInterceptor {
     return this;
   }
 
-  intercept(target: ClassInvocation, params: Arguments, receiver: any) {
+  intercept(target: TypeInvocation, params: Arguments, receiver: any) {
     // after create instance, call custom Initializer
     const instance = target.invoke(params, receiver);
     // call sequence: root -> base -> child

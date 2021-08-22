@@ -17,27 +17,12 @@ import { TypeInfo } from './TypeInfo';
 import { PropertyInfo } from './PropertyInfo';
 import { ParameterInfo } from './ParameterInfo';
 
-export interface ClassInvocation extends Invocation {
-  /**
-   * Get the design type
-   */
-  readonly design: TypeInfo;
-}
+export interface TypeInvocation extends Invocation<TypeInfo> {}
 
-export interface PropertyInvocation extends Invocation {
-  /**
-   * Get the design type
-   */
-  readonly design: PropertyInfo;
-}
+export interface PropertyInvocation extends Invocation<PropertyInfo> {}
 
-export interface ParameterInvocation extends Invocation {
-  /**
-   * Get the design type
-   */
-  readonly design: ParameterInfo;
-}
-//
+export interface ParameterInvocation extends Invocation<ParameterInfo> {}
+
 // export interface MethodInvocation extends Invocation {
 //   /**
 //    * Get the design type

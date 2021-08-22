@@ -13,103 +13,33 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Invocation } from '../Interfaces/Invocation';
-import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
-import { GetInterceptor, HasInterceptor } from '../Helpers/CustomInterceptor';
 import { Attribute } from '../Interfaces/Attribute';
-import { ParameterInterceptor } from './Invocation/ParameterInterceptor';
-import { AgentInvocation } from './Invocation/AgentInvocation';
-import { TypeInfo } from '../Interfaces/TypeInfo';
-import { ConstructorInvocation } from './Invocation/ConstructorInvocation';
-import { CanDecorate } from '../Decorator/CanDecorate';
-import { AgentFrameworkError } from '../AgentFrameworkError';
+import { OnDemandInterceptorInvocation } from './Invocation/OnDemandInterceptorInvocation';
+import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
+import { OnDemandParameterInterceptor } from './Interceptor/OnDemandParameterInterceptor';
+import { PropertyInfo } from '../Interfaces/PropertyInfo';
+import { MemberInfo } from '../Interfaces/MemberInfo';
 
 /**
- *
+ * @ignore
+ * @hidden
  */
 export class ChainFactory {
-  /**
-   * @ignore
-   * @hidden
-   */
-  static chainInterceptorAttributes(current: Invocation, attributes: Array<Attribute>): Invocation {
+  static chainInterceptors<T extends MemberInfo>(target: Invocation<T>, interceptors: ReadonlyArray<Attribute>) {
     // make invocation chain of interceptors
-    if (attributes.length) {
-      for (const attribute of attributes) {
-        const interceptor = GetInterceptor(attribute);
-        if (interceptor) {
-          current = new InterceptorInvocation(current, interceptor);
-        }
+    if (interceptors.length) {
+      for (const interceptor of interceptors) {
+        target = new OnDemandInterceptorInvocation(target, interceptor);
       }
     }
-    return current;
+    return target;
   }
 
-  /**
-   * @ignore
-   * @hidden
-   */
-  static chainInterceptorAttribute(current: Invocation, attribute: Attribute): Invocation {
-    const interceptor = GetInterceptor(attribute);
-    if (interceptor) {
-      current = new InterceptorInvocation(current, interceptor);
-    }
-    return current;
+  static chainInterceptor<T extends MemberInfo>(target: Invocation<T>, attribute: Attribute) {
+    return new OnDemandInterceptorInvocation<T>(target, attribute);
   }
 
-  /**
-   * Create constructor interceptor
-   *
-   * @ignore
-   * @hidden
-   */
-  static createConstructorInterceptor(target: Function, design: TypeInfo): Invocation {
-    // console.log('createMethodInterceptor', origin.target.name, origin.design.name);
-
-    // build invocation chain
-    const origin = new ConstructorInvocation(design, target);
-
-    // find all attribute from prototype
-    // const interceptors = property.findOwnAttributes(HasInterceptor);
-    const interceptorArrays: Array<Array<Attribute>> = design
-      .findTypes()
-      .map((type) => type.findOwnAttributes(HasInterceptor));
-    const emptyArray: Array<Attribute> = [];
-    const interceptors: Array<Attribute> = emptyArray.concat(...interceptorArrays);
-
-    // create interceptor
-    const intercepted = ChainFactory.chainInterceptorAttributes(origin, interceptors);
-
-    // create parameter invocation if have
-
-    // return this.chainInterceptorAttribute(intercepted, new ParameterInterceptor(design));
-    return new InterceptorInvocation(intercepted, new ParameterInterceptor(design));
-  }
-
-  /**
-   *
-   *
-   * @ignore
-   * @hidden
-   */
-  static createAgentInterceptor(target: Function, attribute: Attribute): Invocation {
-    //
-    const invocation = new AgentInvocation(target);
-
-    const design = invocation.design;
-
-    // todo: cache the chain for this target
-    let chain: Invocation = invocation;
-    // chain user defined class attribute
-
-    if (design.hasOwnInterceptor()) {
-      const interceptors = design.findOwnAttributes(HasInterceptor);
-      //.concat(property.value.findOwnAttributes(HasInterceptor));
-      chain = ChainFactory.chainInterceptorAttributes(chain, interceptors);
-    }
-
-    if (!CanDecorate(attribute, target)) {
-      throw new AgentFrameworkError('NoPermissionToCreateAgent');
-    }
-    return ChainFactory.chainInterceptorAttribute(chain, attribute);
+  static chainParameterInterceptor<T extends PropertyInfo>(target: Invocation<T>) {
+    return new InterceptorInvocation<T>(target, new OnDemandParameterInterceptor(target.design));
   }
 }

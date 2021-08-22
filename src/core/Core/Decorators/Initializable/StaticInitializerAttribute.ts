@@ -15,7 +15,7 @@ limitations under the License. */
 import { AgentFrameworkError } from '../../AgentFrameworkError';
 import { Arguments } from '../../Interfaces/Arguments';
 import { ClassInterceptor } from '../../Interfaces/TypeInterceptors';
-import { ClassInvocation } from '../../Interfaces/TypeInvocations';
+import { TypeInvocation } from '../../Interfaces/TypeInvocations';
 
 export class StaticInitializerAttribute implements ClassInterceptor {
   constructor(readonly key: PropertyKey) {}
@@ -24,7 +24,7 @@ export class StaticInitializerAttribute implements ClassInterceptor {
     return this;
   }
 
-  intercept(target: ClassInvocation, params: Arguments, receiver: Function): object {
+  intercept(target: TypeInvocation, params: Arguments, receiver: Function): object {
     const declaringType = target.design.declaringType;
     const initializer = Reflect.get(declaringType, this.key, receiver);
     if (initializer) {

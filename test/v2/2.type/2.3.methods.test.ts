@@ -1,4 +1,11 @@
-import { Arguments, decorateMember, decorateParameter, ParameterInvocation, Reflector } from '../../../src/dependencies/core';
+import {
+  Arguments,
+  decorateMember,
+  decorateParameter,
+  HasInterceptor,
+  ParameterInvocation,
+  Reflector,
+} from '../../../src/dependencies/core';
 import { ClassMethod, ClassMethodParameter } from '../Kinds';
 
 class ParamAttribute {
@@ -137,6 +144,14 @@ describe('2.3. Type methods', () => {
         expect(runMethodParameter.hasOwnAttribute()).toBeTrue();
         expect(runMethodParameter.getOwnAttribute(ParamAttribute)).toBeInstanceOf(ParamAttribute);
         expect(runMethodParameter.getOwnAttributes(ParamAttribute).length).toBe(1);
+      }
+    });
+
+    it('get method interceptor', () => {
+      const runMethod = Reflector(Application23).getProperty('run');
+      expect(runMethod).toBeTruthy();
+      if (runMethod) {
+        expect(runMethod.findOwnAttributes(HasInterceptor).length).toBe(0);
       }
     });
   });

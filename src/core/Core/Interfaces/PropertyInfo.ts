@@ -50,12 +50,12 @@ export interface PropertyInfo extends MemberInfo {
   /**
    * Returns type of the parameters
    */
-  getParameterTypes(): Array<any> | undefined;
+  getParameterTypes(): ReadonlyArray<any> | undefined;
 
   /**
    * Get all annotated parameters
    */
-  getParameters(): Array<ParameterInfo>;
+  getParameters(): ReadonlyArray<ParameterInfo>;
 
   // /**
   //  * Return true if any parameter contains interceptor

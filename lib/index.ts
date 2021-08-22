@@ -38,7 +38,7 @@ export { Invocation } from '../src/core/index';
 export { Interceptor } from '../src/core/index';
 export { Attribute } from '../src/core/index';
 
-export { ClassInvocation } from '../src/core/index';
+export { TypeInvocation } from '../src/core/index';
 export { ClassInterceptor } from '../src/core/index';
 export { ClassAttribute } from '../src/core/index';
 

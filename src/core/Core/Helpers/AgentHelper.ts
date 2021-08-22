@@ -35,33 +35,3 @@ export function RememberType(target: Function, receiver: Function): void {
 export function GetType<T extends Function | object>(type: T): T | undefined {
   return <T | undefined>Types.v1.get(type);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -14,10 +14,11 @@ limitations under the License. */
 
 import { Invocation } from './Invocation';
 import { Arguments } from './Arguments';
+import { Design } from './Design';
 
 /**
  * Intercept an method call
  */
-export interface Interceptor {
-  intercept(target: Invocation, params: Arguments, receiver: unknown): unknown;
+export interface Interceptor<T extends Design = Design> {
+  intercept(target: Invocation<T>, params: Arguments, receiver: unknown): unknown;
 }

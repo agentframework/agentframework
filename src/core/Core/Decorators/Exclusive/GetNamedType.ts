@@ -12,13 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { NamedTypes } from '../../Knowledge';
+import { Namespaces } from '../../Knowledge';
 
 export function GetNamedType<T>(name: string, type: T): T {
-  const types = NamedTypes.v1;
-  const found = types.get(name);
+  const ns = Namespaces.v1;
+  const found = ns.get(name);
   if (!found) {
-    types.set(name, type);
+    ns.set(name, type);
     return type;
   }
   return <T>found;

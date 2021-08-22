@@ -22,7 +22,6 @@ import { Attribute } from '../Interfaces/Attribute';
 import { AddAttributeToMember } from '../Helpers/AddAttribute';
 import { HasInterceptor } from '../Helpers/CustomInterceptor';
 import { Property } from '../Wisdom/Annotation';
-import { remember } from '../Decorators/Remember/remember';
 
 // import { getter } from '../Helpers/Prototype';
 // import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
@@ -46,8 +45,8 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   /**
    * Returns descriptor of this property. undefined if this is a field
    */
-  @remember()
   get descriptor(): PropertyDescriptor | undefined {
+    // return Reflect.getOwnPropertyDescriptor(this.declaringType.prototype, this.key);
     let descriptor: PropertyDescriptor | undefined;
     const annotation = this.annotation;
     if (annotation) {
@@ -222,14 +221,14 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   /**
    * Returns type of the parameters
    */
-  getParameterTypes(): Array<any> | undefined {
+  getParameterTypes(): ReadonlyArray<any> | undefined {
     return this.getOwnMetadata('design:paramtypes');
   }
 
   /**
    * Returns annotated parameters
    */
-  getParameters(): Array<OnDemandParameterInfo> {
+  getParameters(): ReadonlyArray<OnDemandParameterInfo> {
     const params = new Array<OnDemandParameterInfo>();
     const annotation = this.annotation;
     if (annotation && annotation.parameters && annotation.parameters.size) {

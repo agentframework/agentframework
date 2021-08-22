@@ -1,6 +1,6 @@
 import { agent } from '../../../src/dependencies/core';
 import { decorateMember } from '../../../src/dependencies/core';
-import { ClassInvocation, ParameterInvocation } from '../../../src/dependencies/core';
+import { TypeInvocation, ParameterInvocation } from '../../../src/dependencies/core';
 import { Arguments } from '../../../src/dependencies/core';
 import { decorateParameter } from '../../../src/dependencies/core';
 
@@ -11,7 +11,7 @@ describe('4.5. method parameter interceptor', () => {
       class Class412 {
         @decorateMember({
           interceptor: {
-            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
+            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
               return target.invoke(params, receiver);
             },
           },
@@ -20,7 +20,7 @@ describe('4.5. method parameter interceptor', () => {
           @decorateParameter({
             interceptor: {
               intercept(target: ParameterInvocation, params: Arguments, receiver: any): any {
-                return Math.floor(params[target.design.index]);
+                return Math.floor(target.invoke(params, receiver));
               },
             },
           })

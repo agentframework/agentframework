@@ -25,7 +25,7 @@ export function remember(key?: string) {
       get() {
         const receiver = 'function' === typeof target ? target : this;
         let value;
-        if (key) {
+        if ('string' === typeof key) {
           // note: bulletproof syntax against tools like "terser"
           const wisdom = Wisdom.get(Wisdom);
           const id = key + '.' + String(targetKey);

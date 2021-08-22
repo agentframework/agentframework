@@ -21,6 +21,7 @@ limitations under the License. */
 /*************************************
  *   Common
  *************************************/
+
 export { AgentFrameworkError } from './Core/AgentFrameworkError';
 export { Arguments } from './Core/Interfaces/Arguments';
 export { Class } from './Core/Class';
@@ -38,7 +39,7 @@ export { Invocation } from './Core/Interfaces/Invocation';
 export { Interceptor } from './Core/Interfaces/Interceptor';
 export { Attribute } from './Core/Interfaces/Attribute';
 
-export { ClassInvocation } from './Core/Interfaces/TypeInvocations';
+export { TypeInvocation } from './Core/Interfaces/TypeInvocations';
 export { ClassInterceptor } from './Core/Interfaces/TypeInterceptors';
 export { ClassAttribute } from './Core/Interfaces/TypeAttributes';
 
@@ -71,13 +72,15 @@ export { IsAgent, GetAgentType, GetType } from './Core/Helpers/AgentHelper';
 /*************************************
  *   (Advanced): Create Agent API
  *************************************/
-export { CreateAgent } from './Core/Compiler/CreateAgent';
-export { AgentAttribute } from './Core/Compiler/AgentAttribute';
+export { Agent } from './Core/Agent/Agent';
+export { AgentAttribute } from './Core/Agent/AgentAttribute';
+export { CreateAgent } from './Core/Agent/CreateAgent';
 
 /*************************************
  *   (Advanced): Custom Interceptor API
  *************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from './Core/Helpers/CustomInterceptor';
+export { HasInterceptor, GetInterceptor } from './Core/Helpers/CustomInterceptor';
 
 /*************************************
  *   Getter Decorator: @remember()

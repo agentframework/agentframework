@@ -31,7 +31,7 @@ export interface MemberInfo extends Design {
   /**
    * Returns all decorated attributes
    */
-  getOwnAttributes<A3 extends Attribute>(type?: Class<A3>): Array<A3>;
+  getOwnAttributes<A3 extends Attribute>(type?: Class<A3>): ReadonlyArray<A3>;
 
   /**
    * Add a attribute
@@ -41,10 +41,15 @@ export interface MemberInfo extends Design {
   /**
    * Find attribute using filter function and filter criteria
    */
-  findOwnAttributes<A5 extends Attribute>(filter: Filter<Attribute>, filterCriteria?: any): Array<A5>;
+  findOwnAttributes<A5 extends Attribute>(filter: Filter<Attribute>, filterCriteria?: any): ReadonlyArray<A5>;
 
   /**
    * Return true if decorated any interceptor
    */
   hasOwnInterceptor(): boolean;
+
+  /**
+   * Returns all decorated attributes with interceptor
+   */
+  getOwnInterceptors(): ReadonlyArray<Attribute>;
 }

@@ -14,43 +14,27 @@ limitations under the License. */
 
 import { Attribute } from '../Interfaces/Attribute';
 import { Interceptor } from '../Interfaces/Interceptor';
-import { Interceptors } from '../Knowledge';
+import { CustomInterceptors } from '../Knowledge';
 
 /**
  * Set custom interceptor for giving type of attribute
  */
 export function SetCustomInterceptor(type: Function, custom: Function, meta?: unknown): void {
-  Interceptors.v1.set(type, [custom, meta]);
+  CustomInterceptors.v1.set(type, [custom, meta]);
 }
 
 /**
  * Get custom interceptor
  */
 export function GetCustomInterceptor(type: Function): [Function, unknown?] | undefined {
-  return Interceptors.v1.get(type);
+  return CustomInterceptors.v1.get(type);
 }
 
 /**
  * Remove custom interceptor
  */
 export function RemoveCustomInterceptor(type: Function): void {
-  Interceptors.v1.delete(type);
-}
-
-/**
- * Get interceptor for giving type of attribute
- */
-export function GetInterceptor(attribute: Attribute): Interceptor | undefined {
-  const found = Interceptors.v1.get(attribute.constructor);
-  // console.log('find', attribute.constructor, '===', interceptorType)
-  if (found) {
-    return Reflect.construct(found[0], [attribute, found[1]]);
-  }
-  const interceptor = attribute.interceptor;
-  if (interceptor && 'object' === typeof interceptor && 'function' === typeof interceptor.intercept) {
-    return interceptor;
-  }
-  return;
+  CustomInterceptors.v1.delete(type);
 }
 
 /**
@@ -63,5 +47,21 @@ export function HasInterceptor(attribute: Attribute): boolean {
     return true;
   }
   //console.log('has', attribute.constructor, '===',Reflect.has(attribute, 'interceptor'),'||', Knowledge.interceptors.has(attribute.constructor))
-  return Interceptors.v1.has(attribute.constructor);
+  return CustomInterceptors.v1.has(attribute.constructor);
+}
+
+/**
+ * Get interceptor for giving type of attribute
+ */
+export function GetInterceptor(attribute: Attribute): Interceptor | undefined {
+  const found = CustomInterceptors.v1.get(attribute.constructor);
+  if (found) {
+    // todo: cache interceptor
+    return Reflect.construct(found[0], [attribute, found[1]]);
+  }
+  const interceptor = attribute.interceptor;
+  if (interceptor && 'object' === typeof interceptor && 'function' === typeof interceptor.intercept) {
+    return interceptor;
+  }
+  return;
 }

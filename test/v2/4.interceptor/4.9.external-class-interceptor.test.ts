@@ -1,7 +1,7 @@
 import {
   Arguments,
   agent,
-  ClassInvocation,
+  TypeInvocation,
   decorateMember,
   SetCustomInterceptor,
   Reflector,
@@ -17,7 +17,7 @@ describe('4.9. External interceptor', () => {
     it('intercept class member constructor using external interceptor', () => {
       class RoundMethodInterceptor491 {
         constructor(round491: RoundMethod491) {}
-        intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
+        intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
           return target.invoke([Math.floor(params[0])], receiver);
         }
       }
@@ -50,7 +50,7 @@ describe('4.9. External interceptor', () => {
         get interceptor() {
           return this;
         }
-        intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
+        intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
           return target.invoke([Math.floor(params[0])], receiver);
         }
       }

@@ -1,4 +1,4 @@
-import { ParameterAttribute } from '../../../src/dependencies/core';
+import { ParameterAttribute, HasInterceptor, GetInterceptor } from '../../../src/dependencies/core';
 import {
   decorateParameter,
   ParameterInterceptor,
@@ -18,6 +18,7 @@ function optional(type: any) {
 
 class InjectAttribute implements ParameterAttribute, ParameterInterceptor {
   constructor(readonly type: any) {}
+
   get interceptor() {
     return this;
   }
@@ -37,6 +38,13 @@ class Base34 {
 @agent()
 class Controller34 extends Base34 {
   constructor(@inject p?: UserRepository) {
+    super();
+  }
+}
+
+@agent()
+class Controller35 extends Controller34 {
+  constructor(readonly firstName: string, readonly lastName: string) {
     super();
   }
 }
@@ -139,12 +147,46 @@ describe('3.6. Get parameter attributes', () => {
       expect(property.parameter(0).findOwnAttributes(InstanceOf, OptionalAttribute).length).toBe(0);
       expect(property.parameter(1).findOwnAttributes(InstanceOf, OptionalAttribute).length).toBe(1);
     });
+
+    it('get parameter attribute', () => {
+      const attributes = Reflector(Controller35).parameter(0).getOwnAttributes();
+      expect(attributes.length).toBe(0);
+    });
+
+    it('find parameter attribute with interceptor', () => {
+      const attributes = Reflector(Controller34).parameter(0).findOwnAttributes(HasInterceptor);
+      expect(attributes.length).toBe(1);
+    });
+
+    it('find parameter attribute with interceptor', () => {
+      const attributes = Reflector(Controller34)
+        .parameter(0)
+        .findOwnAttributes((a) => GetInterceptor(a) != null);
+      expect(attributes.length).toBe(1);
+    });
+
+    it('find parameter attribute', () => {
+      const attributes = Reflector(Controller35).parameter(0).findOwnAttributes(HasInterceptor);
+      expect(attributes.length).toBe(0);
+    });
+
+    it('find parameter attribute', () => {
+      const attributes = Reflector(Controller35)
+        .parameter(0)
+        .findOwnAttributes((a) => GetInterceptor(a) != null);
+      expect(attributes.length).toBe(0);
+    });
   });
 
   describe('# should not able to', () => {
     it('get non-annotated parameter', () => {
       const property = Reflector(UserController34).property('listAllUser');
       expect(property.getParameter(0)).toBeUndefined();
+    });
+
+    it('get non-annotated parameter', () => {
+      const results = Reflector(Base34).findOwnAttributes(HasInterceptor);
+      expect(results.length).toBe(0);
     });
   });
 });

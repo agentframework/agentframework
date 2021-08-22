@@ -61,6 +61,16 @@ class UserController34 extends Controller34 {
   updateUser(@decorateParameter({ role: 'user' }) user: string) {}
 
   deprecatedMethod() {}
+
+  @decorateMember({
+    role: 'user',
+    interceptor: {
+      intercept(target: Invocation, params: Arguments, receiver: any): any {
+        return target.invoke(params, receiver);
+      },
+    },
+  })
+  notMethod() {}
 }
 
 describe('3.4. Get class method attributes', () => {
@@ -128,6 +138,12 @@ describe('3.4. Get class method attributes', () => {
     it('get non-annotated property', () => {
       const property = Reflector(UserController34).getProperty('deprecatedMethod');
       expect(property).toBeUndefined();
+    });
+
+    it('get non-match property', () => {
+      const property = Reflector(UserController34).property('notMethod');
+      const attributes = property.findOwnAttributes((a) => a instanceof MethodAttribute);
+      expect(attributes.length).toBe(0);
     });
   });
 });

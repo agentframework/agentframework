@@ -23,7 +23,7 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 :zap: **Fast:** Use CodeGen to minimize overheads. Faster than es6 Proxy.
 
-:dart: **Efficient:** Well-designed and crafted api only has **1023 SLOC** and **5kb** after minzipped.
+:dart: **Efficient:** Well-designed and crafted api only has **1087 SLOC** and **5kb** after minzipped.
 
 :recycle: **Clean:** No prototype pollution. No polyfill. No nodejs/npm dependencies.
 
@@ -31,7 +31,7 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 | Date       | Version                                          | Status      |
 | ---------- | ------------------------------------------------ | ----------- |
-| 2021-08-15 | [2.0.0-rc.20210815](doc/changelogs/CHANGELOG_2.0.x.md) | Latest      |
+| 2021-08-22 | [2.0.0-rc.20210815](doc/changelogs/CHANGELOG_2.0.x.md) | Latest      |
 | 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)       | Stable      |
 | 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)      | Maintenance |
 | 2017-06-30 | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md)      | EOL |
