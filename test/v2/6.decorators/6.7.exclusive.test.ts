@@ -1,6 +1,6 @@
 import { exclusive } from '../../../src/dependencies/core';
 
-describe('6.7. @extensible decorator', () => {
+describe('6.7. @exclusive decorator', () => {
   describe('# should able to', () => {
     it('create extensible class 1', () => {
       @exclusive()

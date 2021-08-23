@@ -27,11 +27,12 @@ export class GetterSetterInvocation implements PropertyInvocation {
   invoke(params: Arguments, receiver: any): any {
     const key = this.design.key;
 
+    // this is setter
+    if (receiver == null) {
+      throw new AgentFrameworkError(`InvalidReceiver`);
+    }
+
     if (params.length) {
-      // this is setter
-      if (receiver == null) {
-        throw new AgentFrameworkError(`InvalidReceiver`);
-      }
       // how to know the value of a field before you create that class
       // return the value from prototype is a good choose? NO, it may cause infinite loops
       // note: GetterSetterInvocation is shared across all instance of same type

@@ -1,4 +1,4 @@
-// import { attribute } from '../../../src/dependencies/core';
+// import { attribute } from '../../../../release';
 //
 // describe('6.6. @attribute decorator', () => {
 //   describe('# should able to', () => {

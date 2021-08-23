@@ -68,7 +68,7 @@ describe('4.1. Class interceptor', () => {
       expect(instance.a).toBe(3.5);
     });
 
-    it('intercept class constructor and base', () => {
+    it('intercept class constructor from base to top', () => {
       const seq: string[] = [];
 
       @decorateClass({
@@ -77,6 +77,16 @@ describe('4.1. Class interceptor', () => {
             seq.push('beforeBase414');
             const result = target.invoke(params, receiver);
             seq.push('afterBase414');
+            return result;
+          },
+        },
+      })
+      @decorateClass({
+        interceptor: {
+          intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+            seq.push('beforeBase414Down');
+            const result = target.invoke(params, receiver);
+            seq.push('afterBase414Down');
             return result;
           },
         },
@@ -118,18 +128,34 @@ describe('4.1. Class interceptor', () => {
         }
       }
 
+      Reflector(Class414).addAttribute({
+        interceptor: {
+          intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+            seq.push('lastBeforeClass414');
+            const result = target.invoke(params, receiver);
+            seq.push('lastAfterClass414');
+            return result;
+          },
+        },
+      });
+
       const instance = new Class414(3.44234);
       expect(instance).toBeInstanceOf(Class414);
       expect(instance.a).toBe(3.44234);
       expect(instance.Method414()).toBe('Class414');
+
       expect(seq).toEqual([
+        'lastBeforeClass414',
         'beforeClass414',
         'beforeBase414',
+        'beforeBase414Down',
         'Class414-1',
         'Base414',
         'Class414-2',
+        'afterBase414Down',
         'afterBase414',
         'afterClass414',
+        'lastAfterClass414',
       ]);
     });
 
@@ -225,14 +251,71 @@ describe('4.1. Class interceptor', () => {
       // console.log('ty', );
       // console.log('seq', seq, Class415);
 
-      expect(Reflector(End415).getOwnAttributes()).toEqual([])
-      expect(Reflector(End415).static.getOwnAttributes()).toEqual([])
+      expect(Reflector(End415).getOwnAttributes()).toEqual([]);
+      expect(Reflector(End415).static.getOwnAttributes()).toEqual([]);
       expect(seq).toEqual(['downAgentBeforeClass415', 'downAgentAfterClass415']);
 
       // const instance = new Class415(3.44234);
       // expect(instance).toBeInstanceOf(Class415);
       // expect(instance.a).toBe(3.44234);
       // expect(instance.Method414()).toBe('Class414');
+    });
+
+    it('execute interceptor from to to down', () => {
+      const seq: string[] = [];
+
+      @agent()
+      class Class416 {
+        @decorateMember({
+          interceptor: {
+            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+              seq.push('beforeMethod416Up');
+              const result = target.invoke(params, receiver);
+              seq.push('afterMethod416Up');
+              return result;
+            },
+          },
+        })
+        @decorateMember({
+          interceptor: {
+            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+              seq.push('beforeMethod416Middle');
+              const result = target.invoke(params, receiver);
+              seq.push('afterMethod416Middle');
+              return result;
+            },
+          },
+        })
+        @decorateMember({
+          interceptor: {
+            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+              seq.push('beforeMethod416Down');
+              const result = target.invoke(params, receiver);
+              seq.push('afterMethod416Down');
+              return result;
+            },
+          },
+        })
+        Method416() {
+          seq.push('Method416');
+        }
+      }
+
+      const cls = new Class416();
+      seq.push('Method416() start');
+      cls.Method416();
+      seq.push('Method416() end');
+      expect(seq).toEqual([
+        'Method416() start',
+        'beforeMethod416Up',
+        'beforeMethod416Middle',
+        'beforeMethod416Down',
+        'Method416',
+        'afterMethod416Down',
+        'afterMethod416Middle',
+        'afterMethod416Up',
+        'Method416() end',
+      ]);
     });
   });
 });

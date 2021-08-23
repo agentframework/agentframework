@@ -1,4 +1,4 @@
-import { Agent, Arguments, Invocation, Reflector, agent } from '../../../src/dependencies/core';
+import { Agent, Arguments, Invocation, Reflector, agent } from '../../../../release';
 
 describe('7.7. Agent', () => {
   describe('# should able to', () => {

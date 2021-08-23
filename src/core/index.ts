@@ -71,7 +71,9 @@ export { Agent } from './Core/Agent/Agent';
 export { agent } from './Core/Decorators/agent';
 export { singleton } from './Core/Decorators/DependencyInjection/singleton';
 export { transit } from './Core/Decorators/DependencyInjection/transit';
-export { IsAgent, GetAgentType } from './Core/Helpers/AgentHelper';
+export { CreateAgent } from './Core/Agent/CreateAgent';
+export { IsAgent } from './Core/Helpers/AgentHelper';
+export { GetAgentType } from './Core/Helpers/AgentHelper';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Custom Interceptor API
@@ -87,16 +89,9 @@ export { Initializer } from './Core/Decorators/Initializable/Symbols';
 export { InitializerHandler, StaticInitializerHandler } from './Core/Decorators/Initializable/Symbols';
 
 /*********************************************************************
- *    (Stability: 2 - Stable): TSLIB Re-work
- *********************************************************************/
-export { __agent, __decorate, __param } from './Core/Helpers/DecoratorHelper';
-export { __metadata } from './Core/Wisdom/Wisdom';
-
-/*********************************************************************
  *   (Stability: 1 - Experimental): Custom Agent API
  *********************************************************************/
 export { AgentAttribute } from './Core/Agent/AgentAttribute';
-export { CreateAgent } from './Core/Agent/CreateAgent';
 export { GetType } from './Core/Helpers/AgentHelper';
 
 /*********************************************************************
@@ -110,7 +105,17 @@ export { remember } from './Core/Decorators/Remember/remember';
 export { exclusive } from './Core/Decorators/Exclusive/exclusive';
 
 /*********************************************************************
- *   3.0: More Metadata API
+ *    (Stability: 1 - Experimental): TSLIB Re-work
+ *********************************************************************/
+export { __agent, __decorate, __param } from './Core/Helpers/DecoratorHelper';
+export { __metadata } from './Core/Wisdom/Wisdom';
+
+/*************************************
+ *   AgentFramework 2 end
+ *************************************/
+
+/*********************************************************************
+ *   v2.1: More Metadata API
  *********************************************************************/
 // export { Decorator, ClassDecorator, PropertyDecorator, ParameterDecorator } from './Core/Decorator/decorators';
 // export { NotImplementedError } from './Core/Error/NotImplementedError';

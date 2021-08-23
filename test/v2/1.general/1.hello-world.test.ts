@@ -1,5 +1,4 @@
-import { agent, transit, InMemoryDomain } from '../../../src/dependencies/domain';
-import { CreateAgent } from '../../../src/dependencies/core';
+import { agent, transit, CreateAgent } from '../../../src/dependencies/core';
 
 describe('Hello world!', () => {
   describe('# should able to', () => {
@@ -19,25 +18,6 @@ describe('Hello world!', () => {
       }
 
       const project = new ProjectA();
-
-      expect(project).toBeInstanceOf(ProjectA);
-      expect(project.component.name).toBe('Agent Framework');
-    });
-
-    it('run homepage example using domain api', () => {
-      class ComponentA {
-        name = 'Agent Framework';
-      }
-
-      class ProjectA {
-        // @transit decorator creates a new instance of ComponentA
-        // and assign to component field
-        @transit()
-        readonly component!: ComponentA;
-      }
-
-      const domain = new InMemoryDomain();
-      const project = domain.construct(ProjectA);
 
       expect(project).toBeInstanceOf(ProjectA);
       expect(project.component.name).toBe('Agent Framework');
