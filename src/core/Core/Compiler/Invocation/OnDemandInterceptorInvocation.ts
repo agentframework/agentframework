@@ -46,7 +46,7 @@ export class OnDemandInterceptorInvocation<T extends Design = Design> implements
     const result = this.next.invoke(params, receiver);
     // need after next.invoke()
     // remove this invocation from chain
-    if (this.next.constructor == this.constructor) {
+    if (this.next.constructor === this.constructor) {
       const desc = Reflect.getOwnPropertyDescriptor(this.next, 'invoke');
       const value = desc ? desc.value : this.next.invoke.bind(this.next);
       define(this, 'invoke', { value });

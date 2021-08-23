@@ -15,6 +15,7 @@ limitations under the License. */
 import { AgentAttribute, Arguments, ClassInterceptor, TypeInvocation } from '../../../dependencies/core';
 import { RememberSingletonAgent } from '../Helpers/RememberSingletonAgent';
 import { GetSingletonAgent } from '../Helpers/GetSingletonAgent';
+import { DomainLike } from '../DomainLike';
 // import { RememberAgentType } from '../../../core/Core/Helpers/AgentHelper';
 // import { DomainLike } from '../DomainLike';
 // import { IsDomainType } from '../Helpers/IsDomain';
@@ -23,9 +24,9 @@ import { GetSingletonAgent } from '../Helpers/GetSingletonAgent';
 // import { OnDemandClassConstructor } from './DomainAgentConstructor';
 
 export class DomainAgentAttribute extends AgentAttribute implements ClassInterceptor {
-  // constructor(private readonly domain: DomainLike) {
-  //   super();
-  // }
+  constructor(readonly domain: DomainLike) {
+    super();
+  }
 
   // get name() {
   //   // the name must be a valid class name.

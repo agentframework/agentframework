@@ -35,11 +35,11 @@ export class ChainFactory {
     return target;
   }
 
-  static chainInterceptor<T extends MemberInfo>(target: Invocation<T>, attribute: Attribute) {
+  static addInterceptor<T extends MemberInfo>(target: Invocation<T>, attribute: Attribute) {
     return new OnDemandInterceptorInvocation<T>(target, attribute);
   }
 
-  static chainParameterInterceptor<T extends PropertyInfo>(target: Invocation<T>) {
+  static addParameterInterceptor<T extends PropertyInfo>(target: Invocation<T>) {
     return new InterceptorInvocation<T>(target, new OnDemandParameterInterceptor(target.design));
   }
 }

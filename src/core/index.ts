@@ -14,26 +14,21 @@ limitations under the License. */
 
 'use strict';
 
-/*************************************
- *   START CORE
- *************************************/
-
-/*************************************
- *   Common
- *************************************/
-
+/*********************************************************************
+ *   (Stability: 2 - Stable) Error
+ *********************************************************************/
 export { AgentFrameworkError } from './Core/AgentFrameworkError';
+
+/*********************************************************************
+ *   (Stability: 2 - Stable) Metadata Interface
+ *********************************************************************/
 export { Arguments } from './Core/Interfaces/Arguments';
 export { Class } from './Core/Class';
-
-/*************************************
- *   Metadata Interface
- *************************************/
+export { Design } from './Core/Interfaces/Design';
 export { MemberInfo } from './Core/Interfaces/MemberInfo';
 export { PropertyInfo } from './Core/Interfaces/PropertyInfo';
 export { TypeInfo } from './Core/Interfaces/TypeInfo';
 export { ParameterInfo } from './Core/Interfaces/ParameterInfo';
-export { Filter } from './Core/Interfaces/Filter';
 
 export { Invocation } from './Core/Interfaces/Invocation';
 export { Interceptor } from './Core/Interfaces/Interceptor';
@@ -51,11 +46,12 @@ export { PropertyInvocation } from './Core/Interfaces/TypeInvocations';
 export { PropertyInterceptor } from './Core/Interfaces/TypeInterceptors';
 export { PropertyAttribute } from './Core/Interfaces/TypeAttributes';
 
-/*************************************
- *   Metadata API
- *************************************/
+export { Filter } from './Core/Interfaces/Filter';
 export { MemberKinds } from './Core/Interfaces/MemberKinds';
 
+/*********************************************************************
+ *   (Stability: 2 - Stable) Metadata API
+ *********************************************************************/
 export { decorate } from './Core/Decorator/decorate';
 export { decorateClass } from './Core/Decorator/decorateClass';
 export { decorateAgent } from './Core/Decorator/decorateAgent';
@@ -64,69 +60,58 @@ export { decorateParameter } from './Core/Decorator/decorateParameter';
 
 export { Reflector } from './Core/Reflection/Reflector';
 
-/*************************************
- *   Agent API
- *************************************/
-export { IsAgent, GetAgentType, GetType } from './Core/Helpers/AgentHelper';
-
-/*************************************
- *   (Advanced): Create Agent API
- *************************************/
+/*********************************************************************
+ *   (Stability: 2 - Stable): Global Agent
+ *********************************************************************/
 export { Agent } from './Core/Agent/Agent';
-export { AgentAttribute } from './Core/Agent/AgentAttribute';
-export { CreateAgent } from './Core/Agent/CreateAgent';
 
-/*************************************
- *   (Advanced): Custom Interceptor API
- *************************************/
+/*********************************************************************
+ *   (Stability: 2 - Stable): Class Decorator: @agent()
+ *********************************************************************/
+export { agent } from './Core/Decorators/agent';
+export { singleton } from './Core/Decorators/DependencyInjection/singleton';
+export { transit } from './Core/Decorators/DependencyInjection/transit';
+export { IsAgent, GetAgentType } from './Core/Helpers/AgentHelper';
+
+/*********************************************************************
+ *   (Stability: 2 - Stable): Custom Interceptor API
+ *********************************************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from './Core/Helpers/CustomInterceptor';
 export { HasInterceptor, GetInterceptor } from './Core/Helpers/CustomInterceptor';
 
-/*************************************
- *   Getter Decorator: @remember()
- *************************************/
-export { remember } from './Core/Decorators/Remember/remember';
-
-/*************************************
- *   Class Decorator: @initializable()
- *************************************/
+/*********************************************************************
+ *   (Stability: 2 - Stable): Class Decorator: @initializable()
+ *********************************************************************/
 export { initializable } from './Core/Decorators/Initializable/initializable';
 export { Initializer } from './Core/Decorators/Initializable/Symbols';
 export { InitializerHandler, StaticInitializerHandler } from './Core/Decorators/Initializable/Symbols';
 
-/*************************************
- *   Class Decorator: @exclusive()
- *************************************/
-export { exclusive } from './Core/Decorators/Exclusive/exclusive';
-
-/*************************************
- *   Class Decorator: @agent()
- *************************************/
-export { agent } from './Core/Decorators/agent';
-export { singleton } from './Core/Decorators/DependencyInjection/singleton';
-export { transit } from './Core/Decorators/DependencyInjection/transit';
-
-/************************************
- *    TSLIB Re-work
- ************************************/
+/*********************************************************************
+ *    (Stability: 2 - Stable): TSLIB Re-work
+ *********************************************************************/
 export { __agent, __decorate, __param } from './Core/Helpers/DecoratorHelper';
 export { __metadata } from './Core/Wisdom/Wisdom';
 
-/*************************************
- *   Internal API: Attribute Helper
- *************************************/
-// export { CanDecorate } from  './Core/Helpers/AddAttribute';
-// export {
-//   AddAttributeToClass,
-//   AddAttributeToConstructorParameter,
-//   AddAttributeToMethodParameter,
-//   AddAttributeToMember,
-// } from './Core/Helpers/AddAttribute';
+/*********************************************************************
+ *   (Stability: 1 - Experimental): Custom Agent API
+ *********************************************************************/
+export { AgentAttribute } from './Core/Agent/AgentAttribute';
+export { CreateAgent } from './Core/Agent/CreateAgent';
+export { GetType } from './Core/Helpers/AgentHelper';
 
-/*************************************
- *   END CORE
- *************************************/
+/*********************************************************************
+ *   (Stability: 1 - Experimental): Getter Decorator: @remember()
+ *********************************************************************/
+export { remember } from './Core/Decorators/Remember/remember';
 
+/*********************************************************************
+ *   (Stability: 1 - Experimental): Class Decorator: @exclusive()
+ *********************************************************************/
+export { exclusive } from './Core/Decorators/Exclusive/exclusive';
+
+/*********************************************************************
+ *   3.0: More Metadata API
+ *********************************************************************/
 // export { Decorator, ClassDecorator, PropertyDecorator, ParameterDecorator } from './Core/Decorator/decorators';
 // export { NotImplementedError } from './Core/Error/NotImplementedError';
 // export { NotSupportedError } from './Core/Error/NotSupportedError';

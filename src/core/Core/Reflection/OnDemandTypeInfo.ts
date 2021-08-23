@@ -144,6 +144,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   /**
    * Returns prototypes for this type
    *
+   * @returns [this, this.prototype, prototype.prototype, Function.prototype]
    * @cache
    */
   @remember()

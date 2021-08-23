@@ -18,8 +18,5 @@ import { CreateAgent } from '../Agent/CreateAgent';
  * Define an agent
  */
 export function agent(): ClassDecorator {
-  return <F extends Function>(target: F): F => {
-    // NOTE: Always create a new agent
-    return CreateAgent(target);
-  };
+  return CreateAgent;
 }

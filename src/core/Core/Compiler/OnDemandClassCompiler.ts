@@ -128,7 +128,7 @@ class OnDemandClassCompiler {
           const origin = new MethodInvocation(property, method);
           const attributes = OnDemandClassCompiler.findInterceptors(property);
           const chain = ChainFactory.chainInterceptors(origin, attributes);
-          const v1 = ChainFactory.chainParameterInterceptor(chain);
+          const v1 = ChainFactory.addParameterInterceptor(chain);
           propertyDescriptor.value = function (this: any) {
             return v1.invoke(arguments, this);
           };

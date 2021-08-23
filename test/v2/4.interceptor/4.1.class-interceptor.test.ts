@@ -220,11 +220,13 @@ describe('4.1. Class interceptor', () => {
       @agent()
       class End415 extends Class415 {}
 
-      console.log('class', Reflector(Class415).getOwnAttributes());
-      console.log('agent', Reflector(Class415).static.getOwnAttributes());
-      console.log('ty', Reflector(End415).static.getOwnAttributes());
+      // console.log('class', Reflector(Class415).getOwnAttributes());
+      // console.log('agent', Reflector(Class415).static.getOwnAttributes());
+      // console.log('ty', );
       // console.log('seq', seq, Class415);
 
+      expect(Reflector(End415).getOwnAttributes()).toEqual([])
+      expect(Reflector(End415).static.getOwnAttributes()).toEqual([])
       expect(seq).toEqual(['downAgentBeforeClass415', 'downAgentAfterClass415']);
 
       // const instance = new Class415(3.44234);

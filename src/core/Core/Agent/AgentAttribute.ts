@@ -122,11 +122,9 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
       //   }
       // }
 
-      if (interceptors.length) {
-        for (const list of interceptors) {
-          for (const property of list) {
-            properties.set(property.key, property);
-          }
+      for (const list of interceptors) {
+        for (const property of list) {
+          properties.set(property.key, property);
         }
       }
 

@@ -48,11 +48,11 @@ export function CreateAgent<T extends Function>(type: T, strategy?: ClassAttribu
 
   // create a new type from this invocation, initialize the agent using reflection info
   /* eslint-disable-next-line prefer-rest-params */
-  const newAgent = chain.invoke<T>([receiver.name, attribute, Proxy], receiver);
+  const newReceiver = chain.invoke<T>([receiver.name, attribute, Proxy], receiver);
 
   // register new agent map to old type
   // key: Agent proxy, value: origin type
-  RememberAgent(newAgent, receiver);
+  RememberAgent(receiver, newReceiver);
 
-  return newAgent;
+  return newReceiver;
 }

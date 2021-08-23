@@ -21,7 +21,7 @@ import { OnDemandTypeInfo } from '../../Reflection/OnDemandTypeInfo';
  * @ignore
  * @hidden
  */
-export class ClassInvocation implements TypeInvocation {
+export class ConstructorInvocation implements TypeInvocation {
   constructor(readonly target: Function, readonly design: TypeInfo = OnDemandTypeInfo.find(target.prototype)) {}
 
   invoke(params: Arguments, receiver: Function): any {

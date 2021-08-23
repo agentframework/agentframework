@@ -13,18 +13,15 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Arguments, TypeInvocation } from '../../../dependencies/core';
-import { Domain } from '../Domain';
+import { DomainLike } from '../DomainLike';
 import { DomainAgentAttribute } from './DomainAgentAttribute';
-// import { RememberAgentType } from '../../../core/Core/Helpers/AgentHelper';
-// import { DomainLike } from '../DomainLike';
-// import { IsDomainType } from '../Helpers/IsDomain';
-// import { HasPrototype } from '../Helpers/HasPrototype';
-// import { Domain } from '../Domain';
-// import { OnDemandClassConstructor } from './DomainAgentConstructor';
 
+/**
+ * Register agent to domain
+ */
 export class RegisterDomainAgentAttribute extends DomainAgentAttribute {
-  constructor(readonly domain: Domain) {
-    super();
+  constructor(domain: DomainLike) {
+    super(domain);
   }
 
   intercept(target: TypeInvocation, params: Arguments, receiver: any): any {

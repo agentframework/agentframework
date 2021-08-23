@@ -1,6 +1,6 @@
 import { Attribute } from '../Interfaces/Attribute';
 import { AgentInvocation } from './Invocation/AgentInvocation';
-import { ClassInvocation } from './Invocation/ClassInvocation';
+import { ConstructorInvocation } from './Invocation/ConstructorInvocation';
 import { ChainFactory } from './ChainFactory';
 import { Agent } from '../Agent/Agent';
 import { Reflector } from '../Reflection/Reflector';
@@ -25,16 +25,17 @@ export class InvocationFactory {
 
     // todo: cache the chain for this target
     const interceptors = design.getOwnInterceptors();
+
     let chain = ChainFactory.chainInterceptors(target, interceptors);
 
-    chain = ChainFactory.chainInterceptor(chain, attribute);
+    chain = ChainFactory.addInterceptor(chain, attribute);
 
     return ChainFactory.chainInterceptors(chain, this.agent.getOwnInterceptors());
   }
 
   // this function output is been cached by caller
   static createClassInvocation(receiver: Function): TypeInvocation {
-    const target = new ClassInvocation(receiver);
+    const target = new ConstructorInvocation(receiver);
     const design = target.design;
 
     // find all attribute from prototype
@@ -51,7 +52,7 @@ export class InvocationFactory {
     // create interceptor
     let chain = ChainFactory.chainInterceptors(target, interceptors);
 
-    chain = ChainFactory.chainParameterInterceptor(chain);
+    chain = ChainFactory.addParameterInterceptor(chain);
 
     return ChainFactory.chainInterceptors(chain, this.class.getOwnInterceptors());
   }
