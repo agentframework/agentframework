@@ -100,8 +100,8 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
       // upgrade properties
       const interceptors = invocation.design
         .findTypes()
-        .map((t) => t.findOwnProperties((p) => p.hasInterceptor()))
-        .reverse();
+        .map((t) => t.findOwnProperties((p) => p.hasInterceptor()));
+      // TODO: reverse()
       const properties = new Map<PropertyKey, PropertyInfo>();
 
       // NOTE: Static Constructor support, deep first

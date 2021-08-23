@@ -42,8 +42,8 @@ export class InvocationFactory {
     // const interceptors = property.findOwnAttributes(HasInterceptor);
     const interceptorArrays = design
       .findTypes()
-      .map((type) => type.getOwnInterceptors())
-      .reverse();
+      .map((type) => type.getOwnInterceptors());
+    // TODO: reverse()
     // .findTypes() => end, middle, base, object
     // .findTypes().reverse() => object, base, middle, end
     const emptyArray: Array<Attribute> = [];

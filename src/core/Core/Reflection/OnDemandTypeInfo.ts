@@ -144,7 +144,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   /**
    * Returns prototypes for this type
    *
-   * @returns [this, this.prototype, prototype.prototype, Function.prototype]
+   * @returns [base, extended, this]
    * @cache
    */
   @remember()
@@ -156,7 +156,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     let current: TypeInfo | null | undefined = this;
     // console.log();
     do {
-      prototypes.push(current);
+      prototypes.unshift(current);
       // console.log(this.target, '=', current.base);
       current = current.base;
     } while (current);
