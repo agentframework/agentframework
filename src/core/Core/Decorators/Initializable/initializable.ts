@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Initializer } from './Symbols';
-import { AddAttributeToClass } from '../../Helpers/AddAttribute';
+import { AddAttributeToClassReverse } from '../../Helpers/AddAttribute';
 import { InitializerAttribute } from './InitializerAttribute';
 import { StaticInitializerAttribute } from './StaticInitializerAttribute';
 
@@ -21,7 +21,7 @@ export function initializable(): ClassDecorator {
   return (type: Function): void => {
     // NOTE: Design pattern: Factory method
     // InitializerAttribute must before InitializerAttribute
-    AddAttributeToClass(new InitializerAttribute(Initializer), type.prototype);
-    AddAttributeToClass(new StaticInitializerAttribute(Initializer), type.prototype);
+    AddAttributeToClassReverse(new InitializerAttribute(Initializer), type.prototype);
+    AddAttributeToClassReverse(new StaticInitializerAttribute(Initializer), type.prototype);
   };
 }

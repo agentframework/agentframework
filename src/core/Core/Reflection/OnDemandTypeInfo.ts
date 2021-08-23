@@ -19,10 +19,10 @@ import { TypeInfo } from '../Interfaces/TypeInfo';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Filter } from '../Interfaces/Filter';
 import { Attribute } from '../Interfaces/Attribute';
-import { AddAttributeToClass } from '../Helpers/AddAttribute';
 import { remember } from '../Decorators/Remember/remember';
 import { Property } from '../Wisdom/Annotation';
 import { GetType, IsAgent } from '../Helpers/AgentHelper';
+import { AddAttributeToClass } from '../Helpers/AddAttribute';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}

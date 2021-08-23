@@ -18,13 +18,56 @@ import { FindProperty, FindParameter } from '../Wisdom/Annotator';
 /**
  * Reflector(target).addAttribute(attribute);
  */
-export function AddAttributeToClass(attribute: Attribute, target: object | Function): void {
-  AddAttributeToMember(attribute, target, 'constructor');
+export function AddAttributeToClassReverse(attribute: Attribute, target: object | Function): void {
+  AddAttributeToMemberReverse(attribute, target, 'constructor');
 }
 
 /**
  * Reflector(target).parameter(parameterIndex).addAttribute(attribute);
  */
+export function AddAttributeToConstructorParameterReverse(
+  attribute: Attribute,
+  target: object | Function,
+  parameterIndex: number
+): void {
+  AddAttributeToMethodParameterReverse(attribute, target, 'constructor', parameterIndex);
+}
+
+/**
+ * Reflector(target).property(targetKey).parameter(descriptor).addAttribute(attribute);
+ */
+export function AddAttributeToMethodParameterReverse(
+  attribute: Attribute,
+  target: object | Function,
+  key: string | symbol,
+  parameterIndex: number,
+): void {
+  const soul = Wisdom.add(target);
+  const property = FindProperty(soul, target, key);
+  const parameter = FindParameter(property, parameterIndex);
+  parameter.attributes.unshift(attribute);
+}
+
+export function AddAttributeToClass(attribute: Attribute, target: object | Function): void {
+  AddAttributeToMember(attribute, target, 'constructor');
+}
+
+/**
+ * Reflector(target).property(property, descriptor).addAttribute(attribute);
+ */
+export function AddAttributeToMemberReverse(
+  attribute: Attribute,
+  target: object | Function,
+  key: string | symbol,
+  descriptor?: PropertyDescriptor
+): void {
+  // console.log();
+  // console.log('target', typeof target, target);
+  const soul = Wisdom.add(target);
+  const property = FindProperty(soul, target, key, descriptor);
+  property.attributes.unshift(attribute);
+}
+
 export function AddAttributeToConstructorParameter(
   attribute: Attribute,
   target: object | Function,
@@ -33,24 +76,18 @@ export function AddAttributeToConstructorParameter(
   AddAttributeToMethodParameter(attribute, target, 'constructor', parameterIndex);
 }
 
-/**
- * Reflector(target).property(targetKey).parameter(descriptor).addAttribute(attribute);
- */
 export function AddAttributeToMethodParameter(
   attribute: Attribute,
   target: object | Function,
   key: string | symbol,
-  parameterIndex: number
+  parameterIndex: number,
 ): void {
   const soul = Wisdom.add(target);
   const property = FindProperty(soul, target, key);
   const parameter = FindParameter(property, parameterIndex);
-  parameter.attributes.push(attribute);
+  parameter.attributes.unshift(attribute);
 }
 
-/**
- * Reflector(target).property(property, descriptor).addAttribute(attribute);
- */
 export function AddAttributeToMember(
   attribute: Attribute,
   target: object | Function,

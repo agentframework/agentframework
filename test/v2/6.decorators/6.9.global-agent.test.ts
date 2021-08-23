@@ -94,7 +94,7 @@ describe('6.9. Global Agent', () => {
       //   attrs.map((a) => a['id'])
       // );
 
-      expect(attrs.map((a) => a['id'])).toEqual([4, 3, 5, 6]);
+      expect(attrs.map((a) => a['id'])).toEqual([3, 4, 5, 6]);
 
       // console.log('seq', seq);
 
@@ -103,15 +103,15 @@ describe('6.9. Global Agent', () => {
         'beforeUpAgent',
         'beforeClassRandom691Down2',
         'beforeClassRandom691Down',
-        'beforeClassRandom691',
         'beforeClassRandom691B',
+        'beforeClassRandom691',
         'ClassRandom691',
-        'afterClassRandom691B',
         'afterClassRandom691',
+        'afterClassRandom691B',
         'afterClassRandom691Down',
         'afterClassRandom691Down2',
         'afterUpAgent',
-        'afterDownAgent',
+        'afterDownAgent'
       ]);
     });
 
