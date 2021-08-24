@@ -23,19 +23,19 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 :zap: **Fast:** Use CodeGen to minimize overheads. Faster than es6 Proxy.
 
-:dart: **Efficient:** Well-designed and crafted api only has **1087 SLOC** and **5kb** after minzipped.
+:dart: **Efficient:** Well-designed and crafted api only has **1161 SLOC** and **5.6kb** after minzipped.
 
-:recycle: **Clean:** No prototype pollution. No polyfill. No nodejs/npm dependencies.
+:recycle: **Clean:** Transparent dynamic proxy. No prototype pollution. No reflect-metadata or any npm dependencies.
 
 ## Changelog
 
-| Date       | Version                                          | Status      |
-| ---------- | ------------------------------------------------ | ----------- |
-| 2021-08-22 | [2.0.0-rc.20210815](doc/changelogs/CHANGELOG_2.0.x.md) | Latest      |
-| 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)       | Stable      |
-| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)      | Maintenance |
-| 2017-06-30 | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md)      | EOL |
-| 2016-11-03 | [0.2.28](doc/changelogs/CHANGELOG_0.2.x.md)      | EOL         |
+| Date       | Version                                                | Status      |
+| ---------- | ------------------------------------------------------ | ----------- |
+| 2021-08-24 | [2.0.0-rc.20210824](doc/changelogs/CHANGELOG_2.0.x.md) | RC          |
+| 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)             | Stable      |
+| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)            | Maintenance |
+| 2017-06-30 | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md)            | EOL         |
+| 2016-11-03 | [0.2.28](doc/changelogs/CHANGELOG_0.2.x.md)            | EOL         |
 
 ### Install
 
@@ -108,15 +108,15 @@ console.log('Is it create from the ProjectA class?', project instanceof ProjectA
 -   You want to remove duplicated code and keep project codebase small and clean.
 -   You need a powerful method to pre-process, post-process or modify system behaviors without touching existing code.
 
-
 ### Agentframework 2.x milestones
+
 -   [x] Breaking change: Remove `I` from interface name
 -   [x] Breaking change: Remove `Intializer`. Use `Interceptor` instead
 -   [x] MVP: Dependency injection/dependency lookup and `Domain` driven design support
 -   [x] MVP: Improve unit test coverage rate
--   [ ] COMPATIBILITY: Revise error types and message
--   [ ] COMPATIBILITY: Revise Domain interface
--   [ ] COMPATIBILITY: Revise embedded decorators
+-   [x] COMPATIBILITY: Revise error types and message
+-   [x] COMPATIBILITY: Revise Domain interface
+-   [x] COMPATIBILITY: Revise embedded decorators
 -   [ ] EPIC: Abstract data layer - mongodb 4.x
 -   [ ] EPIC: Cross architecture web application development (Server, Serverless)
 -   [ ] EPIC: Serverless support - AWS Lambda, Google Cloud Function, Azure Function, Alicloud Function Computing
@@ -153,7 +153,6 @@ console.log('Is it create from the ProjectA class?', project instanceof ProjectA
 -   [x] COMPATIBILITY: Revise Reflector Interface
 -   [x] COMPATIBILITY: Revise Agent Options
 -   [x] COMPATIBILITY: Revise Domain Interface (Domain is been completely moved to 2.0)
-
 
 ## License
 
