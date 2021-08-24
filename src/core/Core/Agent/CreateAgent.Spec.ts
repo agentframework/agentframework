@@ -1,5 +1,5 @@
 /* tslint:disable */
-import { decorateMember, agent, IsAgent, Interceptor, TypeInvocation, Arguments } from 'agentframework';
+import { decorateMember, agent, IsAgent, Interceptor, TypeInvocation, Arguments } from '../../../dependencies/core';
 import { CreateAgent } from './CreateAgent';
 import { TransitAttribute } from '../Decorators/DependencyInjection/TransitAttribute';
 
