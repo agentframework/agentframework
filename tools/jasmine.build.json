@@ -1,6 +1,0 @@
-{
-  "spec_dir": ".",
-  "spec_files": ["test/build/**/*.[Ss]pec.ts", "test/build/**/*.[Tt]est.ts"],
-  "stopSpecOnExpectationFailure": false,
-  "random": false
-}

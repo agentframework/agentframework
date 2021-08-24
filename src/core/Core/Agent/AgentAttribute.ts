@@ -46,8 +46,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     let newReceiver = Reflect.construct(compiler, [receiver, state]);
     RememberType(newReceiver, target.design.declaringType);
 
-    newReceiver = target.invoke<Function>(params, newReceiver);
-    state.receiver = newReceiver;
+    newReceiver = state.receiver = target.invoke<Function>(params, newReceiver);
 
     // for static decorators
     // const agentMeta = Wisdom.get(receiver);
@@ -89,12 +88,11 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
 
     // cache the constructor invocation
     // so do not support change annotation after first time created the type
-    const key = this.receiver || target;
 
     // console.log('this.a', this.agent === target);
     // console.log('target', target.name, '--->', this.agent.name);
 
-    let invocation = ClassInvocations.v1.get(key);
+    let invocation = ClassInvocations.v1.get(this.receiver);
     // console.log('☀️ ☀️ ☀️ 1', target.name, receiver.name);
 
     // analysis this object
@@ -102,7 +100,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
       // find interceptors from design attributes and create chain for them
       invocation = InvocationFactory.createClassInvocation(target);
 
-      ClassInvocations.v1.set(key, invocation);
+      ClassInvocations.v1.set(this.receiver, invocation);
 
       // upgrade properties
       const interceptors = invocation.design.findTypes().map((t) => t.findOwnProperties((p) => p.hasInterceptor()));

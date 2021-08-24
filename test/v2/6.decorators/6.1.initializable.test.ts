@@ -282,5 +282,16 @@ describe('6.1. @initializable decorator', () => {
         new App623();
       }).toThrowError('ConstructorReturnNonObject');
     });
+
+    it('create agent with invalid class initializer', () => {
+      @agent()
+      @initializable()
+      class App624 {
+        [Initializer] = 1;
+      }
+      expect(() => {
+        new App624();
+      }).toThrowError('InitializerIsNotFunction');
+    });
   });
 });

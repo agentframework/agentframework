@@ -10,16 +10,12 @@
   "description": "TypeScript that scales",
   "scripts": {
     "cov": "npm run test:coverage && npm run report",
-    "cov:build": "npm run test:coverage:build && npm run report",
     "dev": "tsmon tools/jasmine.ts --config=tools/jasmine.json",
-    "dev:build": "tsmon tools/jasmine.ts --config=tools/jasmine.build.json",
     "dev:spec": "tsmon tools/jasmine.ts --config=tools/jasmine.spec.json",
     "debug": "ndb tsmon tools/jasmine.ts --config=tools/jasmine.debug.json",
     "build": "tsc --noEmit",
     "test": "ts-node tools/jasmine.ts --config=tools/jasmine.json",
-    "test:build": "ts-node tools/jasmine.ts --config=tools/jasmine.build.json",
     "test:coverage": "nyc npm run test",
-    "test:coverage:build": "nyc npm run test:build",
     "report": "open coverage/lcov-report/index.html"
   },
   "repository": {

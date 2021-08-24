@@ -1,5 +1,4 @@
-import { InMemoryDomain, agent, transit } from '../../../src/dependencies/domain';
-import { CreateAgent, Reflector } from '../../../src/dependencies/core';
+import { CreateAgent, Reflector, agent, transit } from '../../../src/dependencies/core';
 
 describe('6.4. @transit decorator', () => {
   describe('# should able to', () => {
@@ -37,9 +36,9 @@ describe('6.4. @transit decorator', () => {
         readonly service2!: any;
       }
 
-      const domain = new InMemoryDomain();
 
-      const app = domain.construct(App642);
+      const App = CreateAgent(App642);
+      const app = new App();
 
       expect(app.service).toBeInstanceOf(Service642);
       expect(app.service2).toBeInstanceOf(Service642);

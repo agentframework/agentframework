@@ -1,5 +1,4 @@
-import { Design } from 'core/Core/Interfaces/Design';
-import { agent, Arguments, decorateMember, Invocation, remember } from '../../../src/dependencies/core';
+import { agent, Arguments, decorateMember, Invocation, remember, Design } from '../../../src/dependencies/core';
 
 describe('4.10. Empty interceptors', () => {
   describe('# should able to', () => {
