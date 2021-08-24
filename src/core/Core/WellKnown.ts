@@ -15,6 +15,10 @@ limitations under the License. */
 import { remember } from './Decorators/Remember/remember';
 import { TypeInvocation } from './Interfaces/TypeInvocations';
 
+export const CONSTRUCTOR = 'constructor';
+
+export const INVOKE = 'invoke';
+
 /**
  * Get original type of giving type
  */
@@ -49,23 +53,12 @@ export class CustomInterceptors {
 }
 
 /**
- * Get invocations of giving type
+ * Gets or sets invocations of giving type (to improve both `new Class()` perf and bootstrap perf)
  */
 export class ClassInvocations {
   @remember('ClassInvocations')
   static get v1() {
     return new WeakMap<Function, TypeInvocation>();
-  }
-}
-
-/**
- * Global Singleton instance
- */
-export class Singletons {
-  // key: class, value: singleton instance
-  @remember('Singletons')
-  static get v1() {
-    return new WeakMap<Function, object>();
   }
 }
 
@@ -77,5 +70,16 @@ export class Namespaces {
   @remember('Namespaces')
   static get v1() {
     return new Map<string, unknown>();
+  }
+}
+
+/**
+ * Global Singleton instance
+ */
+export class Singletons {
+  // key: class, value: singleton instance
+  @remember('Singletons')
+  static get v1() {
+    return new WeakMap<Function | object, Function | object>();
   }
 }

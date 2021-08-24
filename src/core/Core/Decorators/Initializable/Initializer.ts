@@ -15,8 +15,8 @@ limitations under the License. */
 import { Arguments } from '../../Interfaces/Arguments';
 import { TypeInvocation } from '../../Interfaces/TypeInvocations';
 
-export type InitializerHandler = (target: TypeInvocation, params: Arguments, receiver: any) => void;
+export type InitializerHandler = () => void;
 
-export type StaticInitializerHandler = (target: TypeInvocation, params: Arguments, receiver: any) => object;
+export type StaticInitializerHandler = (target: TypeInvocation, params: Arguments, receiver: Function) => object;
 
 export const Initializer: unique symbol = Symbol.for('AgentFramework.Initializer');

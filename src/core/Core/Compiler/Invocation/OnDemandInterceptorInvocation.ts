@@ -19,6 +19,7 @@ import { Attribute } from '../../Interfaces/Attribute';
 import { remember } from '../../Decorators/Remember/remember';
 import { GetInterceptor } from '../../Helpers/CustomInterceptor';
 import { define } from '../../Helpers/Prototype';
+import { INVOKE } from '../../WellKnown';
 
 /**
  * invocation wrapper for interceptor
@@ -47,9 +48,9 @@ export class OnDemandInterceptorInvocation<T extends Design = Design> implements
     // need after next.invoke()
     // remove this invocation from chain
     if (this.next.constructor === this.constructor) {
-      const desc = Reflect.getOwnPropertyDescriptor(this.next, 'invoke');
+      const desc = Reflect.getOwnPropertyDescriptor(this.next, INVOKE);
       const value = desc ? desc.value : this.next.invoke.bind(this.next);
-      define(this, 'invoke', { value });
+      define(this, INVOKE, { value });
     }
     return result;
   }

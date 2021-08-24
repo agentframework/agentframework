@@ -15,6 +15,7 @@ limitations under the License. */
 import { TypeInfo } from '../Interfaces/TypeInfo';
 import { OnDemandTypeInfo } from './OnDemandTypeInfo';
 import { AgentFrameworkError } from '../AgentFrameworkError';
+import { CONSTRUCTOR } from '../WellKnown';
 
 /**
  * Reflector is the interface to access type data from class constructor or class prototype
@@ -39,7 +40,7 @@ export function Reflector(target: Function | object): TypeInfo {
   } else if (typeof target === 'object') {
     // if a object hasOwnPropertyDescriptor('constructor') then this object is a prototype
     // instance don't have own constructor property
-    if (Reflect.getOwnPropertyDescriptor(target, 'constructor')) {
+    if (Reflect.getOwnPropertyDescriptor(target, CONSTRUCTOR)) {
       return OnDemandTypeInfo.find(<object>target);
     } else {
       // object without own property constructor consider an instance

@@ -14,12 +14,13 @@ limitations under the License. */
 import { Attribute } from '../Interfaces/Attribute';
 import { Wisdom } from '../Wisdom/Wisdom';
 import { FindProperty, FindParameter } from '../Wisdom/Annotator';
+import { CONSTRUCTOR } from '../WellKnown';
 
 /**
  * Reflector(target).addAttribute(attribute);
  */
 export function AddAttributeToClass(attribute: Attribute, target: object | Function): void {
-  AddAttributeToMember(attribute, target, 'constructor');
+  AddAttributeToMember(attribute, target, CONSTRUCTOR);
 }
 
 /**
@@ -30,7 +31,7 @@ export function AddAttributeToConstructorParameter(
   target: object | Function,
   parameterIndex: number
 ): void {
-  AddAttributeToMethodParameter(attribute, target, 'constructor', parameterIndex);
+  AddAttributeToMethodParameter(attribute, target, CONSTRUCTOR, parameterIndex);
 }
 
 /**

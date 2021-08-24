@@ -23,6 +23,7 @@ import { remember } from '../Decorators/Remember/remember';
 import { Property } from '../Wisdom/Annotation';
 import { GetType, IsAgent } from '../Helpers/AgentHelper';
 import { AddAttributeToClass } from '../Helpers/AddAttribute';
+import { CONSTRUCTOR } from '../WellKnown';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -91,7 +92,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   // only allow create using factory method
   // make type as a property called constructor
   private constructor(target: object | Function) {
-    super(target, 'constructor');
+    super(target, CONSTRUCTOR);
   }
 
   get static(): TypeInfo {
@@ -207,7 +208,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
       return false;
     }
     for (const key of Reflect.ownKeys(annotations)) {
-      if (key === 'constructor') {
+      if (key === CONSTRUCTOR) {
         continue;
       }
       return true;
@@ -225,7 +226,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
       return properties;
     }
     for (const key of <Array<string | symbol>>Reflect.ownKeys(annotations)) {
-      if (key === 'constructor') {
+      if (key === CONSTRUCTOR) {
         continue;
       }
       properties.push(this.property(key));
@@ -287,7 +288,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * @param filterCriteria
    * @returns {Map<TypeInfo, Array<PropertyInfo>>}
    */
-  findProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): Map<TypeInfo, ReadonlyArray<PropertyInfo>> {
+  findProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): ReadonlyMap<TypeInfo, ReadonlyArray<PropertyInfo>> {
     const layers = new Map<TypeInfo, ReadonlyArray<PropertyInfo>>();
     for (const type of this.types) {
       const found = type.findOwnProperties(filter, filterCriteria);

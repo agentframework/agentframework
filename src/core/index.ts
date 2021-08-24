@@ -85,8 +85,8 @@ export { HasInterceptor, GetInterceptor } from './Core/Helpers/CustomInterceptor
  *   (Stability: 2 - Stable): Class Decorator: @initializable()
  *********************************************************************/
 export { initializable } from './Core/Decorators/Initializable/initializable';
-export { Initializer } from './Core/Decorators/Initializable/Symbols';
-export { InitializerHandler, StaticInitializerHandler } from './Core/Decorators/Initializable/Symbols';
+export { Initializer } from './Core/Decorators/Initializable/Initializer';
+export { InitializerHandler, StaticInitializerHandler } from './Core/Decorators/Initializable/Initializer';
 
 /*********************************************************************
  *   (Stability: 1 - Experimental): Custom Agent API

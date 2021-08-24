@@ -19,7 +19,7 @@ import { Wisdom } from '../../Wisdom/Wisdom';
 /**
  * only apply to getter
  */
-export function remember(key?: string) {
+export function remember(key?: string): MethodDecorator {
   return (target: object | Function, targetKey: string | symbol, descriptor: any): any => {
     return {
       get() {

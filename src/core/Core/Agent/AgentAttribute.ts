@@ -22,7 +22,7 @@ import { AgentFrameworkError } from '../AgentFrameworkError';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { RememberType } from '../Helpers/AgentHelper';
 import { InvocationFactory } from '../Compiler/InvocationFactory';
-import { ClassInvocations } from '../Knowledge';
+import { ClassInvocations } from '../WellKnown';
 // import { Wisdom } from '../Wisdom/Wisdom';
 
 /**

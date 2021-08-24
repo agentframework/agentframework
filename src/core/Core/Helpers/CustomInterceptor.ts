@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { Attribute } from '../Interfaces/Attribute';
 import { Interceptor } from '../Interfaces/Interceptor';
-import { CustomInterceptors } from '../Knowledge';
+import { CustomInterceptors } from '../WellKnown';
 
 /**
  * Set custom interceptor for giving type of attribute

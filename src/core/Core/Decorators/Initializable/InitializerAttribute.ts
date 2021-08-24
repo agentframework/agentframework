@@ -13,7 +13,6 @@ export class InitializerAttribute implements ClassInterceptor {
   intercept(target: TypeInvocation, params: Arguments, receiver: any) {
     // after create instance, call custom Initializer
     const instance = target.invoke<object>(params, receiver);
-
     const initializer = Reflect.get(instance, this.key);
     if (initializer) {
       if ('function' !== typeof initializer) {

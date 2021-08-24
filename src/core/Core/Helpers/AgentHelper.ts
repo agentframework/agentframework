@@ -1,4 +1,4 @@
-import { Agents, Types } from '../Knowledge';
+import { Agents, Types } from '../WellKnown';
 /**
  * @internal
  */

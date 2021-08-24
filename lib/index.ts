@@ -107,7 +107,9 @@ export { exclusive } from '../src/core/index';
 /*********************************************************************
  *    (Stability: 1 - Experimental): TSLIB Re-work
  *********************************************************************/
-
+/**
+ * @internal
+ */
 export { __agent, __decorate, __param, __metadata } from '../src/core/index';
 
 /*************************************

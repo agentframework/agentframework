@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Initializer } from './Symbols';
+import { Initializer } from './Initializer';
 import { AddAttributeToClass } from '../../Helpers/AddAttribute';
 import { InitializerAttribute } from './InitializerAttribute';
 import { StaticInitializerAttribute } from './StaticInitializerAttribute';

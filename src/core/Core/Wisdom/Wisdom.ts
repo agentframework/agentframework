@@ -15,6 +15,7 @@ limitations under the License. */
 import { Soul } from './Soul';
 import { FindProperty } from './Annotator';
 import { define, mount } from '../Helpers/Prototype';
+import { CONSTRUCTOR } from '../WellKnown';
 
 @mount(Reflect)
 export class Wisdom extends WeakMap<any, any> {
@@ -93,7 +94,7 @@ export class Wisdom extends WeakMap<any, any> {
         let newTargetKey;
         if (arguments.length === 1) {
           newTarget = (<Function>target).prototype;
-          newTargetKey = 'constructor';
+          newTargetKey = CONSTRUCTOR;
         } else {
           newTarget = target;
           newTargetKey = targetKey!;
@@ -148,7 +149,7 @@ export function __metadata(metadataKey: string, metadataValue: any): Function {
   return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
     if (targetKey == null) {
       target = (<Function>target).prototype;
-      targetKey = 'constructor';
+      targetKey = CONSTRUCTOR;
     }
     FindProperty(Wisdom.add(target), target, targetKey, descriptor).set(metadataKey, metadataValue);
   };
