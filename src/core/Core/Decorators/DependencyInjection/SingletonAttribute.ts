@@ -40,6 +40,7 @@ export class SingletonAttribute implements PropertyInterceptor {
     }
 
     const existsAgent = (customType && Singletons.v1.get(customType)) || (designType && Singletons.v1.get(designType));
+
     if ('undefined' === typeof existsAgent) {
       // create new
       let agentType;

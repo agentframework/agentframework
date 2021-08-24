@@ -19,7 +19,8 @@ import { MethodInvocation } from './Invocation/MethodInvocation';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { define } from '../Helpers/Prototype';
 import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
-import { AgentFrameworkError } from '../AgentFrameworkError';
+// import { AgentFrameworkError } from '../AgentFrameworkError';
+import { InvocationFactory } from './InvocationFactory';
 
 export function UpgradeAgentProperties(
   target: Function | object,
@@ -42,15 +43,6 @@ export function UpgradeAgentProperties(
 
 class OnDemandClassCompiler {
   /**
-   * Create interceptor for field initializer
-   */
-  private static findInterceptors(property: PropertyInfo) {
-    const attributes = property.getOwnInterceptors();
-    //.concat(property.value.findOwnAttributes(HasInterceptor));
-    return attributes;
-  }
-
-  /**
    * Field will only call interceptor for only 1 time
    */
   static makeField(field: PropertyInfo, receiver: Function | object): PropertyDescriptor {
@@ -58,8 +50,7 @@ class OnDemandClassCompiler {
     const fieldInvoker = new GetterSetterInvocation(field);
     return {
       get() {
-        const attributes = OnDemandClassCompiler.findInterceptors(field);
-        const chain = ChainFactory.chainInterceptors(fieldInvoker, attributes);
+        const chain = InvocationFactory.createPropertyInvocation(fieldInvoker, field);
         const descriptor = {
           get() {
             return chain.invoke([], this);
@@ -79,8 +70,7 @@ class OnDemandClassCompiler {
         // return set(this, key, chain.invoke([undefined], this));
       },
       set(this: any) {
-        const attributes = OnDemandClassCompiler.findInterceptors(field);
-        const chain = ChainFactory.chainInterceptors(fieldInvoker, attributes);
+        const chain = InvocationFactory.createPropertyInvocation(fieldInvoker, field);
         const descriptor = {
           get() {
             descriptor.get = function () {
@@ -116,157 +106,136 @@ class OnDemandClassCompiler {
     let propertyDescriptor = Object.create(descriptor);
     // user can change this property
     propertyDescriptor.configurable = true;
-    const method = descriptor.value;
-    const getterMethod = descriptor.get;
-    const setterMethod = descriptor.set;
-    if (method != null) {
-      // if (typeof method === 'function') {
-      // typeof method === 'function'
-      // value only
-      if (typeof method === 'function') {
-        propertyDescriptor.value = function (this: any) {
-          const origin = new MethodInvocation(property, method);
-          const attributes = OnDemandClassCompiler.findInterceptors(property);
-          const chain = ChainFactory.chainInterceptors(origin, attributes);
-          const v1 = ChainFactory.addParameterInterceptor(chain);
-          propertyDescriptor.value = function (this: any) {
-            return v1.invoke(arguments, this);
-          };
-          define(receiver, key, propertyDescriptor);
-          return v1.invoke(arguments, this);
-        };
-      } else {
-        propertyDescriptor = {
-          enumerable: descriptor.enumerable,
-          configurable: true,
-        };
+    const defaultValue = descriptor.value;
+    const getterFunction = descriptor.get;
+    const setterFunction = descriptor.set;
 
-        const propertyInvoker = new GetterSetterInvocation(property);
-
-        // getter and setter
+    if ('function' === typeof getterFunction) {
+      if ('function' === typeof setterFunction) {
+        // getter(yes) and setter(yes)
         propertyDescriptor.get = function (this: any) {
-          const attributes = OnDemandClassCompiler.findInterceptors(property);
-          const chain = ChainFactory.chainInterceptors(propertyInvoker, attributes);
+          const getter = new MethodInvocation(property, getterFunction);
+          const getterChain = InvocationFactory.createPropertyInvocation(getter, property);
           const descriptor = {
             get() {
-              return chain.invoke([], this);
+              return getterChain.invoke([], this);
             },
             set(value: any) {
-              const attributes = OnDemandClassCompiler.findInterceptors(property);
-              const chain = ChainFactory.chainInterceptors(propertyInvoker, attributes);
+              const setter = new MethodInvocation(property, setterFunction);
+              const setterChain = InvocationFactory.createPropertyInvocation(setter, property);
               descriptor.set = function () {
-                chain.invoke(arguments, this);
+                setterChain.invoke(arguments, this);
               };
               define(receiver, key, descriptor);
-              chain.invoke(arguments, this);
+              setterChain.invoke(arguments, this);
             },
             configurable: true,
           };
           define(receiver, key, descriptor);
-          return chain.invoke([], this);
+          return getterChain.invoke([], this);
         };
         propertyDescriptor.set = function (this: any) {
-          const attributes = OnDemandClassCompiler.findInterceptors(property);
-          const chain = ChainFactory.chainInterceptors(propertyInvoker, attributes);
+          const setter = new MethodInvocation(property, setterFunction);
+          const setterChain = InvocationFactory.createPropertyInvocation(setter, property);
           const descriptor = {
             get() {
-              const attributes = OnDemandClassCompiler.findInterceptors(property);
-              const chain = ChainFactory.chainInterceptors(propertyInvoker, attributes);
+              const getter = new MethodInvocation(property, getterFunction);
+              const getterChain = InvocationFactory.createPropertyInvocation(getter, property);
               descriptor.get = function () {
-                return chain.invoke([], this);
+                return getterChain.invoke([undefined], this);
               };
               define(receiver, key, descriptor);
-              return chain.invoke([], this);
+              return getterChain.invoke([undefined], this);
             },
             set(this: any) {
-              return chain.invoke(arguments, this);
+              return setterChain.invoke(arguments, this);
             },
             configurable: true,
           };
-          // console.log('called set', receiver, Reflect.getOwnPropertyDescriptor(receiver.prototype, key));
           define(receiver, key, descriptor);
-          return chain.invoke(arguments, this);
-        };
-      }
-    } else {
-      // getter or setter
-      if (typeof getterMethod === 'function') {
-        if (typeof setterMethod === 'function') {
-          // getter and setter
-          propertyDescriptor.get = function (this: any) {
-            const origin = new MethodInvocation(property, getterMethod);
-            const attributes = OnDemandClassCompiler.findInterceptors(property);
-            const chain = ChainFactory.chainInterceptors(origin, attributes);
-            const descriptor = {
-              get() {
-                return chain.invoke([], this);
-              },
-              set(value: any) {
-                const origin = new MethodInvocation(property, setterMethod);
-                const attributes = OnDemandClassCompiler.findInterceptors(property);
-                const chain = ChainFactory.chainInterceptors(origin, attributes);
-                descriptor.set = function () {
-                  chain.invoke(arguments, this);
-                };
-                define(receiver, key, descriptor);
-                chain.invoke(arguments, this);
-              },
-              configurable: true,
-            };
-            define(receiver, key, descriptor);
-            return chain.invoke([], this);
-          };
-          propertyDescriptor.set = function (this: any) {
-            const origin = new MethodInvocation(property, setterMethod);
-            const attributes = OnDemandClassCompiler.findInterceptors(property);
-            const chain = ChainFactory.chainInterceptors(origin, attributes);
-            const descriptor = {
-              get() {
-                const origin = new MethodInvocation(property, getterMethod);
-                const attributes = OnDemandClassCompiler.findInterceptors(property);
-                const chain = ChainFactory.chainInterceptors(origin, attributes);
-                descriptor.get = function () {
-                  return chain.invoke([undefined], this);
-                };
-                define(receiver, key, descriptor);
-                return chain.invoke([undefined], this);
-              },
-              set(this: any) {
-                return chain.invoke(arguments, this);
-              },
-              configurable: true,
-            };
-            define(receiver, key, descriptor);
-            return chain.invoke(arguments, this);
-          };
-        } else {
-          // getter, no setter
-          propertyDescriptor.get = function (this: any) {
-            const origin = new MethodInvocation(property, getterMethod);
-            const attributes = OnDemandClassCompiler.findInterceptors(property);
-            const chain = ChainFactory.chainInterceptors(origin, attributes);
-            propertyDescriptor.get = function (this: any) {
-              return chain.invoke([], this);
-            };
-            define(receiver, key, propertyDescriptor);
-            return chain.invoke([], this);
-          };
-        }
-      } else if (typeof setterMethod === 'function') {
-        // setter
-        propertyDescriptor.set = function (this: any) {
-          const origin = new MethodInvocation(property, setterMethod);
-          const attributes = OnDemandClassCompiler.findInterceptors(property);
-          const chain = ChainFactory.chainInterceptors(origin, attributes);
-          propertyDescriptor.set = function (this: any) {
-            return chain.invoke(arguments, this);
-          };
-          define(receiver, key, propertyDescriptor);
-          return chain.invoke(arguments, this);
+          return setterChain.invoke(arguments, this);
         };
       } else {
-        throw new AgentFrameworkError('InvalidProperty: ' + property.declaringType.name + '.' + key.toString());
+        // getter(yes), setter(no)
+        propertyDescriptor.get = function (this: any) {
+          const getter = new MethodInvocation(property, getterFunction);
+          const getterChain = InvocationFactory.createPropertyInvocation(getter, property);
+          propertyDescriptor.get = function (this: any) {
+            return getterChain.invoke([], this);
+          };
+          define(receiver, key, propertyDescriptor);
+          return getterChain.invoke([], this);
+        };
       }
+    } else if ('function' === typeof setterFunction) {
+      // getter(no), setter(yes)
+      propertyDescriptor.set = function (this: any) {
+        const setter = new MethodInvocation(property, setterFunction);
+        const setterChain = InvocationFactory.createPropertyInvocation(setter, property);
+        propertyDescriptor.set = function (this: any) {
+          return setterChain.invoke(arguments, this);
+        };
+        define(receiver, key, propertyDescriptor);
+        return setterChain.invoke(arguments, this);
+      };
+    } else if ('function' === typeof defaultValue) {
+      propertyDescriptor.value = function (this: any) {
+        const origin = new MethodInvocation(property, defaultValue);
+        const param = ChainFactory.addParameterInterceptor(origin, property);
+        const chain = InvocationFactory.createPropertyInvocation(param, property);
+        propertyDescriptor.value = function (this: any) {
+          return chain.invoke(arguments, this);
+        };
+        define(receiver, key, propertyDescriptor);
+        return chain.invoke(arguments, this);
+      };
+    } else {
+      propertyDescriptor = {
+        enumerable: descriptor.enumerable,
+        configurable: true,
+      };
+
+      const propertyInvoker = new GetterSetterInvocation(property);
+
+      // getter and setter
+      propertyDescriptor.get = function (this: any) {
+        const chain = InvocationFactory.createPropertyInvocation(propertyInvoker, property);
+        const descriptor = {
+          get() {
+            return chain.invoke([], this);
+          },
+          set(value: any) {
+            descriptor.set = function () {
+              chain.invoke(arguments, this);
+            };
+            define(receiver, key, descriptor);
+            chain.invoke(arguments, this);
+          },
+          configurable: true,
+        };
+        define(receiver, key, descriptor);
+        return chain.invoke([], this);
+      };
+
+      propertyDescriptor.set = function (this: any) {
+        const chain = InvocationFactory.createPropertyInvocation(propertyInvoker, property);
+        const descriptor = {
+          get() {
+            descriptor.get = function () {
+              return chain.invoke([], this);
+            };
+            define(receiver, key, descriptor);
+            return chain.invoke([], this);
+          },
+          set(this: any) {
+            return chain.invoke(arguments, this);
+          },
+          configurable: true,
+        };
+        // console.log('called set', receiver, Reflect.getOwnPropertyDescriptor(receiver.prototype, key));
+        define(receiver, key, descriptor);
+        return chain.invoke(arguments, this);
+      };
     }
 
     // console.log('descriptor', descriptor);

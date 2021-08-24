@@ -18,11 +18,11 @@ import { ClassInterceptor } from '../Interfaces/TypeInterceptors';
 import { Arguments } from '../Interfaces/Arguments';
 import { UpgradeAgentProperties } from '../Compiler/OnDemandClassCompiler';
 import { FindExtendedClass } from '../Helpers/FindExtendedClass';
-import { ClassInvocations } from '../Knowledge';
 import { AgentFrameworkError } from '../AgentFrameworkError';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { RememberType } from '../Helpers/AgentHelper';
 import { InvocationFactory } from '../Compiler/InvocationFactory';
+import { ClassInvocations } from '../Knowledge';
 // import { Wisdom } from '../Wisdom/Wisdom';
 
 /**
@@ -42,10 +42,12 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
   intercept(target: TypeInvocation, params: any, receiver: Function): Function {
     const [, attribute, compiler] = params;
 
-    let newReceiver = Reflect.construct(compiler, [receiver, attribute]);
+    const state = Object.create(attribute);
+    let newReceiver = Reflect.construct(compiler, [receiver, state]);
     RememberType(newReceiver, target.design.declaringType);
 
     newReceiver = target.invoke<Function>(params, newReceiver);
+    state.receiver = newReceiver;
 
     // for static decorators
     // const agentMeta = Wisdom.get(receiver);
@@ -79,7 +81,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
   /**
    * Constructor hook (called when user construct the class)
    */
-  construct<T extends Function>(target: T, params: Arguments, receiver: T): any {
+  construct<T extends Function>(this: any, target: T, params: Arguments, receiver: T): any {
     // GEN 1: this.design.type = origin type
     // GEN 2: this.receiver = intercepted type
     //        target === receiver
@@ -87,20 +89,23 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
 
     // cache the constructor invocation
     // so do not support change annotation after first time created the type
-    let invocation = ClassInvocations.v1.get(target);
-    // console.log('☀️ ☀️ ☀️ 1', target.name, newTarget.name, !!constructor);
+    const key = this.receiver || target;
+
+    // console.log('this.a', this.agent === target);
+    // console.log('target', target.name, '--->', this.agent.name);
+
+    let invocation = ClassInvocations.v1.get(key);
+    // console.log('☀️ ☀️ ☀️ 1', target.name, receiver.name);
 
     // analysis this object
     if (!invocation) {
       // find interceptors from design attributes and create chain for them
       invocation = InvocationFactory.createClassInvocation(target);
 
-      ClassInvocations.v1.set(target, invocation);
+      ClassInvocations.v1.set(key, invocation);
 
       // upgrade properties
-      const interceptors = invocation.design
-        .findTypes()
-        .map((t) => t.findOwnProperties((p) => p.hasInterceptor()));
+      const interceptors = invocation.design.findTypes().map((t) => t.findOwnProperties((p) => p.hasInterceptor()));
       // TODO: reverse()
       const properties = new Map<PropertyKey, PropertyInfo>();
 

@@ -15,7 +15,7 @@ limitations under the License. */
 // import { Reflector } from '../Reflector';
 import { CanDecorate } from './CanDecorate';
 import { ParameterAttribute } from '../Interfaces/TypeAttributes';
-import { AddAttributeToMethodParameterReverse, AddAttributeToConstructorParameterReverse } from '../Helpers/AddAttribute';
+import { AddAttributeToMethodParameter, AddAttributeToConstructorParameter } from '../Helpers/AddAttribute';
 
 /**
  * Decorate class method parameter
@@ -24,13 +24,13 @@ export function decorateParameter<T extends ParameterAttribute>(attribute: T) {
   return (target: object | Function, targetKey: string | symbol | undefined, parameterIndex: number): void => {
     if (CanDecorate(attribute, target, targetKey, parameterIndex)) {
       if (targetKey != null) {
-        AddAttributeToMethodParameterReverse(attribute, target, targetKey, parameterIndex);
+        AddAttributeToMethodParameter(attribute, target, targetKey, parameterIndex);
         // Reflector(target)
         //   .property(propertyKey)
         //   .parameter(parameterIndex)
         //   .addAttribute(attribute);
       } else {
-        AddAttributeToConstructorParameterReverse(attribute, (target as Function).prototype, parameterIndex);
+        AddAttributeToConstructorParameter(attribute, (target as Function).prototype, parameterIndex);
         // Reflector(target)
         //   .parameter(parameterIndex)
         //   .addAttribute(attribute);

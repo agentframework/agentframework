@@ -1,7 +1,7 @@
 import { Arguments } from '../../Interfaces/Arguments';
 import { ClassInterceptor } from '../../Interfaces/TypeInterceptors';
 import { TypeInvocation } from '../../Interfaces/TypeInvocations';
-import { FindInitializers } from './FindInitializers';
+import { AgentFrameworkError } from 'agentframework';
 
 export class InitializerAttribute implements ClassInterceptor {
   constructor(readonly key: PropertyKey) {}
@@ -12,12 +12,16 @@ export class InitializerAttribute implements ClassInterceptor {
 
   intercept(target: TypeInvocation, params: Arguments, receiver: any) {
     // after create instance, call custom Initializer
-    const instance = target.invoke(params, receiver);
-    // call sequence: root -> base -> child
-    const results = FindInitializers(receiver, this.key);
-    for (const [initializer] of results) {
+    const instance = target.invoke<object>(params, receiver);
+
+    const initializer = Reflect.get(instance, this.key);
+    if (initializer) {
+      if ('function' !== typeof initializer) {
+        throw new AgentFrameworkError('InitializerIsNotFunction');
+      }
       Reflect.apply(initializer, instance, params);
     }
+
     return instance;
   }
 }

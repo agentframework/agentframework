@@ -25,7 +25,10 @@ import { MemberInfo } from '../Interfaces/MemberInfo';
  * @hidden
  */
 export class ChainFactory {
-  static chainInterceptors<T extends MemberInfo>(target: Invocation<T>, interceptors: ReadonlyArray<Attribute>) {
+  static chainInterceptors<T extends MemberInfo>(
+    target: Invocation<T>,
+    interceptors: ReadonlyArray<Attribute>
+  ): Invocation<T> {
     // make invocation chain of interceptors
     if (interceptors.length) {
       for (const interceptor of interceptors) {
@@ -35,11 +38,11 @@ export class ChainFactory {
     return target;
   }
 
-  static addInterceptor<T extends MemberInfo>(target: Invocation<T>, attribute: Attribute) {
+  static addInterceptor<T extends MemberInfo>(target: Invocation<T>, attribute: Attribute): Invocation<T> {
     return new OnDemandInterceptorInvocation<T>(target, attribute);
   }
 
-  static addParameterInterceptor<T extends PropertyInfo>(target: Invocation<T>) {
-    return new InterceptorInvocation<T>(target, new OnDemandParameterInterceptor(target.design));
+  static addParameterInterceptor<T extends PropertyInfo>(target: Invocation<T>, design: T): Invocation<T> {
+    return new InterceptorInvocation<T>(target, new OnDemandParameterInterceptor(design));
   }
 }

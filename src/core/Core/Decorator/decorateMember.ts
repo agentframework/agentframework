@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { CanDecorate } from './CanDecorate';
 import { Attribute } from '../Interfaces/Attribute';
-import { AddAttributeToMemberReverse } from '../Helpers/AddAttribute';
+import { AddAttributeToMember } from '../Helpers/AddAttribute';
 
 /**
  * Decorate class properties (field, getter, setter and methods)
@@ -25,7 +25,7 @@ export function decorateMember<T extends Attribute>(attribute: T) {
     //   throw new Error('Attribute not allow declare on class static member');
     // }
     if (CanDecorate(attribute, target, targetKey, descriptor)) {
-      AddAttributeToMemberReverse(attribute, target, targetKey, descriptor);
+      AddAttributeToMember(attribute, target, targetKey, descriptor);
       // Reflector(target)
       //   .property(propertyKey, descriptor)
       //   .addAttribute(attribute);

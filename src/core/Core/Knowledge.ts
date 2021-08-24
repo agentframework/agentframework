@@ -16,7 +16,7 @@ import { remember } from './Decorators/Remember/remember';
 import { TypeInvocation } from './Interfaces/TypeInvocations';
 
 /**
- * Get original type of giving agent
+ * Get original type of giving type
  */
 export class Types {
   // core
@@ -27,11 +27,24 @@ export class Types {
   }
 }
 
+/**
+ * Get original type of giving agent
+ */
 export class Agents {
   // key: agent | agent.prototype, value: class | class.prototype
   @remember('Agents')
   static get v1() {
     return new WeakMap<Function | object, Function | object>();
+  }
+}
+
+/**
+ * Gets or sets interceptor for specified attribute
+ */
+export class CustomInterceptors {
+  @remember('CustomInterceptors')
+  static get v1() {
+    return new WeakMap<Function, [Function, unknown]>();
   }
 }
 
@@ -46,26 +59,8 @@ export class ClassInvocations {
 }
 
 /**
- * Get interceptors of giving attribute
+ * Global Singleton instance
  */
-export class CustomInterceptors {
-  @remember('CustomInterceptors')
-  static get v1() {
-    return new WeakMap<Function, [Function, unknown]>();
-  }
-}
-
-/**
- * Get initializers of giving type
- */
-export class ClassInitializers {
-  // key: class, value: [Initializer Function, Class]
-  @remember('ClassInitializers')
-  static get v1() {
-    return new WeakMap<Function, Array<[Function, Function]>>();
-  }
-}
-
 export class Singletons {
   // key: class, value: singleton instance
   @remember('Singletons')

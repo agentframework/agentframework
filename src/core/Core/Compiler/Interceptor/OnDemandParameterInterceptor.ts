@@ -42,6 +42,8 @@ import { PropertyInterceptor } from '../../Interfaces/TypeInterceptors';
 
  SO, we don't know the parameters type when decorate agent or decorate parameter
 
+ NEW NOTE: Since Typescript ? (i didn't check which version). decorator execute from
+ bottom to up. so we can have the metadata in place
  */
 export class OnDemandParameterInterceptor implements PropertyInterceptor {
   constructor(readonly parent: PropertyInfo) {}

@@ -15,10 +15,10 @@ limitations under the License. */
 import { Attribute } from '../Interfaces/Attribute';
 import { CanDecorate } from './CanDecorate';
 import {
-  AddAttributeToClassReverse,
-  AddAttributeToMethodParameterReverse,
-  AddAttributeToConstructorParameterReverse,
-  AddAttributeToMemberReverse,
+  AddAttributeToClass,
+  AddAttributeToMethodParameter,
+  AddAttributeToConstructorParameter,
+  AddAttributeToMember,
 } from '../Helpers/AddAttribute';
 import { MemberKinds } from '../Interfaces/MemberKinds';
 import { AgentFrameworkError } from '../AgentFrameworkError';
@@ -44,7 +44,7 @@ export function decorate<T extends Attribute>(
           );
         }
         if (CanDecorate(attribute, target, key, descriptorOrIndex)) {
-          AddAttributeToConstructorParameterReverse(attribute, (target as Function).prototype, descriptorOrIndex);
+          AddAttributeToConstructorParameter(attribute, (target as Function).prototype, descriptorOrIndex);
           // Reflector(target)
           //   .parameter(descriptor)
           //   .addAttribute(attribute);
@@ -57,7 +57,7 @@ export function decorate<T extends Attribute>(
           );
         }
         if (CanDecorate(attribute, target, key)) {
-          AddAttributeToClassReverse(attribute, (target as Function).prototype);
+          AddAttributeToClass(attribute, (target as Function).prototype);
           // Reflector(target)
           //   .addAttribute(attribute);
         }
@@ -78,7 +78,7 @@ export function decorate<T extends Attribute>(
         }
 
         if (CanDecorate(attribute, target, key, descriptorOrIndex)) {
-          AddAttributeToMethodParameterReverse(attribute, target, key, descriptorOrIndex);
+          AddAttributeToMethodParameter(attribute, target, key, descriptorOrIndex);
           // Reflector(target)
           //   .property(targetKey)
           //   .parameter(descriptorOrIndex)
@@ -99,7 +99,7 @@ export function decorate<T extends Attribute>(
         }
 
         if (CanDecorate(attribute, target, key)) {
-          AddAttributeToMemberReverse(attribute, target, key);
+          AddAttributeToMember(attribute, target, key);
           // Reflector(target)
           //   .property(targetKey)
           //   .value

@@ -14,7 +14,7 @@ limitations under the License. */
 
 // import { Reflector } from '../Reflector';
 import { CanDecorate } from './CanDecorate';
-import { AddAttributeToClassReverse } from '../Helpers/AddAttribute';
+import { AddAttributeToClass } from '../Helpers/AddAttribute';
 import { Attribute } from '../Interfaces/Attribute';
 
 /**
@@ -24,7 +24,7 @@ export function decorateAgent<T extends Attribute>(attribute: T) {
   // upgrade prototype
   return (target: Function): void => {
     if (CanDecorate(attribute, target)) {
-      AddAttributeToClassReverse(attribute, target);
+      AddAttributeToClass(attribute, target);
     }
   };
 }

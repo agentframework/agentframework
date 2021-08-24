@@ -156,7 +156,8 @@ describe('6.3. @singleton decorator', () => {
 
       expect(() => {
         expect(app.service).toBeUndefined();
-      }).toThrowError(AgentFrameworkError, 'NoDomainFoundForSingletonInjection');
+        // this @singleton is from core, so it will not throw error missing domain
+      }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
     });
 
     it('create interceptor on invalid property', () => {
@@ -187,11 +188,12 @@ describe('6.3. @singleton decorator', () => {
         if (desc) {
           desc.value = null;
         }
-        expect(() => {
-          const Agent: typeof App637 = CreateAgent(App637);
-          const app = new Agent();
-          expect(app).toBeUndefined();
-        }).toThrowError(AgentFrameworkError, 'InvalidProperty: App637.run');
+        // expect(() => {
+        const Agent: typeof App637 = CreateAgent(App637);
+        const app = new Agent();
+        expect(app).toBeInstanceOf(Agent);
+        expect(app).toBeInstanceOf(App637);
+        // }).toThrowError(AgentFrameworkError, 'InvalidProperty: App637.run');
       }
     });
   });

@@ -54,5 +54,6 @@ export function CreateAgent<T extends Function>(type: T, strategy?: ClassAttribu
   // key: Agent proxy, value: origin type
   RememberAgent(receiver, newReceiver);
 
+
   return newReceiver;
 }

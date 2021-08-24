@@ -51,6 +51,7 @@ describe('5.7. Domain @initializable decorator', () => {
       class Base572 extends Root572 {
         base: string | undefined;
         [Initializer]() {
+          super[Initializer]();
           this.base = 'Base572$';
           this.name = this.base;
         }
@@ -58,6 +59,7 @@ describe('5.7. Domain @initializable decorator', () => {
 
       class App572 extends Base572 {
         [Initializer]() {
+          super[Initializer]();
           this.name = 'App572$';
         }
       }
@@ -68,6 +70,7 @@ describe('5.7. Domain @initializable decorator', () => {
 
       class Service572 extends ServiceBase572 {
         [Initializer]() {
+          super[Initializer]();
           this.service = 'Service572$';
           this.name = this.service;
         }
@@ -121,6 +124,7 @@ describe('5.7. Domain @initializable decorator', () => {
       class Base573 extends Root573 {
         base: string | undefined;
         [Initializer]() {
+          super[Initializer]();
           this.base = 'Base573$';
           this.name = this.base;
         }
@@ -128,6 +132,7 @@ describe('5.7. Domain @initializable decorator', () => {
 
       class App573 extends Base573 {
         [Initializer]() {
+          super[Initializer]();
           this.name = 'App573$';
         }
 

@@ -195,9 +195,9 @@ describe('Domain @singleton() decorator', () => {
         if (desc) {
           desc.value = null;
         }
-        expect(() => {
-          domain.construct(App31118);
-        }).toThrowError(AgentFrameworkError, 'InvalidProperty: App31118.run');
+
+        const a = domain.construct(App31118);
+        expect(a).toBeInstanceOf(App31118);
       }
     });
   });

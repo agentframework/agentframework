@@ -49,6 +49,7 @@ describe('6.1. @initializable decorator', () => {
       class Base612 extends Root612 {
         base: string | undefined;
         [Initializer]() {
+          super[Initializer]();
           this.base = 'Base612$';
           this.name = this.base;
         }
@@ -57,6 +58,7 @@ describe('6.1. @initializable decorator', () => {
       @agent()
       class App612 extends Base612 {
         [Initializer]() {
+          super[Initializer]();
           this.name = 'App612$';
         }
       }
@@ -68,6 +70,7 @@ describe('6.1. @initializable decorator', () => {
       @agent()
       class Service612 extends ServiceBase612 {
         [Initializer]() {
+          super[Initializer]();
           this.service = 'Service612$';
           this.name = this.service;
         }
@@ -138,14 +141,14 @@ describe('6.1. @initializable decorator', () => {
 
       const app1 = await new App613();
       expect(app1).toBeInstanceOf(App613);
-      expect(app1.root).toBe('Root613$');
-      expect(app1.base).toBe('Base613$');
+      expect(app1.root).toBeUndefined();
+      expect(app1.base).toBeUndefined();
       expect(app1.name).toBe('App613$');
 
       const app2 = await new App613();
       expect(app2).toBeInstanceOf(App613);
-      expect(app2.root).toBe('Root613$');
-      expect(app2.base).toBe('Base613$');
+      expect(app2.root).toBeUndefined();
+      expect(app2.base).toBeUndefined();
       expect(app2.name).toBe('App613$');
 
       expect(app1).not.toBe(app2);

@@ -146,7 +146,6 @@ describe('5.9. Domain @singleton decorator', () => {
       }
 
       class App596 {
-
         @decorateMember({
           interceptor: {
             intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
@@ -195,9 +194,30 @@ describe('5.9. Domain @singleton decorator', () => {
         if (desc) {
           desc.value = null;
         }
+        const ins = domain.construct(App597);
+        expect(ins).toBeInstanceOf(App597);
+
+        const p1 = Reflect.getPrototypeOf(ins);
+        expect(p1).toBeDefined();
+        const r1 = Reflect.getOwnPropertyDescriptor(p1!, 'run');
+        expect(r1).toBeUndefined();
+        const p2 = Reflect.getPrototypeOf(p1!);
+        expect(p2).toBeDefined();
+        const r2 = Reflect.getOwnPropertyDescriptor(p2!, 'run');
+        expect(r2).toBeDefined();
+
         expect(() => {
-          domain.construct(App597);
-        }).toThrowError(AgentFrameworkError, 'InvalidProperty: App597.run');
+          expect(ins['run']).toBeDefined();
+        }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
+
+        expect(() => {
+          Reflect.get(ins, 'run');
+        }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
+
+        expect(() => {
+          ins.run();
+        }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
+
       }
     });
   });
