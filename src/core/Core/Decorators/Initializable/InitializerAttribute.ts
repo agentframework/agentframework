@@ -1,7 +1,7 @@
+import { AgentFrameworkError } from '../../AgentFrameworkError';
 import { Arguments } from '../../Interfaces/Arguments';
 import { ClassInterceptor } from '../../Interfaces/TypeInterceptors';
 import { TypeInvocation } from '../../Interfaces/TypeInvocations';
-import { AgentFrameworkError } from 'agentframework';
 
 export class InitializerAttribute implements ClassInterceptor {
   constructor(readonly key: PropertyKey) {}
