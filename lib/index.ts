@@ -52,7 +52,7 @@ export { MemberKinds } from '../src/core/index';
 /*********************************************************************
  *   (Stability: 2 - Stable) Metadata API
  *********************************************************************/
-export { decorate } from '../src/core/index';
+// export { decorate } from '../src/core/index';
 export { decorateClass } from '../src/core/index';
 export { decorateAgent } from '../src/core/index';
 export { decorateMember } from '../src/core/index';

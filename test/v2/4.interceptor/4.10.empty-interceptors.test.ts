@@ -1,4 +1,4 @@
-import { agent, Arguments, decorateMember, Invocation, remember, Design } from '../../../src/dependencies/core';
+import { agent, Arguments, decorateMember, Invocation, once, Design } from '../../../src/dependencies/core';
 
 describe('4.10. Empty interceptors', () => {
   describe('# should able to', () => {
@@ -29,7 +29,7 @@ describe('4.10. Empty interceptors', () => {
             },
           },
         })
-        @remember()
+        @once()
         get name() {
           n1++;
           return 'Class4101';

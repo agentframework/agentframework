@@ -4,18 +4,18 @@ import { ConstructorInvocation } from './Invocation/ConstructorInvocation';
 import { ChainFactory } from './ChainFactory';
 import { Agent } from '../Agent/Agent';
 import { Reflector } from '../Reflection/Reflector';
-import { remember } from '../Decorators/Remember/remember';
 import { TypeInvocation } from '../Interfaces/TypeInvocations';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Invocation } from '../Interfaces/Invocation';
+import { once } from '../Decorators/Once/once';
 
 export class InvocationFactory {
-  @remember()
+  @once()
   static get class() {
     return Reflector(Agent);
   }
 
-  @remember()
+  @once()
   static get agent() {
     return this.class.static;
   }

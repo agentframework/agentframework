@@ -17,13 +17,13 @@ import { FindProperty } from './Annotator';
 import { define, mount } from '../Helpers/Prototype';
 import { CONSTRUCTOR } from '../WellKnown';
 
-@mount(Reflect)
+@mount(Reflect, 'metadata')
 export class Wisdom extends WeakMap<any, any> {
   /**
    * @internal
    */
   static get id(): string {
-    return 'agentframework';
+    return /* replace::release.name */ 'agentframework';
   }
 
   /**

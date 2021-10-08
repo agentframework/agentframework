@@ -24,6 +24,7 @@ import { Property } from '../Wisdom/Annotation';
 import { GetType, IsAgent } from '../Helpers/AgentHelper';
 import { AddAttributeToClass } from '../Helpers/AddAttribute';
 import { CONSTRUCTOR } from '../WellKnown';
+import { once } from '../Decorators/Once/once';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -127,7 +128,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    *
    * @cache
    */
-  @remember()
+  @once()
   get base(): TypeInfo | null | undefined {
     const base = Reflect.getPrototypeOf(this.target);
     if (!base) {
@@ -148,7 +149,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * @returns [base, extended, this]
    * @cache
    */
-  @remember()
+  @once()
   get types(): ReadonlyArray<TypeInfo> {
     // this can cache because it never changes
     const prototypes: Array<TypeInfo> = [];
@@ -288,7 +289,10 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * @param filterCriteria
    * @returns {Map<TypeInfo, Array<PropertyInfo>>}
    */
-  findProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): ReadonlyMap<TypeInfo, ReadonlyArray<PropertyInfo>> {
+  findProperties(
+    filter: Filter<PropertyInfo>,
+    filterCriteria?: any
+  ): ReadonlyMap<TypeInfo, ReadonlyArray<PropertyInfo>> {
     const layers = new Map<TypeInfo, ReadonlyArray<PropertyInfo>>();
     for (const type of this.types) {
       const found = type.findOwnProperties(filter, filterCriteria);
@@ -335,7 +339,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   /**
    * Get annotation store object
    */
-  @remember()
+  @once()
   get typeAnnotation(): object {
     return Wisdom.add(this.target);
   }
@@ -343,7 +347,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   /**
    * Get annotation store object or undefined
    */
-  @remember()
+  @once()
   get typeAnnotationOrUndefined(): object | undefined {
     return Wisdom.get(this.target);
   }

@@ -16,10 +16,10 @@ import { Invocation } from '../../Interfaces/Invocation';
 import { Arguments } from '../../Interfaces/Arguments';
 import { Design } from '../../Interfaces/Design';
 import { Attribute } from '../../Interfaces/Attribute';
-import { remember } from '../../Decorators/Remember/remember';
 import { GetInterceptor } from '../../Helpers/CustomInterceptor';
 import { define } from '../../Helpers/Prototype';
 import { INVOKE } from '../../WellKnown';
+import { once } from '../../Decorators/Once/once';
 
 /**
  * invocation wrapper for interceptor
@@ -34,7 +34,7 @@ export class OnDemandInterceptorInvocation<T extends Design = Design> implements
     return this.next.design;
   }
 
-  @remember()
+  @once()
   get interceptor() {
     return GetInterceptor(this.attribute);
   }

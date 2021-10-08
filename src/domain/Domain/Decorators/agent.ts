@@ -22,9 +22,9 @@ limitations under the License. */
 //   return CreateAgent(target);
 // }
 
-import { CreateDomainAgent } from '../Agent/CreateDomainAgent';
-import { GetDomainAgent } from '../Agent/GetDomainAgent';
-import { RegisterDomainAgentAttribute } from '../Agent/RegisterDomainAgentAttribute';
+import { CreateDomainAgent } from '../DomainAgent/CreateDomainAgent';
+import { GetDomainAgent } from '../DomainAgent/GetDomainAgent';
+import { RegisterDomainAgentAttribute } from '../DomainAgent/RegisterDomainAgentAttribute';
 import { GetSystemDomain } from '../Helpers/GetSystemDomain';
 
 /**

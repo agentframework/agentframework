@@ -18,8 +18,8 @@ import { Agent, AgentReference, Params } from './Agent';
 import { Domain } from './Domain';
 import { IsPromise } from './Helpers/IsPromise';
 import { IsObservable } from './Helpers/IsObservable';
-import { CreateDomainAgent } from './Agent/CreateDomainAgent';
-import { GetDomainAgent } from './Agent/GetDomainAgent';
+import { CreateDomainAgent } from './DomainAgent/CreateDomainAgent';
+import { GetDomainAgent } from './DomainAgent/GetDomainAgent';
 // import { DomainKnowledge } from './DomainKnowledge';
 
 class InMemory {

@@ -18,10 +18,10 @@ import { Agent, AgentReference } from './Agent';
 import { SubDomainLike } from './SubDomainLike';
 import { DomainLike } from './DomainLike';
 import { GetSystemDomain } from './Helpers/GetSystemDomain';
-import { remember } from '../../dependencies/core';
+import { once } from '../../dependencies/core';
 
 export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
-  @remember()
+  @once()
   get parent(): DomainLike {
     // GetDomain(this) will return this. So must use GetDomain(this.constructor)
     return GetDomain(this.constructor) || GetSystemDomain();

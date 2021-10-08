@@ -12,28 +12,26 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-// the memorize can be used on both class getter or static getter
+// the once can be used on both class getter or static getter
 import { define } from '../../Helpers/Prototype';
-import { Wisdom } from '../../Wisdom/Wisdom';
 
 /**
- * only apply to getter
+ * Run getter only once. only apply to getter or static getter
  */
-export function remember(key: string): MethodDecorator {
+export function once(): MethodDecorator {
   return (target: object | Function, targetKey: string | symbol, descriptor: any): any => {
     return {
       get() {
         const receiver = 'function' === typeof target ? target : this;
         let value;
-        // note: bulletproof syntax against tools like "terser"
-        const wisdom = Wisdom.get(Wisdom);
-        const id = key + '.' + String(targetKey);
-        value = wisdom.get(id);
-        if (!value) {
-          const { get } = descriptor;
-          wisdom.set(id, (value = Reflect.apply(get, receiver, [])));
+        const { get } = descriptor;
+        value = Reflect.apply(get, receiver, []);
+        if ('undefined' !== typeof value) {
+          define(receiver, targetKey, { value });
         }
-        define(receiver, targetKey, { value });
+        else {
+          console.log('NULL!!!!', targetKey)
+        }
         return value;
       },
       configurable: true,
