@@ -29,9 +29,6 @@ export function once(): MethodDecorator {
         if ('undefined' !== typeof value) {
           define(receiver, targetKey, { value });
         }
-        else {
-          console.log('NULL!!!!', targetKey)
-        }
         return value;
       },
       configurable: true,
