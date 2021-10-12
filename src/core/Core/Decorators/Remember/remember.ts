@@ -40,3 +40,14 @@ export function remember(key: string): MethodDecorator {
     };
   };
 }
+
+export function Remember<T>(key: string, target: object | Function, targetKey: string | symbol, valueFn: () => T): T {
+  const wisdom = Wisdom.get(Wisdom);
+  const id = key + '.' + String(targetKey);
+  let value = wisdom.get(id);
+  if ('undefined' === typeof value) {
+    value = valueFn();
+  }
+  define(target, targetKey, { value });
+  return value;
+}

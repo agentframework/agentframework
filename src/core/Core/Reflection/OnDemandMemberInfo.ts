@@ -19,7 +19,7 @@ import { MemberInfo } from '../Interfaces/MemberInfo';
 import { Filter } from '../Interfaces/Filter';
 import { HasInterceptor } from '../Helpers/CustomInterceptor';
 import { Annotation, Property } from '../Wisdom/Annotation';
-import { once } from '../Decorators/Once/once';
+import { Once } from '../Decorators/Once/once';
 // import { cache } from '../Helpers/Cache';
 
 // let a = 0;
@@ -44,7 +44,6 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
     return this.key.toString();
   }
 
-  @once()
   get declaringType(): Function {
     if ('object' === typeof this.target) {
       return this.target.constructor;
@@ -86,7 +85,6 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
   /**
    * Returns annotation of current property specified by the key.
    */
-  @once()
   get propertyAnnotationOrUndefined(): Property | undefined {
     const annotation = Wisdom.get(this.target);
     if (!annotation) {
@@ -96,7 +94,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
     if (!property) {
       return;
     }
-    return property.value;
+    return Once(this, 'propertyAnnotationOrUndefined', property.value);
   }
 
   // /**

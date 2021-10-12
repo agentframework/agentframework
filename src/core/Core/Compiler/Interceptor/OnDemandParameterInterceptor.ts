@@ -17,7 +17,7 @@ import { MethodParameterInvocation } from '../Invocation/MethodParameterInvocati
 import { ChainFactory } from '../ChainFactory';
 import { PropertyInfo } from '../../Interfaces/PropertyInfo';
 // import { define } from '../../Helpers/Prototype';
-import { once } from '../../Decorators/Once/once';
+import { Once } from '../../Decorators/Once/once';
 import { PropertyInvocation } from '../../Interfaces/TypeInvocations';
 import { PropertyInterceptor } from '../../Interfaces/TypeInterceptors';
 
@@ -51,7 +51,6 @@ export class OnDemandParameterInterceptor implements PropertyInterceptor {
   /**
    * Build or get invocation
    */
-  @once()
   get invocations(): Map<number, Invocation> | undefined {
     const invocations = new Map<number, Invocation>();
     const parameters = this.parent.getParameters();
@@ -63,7 +62,7 @@ export class OnDemandParameterInterceptor implements PropertyInterceptor {
         invocations.set(idx, ChainFactory.chainInterceptors(origin, interceptors));
       }
     }
-    return invocations.size ? invocations : undefined;
+    return Once(this, 'invocations', invocations.size ? invocations : undefined);
   }
 
   intercept(target: PropertyInvocation, params: Array<any>, receiver: any): any {

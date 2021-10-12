@@ -19,7 +19,7 @@ import { Attribute } from '../../Interfaces/Attribute';
 import { GetInterceptor } from '../../Helpers/CustomInterceptor';
 import { define } from '../../Helpers/Prototype';
 import { INVOKE } from '../../WellKnown';
-import { once } from '../../Decorators/Once/once';
+import { Once } from '../../Decorators/Once/once';
 
 /**
  * invocation wrapper for interceptor
@@ -34,9 +34,8 @@ export class OnDemandInterceptorInvocation<T extends Design = Design> implements
     return this.next.design;
   }
 
-  @once()
   get interceptor() {
-    return GetInterceptor(this.attribute);
+    return Once(this, 'interceptor', GetInterceptor(this.attribute));
   }
 
   invoke(params: Arguments, receiver: any): any {

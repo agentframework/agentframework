@@ -29,12 +29,16 @@ export function once(): MethodDecorator {
         if ('undefined' !== typeof value) {
           define(receiver, targetKey, { value });
         }
-        else {
-          console.log('NULL!!!!', targetKey)
-        }
         return value;
       },
       configurable: true,
     };
   };
+}
+
+export function Once<T>(target: object | Function, getterKey: string | symbol, value: T): T {
+  if ('undefined' !== typeof value) {
+    define(target, getterKey, { value });
+  }
+  return value;
 }

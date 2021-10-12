@@ -12,14 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { remember } from '../../dependencies/core';
+import { Remember } from '../../dependencies/core';
 import { Domain } from './Domain';
 
 export class SingletonAgents {
   // key: class, value: singleton instance
-  @remember('SingletonAgents')
   static get v1() {
-    return new WeakMap<Function, Function>();
+    return Remember('SingletonAgents', this, 'v1', () => new WeakMap<Function, Function>());
   }
 }
 
@@ -31,9 +30,8 @@ export class Domains {
   // key: Agent Type Prototype,   value: Domain instance
   // key: Domain instance,        value: Domain instance
   // key: Domain Type Prototype,  value: Domain Type Prototype
-  @remember('Domains')
   static get v1() {
-    return new WeakMap<Function | object, Domain | undefined>();
+    return Remember('Domains', this, 'v1', () => new WeakMap<Function | object, Domain | undefined>());
   }
 }
 
@@ -42,8 +40,7 @@ export class Domains {
  */
 export class DomainAgents {
   // key: Original Constructor, value: Agent Constructor
-  @remember('DomainAgents')
   static get v1() {
-    return new WeakMap<Function, Map<Domain, Function>>();
+    return Remember('DomainAgents', this, 'v1', () => new WeakMap<Function, Map<Domain, Function>>());
   }
 }

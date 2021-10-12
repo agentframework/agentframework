@@ -19,12 +19,12 @@ import { TypeInfo } from '../Interfaces/TypeInfo';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Filter } from '../Interfaces/Filter';
 import { Attribute } from '../Interfaces/Attribute';
-import { remember } from '../Decorators/Remember/remember';
+import { Remember } from '../Decorators/Remember/remember';
 import { Property } from '../Wisdom/Annotation';
 import { GetType, IsAgent } from '../Helpers/AgentHelper';
 import { AddAttributeToClass } from '../Helpers/AddAttribute';
 import { CONSTRUCTOR } from '../WellKnown';
-import { once } from '../Decorators/Once/once';
+import { Once } from '../Decorators/Once/once';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -57,9 +57,8 @@ export class TypeInfos {
   /**
    * get types map
    */
-  @remember('TypeInfos')
   static get v1() {
-    return new WeakMap<Function | object, OnDemandTypeInfo>();
+    return Remember('TypeInfos', this, 'v1', () => new WeakMap<Function | object, OnDemandTypeInfo>());
   }
 }
 
@@ -128,19 +127,20 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    *
    * @cache
    */
-  @once()
   get base(): TypeInfo | null | undefined {
     const base = Reflect.getPrototypeOf(this.target);
+    let result;
     if (!base) {
-      return null;
+      result = null;
     }
-
     // ignore object as base type
-    if (base === Function.prototype || base === Object.prototype || IsAgent(base)) {
-      return null;
+    else if (base === Function.prototype || base === Object.prototype || IsAgent(base)) {
+      result = null;
+    } else {
+      result = OnDemandTypeInfo.find(base);
     }
 
-    return OnDemandTypeInfo.find(base);
+    return Once(this, 'base', result);
   }
 
   /**
@@ -149,7 +149,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * @returns [base, extended, this]
    * @cache
    */
-  @once()
+
   get types(): ReadonlyArray<TypeInfo> {
     // this can cache because it never changes
     const prototypes: Array<TypeInfo> = [];
@@ -162,7 +162,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
       // console.log(this.target, '=', current.base);
       current = current.base;
     } while (current);
-    return prototypes;
+    return Once(this, 'types', prototypes);
   }
 
   // /**
@@ -339,16 +339,14 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   /**
    * Get annotation store object
    */
-  @once()
   get typeAnnotation(): object {
-    return Wisdom.add(this.target);
+    return Once(this, 'typeAnnotation', Wisdom.add(this.target));
   }
 
   /**
    * Get annotation store object or undefined
    */
-  @once()
   get typeAnnotationOrUndefined(): object | undefined {
-    return Wisdom.get(this.target);
+    return Once(this, 'typeAnnotationOrUndefined', Wisdom.get(this.target));
   }
 }

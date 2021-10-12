@@ -7,17 +7,17 @@ import { Reflector } from '../Reflection/Reflector';
 import { TypeInvocation } from '../Interfaces/TypeInvocations';
 import { PropertyInfo } from '../Interfaces/PropertyInfo';
 import { Invocation } from '../Interfaces/Invocation';
-import { once } from '../Decorators/Once/once';
+import { Once } from '../Decorators/Once/once';
 
 export class InvocationFactory {
-  @once()
+
   static get class() {
-    return Reflector(Agent);
+    return Once(this, 'class', Reflector(Agent));
   }
 
-  @once()
+
   static get agent() {
-    return this.class.static;
+    return Once(this, 'agent', this.class.static);
   }
 
   // this function output is NOT cached

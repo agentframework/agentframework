@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { remember } from './Decorators/Remember/remember';
+import { Remember } from './Decorators/Remember/remember';
 import { TypeInvocation } from './Interfaces/TypeInvocations';
 
 export const CONSTRUCTOR = 'constructor';
@@ -25,9 +25,8 @@ export const INVOKE = 'invoke';
 export class Types {
   // core
   // key: agent | class, value: class
-  @remember('Types')
   static get v1() {
-    return new WeakMap<Function | object, Function | object>();
+    return Remember('Types', this, 'v1', () => new WeakMap<Function | object, Function | object>());
   }
 }
 
@@ -36,9 +35,8 @@ export class Types {
  */
 export class Agents {
   // key: agent | agent.prototype, value: class | class.prototype
-  @remember('Agents')
   static get v1() {
-    return new WeakMap<Function | object, Function | object>();
+    return Remember('Agents', this, 'v1', () => new WeakMap<Function | object, Function | object>());
   }
 }
 
@@ -46,9 +44,8 @@ export class Agents {
  * Gets or sets interceptor for specified attribute
  */
 export class CustomInterceptors {
-  @remember('CustomInterceptors')
   static get v1() {
-    return new WeakMap<Function, [Function, unknown]>();
+    return Remember('CustomInterceptors', this, 'v1', () => new WeakMap<Function, [Function, unknown]>());
   }
 }
 
@@ -56,9 +53,8 @@ export class CustomInterceptors {
  * Gets or sets invocations of giving type (to improve both `new Class()` perf and bootstrap perf)
  */
 export class ClassInvocations {
-  @remember('ClassInvocations')
   static get v1() {
-    return new WeakMap<Function, TypeInvocation>();
+    return Remember('ClassInvocations', this, 'v1', () => new WeakMap<Function, TypeInvocation>());
   }
 }
 
@@ -67,9 +63,8 @@ export class ClassInvocations {
  */
 export class Namespaces {
   // key: string, value: Constructor
-  @remember('Namespaces')
   static get v1() {
-    return new Map<string, unknown>();
+    return Remember('Namespaces', this, 'v1', () => new Map<string, unknown>());
   }
 }
 
@@ -78,8 +73,7 @@ export class Namespaces {
  */
 export class Singletons {
   // key: class, value: singleton instance
-  @remember('Singletons')
   static get v1() {
-    return new WeakMap<Function | object, Function | object>();
+    return Remember('Singletons', this, 'v1', () => new WeakMap<Function | object, Function | object>());
   }
 }

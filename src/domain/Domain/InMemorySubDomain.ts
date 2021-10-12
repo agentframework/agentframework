@@ -18,13 +18,12 @@ import { Agent, AgentReference } from './Agent';
 import { SubDomainLike } from './SubDomainLike';
 import { DomainLike } from './DomainLike';
 import { GetSystemDomain } from './Helpers/GetSystemDomain';
-import { once } from '../../dependencies/core';
+import { Once } from '../../dependencies/core';
 
 export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
-  @once()
   get parent(): DomainLike {
     // GetDomain(this) will return this. So must use GetDomain(this.constructor)
-    return GetDomain(this.constructor) || GetSystemDomain();
+    return Once(this, 'parent', GetDomain(this.constructor) || GetSystemDomain());
   }
 
   getOwnType<T extends Function>(type: T): T | undefined {

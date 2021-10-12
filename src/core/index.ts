@@ -97,12 +97,12 @@ export { GetType } from './Core/Helpers/AgentHelper';
 /*********************************************************************
  *   (Stability: 1 - Experimental): Getter Decorator: @remember()
  *********************************************************************/
-export { once } from './Core/Decorators/Once/once';
+export { once, Once } from './Core/Decorators/Once/once';
 
 /*********************************************************************
  *   (Stability: 1 - Experimental): Getter Decorator: @remember()
  *********************************************************************/
-export { remember } from './Core/Decorators/Remember/remember';
+export { remember, Remember } from './Core/Decorators/Remember/remember';
 
 /*********************************************************************
  *   (Stability: 1 - Experimental): Class Decorator: @exclusive()

@@ -145,6 +145,7 @@ export class Wisdom extends WeakMap<any, any> {
 /**
  * tslib.__metadata implementation
  */
+/*@__PURE__*/
 export function __metadata(metadataKey: string, metadataValue: any): Function {
   return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
     if (targetKey == null) {

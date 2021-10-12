@@ -237,6 +237,7 @@ describe('1.4. Class interceptor invoke sequence', () => {
         },
       });
 
+      // this decorator is not in this agent because @agent() create a new Type
       @decorateClass({
         id: 9,
         interceptor: {
@@ -248,6 +249,7 @@ describe('1.4. Class interceptor invoke sequence', () => {
           },
         },
       })
+      // this decorator is not in this agent because @agent() create a new Type
       @decorateClass({
         id: 10,
         interceptor: {
