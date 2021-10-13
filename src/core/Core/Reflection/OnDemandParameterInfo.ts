@@ -13,12 +13,12 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { OnDemandMemberInfo } from './OnDemandMemberInfo';
-import { MemberKinds } from '../Interfaces/MemberKinds';
-import { ParameterInfo } from '../Interfaces/ParameterInfo';
-import { PropertyInfo } from '../Interfaces/PropertyInfo';
-import { Attribute } from '../Interfaces/Attribute';
-import { AddAttributeToMethodParameter } from '../Helpers/AddAttribute';
-import { Parameter } from '../Wisdom/Annotation';
+import { MemberKinds } from './MemberKinds';
+import { ParameterInfo } from './ParameterInfo';
+import { PropertyInfo } from './PropertyInfo';
+import { Attribute } from '../Annotation/Attribute';
+import { AddAttributeToPropertyParameter } from '../Annotation/AddAttribute';
+import { Parameter } from '../Annotation/Parameter';
 
 /**
  * Parameter
@@ -68,7 +68,7 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
   addAttribute<A4 extends Attribute>(attribute: A4): void {
     // if the attribute provide a getInterceptor, that means this property may need inject
     // we don't call getInterceptor or getInitializer until user new() the agent class.
-    AddAttributeToMethodParameter(attribute, this.target, this.key, this.index);
+    AddAttributeToPropertyParameter(attribute, this.target, this.key, this.index);
   }
 
   // /**

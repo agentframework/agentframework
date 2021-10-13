@@ -237,7 +237,7 @@ describe('1.4. Class interceptor invoke sequence', () => {
         },
       });
 
-      // this decorator is not in this agent because @agent() create a new Type
+      // the decorator above agent is not supported
       @decorateClass({
         id: 9,
         interceptor: {
@@ -249,7 +249,7 @@ describe('1.4. Class interceptor invoke sequence', () => {
           },
         },
       })
-      // this decorator is not in this agent because @agent() create a new Type
+      // the decorator above agent is not supported
       @decorateClass({
         id: 10,
         interceptor: {
@@ -380,8 +380,8 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterGlobalParameter[0]-1',
         'beforeTop141AA4',
         'beforeTop141AA3',
-        'beforeTop141Decorator1',
-        'beforeTop141Decorator2',
+        // 'beforeTop141Decorator1',   Decorators must below @agent()
+        // 'beforeTop141Decorator2',   Decorators must below @agent()
         'beforeTop141Decorator3',
         'beforeTop141Decorator4',
         'beforeMiddle141AA4',
@@ -403,7 +403,7 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterGlobalParameter[0]-1',
         'beforeAnotherAgent141AA2',
         'beforeAnotherAgent141AA1',
-        'beforeAnotherAgent1',
+        // 'beforeAnotherAgent1',     Decorators must below @agent()
         'beforeAnotherAgent2',
         'beforeAnotherAgentParameter[0]-2',
         'beforeAnotherAgentParameter[0]-1',
@@ -415,7 +415,7 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterAnotherAgentParameter[1]-1',
         'AnotherAgent',
         'afterAnotherAgent2',
-        'afterAnotherAgent1',
+        // 'afterAnotherAgent1',     Decorators must below @agent()
         'afterAnotherAgent141AA1',
         'afterAnotherAgent141AA2',
         'afterGlobalReflector1',
@@ -433,8 +433,8 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterMiddle141AA4',
         'afterTop141Decorator4',
         'afterTop141Decorator3',
-        'afterTop141Decorator2',
-        'afterTop141Decorator1',
+        // 'afterTop141Decorator2',  Decorators must below @agent()
+        // 'afterTop141Decorator1',  Decorators must below @agent()
         'afterTop141AA3',
         'afterTop141AA4',
         'afterGlobalReflector1',

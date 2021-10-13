@@ -15,6 +15,7 @@ describe('1.3. Agent interceptor invoke sequence', () => {
     it('get sequence for agent constructors', () => {
       let seq: string[] = [];
 
+      // no effect, because Agent already created by @agent()
       @decorateAgent({
         id: 1,
         interceptor: {

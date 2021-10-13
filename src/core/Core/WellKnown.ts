@@ -12,68 +12,44 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Remember } from './Decorators/Remember/remember';
-import { TypeInvocation } from './Interfaces/TypeInvocations';
+export interface Arguments {
+  [index: number]: any;
+  length: number;
+}
 
+export interface Class<T extends object> extends Function {
+  readonly prototype: T;
+}
+
+/**
+ * @internal
+ */
 export const CONSTRUCTOR = 'constructor';
 
-export const INVOKE = 'invoke';
+/**
+ * @internal
+ */
+export const METADATA = 'metadata';
 
 /**
- * Get original type of giving type
+ * @internal
  */
-export class Types {
-  // core
-  // key: agent | class, value: class
-  static get v1() {
-    return Remember('Types', this, 'v1', () => new WeakMap<Function | object, Function | object>());
-  }
+export const NOW = 'now';
+
+/**
+ * @internal
+ */
+export function apply<T extends object>(target: T, key: string | symbol | number, value: object): T {
+  Reflect.defineProperty(target, key, value);
+  return target;
 }
 
 /**
- * Get original type of giving agent
+ * @internal
  */
-export class Agents {
-  // key: agent | agent.prototype, value: class | class.prototype
-  static get v1() {
-    return Remember('Agents', this, 'v1', () => new WeakMap<Function | object, Function | object>());
-  }
-}
-
-/**
- * Gets or sets interceptor for specified attribute
- */
-export class CustomInterceptors {
-  static get v1() {
-    return Remember('CustomInterceptors', this, 'v1', () => new WeakMap<Function, [Function, unknown]>());
-  }
-}
-
-/**
- * Gets or sets invocations of giving type (to improve both `new Class()` perf and bootstrap perf)
- */
-export class ClassInvocations {
-  static get v1() {
-    return Remember('ClassInvocations', this, 'v1', () => new WeakMap<Function, TypeInvocation>());
-  }
-}
-
-/**
- * Get object of giving string id
- */
-export class Namespaces {
-  // key: string, value: Constructor
-  static get v1() {
-    return Remember('Namespaces', this, 'v1', () => new Map<string, unknown>());
-  }
-}
-
-/**
- * Global Singleton instance
- */
-export class Singletons {
-  // key: class, value: singleton instance
-  static get v1() {
-    return Remember('Singletons', this, 'v1', () => new WeakMap<Function | object, Function | object>());
-  }
+export function mount(impl: typeof Reflect, name: string) {
+  return function (this: any, type: any): any {
+    const id = Symbol.for(name);
+    return impl[id] || impl.construct(type, [impl, id]);
+  };
 }

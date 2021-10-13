@@ -12,14 +12,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Wisdom } from '../Wisdom/Wisdom';
-import { Attribute } from '../Interfaces/Attribute';
-import { Class } from '../Class';
-import { MemberInfo } from '../Interfaces/MemberInfo';
-import { Filter } from '../Interfaces/Filter';
-import { HasInterceptor } from '../Helpers/CustomInterceptor';
-import { Annotation, Property } from '../Wisdom/Annotation';
-import { Once } from '../Decorators/Once/once';
+import { Wisdom } from '../Wisdom';
+import { Attribute } from '../Annotation/Attribute';
+import { MemberInfo } from './MemberInfo';
+import { Filter } from './Filter';
+import { HasInterceptor } from '../../Agent/CustomInterceptor';
+import { Annotation} from '../Annotation/Annotation';
+import { Once } from '../Decorators/Once';
+import { Class } from 'agentframework';
+import { Property } from '../Annotation/Property';
 // import { cache } from '../Helpers/Cache';
 
 // let a = 0;

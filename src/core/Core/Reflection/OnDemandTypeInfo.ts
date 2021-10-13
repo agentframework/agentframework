@@ -13,18 +13,18 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { OnDemandPropertyInfo } from './OnDemandPropertyInfo';
-import { MemberKinds } from '../Interfaces/MemberKinds';
-import { Wisdom } from '../Wisdom/Wisdom';
-import { TypeInfo } from '../Interfaces/TypeInfo';
-import { PropertyInfo } from '../Interfaces/PropertyInfo';
-import { Filter } from '../Interfaces/Filter';
-import { Attribute } from '../Interfaces/Attribute';
-import { Remember } from '../Decorators/Remember/remember';
-import { Property } from '../Wisdom/Annotation';
-import { GetType, IsAgent } from '../Helpers/AgentHelper';
-import { AddAttributeToClass } from '../Helpers/AddAttribute';
+import { MemberKinds } from './MemberKinds';
+import { Wisdom } from '../Wisdom';
+import { TypeInfo } from './TypeInfo';
+import { PropertyInfo } from './PropertyInfo';
+import { Filter } from './Filter';
+import { Attribute } from '../Annotation/Attribute';
+import { Remember } from '../Decorators/Remember';
+import { AddAttributeToClass } from '../Annotation/AddAttribute';
 import { CONSTRUCTOR } from '../WellKnown';
-import { Once } from '../Decorators/Once/once';
+import { Once } from '../Decorators/Once';
+import { IsAgent } from '../../Agent/Agent';
+import { Property } from '../Annotation/Property';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -72,15 +72,12 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Get TypeInfo from constructor
    */
   static find(target: object | Function): TypeInfo {
-    // make sure only create typeinfo for user classes
-    const type = GetType(target) || target;
-    // return new OnDemandTypeInfo(type);
-    const info = TypeInfos.v1.get(type);
+    const info = TypeInfos.v1.get(target);
     if (info) {
       return info;
     }
-    const newInfo = new OnDemandTypeInfo(type);
-    TypeInfos.v1.set(type, newInfo);
+    const newInfo = new OnDemandTypeInfo(target);
+    TypeInfos.v1.set(target, newInfo);
     return newInfo;
   }
 
@@ -89,7 +86,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   // protected properties: Map<PropertyKey, OnDemandPropertyInfo> | undefined;
 
-  // only allow create using factory method
+  // only allow create using factory method: OnDemandTypeInfo.find
   // make type as a property called constructor
   private constructor(target: object | Function) {
     super(target, CONSTRUCTOR);

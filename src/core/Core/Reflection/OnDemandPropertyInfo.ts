@@ -14,14 +14,14 @@ limitations under the License. */
 
 import { OnDemandMemberInfo } from './OnDemandMemberInfo';
 import { OnDemandParameterInfo } from './OnDemandParameterInfo';
-import { MemberKinds } from '../Interfaces/MemberKinds';
-import { PropertyInfo } from '../Interfaces/PropertyInfo';
-import { ParameterInfo } from '../Interfaces/ParameterInfo';
-import { MemberInfo } from '../Interfaces/MemberInfo';
-import { Attribute } from '../Interfaces/Attribute';
-import { AddAttributeToMember } from '../Helpers/AddAttribute';
-import { HasInterceptor } from '../Helpers/CustomInterceptor';
-import { Property } from '../Wisdom/Annotation';
+import { MemberKinds } from './MemberKinds';
+import { PropertyInfo } from './PropertyInfo';
+import { ParameterInfo } from './ParameterInfo';
+import { MemberInfo } from './MemberInfo';
+import { Attribute } from '../Annotation/Attribute';
+import { AddAttributeToProperty } from '../Annotation/AddAttribute';
+import { HasInterceptor } from '../../Agent/CustomInterceptor';
+import { Property } from '../Annotation/Property';
 
 // import { getter } from '../Helpers/Prototype';
 // import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
@@ -244,7 +244,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   }
 
   addAttribute<A4 extends Attribute>(attribute: A4): void {
-    AddAttributeToMember(attribute, this.target, this.key);
+    AddAttributeToProperty(attribute, this.target, this.key);
   }
 
   // hasParameterInterceptor(): boolean {
