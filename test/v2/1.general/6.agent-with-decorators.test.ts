@@ -1,5 +1,5 @@
-import { agent, decorateMember, GetType, Reflector } from '../../../src/dependencies/core';
-import { decorateClass } from '../../../../attributes/decorators/core/lib';
+import { agent, decorateClass, decorateMember, GetType, Reflector } from '../../../src/dependencies/core';
+
 
 describe('1.6. Agent with decorators', () => {
   describe('# should able to', () => {
