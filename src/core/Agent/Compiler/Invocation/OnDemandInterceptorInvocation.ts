@@ -17,7 +17,7 @@ import { Design } from '../../../Core/Reflection/Design';
 import { Attribute } from '../../../Core/Annotation/Attribute';
 import { GetInterceptor } from '../../CustomInterceptor';
 import { Once } from '../../../Core/Decorators/Once';
-import { WellKnown } from '../../WellKnown';
+import { INVOKE } from '../../WellKnown';
 import { apply, Arguments } from '../../../Core/WellKnown';
 
 /**
@@ -47,9 +47,9 @@ export class OnDemandInterceptorInvocation<T extends Design = Design> implements
     // need after next.invoke()
     // remove this invocation from chain
     if (this.next.constructor === this.constructor) {
-      const desc = Reflect.getOwnPropertyDescriptor(this.next, WellKnown);
+      const desc = Reflect.getOwnPropertyDescriptor(this.next, INVOKE);
       const value = desc ? desc.value : this.next.invoke.bind(this.next);
-      apply(this, WellKnown, { value });
+      apply(this, INVOKE, { value });
     }
     return result;
   }

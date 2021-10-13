@@ -16,7 +16,7 @@ import { TypeInfo } from '../Core/Reflection/TypeInfo';
 import { OnDemandTypeInfo } from '../Core/Reflection/OnDemandTypeInfo';
 import { AgentFrameworkError } from './AgentFrameworkError';
 import { CONSTRUCTOR } from '../Core/WellKnown';
-import { GetType } from './Agent';
+import { GetType } from './Knowledges/Types';
 
 /**
  * Reflector is the interface to access type data from class constructor or class prototype

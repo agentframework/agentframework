@@ -1,1 +1,1 @@
-export const WellKnown = 'invoke';
+export const INVOKE = 'invoke';

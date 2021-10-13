@@ -20,9 +20,9 @@ import { FindExtendedClass } from './FindExtendedClass';
 import { AgentFrameworkError } from './AgentFrameworkError';
 import { PropertyInfo } from '../Core/Reflection/PropertyInfo';
 import { InvocationFactory } from './Compiler/InvocationFactory';
-import { RememberType } from './Agent';
 import { ClassInvocations } from './Knowledges/ClassInvocations';
 import { Arguments } from '../Core/WellKnown';
+import { RememberType } from './Knowledges/Types';
 // import { Wisdom } from '../Wisdom/Wisdom';
 
 /**

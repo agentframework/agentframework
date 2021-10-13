@@ -15,8 +15,8 @@ limitations under the License. */
 import { TypeInfo } from '../../../Core/Reflection/TypeInfo';
 import { TypeInvocation } from '../../../Core/Annotation/TypeInvocations';
 import { OnDemandTypeInfo } from '../../../Core/Reflection/OnDemandTypeInfo';
-import { RememberType } from '../../Agent';
 import { apply } from '../../../Core/WellKnown';
+import { RememberType } from '../../Knowledges/Types';
 
 /**
  * Upgrade class to agent

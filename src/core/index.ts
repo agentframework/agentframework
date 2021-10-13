@@ -114,11 +114,11 @@ export { exclusive } from './Agent/Decorators/Exclusive/exclusive';
 /*********************************************************************
  *    (Stability: 1 - Experimental): Agent Helper Functions
  *********************************************************************/
-export { GetType } from './Agent/Agent';
-export { GetAgentType } from './Agent/Agent';
-export { IsAgent } from './Agent/Agent';
 export { Arguments } from './Core/WellKnown';
 export { Class } from './Core/WellKnown';
+export { IsAgent } from './Agent/Knowledges/Agents';
+export { GetAgentType } from './Agent/Knowledges/Agents';
+export { GetType } from './Agent/Knowledges/Types';
 
 /*************************************
  *   AgentFramework 2 end

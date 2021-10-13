@@ -16,9 +16,9 @@ import { AgentFrameworkError } from '../../AgentFrameworkError';
 import { PropertyInterceptor } from '../../../Core/Annotation/TypeInterceptors';
 import { PropertyInvocation } from '../../../Core/Annotation/TypeInvocations';
 import { CreateAgent } from '../../CreateAgent';
-import { IsAgent } from '../../Agent';
 import { Singletons } from '../../Knowledges/Singletons';
 import { Arguments } from 'agentframework';
+import { IsAgent } from '../../Knowledges/Agents';
 
 export class SingletonAttribute implements PropertyInterceptor {
   readonly type?: Function;

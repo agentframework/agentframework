@@ -17,7 +17,8 @@ import { ClassAttribute } from '../Core/Annotation/TypeAttributes';
 import { InvocationFactory } from './Compiler/InvocationFactory';
 import { CanDecorate } from './Decorate/CanDecorate';
 import { AgentFrameworkError } from './AgentFrameworkError';
-import { GetType, RememberAgent } from './Agent';
+import { RememberAgent } from './Knowledges/Agents';
+import { GetType } from './Knowledges/Types';
 
 /**
  * Create a new agent from attribute, and add into Agent registry
