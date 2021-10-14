@@ -12,13 +12,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Invocation } from './Invocation';
-import { Design } from '../Reflection/Design';
-import { Arguments } from '../WellKnown';
+import { Design } from './Design';
+import { Arguments } from './Arguments';
 
-/**
- * Intercept an method call
- */
-export interface Interceptor<T extends Design = Design> {
-  intercept(target: Invocation<T>, params: Arguments, receiver: unknown): unknown;
+export interface Invocation<T extends Design = Design> {
+  /**
+   * design
+   */
+  readonly design: T;
+
+  /**
+   * call next function
+   */
+  invoke<T>(params: Arguments, receiver: unknown): T;
 }

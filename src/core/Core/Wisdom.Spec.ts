@@ -2,8 +2,8 @@ import { Wisdom } from './Wisdom';
 
 describe('Wisdom!', () => {
   describe('# should able to', () => {
-    it('get name', () => {
-      const WisdomStatic: any = Wisdom.constructor;
+    it('get identity', () => {
+      const WisdomStatic: any = Wisdom;
       expect(WisdomStatic.id).toBeInstanceOf(String);
       expect(WisdomStatic.version).toBeInstanceOf(String);
       expect(WisdomStatic.timestamp).toBeInstanceOf(String);

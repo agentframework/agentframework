@@ -12,10 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { TypeInfo } from '../../../Core/Reflection/TypeInfo';
-import { TypeInvocation } from '../../../Core/Annotation/TypeInvocations';
-import { OnDemandTypeInfo } from '../../../Core/Reflection/OnDemandTypeInfo';
-import { Arguments } from '../../../Core/WellKnown';
+import { TypeInfo } from '../../Reflection/TypeInfo';
+import { TypeInvocation } from '../../TypeInvocations';
+import { OnDemandTypeInfo } from '../../Reflection/OnDemandTypeInfo';
+import { Arguments } from '../../Arguments';
 
 /**
  * @ignore

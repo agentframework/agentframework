@@ -1,13 +1,12 @@
-import { Soul } from './Soul';
 import { Property } from './Property';
 
 export function FindProperty(
-  soul: Soul,
+  knowledge: object,
   target: object | Function,
   key: string | symbol,
   descriptor?: PropertyDescriptor
 ): Property {
-  const propertyDescriptor = Reflect.getOwnPropertyDescriptor(soul, key);
+  const propertyDescriptor = Reflect.getOwnPropertyDescriptor(knowledge, key);
   let value: Property;
   if (propertyDescriptor) {
     value = propertyDescriptor.value;
@@ -16,7 +15,7 @@ export function FindProperty(
     //   value.descriptor = descriptor;
     // }
   } else {
-    soul[key] = value = new Property(target, key, descriptor);
+    knowledge[key] = value = new Property(target, key, descriptor);
   }
   return value;
 }

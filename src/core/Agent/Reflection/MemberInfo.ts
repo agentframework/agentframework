@@ -12,10 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Attribute } from '../Annotation/Attribute';
+import { Attribute } from '../Attribute';
 import { Filter } from './Filter';
-import { Design } from './Design';
-import { Class } from '../WellKnown';
+import { Design } from '../Design';
+import { Class } from '../Arguments';
 
 export interface MemberInfo extends Design {
   /**

@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // the once can be used on both class getter or static getter
-import { apply } from '../WellKnown';
+import { alter } from '../../../Core/Helpers/alter';
 
 /**
  * Run getter only once. only apply to getter or static getter
@@ -27,7 +27,7 @@ export function once(): MethodDecorator {
         const { get } = descriptor;
         value = Reflect.apply(get, receiver, []);
         if ('undefined' !== typeof value) {
-          apply(receiver, targetKey, { value });
+          alter(receiver, targetKey, { value });
         }
         return value;
       },
@@ -38,7 +38,7 @@ export function once(): MethodDecorator {
 
 export function Once<T>(target: object | Function, getterKey: string | symbol, value: T): T {
   if ('undefined' !== typeof value) {
-    apply(target, getterKey, { value });
+    alter(target, getterKey, { value });
   }
   return value;
 }

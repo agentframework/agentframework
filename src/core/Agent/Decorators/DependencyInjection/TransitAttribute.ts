@@ -14,9 +14,9 @@ limitations under the License. */
 
 import { CreateAgent } from '../../CreateAgent';
 import { AgentFrameworkError } from '../../AgentFrameworkError';
-import { PropertyInterceptor } from '../../../Core/Annotation/TypeInterceptors';
-import { PropertyInvocation } from '../../../Core/Annotation/TypeInvocations';
-import { Arguments } from '../../../Core/WellKnown';
+import { PropertyInterceptor } from '../../TypeInterceptors';
+import { PropertyInvocation } from '../../TypeInvocations';
+import { Arguments } from '../../Arguments';
 
 export class TransitAttribute implements PropertyInterceptor {
   readonly type?: Function;

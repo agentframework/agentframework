@@ -1,5 +1,5 @@
-import { Remember } from '../../Core/Decorators/Remember';
-import { TypeInvocation } from '../../Core/Annotation/TypeInvocations';
+import { Remember } from '../Decorators/Remember/Remember';
+import { TypeInvocation } from '../TypeInvocations';
 
 /**
  * Gets or sets invocations of giving type (to improve both `new Class()` perf and bootstrap perf)

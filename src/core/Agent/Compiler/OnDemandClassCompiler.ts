@@ -16,11 +16,11 @@ limitations under the License. */
 
 import { ChainFactory } from './ChainFactory';
 import { MethodInvocation } from './Invocation/MethodInvocation';
-import { PropertyInfo } from '../../Core/Reflection/PropertyInfo';
+import { PropertyInfo } from '../Reflection/PropertyInfo';
 import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
 // import { AgentFrameworkError } from '../AgentFrameworkError';
 import { InvocationFactory } from './InvocationFactory';
-import { apply } from '../../Core/WellKnown';
+import { alter } from '../../Core/Helpers/alter';
 
 export function UpgradeAgentProperties(
   target: Function | object,
@@ -60,12 +60,12 @@ class OnDemandClassCompiler {
             descriptor.set = function (this: any) {
               chain.invoke(arguments, this);
             };
-            apply(receiver, key, descriptor);
+            alter(receiver, key, descriptor);
             chain.invoke(arguments, this);
           },
           configurable: true,
         };
-        apply(receiver, key, descriptor);
+        alter(receiver, key, descriptor);
         return chain.invoke([], this);
         // return set(this, key, chain.invoke([undefined], this));
       },
@@ -77,7 +77,7 @@ class OnDemandClassCompiler {
               return chain.invoke([], this);
               // return set(this, key, chain.invoke([undefined], this));
             };
-            apply(receiver, key, descriptor);
+            alter(receiver, key, descriptor);
             return chain.invoke([], this);
             // return set(this, key, chain.invoke([undefined], this));
           },
@@ -90,7 +90,7 @@ class OnDemandClassCompiler {
         // console.log('set receiver', receiver['prototype']);
         // console.log('set this',this);
 
-        apply(receiver, key, descriptor);
+        alter(receiver, key, descriptor);
         return chain.invoke(arguments, this);
       },
       configurable: true,
@@ -126,12 +126,12 @@ class OnDemandClassCompiler {
               descriptor.set = function () {
                 setterChain.invoke(arguments, this);
               };
-              apply(receiver, key, descriptor);
+              alter(receiver, key, descriptor);
               setterChain.invoke(arguments, this);
             },
             configurable: true,
           };
-          apply(receiver, key, descriptor);
+          alter(receiver, key, descriptor);
           return getterChain.invoke([], this);
         };
         propertyDescriptor.set = function (this: any) {
@@ -144,7 +144,7 @@ class OnDemandClassCompiler {
               descriptor.get = function () {
                 return getterChain.invoke([undefined], this);
               };
-              apply(receiver, key, descriptor);
+              alter(receiver, key, descriptor);
               return getterChain.invoke([undefined], this);
             },
             set(this: any) {
@@ -152,7 +152,7 @@ class OnDemandClassCompiler {
             },
             configurable: true,
           };
-          apply(receiver, key, descriptor);
+          alter(receiver, key, descriptor);
           return setterChain.invoke(arguments, this);
         };
       } else {
@@ -163,7 +163,7 @@ class OnDemandClassCompiler {
           propertyDescriptor.get = function (this: any) {
             return getterChain.invoke([], this);
           };
-          apply(receiver, key, propertyDescriptor);
+          alter(receiver, key, propertyDescriptor);
           return getterChain.invoke([], this);
         };
       }
@@ -175,7 +175,7 @@ class OnDemandClassCompiler {
         propertyDescriptor.set = function (this: any) {
           return setterChain.invoke(arguments, this);
         };
-        apply(receiver, key, propertyDescriptor);
+        alter(receiver, key, propertyDescriptor);
         return setterChain.invoke(arguments, this);
       };
     } else if ('function' === typeof defaultValue) {
@@ -186,7 +186,7 @@ class OnDemandClassCompiler {
         propertyDescriptor.value = function (this: any) {
           return chain.invoke(arguments, this);
         };
-        apply(receiver, key, propertyDescriptor);
+        alter(receiver, key, propertyDescriptor);
         return chain.invoke(arguments, this);
       };
     } else {
@@ -208,12 +208,12 @@ class OnDemandClassCompiler {
             descriptor.set = function () {
               chain.invoke(arguments, this);
             };
-            apply(receiver, key, descriptor);
+            alter(receiver, key, descriptor);
             chain.invoke(arguments, this);
           },
           configurable: true,
         };
-        apply(receiver, key, descriptor);
+        alter(receiver, key, descriptor);
         return chain.invoke([], this);
       };
 
@@ -224,7 +224,7 @@ class OnDemandClassCompiler {
             descriptor.get = function () {
               return chain.invoke([], this);
             };
-            apply(receiver, key, descriptor);
+            alter(receiver, key, descriptor);
             return chain.invoke([], this);
           },
           set(this: any) {
@@ -233,7 +233,7 @@ class OnDemandClassCompiler {
           configurable: true,
         };
         // console.log('called set', receiver, Reflect.getOwnPropertyDescriptor(receiver.prototype, key));
-        apply(receiver, key, descriptor);
+        alter(receiver, key, descriptor);
         return chain.invoke(arguments, this);
       };
     }

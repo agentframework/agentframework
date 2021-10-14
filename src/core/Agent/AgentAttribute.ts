@@ -12,17 +12,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { ClassAttribute } from '../Core/Annotation/TypeAttributes';
-import { TypeInvocation } from '../Core/Annotation/TypeInvocations';
-import { ClassInterceptor } from '../Core/Annotation/TypeInterceptors';
+import { ClassAttribute } from './TypeAttributes';
+import { TypeInvocation } from './TypeInvocations';
+import { ClassInterceptor } from './TypeInterceptors';
 import { UpgradeAgentProperties } from './Compiler/OnDemandClassCompiler';
 import { FindExtendedClass } from './FindExtendedClass';
 import { AgentFrameworkError } from './AgentFrameworkError';
-import { PropertyInfo } from '../Core/Reflection/PropertyInfo';
+import { PropertyInfo } from './Reflection/PropertyInfo';
 import { InvocationFactory } from './Compiler/InvocationFactory';
 import { ClassInvocations } from './Knowledges/ClassInvocations';
-import { Arguments } from '../Core/WellKnown';
 import { RememberType } from './Knowledges/Types';
+import { Arguments } from './Arguments';
 // import { Wisdom } from '../Wisdom/Wisdom';
 
 /**

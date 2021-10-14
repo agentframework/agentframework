@@ -16,9 +16,9 @@ import { OnDemandMemberInfo } from './OnDemandMemberInfo';
 import { MemberKinds } from './MemberKinds';
 import { ParameterInfo } from './ParameterInfo';
 import { PropertyInfo } from './PropertyInfo';
-import { Attribute } from '../Annotation/Attribute';
-import { AddAttributeToPropertyParameter } from '../Annotation/AddAttribute';
-import { Parameter } from '../Annotation/Parameter';
+import { Attribute } from '../Attribute';
+import { AddAttributeToPropertyParameter } from '../AddAttribute';
+import { Parameter } from '../../Core/Parameter';
 
 /**
  * Parameter

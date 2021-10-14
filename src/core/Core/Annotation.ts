@@ -12,10 +12,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-/*@__PURE__*/
-export function __agent(decorators: Function[], target: object | Function): any {
-  for (let i = decorators.length - 1; i >= 0; i--) {
-    target = decorators[i](target) || target;
+/**
+ * metadata for a member. key: string, value: any
+ */
+export class Annotation extends Map<string, any> {
+  constructor() {
+    super();
+    this.attributes = [];
   }
-  return target;
+
+  /**
+   * attributes for this code, sequence is matter
+   */
+  readonly attributes: Array<any>;
 }

@@ -13,9 +13,9 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { AgentFrameworkError } from '../../AgentFrameworkError';
-import { ClassInterceptor } from '../../../Core/Annotation/TypeInterceptors';
-import { TypeInvocation } from '../../../Core/Annotation/TypeInvocations';
-import { Arguments } from '../../../Core/WellKnown';
+import { ClassInterceptor } from '../../TypeInterceptors';
+import { TypeInvocation } from '../../TypeInvocations';
+import { Arguments } from '../../Arguments';
 
 export class StaticInitializerAttribute implements ClassInterceptor {
   constructor(readonly key: PropertyKey) {}

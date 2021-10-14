@@ -1,14 +1,14 @@
-import { Attribute } from '../../Core/Annotation/Attribute';
+import { Attribute } from '../Attribute';
 import { AgentInvocation } from './Invocation/AgentInvocation';
 import { ConstructorInvocation } from './Invocation/ConstructorInvocation';
 import { ChainFactory } from './ChainFactory';
 import { Agent } from '../Agent';
 import { Reflector } from '../Reflector';
-import { TypeInvocation } from '../../Core/Annotation/TypeInvocations';
-import { PropertyInfo } from '../../Core/Reflection/PropertyInfo';
-import { Invocation } from '../../Core/Annotation/Invocation';
-import { Once } from '../../Core/Decorators/Once';
-import { TypeInfo } from '../../Core/Reflection/TypeInfo';
+import { TypeInvocation } from '../TypeInvocations';
+import { PropertyInfo } from '../Reflection/PropertyInfo';
+import { Invocation } from '../Invocation';
+import { Once } from '../Decorators/Once/Once';
+import { TypeInfo } from '../Reflection/TypeInfo';
 
 export class InvocationFactory {
   static get class() {

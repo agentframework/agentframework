@@ -17,38 +17,38 @@ limitations under the License. */
 /*********************************************************************
  *   (Stability: 2 - Stable) Metadata Interface
  *********************************************************************/
-export { Design } from './Core/Reflection/Design';
-export { MemberInfo } from './Core/Reflection/MemberInfo';
-export { PropertyInfo } from './Core/Reflection/PropertyInfo';
-export { TypeInfo } from './Core/Reflection/TypeInfo';
-export { ParameterInfo } from './Core/Reflection/ParameterInfo';
+export { Design } from './Agent/Design';
+export { MemberInfo } from './Agent/Reflection/MemberInfo';
+export { PropertyInfo } from './Agent/Reflection/PropertyInfo';
+export { TypeInfo } from './Agent/Reflection/TypeInfo';
+export { ParameterInfo } from './Agent/Reflection/ParameterInfo';
 
-export { Invocation } from './Core/Annotation/Invocation';
-export { Interceptor } from './Core/Annotation/Interceptor';
-export { Attribute } from './Core/Annotation/Attribute';
+export { Invocation } from './Agent/Invocation';
+export { Interceptor } from './Agent/Interceptor';
+export { Attribute } from './Agent/Attribute';
 
-export { TypeInvocation } from './Core/Annotation/TypeInvocations';
-export { ClassInterceptor } from './Core/Annotation/TypeInterceptors';
-export { ClassAttribute } from './Core/Annotation/TypeAttributes';
+export { TypeInvocation } from './Agent/TypeInvocations';
+export { ClassInterceptor } from './Agent/TypeInterceptors';
+export { ClassAttribute } from './Agent/TypeAttributes';
 
-export { ParameterInvocation } from './Core/Annotation/TypeInvocations';
-export { ParameterInterceptor } from './Core/Annotation/TypeInterceptors';
-export { ParameterAttribute } from './Core/Annotation/TypeAttributes';
+export { ParameterInvocation } from './Agent/TypeInvocations';
+export { ParameterInterceptor } from './Agent/TypeInterceptors';
+export { ParameterAttribute } from './Agent/TypeAttributes';
 
-export { PropertyInvocation } from './Core/Annotation/TypeInvocations';
-export { PropertyInterceptor } from './Core/Annotation/TypeInterceptors';
-export { PropertyAttribute } from './Core/Annotation/TypeAttributes';
+export { PropertyInvocation } from './Agent/TypeInvocations';
+export { PropertyInterceptor } from './Agent/TypeInterceptors';
+export { PropertyAttribute } from './Agent/TypeAttributes';
 
-export { Filter } from './Core/Reflection/Filter';
-export { MemberKinds } from './Core/Reflection/MemberKinds';
+export { Filter } from './Agent/Reflection/Filter';
+export { MemberKinds } from './Agent/Reflection/MemberKinds';
 
 /*********************************************************************
  *    (Stability: 1 - Experimental): TSLIB integrate with Metadata
  *********************************************************************/
-export { __agent } from './Core/__agent';
-export { __decorate } from './Core/__decorate';
-export { __param } from './Core/__param';
-export { __metadata } from './Core/__metadata';
+export { __agent } from './Core/Helpers/__agent';
+export { __decorate } from './Core/Helpers/__decorate';
+export { __param } from './Core/Helpers/__param';
+export { __metadata } from './Core/Helpers/__metadata';
 
 /*********************************************************************
  *   (Stability: 2 - Stable) Metadata API
@@ -99,12 +99,12 @@ export { AgentAttribute } from './Agent/AgentAttribute';
 /*********************************************************************
  *   (Stability: 1 - Experimental): Getter Decorator: @remember()
  *********************************************************************/
-export { once, Once } from './Core/Decorators/Once';
+export { once, Once } from './Agent/Decorators/Once/Once';
 
 /*********************************************************************
  *   (Stability: 1 - Experimental): Getter Decorator: @remember()
  *********************************************************************/
-export { remember, Remember } from './Core/Decorators/Remember';
+export { remember, Remember } from './Agent/Decorators/Remember/Remember';
 
 /*********************************************************************
  *   (Stability: 1 - Experimental): Class Decorator: @exclusive()
@@ -114,11 +114,11 @@ export { exclusive } from './Agent/Decorators/Exclusive/exclusive';
 /*********************************************************************
  *    (Stability: 1 - Experimental): Agent Helper Functions
  *********************************************************************/
-export { Arguments } from './Core/WellKnown';
-export { Class } from './Core/WellKnown';
 export { IsAgent } from './Agent/Knowledges/Agents';
 export { GetAgentType } from './Agent/Knowledges/Agents';
 export { GetType } from './Agent/Knowledges/Types';
+export { Class } from './Agent/Arguments';
+export { Arguments } from './Agent/Arguments';
 
 /*************************************
  *   AgentFramework 2 end

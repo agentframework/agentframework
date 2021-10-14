@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Initializer } from './Initializer';
-import { AddAttributeToClass } from '../../../Core/Annotation/AddAttribute';
+import { AddAttributeToClass } from '../../AddAttribute';
 import { InitializerAttribute } from './InitializerAttribute';
 import { StaticInitializerAttribute } from './StaticInitializerAttribute';
 

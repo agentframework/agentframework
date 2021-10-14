@@ -13,9 +13,9 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Interceptor } from './Interceptor';
-import { TypeInfo } from '../Reflection/TypeInfo';
-import { PropertyInfo } from '../Reflection/PropertyInfo';
-import { ParameterInfo } from '../Reflection/ParameterInfo';
+import { TypeInfo } from './Reflection/TypeInfo';
+import { PropertyInfo } from './Reflection/PropertyInfo';
+import { ParameterInfo } from './Reflection/ParameterInfo';
 
 export interface ClassInterceptor extends Interceptor<TypeInfo> {}
 

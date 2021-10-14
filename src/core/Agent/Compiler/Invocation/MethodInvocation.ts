@@ -12,9 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { PropertyInvocation } from '../../../Core/Annotation/TypeInvocations';
-import { PropertyInfo } from '../../../Core/Reflection/PropertyInfo';
-import { Arguments } from '../../../Core/WellKnown';
+import { PropertyInvocation } from '../../TypeInvocations';
+import { PropertyInfo } from '../../Reflection/PropertyInfo';
+import { Arguments } from '../../Arguments';
 
 /**
  * invoke without interceptors, better performance

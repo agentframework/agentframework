@@ -12,16 +12,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Attribute } from './Attribute';
-import { FindParameter } from './FindParameter';
-import { CONSTRUCTOR } from '../WellKnown';
-import { FindSoul } from './FindSoul';
-import { FindProperty } from './FindProperty';
+import { CONSTRUCTOR } from './WellKnown';
+import { FindProperty } from '../Core/FindProperty';
+import { FindParameter } from '../Core/FindParameter';
+import { Wisdom } from '../Core/Wisdom';
 
 /**
  * equals Reflector(target).addAttribute(attribute);
  */
-export function AddAttributeToClass(attribute: Attribute, target: object | Function): void {
+export function AddAttributeToClass(attribute: object, target: object | Function): void {
   AddAttributeToProperty(attribute, target, CONSTRUCTOR);
 }
 
@@ -29,7 +28,7 @@ export function AddAttributeToClass(attribute: Attribute, target: object | Funct
  * equals Reflector(target).parameter(parameterIndex).addAttribute(attribute);
  */
 export function AddAttributeToClassConstructorParameter(
-  attribute: Attribute,
+  attribute: object,
   target: object | Function,
   parameterIndex: number
 ): void {
@@ -40,29 +39,29 @@ export function AddAttributeToClassConstructorParameter(
  * equals Reflector(target).property(property, descriptor).addAttribute(attribute);
  */
 export function AddAttributeToProperty(
-  attribute: Attribute,
+  attribute: object,
   target: object | Function,
   key: string | symbol,
   descriptor?: PropertyDescriptor
 ): void {
   // console.log();
   // console.log('target', typeof target, target);
-  const soul = FindSoul(target);
-  const property = FindProperty(soul, target, key, descriptor);
-  property.attributes.push(attribute);
+  const knowledge = Wisdom.add(target);
+  const annotation = FindProperty(knowledge, target, key, descriptor);
+  annotation.attributes.push(attribute);
 }
 
 /**
  * equals Reflector(target).property(targetKey).parameter(descriptor).addAttribute(attribute);
  */
 export function AddAttributeToPropertyParameter(
-  attribute: Attribute,
+  attribute: object,
   target: object | Function,
   key: string | symbol,
   parameterIndex: number
 ): void {
-  const soul = FindSoul(target);
-  const property = FindProperty(soul, target, key);
-  const parameter = FindParameter(property, parameterIndex);
-  parameter.attributes.push(attribute);
+  const knowledge = Wisdom.add(target);
+  const property = FindProperty(knowledge, target, key);
+  const annotation = FindParameter(property, parameterIndex);
+  annotation.attributes.push(attribute);
 }

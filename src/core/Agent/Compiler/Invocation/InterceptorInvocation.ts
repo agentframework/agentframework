@@ -12,10 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Invocation } from '../../../Core/Annotation/Invocation';
-import { Interceptor } from '../../../Core/Annotation/Interceptor';
-import { Design } from '../../../Core/Reflection/Design';
-import { Arguments } from '../../../Core/WellKnown';
+import { Invocation } from '../../Invocation';
+import { Interceptor } from '../../Interceptor';
+import { Design } from '../../Design';
+import { Arguments } from '../../Arguments';
 
 /**
  * invocation wrapper for interceptor

@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { AgentAttribute } from './AgentAttribute';
-import { ClassAttribute } from '../Core/Annotation/TypeAttributes';
+import { ClassAttribute } from './TypeAttributes';
 import { InvocationFactory } from './Compiler/InvocationFactory';
 import { CanDecorate } from './Decorate/CanDecorate';
 import { AgentFrameworkError } from './AgentFrameworkError';

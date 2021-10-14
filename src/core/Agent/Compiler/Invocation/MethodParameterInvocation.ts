@@ -12,9 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { ParameterInvocation } from '../../../Core/Annotation/TypeInvocations';
-import { ParameterInfo } from '../../../Core/Reflection/ParameterInfo';
-import { Arguments } from '../../../Core/WellKnown';
+import { ParameterInvocation } from '../../TypeInvocations';
+import { ParameterInfo } from '../../Reflection/ParameterInfo';
+import { Arguments } from '../../Arguments';
 
 /**
  * @ignore

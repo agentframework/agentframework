@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // the memorize can be used on both class getter or static getter
-import { Wisdom } from '../Wisdom';
-import { apply } from '../WellKnown';
+import { Wisdom } from '../../../Core/Wisdom';
+import { alter } from '../../../Core/Helpers/alter';
 
 /**
  * only apply to getter
@@ -33,7 +33,7 @@ export function remember(key: string): MethodDecorator {
           const { get } = descriptor;
           wisdom.set(id, (value = Reflect.apply(get, receiver, [])));
         }
-        apply(receiver, targetKey, { value });
+        alter(receiver, targetKey, { value });
         return value;
       },
       configurable: true,
@@ -48,6 +48,6 @@ export function Remember<T>(key: string, target: object | Function, targetKey: s
   if ('undefined' === typeof value) {
     value = valueFn();
   }
-  apply(target, targetKey, { value });
+  alter(target, targetKey, { value });
   return value;
 }

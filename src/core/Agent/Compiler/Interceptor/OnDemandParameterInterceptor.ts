@@ -12,14 +12,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Invocation } from '../../../Core/Annotation/Invocation';
+import { Invocation } from '../../Invocation';
 import { MethodParameterInvocation } from '../Invocation/MethodParameterInvocation';
 import { ChainFactory } from '../ChainFactory';
-import { PropertyInfo } from '../../../Core/Reflection/PropertyInfo';
+import { PropertyInfo } from '../../Reflection/PropertyInfo';
 // import { define } from '../../Helpers/Prototype';
-import { Once } from '../../../Core/Decorators/Once';
-import { PropertyInvocation } from '../../../Core/Annotation/TypeInvocations';
-import { PropertyInterceptor } from '../../../Core/Annotation/TypeInterceptors';
+import { Once } from '../../Decorators/Once/Once';
+import { PropertyInvocation } from '../../TypeInvocations';
+import { PropertyInterceptor } from '../../TypeInterceptors';
 
 /**
  let MongoDB = class MongoDB {

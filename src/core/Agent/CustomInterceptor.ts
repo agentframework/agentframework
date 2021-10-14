@@ -12,8 +12,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Attribute } from '../Core/Annotation/Attribute';
-import { Interceptor } from '../Core/Annotation/Interceptor';
+import { Attribute } from './Attribute';
+import { Interceptor } from './Interceptor';
 import { CustomInterceptors } from './Knowledges/CustomInterceptors';
 
 /**
@@ -56,10 +56,10 @@ export function HasInterceptor(attribute: Attribute): boolean {
 export function GetInterceptor(attribute: Attribute): Interceptor | undefined {
   const found = CustomInterceptors.v1.get(attribute.constructor);
   if (found) {
-    // todo: cache interceptor
+    // todo: cache custom interceptor
     return Reflect.construct(found[0], [attribute, found[1]]);
   }
-  const interceptor = attribute.interceptor;
+  const interceptor = Reflect.get(attribute, 'interceptor');
   if (interceptor && 'object' === typeof interceptor && 'function' === typeof interceptor.intercept) {
     return interceptor;
   }

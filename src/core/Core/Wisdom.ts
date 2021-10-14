@@ -12,129 +12,29 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Soul } from './Annotation/Soul';
-import { apply, CONSTRUCTOR, METADATA, mount, NOW } from './WellKnown';
-import { FindProperty } from './Annotation/FindProperty';
+import { METADATA } from './WellKnown';
+import { decorate } from './Helpers/decorate';
 
-@mount(Reflect, METADATA)
-export class Wisdom extends WeakMap<any, any> {
-  /**
-   * @internal
-   */
-  static get id(): string {
-    return /* replace::release.name */ 'agentframework';
-  }
-
-  /**
-   * @internal
-   */
-  static get version(): string {
-    return /* replace::release.version */ '2.0.0';
-  }
-
-  /**
-   * @internal
-   */
-  static get timestamp(): string {
-    return /* replace::release.timestamp */ '2016-11-03T00:00:00.000Z';
-  }
-
-  /**
-   * @internal
-   */
+@decorate(Reflect, METADATA)
+export class Wisdom {
   /* istanbul ignore next */
-  static has(type: Function | object): boolean {
-    /* ignore this dummy code, for placeholder only */
-    return !!this.get(type);
+  static has(key: Function | object): boolean {
+    /* auto-generated code */
+    return false;
   }
 
-  /**
-   * @internal
-   */
   /* istanbul ignore next */
-  static get(type: Function | object): any {
-    /* ignore this dummy code, for placeholder only */
-    return this.add(type);
+  static get(key: Function | object): any {
+    /* auto-generated code */
   }
 
-  /**
-   * @internal
-   */
   /* istanbul ignore next */
-  static add(type: Function | object): any {
-    /* ignore this dummy code, for placeholder only */
-    return this.has(type);
+  static set(key: Function | object, value: any): any {
+    /* auto-generated code */
   }
 
-  constructor(readonly reflect: typeof Reflect, key: PropertyKey) {
-    super();
-
-    // ===============================================================================
-    // if one day the browser implemented Reflect.metadata. We will reflector all
-    // code related to metadata data in order to have a better performance.
-    // ===============================================================================
-    const r = reflect;
-    const now = new Date();
-    /* istanbul ignore next */
-    const metadata: Function | undefined = r[METADATA] && r[METADATA].bind(r);
-    const wisdom = this;
-    //
-    // target   | property
-    // -----------------------------------------------
-    // Function + undefined     = Constructor
-    // Object   + PropertyKey   = Class member
-    // Function + PropertyKey   = Class static member
-    //
-    function value(key: string, value: any) {
-      return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
-        let newTarget;
-        let newTargetKey;
-        if (arguments.length === 1) {
-          newTarget = (<Function>target).prototype;
-          newTargetKey = CONSTRUCTOR;
-        } else {
-          newTarget = target;
-          newTargetKey = targetKey!;
-        }
-        FindProperty(wisdom.add(newTarget), newTarget, newTargetKey, descriptor).set(key, value);
-        /* istanbul ignore next */
-        return metadata && metadata(key, value)(target, targetKey, descriptor);
-      };
-    }
-    // mark the time
-    value[NOW] = now.getTime();
-    apply(r, METADATA, { value });
-    apply(r, key, { value: wisdom });
-    wisdom.set(wisdom, new Map());
-  }
-
-  /**
-   * Get
-   */
-  // get(type: Function | object): any | undefined {
-  //   return super.get(type || this);
-  // }
-
-  /**
-   * returns value instead this object
-   */
-  set<V>(key: Function | object, value: V): V {
-    super.set(key, value);
-    return value;
-  }
-
-  add(type: Function | object): Soul {
-    const found = this.get(type);
-    if (found) {
-      return found;
-    }
-
-    if (type === Function.prototype) {
-      return this.set(type, Object.create(null));
-    }
-
-    // check parent and build object prototype chain
-    const prototype = this.reflect.getPrototypeOf(type);
-    return this.set(type, Object.create(prototype && this.add(prototype)));
+  /* istanbul ignore next */
+  static add(key: Function | object): any {
+    /* auto-generated code */
   }
 }

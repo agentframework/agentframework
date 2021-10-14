@@ -14,6 +14,8 @@ limitations under the License. */
 
 'use strict';
 
+export { Wisdom } from '../src/core/Core/Wisdom';
+
 /*********************************************************************
  *   (Stability: 2 - Stable) Error
  *********************************************************************/

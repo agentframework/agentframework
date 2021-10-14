@@ -116,6 +116,28 @@ describe('1.4. Class interceptor invoke sequence', () => {
         },
       });
 
+      const aa1 = new AnotherAgent141();
+      expect(aa1).toBeInstanceOf(AnotherAgent141);
+      const aa1s = seq;
+      const expectAA1s = [
+        'beforeAnotherAgent141AA2',
+        'beforeAnotherAgent141AA1',
+        'beforeAnotherAgent2',
+        'beforeAnotherAgentParameter[0]-2',
+        'beforeAnotherAgentParameter[0]-1',
+        'afterAnotherAgentParameter[0]-1',
+        'afterAnotherAgentParameter[0]-2',
+        'beforeAnotherAgentParameter[1]-1',
+        'beforeAnotherAgentParameter[1]-2',
+        'afterAnotherAgentParameter[1]-2',
+        'afterAnotherAgentParameter[1]-1',
+        'AnotherAgent',
+        'afterAnotherAgent2',
+        'afterAnotherAgent141AA1',
+        'afterAnotherAgent141AA2',
+      ];
+      expect(aa1s).toEqual(expectAA1s);
+
       @decorateClass({
         id: 1,
         interceptor: {
@@ -316,7 +338,6 @@ describe('1.4. Class interceptor invoke sequence', () => {
           },
         },
       });
-
       Reflector(Top141).addAttribute({
         id: 12,
         interceptor: {
@@ -329,6 +350,7 @@ describe('1.4. Class interceptor invoke sequence', () => {
         },
       });
 
+      /// region Modify Global Agent Attribute
       Reflector(Agent).addAttribute({
         id: 'g1',
         interceptor: {
@@ -367,12 +389,43 @@ describe('1.4. Class interceptor invoke sequence', () => {
             },
           },
         });
+      // endregion
 
-      const top = new Top141();
+      seq = [];
+      const aa2 = new AnotherAgent141();
+      expect(aa2).toBeInstanceOf(AnotherAgent141);
+      const aa2s = seq;
 
-      expect(top).toBeInstanceOf(Top141);
+      const expectAA2s = [
+        'beforeGlobalReflector2',
+        'beforeGlobalReflector1',
+        'beforeGlobalParameter[0]-1',
+        'afterGlobalParameter[0]-1',
+        'beforeAnotherAgent141AA2',
+        'beforeAnotherAgent141AA1',
+        'beforeAnotherAgent2',
+        'beforeAnotherAgentParameter[0]-2',
+        'beforeAnotherAgentParameter[0]-1',
+        'afterAnotherAgentParameter[0]-1',
+        'afterAnotherAgentParameter[0]-2',
+        'beforeAnotherAgentParameter[1]-1',
+        'beforeAnotherAgentParameter[1]-2',
+        'afterAnotherAgentParameter[1]-2',
+        'afterAnotherAgentParameter[1]-1',
+        'AnotherAgent',
+        'afterAnotherAgent2',
+        'afterAnotherAgent141AA1',
+        'afterAnotherAgent141AA2',
+        'afterGlobalReflector1',
+        'afterGlobalReflector2',
+      ];
+      expect(aa2s).toEqual(expectAA2s);
 
-      const seq1 = seq;
+      seq = [];
+      const top1 = new Top141();
+      expect(top1).toBeInstanceOf(Top141);
+      const topSeq1 = seq;
+
       const expectSeq = [
         'beforeGlobalReflector2',
         'beforeGlobalReflector1',
@@ -380,8 +433,6 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterGlobalParameter[0]-1',
         'beforeTop141AA4',
         'beforeTop141AA3',
-        // 'beforeTop141Decorator1',   Decorators must below @agent()
-        // 'beforeTop141Decorator2',   Decorators must below @agent()
         'beforeTop141Decorator3',
         'beforeTop141Decorator4',
         'beforeMiddle141AA4',
@@ -403,7 +454,6 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterGlobalParameter[0]-1',
         'beforeAnotherAgent141AA2',
         'beforeAnotherAgent141AA1',
-        // 'beforeAnotherAgent1',     Decorators must below @agent()
         'beforeAnotherAgent2',
         'beforeAnotherAgentParameter[0]-2',
         'beforeAnotherAgentParameter[0]-1',
@@ -415,7 +465,6 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterAnotherAgentParameter[1]-1',
         'AnotherAgent',
         'afterAnotherAgent2',
-        // 'afterAnotherAgent1',     Decorators must below @agent()
         'afterAnotherAgent141AA1',
         'afterAnotherAgent141AA2',
         'afterGlobalReflector1',
@@ -433,8 +482,6 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterMiddle141AA4',
         'afterTop141Decorator4',
         'afterTop141Decorator3',
-        // 'afterTop141Decorator2',  Decorators must below @agent()
-        // 'afterTop141Decorator1',  Decorators must below @agent()
         'afterTop141AA3',
         'afterTop141AA4',
         'afterGlobalReflector1',
@@ -442,21 +489,17 @@ describe('1.4. Class interceptor invoke sequence', () => {
       ];
 
       // console.log('seq 1', seq);
-      expect(seq1).toEqual(expectSeq);
+      expect(topSeq1).toEqual(expectSeq);
 
       seq = [];
-
       const top2 = new Top141();
-
       expect(top2).toBeInstanceOf(Top141);
+      const topSeq2 = seq;
 
-      const seq2 = seq;
-      // console.log('seq 2', seq2);
-
-      expect(seq2).toEqual(expectSeq);
+      expect(topSeq2).toEqual(expectSeq);
 
       // NOTE: the invocation is been cached. so seq must same
-      expect(seq1).toEqual(seq2);
+      expect(topSeq1).toEqual(topSeq2);
     });
   });
 });

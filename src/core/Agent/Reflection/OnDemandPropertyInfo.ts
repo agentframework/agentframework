@@ -18,10 +18,10 @@ import { MemberKinds } from './MemberKinds';
 import { PropertyInfo } from './PropertyInfo';
 import { ParameterInfo } from './ParameterInfo';
 import { MemberInfo } from './MemberInfo';
-import { Attribute } from '../Annotation/Attribute';
-import { AddAttributeToProperty } from '../Annotation/AddAttribute';
-import { HasInterceptor } from '../../Agent/CustomInterceptor';
-import { Property } from '../Annotation/Property';
+import { Attribute } from '../Attribute';
+import { AddAttributeToProperty } from '../AddAttribute';
+import { HasInterceptor } from '../CustomInterceptor';
+import { Property } from '../../Core/Property';
 
 // import { getter } from '../Helpers/Prototype';
 // import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';

@@ -14,8 +14,8 @@ limitations under the License. */
 
 // import { Reflector } from '../Reflector';
 import { CanDecorate } from './CanDecorate';
-import { AddAttributeToClass } from '../../Core/Annotation/AddAttribute';
-import { Attribute } from '../../Core/Annotation/Attribute';
+import { AddAttributeToClass } from '../AddAttribute';
+import { Attribute } from '../Attribute';
 
 /**
  * Decorate agent with attribute (this attribute will be used for upgrade agent)

@@ -12,18 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Attribute } from './Attribute';
+import { Invocation } from './Invocation';
+import { Design } from './Design';
+import { Arguments } from './Arguments';
 
 /**
- * metadata for a member. key: string, value: any
+ * Intercept an method call
  */
-export class Annotation extends Map<string, any> {
-  constructor() {
-    super();
-    this.attributes = [];
-  }
-
-  // metadata
-  readonly attributes: Array<Attribute>;
+export interface Interceptor<T extends Design = Design> {
+  intercept(target: Invocation<T>, params: Arguments, receiver: unknown): unknown;
 }
-

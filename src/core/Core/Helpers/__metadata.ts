@@ -12,9 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { CONSTRUCTOR } from './WellKnown';
-import { Wisdom } from './Wisdom';
-import { FindProperty } from './Annotation/FindProperty';
+import { CONSTRUCTOR } from '../WellKnown';
+import { Wisdom } from '../Wisdom';
+import { FindProperty } from '../FindProperty';
 
 /*@__PURE__*/
 export function __metadata(metadataKey: string, metadataValue: any): Function {

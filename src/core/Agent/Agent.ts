@@ -1,5 +1,6 @@
 import { exclusive } from './Decorators/Exclusive/exclusive';
 
+// do not cache global config
 @exclusive('Agent')
 export class Agent {}
 

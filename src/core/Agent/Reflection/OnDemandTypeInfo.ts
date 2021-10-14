@@ -14,17 +14,17 @@ limitations under the License. */
 
 import { OnDemandPropertyInfo } from './OnDemandPropertyInfo';
 import { MemberKinds } from './MemberKinds';
-import { Wisdom } from '../Wisdom';
+import { Wisdom } from '../../Core/Wisdom';
 import { TypeInfo } from './TypeInfo';
 import { PropertyInfo } from './PropertyInfo';
 import { Filter } from './Filter';
-import { Attribute } from '../Annotation/Attribute';
-import { Remember } from '../Decorators/Remember';
-import { AddAttributeToClass } from '../Annotation/AddAttribute';
+import { Attribute } from '../Attribute';
+import { Remember } from '../Decorators/Remember/Remember';
+import { AddAttributeToClass } from '../AddAttribute';
 import { CONSTRUCTOR } from '../WellKnown';
-import { Once } from '../Decorators/Once';
-import { Property } from '../Annotation/Property';
-import { IsAgent } from '../../Agent/Knowledges/Agents';
+import { Once } from '../Decorators/Once/Once';
+import { Property } from '../../Core/Property';
+import { IsAgent } from '../Knowledges/Agents';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}

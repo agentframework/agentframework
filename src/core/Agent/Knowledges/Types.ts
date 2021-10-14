@@ -1,4 +1,4 @@
-import { Remember } from '../../Core/Decorators/Remember';
+import { Remember } from '../Decorators/Remember/Remember';
 
 /**
  * Get original type of giving type

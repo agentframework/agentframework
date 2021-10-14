@@ -12,15 +12,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Wisdom } from '../Wisdom';
-import { Attribute } from '../Annotation/Attribute';
+import { Wisdom } from '../../Core/Wisdom';
+import { Attribute } from '../Attribute';
 import { MemberInfo } from './MemberInfo';
 import { Filter } from './Filter';
-import { HasInterceptor } from '../../Agent/CustomInterceptor';
-import { Annotation } from '../Annotation/Annotation';
-import { Once } from '../Decorators/Once';
-import { Class } from '../WellKnown';
-import { Property } from '../Annotation/Property';
+import { HasInterceptor } from '../CustomInterceptor';
+import { Annotation} from '../../Core/Annotation';
+import { Once } from '../Decorators/Once/Once';
+import { Property } from '../../Core/Property';
+import { Class } from 'agentframework';
 // import { cache } from '../Helpers/Cache';
 
 // let a = 0;
@@ -184,6 +184,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
     }
     return found;
   }
+
 
   /**
    * Return an array of all the attributes which provide getInitializer method

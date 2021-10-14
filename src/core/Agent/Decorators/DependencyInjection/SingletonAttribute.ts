@@ -13,12 +13,12 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { AgentFrameworkError } from '../../AgentFrameworkError';
-import { PropertyInterceptor } from '../../../Core/Annotation/TypeInterceptors';
-import { PropertyInvocation } from '../../../Core/Annotation/TypeInvocations';
+import { PropertyInterceptor } from '../../TypeInterceptors';
+import { PropertyInvocation } from '../../TypeInvocations';
 import { CreateAgent } from '../../CreateAgent';
 import { Singletons } from '../../Knowledges/Singletons';
 import { IsAgent } from '../../Knowledges/Agents';
-import { Arguments } from '../../../Core/WellKnown';
+import { Arguments } from 'agentframework';
 
 export class SingletonAttribute implements PropertyInterceptor {
   readonly type?: Function;

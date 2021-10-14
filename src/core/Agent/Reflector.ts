@@ -12,10 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { TypeInfo } from '../Core/Reflection/TypeInfo';
-import { OnDemandTypeInfo } from '../Core/Reflection/OnDemandTypeInfo';
+import { TypeInfo } from './Reflection/TypeInfo';
+import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
 import { AgentFrameworkError } from './AgentFrameworkError';
-import { CONSTRUCTOR } from '../Core/WellKnown';
+import { CONSTRUCTOR } from './WellKnown';
 import { GetType } from './Knowledges/Types';
 
 /**

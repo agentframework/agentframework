@@ -12,15 +12,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Attribute } from '../../Core/Annotation/Attribute';
+import { Attribute } from '../Attribute';
 import { CanDecorate } from './CanDecorate';
 import {
   AddAttributeToClass,
   AddAttributeToPropertyParameter,
   AddAttributeToClassConstructorParameter,
   AddAttributeToProperty,
-} from '../../Core/Annotation/AddAttribute';
-import { MemberKinds } from '../../Core/Reflection/MemberKinds';
+} from '../AddAttribute';
+import { MemberKinds } from '../Reflection/MemberKinds';
 import { AgentFrameworkError } from '../AgentFrameworkError';
 
 /**

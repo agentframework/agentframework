@@ -12,21 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+/**
+ * Helper function for class decoration
+ */
 /*@__PURE__*/
-export function __decorate(
-  decorators: Function[],
-  target: object | Function,
-  targetKey: string | symbol,
-  desc: PropertyDescriptor | undefined | null /* field=undefined. method,getter,setter = null*/
-): any {
-  if (desc === null) {
-    desc = Reflect.getOwnPropertyDescriptor(target, targetKey);
-  }
-  let modified = desc;
+export function __agent(decorators: Function[], target: object | Function): any {
   for (let i = decorators.length - 1; i >= 0; i--) {
-    modified = decorators[i](target, targetKey, modified || desc);
+    target = decorators[i](target) || target;
   }
-  if (modified) {
-    Reflect.defineProperty(target, targetKey, modified);
-  }
+  return target;
 }

@@ -12,13 +12,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Invocation } from '../../../Core/Annotation/Invocation';
-import { Design } from '../../../Core/Reflection/Design';
-import { Attribute } from '../../../Core/Annotation/Attribute';
+import { Invocation } from '../../Invocation';
+import { Design } from '../../Design';
+import { Attribute } from '../../Attribute';
 import { GetInterceptor } from '../../CustomInterceptor';
-import { Once } from '../../../Core/Decorators/Once';
+import { Once } from '../../Decorators/Once/Once';
 import { INVOKE } from '../../WellKnown';
-import { apply, Arguments } from '../../../Core/WellKnown';
+import { Arguments } from '../../Arguments';
+import { alter } from '../../../Core/Helpers/alter';
 
 /**
  * invocation wrapper for interceptor
@@ -49,7 +50,7 @@ export class OnDemandInterceptorInvocation<T extends Design = Design> implements
     if (this.next.constructor === this.constructor) {
       const desc = Reflect.getOwnPropertyDescriptor(this.next, INVOKE);
       const value = desc ? desc.value : this.next.invoke.bind(this.next);
-      apply(this, INVOKE, { value });
+      alter(this, INVOKE, { value });
     }
     return result;
   }

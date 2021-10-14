@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { CanDecorate } from './CanDecorate';
-import { Attribute } from '../../Core/Annotation/Attribute';
-import { AddAttributeToProperty } from '../../Core/Annotation/AddAttribute';
+import { Attribute } from '../Attribute';
+import { AddAttributeToProperty } from '../AddAttribute';
 
 /**
  * Decorate class properties (field, getter, setter and methods)

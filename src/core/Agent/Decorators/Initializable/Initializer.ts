@@ -12,8 +12,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { TypeInvocation } from '../../../Core/Annotation/TypeInvocations';
-import { Arguments } from '../../../Core/WellKnown';
+import { TypeInvocation } from '../../TypeInvocations';
+import { Arguments } from '../../Arguments';
 
 export type InitializerHandler = () => void;
 
