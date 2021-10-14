@@ -24,7 +24,7 @@ import { AddAttributeToClass } from '../Annotation/AddAttribute';
 import { CONSTRUCTOR } from '../WellKnown';
 import { Once } from '../Decorators/Once';
 import { Property } from '../Annotation/Property';
-import { IsAgent } from 'agentframework';
+import { IsAgent } from '../../Agent/Knowledges/Agents';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}

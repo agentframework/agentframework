@@ -17,9 +17,9 @@ import { Attribute } from '../Annotation/Attribute';
 import { MemberInfo } from './MemberInfo';
 import { Filter } from './Filter';
 import { HasInterceptor } from '../../Agent/CustomInterceptor';
-import { Annotation} from '../Annotation/Annotation';
+import { Annotation } from '../Annotation/Annotation';
 import { Once } from '../Decorators/Once';
-import { Class } from 'agentframework';
+import { Class } from '../WellKnown';
 import { Property } from '../Annotation/Property';
 // import { cache } from '../Helpers/Cache';
 
@@ -184,7 +184,6 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
     }
     return found;
   }
-
 
   /**
    * Return an array of all the attributes which provide getInitializer method
