@@ -1,4 +1,4 @@
-import { agent, transit, CreateAgent } from '../../../src/dependencies/core';
+import { agent, transit, CreateAgent } from '../../../src/dependencies/agent';
 
 describe('Hello world!', () => {
   describe('# should able to', () => {

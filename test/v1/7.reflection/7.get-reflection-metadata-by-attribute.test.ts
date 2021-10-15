@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { decorateMember, Reflector } from '../../../src/dependencies/core';
+import { decorateMember, Reflector } from '../../../src/dependencies/agent';
 import { RandomInterceptor } from '../1.attributes/RandomInterceptor';
 import { RoundInterceptor } from '../1.attributes/RoundInterceptor';
 

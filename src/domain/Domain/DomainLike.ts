@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Class } from '../../dependencies/core';
+import { Class } from '../../dependencies/agent';
 import { AgentReference, Agent, Params } from './Agent';
 
 /**

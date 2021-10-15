@@ -1,5 +1,5 @@
 /* tslint:disable */
-import { AgentAttribute, CreateAgent, IsAgent, Reflector } from '../../../dependencies/core';
+import { AgentAttribute, CreateAgent, IsAgent, Reflector } from '../../../dependencies/agent';
 import { agent } from '../../../dependencies/domain';
 
 @agent()

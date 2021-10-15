@@ -1,7 +1,7 @@
 /* tslint:disable */
 
-import { agent, IsAgent, decorateMember } from '../../../src/dependencies/core';
-import { CreateAgent } from '../../../src/dependencies/core';
+import { agent, IsAgent, decorateMember } from '../../../src/dependencies/agent';
+import { CreateAgent } from '../../../src/dependencies/agent';
 import { BadRoundAttribute } from '../1.attributes/BadRoundAttribute';
 
 @agent()

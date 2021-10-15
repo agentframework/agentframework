@@ -1,4 +1,4 @@
-import { Reflector, CreateAgent } from '../../../src/dependencies/core';
+import { Reflector, CreateAgent } from '../../../src/dependencies/agent';
 import { InMemoryDomain, agent, inject } from '../../../src/dependencies/domain';
 
 describe('5.8. Domain @inject decorator', () => {

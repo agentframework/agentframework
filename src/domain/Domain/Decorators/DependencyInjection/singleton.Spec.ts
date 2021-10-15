@@ -6,7 +6,7 @@ import {
   IsAgent,
   PropertyInvocation,
   Reflector,
-} from '../../../../dependencies/core';
+} from '../../../../dependencies/agent';
 import { InMemoryDomain, agent, singleton } from '../../../../dependencies/domain';
 
 describe('Domain @singleton() decorator', () => {

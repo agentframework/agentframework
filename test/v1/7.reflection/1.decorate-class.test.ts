@@ -1,11 +1,11 @@
 /* tslint:disable */
 
-import { agent, decorateClass, decorateMember, IsAgent, Reflector } from '../../../src/dependencies/core';
+import { agent, decorateClass, decorateMember, IsAgent, Reflector } from '../../../src/dependencies/agent';
 import { RandomInterceptor } from '../1.attributes/RandomInterceptor';
 import { RoundInterceptor } from '../1.attributes/RoundInterceptor';
 import { MetadataAttribute } from '../1.attributes/MetadataAttribute';
 import { AgentChecker } from '../1.attributes/AgentChecker';
-import { AgentAttribute, CreateAgent, GetType } from '../../../src/dependencies/core';
+import { AgentAttribute, CreateAgent, GetType } from '../../../src/dependencies/agent';
 
 @agent()
 @decorateClass(new AgentChecker())

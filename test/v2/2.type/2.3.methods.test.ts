@@ -5,7 +5,7 @@ import {
   HasInterceptor,
   ParameterInvocation,
   Reflector,
-} from '../../../src/dependencies/core';
+} from '../../../src/dependencies/agent';
 import { ClassMethod, ClassMethodParameter } from '../Kinds';
 
 class ParamAttribute {

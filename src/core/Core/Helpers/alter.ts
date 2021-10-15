@@ -1,7 +1,7 @@
 /**
  * @internal
  */
-export function alter<T extends object>(target: T, key: string | symbol | number, value: object): T {
+export function alter<T>(target: object | Function, key: string | symbol | number, value: T): T {
   Reflect.defineProperty(target, key, value);
-  return target;
+  return value;
 }

@@ -1,4 +1,4 @@
-import { decorateMember, MemberKinds, PropertyInfo, Reflector } from '../../../src/dependencies/core';
+import { decorateMember, MemberKinds, PropertyInfo, Reflector } from '../../../src/dependencies/agent';
 
 class Compiler {}
 

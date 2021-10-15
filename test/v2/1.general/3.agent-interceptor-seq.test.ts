@@ -7,8 +7,8 @@ import {
   Reflector,
   decorateAgent,
   Agent,
-} from '../../../src/dependencies/core';
-import { agent } from '../../../src/dependencies/core';
+} from '../../../src/dependencies/agent';
+import { agent } from '../../../src/dependencies/agent';
 
 describe('1.3. Agent interceptor invoke sequence', () => {
   describe('# should able to', () => {

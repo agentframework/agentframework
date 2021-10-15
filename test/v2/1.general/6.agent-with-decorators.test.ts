@@ -1,4 +1,4 @@
-import { agent, decorateClass, decorateMember, GetType, Reflector } from '../../../src/dependencies/core';
+import { agent, decorateClass, decorateMember, GetType, Reflector } from '../../../src/dependencies/agent';
 
 
 describe('1.6. Agent with decorators', () => {

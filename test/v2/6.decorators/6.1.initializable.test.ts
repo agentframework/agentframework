@@ -1,5 +1,5 @@
-import { Arguments, TypeInvocation } from '../../../src/dependencies/core';
-import { CreateAgent, Initializer, initializable, agent } from '../../../src/dependencies/core';
+import { Arguments, TypeInvocation } from '../../../src/dependencies/agent';
+import { CreateAgent, Initializer, initializable, agent } from '../../../src/dependencies/agent';
 
 describe('6.1. @initializable decorator', () => {
   describe('# should able to', () => {

@@ -6,7 +6,7 @@ import {
   Design,
   Invocation,
   Reflector,
-} from '../../../src/dependencies/core';
+} from '../../../src/dependencies/agent';
 
 describe('5.11. Domain agent cache', () => {
   describe('# should able to', () => {

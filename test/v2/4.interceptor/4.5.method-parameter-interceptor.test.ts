@@ -1,8 +1,8 @@
-import { agent } from '../../../src/dependencies/core';
-import { decorateMember } from '../../../src/dependencies/core';
-import { TypeInvocation, ParameterInvocation } from '../../../src/dependencies/core';
-import { Arguments } from '../../../src/dependencies/core';
-import { decorateParameter } from '../../../src/dependencies/core';
+import { agent } from '../../../src/dependencies/agent';
+import { decorateMember } from '../../../src/dependencies/agent';
+import { TypeInvocation, ParameterInvocation } from '../../../src/dependencies/agent';
+import { Arguments } from '../../../src/dependencies/agent';
+import { decorateParameter } from '../../../src/dependencies/agent';
 
 describe('4.5. method parameter interceptor', () => {
   describe('# should able to', () => {

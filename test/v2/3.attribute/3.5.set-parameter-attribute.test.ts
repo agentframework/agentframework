@@ -1,4 +1,4 @@
-import { Reflector, ParameterAttribute, decorateParameter } from '../../../src/dependencies/core';
+import { Reflector, ParameterAttribute, decorateParameter } from '../../../src/dependencies/agent';
 
 class MandatoryAttribute implements ParameterAttribute {}
 

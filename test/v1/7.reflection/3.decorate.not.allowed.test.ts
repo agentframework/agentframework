@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { decorate, AgentFrameworkError, MemberKinds } from '../../../src/dependencies/core';
+import { decorate, AgentFrameworkError, MemberKinds } from '../../../src/dependencies/agent';
 import { MetadataAttribute } from '../1.attributes/MetadataAttribute';
 
 const a = new MetadataAttribute();

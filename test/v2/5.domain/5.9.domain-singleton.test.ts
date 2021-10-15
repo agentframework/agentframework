@@ -6,7 +6,7 @@ import {
   AgentFrameworkError,
   IsAgent,
   CreateAgent,
-} from '../../../src/dependencies/core';
+} from '../../../src/dependencies/agent';
 import { InMemoryDomain, agent, singleton } from '../../../src/dependencies/domain';
 
 describe('5.9. Domain @singleton decorator', () => {

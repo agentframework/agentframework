@@ -7,8 +7,8 @@ import {
   decorateMember,
   Agent,
   decorateParameter,
-} from '../../../src/dependencies/core';
-import { agent } from '../../../src/dependencies/core';
+} from '../../../src/dependencies/agent';
+import { agent } from '../../../src/dependencies/agent';
 
 describe('1.5. Property interceptor invoke sequence', () => {
   describe('# should able to', () => {

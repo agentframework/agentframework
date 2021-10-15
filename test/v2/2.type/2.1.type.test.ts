@@ -8,7 +8,7 @@ import {
   decorateClass,
   decorateMember,
   GetType,agent
-} from '../../../src/dependencies/core';
+} from '../../../src/dependencies/agent';
 
 
 class Storage {}

@@ -18,7 +18,7 @@ import { Agent, AgentReference } from './Agent';
 import { SubDomainLike } from './SubDomainLike';
 import { DomainLike } from './DomainLike';
 import { GetSystemDomain } from './Helpers/GetSystemDomain';
-import { Once } from '../../dependencies/core';
+import { Once } from '../../dependencies/agent';
 
 export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
   get parent(): DomainLike {

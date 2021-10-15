@@ -1,4 +1,4 @@
-import { agent, Arguments, decorateMember, Invocation, once, Design } from '../../../src/dependencies/core';
+import { agent, Arguments, decorateMember, Invocation, once, Design } from '../../../src/dependencies/agent';
 
 describe('4.10. Empty interceptors', () => {
   describe('# should able to', () => {

@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { agent } from '../../../src/dependencies/core';
+import { agent } from '../../../src/dependencies/agent';
 import {
   fakeClassMemberDecorator,
   fakeClassDecorator,

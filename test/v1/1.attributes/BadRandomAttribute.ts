@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Interceptor } from '../../../src/dependencies/core';
+import { Interceptor } from '../../../src/dependencies/agent';
 
 export class BadRandomAttribute {
   beforeDecorate(

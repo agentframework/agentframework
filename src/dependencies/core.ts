@@ -1,2 +1,1 @@
-// export * from '../../release';
-export * from '../core/index';
+export * from '../core';

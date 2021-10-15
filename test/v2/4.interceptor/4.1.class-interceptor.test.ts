@@ -6,7 +6,7 @@ import {
   decorateMember,
   decorateAgent,
   Reflector,
-} from '../../../src/dependencies/core';
+} from '../../../src/dependencies/agent';
 
 describe('4.1. Class interceptor', () => {
   describe('# should able to', () => {

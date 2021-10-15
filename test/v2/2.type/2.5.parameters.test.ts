@@ -1,4 +1,4 @@
-import { Arguments, decorate, decorateParameter, MemberKinds, ParameterInvocation, Reflector } from '../../../src/dependencies/core';
+import { Arguments, decorate, decorateParameter, MemberKinds, ParameterInvocation, Reflector } from '../../../src/dependencies/agent';
 
 class Data251 {
   constructor(@decorate({ require: 'operator' }, MemberKinds.Parameter) model: Date) {}

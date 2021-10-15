@@ -1,4 +1,4 @@
-import { Agent, Arguments, Invocation, Reflector, agent } from '../../../src/dependencies/core';
+import { Agent, Arguments, Invocation, Reflector, agent } from '../../../src/dependencies/agent';
 
 describe('6.9. Global Agent', () => {
   describe('# should able to', () => {

@@ -1,4 +1,4 @@
-import { remember } from '../../../src/dependencies/core';
+import { remember } from '../../../src/dependencies/agent';
 
 describe('6.6. @remember helper', () => {
   describe('# should able to', () => {

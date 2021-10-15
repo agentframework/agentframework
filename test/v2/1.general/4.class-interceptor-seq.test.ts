@@ -5,8 +5,8 @@ import {
   Design,
   Invocation,
   Reflector,
-} from '../../../src/dependencies/core';
-import { agent, Agent } from '../../../src/dependencies/core';
+} from '../../../src/dependencies/agent';
+import { agent, Agent } from '../../../src/dependencies/agent';
 
 describe('1.4. Class interceptor invoke sequence', () => {
   describe('# should able to', () => {

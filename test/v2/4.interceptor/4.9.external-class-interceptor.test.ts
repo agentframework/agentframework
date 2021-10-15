@@ -8,7 +8,7 @@ import {
   decorateClass,
   GetCustomInterceptor,
   RemoveCustomInterceptor,
-} from '../../../src/dependencies/core';
+} from '../../../src/dependencies/agent';
 
 describe('4.9. External interceptor', () => {
   describe('# should able to', () => {

@@ -1,8 +1,8 @@
-import { agent } from '../../../src/dependencies/core';
-import { decorateMember } from '../../../src/dependencies/core';
-import { TypeInvocation } from '../../../src/dependencies/core';
-import { Arguments } from '../../../src/dependencies/core';
-import { IsAgent } from '../../../src/dependencies/core';
+import { agent } from '../../../src/dependencies/agent';
+import { decorateMember } from '../../../src/dependencies/agent';
+import { TypeInvocation } from '../../../src/dependencies/agent';
+import { Arguments } from '../../../src/dependencies/agent';
+import { IsAgent } from '../../../src/dependencies/agent';
 
 describe('4.4. method interceptor', () => {
   @agent()
