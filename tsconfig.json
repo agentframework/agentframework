@@ -18,7 +18,6 @@
     "allowSyntheticDefaultImports": true,
     "stripInternal": true
   },
-  "include": [
-    "lib", "src", "test", "tools"],
+  "include": ["lib", "src", "test", "tools"],
   "exclude": ["node_modules"]
 }

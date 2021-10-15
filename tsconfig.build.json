@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "agentframework": ["src/core/index"]
+    }
+  },
+  "extends": "./tsconfig.json"
+}
