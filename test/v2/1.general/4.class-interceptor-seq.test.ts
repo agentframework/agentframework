@@ -419,14 +419,15 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterGlobalReflector1',
         'afterGlobalReflector2',
       ];
-      expect(aa2s).toEqual(expectAA2s);
+      expect(aa2s).toEqual(expectAA1s);
+      expect(aa2s).not.toEqual(expectAA2s);
 
       seq = [];
       const top1 = new Top141();
       expect(top1).toBeInstanceOf(Top141);
       const topSeq1 = seq;
 
-      const expectSeq = [
+      const top1_seq = [
         'beforeGlobalReflector2',
         'beforeGlobalReflector1',
         'beforeGlobalParameter[0]-1',
@@ -448,10 +449,6 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'before Top141',
         'before Middle141',
         'before Base141',
-        'beforeGlobalReflector2',
-        'beforeGlobalReflector1',
-        'beforeGlobalParameter[0]-1',
-        'afterGlobalParameter[0]-1',
         'beforeAnotherAgent141AA2',
         'beforeAnotherAgent141AA1',
         'beforeAnotherAgent2',
@@ -467,8 +464,6 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterAnotherAgent2',
         'afterAnotherAgent141AA1',
         'afterAnotherAgent141AA2',
-        'afterGlobalReflector1',
-        'afterGlobalReflector2',
         'Base141',
         'Middle141',
         'Top141',
@@ -488,15 +483,15 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterGlobalReflector2',
       ];
 
-      // console.log('seq 1', seq);
-      expect(topSeq1).toEqual(expectSeq);
+      expect(topSeq1).toEqual(top1_seq);
 
       seq = [];
       const top2 = new Top141();
       expect(top2).toBeInstanceOf(Top141);
       const topSeq2 = seq;
 
-      expect(topSeq2).toEqual(expectSeq);
+      // expect(topSeq2).toEqual(expectAA1s);
+      expect(topSeq2).toEqual(top1_seq);
 
       // NOTE: the invocation is been cached. so seq must same
       expect(topSeq1).toEqual(topSeq2);

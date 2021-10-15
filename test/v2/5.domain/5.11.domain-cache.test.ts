@@ -21,6 +21,7 @@ describe('5.11. Domain agent cache', () => {
       class WebRequest511 {}
 
       expect(seq).toEqual([]);
+
       Reflector(Agent).addAttribute({
         interceptor: {
           intercept(target: Invocation<Design>, params: Arguments, receiver: unknown): unknown {
@@ -32,7 +33,7 @@ describe('5.11. Domain agent cache', () => {
         },
       });
 
-      seq = [];
+      expect(seq).toEqual([]);
       const r1 = domain.construct(WebRequest511);
       expect(r1).toBeInstanceOf(WebRequest511);
       const r1_seq = ['beforeGlobal1', 'beforeWebRequest1', 'afterWebRequest1', 'afterGlobal1'];
@@ -62,33 +63,29 @@ describe('5.11. Domain agent cache', () => {
 
       // make some changes to the interceptor
       seq = [];
-      const r2 = domain.construct(WebRequest511); // cached, not call interceptor
+      const r1_ref = domain.construct(WebRequest511); // cached, not call interceptor
       expect(seq).toEqual([]);
-      expect(r2).toBe(r1);
+      expect(r1_ref).toBe(r1);
+
+      // make some changes to the interceptor
+      const r1_new = domain.construct(WebRequest511, [], true); // cached, not call interceptor
+      expect(seq).toEqual(r1_seq);
+      expect(r1_new).not.toBe(r1);
 
       // new domain
-      const domain2 = new InMemoryDomain();
+      class Domain2 extends InMemoryDomain {}
+      const domain2 = new Domain2();
 
       seq = [];
       const r3 = domain2.construct(WebRequest511);
       expect(r3).toBeInstanceOf(WebRequest511);
-      const r3_seq = [
-        'beforeGlobal2',
-        'beforeGlobal1',
-        'beforeWebRequest2',
-        'beforeWebRequest1',
-        'afterWebRequest1',
-        'afterWebRequest2',
-        'afterGlobal1',
-        'afterGlobal2',
-      ];
-      expect(seq).toEqual(r3_seq);
+      expect(seq).toEqual(r1_seq);
 
       seq = [];
       const r4 = domain2.construct(WebRequest511, [], true);
       expect(r4).toBeInstanceOf(WebRequest511);
       expect(r3).not.toBe(r4);
-      expect(seq).toEqual(r3_seq);
+      expect(seq).toEqual(r1_seq);
     });
   });
 });

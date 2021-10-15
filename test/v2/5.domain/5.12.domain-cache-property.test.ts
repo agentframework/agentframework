@@ -8,7 +8,7 @@ import {
 } from '../../../src/dependencies/agent';
 import { InMemoryDomain } from '../../../src/dependencies/domain';
 
-describe('5.11. Domain agent cache', () => {
+describe('5.12. Domain agent property cache', () => {
   describe('# should able to', () => {
     it('cache domain agent in same domain', () => {
       let seq: string[] = [];
@@ -116,17 +116,7 @@ describe('5.11. Domain agent cache', () => {
       expect(seq).toEqual([]);
 
       req2_d2.invoke();
-      expect(seq).toEqual(req1_d2_seq);
-
-      seq = [];
-      const domain3 = new InMemoryDomain();
-      expect(seq).toEqual([]);
-      const req1_d3 = domain3.construct(WebRequest, [], true);
-      expect(seq).toEqual([]);
-
-      seq = [];
-      req1_d3.invoke();
-      const req1_d3_seq = [
+      const req2_d2_seq = [
         'beforeInvokeAttribute2',
         'beforeInvokeAttribute1',
         'beforeInvoke1',
@@ -137,7 +127,17 @@ describe('5.11. Domain agent cache', () => {
         'afterInvokeAttribute1',
         'afterInvokeAttribute2',
       ];
-      expect(seq).toEqual(req1_d3_seq);
+      expect(seq).toEqual(req2_d2_seq);
+
+      seq = [];
+      const domain3 = new InMemoryDomain();
+      expect(seq).toEqual([]);
+      const req1_d3 = domain3.construct(WebRequest, [], true);
+      expect(seq).toEqual([]);
+
+      seq = [];
+      req1_d3.invoke();
+      expect(seq).toEqual(req2_d2_seq);
     });
   });
 });
