@@ -3,6 +3,7 @@
     "target": "ES2015",
     "lib": ["ES2015", "ES2015.Iterable", "dom"],
     "module": "commonjs",
+    "moduleResolution": "node",
     "locale": "en-US",
     "strict": true,
     "experimentalDecorators": true,
@@ -16,7 +17,11 @@
     "suppressImplicitAnyIndexErrors": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "stripInternal": true
+    "stripInternal": true,
+    "baseUrl": "./",
+    "paths": {
+      "agentframework": ["src/core/index"]
+    }
   },
   "include": ["lib", "src", "test", "tools"],
   "exclude": ["node_modules"]

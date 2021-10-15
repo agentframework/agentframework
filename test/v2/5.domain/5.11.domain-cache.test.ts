@@ -34,9 +34,9 @@ describe('5.11. Domain agent cache', () => {
 
       seq = [];
       const r1 = domain.construct(WebRequest511);
-      const cached = ['beforeGlobal1', 'beforeWebRequest1', 'afterWebRequest1', 'afterGlobal1'];
-      expect(seq).toEqual(cached);
       expect(r1).toBeInstanceOf(WebRequest511);
+      const r1_seq = ['beforeGlobal1', 'beforeWebRequest1', 'afterWebRequest1', 'afterGlobal1'];
+      expect(seq).toEqual(r1_seq);
 
       Reflector(WebRequest511).addAttribute({
         interceptor: {
@@ -65,7 +65,6 @@ describe('5.11. Domain agent cache', () => {
       const r2 = domain.construct(WebRequest511); // cached, not call interceptor
       expect(seq).toEqual([]);
       expect(r2).toBe(r1);
-      expect(r2).toBeInstanceOf(WebRequest511);
 
       // new domain
       const domain2 = new InMemoryDomain();
@@ -73,13 +72,23 @@ describe('5.11. Domain agent cache', () => {
       seq = [];
       const r3 = domain2.construct(WebRequest511);
       expect(r3).toBeInstanceOf(WebRequest511);
-      expect(seq).toEqual(cached);
+      const r3_seq = [
+        'beforeGlobal2',
+        'beforeGlobal1',
+        'beforeWebRequest2',
+        'beforeWebRequest1',
+        'afterWebRequest1',
+        'afterWebRequest2',
+        'afterGlobal1',
+        'afterGlobal2',
+      ];
+      expect(seq).toEqual(r3_seq);
 
       seq = [];
       const r4 = domain2.construct(WebRequest511, [], true);
       expect(r4).toBeInstanceOf(WebRequest511);
       expect(r3).not.toBe(r4);
-      expect(seq).toEqual(cached);
+      expect(seq).toEqual(r3_seq);
     });
   });
 });

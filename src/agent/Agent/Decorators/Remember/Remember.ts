@@ -26,12 +26,12 @@ export function remember(key: string): MethodDecorator {
         const receiver = 'function' === typeof target ? target : this;
         let value;
         // note: bulletproof syntax against tools like "terser"
-        const wisdom = Knowledge.get(Knowledge);
+        const knowledge = Knowledge.get(Knowledge);
         const id = key + '.' + String(targetKey);
-        value = wisdom.get(id);
+        value = knowledge.get(id);
         if (!value) {
           const { get } = descriptor;
-          wisdom.set(id, (value = Reflect.apply(get, receiver, [])));
+          knowledge.set(id, (value = Reflect.apply(get, receiver, [])));
         }
         alter(receiver, targetKey, { value });
         return value;

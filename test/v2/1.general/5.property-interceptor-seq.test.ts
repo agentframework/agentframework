@@ -7,8 +7,8 @@ import {
   decorateMember,
   Agent,
   decorateParameter,
+  agent,
 } from '../../../src/dependencies/agent';
-import { agent } from '../../../src/dependencies/agent';
 
 describe('1.5. Property interceptor invoke sequence', () => {
   describe('# should able to', () => {
@@ -101,7 +101,7 @@ describe('1.5. Property interceptor invoke sequence', () => {
       expect(seq).toEqual([]);
       top1.hello();
       // console.log('top1', seq);
-      const cached = [
+      const top1HelloSeq = [
         'beforeHello1',
         'beforeHello2',
         'beforeHelloParameterName1',
@@ -116,7 +116,7 @@ describe('1.5. Property interceptor invoke sequence', () => {
         'afterHello2',
         'afterHello1',
       ];
-      expect(seq).toEqual(cached);
+      expect(seq).toEqual(top1HelloSeq);
 
       Reflector(Class151)
         .property('hello')
@@ -137,7 +137,22 @@ describe('1.5. Property interceptor invoke sequence', () => {
       expect(seq).toEqual([]);
       top2.hello();
       // console.log('top2', seq);
-      expect(seq).toEqual(cached);
+      const top2HelloSeq = [ 'beforeHello3',
+        'beforeHello1',
+        'beforeHello2',
+        'beforeHelloParameterName1',
+        'beforeHelloParameterName2',
+        'afterHelloParameterName2',
+        'afterHelloParameterName1',
+        'beforeHelloParameterAddress1',
+        'beforeHelloParameterAddress2',
+        'afterHelloParameterAddress2',
+        'afterHelloParameterAddress1',
+        'Hello-undefined',
+        'afterHello2',
+        'afterHello1',
+        'afterHello3' ];
+      expect(seq).toEqual(top2HelloSeq);
 
       Reflector(Class151)
         .property('hello')
@@ -171,8 +186,28 @@ describe('1.5. Property interceptor invoke sequence', () => {
       const top3 = new Class151();
       expect(seq).toEqual([]);
       top3.hello();
-      // console.log('top3', seq);
-      expect(seq).toEqual(cached);
+      const top3HelloSeq = [
+        'beforeGlobalHello1',
+        'beforeHello4',
+        'beforeHello3',
+        'beforeHello1',
+        'beforeHello2',
+        'beforeHelloParameterName1',
+        'beforeHelloParameterName2',
+        'afterHelloParameterName2',
+        'afterHelloParameterName1',
+        'beforeHelloParameterAddress1',
+        'beforeHelloParameterAddress2',
+        'afterHelloParameterAddress2',
+        'afterHelloParameterAddress1',
+        'Hello-undefined',
+        'afterHello2',
+        'afterHello1',
+        'afterHello3',
+        'afterHello4',
+        'afterGlobalHello1',
+      ];
+      expect(seq).toEqual(top3HelloSeq);
       seq = [];
 
       Reflector(Agent)
@@ -189,11 +224,33 @@ describe('1.5. Property interceptor invoke sequence', () => {
           },
         });
 
-      const top = new Class151();
+      const top4 = new Class151();
       expect(seq).toEqual([]);
-      top.hello();
-      // console.log('h1', seq);
-      expect(seq).toEqual(cached);
+      top4.hello();
+      const top4HelloSeq = [
+        'beforeGlobalHello2',
+        'beforeGlobalHello1',
+        'beforeHello4',
+        'beforeHello3',
+        'beforeHello1',
+        'beforeHello2',
+        'beforeHelloParameterName1',
+        'beforeHelloParameterName2',
+        'afterHelloParameterName2',
+        'afterHelloParameterName1',
+        'beforeHelloParameterAddress1',
+        'beforeHelloParameterAddress2',
+        'afterHelloParameterAddress2',
+        'afterHelloParameterAddress1',
+        'Hello-undefined',
+        'afterHello2',
+        'afterHello1',
+        'afterHello3',
+        'afterHello4',
+        'afterGlobalHello1',
+        'afterGlobalHello2',
+      ];
+      expect(seq).toEqual(top4HelloSeq);
 
       seq = [];
       const AgentClass2 = CreateAgent(Class151);
