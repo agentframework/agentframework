@@ -92,6 +92,14 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     super(target, CONSTRUCTOR);
   }
 
+  get version(): number {
+    let version = super.version;
+    for (const prop of this.getOwnProperties()) {
+      version += prop.version;
+    }
+    return version;
+  }
+
   get static(): TypeInfo {
     return OnDemandTypeInfo.find(this.declaringType);
   }

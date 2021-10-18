@@ -14,6 +14,11 @@ limitations under the License. */
 
 export interface Design {
   /**
+   * Version. changes to the annotation increase the version
+   */
+  readonly version: number;
+
+  /**
    * Annotation type
    */
   readonly kind: number;

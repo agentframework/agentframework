@@ -46,6 +46,13 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
   constructor(readonly target: object | Function, readonly key: string | symbol) {}
 
   /**
+   * version. 0 means not annotated
+   */
+  get version(): number {
+    return this.annotation ? this.annotation.version : 0;
+  }
+
+  /**
    * Get name
    */
   get name(): string {

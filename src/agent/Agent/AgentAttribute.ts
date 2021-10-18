@@ -23,7 +23,6 @@ import { InvocationFactory } from './Compiler/InvocationFactory';
 import { ClassInvocations } from './Knowledges/ClassInvocations';
 import { RememberType } from './Knowledges/Types';
 import { Arguments } from './Arguments';
-// import { Wisdom } from '../Wisdom/Wisdom';
 
 /**
  * This attribute is for upgrade class to agent

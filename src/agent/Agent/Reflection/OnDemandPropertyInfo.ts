@@ -39,6 +39,15 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
     return this.propertyAnnotationOrUndefined;
   }
 
+  get version(): number {
+    // property info version + parameter version
+    let version = this.annotation ? this.annotation.version : 0;
+    for (const p of this.parameters.values()) {
+      version += p.version;
+    }
+    return version;
+  }
+
   /**
    * Returns descriptor of this property. undefined if this is a field
    */
