@@ -12,8 +12,8 @@ export function AddAttributeToProperty(
   descriptor?: PropertyDescriptor
 ): void {
   const knowledge = Knowledge.add(target);
-  const annotation = GetProperty(knowledge, target, key, descriptor);
-  annotation.attributes.push(attribute);
+  const property = GetProperty(knowledge, target, key, descriptor);
+  property.push(attribute);
 }
 
 /**
@@ -27,6 +27,6 @@ export function AddAttributeToPropertyParameter(
 ): void {
   const knowledge = Knowledge.add(target);
   const property = GetProperty(knowledge, target, key);
-  const annotation = GetParameter(property, parameterIndex);
-  annotation.attributes.push(attribute);
+  const parameter = GetParameter(property, parameterIndex);
+  parameter.push(attribute);
 }

@@ -69,7 +69,10 @@ export interface TypeInfo extends PropertyInfo {
   /**
    * Find properties from own properties or prototype properties, results: current -> middle -> root -> Object
    */
-  findProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): ReadonlyMap<TypeInfo, ReadonlyArray<PropertyInfo>>;
+  findProperties(
+    filter: Filter<PropertyInfo>,
+    filterCriteria?: any
+  ): ReadonlyMap<TypeInfo, ReadonlyArray<PropertyInfo>>;
 
   /**
    * Find types from prototype chain, results: current -> middle -> root -> Object

@@ -16,13 +16,29 @@ limitations under the License. */
  * metadata for a member. key: string, value: any
  */
 export class Annotation extends Map<string, any> {
-  constructor() {
-    super();
-    this.attributes = [];
-  }
+  /**
+   * version of this annotation
+   */
+  version: number = 0;
 
   /**
    * attributes for this code, sequence is matter
    */
-  readonly attributes: Array<any>;
+  readonly attributes: Array<any> = [];
+
+  /**
+   * Add metadata ( sequence NOT matter)
+   */
+  add(key: string, value: any): this {
+    this.version++;
+    return super.set(key, value);
+  }
+
+  /**
+   * Add attribute
+   */
+  push(attribute: any): number {
+    this.version++;
+    return this.attributes.push(attribute);
+  }
 }

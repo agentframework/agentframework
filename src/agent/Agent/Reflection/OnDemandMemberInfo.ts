@@ -13,14 +13,14 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Knowledge } from '../../../dependencies/core';
+import { Annotation } from '../../../dependencies/core';
+import { Property } from '../../../dependencies/core';
 import { Attribute } from '../Attribute';
 import { MemberInfo } from './MemberInfo';
 import { Filter } from './Filter';
+import { Class } from '../Arguments';
 import { HasInterceptor } from '../CustomInterceptor';
 import { Once } from '../Decorators/Once/Once';
-import { Annotation} from '../../../dependencies/core';
-import { Property } from '../../../dependencies/core';
-import { Class } from '../Arguments';
 
 // import { cache } from '../Helpers/Cache';
 
@@ -29,6 +29,12 @@ import { Class } from '../Arguments';
  * Access and store attribute and metadata for reflection
  */
 export abstract class OnDemandMemberInfo implements MemberInfo {
+  /**
+   * to improve performance
+   */
+  private interceptorsVersion: number | undefined;
+  private interceptors: Array<Attribute> | undefined;
+
   /**
    * Get member kind
    */
@@ -59,7 +65,7 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
   abstract type: Function | undefined;
 
   /**
-   * Get metadata object
+   * Get metadata object, undefined if not annotated.
    */
   abstract readonly annotation: Annotation | undefined;
 
@@ -88,11 +94,11 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    * Returns annotation of current property specified by the key.
    */
   get propertyAnnotationOrUndefined(): Property | undefined {
-    const annotation = Knowledge.get(this.target);
-    if (!annotation) {
+    const knowledge = Knowledge.get(this.target);
+    if (!knowledge) {
       return;
     }
-    const property = Reflect.getOwnPropertyDescriptor(annotation, this.key);
+    const property = Reflect.getOwnPropertyDescriptor(knowledge, this.key);
     if (!property) {
       return;
     }
@@ -186,33 +192,21 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
     return found;
   }
 
-
-  /**
-   * Return an array of all the attributes which provide getInitializer method
-   *
-   * @returns {Array<Attribute>}
-   */
-  // getInitializers(): Array<IInitializerAttribute> {
-  //   if (this.annotated) {
-  //     const { attributes } = this.annotation;
-  //     if (attributes && attributes.length) {
-  //       return attributes.filter(HasInitializer);
-  //     }
-  //   }
-  //   return [];
-  // }
-
   /**
    * Return true if any of the attribute provide getInterceptor method
    *
    * @returns {boolean}
    */
   hasOwnInterceptor(): boolean {
+    // TODO: need to improve performance here
     const annotation = this.annotation;
     if (annotation) {
-      const attributes = annotation.attributes;
-      if (attributes.length) {
-        return attributes.some(HasInterceptor);
+      if (annotation.version !== this.interceptorsVersion) {
+        this.interceptors = annotation.attributes.filter(HasInterceptor);
+        this.interceptorsVersion = annotation.version;
+      }
+      if (this.interceptors) {
+        return this.interceptors.length > 0;
       }
     }
     return false;
@@ -224,67 +218,19 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    * @returns {Array<Attribute>}
    */
   getOwnInterceptors(): ReadonlyArray<Attribute> {
-    // todo: find a way to cache it
+    // TODO: need to improve performance here
     const annotation = this.annotation;
     if (annotation) {
-      const attributes = annotation.attributes;
-      if (attributes.length) {
-        return attributes.filter(HasInterceptor);
+      if (annotation.version !== this.interceptorsVersion) {
+        this.interceptors = annotation.attributes.filter(HasInterceptor);
+        this.interceptorsVersion = annotation.version;
+      }
+      if (this.interceptors) {
+        return this.interceptors;
       }
     }
     return [];
   }
-
-  /**
-   * Return true if any of the attribute provide getInitializer method
-   *
-   * @returns {boolean}
-   */
-  // hasInitializer(): boolean {
-  //   return this.getInitializers().length > 0;
-  // }
-
-  /**
-   * Return true if any initializer or interceptor found
-   */
-  // hasInvocation(): boolean {
-  //   if (this.annotated) {
-  //     const { attributes } = this.annotation;
-  //     if (attributes && attributes.length) {
-  //       return this.hasInterceptor();
-  //       // return this.hasInitializer() || this.hasInterceptor();
-  //     }
-  //   }
-  //   return false;
-  // }
-
-  // /**
-  //  * Return true if have any metadata
-  //  *
-  //  * @returns {boolean}
-  //  */
-  // hasOwnMetadata(key?: PropertyKey): boolean {
-  //   if (this.annotated) {
-  //     const { metadata } = this.annotation;
-  //     if (metadata && metadata.size) {
-  //       if (key) {
-  //         return metadata.has(key);
-  //       } else {
-  //         return true;
-  //       }
-  //     }
-  //   }
-  //   /* istanbul ignore next */
-  //   if (Reflect['hasOwnMetadata']) {
-  //     if (key) {
-  //       return Reflect['hasOwnMetadata'](key, this.declaringType, this.key);
-  //     }
-  //     if (Reflect['getOwnMetadataKeys']) {
-  //       return !!Reflect['getOwnMetadataKeys'](this.declaringType, this.key).length;
-  //     }
-  //   }
-  //   return false;
-  // }
 
   /**
    * Read the metadata generated by tsc

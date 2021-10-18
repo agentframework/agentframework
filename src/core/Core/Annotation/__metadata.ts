@@ -23,6 +23,8 @@ export function __metadata(metadataKey: string, metadataValue: any): Function {
       target = (<Function>target).prototype;
       targetKey = CONSTRUCTOR;
     }
-    GetProperty(Knowledge.add(target), target, targetKey, descriptor).set(metadataKey, metadataValue);
+    const knowledge = Knowledge.add(target);
+    const property = GetProperty(knowledge, target, targetKey, descriptor);
+    property.add(metadataKey, metadataValue);
   };
 }

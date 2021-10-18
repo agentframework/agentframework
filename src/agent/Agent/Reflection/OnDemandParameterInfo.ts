@@ -12,13 +12,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { OnDemandMemberInfo } from './OnDemandMemberInfo';
+import { AddAttributeToPropertyParameter, Annotation } from '../../../dependencies/core';
 import { MemberKinds } from './MemberKinds';
 import { ParameterInfo } from './ParameterInfo';
 import { PropertyInfo } from './PropertyInfo';
 import { Attribute } from '../Attribute';
-import { Annotation } from '../../../dependencies/core';
-import { AddAttributeToPropertyParameter } from '../../../dependencies/core';
+import { OnDemandMemberInfo } from './OnDemandMemberInfo';
 
 /**
  * Parameter
@@ -34,7 +33,7 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
   }
 
   get annotation(): Annotation | undefined {
-    const property = this.propertyAnnotationOrUndefined;
+    const property = super.propertyAnnotationOrUndefined;
     return property && property.parameters && property.parameters.get(this.index);
   }
 
@@ -70,17 +69,4 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
     // we don't call getInterceptor or getInitializer until user new() the agent class.
     AddAttributeToPropertyParameter(attribute, this.target, this.key, this.index);
   }
-
-  // /**
-  //  * Return true if this property is been annotated
-  //  */
-  // protected get annotated(): boolean {
-  //   const annotation = this.propertyAnnotationOrUndefined;
-  //   return !!(
-  //     annotation &&
-  //     annotation.parameters &&
-  //     annotation.parameters.size &&
-  //     annotation.parameters.has(this.index)
-  //   );
-  // }
 }
