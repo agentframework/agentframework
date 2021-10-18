@@ -19,7 +19,6 @@ import { PropertyInfo } from './PropertyInfo';
 import { ParameterInfo } from './ParameterInfo';
 import { MemberInfo } from './MemberInfo';
 import { Attribute } from '../Attribute';
-import { HasInterceptor } from '../CustomInterceptor';
 import { Property } from '../../../dependencies/core';
 import { AddAttributeToProperty } from '../../../dependencies/core';
 
@@ -34,9 +33,7 @@ import { AddAttributeToProperty } from '../../../dependencies/core';
  *
  */
 export class OnDemandPropertyInfo extends OnDemandMemberInfo implements PropertyInfo, MemberInfo {
-  // readonly type: Function;
-  // readonly property: PropertyKey;
-  protected parameters: Map<number, OnDemandParameterInfo> | undefined;
+  protected readonly parameters = new Map<number, OnDemandParameterInfo>();
 
   get annotation(): Property | undefined {
     return this.propertyAnnotationOrUndefined;
@@ -65,7 +62,6 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
     if ('function' === typeof this.target) {
       return MemberKinds.Static | MemberKinds.Property;
     }
-    return MemberKinds.Property;
     // const descriptor = this.descriptor;
     // if (descriptor) {
     //   if (Reflect.has(descriptor, 'value')) {
@@ -82,25 +78,16 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
     //   kind |= MemberKinds.Field;
     // }
     // return kind;
+    return MemberKinds.Property;
   }
 
   get type(): Function | undefined {
-    //return super.getOwnMetadata('design:returntype') || super.getOwnMetadata('design:type');
     const type = this.getOwnMetadata('design:type');
     if (type && type.prototype === Function.prototype && this.descriptor) {
       return this.getOwnMetadata('design:returntype');
     }
     return type;
   }
-
-  // protected get annotated(): boolean {
-  //   const result = !!this.propertyAnnotationOrUndefined;
-  //   if (result) {
-  //     return true;
-  //     // return cache(this, 'annotated', true);
-  //   }
-  //   return false;
-  // }
 
   // get value(): OnDemandPropertyValueInfo {
   //   return getter(this, 'value', new OnDemandPropertyValueInfo(this.declaringType, this.key));
@@ -114,46 +101,6 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   //   return getter(this, 'getter', new OnDemandPropertyGetterInfo(this.declaringType, this.key));
   // }
 
-  // /**
-  //  * Returns true if any attribute decorated
-  //  */
-  // hasAttribute<A1 extends Attribute>(type?: AbstractConstructor<A1>): boolean {
-  //   // check own
-  //   // check value
-  //   // check getter
-  //   // check setter
-  //   throw new Error();
-  // }
-  //
-  // /**
-  //  * Returns a decorated attribute
-  //  */
-  // getAttribute<A2 extends Attribute>(type: AbstractConstructor<A2>): A2 | undefined {
-  //   // check own
-  //   // check value
-  //   // check getter
-  //   // check setter
-  //   throw new Error();
-  // }
-  //
-  // /**
-  //  * Returns all decorated attributes
-  //  */
-  // getAttributes<A3 extends Attribute>(type?: AbstractConstructor<A3>): Array<A3> {
-  //   // check own
-  //   // check value
-  //   // check getter
-  //   // check setter
-  //   throw new Error();
-  // }
-
-  // /**
-  //  * Find attribute using filter function and filter criteria
-  //  */
-  // findAttributes<A5 extends Attribute>(filter: Filter<Attribute>, filterCriteria?: any): Array<A5> {
-  //   throw new Error();
-  // }
-
   /**
    * Return true if annotated any interceptor on this or parameter
    */
@@ -163,18 +110,14 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
       return false;
     }
     // check property
-    if (annotation.attributes && annotation.attributes.length && annotation.attributes.some(HasInterceptor)) {
+    if (this.hasOwnInterceptor()) {
       return true;
     }
-    // check parameter
-    if (annotation.parameters && annotation.parameters.size) {
-      for (const parameterAnnotation of annotation.parameters.values()) {
-        const attributes = parameterAnnotation.attributes;
-        for (const attribute of attributes) {
-          if (HasInterceptor(attribute)) {
-            return true;
-          }
-        }
+    // check parameter by using OnDemandParameterInfo
+    const params = this.getParameters();
+    for (const p of params) {
+      if (p.hasOwnInterceptor()) {
+        return true;
       }
     }
     // check method, getter, setter
@@ -193,10 +136,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   /**
    * Returns a parameter on index
    */
-  parameter(index: number): OnDemandParameterInfo {
-    if (!this.parameters) {
-      this.parameters = new Map<number, OnDemandParameterInfo>();
-    }
+  parameter(index: number): ParameterInfo {
     let parameter = this.parameters.get(index);
     if (!parameter) {
       // passing `this` because parameter type metadata been added on property by TypeScript
@@ -228,15 +168,15 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   /**
    * Returns annotated parameters
    */
-  getParameters(): ReadonlyArray<OnDemandParameterInfo> {
-    const params = new Array<OnDemandParameterInfo>();
+  getParameters(): ReadonlyArray<ParameterInfo> {
+    const params = new Array<ParameterInfo>();
     const annotation = this.annotation;
     if (annotation && annotation.parameters && annotation.parameters.size) {
       const indices: Array<number> = [];
       for (const index of annotation.parameters.keys()) {
-        indices.push(index);
+        indices.unshift(index);
       }
-      for (const index of indices.sort()) {
+      for (const index of indices) {
         params.push(this.parameter(index));
       }
     }
@@ -246,66 +186,4 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   addAttribute<A4 extends Attribute>(attribute: A4): void {
     AddAttributeToProperty(attribute, this.target, this.key);
   }
-
-  // hasParameterInterceptor(): boolean {
-  //   const annotation = this.propertyAnnotationOrUndefined;
-  //   if (!annotation) {
-  //     return false;
-  //   }
-  //   if (annotation.parameters && annotation.parameters.size) {
-  //     for (const parameterAnnotation of annotation.parameters.values()) {
-  //       const attributes = parameterAnnotation.attributes;
-  //       for (const attribute of attributes) {
-  //         if (HasInterceptor(attribute)) {
-  //           return true;
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return false;
-  // }
-
-  // hasParameterInvocation(): boolean {
-  //   for (const parameter of this.getOwnParameters()) {
-  //     if (parameter.hasInvocation()) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
-
-  // hasParameterInitializer(): boolean {
-  //   for (const parameter of this.getOwnParameters()) {
-  //     if (parameter.hasInitializer()) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
-
-  // hasFeature(features: AgentFeatures): boolean {
-  //   if (this.annotated) {
-  //     if ((features & AgentFeatures.Metadata) === AgentFeatures.Metadata) {
-  //       if (this.hasOwnMetadata()) {
-  //         return true;
-  //       }
-  //     }
-  //     if ((features & AgentFeatures.Attribute) === AgentFeatures.Attribute) {
-  //       if (this.hasOwnAttribute()) {
-  //         return true;
-  //       }
-  //     }
-  //     if ((features & AgentFeatures.Interceptor) === AgentFeatures.Interceptor) {
-  //       if (this.hasInterceptor()) {
-  //         return true;
-  //       }
-  //     }
-  //     // if ((features & AgentFeatures.Initializer) === AgentFeatures.Initializer) {
-  //     //   if (this.hasInitializers()) {
-  //     //     return true;
-  //     //   }
-  //     // }
-  //   }
-  //   return false;
-  // }
 }
