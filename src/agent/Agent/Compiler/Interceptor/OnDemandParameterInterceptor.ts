@@ -56,7 +56,7 @@ export class OnDemandParameterInterceptor implements PropertyInterceptor {
     const parameters = this.parent.getParameters();
     for (const parameter of parameters) {
       const idx = parameter.index;
-      const interceptors = parameter.getOwnInterceptors();
+      const interceptors = parameter.ownInterceptors;
       if (interceptors.length) {
         const origin = new MethodParameterInvocation(parameter);
         invocations.set(idx, ChainFactory.chainInterceptors(origin, interceptors));

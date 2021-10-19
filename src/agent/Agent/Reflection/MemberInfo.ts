@@ -26,7 +26,7 @@ export interface MemberInfo extends Design {
   getOwnInterceptors(): ReadonlyArray<object>;
 
   /**
-   *
+   * Returns all decorated attributes with interceptor
    */
   ownInterceptors: ReadonlyArray<object>;
 }

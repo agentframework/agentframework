@@ -14,18 +14,20 @@ limitations under the License. */
 
 // the once can be used on both class getter or static getter
 import { alter } from '../../Compiler/alter';
+import { VERSION } from '../../WellKnown';
 
 export function Cache<T>(target: object | Function, getterKey: string | symbol, valueFn: () => T): T {
-  const ver = Reflect.get(target, 'version');
-  const value = valueFn();
-  const getter = {
+  let cachedVersion = Reflect.get(target, VERSION);
+  let cached = valueFn();
+  alter(target, getterKey, {
     get() {
-      if (ver === Reflect.get(this, 'version')) {
-        return value;
+      const currentVersion = Reflect.get(target, VERSION);
+      if (cachedVersion !== currentVersion) {
+        cached = valueFn();
+        cachedVersion = currentVersion;
       }
-      return Cache(this, getterKey, valueFn);
+      return cached;
     },
-  };
-  alter(target, getterKey, getter);
-  return value;
+  });
+  return cached;
 }

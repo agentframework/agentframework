@@ -29,12 +29,6 @@ import { Cache } from '../Decorators/Cache/Cache';
  */
 export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> implements MemberInfo {
   /**
-   * to improve performance
-   */
-  private interceptorsVersion: number | undefined;
-  private interceptors: Array<object> = [];
-
-  /**
    * create member
    */
   constructor(readonly target: object | Function, readonly key: string | symbol) {}
@@ -212,11 +206,8 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
   hasOwnInterceptor(): boolean {
     const attributes = this.attributes;
     if (attributes) {
-      if (this.version !== this.interceptorsVersion) {
-        this.interceptors = attributes.filter(HasInterceptor);
-        this.interceptorsVersion = this.version;
-      }
-      return this.interceptors.length > 0;
+      const interceptors = attributes.filter(HasInterceptor);
+      return interceptors.length > 0;
     }
     return false;
   }
@@ -229,11 +220,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
   getOwnInterceptors(): ReadonlyArray<object> {
     const attributes = this.attributes;
     if (attributes) {
-      if (this.version !== this.interceptorsVersion) {
-        this.interceptors = attributes.filter(HasInterceptor);
-        this.interceptorsVersion = this.version;
-      }
-      return this.interceptors;
+      return attributes.filter(HasInterceptor);
     }
     return [];
   }
