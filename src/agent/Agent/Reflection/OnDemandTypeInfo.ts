@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { OnDemandPropertyInfo } from './OnDemandPropertyInfo';
 import { MemberKinds } from './MemberKinds';
-import { GetOwnKnowledge } from '../../../dependencies/core';
+import { GetOwnAnnotation } from '../../../dependencies/core';
 import { TypeInfo } from './TypeInfo';
 import { PropertyInfo } from './PropertyInfo';
 import { Filter } from './Filter';
@@ -77,7 +77,8 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     if (info) {
       return info;
     }
-    const newInfo = new OnDemandTypeInfo(target);
+    // make type as a property called "constructor"
+    const newInfo = new OnDemandTypeInfo(target, CONSTRUCTOR);
     TypeInfos.v1.set(target, newInfo);
     return newInfo;
   }
@@ -87,18 +88,13 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   // protected properties: Map<PropertyKey, OnDemandPropertyInfo> | undefined;
 
-  // only allow create using factory method: OnDemandTypeInfo.find
-  // make type as a property called constructor
-  private constructor(target: object | Function) {
-    super(target, CONSTRUCTOR);
-  }
-
   /**
    * Get type version
    */
   get version(): number {
-    let version = super.version;
+    let version = super.version; // constructor version
     for (const property of this.getOwnProperties()) {
+      // all property version
       version += property.version;
     }
     return version;
@@ -112,31 +108,22 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     return OnDemandTypeInfo.find(this.declaringType.prototype);
   }
 
-  get type(): Function {
+  protected getType(): Function | undefined {
     return this.declaringType;
   }
 
-  get name(): string {
-    return this.type.name;
+  protected getName(): string {
+    return this.declaringType.name;
   }
 
-  get kind(): number {
-    if (typeof this.target === 'function') {
+  protected getKind(): number {
+    if (this.target === this.declaringType) {
       return MemberKinds.Static | MemberKinds.Class;
     }
     return MemberKinds.Class;
   }
 
-  get descriptor(): PropertyDescriptor | undefined {
-    return Reflect.getOwnPropertyDescriptor(this.declaringType.prototype, this.key);
-  }
-
-  /**
-   * Returns base type
-   *
-   * @cache
-   */
-  get base(): TypeInfo | null | undefined {
+  protected getBase(): TypeInfo | null | undefined {
     const base = Reflect.getPrototypeOf(this.target);
     let result;
     if (!base) {
@@ -148,21 +135,12 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     } else {
       result = OnDemandTypeInfo.find(base);
     }
-
-    return Once(this, 'base', result);
+    return result;
   }
 
-  /**
-   * Returns prototypes for this type
-   *
-   * @returns [base, extended, this]
-   * @cache
-   */
-
-  get types(): ReadonlyArray<TypeInfo> {
+  protected getTypes(): ReadonlyArray<TypeInfo> {
     // this can cache because it never changes
     const prototypes: Array<TypeInfo> = [];
-
     /* eslint-disable-next-line @typescript-eslint/no-this-alias */
     let current: TypeInfo | null | undefined = this;
     // console.log();
@@ -171,7 +149,33 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
       // console.log(this.target, '=', current.base);
       current = current.base;
     } while (current);
-    return Once(this, 'types', prototypes);
+    return prototypes;
+  }
+
+  /**
+   * Constructor always have property descriptor
+   */
+  get descriptor(): PropertyDescriptor | undefined {
+    return Reflect.getOwnPropertyDescriptor(this.declaringType.prototype, this.key);
+  }
+
+  /**
+   * Returns base type
+   *
+   * @cache
+   */
+  get base(): TypeInfo | null | undefined {
+    return Once(this, 'base', this.getBase());
+  }
+
+  /**
+   * Returns prototypes for this type
+   *
+   * @returns [base, extended, this]
+   * @cache
+   */
+  get types(): ReadonlyArray<TypeInfo> {
+    return Once(this, 'types', this.getTypes());
   }
 
   // /**
@@ -213,7 +217,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Return true if any properties annotated on this type
    */
   hasOwnProperties(): boolean {
-    const annotations = GetOwnKnowledge(this.target);
+    const annotations = GetOwnAnnotation(this.target);
     if (!annotations) {
       return false;
     }
@@ -232,7 +236,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   getOwnProperties(): ReadonlyArray<PropertyInfo> {
     const properties = new Array<PropertyInfo>();
-    const annotations = GetOwnKnowledge(this.target);
+    const annotations = GetOwnAnnotation(this.target);
     if (!annotations) {
       return properties;
     }
@@ -249,7 +253,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Get own property, return undefined if not exists
    */
   getOwnProperty(key: string | symbol): PropertyInfo | undefined {
-    const annotations = GetOwnKnowledge(this.target);
+    const annotations = GetOwnAnnotation(this.target);
     if (!annotations) {
       return;
     }

@@ -18,6 +18,7 @@ import { MemberInfo } from './MemberInfo';
 import { Filter } from './Filter';
 import { Class } from '../Arguments';
 import { HasInterceptor } from '../CustomInterceptor';
+import { Once } from '../Decorators/Once/Once';
 
 // import { cache } from '../Helpers/Cache';
 // let a = 0;
@@ -25,17 +26,12 @@ import { HasInterceptor } from '../CustomInterceptor';
 /**
  * Access and store attribute and metadata for reflection
  */
-export abstract class OnDemandMemberInfo implements MemberInfo {
+export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> implements MemberInfo {
   /**
    * to improve performance
    */
   private interceptorsVersion: number | undefined;
-  private interceptors: Array<Attribute> | undefined;
-
-  /**
-   * Get member kind
-   */
-  abstract readonly kind: number;
+  private interceptors: Array<object> = [];
 
   /**
    * create member
@@ -43,38 +39,89 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
   constructor(readonly target: object | Function, readonly key: string | symbol) {}
 
   /**
-   * version. 0 means not annotated
+   * Get name implementation, can be override by divided class
    */
-  get version(): number {
-    return this.annotation ? this.annotation.version : 0;
-  }
+  protected abstract getName(): string;
 
   /**
    * Get name
    */
   get name(): string {
-    return this.key.toString();
+    return Once(this, 'name', this.getName());
+  }
+
+  /**
+   * Get declaring type implementation, can be override by divided class
+   */
+  protected getDeclaringType(): Function {
+    if ('object' === typeof this.target) {
+      return this.target.constructor;
+    } else {
+      return this.target;
+    }
   }
 
   /**
    * Get declaring type
    */
   get declaringType(): Function {
-    if ('object' === typeof this.target) {
-      return this.target.constructor;
-    }
-    return this.target;
+    return Once(this, 'declaringType', this.getDeclaringType());
   }
 
   /**
-   * Get type
+   * Get member kind implementation, can be override by divided class
    */
-  abstract type: Function | undefined;
+  protected abstract getKind(): number;
+
+  /**
+   * Get member kind
+   */
+  get kind(): number {
+    return Once(this, 'kind', this.getKind());
+  }
+
+  /**
+   * Get metadata object implementation, can be override by divided class
+   */
+  protected abstract getAnnotation(): A | undefined;
 
   /**
    * Get metadata object, undefined if not annotated.
    */
-  abstract readonly annotation: Annotation | undefined;
+  get annotation(): A | undefined {
+    return Once(this, 'annotation', this.getAnnotation());
+  }
+
+  /**
+   * version. 0 means not annotated
+   */
+  get version(): number {
+    const annotation = this.annotation;
+    return annotation ? annotation.version : 0;
+  }
+
+  /**
+   * Get type implementation, can be override by divided class
+   */
+  protected abstract getType(): Function | undefined;
+
+  /**
+   * Get type
+   */
+  get type(): Function | undefined {
+    return Once(this, 'type', this.getType());
+  }
+
+  /**
+   * get attributes
+   */
+  protected getAttributes(): ReadonlyArray<object> | undefined {
+    const annotation = this.annotation;
+    if (annotation && annotation.attributes.length) {
+      return annotation.attributes;
+    }
+    return;
+  }
 
   /**
    * Add an attribute
@@ -100,15 +147,12 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    * @returns {boolean}
    */
   hasOwnAttribute<A1 extends Attribute>(type?: Class<A1>): boolean {
-    const annotation = this.annotation;
-    if (annotation) {
-      const attributes = annotation.attributes;
-      if (attributes.length) {
-        if (type) {
-          return attributes.some((a) => a instanceof type);
-        } else {
-          return true;
-        }
+    const attributes = this.getAttributes();
+    if (attributes) {
+      if (type) {
+        return attributes.some((a) => a instanceof type);
+      } else {
+        return true;
       }
     }
     return false;
@@ -118,13 +162,10 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    * Get specified attribute
    */
   getOwnAttribute<A2 extends Attribute>(type: Class<A2>): A2 | undefined {
-    const annotation = this.annotation;
-    if (annotation) {
-      const attributes = annotation.attributes;
-      if (attributes.length) {
-        const results = attributes.filter((a) => a instanceof type);
-        return <A2>results[0];
-      }
+    const attributes = this.getAttributes();
+    if (attributes) {
+      const results = attributes.filter((a) => a instanceof type);
+      return <A2>results[0];
     }
     return;
   }
@@ -135,15 +176,12 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    * @returns {Array<Attribute>}
    */
   getOwnAttributes<A3 extends Attribute>(type?: Class<A3>): ReadonlyArray<A3> {
-    const annotation = this.annotation;
-    if (annotation) {
-      const attributes = annotation.attributes;
-      if (attributes.length) {
-        if (type) {
-          return attributes.filter((a) => a instanceof type) as Array<A3>;
-        } else {
-          return <A3[]>attributes.slice(0);
-        }
+    const attributes = this.getAttributes();
+    if (attributes) {
+      if (type) {
+        return attributes.filter((a) => a instanceof type) as Array<A3>;
+      } else {
+        return <A3[]>attributes.slice(0);
       }
     }
     return [];
@@ -155,19 +193,11 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    * @returns {Array<Attribute>}
    */
   findOwnAttributes<A5 extends Attribute>(filter: Filter<Attribute>, filterCriteria?: any): ReadonlyArray<A5> {
-    const annotation = this.annotation;
-    const found: A5[] = [];
-    if (annotation) {
-      const attributes = annotation.attributes;
-      if (attributes.length) {
-        for (const attribute of attributes) {
-          if (filter(attribute, filterCriteria)) {
-            found.push(<A5>attribute);
-          }
-        }
-      }
+    const attributes = this.getAttributes();
+    if (attributes) {
+      return attributes.filter((a) => filter(a, filterCriteria)) as Array<A5>;
     }
-    return found;
+    return [];
   }
 
   /**
@@ -176,16 +206,13 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    * @returns {boolean}
    */
   hasOwnInterceptor(): boolean {
-    // TODO: need to improve performance here
-    const annotation = this.annotation;
-    if (annotation) {
-      if (annotation.version !== this.interceptorsVersion) {
-        this.interceptors = annotation.attributes.filter(HasInterceptor);
-        this.interceptorsVersion = annotation.version;
+    const attributes = this.getAttributes();
+    if (attributes) {
+      if (this.version !== this.interceptorsVersion) {
+        this.interceptors = attributes.filter(HasInterceptor);
+        this.interceptorsVersion = this.version;
       }
-      if (this.interceptors) {
-        return this.interceptors.length > 0;
-      }
+      return this.interceptors.length > 0;
     }
     return false;
   }
@@ -195,17 +222,14 @@ export abstract class OnDemandMemberInfo implements MemberInfo {
    *
    * @returns {Array<Attribute>}
    */
-  getOwnInterceptors(): ReadonlyArray<Attribute> {
-    // TODO: need to improve performance here
-    const annotation = this.annotation;
-    if (annotation) {
-      if (annotation.version !== this.interceptorsVersion) {
-        this.interceptors = annotation.attributes.filter(HasInterceptor);
-        this.interceptorsVersion = annotation.version;
+  getOwnInterceptors(): ReadonlyArray<object> {
+    const attributes = this.getAttributes();
+    if (attributes) {
+      if (this.version !== this.interceptorsVersion) {
+        this.interceptors = attributes.filter(HasInterceptor);
+        this.interceptorsVersion = this.version;
       }
-      if (this.interceptors) {
-        return this.interceptors;
-      }
+      return this.interceptors;
     }
     return [];
   }

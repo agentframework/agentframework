@@ -1,5 +1,8 @@
 import { Property } from './Property';
 
+/**
+ * @internal
+ */
 export function GetProperty(
   knowledge: object,
   target: object | Function,

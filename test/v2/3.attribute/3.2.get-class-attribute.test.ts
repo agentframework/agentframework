@@ -34,7 +34,7 @@ describe('3.2. Get class attribute', () => {
     it('get parameters', () => {
       const type = Reflector(UserController321);
       // constructor parameter type is annotated if class got decorator
-      expect(type.getParameterTypes()).toEqual([String]);
+      expect(type.parameterTypes).toEqual([String]);
       // no annotated parameters
       expect(type.getParameters()).toEqual([]);
     });

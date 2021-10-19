@@ -14,10 +14,14 @@ limitations under the License. */
 
 export class MemberKinds {
   static None = 0;
-  static Class = 1;
-  static Static = 2;
+  static Static = 1;
+  static Class = 2;
   static Property = 4;
   static Parameter = 8;
+  static StaticClass = 3;
+  static StaticClassParameter = 11;
+  static StaticProperty = 5;
+  static StaticPropertyParameter = 13;
   // Field = 16,
   // Method = 32,
   // Getter = 64,

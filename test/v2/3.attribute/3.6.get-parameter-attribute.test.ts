@@ -95,12 +95,12 @@ describe('3.6. Get parameter attributes', () => {
 
     it('get parameter types', () => {
       const type = Reflector(UserController34);
-      expect(type.property('listAllUser').getParameterTypes()).toEqual([UserRepository, Object]);
-      expect(type.property('deprecatedMethod').getParameterTypes()).toBeUndefined();
+      expect(type.property('listAllUser').parameterTypes).toEqual([UserRepository, Object]);
+      expect(type.property('deprecatedMethod').parameterTypes).toBeUndefined();
 
-      expect(type.getParameterTypes()).toBeUndefined();
-      expect(Reflector(Controller34).getParameterTypes()).toEqual([UserRepository]);
-      expect(Reflector(Base34).getParameterTypes()).toBeUndefined();
+      expect(type.parameterTypes).toBeUndefined();
+      expect(Reflector(Controller34).parameterTypes).toEqual([UserRepository]);
+      expect(Reflector(Base34).parameterTypes).toBeUndefined();
     });
 
     it('get attribute of giving type', () => {

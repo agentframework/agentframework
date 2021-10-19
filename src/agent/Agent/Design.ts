@@ -14,17 +14,17 @@ limitations under the License. */
 
 export interface Design {
   /**
-   * Version. changes to the annotation increase the version
+   * Version
    */
   readonly version: number;
 
   /**
-   * Annotation type
+   * Kind
    */
   readonly kind: number;
 
   /**
-   * Annotation name
+   * Name
    */
   readonly name: string;
 
@@ -34,12 +34,12 @@ export interface Design {
   readonly declaringType: Function;
 
   /**
-   * Property key for this annotation
+   * Property key
    */
   readonly key: string | symbol;
 
   /**
-   * Property type for this annotation, void = undefined, any = Object
+   * Property type for this annotation, void = undefined, any = typeof Object
    */
-  readonly type: Function | undefined;
+  readonly type: Function | typeof Object | undefined;
 }

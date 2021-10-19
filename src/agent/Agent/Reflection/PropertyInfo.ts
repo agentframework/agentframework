@@ -21,6 +21,33 @@ export interface PropertyInfo extends MemberInfo {
    */
   readonly descriptor: PropertyDescriptor | undefined;
 
+  /**
+   * Get parameter types
+   */
+  readonly parameterTypes: ReadonlyArray<any> | undefined;
+
+  /**
+   * Returns parameter by key (create if not exist)
+   */
+  parameter(index: number): ParameterInfo;
+
+  /**
+   * Returns parameter of giving index. undefined if not annotated
+   */
+  getParameter(index: number): ParameterInfo | undefined;
+
+  /**
+   * Get all annotated parameters
+   */
+  getParameters(): ReadonlyArray<ParameterInfo>;
+
+  /**
+   * Return true if contains any interceptor
+   *
+   * Note: this flags is very important to improve the performance, only proxy the intercepted properties
+   */
+  hasInterceptor(): boolean;
+
   // /**
   //  * Return the value member (create a new one if not been created before)
   //  */
@@ -35,56 +62,4 @@ export interface PropertyInfo extends MemberInfo {
   //  * Return the setter member (create a new one if not been created before)
   //  */
   // readonly setter: MemberInfo;
-
-  /**
-   * Returns parameter by key (create if not exist)
-   */
-  parameter(index: number): ParameterInfo;
-
-  /**
-   * Returns parameter of giving index. undefined if not annotated
-   */
-  getParameter(index: number): ParameterInfo | undefined;
-
-  /**
-   * Returns type of the parameters
-   */
-  getParameterTypes(): ReadonlyArray<any> | undefined;
-
-  /**
-   * Get all annotated parameters
-   */
-  getParameters(): ReadonlyArray<ParameterInfo>;
-
-  // /**
-  //  * Return true if any parameter contains interceptor
-  //  */
-  // hasParameterInterceptor(): boolean;
-  // /**
-  //  * Returns true if any attribute decorated on field, method, getter or setter
-  //  */
-  // hasAttribute<A1 extends Attribute>(type?: AbstractConstructor<A1>): boolean;
-
-  // /**
-  //  * Returns a decorated attribute on field, method, getter or setter
-  //  */
-  // getAttribute<A2 extends Attribute>(type: AbstractConstructor<A2>): A2 | undefined;
-
-  // /**
-  //  * Returns all decorated attributes on field, method, getter or setter
-  //  */
-  // getAttributes<A3 extends Attribute>(type?: AbstractConstructor<A3>): Array<A3>;
-
-  //
-  // /**
-  //  * Find attribute using filter function and filter criteria
-  //  */
-  // findAttributes<A5 extends Attribute>(filter: Filter<Attribute>, filterCriteria?: any): Array<A5>;
-
-  /**
-   * Return true if contains any interceptor
-   *
-   * Note: this flags is very important to improve the performance, only proxy the intercepted properties
-   */
-  hasInterceptor(): boolean;
 }

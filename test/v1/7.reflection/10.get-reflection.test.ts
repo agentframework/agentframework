@@ -47,7 +47,7 @@ class SQLServer {
 describe('Reflection', () => {
   describe('# should able to', () => {
     it('get class prototype', () => {
-      expect(Reflector(MongoDB).type.prototype).toBe(MongoDB.prototype);
+      expect(Reflector(MongoDB).declaringType.prototype).toBe(MongoDB.prototype);
     });
   });
 

@@ -12,7 +12,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Attribute } from './Attribute';
 import { Interceptor } from './Interceptor';
 import { CustomInterceptors } from './Knowledges/CustomInterceptors';
 
@@ -40,7 +39,7 @@ export function RemoveCustomInterceptor(type: Function): void {
 /**
  * Return true if giving attribute has interceptor
  */
-export function HasInterceptor(attribute: Attribute): boolean {
+export function HasInterceptor(attribute: object): boolean {
   // we can not use attribute['interceptor'] because the interceptor maybe a getter field
   // the Reflect.has() will checks the key on all prototypes of the attribute
   if (Reflect.has(attribute, 'interceptor')) {
@@ -53,7 +52,7 @@ export function HasInterceptor(attribute: Attribute): boolean {
 /**
  * Get interceptor for giving type of attribute
  */
-export function GetInterceptor(attribute: Attribute): Interceptor | undefined {
+export function GetInterceptor(attribute: object): Interceptor | undefined {
   const found = CustomInterceptors.v1.get(attribute.constructor);
   if (found) {
     // todo: cache custom interceptor

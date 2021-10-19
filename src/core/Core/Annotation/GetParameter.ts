@@ -15,6 +15,10 @@ limitations under the License. */
 import { Property } from './Property';
 import { Annotation } from './Annotation';
 
+
+/**
+ * @internal
+ */
 export function GetParameter(property: Property, index: number): Annotation {
   const map = property.parameters || (property.parameters = new Map<number, Annotation>());
   let value = map.get(index);

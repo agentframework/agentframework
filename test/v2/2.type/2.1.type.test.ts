@@ -7,9 +7,9 @@ import {
   TypeInfo,
   decorateClass,
   decorateMember,
-  GetType,agent
+  GetType,
+  agent,
 } from '../../../src/dependencies/agent';
-
 
 class Storage {}
 
@@ -57,6 +57,10 @@ class AgentApplication extends CloudApplication {}
 
 describe('2.1. Type', () => {
   describe('# should able to', () => {
+    it('get version', () => {
+      expect(Reflector(CloudApplication).version).toBe(0);
+    });
+
     it('get type', () => {
       expect(Reflector(CloudApplication).type).toBe(CloudApplication);
     });
@@ -192,7 +196,7 @@ describe('2.1. Type', () => {
       expect(types).toBeInstanceOf(Array);
       expect(types.length).toBe(2);
       expect(types[0]).toBe(Reflector(BaseLayer)); // because is been cached
-      expect(types[1]).toBe(Reflector(MiddleLayer));  // because is been cached
+      expect(types[1]).toBe(Reflector(MiddleLayer)); // because is been cached
     });
 
     it('check attribute', () => {

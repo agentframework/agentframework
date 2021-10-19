@@ -1,27 +1,28 @@
 /*********************************************************************
  *   (Stability: 2 - Stable) Annotation
  *********************************************************************/
-export { Annotation } from './Core/Annotation/Annotation';
-export { Property } from './Core/Annotation/Property';
+export { Property } from './Core/Property';
+export { Annotation } from './Core/Annotation';
 
 /*********************************************************************
  *   (Stability: 2 - Stable) Annotation API
  *********************************************************************/
-export { AddAttributeToProperty } from './Core/Annotation/AddAttribute';
-export { AddAttributeToPropertyParameter } from './Core/Annotation/AddAttribute';
-export { AddAttributeToClass } from './Core/Annotation/AddAttributeToClass';
-export { AddAttributeToClassConstructorParameter } from './Core/Annotation/AddAttributeToClass';
+export { AddAttributeToProperty } from './Core/AddAttribute';
+export { AddAttributeToPropertyParameter } from './Core/AddAttribute';
+export { AddAttributeToClass } from './Core/AddAttributeToClass';
+export { AddAttributeToClassConstructorParameter } from './Core/AddAttributeToClass';
 
-export { GetOwnKnowledge } from './Core/Annotation/GetKnowledge';
-export { GetKnowledge } from './Core/Annotation/GetKnowledge';
+export { GetKnowledge } from './Core/GetKnowledge';
 
-export { GetOwnPropertyAnnotation } from './Core/Annotation/GetPropertyAnnotation';
-export { GetPropertyAnnotation } from './Core/Annotation/GetPropertyAnnotation';
+export { GetOwnAnnotation } from './Core/GetAnnotation';
+export { GetPropertyAnnotation } from './Core/GetPropertyAnnotation';
+export { GetOwnPropertyAnnotation } from './Core/GetPropertyAnnotation';
+export { GetOwnPropertyParameterAnnotation } from './Core/GetOwnPropertyParameterAnnotation';
 
 /*********************************************************************
  *    (Stability: 1 - Experimental): TSLIB integrate with Metadata
  *********************************************************************/
-export { __decorate } from './Core/Annotation/__decorate';
-export { __agent } from './Core/Annotation/__agent';
-export { __metadata } from './Core/Annotation/__metadata';
-export { __param } from './Core/Annotation/__param';
+export { __decorate } from './Core/__decorate';
+export { __agent } from './Core/__agent';
+export { __metadata } from './Core/__metadata';
+export { __param } from './Core/__param';

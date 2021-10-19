@@ -13,9 +13,9 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { METADATA } from './WellKnown';
-import { singleton } from './Annotation/singleton';
+import { adapter } from './Annotation/adapter';
 
-@singleton(Reflect, METADATA)
+@adapter(Reflect, METADATA)
 export class Knowledge {
   /* istanbul ignore next */
   static has(key: Function | object): boolean {

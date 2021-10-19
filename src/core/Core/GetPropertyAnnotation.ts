@@ -1,5 +1,14 @@
-import { Knowledge } from '../Knowledge';
+import { Knowledge } from './Knowledge';
 import { Property } from './Property';
+
+export function GetPropertyAnnotation(target: object | Function, key: string | symbol): Property | undefined {
+  const knowledge = Knowledge.add(target);
+  const property = Reflect.get(knowledge, key);
+  if (!property) {
+    return;
+  }
+  return property;
+}
 
 export function GetOwnPropertyAnnotation(target: object | Function, key: string | symbol): Property | undefined {
   const knowledge = Knowledge.get(target);
@@ -11,13 +20,4 @@ export function GetOwnPropertyAnnotation(target: object | Function, key: string 
     return;
   }
   return property.value;
-}
-
-export function GetPropertyAnnotation(target: object | Function, key: string | symbol): Property | undefined {
-  const knowledge = Knowledge.add(target);
-  const property = Reflect.get(knowledge, key);
-  if (!property) {
-    return;
-  }
-  return property;
 }

@@ -61,8 +61,8 @@ describe('7.4. __agent helper', () => {
       expect(ClassAB).toBe(ClassA);
       expect(Reflector(ClassAB).kind).toBe(MemberKinds.Class);
       expect(Reflector(ClassAB).type).toBe(ClassA);
-      expect(Reflector(ClassAB).getParameterTypes()).toBeDefined();
-      expect(Reflector(ClassAB).getParameterTypes()!.length).toBe(3);
+      expect(Reflector(ClassAB).parameterTypes).toBeDefined();
+      expect(Reflector(ClassAB).parameterTypes!.length).toBe(3);
     });
   });
 });

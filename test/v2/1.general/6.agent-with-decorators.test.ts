@@ -18,7 +18,7 @@ describe('1.6. Agent with decorators', () => {
       expect(p2).toBeDefined();
       if (p2) {
         expect(p2.getOwnAttributes().length).toBe(1);
-        expect(p2.declaringType).toBe(r1.type);
+        expect(p2.declaringType).toBe(r1.declaringType);
         expect(p2.declaringType).not.toBe(AgentWithDecorators);
         expect(p2.declaringType).toBe(GetType(AgentWithDecorators)!);
       }
@@ -41,7 +41,7 @@ describe('1.6. Agent with decorators', () => {
       expect(p2).toBeDefined();
       if (p2) {
         expect(p2.getOwnAttributes().length).toBe(1);
-        expect(p2.declaringType).toBe(r1.type);
+        expect(p2.declaringType).toBe(r1.declaringType);
         expect(p2.declaringType).not.toBe(Agent2WithDecorators);
         expect(p2.declaringType).toBe(GetType(Agent2WithDecorators)!);
       }

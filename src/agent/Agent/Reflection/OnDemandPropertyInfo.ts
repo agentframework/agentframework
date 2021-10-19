@@ -23,7 +23,6 @@ import { GetOwnPropertyAnnotation, Property } from '../../../dependencies/core';
 import { AddAttributeToProperty } from '../../../dependencies/core';
 import { Once } from '../Decorators/Once/Once';
 
-// import { getter } from '../Helpers/Prototype';
 // import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
 // import { OnDemandPropertyGetterInfo } from './OnDemandPropertyGetterInfo';
 // import { OnDemandPropertySetterInfo } from './OnDemandPropertySetterInfo';
@@ -33,12 +32,19 @@ import { Once } from '../Decorators/Once/Once';
  * kind = MemberKinds.Property + (Method | Field | Getter | Setter)
  *
  */
-export class OnDemandPropertyInfo extends OnDemandMemberInfo implements PropertyInfo, MemberInfo {
+export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implements PropertyInfo, MemberInfo {
+  /**
+   * cached info
+   */
   protected readonly parameters = new Map<number, OnDemandParameterInfo>();
 
-  get annotation(): Property | undefined {
-    return Once(this, 'annotation', GetOwnPropertyAnnotation(this.target, this.key));
+  protected getAnnotation(): Property | undefined {
+    return GetOwnPropertyAnnotation(this.target, this.key);
   }
+
+  // protected getParameters(): Map<number, OnDemandParameterInfo> | undefined {
+  //   return;
+  // }
 
   /**
    * Get property version
@@ -50,6 +56,10 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
       version += parameter.version;
     }
     return version;
+  }
+
+  protected getName(): string {
+    return this.key.toString();
   }
 
   /**
@@ -71,8 +81,8 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
     return descriptor;
   }
 
-  get kind(): number {
-    if ('function' === typeof this.target) {
+  protected getKind(): number {
+    if (this.target === this.declaringType) {
       return MemberKinds.Static | MemberKinds.Property;
     }
     // const descriptor = this.descriptor;
@@ -94,7 +104,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
     return MemberKinds.Property;
   }
 
-  get type(): Function | undefined {
+  protected getType(): Function | undefined {
     const type = this.getOwnMetadata('design:type');
     if (type && type.prototype === Function.prototype && this.descriptor) {
       return this.getOwnMetadata('design:returntype');
@@ -172,10 +182,17 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   }
 
   /**
+   * Returns type of the parameters implementation
+   */
+  protected getParameterTypes(): ReadonlyArray<any> | undefined {
+    return this.getOwnMetadata('design:paramtypes');
+  }
+
+  /**
    * Returns type of the parameters
    */
-  getParameterTypes(): ReadonlyArray<any> | undefined {
-    return this.getOwnMetadata('design:paramtypes');
+  get parameterTypes(): ReadonlyArray<any> | undefined {
+    return Once(this, 'parameterTypes', this.getParameterTypes());
   }
 
   /**

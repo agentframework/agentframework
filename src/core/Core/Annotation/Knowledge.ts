@@ -73,7 +73,7 @@ export class Knowledge extends WeakMap<Function | object, any> {
             newTarget = target;
             newTargetKey = targetKey!;
           }
-          GetProperty(self.add(newTarget), newTarget, newTargetKey, descriptor).set(key, value);
+          GetProperty(self.add(newTarget), newTarget, newTargetKey, descriptor).add(key, value);
           return metadata(key, value)(target, targetKey, descriptor);
         };
       };
@@ -89,7 +89,7 @@ export class Knowledge extends WeakMap<Function | object, any> {
             newTarget = target;
             newTargetKey = targetKey!;
           }
-          GetProperty(self.add(newTarget), newTarget, newTargetKey, descriptor).set(key, value);
+          GetProperty(self.add(newTarget), newTarget, newTargetKey, descriptor).add(key, value);
         };
       };
     }

@@ -12,9 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { CONSTRUCTOR } from '../WellKnown';
-import { Knowledge } from '../Knowledge';
-import { GetProperty } from './GetProperty';
+import { CONSTRUCTOR } from './WellKnown';
+import { Knowledge } from './Knowledge';
+import { GetProperty } from './Annotation/GetProperty';
 
 /*@__PURE__*/
 export function __metadata(metadataKey: string, metadataValue: any): Function {
@@ -25,6 +25,6 @@ export function __metadata(metadataKey: string, metadataValue: any): Function {
     }
     const knowledge = Knowledge.add(target);
     const property = GetProperty(knowledge, target, targetKey, descriptor);
-    property.set(metadataKey, metadataValue);
+    property.add(metadataKey, metadataValue);
   };
 }

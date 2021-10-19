@@ -138,7 +138,7 @@ describe('5.7. Domain @initializable decorator', () => {
 
         static [Initializer](target: TypeInvocation, params: Arguments, receiver: typeof App573) {
           const ins = target.invoke(params, receiver);
-          expect(ins).toBeInstanceOf(target.design.type);
+          expect(ins).toBeInstanceOf(target.design.declaringType);
           return Promise.resolve(ins);
         }
       }

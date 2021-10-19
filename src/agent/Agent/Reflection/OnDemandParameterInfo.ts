@@ -12,7 +12,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AddAttributeToPropertyParameter, Annotation, GetOwnPropertyAnnotation } from '../../../dependencies/core';
+import {
+  AddAttributeToPropertyParameter,
+  GetOwnPropertyParameterAnnotation,
+  Annotation,
+} from '../../../dependencies/core';
 import { MemberKinds } from './MemberKinds';
 import { ParameterInfo } from './ParameterInfo';
 import { PropertyInfo } from './PropertyInfo';
@@ -32,17 +36,16 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
     super(target, propertyKey);
   }
 
-  get annotation(): Annotation | undefined {
-    const property = GetOwnPropertyAnnotation(this.target, this.key);
-    return property && property.parameters && property.parameters.get(this.index);
+  protected getAnnotation(): Annotation | undefined {
+    return GetOwnPropertyParameterAnnotation(this.target, this.key, this.index);
   }
 
-  get name(): string {
+  protected getName(): string {
     return this.index.toString();
   }
 
-  get kind(): number {
-    if ('function' === typeof this.target) {
+  protected getKind(): number {
+    if (this.target === this.declaringType) {
       return MemberKinds.Static | MemberKinds.Parameter;
     }
     return MemberKinds.Parameter;
@@ -55,9 +58,9 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
     // return kind;
   }
 
-  get type(): Function | undefined {
+  protected getType(): Function | undefined {
     // get metadata from parent property, typescript store this meta in property level
-    const params = this.parent.getParameterTypes();
+    const params = this.parent.parameterTypes;
     if (Array.isArray(params) && params.length) {
       return params[this.index];
     }

@@ -33,4 +33,9 @@ export class Annotation extends Map<string, any> {
     this.version++; // update version
     return this.attributes.push(attribute);
   }
+
+  add(key: string, value: any): void {
+    this.set(key, value);
+  }
 }
+

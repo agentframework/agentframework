@@ -1,6 +1,6 @@
-import { Knowledge } from '../Knowledge';
-import { GetProperty } from './GetProperty';
-import { GetParameter } from './GetParameter';
+import { Knowledge } from './Knowledge';
+import { GetProperty } from './Annotation/GetProperty';
+import { GetParameter } from './Annotation/GetParameter';
 
 /**
  * equals Reflector(target).property(property, descriptor).addAttribute(attribute);
