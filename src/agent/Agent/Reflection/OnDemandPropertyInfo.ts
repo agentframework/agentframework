@@ -19,8 +19,9 @@ import { PropertyInfo } from './PropertyInfo';
 import { ParameterInfo } from './ParameterInfo';
 import { MemberInfo } from './MemberInfo';
 import { Attribute } from '../Attribute';
-import { Property } from '../../../dependencies/core';
+import { GetOwnPropertyAnnotation, Property } from '../../../dependencies/core';
 import { AddAttributeToProperty } from '../../../dependencies/core';
+import { Once } from '../Decorators/Once/Once';
 
 // import { getter } from '../Helpers/Prototype';
 // import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
@@ -36,14 +37,17 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo implements Property
   protected readonly parameters = new Map<number, OnDemandParameterInfo>();
 
   get annotation(): Property | undefined {
-    return this.propertyAnnotationOrUndefined;
+    return Once(this, 'annotation', GetOwnPropertyAnnotation(this.target, this.key));
   }
 
+  /**
+   * Get property version
+   */
   get version(): number {
     // property info version + parameter version
-    let version = this.annotation ? this.annotation.version : 0;
-    for (const p of this.parameters.values()) {
-      version += p.version;
+    let version = super.version;
+    for (const parameter of this.parameters.values()) {
+      version += parameter.version;
     }
     return version;
   }

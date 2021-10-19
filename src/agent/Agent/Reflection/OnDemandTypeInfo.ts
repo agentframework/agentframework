@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { OnDemandPropertyInfo } from './OnDemandPropertyInfo';
 import { MemberKinds } from './MemberKinds';
-import { Knowledge } from '../../../dependencies/core';
+import { GetOwnKnowledge } from '../../../dependencies/core';
 import { TypeInfo } from './TypeInfo';
 import { PropertyInfo } from './PropertyInfo';
 import { Filter } from './Filter';
@@ -25,6 +25,7 @@ import { CONSTRUCTOR } from '../WellKnown';
 import { Once } from '../Decorators/Once/Once';
 import { Property } from '../../../dependencies/core';
 import { IsAgent } from '../Knowledges/Agents';
+import { GetPropertyAnnotation } from '../../../dependencies/core';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -92,10 +93,13 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     super(target, CONSTRUCTOR);
   }
 
+  /**
+   * Get type version
+   */
   get version(): number {
     let version = super.version;
-    for (const prop of this.getOwnProperties()) {
-      version += prop.version;
+    for (const property of this.getOwnProperties()) {
+      version += property.version;
     }
     return version;
   }
@@ -209,10 +213,11 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Return true if any properties annotated on this type
    */
   hasOwnProperties(): boolean {
-    const annotations = this.typeAnnotationOrUndefined;
+    const annotations = GetOwnKnowledge(this.target);
     if (!annotations) {
       return false;
     }
+
     for (const key of Reflect.ownKeys(annotations)) {
       if (key === CONSTRUCTOR) {
         continue;
@@ -227,7 +232,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   getOwnProperties(): ReadonlyArray<PropertyInfo> {
     const properties = new Array<PropertyInfo>();
-    const annotations = this.typeAnnotationOrUndefined;
+    const annotations = GetOwnKnowledge(this.target);
     if (!annotations) {
       return properties;
     }
@@ -244,7 +249,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Get own property, return undefined if not exists
    */
   getOwnProperty(key: string | symbol): PropertyInfo | undefined {
-    const annotations = this.typeAnnotationOrUndefined;
+    const annotations = GetOwnKnowledge(this.target);
     if (!annotations) {
       return;
     }
@@ -259,7 +264,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Get annotated property in prototypes, return undefined if not found
    */
   getProperty(key: string | symbol): PropertyInfo | undefined {
-    const propertyAnnotation: Property | undefined = Reflect.get(this.typeAnnotation, key);
+    const propertyAnnotation: Property | undefined = GetPropertyAnnotation(this.target, key);
     if (propertyAnnotation) {
       if (propertyAnnotation.target === this.target) {
         return this.getOwnProperty(key);
@@ -339,19 +344,5 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
       return Reflect['getOwnMetadata'](key, this.declaringType);
     }
     return;
-  }
-
-  /**
-   * Get annotation store object
-   */
-  get typeAnnotation(): object {
-    return Once(this, 'typeAnnotation', Knowledge.add(this.target));
-  }
-
-  /**
-   * Get annotation store object or undefined
-   */
-  get typeAnnotationOrUndefined(): object | undefined {
-    return Once(this, 'typeAnnotationOrUndefined', Knowledge.get(this.target));
   }
 }

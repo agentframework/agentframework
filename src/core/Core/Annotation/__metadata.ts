@@ -25,6 +25,6 @@ export function __metadata(metadataKey: string, metadataValue: any): Function {
     }
     const knowledge = Knowledge.add(target);
     const property = GetProperty(knowledge, target, targetKey, descriptor);
-    property.add(metadataKey, metadataValue);
+    property.set(metadataKey, metadataValue);
   };
 }

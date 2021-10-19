@@ -27,18 +27,10 @@ export class Annotation extends Map<string, any> {
   readonly attributes: Array<any> = [];
 
   /**
-   * Add metadata ( sequence NOT matter)
-   */
-  add(key: string, value: any): this {
-    this.version++;
-    return super.set(key, value);
-  }
-
-  /**
-   * Add attribute
+   * Add attribute (sequence DOES matter)
    */
   push(attribute: any): number {
-    this.version++;
+    this.version++; // update version
     return this.attributes.push(attribute);
   }
 }

@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AddAttributeToPropertyParameter, Annotation } from '../../../dependencies/core';
+import { AddAttributeToPropertyParameter, Annotation, GetOwnPropertyAnnotation } from '../../../dependencies/core';
 import { MemberKinds } from './MemberKinds';
 import { ParameterInfo } from './ParameterInfo';
 import { PropertyInfo } from './PropertyInfo';
@@ -33,7 +33,7 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
   }
 
   get annotation(): Annotation | undefined {
-    const property = super.propertyAnnotationOrUndefined;
+    const property = GetOwnPropertyAnnotation(this.target, this.key);
     return property && property.parameters && property.parameters.get(this.index);
   }
 

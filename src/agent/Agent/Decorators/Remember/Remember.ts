@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // the memorize can be used on both class getter or static getter
-import { Knowledge } from '../../../../dependencies/core';
+import { GetKnowledge } from '../../../../dependencies/core';
 import { alter } from '../../Compiler/alter';
 
 /**
@@ -26,7 +26,7 @@ export function remember(key: string): MethodDecorator {
         const receiver = 'function' === typeof target ? target : this;
         let value;
         // note: bulletproof syntax against tools like "terser"
-        const knowledge = Knowledge.get(Knowledge);
+        const knowledge = GetKnowledge();
         const id = key + '.' + String(targetKey);
         value = knowledge.get(id);
         if (!value) {
@@ -42,7 +42,7 @@ export function remember(key: string): MethodDecorator {
 }
 
 export function Remember<T>(key: string, target: object | Function, targetKey: string | symbol, valueFn: () => T): T {
-  const knowledge = Knowledge.get(Knowledge);
+  const knowledge = GetKnowledge();
   const id = key + '.' + String(targetKey);
   let value = knowledge.get(id);
   if ('undefined' === typeof value) {
