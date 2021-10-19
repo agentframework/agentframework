@@ -61,6 +61,17 @@ describe('5.11. Domain agent cache', () => {
         },
       });
 
+      const r1_seq_updated = [
+        'beforeGlobal2',
+        'beforeGlobal1',
+        'beforeWebRequest2',
+        'beforeWebRequest1',
+        'afterWebRequest1',
+        'afterWebRequest2',
+        'afterGlobal1',
+        'afterGlobal2',
+      ];
+
       // make some changes to the interceptor
       seq = [];
       const r1_ref = domain.construct(WebRequest511); // cached, not call interceptor
@@ -69,7 +80,7 @@ describe('5.11. Domain agent cache', () => {
 
       // make some changes to the interceptor
       const r1_new = domain.construct(WebRequest511, [], true); // cached, not call interceptor
-      expect(seq).toEqual(r1_seq);
+      expect(seq).toEqual(r1_seq_updated);
       expect(r1_new).not.toBe(r1);
 
       // new domain
@@ -79,13 +90,13 @@ describe('5.11. Domain agent cache', () => {
       seq = [];
       const r3 = domain2.construct(WebRequest511);
       expect(r3).toBeInstanceOf(WebRequest511);
-      expect(seq).toEqual(r1_seq);
+      expect(seq).toEqual(r1_seq_updated);
 
       seq = [];
       const r4 = domain2.construct(WebRequest511, [], true);
       expect(r4).toBeInstanceOf(WebRequest511);
       expect(r3).not.toBe(r4);
-      expect(seq).toEqual(r1_seq);
+      expect(seq).toEqual(r1_seq_updated);
     });
   });
 });

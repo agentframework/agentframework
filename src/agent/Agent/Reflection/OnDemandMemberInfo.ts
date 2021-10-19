@@ -225,6 +225,11 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
     return [];
   }
 
+  /**
+   * Return an array of all the attributes which provide getter interceptor
+   *
+   * @returns {Array<Attribute>}
+   */
   get ownInterceptors(): ReadonlyArray<object> {
     return Cache(this, 'ownInterceptors', this.getOwnInterceptors.bind(this));
   }

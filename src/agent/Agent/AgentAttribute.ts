@@ -94,10 +94,21 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     let invocation = ClassInvocations.v1.get(this.receiver);
     // console.log('☀️ ☀️ ☀️ 1', target.name, receiver.name);
 
+    if (invocation) {
+      // if (invocation.design.declaringType !== target) {
+      //   console.log('wrongs');
+      // }
+      if (invocation.design.version + InvocationFactory.class.version !== this.version) {
+        // invalidate cache
+        invocation = undefined;
+      }
+    }
+
     // analysis this object
     if (!invocation) {
       // find interceptors from design attributes and create chain for them
       invocation = InvocationFactory.createClassInvocation(target);
+      this.version = invocation.design.version + InvocationFactory.class.version;
 
       ClassInvocations.v1.set(this.receiver, invocation);
 
