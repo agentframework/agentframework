@@ -26,7 +26,7 @@ export function decorate<T extends Attribute>(
   attribute: T,
   allows?: number
 ): (target: object | Function, targetKey?: string | symbol, descriptorOrIndex?: PropertyDescriptor | number) => void {
-  const allowed = typeof allows === 'undefined' ? MemberKinds.All : allows; // 511 = All
+  const allowed = typeof allows === 'undefined' ? MemberKinds.Any : allows; // 511 = All
   return (target: object | Function, key?: string | symbol, descriptorOrIndex?: PropertyDescriptor | number): void => {
     // if key == null then target == Function
     if (key == null) {

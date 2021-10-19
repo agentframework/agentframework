@@ -12,21 +12,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Design } from '../Design';
+// the once can be used on both class getter or static getter
+import { alter } from '../../Compiler/alter';
 
-export interface MemberInfo extends Design {
-  /**
-   * Return true if decorated any interceptor
-   */
-  hasOwnInterceptor(): boolean;
-
-  /**
-   * Returns all decorated attributes with interceptor
-   */
-  getOwnInterceptors(): ReadonlyArray<object>;
-
-  /**
-   *
-   */
-  ownInterceptors: ReadonlyArray<object>;
+export function Cache<T>(target: object | Function, getterKey: string | symbol, valueFn: () => T): T {
+  const ver = Reflect.get(target, 'version');
+  const value = valueFn();
+  const getter = {
+    get() {
+      if (ver === Reflect.get(this, 'version')) {
+        return value;
+      }
+      return Cache(this, getterKey, valueFn);
+    },
+  };
+  alter(target, getterKey, getter);
+  return value;
 }

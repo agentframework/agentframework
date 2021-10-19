@@ -29,7 +29,7 @@ import { Once } from '../Decorators/Once/Once';
 /**
  * Property
  *
- * kind = MemberKinds.Property + (Method | Field | Getter | Setter)
+ * kind = MemberKinds.Prosperty + (Method | Field | Getter | Setter)
  *
  */
 export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implements PropertyInfo, MemberInfo {
@@ -41,10 +41,6 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
   protected getAnnotation(): Property | undefined {
     return GetOwnPropertyAnnotation(this.target, this.key);
   }
-
-  // protected getParameters(): Map<number, OnDemandParameterInfo> | undefined {
-  //   return;
-  // }
 
   /**
    * Get property version
@@ -125,7 +121,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
   // }
 
   /**
-   * Return true if annotated any interceptor on this or parameter
+   * Return true if interceptor annotated on this or parameter
    */
   hasInterceptor(): boolean {
     const annotation = this.annotation;

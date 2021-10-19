@@ -13,20 +13,26 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 export class MemberKinds {
+  /* flags */
   static None = 0;
   static Static = 1;
   static Class = 2;
   static Property = 4;
   static Parameter = 8;
+
+  /* kinds */
   static StaticClass = 3;
-  static StaticClassParameter = 11;
   static StaticProperty = 5;
+  static ClassParameter = 10;
+  static StaticClassParameter = 11;
+  static PropertyParameter = 12;
   static StaticPropertyParameter = 13;
+
   // Field = 16,
   // Method = 32,
   // Getter = 64,
   // Setter = 128,
   // ConstructorParameter = 256,
   // MethodParameter = 512,
-  static All = 65535;
+  static Any = 65535;
 }

@@ -31,9 +31,15 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
     target: object | Function,
     propertyKey: string | symbol,
     readonly index: number,
-    private readonly parent: PropertyInfo
+    protected readonly parent: PropertyInfo
   ) {
     super(target, propertyKey);
+  }
+
+  addAttribute<A4 extends Attribute>(attribute: A4): void {
+    // if the attribute provide a getInterceptor, that means this property may need inject
+    // we don't call getInterceptor or getInitializer until user new() the agent class.
+    AddAttributeToPropertyParameter(attribute, this.target, this.key, this.index);
   }
 
   protected getAnnotation(): Annotation | undefined {
@@ -45,17 +51,14 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
   }
 
   protected getKind(): number {
+    let kind = MemberKinds.Parameter;
     if (this.target === this.declaringType) {
-      return MemberKinds.Static | MemberKinds.Parameter;
+      kind |= MemberKinds.Static;
     }
-    return MemberKinds.Parameter;
-    // let kind = super.kind | MemberKinds.Parameter;
-    // if (this.key === 'constructor') {
-    //   kind |= MemberKinds.ConstructorParameter;
-    // } else {
-    //   kind |= MemberKinds.MethodParameter;
-    // }
-    // return kind;
+    if (this.key === 'constructor') {
+      kind |= MemberKinds.Class;
+    }
+    return kind;
   }
 
   protected getType(): Function | undefined {
@@ -65,11 +68,5 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
       return params[this.index];
     }
     return;
-  }
-
-  addAttribute<A4 extends Attribute>(attribute: A4): void {
-    // if the attribute provide a getInterceptor, that means this property may need inject
-    // we don't call getInterceptor or getInitializer until user new() the agent class.
-    AddAttributeToPropertyParameter(attribute, this.target, this.key, this.index);
   }
 }
