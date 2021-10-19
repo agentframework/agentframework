@@ -129,16 +129,17 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
       return false;
     }
     // check property
-    if (this.hasOwnInterceptor()) {
+    if (this.ownInterceptors.length) {
       return true;
     }
     // check parameter by using OnDemandParameterInfo
     const params = this.getParameters();
     for (const p of params) {
-      if (p.hasOwnInterceptor()) {
+      if (p.ownInterceptors.length) {
         return true;
       }
     }
+
     // check method, getter, setter
     // if (annotation.value && this.value.hasOwnInterceptor()) {
     //   return true;
