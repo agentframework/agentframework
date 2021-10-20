@@ -71,25 +71,25 @@ describe('3.6. Get parameter attributes', () => {
     it('get annotated properties', () => {
       const type = Reflector(UserController34);
       expect(type.getOwnProperties().length).toBe(4);
-      expect(type.findOwnProperties((p) => p.hasOwnInterceptor()).length).toBe(2);
-      expect(type.findProperties((p) => p.hasOwnInterceptor()).size).toBe(1);
-      expect(type.findProperties((p) => p.hasOwnInterceptor()).get(type)).toBeTruthy();
+      expect(type.findOwnProperties((p) => p.hasInterceptor()).length).toBe(2);
+      expect(type.findProperties((p) => p.hasInterceptor()).size).toBe(1);
+      expect(type.findProperties((p) => p.hasInterceptor()).get(type)).toBeTruthy();
     });
 
     it('check interceptor', () => {
       const type = Reflector(UserController34);
+      expect(type.property('listAllUser').hasInterceptor()).toBeFalse();
       expect(type.property('listAllUser').hasOwnInterceptor()).toBeFalse();
-      expect(type.property('listAllUser').hasOwnInterceptor()).toBeFalse();
-      expect(type.property('getUser').hasOwnInterceptor()).toBeTrue();
+      expect(type.property('getUser').hasInterceptor()).toBeTrue();
       expect(type.property('getUser').hasOwnInterceptor()).toBeFalse();
 
-      expect(type.hasOwnInterceptor()).toBeFalse();
+      expect(type.hasInterceptor()).toBeFalse();
       expect(type.hasOwnInterceptor()).toBeFalse();
 
-      expect(Reflector(Controller34).hasOwnInterceptor()).toBeTrue(); // has parameter interceptor
+      expect(Reflector(Controller34).hasInterceptor()).toBeTrue(); // has parameter interceptor
       expect(Reflector(Controller34).hasOwnInterceptor()).toBeFalse(); // don't have ctor interceptor
 
-      expect(Reflector(Base34).hasOwnInterceptor()).toBeFalse();
+      expect(Reflector(Base34).hasInterceptor()).toBeFalse();
       expect(Reflector(Base34).hasOwnInterceptor()).toBeFalse();
     });
 

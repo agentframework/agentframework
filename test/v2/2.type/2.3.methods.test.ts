@@ -81,6 +81,7 @@ describe('2.3. Type methods', () => {
         expect(stopMethod.name).toBe('stop');
         expect(stopMethod.key).toBe('stop');
         expect(stopMethod.descriptor).toBeInstanceOf(Object);
+        expect(stopMethod.hasInterceptor()).toBeFalse();
         expect(stopMethod.hasOwnInterceptor()).toBeFalse();
         expect(stopMethod.getParameters()).toBeInstanceOf(Array);
         expect(stopMethod.getParameters().length).toBe(0);
@@ -100,6 +101,7 @@ describe('2.3. Type methods', () => {
         expect(resetMethod.name).toBe('reset');
         expect(resetMethod.key).toBe('reset');
         expect(resetMethod.descriptor).toBeInstanceOf(Object);
+        expect(resetMethod.hasInterceptor()).toBeFalse();
         expect(resetMethod.hasOwnInterceptor()).toBeFalse();
         expect(resetMethod.hasAttribute()).toBeTrue();
         expect(resetMethod.getAttribute(ParamAttribute)).toBeUndefined();
@@ -120,7 +122,8 @@ describe('2.3. Type methods', () => {
         expect(runMethod.type).toBeUndefined();
         expect(runMethod.descriptor).toBeInstanceOf(Object);
         expect(runMethod.kind).toBe(ClassMethod);
-        expect(runMethod.hasOwnInterceptor()).toBeTrue();
+        expect(runMethod.hasInterceptor()).toBeTrue();
+        expect(runMethod.hasOwnInterceptor()).toBeFalse();
         // expect(runMethod.hasParameterInterceptor()).toBeTrue();
         expect(runMethod.getParameters()).toBeInstanceOf(Array);
         expect(runMethod.getParameters().length).toBe(1);

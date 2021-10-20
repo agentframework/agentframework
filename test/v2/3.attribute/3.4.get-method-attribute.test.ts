@@ -117,19 +117,19 @@ describe('3.4. Get class method attributes', () => {
     it('check interceptor property', () => {
       const property = Reflector(UserController34).property('getUser');
       expect(property.hasOwnInterceptor()).toBeFalse();
-      expect(property.hasOwnInterceptor()).toBeTrue(); // param interceptor
+      expect(property.hasInterceptor()).toBeTrue(); // param interceptor
     });
 
     it('check interceptor property', () => {
       const property = Reflector(UserController34).property('updateUser');
       expect(property.hasOwnInterceptor()).toBeTrue();
-      expect(property.hasOwnInterceptor()).toBeTrue();
+      expect(property.hasInterceptor()).toBeTrue();
     });
 
     it('get non-annotated property', () => {
       const property = Reflector(UserController34).property('deprecatedMethod');
       expect(property).toBeTruthy();
-      expect(property.hasOwnInterceptor()).toBeFalse();
+      expect(property.hasInterceptor()).toBeFalse();
       expect(property.hasOwnInterceptor()).toBeFalse();
     });
   });
