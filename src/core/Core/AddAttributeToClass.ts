@@ -18,8 +18,8 @@ import { AddAttributeToProperty, AddAttributeToPropertyParameter } from './AddAt
 /**
  * equals Reflector(target).addAttribute(attribute);
  */
-export function AddAttributeToClass(attribute: object, target: object | Function): void {
-  AddAttributeToProperty(attribute, target, CONSTRUCTOR);
+export function AddAttributeToClass(attribute: object, target: object | Function, interceptable: boolean): void {
+  AddAttributeToProperty(attribute, target, CONSTRUCTOR, undefined, interceptable);
 }
 
 /**
@@ -28,7 +28,8 @@ export function AddAttributeToClass(attribute: object, target: object | Function
 export function AddAttributeToClassConstructorParameter(
   attribute: object,
   target: object | Function,
-  parameterIndex: number
+  parameterIndex: number,
+  interceptable: boolean
 ): void {
-  AddAttributeToPropertyParameter(attribute, target, CONSTRUCTOR, parameterIndex);
+  AddAttributeToPropertyParameter(attribute, target, CONSTRUCTOR, parameterIndex, interceptable);
 }

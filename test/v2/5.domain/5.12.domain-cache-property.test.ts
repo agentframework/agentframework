@@ -17,9 +17,9 @@ describe('5.12. Domain agent property cache', () => {
         @decorateMember({
           interceptor: {
             intercept(target: Invocation<Design>, params: Arguments, receiver: unknown): unknown {
-              seq.push('beforeInvoke1');
+              seq.push('beforeInvoke');
               const ret = target.invoke(params, receiver);
-              seq.push('afterInvoke1');
+              seq.push('afterInvoke');
               return ret;
             },
           },
@@ -28,9 +28,9 @@ describe('5.12. Domain agent property cache', () => {
           @decorateParameter({
             interceptor: {
               intercept(target: Invocation<Design>, params: Arguments, receiver: unknown): unknown {
-                seq.push('beforeInvokeParameter1');
+                seq.push('beforeInvokeParameter');
                 const ret = target.invoke(params, receiver);
-                seq.push('afterInvokeParameter1');
+                seq.push('afterInvokeParameter');
                 return ret;
               },
             },
@@ -49,9 +49,9 @@ describe('5.12. Domain agent property cache', () => {
       expect(seq).toEqual([]);
 
       seq = [];
-      req1_d1.invoke();
+      req1_d1.invoke('example.com');
       // console.log('r1', seq);
-      const cached1 = ['beforeInvoke1', 'beforeInvokeParameter1', 'afterInvokeParameter1', 'invoke', 'afterInvoke1'];
+      const cached1 = ['beforeInvoke', 'beforeInvokeParameter', 'afterInvokeParameter', 'invoke', 'afterInvoke'];
       expect(seq).toEqual(cached1);
 
       Reflector(WebRequest)
@@ -88,11 +88,11 @@ describe('5.12. Domain agent property cache', () => {
       req1_d2.invoke();
       const req1_d2_seq = [
         'beforeInvokeAttribute1',
-        'beforeInvoke1',
-        'beforeInvokeParameter1',
-        'afterInvokeParameter1',
+        'beforeInvoke',
+        'beforeInvokeParameter',
+        'afterInvokeParameter',
         'invoke',
-        'afterInvoke1',
+        'afterInvoke',
         'afterInvokeAttribute1',
       ];
       // console.log('r3', seq);
@@ -119,11 +119,11 @@ describe('5.12. Domain agent property cache', () => {
       const req2_d2_seq = [
         'beforeInvokeAttribute2',
         'beforeInvokeAttribute1',
-        'beforeInvoke1',
-        'beforeInvokeParameter1',
-        'afterInvokeParameter1',
+        'beforeInvoke',
+        'beforeInvokeParameter',
+        'afterInvokeParameter',
         'invoke',
-        'afterInvoke1',
+        'afterInvoke',
         'afterInvokeAttribute1',
         'afterInvokeAttribute2',
       ];
@@ -137,7 +137,20 @@ describe('5.12. Domain agent property cache', () => {
 
       seq = [];
       req1_d3.invoke();
-      expect(seq).toEqual(req2_d2_seq);
+      // console.log('seq', seq);
+      expect(seq).toEqual([
+        'beforeInvokeAttribute2',
+        'beforeInvokeAttribute1',
+        'beforeInvoke',
+        'beforeInvokeParameter',
+        'afterInvokeParameter',
+        'invoke',
+        'afterInvoke',
+        'afterInvokeAttribute1',
+        'afterInvokeAttribute2',
+      ]);
+      // expect(seq).toEqual(cached1);
+      // expect(seq).toEqual(req2_d2_seq);
     });
   });
 });

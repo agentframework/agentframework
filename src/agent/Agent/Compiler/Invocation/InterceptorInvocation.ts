@@ -26,6 +26,10 @@ import { Arguments } from '../../Arguments';
 export class InterceptorInvocation<T extends Design> implements Invocation<T> {
   constructor(readonly next: Invocation<T>, readonly interceptor: Interceptor<T>) {}
 
+  get version(): number {
+    return this.next.version;
+  }
+
   get design(): T {
     return this.next.design;
   }

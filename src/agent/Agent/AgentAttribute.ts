@@ -18,7 +18,6 @@ import { ClassInterceptor } from './TypeInterceptors';
 import { UpgradeAgentProperties } from './Compiler/OnDemandClassCompiler';
 import { FindExtendedClass } from './FindExtendedClass';
 import { AgentFrameworkError } from './AgentFrameworkError';
-import { PropertyInfo } from './Reflection/PropertyInfo';
 import { InvocationFactory } from './Compiler/InvocationFactory';
 import { ClassInvocations } from './Knowledges/ClassInvocations';
 import { RememberType } from './Knowledges/Types';
@@ -91,16 +90,42 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     // console.log('this.a', this.agent === target);
     // console.log('target', target.name, '--->', this.agent.name);
 
-    let invocation = ClassInvocations.v1.get(this.receiver);
+    // NOTE: Static Constructor support, deep first
+    // for (const ctor of FindStaticConstructors(target.prototype)) {
+    //   console.log('ctor', ctor, ctor.name);
+    //   // mark before call to make sure the constructor never call again
+    //   Core.MarkStaticConstructor(ctor);
+    //
+    //   // skip system type
+    //   if (Core.IsSystemType(ctor)) {
+    //     break;
+    //   }
+    //
+    //   // check if have static constructor
+    //   const descriptor = Reflect.getOwnPropertyDescriptor(ctor, ctor.name);
+    //   if (descriptor && typeof descriptor.value == 'function') {
+    //     Reflect.apply(descriptor.value, ctor, []);
+    //   }
+    // }
+
+    let invocation: TypeInvocation | undefined = ClassInvocations.v1.get(this.receiver);
     // console.log('☀️ ☀️ ☀️ 1', target.name, receiver.name);
+    let classes;
 
     if (invocation) {
-      // if (invocation.design.declaringType !== target) {
-      //   console.log('wrongs');
-      // }
-      if (invocation.design.version + InvocationFactory.class.version !== this.version) {
+      if (invocation.design.version + InvocationFactory.class.version !== invocation.version) {
         // invalidate cache
         invocation = undefined;
+        // clear prototype
+        classes = FindExtendedClass(target, receiver);
+        if (classes[1]) {
+          const found = classes[1].prototype;
+          for (const k of Reflect.ownKeys(found)) {
+            if (k !== 'constructor') {
+              Reflect.deleteProperty(found, k);
+            }
+          }
+        }
       }
     }
 
@@ -108,42 +133,15 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     if (!invocation) {
       // find interceptors from design attributes and create chain for them
       invocation = InvocationFactory.createClassInvocation(target);
-      this.version = invocation.design.version + InvocationFactory.class.version;
 
       ClassInvocations.v1.set(this.receiver, invocation);
 
       // upgrade properties
-      const interceptors = invocation.design.findTypes().map((t) => t.findOwnProperties((p) => p.hasInterceptor()));
-      // TODO: reverse()
-      const properties = new Map<PropertyKey, PropertyInfo>();
-
-      // NOTE: Static Constructor support, deep first
-      // for (const ctor of FindStaticConstructors(target.prototype)) {
-      //   console.log('ctor', ctor, ctor.name);
-      //   // mark before call to make sure the constructor never call again
-      //   Core.MarkStaticConstructor(ctor);
-      //
-      //   // skip system type
-      //   if (Core.IsSystemType(ctor)) {
-      //     break;
-      //   }
-      //
-      //   // check if have static constructor
-      //   const descriptor = Reflect.getOwnPropertyDescriptor(ctor, ctor.name);
-      //   if (descriptor && typeof descriptor.value == 'function') {
-      //     Reflect.apply(descriptor.value, ctor, []);
-      //   }
-      // }
-
-      for (const list of interceptors) {
-        for (const property of list) {
-          properties.set(property.key, property);
-        }
-      }
+      const properties = invocation.design.findOwnProperties((p) => p.hasOwnInterceptor());
 
       // don't generate property interceptor if no extended class
-      if (properties.size) {
-        const found = FindExtendedClass(target, receiver);
+      if (properties.length) {
+        const found = classes || FindExtendedClass(target, receiver);
         const agent = found[0].prototype;
         // quick check, ignore if keys are been declared
         // ownKeys() >= 1 because constructor is one key always have

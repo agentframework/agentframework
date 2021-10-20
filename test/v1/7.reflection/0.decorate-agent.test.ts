@@ -91,7 +91,7 @@ describe('Decorate Agent', () => {
 
   describe('# should not able to', () => {
     it('get agent attribute', () => {
-      const items = Reflector(MySQL).getOwnAttributes(AgentAttribute);
+      const items = Reflector(MySQL).getAttributes(AgentAttribute);
       expect(items.length).toBe(1);
     });
   });

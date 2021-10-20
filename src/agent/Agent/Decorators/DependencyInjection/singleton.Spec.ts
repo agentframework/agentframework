@@ -24,13 +24,13 @@ describe('Core @singleton() decorator', () => {
 
       // test metadata
       const property = Reflector(CoreSingletonDecoratorApp1).property('service');
-      expect(property.hasOwnAttribute()).toBeTrue();
-      expect(property.hasOwnAttribute(SingletonAttribute)).toBeTrue();
-      expect(property.getOwnAttributes().length).toBe(1);
-      expect(property.getOwnAttribute(SingletonAttribute)).toBeInstanceOf(SingletonAttribute);
-      expect(property.getOwnAttribute(SingletonAttribute)!.type).toBeUndefined();
+      expect(property.hasAttribute()).toBeTrue();
+      expect(property.hasAttribute(SingletonAttribute)).toBeTrue();
+      expect(property.getAttributes().length).toBe(1);
+      expect(property.getAttribute(SingletonAttribute)).toBeInstanceOf(SingletonAttribute);
+      expect(property.getAttribute(SingletonAttribute)!.type).toBeUndefined();
       expect(property.hasOwnInterceptor()).toBeTrue();
-      expect(property.hasInterceptor()).toBeTrue();
+      expect(property.hasOwnInterceptor()).toBeTrue();
     });
 
     it('create agent with @singleton()', () => {
@@ -59,13 +59,13 @@ describe('Core @singleton() decorator', () => {
 
       // test metadata
       const property = Reflector(CoreSingletonDecoratorApp2).property('service');
-      expect(property.hasOwnAttribute()).toBeTrue();
-      expect(property.hasOwnAttribute(SingletonAttribute)).toBeTrue();
-      expect(property.getOwnAttributes().length).toBe(1);
-      expect(property.getOwnAttribute(SingletonAttribute)).toBeInstanceOf(SingletonAttribute);
-      expect(property.getOwnAttribute(SingletonAttribute)!.type).toBeUndefined();
+      expect(property.hasAttribute()).toBeTrue();
+      expect(property.hasAttribute(SingletonAttribute)).toBeTrue();
+      expect(property.getAttributes().length).toBe(1);
+      expect(property.getAttribute(SingletonAttribute)).toBeInstanceOf(SingletonAttribute);
+      expect(property.getAttribute(SingletonAttribute)!.type).toBeUndefined();
       expect(property.hasOwnInterceptor()).toBeTrue();
-      expect(property.hasInterceptor()).toBeTrue();
+      expect(property.hasOwnInterceptor()).toBeTrue();
     });
   });
 

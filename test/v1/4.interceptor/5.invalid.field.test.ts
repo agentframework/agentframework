@@ -35,7 +35,7 @@ describe('Interceptor on Field', () => {
     });
 
     it('get the attribute', () => {
-      expect(Reflector(Calculator).property('RoundOnField').getOwnAttributes(RoundInterceptor).length).toBe(1);
+      expect(Reflector(Calculator).property('RoundOnField').getAttributes(RoundInterceptor).length).toBe(1);
     });
 
     it('create agent', () => {

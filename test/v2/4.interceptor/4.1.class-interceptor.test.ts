@@ -69,7 +69,7 @@ describe('4.1. Class interceptor', () => {
     });
 
     it('intercept class constructor from base to top', () => {
-      const seq: string[] = [];
+      let seq: string[] = [];
 
       @decorateClass({
         interceptor: {
@@ -139,24 +139,37 @@ describe('4.1. Class interceptor', () => {
         },
       });
 
+      expect(seq).toEqual([]);
       const instance = new Class414(3.44234);
       expect(instance).toBeInstanceOf(Class414);
       expect(instance.a).toBe(3.44234);
-      expect(instance.Method414()).toBe('Class414');
-
       expect(seq).toEqual([
         'lastBeforeClass414',
         'beforeClass414',
-        'beforeBase414',
-        'beforeBase414Down',
         'Class414-1',
         'Base414',
         'Class414-2',
-        'afterBase414Down',
-        'afterBase414',
         'afterClass414',
         'lastAfterClass414',
       ]);
+
+      seq = [];
+      expect(instance.Method414()).toBe('Class414');
+      expect(seq).toEqual([]);
+
+      // expect(seq).toEqual([
+      //   'lastBeforeClass414',
+      //   'beforeClass414',
+      //   'beforeBase414',
+      //   'beforeBase414Down',
+      //   'Class414-1',
+      //   'Base414',
+      //   'Class414-2',
+      //   'afterBase414Down',
+      //   'afterBase414',
+      //   'afterClass414',
+      //   'lastAfterClass414',
+      // ]);
     });
 
     it('intercept agent constructor and base', () => {
@@ -251,8 +264,8 @@ describe('4.1. Class interceptor', () => {
       // console.log('ty', );
       // console.log('seq', seq, Class415);
 
-      expect(Reflector(End415).getOwnAttributes()).toEqual([]);
-      expect(Reflector(End415).static.getOwnAttributes()).toEqual([]);
+      expect(Reflector(End415).getAttributes()).toEqual([]);
+      expect(Reflector(End415).static.getAttributes()).toEqual([]);
       expect(seq).toEqual(['downAgentBeforeClass415', 'downAgentAfterClass415']);
 
       // const instance = new Class415(3.44234);

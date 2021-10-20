@@ -18,6 +18,7 @@ import { AddAttributeToClass, AddAttributeToClassConstructorParameter } from '..
 import { MemberKinds } from '../Reflection/MemberKinds';
 import { AgentFrameworkError } from '../AgentFrameworkError';
 import { AddAttributeToProperty, AddAttributeToPropertyParameter } from '../../../dependencies/core';
+import { HasInterceptor } from '../CustomInterceptor';
 
 /**
  * Decorate attribute to the target, throw if target not allowed
@@ -40,7 +41,7 @@ export function decorate<T extends Attribute>(
           );
         }
         if (CanDecorate(attribute, target, key, descriptorOrIndex)) {
-          AddAttributeToClassConstructorParameter(attribute, (target as Function).prototype, descriptorOrIndex);
+          AddAttributeToClassConstructorParameter(attribute, (target as Function).prototype, descriptorOrIndex, HasInterceptor(attribute));
           // Reflector(target)
           //   .parameter(descriptor)
           //   .addAttribute(attribute);
@@ -53,7 +54,7 @@ export function decorate<T extends Attribute>(
           );
         }
         if (CanDecorate(attribute, target, key)) {
-          AddAttributeToClass(attribute, (target as Function).prototype);
+          AddAttributeToClass(attribute, (target as Function).prototype, HasInterceptor(attribute));
           // Reflector(target)
           //   .addAttribute(attribute);
         }
@@ -74,7 +75,7 @@ export function decorate<T extends Attribute>(
         }
 
         if (CanDecorate(attribute, target, key, descriptorOrIndex)) {
-          AddAttributeToPropertyParameter(attribute, target, key, descriptorOrIndex);
+          AddAttributeToPropertyParameter(attribute, target, key, descriptorOrIndex, HasInterceptor(attribute));
           // Reflector(target)
           //   .property(targetKey)
           //   .parameter(descriptorOrIndex)
@@ -95,7 +96,7 @@ export function decorate<T extends Attribute>(
         }
 
         if (CanDecorate(attribute, target, key)) {
-          AddAttributeToProperty(attribute, target, key);
+          AddAttributeToProperty(attribute, target, key, undefined, HasInterceptor(attribute));
           // Reflector(target)
           //   .property(targetKey)
           //   .value

@@ -56,38 +56,38 @@ describe('Reflection Class Member', () => {
 
     it('Initializer only', () => {
       const p = Reflector(MongoDB).property('books');
-      expect(p.hasInterceptor()).toBe(false);
+      expect(p.hasOwnInterceptor()).toBe(false);
     });
 
     it('both', () => {
       const p = Reflector(MongoDB).property('both');
-      expect(p.hasInterceptor()).toBe(true);
+      expect(p.hasOwnInterceptor()).toBe(true);
     });
 
     it('Interceptor only', () => {
       const p = Reflector(MongoDB).property('logs');
-      expect(p.hasInterceptor()).toBe(true);
+      expect(p.hasOwnInterceptor()).toBe(true);
     });
     it('Interceptor only 2', () => {
       const p = Reflector(MongoDB).property('logs2');
 
-      expect(p.hasInterceptor()).toBe(true);
+      expect(p.hasOwnInterceptor()).toBe(true);
     });
 
     it('Interceptor only 3', () => {
       const p = Reflector(MongoDB).property('logs2');
 
-      expect(p.hasInterceptor()).toBe(true);
+      expect(p.hasOwnInterceptor()).toBe(true);
     });
 
     it('Interceptor only 4', () => {
       const p = Reflector(MongoDB).property('books');
-      expect(p.hasInterceptor()).toBe(false);
+      expect(p.hasOwnInterceptor()).toBe(false);
     });
 
     it('Initializer only 1', () => {
       const p = Reflector(MongoDB).property('rnd1');
-      expect(p.hasInterceptor()).toBe(true);
+      expect(p.hasOwnInterceptor()).toBe(true);
     });
   });
 

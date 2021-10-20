@@ -54,20 +54,20 @@ export interface Design {
   /**
    * Returns true if any attribute decorated
    */
-  hasOwnAttribute<A1 extends object>(type?: Class<A1>): boolean;
+  hasAttribute<A1 extends object>(type?: Class<A1>): boolean;
 
   /**
    * Returns a decorated attribute
    */
-  getOwnAttribute<A2 extends object>(type: Class<A2>): A2 | undefined;
+  getAttribute<A2 extends object>(type: Class<A2>): A2 | undefined;
 
   /**
    * Returns all decorated attributes
    */
-  getOwnAttributes<A3 extends object>(type?: Class<A3>): ReadonlyArray<A3>;
+  getAttributes<A3 extends object>(type?: Class<A3>): ReadonlyArray<A3>;
 
   /**
    * Find attribute using filter function and filter criteria
    */
-  findOwnAttributes<A5 extends object>(filter: Filter<object>, filterCriteria?: any): ReadonlyArray<A5>;
+  findAttributes<A5 extends object>(filter: Filter<object>, filterCriteria?: any): ReadonlyArray<A5>;
 }

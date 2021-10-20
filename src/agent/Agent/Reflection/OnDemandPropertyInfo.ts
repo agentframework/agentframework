@@ -22,6 +22,7 @@ import { Attribute } from '../Attribute';
 import { GetOwnPropertyAnnotation, Property } from '../../../dependencies/core';
 import { AddAttributeToProperty } from '../../../dependencies/core';
 import { Once } from '../Decorators/Once/Once';
+import { HasInterceptor } from '../CustomInterceptor';
 
 // import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
 // import { OnDemandPropertyGetterInfo } from './OnDemandPropertyGetterInfo';
@@ -40,18 +41,6 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
 
   protected getAnnotation(): Property | undefined {
     return GetOwnPropertyAnnotation(this.target, this.key);
-  }
-
-  /**
-   * Get property version
-   */
-  get version(): number {
-    // property info version + parameter version
-    let version = super.version;
-    for (const parameter of this.parameters.values()) {
-      version += parameter.version;
-    }
-    return version;
   }
 
   protected getName(): string {
@@ -129,13 +118,13 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
       return false;
     }
     // check property
-    if (this.ownInterceptors.length) {
+    if (this.getOwnInterceptors().length) {
       return true;
     }
     // check parameter by using OnDemandParameterInfo
-    const params = this.getParameters();
-    for (const p of params) {
-      if (p.ownInterceptors.length) {
+    const parameters = this.getParameters();
+    for (const parameter of parameters) {
+      if (parameter.getOwnInterceptors().length) {
         return true;
       }
     }
@@ -211,6 +200,6 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
   }
 
   addAttribute<A4 extends Attribute>(attribute: A4): void {
-    AddAttributeToProperty(attribute, this.target, this.key);
+    AddAttributeToProperty(attribute, this.target, this.key, undefined, HasInterceptor(attribute));
   }
 }

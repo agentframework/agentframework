@@ -32,7 +32,7 @@ describe('2.4. Type fields', () => {
         expect(modelField.key).toBe('model');
         expect(modelField.descriptor).toBeUndefined();
         expect(modelField.name).toBe('model');
-        expect(modelField.hasInterceptor()).toBeFalse();
+        expect(modelField.hasOwnInterceptor()).toBeFalse();
         expect(modelField.getParameters()).toBeInstanceOf(Array);
         expect(modelField.getParameters().length).toBe(0);
       }

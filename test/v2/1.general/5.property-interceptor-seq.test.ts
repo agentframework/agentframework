@@ -137,7 +137,8 @@ describe('1.5. Property interceptor invoke sequence', () => {
       expect(seq).toEqual([]);
       top2.hello();
       // console.log('top2', seq);
-      const top2HelloSeq = [ 'beforeHello3',
+      const top2HelloSeq = [
+        'beforeHello3',
         'beforeHello1',
         'beforeHello2',
         'beforeHelloParameterName1',
@@ -151,9 +152,10 @@ describe('1.5. Property interceptor invoke sequence', () => {
         'Hello-undefined',
         'afterHello2',
         'afterHello1',
-        'afterHello3' ];
-      expect(seq).toEqual(top1HelloSeq); // invocation is been cached
-      expect(seq).not.toEqual(top2HelloSeq);
+        'afterHello3',
+      ];
+      expect(seq).not.toEqual(top1HelloSeq); // invocation is been cached
+      expect(seq).toEqual(top2HelloSeq);
 
       Reflector(Class151)
         .property('hello')
@@ -208,8 +210,8 @@ describe('1.5. Property interceptor invoke sequence', () => {
         'afterHello4',
         'afterGlobalHello1',
       ];
-      expect(seq).toEqual(top1HelloSeq); // invocation is been cached
-      expect(seq).not.toEqual(top3HelloSeq);
+      expect(seq).not.toEqual(top1HelloSeq); // invocation is been cached
+      expect(seq).toEqual(top3HelloSeq);
       seq = [];
 
       Reflector(Agent)
@@ -252,8 +254,8 @@ describe('1.5. Property interceptor invoke sequence', () => {
         'afterGlobalHello1',
         'afterGlobalHello2',
       ];
-      expect(seq).toEqual(top1HelloSeq); // invocation is been cached
-      expect(seq).not.toEqual(top4HelloSeq);
+      expect(seq).not.toEqual(top1HelloSeq); // invocation is been cached
+      expect(seq).toEqual(top4HelloSeq);
 
       seq = [];
       const AgentClass2 = CreateAgent(Class151);

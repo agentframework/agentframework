@@ -21,7 +21,7 @@ export function initializable(): ClassDecorator {
   return (type: Function): void => {
     // NOTE: Design pattern: Factory method
     // InitializerAttribute must before InitializerAttribute
-    AddAttributeToClass(new InitializerAttribute(Initializer), type.prototype);
-    AddAttributeToClass(new StaticInitializerAttribute(Initializer), type.prototype);
+    AddAttributeToClass(new InitializerAttribute(Initializer), type.prototype, true);
+    AddAttributeToClass(new StaticInitializerAttribute(Initializer), type.prototype, true);
   };
 }

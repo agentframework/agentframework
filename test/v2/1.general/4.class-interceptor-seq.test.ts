@@ -419,8 +419,8 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterGlobalReflector1',
         'afterGlobalReflector2',
       ];
-      expect(aa2s).toEqual(expectAA1s);
-      expect(aa2s).not.toEqual(expectAA2s);
+      expect(aa2s).not.toEqual(expectAA1s);
+      expect(aa2s).toEqual(expectAA2s);
 
       seq = [];
       const top1 = new Top141();
@@ -436,19 +436,15 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'beforeTop141AA3',
         'beforeTop141Decorator3',
         'beforeTop141Decorator4',
-        'beforeMiddle141AA4',
-        'beforeMiddle141AA3',
-        'beforeMiddle141Decorator1',
-        'beforeMiddle141Decorator2',
-        'beforeBaseReflector2',
-        'beforeBaseReflector1',
-        'beforeBaseDecorator1',
-        'beforeBaseDecorator2',
         'beforeTop141Parameter[0]-1',
         'afterTop141Parameter[0]-1',
         'before Top141',
         'before Middle141',
         'before Base141',
+        'beforeGlobalReflector2',
+        'beforeGlobalReflector1',
+        'beforeGlobalParameter[0]-1',
+        'afterGlobalParameter[0]-1',
         'beforeAnotherAgent141AA2',
         'beforeAnotherAgent141AA1',
         'beforeAnotherAgent2',
@@ -464,17 +460,11 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterAnotherAgent2',
         'afterAnotherAgent141AA1',
         'afterAnotherAgent141AA2',
+        'afterGlobalReflector1',
+        'afterGlobalReflector2',
         'Base141',
         'Middle141',
         'Top141',
-        'afterBaseDecorator2',
-        'afterBaseDecorator1',
-        'afterBaseReflector1',
-        'afterBaseReflector2',
-        'afterMiddle141Decorator2',
-        'afterMiddle141Decorator1',
-        'afterMiddle141AA3',
-        'afterMiddle141AA4',
         'afterTop141Decorator4',
         'afterTop141Decorator3',
         'afterTop141AA3',
@@ -490,6 +480,7 @@ describe('1.4. Class interceptor invoke sequence', () => {
       expect(top2).toBeInstanceOf(Top141);
       const topSeq2 = seq;
 
+      // console.log(500, topSeq2);
       // expect(topSeq2).toEqual(expectAA1s);
       expect(topSeq2).toEqual(top1_seq);
 

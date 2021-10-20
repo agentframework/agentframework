@@ -16,14 +16,14 @@ limitations under the License. */
 import { alter } from '../../Compiler/alter';
 import { VERSION } from '../../WellKnown';
 
-export function Cache<T>(target: object | Function, getterKey: string | symbol, valueFn: () => T): T {
+export function Cache<T>(target: object | Function, getterKey: string | symbol, update: () => T): T {
   let cachedVersion = Reflect.get(target, VERSION);
-  let cached = valueFn();
+  let cached = update();
   alter(target, getterKey, {
     get() {
       const currentVersion = Reflect.get(target, VERSION);
       if (cachedVersion !== currentVersion) {
-        cached = valueFn();
+        cached = update();
         cachedVersion = currentVersion;
       }
       return cached;

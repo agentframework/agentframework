@@ -41,12 +41,12 @@ describe('3.2. Get class attribute', () => {
 
     it('check attribute', () => {
       const type = Reflector(UserController321);
-      expect(type.hasOwnAttribute(ControllerAttribute)).toBeTrue();
+      expect(type.hasAttribute(ControllerAttribute)).toBeTrue();
     });
 
     it('get attribute', () => {
       const type = Reflector(UserController321);
-      const controllerAttribute = type.getOwnAttribute(ControllerAttribute);
+      const controllerAttribute = type.getAttribute(ControllerAttribute);
 
       expect(controllerAttribute).toBeInstanceOf(ControllerAttribute);
       expect(controllerAttribute && controllerAttribute.path).toBe('/api/user');
@@ -54,7 +54,7 @@ describe('3.2. Get class attribute', () => {
 
     it('get all controller attributes', () => {
       const type = Reflector(UserController321);
-      const found = type.getOwnAttributes(ControllerAttribute);
+      const found = type.getAttributes(ControllerAttribute);
 
       expect(found).toBeInstanceOf(Array);
       expect(found.length).toBe(1);
@@ -62,7 +62,7 @@ describe('3.2. Get class attribute', () => {
 
     it('get all controller attributes', () => {
       const type = Reflector(UserController321);
-      const found = type.getOwnAttributes();
+      const found = type.getAttributes();
 
       expect(found).toBeInstanceOf(Array);
       expect(found.length).toBe(2);
@@ -70,7 +70,7 @@ describe('3.2. Get class attribute', () => {
 
     it('find attribute using ControllerAttribute', () => {
       const type = Reflector(UserController321);
-      const found = type.findOwnAttributes((attribute: Attribute) => {
+      const found = type.findAttributes((attribute: Attribute) => {
         return attribute instanceof ControllerAttribute;
       });
       expect(found).toBeInstanceOf(Array);
@@ -82,7 +82,7 @@ describe('3.2. Get class attribute', () => {
       function FindAttributeByType(attribute: Attribute, type: Class<any>): boolean {
         return attribute instanceof type;
       }
-      const found = type.findOwnAttributes(FindAttributeByType, ControllerAttribute);
+      const found = type.findAttributes(FindAttributeByType, ControllerAttribute);
       expect(found).toBeInstanceOf(Array);
       expect(found.length).toBe(1);
     });

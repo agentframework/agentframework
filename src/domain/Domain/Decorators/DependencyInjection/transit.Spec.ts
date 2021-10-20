@@ -22,7 +22,7 @@ describe('Domain @transit() decorator', () => {
       expect(app.service2).toBeInstanceOf(Service641);
       expect(app.service2).not.toBe(app.service);
 
-      expect(Reflector(App641).property('service').hasOwnAttribute()).toBeTrue();
+      expect(Reflector(App641).property('service').hasAttribute()).toBeTrue();
     });
 
     it('create agent with domain', () => {

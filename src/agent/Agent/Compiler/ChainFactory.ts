@@ -15,7 +15,6 @@ limitations under the License. */
 import { Invocation } from '../Invocation';
 import { Attribute } from '../Attribute';
 import { OnDemandInterceptorInvocation } from './Invocation/OnDemandInterceptorInvocation';
-import { InterceptorInvocation } from './Invocation/InterceptorInvocation';
 import { OnDemandParameterInterceptor } from './Interceptor/OnDemandParameterInterceptor';
 import { PropertyInfo } from '../Reflection/PropertyInfo';
 import { MemberInfo } from '../Reflection/MemberInfo';
@@ -27,13 +26,11 @@ import { MemberInfo } from '../Reflection/MemberInfo';
 export class ChainFactory {
   static chainInterceptors<T extends MemberInfo>(
     target: Invocation<T>,
-    interceptors: ReadonlyArray<Attribute>
+    attributes: ReadonlyArray<Attribute>
   ): Invocation<T> {
     // make invocation chain of interceptors
-    if (interceptors.length) {
-      for (const interceptor of interceptors) {
-        target = new OnDemandInterceptorInvocation(target, interceptor);
-      }
+    for (const attribute of attributes) {
+      target = new OnDemandInterceptorInvocation(target, attribute);
     }
     return target;
   }
@@ -43,6 +40,6 @@ export class ChainFactory {
   }
 
   static addParameterInterceptor<T extends PropertyInfo>(target: Invocation<T>, design: T): Invocation<T> {
-    return new InterceptorInvocation<T>(target, new OnDemandParameterInterceptor(design));
+    return new OnDemandInterceptorInvocation<T>(target, new OnDemandParameterInterceptor(design));
   }
 }

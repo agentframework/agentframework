@@ -54,7 +54,7 @@ describe('Interceptor', () => {
 
     // region round1
     it('get round1 attribute', () => {
-      const items = Reflector(Calculator).property('round1').getOwnAttributes(RoundInterceptor);
+      const items = Reflector(Calculator).property('round1').getAttributes(RoundInterceptor);
       expect(items.length).toBe(2);
     });
 
@@ -73,7 +73,7 @@ describe('Interceptor', () => {
 
     // region round2
     it('get round2 attribute', () => {
-      const items = Reflector(Calculator).property('round2').getOwnAttributes(RoundInterceptor);
+      const items = Reflector(Calculator).property('round2').getAttributes(RoundInterceptor);
       expect(items.length).toBe(2);
     });
 
@@ -92,7 +92,7 @@ describe('Interceptor', () => {
 
     // region round3
     it('get round3 attribute', () => {
-      const items = Reflector(Calculator).property('round3').getOwnAttributes(RoundInterceptor);
+      const items = Reflector(Calculator).property('round3').getAttributes(RoundInterceptor);
       expect(items.length).toBe(2);
     });
 
@@ -111,7 +111,7 @@ describe('Interceptor', () => {
 
     // region round4
     it('get round4 attribute', () => {
-      const items = Reflector(Calculator).property('round4').getParameters()[0].getOwnAttributes(RoundInterceptor);
+      const items = Reflector(Calculator).property('round4').getParameters()[0].getAttributes(RoundInterceptor);
       expect(items.length).toBe(1);
     });
 

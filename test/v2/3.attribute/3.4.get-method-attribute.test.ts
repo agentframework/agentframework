@@ -87,23 +87,23 @@ describe('3.4. Get class method attributes', () => {
 
     it('get attribute of giving type', () => {
       const property = Reflector(UserController34).property('listAllUser');
-      expect(property.hasOwnAttribute(MethodAttribute)).toBeTrue();
-      expect(property.getOwnAttribute(MethodAttribute)).toBeInstanceOf(MethodAttribute);
+      expect(property.hasAttribute(MethodAttribute)).toBeTrue();
+      expect(property.getAttribute(MethodAttribute)).toBeInstanceOf(MethodAttribute);
     });
 
     it('get all attributes of giving type', () => {
       const property = Reflector(UserController34).property('updateUser');
-      expect(property.getOwnAttributes(MethodAttribute).length).toBe(3);
+      expect(property.getAttributes(MethodAttribute).length).toBe(3);
     });
 
     it('get all attributes', () => {
       const property = Reflector(UserController34).property('updateUser');
-      expect(property.getOwnAttributes().length).toBe(4);
+      expect(property.getAttributes().length).toBe(4);
     });
 
     it('find attributes using inline filter function', () => {
       const property = Reflector(UserController34).property('updateUser');
-      expect(property.findOwnAttributes((attr) => attr instanceof MethodAttribute).length).toBe(3);
+      expect(property.findAttributes((attr) => attr instanceof MethodAttribute).length).toBe(3);
     });
 
     it('find attributes using external filter function with filter criteria', () => {
@@ -111,25 +111,25 @@ describe('3.4. Get class method attributes', () => {
         return attr instanceof criteria;
       }
       const property = Reflector(UserController34).property('updateUser');
-      expect(property.findOwnAttributes(InstanceOf, MethodAttribute).length).toBe(3);
+      expect(property.findAttributes(InstanceOf, MethodAttribute).length).toBe(3);
     });
 
     it('check interceptor property', () => {
       const property = Reflector(UserController34).property('getUser');
       expect(property.hasOwnInterceptor()).toBeFalse();
-      expect(property.hasInterceptor()).toBeTrue(); // param interceptor
+      expect(property.hasOwnInterceptor()).toBeTrue(); // param interceptor
     });
 
     it('check interceptor property', () => {
       const property = Reflector(UserController34).property('updateUser');
       expect(property.hasOwnInterceptor()).toBeTrue();
-      expect(property.hasInterceptor()).toBeTrue();
+      expect(property.hasOwnInterceptor()).toBeTrue();
     });
 
     it('get non-annotated property', () => {
       const property = Reflector(UserController34).property('deprecatedMethod');
       expect(property).toBeTruthy();
-      expect(property.hasInterceptor()).toBeFalse();
+      expect(property.hasOwnInterceptor()).toBeFalse();
       expect(property.hasOwnInterceptor()).toBeFalse();
     });
   });
@@ -142,7 +142,7 @@ describe('3.4. Get class method attributes', () => {
 
     it('get non-match property', () => {
       const property = Reflector(UserController34).property('notMethod');
-      const attributes = property.findOwnAttributes((a) => a instanceof MethodAttribute);
+      const attributes = property.findAttributes((a) => a instanceof MethodAttribute);
       expect(attributes.length).toBe(0);
     });
   });

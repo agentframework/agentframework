@@ -57,7 +57,7 @@ describe('Decorate class attribute', () => {
 
   describe('# should not able to', () => {
     it('get agent attribute', () => {
-      const items = Reflector(MongoDB).getOwnAttributes(AgentAttribute);
+      const items = Reflector(MongoDB).getAttributes(AgentAttribute);
       expect(items.length).toBe(0);
     });
   });

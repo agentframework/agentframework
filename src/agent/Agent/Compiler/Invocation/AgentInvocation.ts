@@ -25,6 +25,9 @@ import { alter } from '../alter';
  * @hidden
  */
 export class AgentInvocation implements TypeInvocation {
+
+  version: number = 0;
+
   constructor(readonly target: Function, readonly design: TypeInfo = OnDemandTypeInfo.find(target)) {}
 
   invoke([id]: any, receiver: any): any {

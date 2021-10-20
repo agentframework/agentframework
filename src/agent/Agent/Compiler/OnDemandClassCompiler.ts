@@ -24,20 +24,27 @@ import { alter } from './alter';
 
 export function UpgradeAgentProperties(
   target: Function | object,
-  properties: Map<PropertyKey, PropertyInfo>,
+  properties: ReadonlyArray<PropertyInfo>,
   receiver?: Function | object
 ) {
   // only proxy property contains interceptor
   // property without interceptor is metadata only attribute
-  for (const [key, property] of properties.entries()) {
-    const descriptor = Reflect.getOwnPropertyDescriptor(property.declaringType.prototype, key);
+  for (const property of properties) {
+    if (receiver) {
+      // can skip if property is exists
+      const exists = Reflect.getOwnPropertyDescriptor(target, property.key);
+      if (exists) {
+        continue;
+      }
+    }
+    const descriptor = Reflect.getOwnPropertyDescriptor(property.declaringType.prototype, property.key);
     let newDescriptor: PropertyDescriptor;
     if (descriptor) {
       newDescriptor = OnDemandClassCompiler.makeProperty(property, descriptor, receiver || target);
     } else {
       newDescriptor = OnDemandClassCompiler.makeField(property, receiver || target);
     }
-    Reflect.defineProperty(target, key, newDescriptor);
+    Reflect.defineProperty(target, property.key, newDescriptor);
   }
 }
 

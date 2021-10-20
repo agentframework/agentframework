@@ -12,14 +12,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Invocation } from '../../Invocation';
+import { PropertyInfo } from '../../Reflection/PropertyInfo';
+import { ParameterInvocation, PropertyInvocation } from '../../TypeInvocations';
+import { PropertyInterceptor } from '../../TypeInterceptors';
 import { MethodParameterInvocation } from '../Invocation/MethodParameterInvocation';
 import { ChainFactory } from '../ChainFactory';
-import { PropertyInfo } from '../../Reflection/PropertyInfo';
-// import { define } from '../../Helpers/Prototype';
 import { Once } from '../../Decorators/Once/Once';
-import { PropertyInvocation } from '../../TypeInvocations';
-import { PropertyInterceptor } from '../../TypeInterceptors';
 
 /**
  let MongoDB = class MongoDB {
@@ -48,15 +46,19 @@ import { PropertyInterceptor } from '../../TypeInterceptors';
 export class OnDemandParameterInterceptor implements PropertyInterceptor {
   constructor(readonly parent: PropertyInfo) {}
 
+  get interceptor() {
+    return this;
+  }
+
   /**
    * Build or get invocation
    */
-  get invocations(): Map<number, Invocation> | undefined {
-    const invocations = new Map<number, Invocation>();
+  get invocations(): ReadonlyMap<number, ParameterInvocation> | undefined {
+    const invocations = new Map<number, ParameterInvocation>();
     const parameters = this.parent.getParameters();
     for (const parameter of parameters) {
       const idx = parameter.index;
-      const interceptors = parameter.ownInterceptors;
+      const interceptors = parameter.getOwnInterceptors();
       if (interceptors.length) {
         const origin = new MethodParameterInvocation(parameter);
         invocations.set(idx, ChainFactory.chainInterceptors(origin, interceptors));

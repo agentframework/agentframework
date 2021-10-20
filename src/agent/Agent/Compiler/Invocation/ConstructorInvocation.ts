@@ -22,6 +22,8 @@ import { Arguments } from '../../Arguments';
  * @hidden
  */
 export class ConstructorInvocation implements TypeInvocation {
+  version: number = 0;
+
   constructor(readonly target: Function, readonly design: TypeInfo = OnDemandTypeInfo.find(target.prototype)) {}
 
   invoke(params: Arguments, receiver: Function): any {

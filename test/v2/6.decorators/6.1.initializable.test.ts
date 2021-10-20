@@ -19,6 +19,7 @@ describe('6.1. @initializable decorator', () => {
           };
         }
       }
+
       const app1 = new App611();
       expect(app1).toBeInstanceOf(App611);
       expect(app1.constructor.name).toBe('App611$');
@@ -34,6 +35,7 @@ describe('6.1. @initializable decorator', () => {
     });
 
     it('create initializable agent', () => {
+      @agent()
       @initializable()
       class Root612 {
         name: string | undefined;
@@ -108,6 +110,7 @@ describe('6.1. @initializable decorator', () => {
     });
 
     it('create async initializable agent', async () => {
+      @agent()
       @initializable()
       class Root613 {
         name: string | undefined;

@@ -48,7 +48,7 @@ describe('2.5. Type parameters', () => {
   describe('# should able to', () => {
     it('get constructor parameters', () => {
       const type = Reflector(Data251);
-      expect(type.hasInterceptor()).toBeFalse();
+      expect(type.hasOwnInterceptor()).toBeFalse();
 
       const param0 = type.parameter(0);
       expect(param0).toBeTruthy();

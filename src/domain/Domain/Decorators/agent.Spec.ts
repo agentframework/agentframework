@@ -55,7 +55,7 @@ describe('Domain @agent() decorator', () => {
     it('get agent attribute', () => {
       // AgentAttribute is only used in compile agent phase
       // AgentAttribute is not a metadata for agent class
-      const items = Reflector(MongoDB).getOwnAttributes(AgentAttribute);
+      const items = Reflector(MongoDB).getAttributes(AgentAttribute);
       expect(items.length).toBe(0);
     });
   });

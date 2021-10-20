@@ -26,6 +26,7 @@ import { Once } from '../Decorators/Once/Once';
 import { Property } from '../../../dependencies/core';
 import { IsAgent } from '../Knowledges/Agents';
 import { GetPropertyAnnotation } from '../../../dependencies/core';
+import { HasInterceptor } from '../CustomInterceptor';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -88,17 +89,17 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   // protected properties: Map<PropertyKey, OnDemandPropertyInfo> | undefined;
 
-  /**
-   * Get type version
-   */
-  get version(): number {
-    let version = super.version; // constructor version
-    for (const property of this.getOwnProperties()) {
-      // all property version
-      version += property.version;
-    }
-    return version;
-  }
+  // /**
+  //  * Get type version
+  //  */
+  // get version(): number {
+  //   let version = super.version; // constructor version
+  //   for (const property of this.getOwnProperties()) {
+  //     // all property version
+  //     version += property.version;
+  //   }
+  //   return version;
+  // }
 
   get static(): TypeInfo {
     return OnDemandTypeInfo.find(this.declaringType);
@@ -335,7 +336,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   }
 
   addAttribute<A4 extends Attribute>(attribute: A4): void {
-    AddAttributeToClass(attribute, this.target);
+    AddAttributeToClass(attribute, this.target, HasInterceptor(attribute));
   }
 
   protected getOwnMetadata(key: string): any | undefined {

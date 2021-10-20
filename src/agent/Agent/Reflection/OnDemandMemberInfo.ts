@@ -17,12 +17,7 @@ import { Attribute } from '../Attribute';
 import { MemberInfo } from './MemberInfo';
 import { Filter } from './Filter';
 import { Class } from '../Arguments';
-import { HasInterceptor } from '../CustomInterceptor';
 import { Once } from '../Decorators/Once/Once';
-import { Cache } from '../Decorators/Cache/Cache';
-
-// import { cache } from '../Helpers/Cache';
-// let a = 0;
 
 /**
  * Access and store attribute and metadata for reflection
@@ -113,22 +108,12 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
   }
 
   /**
-   * get attributes implementation, can be override by divided class
-   */
-  protected getAttributes(): ReadonlyArray<object> | undefined {
-    const annotation = this.annotation;
-    if (annotation && annotation.attributes.length) {
-      return annotation.attributes;
-    }
-    return;
-  }
-
-  /**
    * @sealed
    * get attributes
    */
-  get attributes(): ReadonlyArray<object> | undefined {
-    return Once(this, 'attributes', this.getAttributes());
+  get ownAttributes(): ReadonlyArray<object> | undefined {
+    const annotation = this.annotation;
+    return Once(this, 'ownAttributes', annotation && annotation.attributes);
   }
 
   /**
@@ -144,13 +129,13 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    * @param type
    * @returns {boolean}
    */
-  hasOwnAttribute<A1 extends Attribute>(type?: Class<A1>): boolean {
-    const attributes = this.attributes;
+  hasAttribute<A1 extends Attribute>(type?: Class<A1>): boolean {
+    const attributes = this.ownAttributes;
     if (attributes) {
       if (type) {
         return attributes.some((a) => a instanceof type);
       } else {
-        return true;
+        return attributes.length > 0;
       }
     }
     return false;
@@ -159,8 +144,8 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
   /**
    * Get specified attribute
    */
-  getOwnAttribute<A2 extends Attribute>(type: Class<A2>): A2 | undefined {
-    const attributes = this.attributes;
+  getAttribute<A2 extends Attribute>(type: Class<A2>): A2 | undefined {
+    const attributes = this.ownAttributes;
     if (attributes) {
       const results = attributes.filter((a) => a instanceof type);
       return <A2>results[0];
@@ -173,8 +158,8 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    *
    * @returns {Array<Attribute>}
    */
-  getOwnAttributes<A3 extends Attribute>(type?: Class<A3>): ReadonlyArray<A3> {
-    const attributes = this.attributes;
+  getAttributes<A3 extends Attribute>(type?: Class<A3>): ReadonlyArray<A3> {
+    const attributes = this.ownAttributes;
     if (attributes) {
       if (type) {
         return attributes.filter((a) => a instanceof type) as Array<A3>;
@@ -190,8 +175,8 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    *
    * @returns {Array<Attribute>}
    */
-  findOwnAttributes<A5 extends Attribute>(filter: Filter<Attribute>, filterCriteria?: any): ReadonlyArray<A5> {
-    const attributes = this.attributes;
+  findAttributes<A5 extends Attribute>(filter: Filter<Attribute>, filterCriteria?: any): ReadonlyArray<A5> {
+    const attributes = this.ownAttributes;
     if (attributes) {
       return attributes.filter((a) => filter(a, filterCriteria)) as Array<A5>;
     }
@@ -204,9 +189,8 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    * @returns {boolean}
    */
   hasOwnInterceptor(): boolean {
-    const attributes = this.attributes;
-    if (attributes) {
-      const interceptors = attributes.filter(HasInterceptor);
+    const interceptors = this.ownInterceptors;
+    if (interceptors) {
       return interceptors.length > 0;
     }
     return false;
@@ -218,9 +202,9 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    * @returns {Array<Attribute>}
    */
   getOwnInterceptors(): ReadonlyArray<object> {
-    const attributes = this.attributes;
-    if (attributes) {
-      return attributes.filter(HasInterceptor);
+    const interceptors = this.ownInterceptors;
+    if (interceptors) {
+      return interceptors;
     }
     return [];
   }
@@ -230,8 +214,9 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    *
    * @returns {Array<Attribute>}
    */
-  get ownInterceptors(): ReadonlyArray<object> {
-    return Cache(this, 'ownInterceptors', this.getOwnInterceptors.bind(this));
+  get ownInterceptors(): ReadonlyArray<object> | undefined {
+    const annotation = this.annotation;
+    return Once(this, 'ownInterceptors', annotation && annotation.interceptors);
   }
 
   /**

@@ -36,6 +36,7 @@ describe('5.7. Domain @initializable decorator', () => {
     });
 
     it('create initializable agent', () => {
+      @agent()
       @initializable()
       class Root572 {
         name: string | undefined;
@@ -111,6 +112,7 @@ describe('5.7. Domain @initializable decorator', () => {
     });
 
     it('create async initializable agent', async () => {
+      @agent()
       @initializable()
       class Root573 {
         name: string | undefined;
@@ -218,13 +220,14 @@ describe('5.7. Domain @initializable decorator', () => {
           this.name1 = undefined;
         }
       }
-      const app1 = domain.resolve(App576);
-      const app2 = domain.resolve(App576);
-      expect(app1 === app2).toBeFalse();
-      domain.dispose();
-      const a1 = await app1;
-      const a2 = await app2;
+      const promise1 = domain.resolve(App576);
+      const promise2 = domain.resolve(App576);
+      expect(promise1 === promise2).toBeFalse();
+      const a1 = await promise1;
+      const a2 = await promise2;
       expect(a1 === a2).toBeTrue();
+      expect(a1.name1).toBe('App576$');
+      domain.dispose();
       expect(a1.name1).toBeUndefined();
     });
   });

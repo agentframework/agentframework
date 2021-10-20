@@ -80,10 +80,10 @@ describe('2.2. Type members', () => {
       );
       expect(ctorOfStandaloneApplication.type).toBe(StandaloneApplication);
       expect(ctorOfStandaloneApplication.declaringType).toBe(StandaloneApplication);
-      expect(ctorOfStandaloneApplication.hasOwnAttribute()).toBeFalse();
+      expect(ctorOfStandaloneApplication.hasAttribute()).toBeFalse();
       expect(ctorOfStandaloneApplication.parameter(0).type).toBeUndefined();
       ctorOfStandaloneApplication.addAttribute({});
-      expect(ctorOfStandaloneApplication.hasOwnAttribute()).toBeTrue();
+      expect(ctorOfStandaloneApplication.hasAttribute()).toBeTrue();
     });
 
     it('get non-exists property', () => {
@@ -92,10 +92,10 @@ describe('2.2. Type members', () => {
       expect(statusPropertyOfCloudApplication.descriptor).toBeUndefined();
       expect(statusPropertyOfCloudApplication.declaringType).toBe(StandaloneApplication);
       expect(statusPropertyOfCloudApplication.type).toBeUndefined();
-      expect(statusPropertyOfCloudApplication.hasOwnAttribute()).toBeFalse();
+      expect(statusPropertyOfCloudApplication.hasAttribute()).toBeFalse();
       expect(statusPropertyOfCloudApplication.parameter(0).type).toBeUndefined();
       statusPropertyOfCloudApplication.addAttribute({});
-      expect(statusPropertyOfCloudApplication.hasOwnAttribute()).toBeTrue();
+      expect(statusPropertyOfCloudApplication.hasAttribute()).toBeTrue();
       expect(statusPropertyOfCloudApplication.descriptor).toBeUndefined();
     });
 
@@ -225,7 +225,7 @@ describe('2.2. Type members', () => {
         @decorateMember({ a: 1 })
         static run() {}
       }
-      expect(Reflector(StaticMemberTest22).static.property('run').hasOwnAttribute()).toBeTrue();
+      expect(Reflector(StaticMemberTest22).static.property('run').hasAttribute()).toBeTrue();
     });
   });
 

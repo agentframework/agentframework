@@ -22,34 +22,29 @@ export class InvocationFactory {
   // this function output is NOT cached
   static createAgentInvocation(receiver: Function, attribute: Attribute): TypeInvocation {
     const target: Invocation<TypeInfo> = new AgentInvocation(receiver);
-    const design = target.design;
+    let chain = ChainFactory.addInterceptor(target, attribute);
+    chain = ChainFactory.chainInterceptors(chain, target.design.getOwnInterceptors());
+    target.version = target.design.version;
+    if (this.agent.hasInterceptor()) {
+      chain = ChainFactory.chainInterceptors(chain, this.agent.getOwnInterceptors());
+      target.version += this.agent.version;
+    }
 
-    const interceptors = design.ownInterceptors;
-    let chain = ChainFactory.chainInterceptors(target, interceptors);
-    // todo: cache the chain for this target
-    // let chain = design.findTypes().reduce((chain, type) => {
-    //   return ChainFactory.chainInterceptors(chain, type.getOwnInterceptors());
-    // }, ChainFactory.chainInterceptors(target, interceptors));
-
-    chain = ChainFactory.addInterceptor(chain, attribute);
-    return ChainFactory.chainInterceptors(chain, this.agent.ownInterceptors);
+    return chain;
   }
 
   // this function output is been cached by caller
   static createClassInvocation(receiver: Function): TypeInvocation {
     const target = new ConstructorInvocation(receiver);
     const design = target.design;
+    target.version = design.version;
     // find all attribute from prototype
-    // const interceptors = property.findOwnAttributes(HasInterceptor);
-    let chain = design.findTypes().reduce((chain, type) => {
-      return ChainFactory.chainInterceptors(chain, type.ownInterceptors);
-    }, ChainFactory.addParameterInterceptor(target, design));
-    // TODO: reverse()
-    // .findTypes() => end, middle, base, object
-    // .findTypes().reverse() => object, base, middle, end
+    let chain = ChainFactory.addParameterInterceptor(target, design);
+    chain = ChainFactory.chainInterceptors(chain, design.getOwnInterceptors());
     if (this.class.hasInterceptor()) {
+      target.version += this.class.version;
       chain = ChainFactory.addParameterInterceptor(chain, this.class);
-      return ChainFactory.chainInterceptors(chain, this.class.ownInterceptors);
+      chain = ChainFactory.chainInterceptors(chain, this.class.getOwnInterceptors());
     }
     return chain;
   }
@@ -58,12 +53,14 @@ export class InvocationFactory {
     invocation: Invocation<T>,
     property: PropertyInfo
   ): Invocation<T> {
-    const interceptors = property.ownInterceptors;
+    const interceptors = property.getOwnInterceptors();
     let chain = ChainFactory.chainInterceptors(invocation, interceptors);
     const sharedProperty = this.class.getOwnProperty(property.key);
     if (sharedProperty) {
-      const sharedInterceptors = sharedProperty.ownInterceptors;
-      chain = ChainFactory.chainInterceptors(chain, sharedInterceptors);
+      const sharedInterceptors = sharedProperty.getOwnInterceptors();
+      if (sharedInterceptors.length) {
+        chain = ChainFactory.chainInterceptors(chain, sharedInterceptors);
+      }
     }
     return chain;
   }

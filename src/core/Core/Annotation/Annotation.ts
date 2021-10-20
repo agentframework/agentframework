@@ -21,21 +21,17 @@ export class Annotation extends Map<string, any> {
    */
   version: number = 0;
 
+  touch() {
+    this.version++;
+  }
+
   /**
    * attributes for this code, sequence is matter
    */
   readonly attributes: Array<any> = [];
 
   /**
-   * Add attribute (sequence DOES matter)
+   * interceptors for this code, sequence is matter
    */
-  push(attribute: any): number {
-    this.version++; // update version
-    return this.attributes.push(attribute);
-  }
-
-  add(key: string, value: any): void {
-    this.set(key, value);
-  }
+  readonly interceptors: Array<any> = [];
 }
-

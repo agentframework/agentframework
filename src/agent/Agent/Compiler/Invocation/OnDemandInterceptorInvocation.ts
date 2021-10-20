@@ -22,13 +22,17 @@ import { Arguments } from '../../Arguments';
 import { alter } from '../alter';
 
 /**
- * invocation wrapper for interceptor
+ * invocation wrapper for interceptor, reduce callstack if no interceptor found from attribute
  *
  * @ignore
  * @hidden
  */
 export class OnDemandInterceptorInvocation<T extends Design = Design> implements Invocation<T> {
   constructor(readonly next: Invocation<T>, readonly attribute: Attribute) {}
+
+  get version(): number {
+    return this.next.version;
+  }
 
   get design(): T {
     return this.next.design;
