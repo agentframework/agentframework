@@ -264,8 +264,8 @@ describe('4.1. Class interceptor', () => {
       // console.log('ty', );
       // console.log('seq', seq, Class415);
 
-      expect(Reflector(End415).getAttributes()).toEqual([]);
-      expect(Reflector(End415).static.getAttributes()).toEqual([]);
+      expect(Reflector(End415).getOwnAttributes()).toEqual([]);
+      expect(Reflector(End415).static.getOwnAttributes()).toEqual([]);
       expect(seq).toEqual(['downAgentBeforeClass415', 'downAgentAfterClass415']);
 
       // const instance = new Class415(3.44234);

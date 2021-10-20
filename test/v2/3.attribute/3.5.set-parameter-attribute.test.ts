@@ -16,8 +16,8 @@ describe('3.5. Set class method attribute', () => {
       /*** user code end ***/
       const parameter = Reflector(MyController351).property('listAllUser').parameter(0);
 
-      expect(parameter.hasAttribute()).toBeTrue();
-      const mandatoryAttribute = parameter.getAttribute(MandatoryAttribute);
+      expect(parameter.hasOwnAttribute()).toBeTrue();
+      const mandatoryAttribute = parameter.getOwnAttribute(MandatoryAttribute);
       expect(mandatoryAttribute).toBeTruthy();
       expect(mandatoryAttribute).toBeInstanceOf(MandatoryAttribute);
     });
@@ -32,7 +32,7 @@ describe('3.5. Set class method attribute', () => {
       /*** user code end ***/
       const parameter = Reflector(MyController352).property('listAllUser').getParameters()[0];
       expect(parameter).toBeTruthy();
-      const mandatoryAttribute = parameter.getAttribute(MandatoryAttribute);
+      const mandatoryAttribute = parameter.getOwnAttribute(MandatoryAttribute);
       expect(mandatoryAttribute).toBeInstanceOf(MandatoryAttribute);
     });
 
@@ -48,7 +48,7 @@ describe('3.5. Set class method attribute', () => {
         throw new Error('property should not null');
       }
       expect(parameter).toBeTruthy();
-      const mandatoryAttribute = parameter.getAttribute(MandatoryAttribute);
+      const mandatoryAttribute = parameter.getOwnAttribute(MandatoryAttribute);
 
       expect(mandatoryAttribute).toBeInstanceOf(MandatoryAttribute);
     });
@@ -66,7 +66,7 @@ describe('3.5. Set class method attribute', () => {
         throw new Error('property should not null');
       }
       expect(parameter1).toBeTruthy();
-      const mandatoryAttribute = parameter1.getAttribute(MandatoryAttribute);
+      const mandatoryAttribute = parameter1.getOwnAttribute(MandatoryAttribute);
 
       expect(mandatoryAttribute).toBeInstanceOf(MandatoryAttribute);
     });

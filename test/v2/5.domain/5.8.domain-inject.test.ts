@@ -21,7 +21,7 @@ describe('5.8. Domain @inject decorator', () => {
 
       expect(app.service).toBe(service);
 
-      expect(Reflector(App581).property('service').hasAttribute()).toBeTrue();
+      expect(Reflector(App581).property('service').hasOwnAttribute()).toBeTrue();
     });
 
     it('create inject agent using domain', () => {

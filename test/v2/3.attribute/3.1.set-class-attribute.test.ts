@@ -19,7 +19,7 @@ describe('3.1. Set class attribute', () => {
       class MyClass311 {}
       /*** user code end ***/
 
-      const attribute = Reflector(MyClass311).getAttribute(ControllerAttribute);
+      const attribute = Reflector(MyClass311).getOwnAttribute(ControllerAttribute);
       expect(attribute).toBeInstanceOf(ControllerAttribute);
       expect(attribute && attribute.path).toBe('/api');
     });
@@ -32,7 +32,7 @@ describe('3.1. Set class attribute', () => {
       class MyClass312 {}
       /*** user code end ***/
 
-      const attribute = Reflector(MyClass312).getAttribute(ControllerAttribute);
+      const attribute = Reflector(MyClass312).getOwnAttribute(ControllerAttribute);
       expect(attribute).toBeInstanceOf(ControllerAttribute);
       expect(attribute && attribute.path).toBe('/api');
     });
@@ -43,7 +43,7 @@ describe('3.1. Set class attribute', () => {
       class MyClass313 {}
       /*** user code end ***/
 
-      const attribute = Reflector(MyClass313).getAttribute(ControllerAttribute);
+      const attribute = Reflector(MyClass313).getOwnAttribute(ControllerAttribute);
       expect(attribute).toBeInstanceOf(ControllerAttribute);
       expect(attribute && attribute.path).toBe('/api');
     });
@@ -55,7 +55,7 @@ describe('3.1. Set class attribute', () => {
 
       Reflector(MyClass314).addAttribute(new ControllerAttribute('/api'));
 
-      const attribute = Reflector(MyClass314).getAttribute(ControllerAttribute);
+      const attribute = Reflector(MyClass314).getOwnAttribute(ControllerAttribute);
       expect(attribute).toBeInstanceOf(ControllerAttribute);
       expect(attribute && attribute.path).toBe('/api');
     });
@@ -77,7 +77,7 @@ describe('3.1. Set class attribute', () => {
       class MyClass314 {}
       /*** user code end ***/
 
-      const attribute = Reflector(MyClass314).getAttribute(NotAllowAttribute);
+      const attribute = Reflector(MyClass314).getOwnAttribute(NotAllowAttribute);
       expect(attribute).toBeUndefined();
     });
   });

@@ -46,8 +46,12 @@ import { Once } from '../../Decorators/Once/Once';
 export class OnDemandParameterInterceptor implements PropertyInterceptor {
   constructor(readonly parent: PropertyInfo) {}
 
-  get interceptor() {
-    return this;
+  get interceptor(): PropertyInterceptor | undefined {
+    const invocations = this.invocations;
+    if (invocations && invocations.size) {
+      return this;
+    }
+    return;
   }
 
   /**
@@ -61,22 +65,19 @@ export class OnDemandParameterInterceptor implements PropertyInterceptor {
       const interceptors = parameter.getOwnInterceptors();
       if (interceptors.length) {
         const origin = new MethodParameterInvocation(parameter);
-        invocations.set(idx, ChainFactory.chainInterceptors(origin, interceptors));
+        invocations.set(idx, ChainFactory.addInterceptors(origin, interceptors));
       }
     }
     return Once(this, 'invocations', invocations.size ? invocations : undefined);
   }
 
   intercept(target: PropertyInvocation, params: Array<any>, receiver: any): any {
-    const invocations = this.invocations;
-    if (invocations && invocations.size) {
-      // convert params into array to make params modifiable
-      const parameters = Array.prototype.slice.call(params, 0);
-      for (const [idx, invocation] of invocations.entries()) {
-        parameters[idx] = invocation.invoke(params, receiver);
-      }
-      return target.invoke(parameters, receiver);
+    const invocations = this.invocations!;
+    // convert params into array to make params modifiable
+    const parameters = Array.prototype.slice.call(params, 0);
+    for (const [idx, invocation] of invocations.entries()) {
+      parameters[idx] = invocation.invoke(params, receiver);
     }
-    return target.invoke(params, receiver);
+    return target.invoke(parameters, receiver);
   }
 }

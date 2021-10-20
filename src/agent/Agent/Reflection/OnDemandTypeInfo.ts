@@ -298,7 +298,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   }
 
   /**
-   * Returns a filtered array of Property objects for all prototype in prototype chain - deep first [base of base, base, this]
+   * Returns a filtered array of Property objects for all prototype in prototype chain - deep first [root, base, this]
    *
    * @param {Filter<PropertyInfo>} filter
    * @param filterCriteria

@@ -21,8 +21,10 @@ import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
 // import { AgentFrameworkError } from '../AgentFrameworkError';
 import { InvocationFactory } from './InvocationFactory';
 import { alter } from './alter';
+import { PropertyInvocation } from '../TypeInvocations';
 
 export function UpgradeAgentProperties(
+  prototype: Function | object,
   target: Function | object,
   properties: ReadonlyArray<PropertyInfo>,
   receiver?: Function | object
@@ -32,12 +34,12 @@ export function UpgradeAgentProperties(
   for (const property of properties) {
     if (receiver) {
       // can skip if property is exists
-      const exists = Reflect.getOwnPropertyDescriptor(target, property.key);
-      if (exists) {
+      if (Reflect.getOwnPropertyDescriptor(target, property.key)) {
+        Reflect.deleteProperty(receiver, property.key);
         continue;
       }
     }
-    const descriptor = Reflect.getOwnPropertyDescriptor(property.declaringType.prototype, property.key);
+    const descriptor = Reflect.getOwnPropertyDescriptor(prototype, property.key);
     let newDescriptor: PropertyDescriptor;
     if (descriptor) {
       newDescriptor = OnDemandClassCompiler.makeProperty(property, descriptor, receiver || target);
@@ -187,9 +189,11 @@ class OnDemandClassCompiler {
       };
     } else if ('function' === typeof defaultValue) {
       propertyDescriptor.value = function (this: any) {
-        const origin = new MethodInvocation(property, defaultValue);
-        const param = ChainFactory.addParameterInterceptor(origin, property);
-        const chain = InvocationFactory.createPropertyInvocation(param, property);
+        let chain: PropertyInvocation = new MethodInvocation(property, defaultValue);
+        if (property.hasParameter()) {
+          chain = ChainFactory.addParameterInterceptor(chain, property);
+        }
+        chain = InvocationFactory.createPropertyInvocation(chain, property);
         propertyDescriptor.value = function (this: any) {
           return chain.invoke(arguments, this);
         };

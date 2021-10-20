@@ -22,7 +22,7 @@ describe('Invalid Initializer', () => {
 
     it('get inject attribute', () => {
       const type = Reflector(PostgreSQL);
-      const items = type.property('connection').getAttributes(InjectAttribute);
+      const items = type.property('connection').getOwnAttributes(InjectAttribute);
       expect(items.length).toBe(1);
     });
 

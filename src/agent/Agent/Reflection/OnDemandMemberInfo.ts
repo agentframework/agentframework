@@ -129,7 +129,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    * @param type
    * @returns {boolean}
    */
-  hasAttribute<A1 extends Attribute>(type?: Class<A1>): boolean {
+  hasOwnAttribute<A1 extends Attribute>(type?: Class<A1>): boolean {
     const attributes = this.ownAttributes;
     if (attributes) {
       if (type) {
@@ -144,7 +144,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
   /**
    * Get specified attribute
    */
-  getAttribute<A2 extends Attribute>(type: Class<A2>): A2 | undefined {
+  getOwnAttribute<A2 extends Attribute>(type: Class<A2>): A2 | undefined {
     const attributes = this.ownAttributes;
     if (attributes) {
       const results = attributes.filter((a) => a instanceof type);
@@ -158,7 +158,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    *
    * @returns {Array<Attribute>}
    */
-  getAttributes<A3 extends Attribute>(type?: Class<A3>): ReadonlyArray<A3> {
+  getOwnAttributes<A3 extends Attribute>(type?: Class<A3>): ReadonlyArray<A3> {
     const attributes = this.ownAttributes;
     if (attributes) {
       if (type) {
@@ -175,7 +175,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    *
    * @returns {Array<Attribute>}
    */
-  findAttributes<A5 extends Attribute>(filter: Filter<Attribute>, filterCriteria?: any): ReadonlyArray<A5> {
+  findOwnAttributes<A5 extends Attribute>(filter: Filter<Attribute>, filterCriteria?: any): ReadonlyArray<A5> {
     const attributes = this.ownAttributes;
     if (attributes) {
       return attributes.filter((a) => filter(a, filterCriteria)) as Array<A5>;

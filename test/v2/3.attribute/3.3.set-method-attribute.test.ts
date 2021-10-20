@@ -18,7 +18,7 @@ describe('3.3. Set class method attribute', () => {
       }
       /*** user code end ***/
       const property = Reflector(MyController331).property('listAllUser');
-      const methodAttribute = property.getAttribute(MethodAttribute);
+      const methodAttribute = property.getOwnAttribute(MethodAttribute);
 
       expect(methodAttribute).toBeInstanceOf(MethodAttribute);
       expect(methodAttribute && methodAttribute.method).toBe('GET');
@@ -35,7 +35,7 @@ describe('3.3. Set class method attribute', () => {
       }
       /*** user code end ***/
       const property = Reflector(MyController332).property('listAllUser');
-      const methodAttribute = property.getAttribute(MethodAttribute);
+      const methodAttribute = property.getOwnAttribute(MethodAttribute);
 
       expect(methodAttribute).toBeInstanceOf(MethodAttribute);
       expect(methodAttribute && methodAttribute.method).toBe('GET');
@@ -50,7 +50,7 @@ describe('3.3. Set class method attribute', () => {
       }
       /*** user code end ***/
       const property = Reflector(MyController333).property('listAllUser');
-      const methodAttribute = property.getAttribute(MethodAttribute);
+      const methodAttribute = property.getOwnAttribute(MethodAttribute);
 
       expect(methodAttribute).toBeInstanceOf(MethodAttribute);
       expect(methodAttribute && methodAttribute.method).toBe('GET');
@@ -65,8 +65,8 @@ describe('3.3. Set class method attribute', () => {
       /*** user code end ***/
       const property = Reflector(MyController334).property('listAllUser');
       property.addAttribute(new MethodAttribute('GET', '/list'));
-      const methodAttribute = property.getAttribute(MethodAttribute);
-      const methodAttributes = property.getAttributes(MethodAttribute);
+      const methodAttribute = property.getOwnAttribute(MethodAttribute);
+      const methodAttributes = property.getOwnAttributes(MethodAttribute);
 
       expect(methodAttribute).toBeInstanceOf(MethodAttribute);
       expect(methodAttribute && methodAttribute.method).toBe('GET');

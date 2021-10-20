@@ -24,7 +24,7 @@ import { MemberInfo } from '../Reflection/MemberInfo';
  * @hidden
  */
 export class ChainFactory {
-  static chainInterceptors<T extends MemberInfo>(
+  static addInterceptors<T extends MemberInfo>(
     target: Invocation<T>,
     attributes: ReadonlyArray<Attribute>
   ): Invocation<T> {

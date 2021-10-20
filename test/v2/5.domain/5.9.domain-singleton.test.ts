@@ -28,7 +28,7 @@ describe('5.9. Domain @singleton decorator', () => {
 
       expect(app.service).toBeInstanceOf(Service591);
       expect(app.service2).toBe(app.service);
-      expect(Reflector(App591).property('service').hasAttribute()).toBeTrue();
+      expect(Reflector(App591).property('service').hasOwnAttribute()).toBeTrue();
     });
 
     it('create singleton agent using domain', () => {

@@ -15,7 +15,7 @@ limitations under the License. */
 /**
  * Represents a callback function that is used to filter a list of behavior represented in a map of Behavior objects.
  */
-export interface Filter<T> {
+export interface Filter<T = object> {
   /**
    * @param {TypeInfo} value The Behavior object to which the filter is applied.
    * @param filterCriteria An arbitrary object used to filter the list.

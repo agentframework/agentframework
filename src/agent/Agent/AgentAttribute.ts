@@ -27,24 +27,30 @@ import { Arguments } from './Arguments';
  * This attribute is for upgrade class to agent
  */
 export class AgentAttribute implements ClassAttribute, ClassInterceptor {
-  /**
-   *
-   */
+  constructor(readonly type?: Function) {}
+
   get interceptor(): ClassInterceptor {
     return this;
   }
 
   /**
-   * Create type hook (called after script loaded)
+   * Create type hook (called after javascript loaded)
    */
   intercept(target: TypeInvocation, params: any, receiver: Function): Function {
-    const [, attribute, compiler] = params;
+    const [, type, state] = params;
 
-    const state = Object.create(attribute);
-    let newReceiver = Reflect.construct(compiler, [receiver, state]);
-    RememberType(newReceiver, target.design.declaringType);
+    let newReceiver = (state.target = Reflect.construct(type, [receiver, state]));
+    RememberType(newReceiver, receiver);
 
     newReceiver = state.receiver = target.invoke<Function>(params, newReceiver);
+
+    // console.log('newReceiver 1', newReceiver)
+    // newReceiver = Reflect.construct(compiler, [newReceiver, state]);
+    // RememberType(newReceiver, target.design.declaringType);
+    // console.log('newReceiver 2', newReceiver)
+
+    // console.log('newReceiver 1', state.target);
+    // console.log('newReceiver 2', state.receiver);
 
     // for static decorators
     // const agentMeta = Wisdom.get(receiver);
@@ -87,8 +93,8 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     // cache the constructor invocation
     // so do not support change annotation after first time created the type
 
-    // console.log('this.a', this.agent === target);
-    // console.log('target', target.name, '--->', this.agent.name);
+    // console.log('this.a', this.receiver === target);
+    // console.log('target', target.name, '--->', this.receiver);
 
     // NOTE: Static Constructor support, deep first
     // for (const ctor of FindStaticConstructors(target.prototype)) {
@@ -108,24 +114,17 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     //   }
     // }
 
-    let invocation: TypeInvocation | undefined = ClassInvocations.v1.get(this.receiver);
-    // console.log('☀️ ☀️ ☀️ 1', target.name, receiver.name);
-    let classes;
+    // this.target !== target
+    // this.target.prototype === target.prototype
+    // GetType(this.target) === target
+    let invocation: TypeInvocation | undefined = ClassInvocations.v1.get(this.target);
+    // console.log('☀️ ☀️ ☀️', target.name, receiver.name);
 
     if (invocation) {
       if (invocation.design.version + InvocationFactory.class.version !== invocation.version) {
+        // console.log('test', invocation.design.version, '+', InvocationFactory.class.version, '=', invocation.version);
         // invalidate cache
         invocation = undefined;
-        // clear prototype
-        classes = FindExtendedClass(target, receiver);
-        if (classes[1]) {
-          const found = classes[1].prototype;
-          for (const k of Reflect.ownKeys(found)) {
-            if (k !== 'constructor') {
-              Reflect.deleteProperty(found, k);
-            }
-          }
-        }
       }
     }
 
@@ -134,18 +133,19 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
       // find interceptors from design attributes and create chain for them
       invocation = InvocationFactory.createClassInvocation(target);
 
-      ClassInvocations.v1.set(this.receiver, invocation);
+      ClassInvocations.v1.set(this.target, invocation);
 
       // upgrade properties
-      const properties = invocation.design.findOwnProperties((p) => p.hasOwnInterceptor());
+      const properties = invocation.design.findOwnProperties((p) => p.hasInterceptor());
 
       // don't generate property interceptor if no extended class
       if (properties.length) {
-        const found = classes || FindExtendedClass(target, receiver);
-        const agent = found[0].prototype;
+        const found = FindExtendedClass(this.receiver, receiver);
+        // console.log('target', this.receiver, receiver.toString());
+        // console.log('found', found);
         // quick check, ignore if keys are been declared
         // ownKeys() >= 1 because constructor is one key always have
-        UpgradeAgentProperties(agent, properties, found[1] && found[1].prototype);
+        UpgradeAgentProperties(target.prototype, this.receiver.prototype, properties, found[0] && found[0].prototype);
       }
     }
 
@@ -155,6 +155,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     if (null === agent || 'object' !== typeof agent) {
       throw new AgentFrameworkError('ConstructorReturnNonObject');
     }
+
     return agent;
   }
 }

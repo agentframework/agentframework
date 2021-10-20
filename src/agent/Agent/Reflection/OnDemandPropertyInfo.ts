@@ -35,7 +35,7 @@ import { HasInterceptor } from '../CustomInterceptor';
  */
 export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implements PropertyInfo, MemberInfo {
   /**
-   * cached info
+   * cached parameter info
    */
   protected readonly parameters = new Map<number, OnDemandParameterInfo>();
 
@@ -157,7 +157,18 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
   }
 
   /**
-   * Returns a parameter on index; undefined if not found
+   * Returns true if this property contains annotated parameters
+   */
+  hasParameter(): boolean {
+    const annotation = this.annotation;
+    if (annotation && annotation.parameters && annotation.parameters.size) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Returns annotated parameter on index; undefined if not found
    */
   getParameter(index: number): ParameterInfo | undefined {
     const annotation = this.annotation;

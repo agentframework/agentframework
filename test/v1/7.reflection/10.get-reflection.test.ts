@@ -53,7 +53,7 @@ describe('Reflection', () => {
 
   describe('# should not able to', () => {
     it('get agent attribute', () => {
-      expect(Reflector(MongoDB).getAttributes(AgentAttribute).length).toBe(0);
+      expect(Reflector(MongoDB).getOwnAttributes(AgentAttribute).length).toBe(0);
     });
 
     it('get agent target', () => {

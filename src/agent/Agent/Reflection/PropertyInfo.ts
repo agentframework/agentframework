@@ -32,6 +32,11 @@ export interface PropertyInfo extends MemberInfo {
   parameter(index: number): ParameterInfo;
 
   /**
+   * Returns true if this property contains annotated parameters
+   */
+  hasParameter(): boolean;
+
+  /**
    * Returns parameter of giving index. undefined if not annotated
    */
   getParameter(index: number): ParameterInfo | undefined;

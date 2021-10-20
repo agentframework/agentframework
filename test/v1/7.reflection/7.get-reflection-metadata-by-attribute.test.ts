@@ -41,7 +41,7 @@ describe('Reflection get metadata ', () => {
     });
 
     it('search by attribute', () => {
-      const result = Reflector(ClassWithTwoInterceptor).findOwnProperties((p) => p.hasAttribute(RandomInterceptor));
+      const result = Reflector(ClassWithTwoInterceptor).findOwnProperties((p) => p.hasOwnAttribute(RandomInterceptor));
       expect(result.length).toBe(1);
     });
   });
