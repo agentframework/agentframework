@@ -1,7 +1,7 @@
 import { agent } from '../../../../dependencies/agent';
 import { once } from './Once';
 
-describe('Remember!', () => {
+describe('Once!', () => {
   describe('# should able to', () => {
     it('get same value', () => {
       let n = 0;
@@ -42,6 +42,31 @@ describe('Remember!', () => {
       expect(Store1.date3).not.toBe(Store2.date3);
 
       expect(store11.date1).not.toBe(store2.date1);
+    });
+  });
+
+  describe('# should not able to', () => {
+    it('only cache undefined value', () => {
+      let n = -1;
+
+      @agent()
+      class Store2 {
+        @once()
+        get value1() {
+          n++;
+          if (!n) {
+            return undefined;
+          } else {
+            return n;
+          }
+        }
+      }
+
+      const store11 = new Store2();
+
+      expect(store11.value1).not.toBe(store11.value1);
+      expect(store11.value1).toBe(store11.value1);
+      expect(store11.value1).toBe(1);
     });
   });
 });
