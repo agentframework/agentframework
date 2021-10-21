@@ -1,5 +1,5 @@
 /* tslint:disable */
-import { decorateMember, agent, IsAgent, Interceptor, TypeInvocation, Arguments } from '../../dependencies/agent';
+import { decorateMember, agent, IsAgent, Interceptor, ClassInvocation, Arguments } from '../../dependencies/agent';
 import { CreateAgent } from './CreateAgent';
 import { TransitAttribute } from './Decorators/DependencyInjection/TransitAttribute';
 
@@ -43,7 +43,7 @@ class CustomAgentAttribute implements Interceptor {
   get interceptor(): Interceptor {
     return this;
   }
-  intercept(target: TypeInvocation, parameters: Arguments, receiver: any): any {
+  intercept(target: ClassInvocation, parameters: Arguments, receiver: any): any {
     return target.invoke<Function>(parameters, receiver);
   }
 }

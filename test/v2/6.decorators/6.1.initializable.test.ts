@@ -1,4 +1,4 @@
-import { Arguments, TypeInvocation } from '../../../src/dependencies/agent';
+import { Arguments, ClassInvocation } from '../../../src/dependencies/agent';
 import { CreateAgent, Initializer, initializable, agent } from '../../../src/dependencies/agent';
 
 describe('6.1. @initializable decorator', () => {
@@ -10,7 +10,7 @@ describe('6.1. @initializable decorator', () => {
         public name1: string | undefined;
         static get [Initializer]() {
           // console.log('this outside', this.name);
-          return function (this: any, target: TypeInvocation, params: Arguments, receiver: typeof App611) {
+          return function (this: any, target: ClassInvocation, params: Arguments, receiver: typeof App611) {
             // console.log('this inside', this.name);
             // console.log('receiver inside', receiver.name);
             const app = target.invoke<App611>(params, receiver);
@@ -135,7 +135,7 @@ describe('6.1. @initializable decorator', () => {
           this.name = 'App613$';
         }
 
-        static [Initializer](target: TypeInvocation, params: Arguments, receiver: typeof App613) {
+        static [Initializer](target: ClassInvocation, params: Arguments, receiver: typeof App613) {
           const ins = target.invoke(params, receiver);
           expect(ins).toBeInstanceOf(target.design.declaringType);
           return Promise.resolve(ins);
@@ -175,7 +175,7 @@ describe('6.1. @initializable decorator', () => {
       @initializable()
       class App615 {
         public name1: string | undefined;
-        static [Initializer](target: TypeInvocation, params: Arguments, receiver: typeof App615) {
+        static [Initializer](target: ClassInvocation, params: Arguments, receiver: typeof App615) {
           const app = target.invoke<App615>(params, receiver);
           app.name1 = 'App615$';
           return new Promise((resolve) => {
@@ -204,7 +204,7 @@ describe('6.1. @initializable decorator', () => {
       @initializable()
       class App616 {
         public name1: string | undefined;
-        static [Initializer](target: TypeInvocation, params: Arguments, receiver: typeof App616) {
+        static [Initializer](target: ClassInvocation, params: Arguments, receiver: typeof App616) {
           const app = target.invoke<App616>(params, receiver);
           app.name1 = 'App616$';
           return new Promise((resolve) => {

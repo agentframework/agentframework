@@ -15,65 +15,55 @@ limitations under the License. */
 'use strict';
 
 /*********************************************************************
- *   (Stability: 2 - Stable) Error
+ *   (Stability: 2 - Stable) General Types
  *********************************************************************/
 export { AgentFrameworkError } from '../src/agent';
-
-/*********************************************************************
- *   (Stability: 2 - Stable) Metadata Interface
- *********************************************************************/
 export { Arguments } from '../src/agent';
 export { Class } from '../src/agent';
+export { Filter } from '../src/agent';
+
+/*********************************************************************
+ *   (Stability: 2 - Stable) Metadata
+ *********************************************************************/
+export { MemberKinds } from '../src/agent';
+export { Attribute } from '../src/agent';
 export { Design } from '../src/agent';
+export { Invocation } from '../src/agent';
+export { Interceptor } from '../src/agent';
+
 export { MemberInfo } from '../src/agent';
 export { PropertyInfo } from '../src/agent';
 export { TypeInfo } from '../src/agent';
 export { ParameterInfo } from '../src/agent';
 
-export { Invocation } from '../src/agent';
-export { Interceptor } from '../src/agent';
-export { Attribute } from '../src/agent';
-
-export { TypeInvocation } from '../src/agent';
+export { ClassInvocation } from '../src/agent';
 export { ClassInterceptor } from '../src/agent';
 export { ClassAttribute } from '../src/agent';
-
-export { ParameterInvocation } from '../src/agent';
-export { ParameterInterceptor } from '../src/agent';
-export { ParameterAttribute } from '../src/agent';
 
 export { PropertyInvocation } from '../src/agent';
 export { PropertyInterceptor } from '../src/agent';
 export { PropertyAttribute } from '../src/agent';
 
-export { Filter } from '../src/agent';
-export { MemberKinds } from '../src/agent';
+export { ParameterInvocation } from '../src/agent';
+export { ParameterInterceptor } from '../src/agent';
+export { ParameterAttribute } from '../src/agent';
 
 /*********************************************************************
  *   (Stability: 2 - Stable) Metadata API
  *********************************************************************/
-// export { decorate } from '../src/core/index';
-export { decorateClass } from '../src/agent';
+export { AddAttributeToProperty } from '../src/core';
+export { AddAttributeToPropertyParameter } from '../src/core';
+export { AddAttributeToClass } from '../src/core';
+export { AddAttributeToClassConstructorParameter } from '../src/core';
+
+/*********************************************************************
+ *   (Stability: 2 - Stable) Advanced Metadata API
+ *********************************************************************/
 export { decorateAgent } from '../src/agent';
+export { decorateClass } from '../src/agent';
 export { decorateMember } from '../src/agent';
 export { decorateParameter } from '../src/agent';
-
 export { Reflector } from '../src/agent';
-
-/*********************************************************************
- *   (Stability: 2 - Stable): Global Agent
- *********************************************************************/
-export { Agent } from '../src/agent';
-
-/*********************************************************************
- *   (Stability: 2 - Stable): Class Decorator: @agent()
- *********************************************************************/
-export { agent } from '../src/agent';
-export { singleton } from '../src/agent';
-export { transit } from '../src/agent';
-export { CreateAgent } from '../src/agent';
-export { IsAgent } from '../src/agent';
-export { GetAgentType } from '../src/agent';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Custom Interceptor API
@@ -89,29 +79,19 @@ export { Initializer } from '../src/agent';
 export { InitializerHandler, StaticInitializerHandler } from '../src/agent';
 
 /*********************************************************************
- *   (Stability: 1 - Experimental): Custom Agent API
+ *   (Stability: 2 - Stable): Class Decorator: @agent()
  *********************************************************************/
-export { AgentAttribute } from '../src/agent';
-export { GetType } from '../src/agent';
+export { agent } from '../src/agent';
+export { singleton } from '../src/agent';
+export { transit } from '../src/agent';
+export { CreateAgent } from '../src/agent';
+export { IsAgent } from '../src/agent';
+export { GetAgentType } from '../src/agent';
 
 /*********************************************************************
- *   (Stability: 1 - Experimental): Getter Decorator: @remember()
- *********************************************************************/
-export { remember } from '../src/agent';
-
-/*********************************************************************
- *   (Stability: 1 - Experimental): Class Decorator: @exclusive()
- *********************************************************************/
-export { exclusive } from '../src/agent';
-
-/*********************************************************************
- *    (Stability: 1 - Experimental): TSLIB Re-work
+ *    (Stability: 2 - Stable): TSLIB Re-work
  *********************************************************************/
 /**
  * @internal
  */
 export { __agent, __decorate, __param, __metadata } from '../src/core';
-
-/*************************************
- *   AgentFramework 2 end
- *************************************/

@@ -5,7 +5,6 @@ import {
   Reflector,
   CreateAgent,
   decorateMember,
-  Agent,
   decorateParameter,
   agent,
 } from '../../../src/dependencies/agent';
@@ -171,26 +170,12 @@ describe('1.5. Property interceptor invoke sequence', () => {
           },
         });
 
-      Reflector(Agent)
-        .property('hello')
-        .addAttribute({
-          id: 5,
-          interceptor: {
-            intercept(target: Invocation<Design>, params: Arguments, receiver: unknown): unknown {
-              seq.push('beforeGlobalHello1');
-              const ret = target.invoke(params, receiver);
-              seq.push('afterGlobalHello1');
-              return ret;
-            },
-          },
-        });
-
       seq = [];
       const top3 = new Class151();
       expect(seq).toEqual([]);
       top3.hello();
       const top3HelloSeq = [
-        'beforeGlobalHello1',
+
         'beforeHello4',
         'beforeHello3',
         'beforeHello1',
@@ -207,33 +192,16 @@ describe('1.5. Property interceptor invoke sequence', () => {
         'afterHello2',
         'afterHello1',
         'afterHello3',
-        'afterHello4',
-        'afterGlobalHello1',
+        'afterHello4'
       ];
       expect(seq).not.toEqual(top1HelloSeq); // invocation is been cached
       expect(seq).toEqual(top3HelloSeq);
       seq = [];
 
-      Reflector(Agent)
-        .property('hello')
-        .addAttribute({
-          id: 6,
-          interceptor: {
-            intercept(target: Invocation<Design>, params: Arguments, receiver: unknown): unknown {
-              seq.push('beforeGlobalHello2');
-              const ret = target.invoke(params, receiver);
-              seq.push('afterGlobalHello2');
-              return ret;
-            },
-          },
-        });
-
       const top4 = new Class151();
       expect(seq).toEqual([]);
       top4.hello();
       const top4HelloSeq = [
-        'beforeGlobalHello2',
-        'beforeGlobalHello1',
         'beforeHello4',
         'beforeHello3',
         'beforeHello1',
@@ -250,9 +218,7 @@ describe('1.5. Property interceptor invoke sequence', () => {
         'afterHello2',
         'afterHello1',
         'afterHello3',
-        'afterHello4',
-        'afterGlobalHello1',
-        'afterGlobalHello2',
+        'afterHello4'
       ];
       expect(seq).not.toEqual(top1HelloSeq); // invocation is been cached
       expect(seq).toEqual(top4HelloSeq);
@@ -266,8 +232,6 @@ describe('1.5. Property interceptor invoke sequence', () => {
       top21.hello();
       // console.log('h2', seq);
       expect(seq).toEqual([
-        'beforeGlobalHello2',
-        'beforeGlobalHello1',
         'beforeHello4',
         'beforeHello3',
         'beforeHello1',
@@ -285,8 +249,6 @@ describe('1.5. Property interceptor invoke sequence', () => {
         'afterHello1',
         'afterHello3',
         'afterHello4',
-        'afterGlobalHello1',
-        'afterGlobalHello2',
       ]);
 
       seq = [];

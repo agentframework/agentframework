@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { ClassAttribute } from './TypeAttributes';
-import { TypeInvocation } from './TypeInvocations';
+import { ClassInvocation } from './TypeInvocations';
 import { ClassInterceptor } from './TypeInterceptors';
 import { UpgradeAgent } from './Compiler/OnDemandCompiler';
 import { FindExtendedClass } from './FindExtendedClass';
@@ -36,7 +36,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
   /**
    * Create type hook (called after javascript loaded)
    */
-  intercept(target: TypeInvocation, params: any, receiver: Function): Function {
+  intercept(target: ClassInvocation, params: any, receiver: Function): Function {
     const [, type, state] = params;
 
     let newReceiver = (state.target = Reflect.construct(type, [receiver, state]));
@@ -117,11 +117,11 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     // this.target !== target
     // this.target.prototype === target.prototype
     // GetType(this.target) === target
-    let invocation: TypeInvocation | undefined = ClassInvocations.v1.get(this.target);
+    let invocation: ClassInvocation | undefined = ClassInvocations.v1.get(this.target);
     // console.log('☀️ ☀️ ☀️', target.name, receiver.name);
 
     if (invocation) {
-      if (invocation.design.version + OnDemandInvocationFactory.class.version !== invocation.version) {
+      if (invocation.design.version !== invocation.version) {
         // console.log('test', invocation.design.version, '+', InvocationFactory.class.version, '=', invocation.version);
         // invalidate cache
         invocation = undefined;

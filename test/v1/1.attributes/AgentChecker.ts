@@ -1,5 +1,5 @@
 /* tslint:disable */
-import { Arguments, Attribute, Interceptor, TypeInvocation } from '../../../src/dependencies/agent';
+import { Arguments, Attribute, Interceptor, ClassInvocation } from '../../../src/dependencies/agent';
 
 export class AgentChecker implements Attribute, Interceptor {
   get interceptor(): Interceptor {
@@ -14,7 +14,7 @@ export class AgentChecker implements Attribute, Interceptor {
     return true;
   }
 
-  public intercept(target: TypeInvocation, parameters: Arguments, receiver: any): any {
+  public intercept(target: ClassInvocation, parameters: Arguments, receiver: any): any {
     expect(target.design.constructor.name ).toBe('OnDemandTypeInfo');
     return target.invoke(Array.prototype.slice.call(parameters, 0), receiver);
   }

@@ -17,7 +17,7 @@ limitations under the License. */
  */
 export interface Filter<T = object> {
   /**
-   * @param {TypeInfo} value The Behavior object to which the filter is applied.
+   * @param {object} value The Behavior object to which the filter is applied.
    * @param filterCriteria An arbitrary object used to filter the list.
    * @returns {boolean} `true` to include the behavior in the filtered list; otherwise false.
    */

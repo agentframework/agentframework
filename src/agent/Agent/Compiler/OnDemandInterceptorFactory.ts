@@ -15,8 +15,6 @@ limitations under the License. */
 import { Invocation } from '../Invocation';
 import { Attribute } from '../Attribute';
 import { OnDemandInterceptorInvocation } from './Invocation/OnDemandInterceptorInvocation';
-import { OnDemandParameterInterceptor } from './Interceptor/OnDemandParameterInterceptor';
-import { PropertyInfo } from '../Reflection/PropertyInfo';
 import { MemberInfo } from '../Reflection/MemberInfo';
 
 /**
@@ -37,9 +35,5 @@ export class OnDemandInterceptorFactory {
 
   static addInterceptor<T extends MemberInfo>(target: Invocation<T>, attribute: Attribute): Invocation<T> {
     return new OnDemandInterceptorInvocation<T>(target, attribute);
-  }
-
-  static addParameterInterceptor<T extends PropertyInfo>(target: Invocation<T>, design: T): Invocation<T> {
-    return new OnDemandInterceptorInvocation<T>(target, new OnDemandParameterInterceptor(design));
   }
 }

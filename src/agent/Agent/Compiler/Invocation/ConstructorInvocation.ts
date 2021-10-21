@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { TypeInfo } from '../../Reflection/TypeInfo';
-import { TypeInvocation } from '../../TypeInvocations';
+import { ClassInvocation } from '../../TypeInvocations';
 import { OnDemandTypeInfo } from '../../Reflection/OnDemandTypeInfo';
 import { Arguments } from '../../Arguments';
 
@@ -21,7 +21,7 @@ import { Arguments } from '../../Arguments';
  * @ignore
  * @hidden
  */
-export class ConstructorInvocation implements TypeInvocation {
+export class ConstructorInvocation implements ClassInvocation {
   version: number = 0;
 
   constructor(readonly target: Function, readonly design: TypeInfo = OnDemandTypeInfo.find(target.prototype)) {}

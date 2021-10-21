@@ -1,6 +1,6 @@
 import { agent, GetType } from '../../../src/dependencies/agent';
 import { decorateMember } from '../../../src/dependencies/agent';
-import { TypeInvocation } from '../../../src/dependencies/agent';
+import { ClassInvocation } from '../../../src/dependencies/agent';
 import { Arguments } from '../../../src/dependencies/agent';
 import { IsAgent } from '../../../src/dependencies/agent';
 
@@ -11,7 +11,7 @@ describe('4.3. field interceptor', () => {
       class Class431 {
         @decorateMember({
           interceptor: {
-            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
               if (typeof params[0] === 'number') {
                 const newParams = [Math.floor(params[0])];
                 // modify parameters
@@ -43,7 +43,7 @@ describe('4.3. field interceptor', () => {
       class Class432 {
         @decorateMember({
           interceptor: {
-            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
               if (typeof params[0] === 'number') {
                 const newParams = [Math.floor(params[0])];
                 // modify parameters
@@ -84,7 +84,7 @@ describe('4.3. field interceptor', () => {
       class Class433 {
         @decorateMember({
           interceptor: {
-            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
               if (typeof params[0] === 'number') {
                 return target.invoke([Math.floor(params[0])], receiver);
               }
@@ -114,7 +114,7 @@ describe('4.3. field interceptor', () => {
       class Class434 {
         @decorateMember({
           interceptor: {
-            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
               if (typeof params[0] === 'number') {
                 const newParams = [Math.floor(params[0])];
                 // modify parameters

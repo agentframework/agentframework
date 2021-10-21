@@ -6,7 +6,7 @@ import {
   Invocation,
   Reflector,
 } from '../../../src/dependencies/agent';
-import { agent, Agent } from '../../../src/dependencies/agent';
+import { agent } from '../../../src/dependencies/agent';
 
 describe('1.4. Class interceptor invoke sequence', () => {
   describe('# should able to', () => {
@@ -350,57 +350,12 @@ describe('1.4. Class interceptor invoke sequence', () => {
         },
       });
 
-      /// region Modify Global Agent Attribute
-      Reflector(Agent).addAttribute({
-        id: 'g1',
-        interceptor: {
-          intercept(target: Invocation<Design>, params: Arguments, receiver: unknown): unknown {
-            seq.push('beforeGlobalReflector1');
-            const ret = target.invoke(params, receiver);
-            seq.push('afterGlobalReflector1');
-            return ret;
-          },
-        },
-      });
-
-      Reflector(Agent).addAttribute({
-        id: 'g2',
-        interceptor: {
-          intercept(target: Invocation<Design>, params: Arguments, receiver: unknown): unknown {
-            seq.push('beforeGlobalReflector2');
-            const ret = target.invoke(params, receiver);
-            seq.push('afterGlobalReflector2');
-            return ret;
-          },
-        },
-      });
-
-      Reflector(Agent)
-        .parameter(0)
-        .addAttribute({
-          id: 'g2',
-          interceptor: {
-            intercept(target: Invocation<Design>, params: Arguments, receiver: unknown): unknown {
-              seq.push('beforeGlobalParameter[0]-1');
-              const ret = target.invoke(params, receiver);
-              // console.log('ret', ret);
-              seq.push('afterGlobalParameter[0]-1');
-              return ret;
-            },
-          },
-        });
-      // endregion
-
       seq = [];
       const aa2 = new AnotherAgent141();
       expect(aa2).toBeInstanceOf(AnotherAgent141);
       const aa2s = seq;
 
       const expectAA2s = [
-        'beforeGlobalReflector2',
-        'beforeGlobalReflector1',
-        'beforeGlobalParameter[0]-1',
-        'afterGlobalParameter[0]-1',
         'beforeAnotherAgent141AA2',
         'beforeAnotherAgent141AA1',
         'beforeAnotherAgent2',
@@ -415,11 +370,9 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'AnotherAgent',
         'afterAnotherAgent2',
         'afterAnotherAgent141AA1',
-        'afterAnotherAgent141AA2',
-        'afterGlobalReflector1',
-        'afterGlobalReflector2',
+        'afterAnotherAgent141AA2'
       ];
-      expect(aa2s).not.toEqual(expectAA1s);
+      expect(aa2s).toEqual(expectAA1s);
       expect(aa2s).toEqual(expectAA2s);
 
       seq = [];
@@ -428,10 +381,6 @@ describe('1.4. Class interceptor invoke sequence', () => {
       const topSeq1 = seq;
 
       const top1_seq = [
-        'beforeGlobalReflector2',
-        'beforeGlobalReflector1',
-        'beforeGlobalParameter[0]-1',
-        'afterGlobalParameter[0]-1',
         'beforeTop141AA4',
         'beforeTop141AA3',
         'beforeTop141Decorator3',
@@ -441,10 +390,6 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'before Top141',
         'before Middle141',
         'before Base141',
-        'beforeGlobalReflector2',
-        'beforeGlobalReflector1',
-        'beforeGlobalParameter[0]-1',
-        'afterGlobalParameter[0]-1',
         'beforeAnotherAgent141AA2',
         'beforeAnotherAgent141AA1',
         'beforeAnotherAgent2',
@@ -460,8 +405,6 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterAnotherAgent2',
         'afterAnotherAgent141AA1',
         'afterAnotherAgent141AA2',
-        'afterGlobalReflector1',
-        'afterGlobalReflector2',
         'Base141',
         'Middle141',
         'Top141',
@@ -469,8 +412,6 @@ describe('1.4. Class interceptor invoke sequence', () => {
         'afterTop141Decorator3',
         'afterTop141AA3',
         'afterTop141AA4',
-        'afterGlobalReflector1',
-        'afterGlobalReflector2',
       ];
 
       expect(topSeq1).toEqual(top1_seq);

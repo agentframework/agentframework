@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AgentAttribute, Arguments, ClassInterceptor, TypeInvocation } from '../../../dependencies/agent';
+import { AgentAttribute, Arguments, ClassInterceptor, ClassInvocation } from '../../../dependencies/agent';
 import { RememberSingletonAgent } from '../Helpers/RememberSingletonAgent';
 import { GetSingletonAgent } from '../Helpers/GetSingletonAgent';
 import { DomainLike } from '../DomainLike';
@@ -40,7 +40,7 @@ export class DomainAgentAttribute extends AgentAttribute implements ClassInterce
 
   // target: the origin type
   // receiver: intercepted type
-  intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+  intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
     // console.log('====== BEFORE ======', params);
     // create a new function
     // const value = params[1];

@@ -61,7 +61,6 @@ export class Knowledge extends WeakMap<Function | object, any> {
     //
     let value: Function;
     if (metadata) {
-      /* istanbul ignore next */
       value = function (key: string, value: any) {
         return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
           let newTarget;
@@ -109,7 +108,9 @@ export class Knowledge extends WeakMap<Function | object, any> {
     }
 
     if (key === Function.prototype) {
-      return this.set(key, Object.create(null));
+      const knowledge = Object.create(null);
+      this.set(key, knowledge);
+      return knowledge;
     }
 
     // check parent and build object prototype chain

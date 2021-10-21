@@ -2,7 +2,7 @@ import {
   decorateClass,
   Arguments,
   agent,
-  TypeInvocation,
+  ClassInvocation,
   decorateMember,
   decorateAgent,
   Reflector,
@@ -14,7 +14,7 @@ describe('4.1. Class interceptor', () => {
       @agent()
       @decorateClass({
         interceptor: {
-          intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+          intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
             return target.invoke([Math.floor(params[0])], receiver);
           },
         },
@@ -35,7 +35,7 @@ describe('4.1. Class interceptor', () => {
       @agent()
       @decorateAgent({
         interceptor: {
-          intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+          intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
             return target.invoke(params, receiver);
           },
         },
@@ -73,7 +73,7 @@ describe('4.1. Class interceptor', () => {
 
       @decorateClass({
         interceptor: {
-          intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+          intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
             seq.push('beforeBase414');
             const result = target.invoke(params, receiver);
             seq.push('afterBase414');
@@ -83,7 +83,7 @@ describe('4.1. Class interceptor', () => {
       })
       @decorateClass({
         interceptor: {
-          intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+          intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
             seq.push('beforeBase414Down');
             const result = target.invoke(params, receiver);
             seq.push('afterBase414Down');
@@ -105,7 +105,7 @@ describe('4.1. Class interceptor', () => {
       @agent()
       @decorateClass({
         interceptor: {
-          intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+          intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
             seq.push('beforeClass414');
             const result = target.invoke(params, receiver);
             seq.push('afterClass414');
@@ -130,7 +130,7 @@ describe('4.1. Class interceptor', () => {
 
       Reflector(Class414).addAttribute({
         interceptor: {
-          intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+          intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
             seq.push('lastBeforeClass414');
             const result = target.invoke(params, receiver);
             seq.push('lastAfterClass414');
@@ -177,7 +177,7 @@ describe('4.1. Class interceptor', () => {
 
       @decorateAgent({
         interceptor: {
-          intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+          intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
             seq.push('beforeBase415');
             const result = target.invoke(params, receiver);
             seq.push('afterBase415');
@@ -199,7 +199,7 @@ describe('4.1. Class interceptor', () => {
       @decorateAgent({
         name: 'upAgent',
         interceptor: {
-          intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+          intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
             seq.push('upBeforeClass415');
             const result = target.invoke(params, receiver);
             seq.push('upAfterClass415');
@@ -210,7 +210,7 @@ describe('4.1. Class interceptor', () => {
       @decorateClass({
         name: 'upClass',
         interceptor: {
-          intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+          intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
             seq.push('upBeforeClass415');
             const result = target.invoke(params, receiver);
             seq.push('upAfterClass415');
@@ -222,7 +222,7 @@ describe('4.1. Class interceptor', () => {
       @decorateAgent({
         name: 'downAgent',
         interceptor: {
-          intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+          intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
             seq.push('downAgentBeforeClass415');
             const result = target.invoke(params, receiver);
             seq.push('downAgentAfterClass415');
@@ -233,7 +233,7 @@ describe('4.1. Class interceptor', () => {
       @decorateClass({
         name: 'downClass',
         interceptor: {
-          intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+          intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
             seq.push('downBeforeClass415');
             const result = target.invoke(params, receiver);
             seq.push('downAfterClass415');
@@ -281,7 +281,7 @@ describe('4.1. Class interceptor', () => {
       class Class416 {
         @decorateMember({
           interceptor: {
-            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
               seq.push('beforeMethod416Up');
               const result = target.invoke(params, receiver);
               seq.push('afterMethod416Up');
@@ -291,7 +291,7 @@ describe('4.1. Class interceptor', () => {
         })
         @decorateMember({
           interceptor: {
-            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
               seq.push('beforeMethod416Middle');
               const result = target.invoke(params, receiver);
               seq.push('afterMethod416Middle');
@@ -301,7 +301,7 @@ describe('4.1. Class interceptor', () => {
         })
         @decorateMember({
           interceptor: {
-            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
               seq.push('beforeMethod416Down');
               const result = target.invoke(params, receiver);
               seq.push('afterMethod416Down');

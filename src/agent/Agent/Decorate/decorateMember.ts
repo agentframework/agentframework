@@ -27,9 +27,6 @@ export function decorateMember<T extends Attribute>(attribute: T) {
     // }
     if (CanDecorate(attribute, target, targetKey, descriptor)) {
       AddAttributeToProperty(attribute, target, targetKey, descriptor, HasInterceptor(attribute));
-      // Reflector(target)
-      //   .property(propertyKey, descriptor)
-      //   .addAttribute(attribute);
     }
   };
 }

@@ -1,5 +1,5 @@
 import { InMemoryDomain } from '../../../src/dependencies/domain';
-import { Arguments, TypeInvocation } from '../../../src/dependencies/agent';
+import { Arguments, ClassInvocation } from '../../../src/dependencies/agent';
 import { CreateAgent, Initializer, initializable, agent } from '../../../src/dependencies/agent';
 
 describe('5.7. Domain @initializable decorator', () => {
@@ -13,7 +13,7 @@ describe('5.7. Domain @initializable decorator', () => {
         public name1: string | undefined;
         static get [Initializer]() {
           // console.log('this outside', this.name);
-          return function (this: any, target: TypeInvocation, params: Arguments, receiver: typeof App571) {
+          return function (this: any, target: ClassInvocation, params: Arguments, receiver: typeof App571) {
             // console.log('this inside', this.name);
             // console.log('receiver inside', receiver.name);
             const app = target.invoke<App571>(params, receiver);
@@ -138,7 +138,7 @@ describe('5.7. Domain @initializable decorator', () => {
           this.name = 'App573$';
         }
 
-        static [Initializer](target: TypeInvocation, params: Arguments, receiver: typeof App573) {
+        static [Initializer](target: ClassInvocation, params: Arguments, receiver: typeof App573) {
           const ins = target.invoke(params, receiver);
           expect(ins).toBeInstanceOf(target.design.declaringType);
           return Promise.resolve(ins);
@@ -182,7 +182,7 @@ describe('5.7. Domain @initializable decorator', () => {
       @initializable()
       class App575 {
         public name1: string | undefined;
-        static [Initializer](target: TypeInvocation, params: Arguments, receiver: typeof App575) {
+        static [Initializer](target: ClassInvocation, params: Arguments, receiver: typeof App575) {
           const app = target.invoke<App575>(params, receiver);
           app.name1 = 'App575$';
           return new Promise((resolve) => {
@@ -207,7 +207,7 @@ describe('5.7. Domain @initializable decorator', () => {
       @initializable()
       class App576 {
         public name1: string | undefined;
-        static [Initializer](target: TypeInvocation, params: Arguments, receiver: typeof App576) {
+        static [Initializer](target: ClassInvocation, params: Arguments, receiver: typeof App576) {
           const app = target.invoke<App576>(params, receiver);
           app.name1 = 'App576$';
           return new Promise((resolve) => {

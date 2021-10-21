@@ -27,7 +27,7 @@ export { Invocation } from './Agent/Invocation';
 export { Interceptor } from './Agent/Interceptor';
 export { Attribute } from './Agent/Attribute';
 
-export { TypeInvocation } from './Agent/TypeInvocations';
+export { ClassInvocation } from './Agent/TypeInvocations';
 export { ClassInterceptor } from './Agent/TypeInterceptors';
 export { ClassAttribute } from './Agent/TypeAttributes';
 
@@ -51,11 +51,6 @@ export { decorateAgent } from './Agent/Decorate/decorateAgent';
 export { decorateMember } from './Agent/Decorate/decorateMember';
 export { decorateParameter } from './Agent/Decorate/decorateParameter';
 export { Reflector } from './Agent/Reflector';
-
-/*********************************************************************
- *   (Stability: 2 - Stable): Global Agent
- *********************************************************************/
-export { Agent } from './Agent/Agent';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Class Decorator: @agent()

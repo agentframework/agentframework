@@ -1,6 +1,6 @@
 import { AgentFrameworkError } from '../../AgentFrameworkError';
 import { ClassInterceptor } from '../../TypeInterceptors';
-import { TypeInvocation } from '../../TypeInvocations';
+import { ClassInvocation } from '../../TypeInvocations';
 import { Arguments } from '../../Arguments';
 
 
@@ -11,7 +11,7 @@ export class InitializerAttribute implements ClassInterceptor {
     return this;
   }
 
-  intercept(target: TypeInvocation, params: Arguments, receiver: any) {
+  intercept(target: ClassInvocation, params: Arguments, receiver: any) {
     // after create instance, call custom Initializer
     const instance = target.invoke<object>(params, receiver);
     const initializer = Reflect.get(instance, this.key);

@@ -22,6 +22,7 @@ import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
 import { OnDemandInvocationFactory } from './OnDemandInvocationFactory';
 import { alter } from './alter';
 import { PropertyInvocation } from '../TypeInvocations';
+import { OnDemandParameterInterceptor } from './Interceptor/OnDemandParameterInterceptor';
 
 export function UpgradeAgent(
   target: Function | object,
@@ -191,7 +192,7 @@ class OnDemandCompiler {
       propertyDescriptor.value = function (this: any) {
         let chain: PropertyInvocation = new MethodInvocation(property, defaultValue);
         if (property.hasParameter()) {
-          chain = OnDemandInterceptorFactory.addParameterInterceptor(chain, property);
+          chain = OnDemandInterceptorFactory.addInterceptor(chain, new OnDemandParameterInterceptor(property));
         }
         chain = OnDemandInvocationFactory.createPropertyInvocation(chain, property);
         propertyDescriptor.value = function (this: any) {

@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { TypeInfo } from '../../Reflection/TypeInfo';
-import { TypeInvocation } from '../../TypeInvocations';
+import { ClassInvocation } from '../../TypeInvocations';
 import { OnDemandTypeInfo } from '../../Reflection/OnDemandTypeInfo';
 import { RememberType } from '../../Knowledges/Types';
 import { alter } from '../alter';
@@ -24,7 +24,7 @@ import { alter } from '../alter';
  * @ignore
  * @hidden
  */
-export class AgentInvocation implements TypeInvocation {
+export class AgentInvocation implements ClassInvocation {
 
   version: number = 0;
 

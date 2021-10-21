@@ -6,7 +6,6 @@ import {
   IsAgent,
   Reflector,
   decorateAgent,
-  Agent,
 } from '../../../src/dependencies/agent';
 import { agent } from '../../../src/dependencies/agent';
 
@@ -191,30 +190,6 @@ describe('1.3. Agent interceptor invoke sequence', () => {
 
       // console.log('seq 6', seq);
 
-      Reflector(Agent).static.addAttribute({
-        id: 13,
-        interceptor: {
-          intercept(target: Invocation<Design>, params: Arguments, receiver: unknown): unknown {
-            seq.push('beforeGlobal-Reflector-1');
-            const ret = target.invoke(params, receiver);
-            seq.push('afterGlobal-Reflector-1');
-            return ret;
-          },
-        },
-      });
-
-      Reflector(Agent).static.addAttribute({
-        id: 14,
-        interceptor: {
-          intercept(target: Invocation<Design>, params: Arguments, receiver: unknown): unknown {
-            seq.push('beforeGlobal-Reflector-2');
-            const ret = target.invoke(params, receiver);
-            seq.push('afterGlobal-Reflector-2');
-            return ret;
-          },
-        },
-      });
-
       // console.log('seq 7', seq);
 
       @decorateAgent({
@@ -264,16 +239,12 @@ describe('1.3. Agent interceptor invoke sequence', () => {
       expect(IsAgent(Top)).toBeTrue();
 
       expect(seq).toEqual([
-        'beforeGlobal-Reflector-2',
-        'beforeGlobal-Reflector-1',
         'beforeTop13-Reflector-1',
         'beforeTop13-@deco-1',
         'beforeTop13-@deco-2',
         'afterTop13-@deco-2',
         'afterTop13-@deco-1',
         'afterTop13-Reflector-1',
-        'afterGlobal-Reflector-1',
-        'afterGlobal-Reflector-2',
       ]);
       seq = [];
 
@@ -299,8 +270,6 @@ describe('1.3. Agent interceptor invoke sequence', () => {
 
       // console.log('seq 10', seq);
       expect(seq).toEqual([
-        'beforeGlobal-Reflector-2',
-        'beforeGlobal-Reflector-1',
         'beforeTop13-Reflector-2',
         'beforeTop13-Reflector-1',
         'beforeTop13-@deco-1',
@@ -309,8 +278,6 @@ describe('1.3. Agent interceptor invoke sequence', () => {
         'afterTop13-@deco-1',
         'afterTop13-Reflector-1',
         'afterTop13-Reflector-2',
-        'afterGlobal-Reflector-1',
-        'afterGlobal-Reflector-2',
       ]);
     });
   });

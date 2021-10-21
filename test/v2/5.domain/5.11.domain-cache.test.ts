@@ -1,5 +1,5 @@
 import { InMemoryDomain } from '../../../src/dependencies/domain';
-import { Agent, Arguments, decorateClass, Design, Invocation, Reflector } from '../../../src/dependencies/agent';
+import { Arguments, decorateClass, Design, Invocation, Reflector } from '../../../src/dependencies/agent';
 
 describe('5.11. Domain agent cache', () => {
   describe('# should able to', () => {
@@ -22,21 +22,10 @@ describe('5.11. Domain agent cache', () => {
 
       expect(seq).toEqual([]);
 
-      Reflector(Agent).addAttribute({
-        interceptor: {
-          intercept(target: Invocation<Design>, params: Arguments, receiver: unknown): unknown {
-            seq.push('beforeGlobal1');
-            const ret = target.invoke(params, receiver);
-            seq.push('afterGlobal1');
-            return ret;
-          },
-        },
-      });
-
       expect(seq).toEqual([]);
       const r1 = domain.construct(WebRequest511);
       expect(r1).toBeInstanceOf(WebRequest511);
-      const r1_seq = ['beforeGlobal1', 'beforeWebRequest1', 'afterWebRequest1', 'afterGlobal1'];
+      const r1_seq = ['beforeWebRequest1', 'afterWebRequest1'];
       expect(seq).toEqual(r1_seq);
 
       Reflector(WebRequest511).addAttribute({
@@ -50,26 +39,11 @@ describe('5.11. Domain agent cache', () => {
         },
       });
 
-      Reflector(Agent).addAttribute({
-        interceptor: {
-          intercept(target: Invocation<Design>, params: Arguments, receiver: unknown): unknown {
-            seq.push('beforeGlobal2');
-            const ret = target.invoke(params, receiver);
-            seq.push('afterGlobal2');
-            return ret;
-          },
-        },
-      });
-
       const r1_seq_updated = [
-        'beforeGlobal2',
-        'beforeGlobal1',
         'beforeWebRequest2',
         'beforeWebRequest1',
         'afterWebRequest1',
-        'afterWebRequest2',
-        'afterGlobal1',
-        'afterGlobal2',
+        'afterWebRequest2'
       ];
 
       // make some changes to the interceptor

@@ -12,11 +12,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { TypeInvocation } from '../../TypeInvocations';
+import { ClassInvocation } from '../../TypeInvocations';
 import { Arguments } from '../../Arguments';
 
 export type InitializerHandler = () => void;
 
-export type StaticInitializerHandler = (target: TypeInvocation, params: Arguments, receiver: Function) => object;
+export type StaticInitializerHandler = (target: ClassInvocation, params: Arguments, receiver: Function) => object;
 
 export const Initializer: unique symbol = Symbol.for('AgentFramework.Initializer');
