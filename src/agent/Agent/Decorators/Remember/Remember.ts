@@ -47,6 +47,7 @@ export function Remember<T>(key: string, target: object | Function, targetKey: s
   let value = knowledge.get(id);
   if ('undefined' === typeof value) {
     value = valueFn();
+    knowledge.set(id, value);
   }
   alter(target, targetKey, { value });
   return value;
