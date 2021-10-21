@@ -14,6 +14,9 @@ export function GetProperty(
   if (propertyDescriptor) {
     property = propertyDescriptor.value;
     // NOTE1: just in case parameter decorator called at first and decorate property called at second
+    // NOTE2: setting metadata will also setting descriptor, metadata call before parameter decorator
+    // only required if no-metadata generated
+    /* istanbul ignore next */
     if (descriptor && !property.descriptor) {
       property.descriptor = descriptor;
     }

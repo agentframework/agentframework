@@ -31,7 +31,7 @@ export class GetterSetterInvocation implements PropertyInvocation {
 
     // this is setter
     if (receiver == null) {
-      throw new AgentFrameworkError(`InvalidReceiver`);
+      throw new AgentFrameworkError('InvalidReceiver');
     }
 
     if (params.length) {

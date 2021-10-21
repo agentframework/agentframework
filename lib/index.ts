@@ -15,7 +15,7 @@ limitations under the License. */
 'use strict';
 
 /*********************************************************************
- *   (Stability: 2 - Stable) General Types
+ *   (Stability: 2 - Stable) General Interface
  *********************************************************************/
 export { AgentFrameworkError } from '../src/agent';
 export { Arguments } from '../src/agent';
@@ -61,7 +61,6 @@ export { Reflector } from '../src/agent';
  *   (Stability: 2 - Stable): Custom Interceptor API
  *********************************************************************/
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/agent';
-export { HasInterceptor, GetInterceptor } from '../src/agent';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Class Decorator: @initializable()
@@ -74,11 +73,26 @@ export { InitializerHandler, StaticInitializerHandler } from '../src/agent';
  *   (Stability: 2 - Stable): Class Decorator: @agent()
  *********************************************************************/
 export { agent } from '../src/agent';
+
+/*********************************************************************
+ *   (Stability: 2 - Stable): Property Decorator: @singleton()
+ *********************************************************************/
 export { singleton } from '../src/agent';
+
+/*********************************************************************
+ *   (Stability: 2 - Stable): Property Decorator: @singleton()
+ *********************************************************************/
 export { transit } from '../src/agent';
-export { CreateAgent } from '../src/agent';
+
+/*********************************************************************
+ *   (Stability: 2 - Stable): Agent API
+ *********************************************************************/
 export { IsAgent } from '../src/agent';
 export { GetAgentType } from '../src/agent';
+import { CreateAgent as InternalCreateAgent } from '../src/agent';
+export function CreateAgent<T extends Function>(type: T): T {
+  return InternalCreateAgent(type);
+}
 
 /*********************************************************************
  *   (Stability: 2 - Stable) Low-level Metadata API
