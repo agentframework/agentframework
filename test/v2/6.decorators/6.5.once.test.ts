@@ -2,41 +2,38 @@ import { Once, once } from '../../../src/dependencies/agent';
 
 describe('6.5. @once helper', () => {
   describe('# should able to', () => {
+    let n = 0;
+
     class Class651 {
-      @once()
+      @once() // require @agent
       static get random() {
-        return Date.now();
+        return n++;
       }
       static get stats() {
-        return Once(this, 'stats', Date.now());
+        return Once(this, 'stats', n++);
       }
     }
 
     class Class652 {
-      static counter = 0;
-
       @once()
       static get random() {
-        if (this.counter > 0) {
-          return Date.now() + 1;
-        }
-        this.counter++;
-        return;
+        return n++;
       }
-
       static get stats() {
         return Once(this, 'stats', this.random);
       }
     }
 
     it('get same value', () => {
-      expect(Class651.random).toBe(Class651.random);
+      expect(Class651.random).not.toBe(Class651.random);
       expect(Class651.stats).toBe(Class651.stats);
     });
 
     it('get same value from different class', () => {
       expect(Class652.random).not.toBe(Class651.random);
+      expect(Class652.random).not.toBe(Class652.random);
       expect(Class652.stats).not.toBe(Class651.stats);
+      expect(Class652.stats).toBe(Class652.stats);
     });
   });
 });

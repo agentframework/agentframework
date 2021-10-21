@@ -123,7 +123,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
 
   protected getKind(): number {
     if (this.target === this.declaringType) {
-      return MemberKinds.Static | MemberKinds.Class;
+      return MemberKinds.StaticClass;
     }
     return MemberKinds.Class;
   }

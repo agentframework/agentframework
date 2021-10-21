@@ -2,33 +2,34 @@ import { Remember, remember } from '../../../src/dependencies/agent';
 
 describe('6.6. @remember helper', () => {
   describe('# should able to', () => {
+    let n = 1;
     class Class661 {
-      @remember('Test')
+      @remember('Test') // no effect because no @agent()
       static get random() {
-        return Date.now();
+        return n++;
       }
       static get stats() {
-        return Remember('Test', this, 'stats', () => Date.now());
+        return Remember('Test', this, 'stats', () => n++);
       }
     }
 
     class Class662 {
-      @remember('Test')
+      @remember('Test')// no effect because no @agent()
       static get random() {
-        return Date.now();
+        return n++;
       }
       static get stats() {
-        return Remember('Test', this, 'stats', () => Date.now());
+        return Remember('Test', this, 'stats', () => n++);
       }
     }
 
     it('get same value', () => {
-      expect(Class661.random).toBe(Class661.random);
+      expect(Class661.random).not.toBe(Class661.random);
       expect(Class661.stats).toBe(Class661.stats);
     });
 
     it('get same value from different class', () => {
-      expect(Class662.random).toBe(Class661.random);
+      expect(Class662.random).not.toBe(Class661.random);
       expect(Class662.stats).toBe(Class661.stats);
     });
   });

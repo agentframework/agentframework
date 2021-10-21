@@ -20,6 +20,7 @@ import { ParameterInfo } from './ParameterInfo';
 import { MemberInfo } from './MemberInfo';
 import { GetOwnPropertyAnnotation, Property } from '../../../dependencies/core';
 import { Once } from '../Decorators/Once/Once';
+import { DESIGN_PARAMTYPES, DESIGN_RETURNTYPE, DESIGN_TYPE } from '../WellKnown';
 
 // import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
 // import { OnDemandPropertyGetterInfo } from './OnDemandPropertyGetterInfo';
@@ -48,24 +49,13 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
    * Returns descriptor of this property. undefined if this is a field
    */
   get descriptor(): PropertyDescriptor | undefined {
-    // return Reflect.getOwnPropertyDescriptor(this.declaringType.prototype, this.key);
-    let descriptor: PropertyDescriptor | undefined;
     const annotation = this.annotation;
-    if (annotation) {
-      if (Reflect.has(annotation, 'descriptor')) {
-        descriptor = annotation.descriptor;
-      } else {
-        // descriptor is undefined for virtual property
-        descriptor = Reflect.getOwnPropertyDescriptor(this.declaringType.prototype, this.key);
-        annotation.descriptor = descriptor;
-      }
-    }
-    return descriptor;
+    return annotation && annotation.descriptor;
   }
 
   protected getKind(): number {
     if (this.target === this.declaringType) {
-      return MemberKinds.Static | MemberKinds.Property;
+      return MemberKinds.StaticProperty;
     }
     // const descriptor = this.descriptor;
     // if (descriptor) {
@@ -87,11 +77,11 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
   }
 
   protected getType(): Function | undefined {
-    const type = this.getOwnMetadata('design:type');
-    if (type && type.prototype === Function.prototype && this.descriptor) {
-      return this.getOwnMetadata('design:returntype');
+    if (this.hasOwnMetadata(DESIGN_RETURNTYPE)) {
+      return this.getOwnMetadata(DESIGN_RETURNTYPE);
+    } else {
+      return this.getOwnMetadata(DESIGN_TYPE);
     }
-    return type;
   }
 
   // get value(): OnDemandPropertyValueInfo {
@@ -179,7 +169,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
    * Returns type of the parameters implementation
    */
   protected getParameterTypes(): ReadonlyArray<any> | undefined {
-    return this.getOwnMetadata('design:paramtypes');
+    return this.getOwnMetadata(DESIGN_PARAMTYPES);
   }
 
   /**

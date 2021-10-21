@@ -17,7 +17,7 @@ import { ParameterInfo } from './ParameterInfo';
 
 export interface PropertyInfo extends MemberInfo {
   /**
-   * Get property descriptor for current property
+   * Get origin property descriptor
    */
   readonly descriptor: PropertyDescriptor | undefined;
 

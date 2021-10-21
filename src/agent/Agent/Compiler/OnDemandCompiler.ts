@@ -24,9 +24,9 @@ import { alter } from './alter';
 import { PropertyInvocation } from '../TypeInvocations';
 import { OnDemandParameterInterceptor } from './Interceptor/OnDemandParameterInterceptor';
 
-export function UpgradeAgent(
+export function UpgradeAgentProperties(
+  origin: Function | object,
   target: Function | object,
-  agent: Function | object,
   properties: ReadonlyArray<PropertyInfo>,
   receiver?: Function | object
 ) {
@@ -35,19 +35,35 @@ export function UpgradeAgent(
   for (const property of properties) {
     if (receiver) {
       // can skip if property is exists
-      if (Reflect.getOwnPropertyDescriptor(agent, property.key)) {
+      if (Reflect.getOwnPropertyDescriptor(target, property.key)) {
         Reflect.deleteProperty(receiver, property.key);
         continue;
       }
     }
-    const descriptor = Reflect.getOwnPropertyDescriptor(target, property.key);
+
+    const descriptor = Reflect.getOwnPropertyDescriptor(origin, property.key);
+    // const descriptor5 = property.descriptor;
+    // if (origin.constructor.name === 'Class4101') {
+    //   console.log('Reflect.getOwnPropertyDescriptor', descriptor?.get?.toString());
+    //   console.log('property.descriptor', descriptor5?.get?.toString());
+    // }
+
+    // if (descriptor2 !== descriptor) {
+    //   console.log('not same', origin, property.key, property.descriptor === descriptor);
+
+    // if (property.descriptor !== descriptor) {
+    //   console.log('A', descriptor?.value?.toString());
+    //   console.log('B', property.descriptor?.value?.toString());
+    // }
+    // }
+
     let newDescriptor: PropertyDescriptor;
     if (descriptor) {
-      newDescriptor = OnDemandCompiler.makeProperty(property, descriptor, receiver || agent);
+      newDescriptor = OnDemandCompiler.makeProperty(property, descriptor, receiver || target);
     } else {
-      newDescriptor = OnDemandCompiler.makeField(property, receiver || agent);
+      newDescriptor = OnDemandCompiler.makeField(property, receiver || target);
     }
-    Reflect.defineProperty(agent, property.key, newDescriptor);
+    Reflect.defineProperty(target, property.key, newDescriptor);
   }
 }
 

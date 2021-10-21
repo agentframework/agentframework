@@ -10,16 +10,15 @@ export function GetProperty(
   descriptor?: PropertyDescriptor
 ): Property {
   const propertyDescriptor = Reflect.getOwnPropertyDescriptor(knowledge, key);
-  let value: Property;
+  let property: Property;
   if (propertyDescriptor) {
-    value = propertyDescriptor.value;
-    // NOTE1: just in case decorate parameter called at first and decorate property called at second
-    // NOTE2: not a case for TS2,3,4
-    // if (descriptor && !value.descriptor) {
-    //   value.descriptor = descriptor;
-    // }
+    property = propertyDescriptor.value;
+    // NOTE1: just in case parameter decorator called at first and decorate property called at second
+    if (descriptor && !property.descriptor) {
+      property.descriptor = descriptor;
+    }
   } else {
-    knowledge[key] = value = new Property(target, key, descriptor);
+    knowledge[key] = property = new Property(target, key, descriptor);
   }
-  return value;
+  return property;
 }

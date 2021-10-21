@@ -15,30 +15,46 @@ limitations under the License. */
 // the memorize can be used on both class getter or static getter
 import { GetKnowledge } from '../../../../dependencies/core';
 import { alter } from '../../Compiler/alter';
+import { decorateMember } from '../../Decorate/decorateMember';
+import { PropertyInvocation } from '../../TypeInvocations';
+import { Arguments } from '../../Arguments';
 
 /**
  * only apply to getter
  */
 export function remember(key: string): MethodDecorator {
-  return (target: object | Function, targetKey: string | symbol, descriptor: any): any => {
-    return {
-      get() {
-        const receiver = 'function' === typeof target ? target : this;
-        let value;
-        // note: bulletproof syntax against tools like "terser"
+  return decorateMember({
+    interceptor: {
+      intercept(target: PropertyInvocation, params: Arguments, receiver: object): unknown {
         const knowledge = GetKnowledge();
-        const id = key + '.' + String(targetKey);
-        value = knowledge.get(id);
+        const id = key + '.' + target.design.name;
+        let value = knowledge.get(id);
         if (!value) {
-          const { get } = descriptor;
-          knowledge.set(id, (value = Reflect.apply(get, receiver, [])));
+          knowledge.set(id, (value = target.invoke(params, receiver)));
         }
-        alter(receiver, targetKey, { value });
         return value;
       },
-      configurable: true,
-    };
-  };
+    },
+  });
+  // return (target: object | Function, targetKey: string | symbol, descriptor: any): any => {
+  //   return {
+  //     get() {
+  //       const receiver = 'function' === typeof target ? target : this;
+  //       let value;
+  //       // note: bulletproof syntax against tools like "terser"
+  //       const knowledge = GetKnowledge();
+  //       const id = key + '.' + String(targetKey);
+  //       value = knowledge.get(id);
+  //       if (!value) {
+  //         const { get } = descriptor;
+  //         knowledge.set(id, (value = Reflect.apply(get, receiver, [])));
+  //       }
+  //       alter(receiver, targetKey, { value });
+  //       return value;
+  //     },
+  //     configurable: true,
+  //   };
+  // };
 }
 
 export function Remember<T>(key: string, target: object | Function, targetKey: string | symbol, valueFn: () => T): T {

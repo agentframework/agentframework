@@ -14,26 +14,40 @@ limitations under the License. */
 
 // the once can be used on both class getter or static getter
 import { alter } from '../../Compiler/alter';
+import { decorateMember } from '../../Decorate/decorateMember';
+import { Arguments } from '../../Arguments';
+import { PropertyInvocation } from '../../TypeInvocations';
 
 /**
  * Run getter only once. only apply to getter or static getter
  */
 export function once(): MethodDecorator {
-  return (target: object | Function, targetKey: string | symbol, descriptor: any): any => {
-    return {
-      get() {
-        const receiver = 'function' === typeof target ? target : this;
-        let value;
-        const { get } = descriptor;
-        value = Reflect.apply(get, receiver, []);
+  return decorateMember({
+    interceptor: {
+      intercept(target: PropertyInvocation, params: Arguments, receiver: object): unknown {
+        const value = target.invoke(params, receiver);
         if ('undefined' !== typeof value) {
-          alter(receiver, targetKey, { value });
+          alter(receiver, target.design.key, { value });
         }
         return value;
       },
-      configurable: true,
-    };
-  };
+    },
+  });
+  // return (target: object | Function, targetKey: string | symbol, descriptor: any): any => {
+  //   return {
+  //     get() {
+  //       const receiver = 'function' === typeof target ? target : this;
+  //       let value;
+  //       const { get } = descriptor;
+  //       value = Reflect.apply(get, receiver, []);
+  //       if ('undefined' !== typeof value) {
+  //         alter(receiver, targetKey, { value });
+  //       }
+  //       return value;
+  //     },
+  //     configurable: true,
+  //   };
+  // };
 }
 
 export function Once<T>(target: object | Function, getterKey: string | symbol, value: T): T {
