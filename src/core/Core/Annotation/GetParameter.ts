@@ -15,7 +15,6 @@ limitations under the License. */
 import { Property } from './Property';
 import { Annotation } from './Annotation';
 
-
 /**
  * @internal
  */

@@ -3,7 +3,6 @@ import { ClassInterceptor } from '../../TypeInterceptors';
 import { ClassInvocation } from '../../TypeInvocations';
 import { Arguments } from '../../Arguments';
 
-
 export class InitializerAttribute implements ClassInterceptor {
   constructor(readonly key: PropertyKey) {}
 

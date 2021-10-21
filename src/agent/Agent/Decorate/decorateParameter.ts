@@ -17,7 +17,6 @@ import { CanDecorate } from './CanDecorate';
 import { ParameterAttribute } from '../TypeAttributes';
 import { AddAttributeToClassConstructorParameter } from '../../../dependencies/core';
 import { AddAttributeToPropertyParameter } from '../../../dependencies/core';
-import { HasInterceptor } from '../CustomInterceptor';
 
 /**
  * Decorate class method parameter
@@ -26,18 +25,13 @@ export function decorateParameter<T extends ParameterAttribute>(attribute: T) {
   return (target: object | Function, targetKey: string | symbol | undefined, parameterIndex: number): void => {
     if (CanDecorate(attribute, target, targetKey, parameterIndex)) {
       if (targetKey != null) {
-        AddAttributeToPropertyParameter(attribute, target, targetKey, parameterIndex, HasInterceptor(attribute));
+        AddAttributeToPropertyParameter(attribute, target, targetKey, parameterIndex);
         // Reflector(target)
         //   .property(propertyKey)
         //   .parameter(parameterIndex)
         //   .addAttribute(attribute);
       } else {
-        AddAttributeToClassConstructorParameter(
-          attribute,
-          (target as Function).prototype,
-          parameterIndex,
-          HasInterceptor(attribute)
-        );
+        AddAttributeToClassConstructorParameter(attribute, (target as Function).prototype, parameterIndex);
         // Reflector(target)
         //   .parameter(parameterIndex)
         //   .addAttribute(attribute);

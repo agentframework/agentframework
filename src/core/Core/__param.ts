@@ -12,7 +12,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-
 /*@__PURE__*/
 export function __param(paramIndex: number, decorator: Function): Function {
   return function (target: Function | object, targetKey: string | symbol) {

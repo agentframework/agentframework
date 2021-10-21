@@ -19,6 +19,7 @@ import { Filter } from './Filter';
 import { Class } from '../Arguments';
 import { Once } from '../Decorators/Once/Once';
 import { HasInterceptor } from '../CustomInterceptor';
+import { Cache } from '../Decorators/Cache/Cache';
 
 /**
  * Access and store attribute and metadata for reflection
@@ -120,7 +121,12 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    */
   protected get ownInterceptors(): ReadonlyArray<object> | undefined {
     const annotation = this.annotation;
-    return Once(this, 'ownInterceptors', annotation && annotation.interceptors);
+    if (!annotation) {
+      return;
+    }
+    return Cache(this, 'ownInterceptors', () => {
+      return annotation.attributes.filter(HasInterceptor);
+    });
   }
 
   /**
@@ -129,7 +135,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    * @param {Attribute} attribute
    */
   addAttribute<A4 extends Attribute>(attribute: A4): void {
-    AddAttributeToProperty(attribute, this.target, this.key, undefined, HasInterceptor(attribute));
+    AddAttributeToProperty(attribute, this.target, this.key);
   }
 
   /**

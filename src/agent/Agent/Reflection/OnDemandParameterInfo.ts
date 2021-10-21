@@ -22,7 +22,6 @@ import { ParameterInfo } from './ParameterInfo';
 import { PropertyInfo } from './PropertyInfo';
 import { Attribute } from '../Attribute';
 import { OnDemandMemberInfo } from './OnDemandMemberInfo';
-import { HasInterceptor } from '../CustomInterceptor';
 
 /**
  * Parameter
@@ -40,7 +39,7 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
   addAttribute<A4 extends Attribute>(attribute: A4): void {
     // if the attribute provide a getInterceptor, that means this property may need inject
     // we don't call getInterceptor or getInitializer until user new() the agent class.
-    AddAttributeToPropertyParameter(attribute, this.target, this.key, this.index, HasInterceptor(attribute));
+    AddAttributeToPropertyParameter(attribute, this.target, this.key, this.index);
   }
 
   protected getAnnotation(): Annotation | undefined {

@@ -15,7 +15,6 @@ limitations under the License. */
 import { CanDecorate } from './CanDecorate';
 import { Attribute } from '../Attribute';
 import { AddAttributeToProperty } from '../../../dependencies/core';
-import { HasInterceptor } from '../CustomInterceptor';
 
 /**
  * Decorate class properties (field, getter, setter and methods)
@@ -26,7 +25,7 @@ export function decorateMember<T extends Attribute>(attribute: T) {
     //   throw new Error('Attribute not allow declare on class static member');
     // }
     if (CanDecorate(attribute, target, targetKey, descriptor)) {
-      AddAttributeToProperty(attribute, target, targetKey, descriptor, HasInterceptor(attribute));
+      AddAttributeToProperty(attribute, target, targetKey, descriptor);
     }
   };
 }

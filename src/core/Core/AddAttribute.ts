@@ -1,7 +1,6 @@
 import { Knowledge } from './Knowledge';
 import { GetProperty } from './Annotation/GetProperty';
 import { GetParameter } from './Annotation/GetParameter';
-import { CONSTRUCTOR } from './WellKnown';
 
 /**
  * equals Reflector(target).property(property, descriptor).addAttribute(attribute);
@@ -10,19 +9,20 @@ export function AddAttributeToProperty(
   attribute: object,
   target: object | Function,
   key: string | symbol,
-  descriptor: PropertyDescriptor | undefined,
-  interceptable: boolean
+  descriptor?: PropertyDescriptor
 ): void {
   const knowledge = Knowledge.add(target);
   const property = GetProperty(knowledge, target, key, descriptor);
   property.attributes.push(attribute);
-  if (interceptable) {
-    property.interceptors.push(attribute);
-    property.touch();
-    if (key !== CONSTRUCTOR) {
-      GetProperty(knowledge, target, CONSTRUCTOR, descriptor).touch();
-    }
-  }
+  property.version++;
+  // if (interceptable) {
+  //   property.interceptors.push(attribute);
+  //   property.version++;
+  //   if (key !== CONSTRUCTOR) {
+  //     const root = GetProperty(knowledge, target, CONSTRUCTOR, descriptor);
+  //     root.version++;
+  //   }
+  // }
 }
 
 /**
@@ -32,19 +32,21 @@ export function AddAttributeToPropertyParameter(
   attribute: object,
   target: object | Function,
   key: string | symbol,
-  parameterIndex: number,
-  interceptable: boolean
+  parameterIndex: number
 ): void {
   const knowledge = Knowledge.add(target);
   const property = GetProperty(knowledge, target, key);
   const parameter = GetParameter(property, parameterIndex);
   parameter.attributes.push(attribute);
-  if (interceptable) {
-    parameter.interceptors.push(attribute);
-    parameter.touch();
-    property.touch();
-    if (key !== CONSTRUCTOR) {
-      GetProperty(knowledge, target, CONSTRUCTOR).touch();
-    }
-  }
+  parameter.version++;
+  property.version++;
+  // if (interceptable) {
+  //   parameter.interceptors.push(attribute);
+  //   parameter.version++;
+  //   property.version++;
+  //   if (key !== CONSTRUCTOR) {
+  //     const type = GetProperty(knowledge, target, CONSTRUCTOR);
+  //     type.version++;
+  //   }
+  // }
 }

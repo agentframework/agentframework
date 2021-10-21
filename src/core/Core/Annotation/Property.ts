@@ -15,4 +15,3 @@ export class Property extends Annotation {
     descriptor && (this.descriptor = descriptor);
   }
 }
-

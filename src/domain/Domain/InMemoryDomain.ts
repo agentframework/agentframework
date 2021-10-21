@@ -371,14 +371,14 @@ export class InMemoryDomain extends Domain implements Disposable {
     for (const promise of _incomingAgents.values()) {
       promise.then((agent) => {
         if (typeof agent === 'object' && agent != null && typeof agent.dispose === 'function') {
-          // only dispose the agent of current domain
+          // TODO: only dispose the agent of current domain
           agent.dispose();
         }
       });
     }
     for (const agent of _agents.values()) {
       if (typeof agent === 'object' && agent != null && typeof agent.dispose === 'function') {
-        //  only dispose the agent of current domain
+        //  TODO: only dispose the agent of current domain
         agent.dispose();
       }
     }

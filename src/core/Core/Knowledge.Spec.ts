@@ -14,8 +14,7 @@ describe('Knowledge!', () => {
     });
 
     it('get static class property from wisdom type', () => {
-      class A {
-      }
+      class A {}
       class B extends A {}
       class C extends B {}
 

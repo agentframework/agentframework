@@ -49,14 +49,6 @@ export { ParameterInterceptor } from '../src/agent';
 export { ParameterAttribute } from '../src/agent';
 
 /*********************************************************************
- *   (Stability: 2 - Stable) Metadata API
- *********************************************************************/
-export { AddAttributeToProperty } from '../src/core';
-export { AddAttributeToPropertyParameter } from '../src/core';
-export { AddAttributeToClass } from '../src/core';
-export { AddAttributeToClassConstructorParameter } from '../src/core';
-
-/*********************************************************************
  *   (Stability: 2 - Stable) Advanced Metadata API
  *********************************************************************/
 export { decorateAgent } from '../src/agent';
@@ -87,6 +79,14 @@ export { transit } from '../src/agent';
 export { CreateAgent } from '../src/agent';
 export { IsAgent } from '../src/agent';
 export { GetAgentType } from '../src/agent';
+
+/*********************************************************************
+ *   (Stability: 2 - Stable) Low-level Metadata API
+ *********************************************************************/
+export { AddAttributeToProperty } from '../src/core';
+export { AddAttributeToPropertyParameter } from '../src/core';
+export { AddAttributeToClass } from '../src/core';
+export { AddAttributeToClassConstructorParameter } from '../src/core';
 
 /*********************************************************************
  *    (Stability: 2 - Stable): TSLIB Re-work

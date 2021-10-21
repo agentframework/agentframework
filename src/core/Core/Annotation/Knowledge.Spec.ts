@@ -3,7 +3,6 @@ import { METADATA } from '../WellKnown';
 
 describe('Knowledge!', () => {
   describe('# should able to', () => {
-
     it('get static class property from wisdom type', () => {
       const knowledge = new Knowledge(Reflect, METADATA);
 

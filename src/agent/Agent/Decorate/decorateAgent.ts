@@ -16,7 +16,6 @@ limitations under the License. */
 import { CanDecorate } from './CanDecorate';
 import { AddAttributeToClass } from '../../../dependencies/core';
 import { Attribute } from '../Attribute';
-import { HasInterceptor } from '../CustomInterceptor';
 
 /**
  * Decorate agent with attribute (this attribute will be used for upgrade agent)
@@ -25,7 +24,7 @@ export function decorateAgent<T extends Attribute>(attribute: T) {
   // upgrade prototype
   return (target: Function): void => {
     if (CanDecorate(attribute, target)) {
-      AddAttributeToClass(attribute, target, HasInterceptor(attribute));
+      AddAttributeToClass(attribute, target);
     }
   };
 }

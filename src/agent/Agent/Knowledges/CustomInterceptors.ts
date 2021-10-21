@@ -1,4 +1,4 @@
-import { Remember } from "../Decorators/Remember/Remember";
+import { Remember } from '../Decorators/Remember/Remember';
 
 /**
  * Gets or sets interceptor for specified attribute

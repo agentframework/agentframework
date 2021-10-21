@@ -206,5 +206,4 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
     }
     return params;
   }
-
 }

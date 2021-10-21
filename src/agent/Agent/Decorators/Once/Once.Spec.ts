@@ -13,7 +13,6 @@ describe('Remember!', () => {
         get date1() {
           return new Date();
         }
-
       }
 
       class Store2 {
@@ -26,7 +25,6 @@ describe('Remember!', () => {
         get date1() {
           return new Date();
         }
-
       }
 
       const store11 = new Store1();

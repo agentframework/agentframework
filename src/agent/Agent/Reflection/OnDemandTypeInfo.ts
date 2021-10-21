@@ -26,7 +26,6 @@ import { Once } from '../Decorators/Once/Once';
 import { Property } from '../../../dependencies/core';
 import { IsAgent } from '../Knowledges/Agents';
 import { GetPropertyAnnotation } from '../../../dependencies/core';
-import { HasInterceptor } from '../CustomInterceptor';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -337,7 +336,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   }
 
   addAttribute<A4 extends Attribute>(attribute: A4): void {
-    AddAttributeToClass(attribute, this.target, HasInterceptor(attribute));
+    AddAttributeToClass(attribute, this.target);
   }
 
   protected getOwnMetadata(key: string): any | undefined {
