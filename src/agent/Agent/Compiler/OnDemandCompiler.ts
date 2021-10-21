@@ -14,18 +14,18 @@ limitations under the License. */
 
 // utilize code gen
 
-import { ChainFactory } from './ChainFactory';
+import { OnDemandInterceptorFactory } from './OnDemandInterceptorFactory';
 import { MethodInvocation } from './Invocation/MethodInvocation';
 import { PropertyInfo } from '../Reflection/PropertyInfo';
 import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
 // import { AgentFrameworkError } from '../AgentFrameworkError';
-import { InvocationFactory } from './InvocationFactory';
+import { OnDemandInvocationFactory } from './OnDemandInvocationFactory';
 import { alter } from './alter';
 import { PropertyInvocation } from '../TypeInvocations';
 
-export function UpgradeAgentProperties(
-  prototype: Function | object,
+export function UpgradeAgent(
   target: Function | object,
+  agent: Function | object,
   properties: ReadonlyArray<PropertyInfo>,
   receiver?: Function | object
 ) {
@@ -34,23 +34,23 @@ export function UpgradeAgentProperties(
   for (const property of properties) {
     if (receiver) {
       // can skip if property is exists
-      if (Reflect.getOwnPropertyDescriptor(target, property.key)) {
+      if (Reflect.getOwnPropertyDescriptor(agent, property.key)) {
         Reflect.deleteProperty(receiver, property.key);
         continue;
       }
     }
-    const descriptor = Reflect.getOwnPropertyDescriptor(prototype, property.key);
+    const descriptor = Reflect.getOwnPropertyDescriptor(target, property.key);
     let newDescriptor: PropertyDescriptor;
     if (descriptor) {
-      newDescriptor = OnDemandClassCompiler.makeProperty(property, descriptor, receiver || target);
+      newDescriptor = OnDemandCompiler.makeProperty(property, descriptor, receiver || agent);
     } else {
-      newDescriptor = OnDemandClassCompiler.makeField(property, receiver || target);
+      newDescriptor = OnDemandCompiler.makeField(property, receiver || agent);
     }
-    Reflect.defineProperty(target, property.key, newDescriptor);
+    Reflect.defineProperty(agent, property.key, newDescriptor);
   }
 }
 
-class OnDemandClassCompiler {
+class OnDemandCompiler {
   /**
    * Field will only call interceptor for only 1 time
    */
@@ -59,7 +59,7 @@ class OnDemandClassCompiler {
     const fieldInvoker = new GetterSetterInvocation(field);
     return {
       get() {
-        const chain = InvocationFactory.createPropertyInvocation(fieldInvoker, field);
+        const chain = OnDemandInvocationFactory.createPropertyInvocation(fieldInvoker, field);
         const descriptor = {
           get() {
             return chain.invoke([], this);
@@ -79,7 +79,7 @@ class OnDemandClassCompiler {
         // return set(this, key, chain.invoke([undefined], this));
       },
       set(this: any) {
-        const chain = InvocationFactory.createPropertyInvocation(fieldInvoker, field);
+        const chain = OnDemandInvocationFactory.createPropertyInvocation(fieldInvoker, field);
         const descriptor = {
           get() {
             descriptor.get = function () {
@@ -124,14 +124,14 @@ class OnDemandClassCompiler {
         // getter(yes) and setter(yes)
         propertyDescriptor.get = function (this: any) {
           const getter = new MethodInvocation(property, getterFunction);
-          const getterChain = InvocationFactory.createPropertyInvocation(getter, property);
+          const getterChain = OnDemandInvocationFactory.createPropertyInvocation(getter, property);
           const descriptor = {
             get() {
               return getterChain.invoke([], this);
             },
             set(value: any) {
               const setter = new MethodInvocation(property, setterFunction);
-              const setterChain = InvocationFactory.createPropertyInvocation(setter, property);
+              const setterChain = OnDemandInvocationFactory.createPropertyInvocation(setter, property);
               descriptor.set = function () {
                 setterChain.invoke(arguments, this);
               };
@@ -145,11 +145,11 @@ class OnDemandClassCompiler {
         };
         propertyDescriptor.set = function (this: any) {
           const setter = new MethodInvocation(property, setterFunction);
-          const setterChain = InvocationFactory.createPropertyInvocation(setter, property);
+          const setterChain = OnDemandInvocationFactory.createPropertyInvocation(setter, property);
           const descriptor = {
             get() {
               const getter = new MethodInvocation(property, getterFunction);
-              const getterChain = InvocationFactory.createPropertyInvocation(getter, property);
+              const getterChain = OnDemandInvocationFactory.createPropertyInvocation(getter, property);
               descriptor.get = function () {
                 return getterChain.invoke([undefined], this);
               };
@@ -168,7 +168,7 @@ class OnDemandClassCompiler {
         // getter(yes), setter(no)
         propertyDescriptor.get = function (this: any) {
           const getter = new MethodInvocation(property, getterFunction);
-          const getterChain = InvocationFactory.createPropertyInvocation(getter, property);
+          const getterChain = OnDemandInvocationFactory.createPropertyInvocation(getter, property);
           propertyDescriptor.get = function (this: any) {
             return getterChain.invoke([], this);
           };
@@ -180,7 +180,7 @@ class OnDemandClassCompiler {
       // getter(no), setter(yes)
       propertyDescriptor.set = function (this: any) {
         const setter = new MethodInvocation(property, setterFunction);
-        const setterChain = InvocationFactory.createPropertyInvocation(setter, property);
+        const setterChain = OnDemandInvocationFactory.createPropertyInvocation(setter, property);
         propertyDescriptor.set = function (this: any) {
           return setterChain.invoke(arguments, this);
         };
@@ -191,9 +191,9 @@ class OnDemandClassCompiler {
       propertyDescriptor.value = function (this: any) {
         let chain: PropertyInvocation = new MethodInvocation(property, defaultValue);
         if (property.hasParameter()) {
-          chain = ChainFactory.addParameterInterceptor(chain, property);
+          chain = OnDemandInterceptorFactory.addParameterInterceptor(chain, property);
         }
-        chain = InvocationFactory.createPropertyInvocation(chain, property);
+        chain = OnDemandInvocationFactory.createPropertyInvocation(chain, property);
         propertyDescriptor.value = function (this: any) {
           return chain.invoke(arguments, this);
         };
@@ -210,7 +210,7 @@ class OnDemandClassCompiler {
 
       // getter and setter
       propertyDescriptor.get = function (this: any) {
-        const chain = InvocationFactory.createPropertyInvocation(propertyInvoker, property);
+        const chain = OnDemandInvocationFactory.createPropertyInvocation(propertyInvoker, property);
         const descriptor = {
           get() {
             return chain.invoke([], this);
@@ -229,7 +229,7 @@ class OnDemandClassCompiler {
       };
 
       propertyDescriptor.set = function (this: any) {
-        const chain = InvocationFactory.createPropertyInvocation(propertyInvoker, property);
+        const chain = OnDemandInvocationFactory.createPropertyInvocation(propertyInvoker, property);
         const descriptor = {
           get() {
             descriptor.get = function () {

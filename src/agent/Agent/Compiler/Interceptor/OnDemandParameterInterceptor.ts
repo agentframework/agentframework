@@ -16,7 +16,7 @@ import { PropertyInfo } from '../../Reflection/PropertyInfo';
 import { ParameterInvocation, PropertyInvocation } from '../../TypeInvocations';
 import { PropertyInterceptor } from '../../TypeInterceptors';
 import { MethodParameterInvocation } from '../Invocation/MethodParameterInvocation';
-import { ChainFactory } from '../ChainFactory';
+import { OnDemandInterceptorFactory } from '../OnDemandInterceptorFactory';
 import { Once } from '../../Decorators/Once/Once';
 
 /**
@@ -65,7 +65,7 @@ export class OnDemandParameterInterceptor implements PropertyInterceptor {
       const interceptors = parameter.getOwnInterceptors();
       if (interceptors.length) {
         const origin = new MethodParameterInvocation(parameter);
-        invocations.set(idx, ChainFactory.addInterceptors(origin, interceptors));
+        invocations.set(idx, OnDemandInterceptorFactory.addInterceptors(origin, interceptors));
       }
     }
     return Once(this, 'invocations', invocations.size ? invocations : undefined);

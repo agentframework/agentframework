@@ -15,10 +15,10 @@ limitations under the License. */
 import { ClassAttribute } from './TypeAttributes';
 import { TypeInvocation } from './TypeInvocations';
 import { ClassInterceptor } from './TypeInterceptors';
-import { UpgradeAgentProperties } from './Compiler/OnDemandClassCompiler';
+import { UpgradeAgent } from './Compiler/OnDemandCompiler';
 import { FindExtendedClass } from './FindExtendedClass';
 import { AgentFrameworkError } from './AgentFrameworkError';
-import { InvocationFactory } from './Compiler/InvocationFactory';
+import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
 import { ClassInvocations } from './Knowledges/ClassInvocations';
 import { RememberType } from './Knowledges/Types';
 import { Arguments } from './Arguments';
@@ -121,7 +121,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     // console.log('☀️ ☀️ ☀️', target.name, receiver.name);
 
     if (invocation) {
-      if (invocation.design.version + InvocationFactory.class.version !== invocation.version) {
+      if (invocation.design.version + OnDemandInvocationFactory.class.version !== invocation.version) {
         // console.log('test', invocation.design.version, '+', InvocationFactory.class.version, '=', invocation.version);
         // invalidate cache
         invocation = undefined;
@@ -131,7 +131,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     // analysis this object
     if (!invocation) {
       // find interceptors from design attributes and create chain for them
-      invocation = InvocationFactory.createClassInvocation(target);
+      invocation = OnDemandInvocationFactory.createClassInvocation(target);
 
       ClassInvocations.v1.set(this.target, invocation);
 
@@ -145,7 +145,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
         // console.log('found', found);
         // quick check, ignore if keys are been declared
         // ownKeys() >= 1 because constructor is one key always have
-        UpgradeAgentProperties(target.prototype, this.receiver.prototype, properties, found[0] && found[0].prototype);
+        UpgradeAgent(target.prototype, this.receiver.prototype, properties, found[0] && found[0].prototype);
       }
     }
 

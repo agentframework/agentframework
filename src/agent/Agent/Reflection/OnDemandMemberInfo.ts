@@ -12,12 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Annotation } from '../../../dependencies/core';
+import { AddAttributeToProperty, Annotation } from '../../../dependencies/core';
 import { Attribute } from '../Attribute';
 import { MemberInfo } from './MemberInfo';
 import { Filter } from './Filter';
 import { Class } from '../Arguments';
 import { Once } from '../Decorators/Once/Once';
+import { HasInterceptor } from '../CustomInterceptor';
 
 /**
  * Access and store attribute and metadata for reflection
@@ -100,7 +101,6 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
   protected abstract getType(): Function | undefined;
 
   /**
-   * @sealed
    * Get type
    */
   get type(): Function | undefined {
@@ -108,12 +108,19 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
   }
 
   /**
-   * @sealed
-   * get attributes
+   * Return an array of all the attributes
    */
-  get ownAttributes(): ReadonlyArray<object> | undefined {
+  protected get ownAttributes(): ReadonlyArray<object> | undefined {
     const annotation = this.annotation;
     return Once(this, 'ownAttributes', annotation && annotation.attributes);
+  }
+
+  /**
+   * Return an array of all the attributes which provide getter interceptor
+   */
+  protected get ownInterceptors(): ReadonlyArray<object> | undefined {
+    const annotation = this.annotation;
+    return Once(this, 'ownInterceptors', annotation && annotation.interceptors);
   }
 
   /**
@@ -121,7 +128,9 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    *
    * @param {Attribute} attribute
    */
-  abstract addAttribute<A4 extends Attribute>(attribute: A4): void;
+  addAttribute<A4 extends Attribute>(attribute: A4): void {
+    AddAttributeToProperty(attribute, this.target, this.key, undefined, HasInterceptor(attribute));
+  }
 
   /**
    * Return true if this type contains a giving attribute, otherwise false.
@@ -207,16 +216,6 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
       return interceptors;
     }
     return [];
-  }
-
-  /**
-   * Return an array of all the attributes which provide getter interceptor
-   *
-   * @returns {Array<Attribute>}
-   */
-  get ownInterceptors(): ReadonlyArray<object> | undefined {
-    const annotation = this.annotation;
-    return Once(this, 'ownInterceptors', annotation && annotation.interceptors);
   }
 
   /**

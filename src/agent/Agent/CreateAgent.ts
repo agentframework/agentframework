@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { AgentAttribute } from './AgentAttribute';
 import { ClassAttribute } from './TypeAttributes';
-import { InvocationFactory } from './Compiler/InvocationFactory';
+import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
 import { CanDecorate } from './Decorate/CanDecorate';
 import { AgentFrameworkError } from './AgentFrameworkError';
 import { RememberAgent } from './Knowledges/Agents';
@@ -45,7 +45,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: ClassAttribu
   // create an invocation for agent type.
   // this chain used to generate agent of this target
   // empty agent
-  const chain = InvocationFactory.createAgentInvocation(receiver, attribute);
+  const chain = OnDemandInvocationFactory.createAgentInvocation(receiver, attribute);
 
   // create a new type from this invocation, initialize the agent using reflection info
   /* eslint-disable-next-line prefer-rest-params */

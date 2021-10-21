@@ -71,6 +71,11 @@ export class TypeInfos {
  **/
 export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   /**
+   * cached property info
+   */
+  protected readonly properties = new Map<PropertyKey, OnDemandPropertyInfo>();
+
+  /**
    * Get TypeInfo from constructor
    */
   static find(target: object | Function): TypeInfo {
@@ -202,16 +207,12 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Get or create a property for current type
    */
   property(key: string | symbol): OnDemandPropertyInfo {
-    // if (!this.properties) {
-    //   this.properties = new Map<PropertyKey, OnDemandPropertyInfo>();
-    // }
-    // let propertyInfo = this.properties.get(key);
-    // if (!propertyInfo) {
-    //   propertyInfo = new OnDemandPropertyInfo(this.declaringType, key);
-    //   this.properties.set(key, propertyInfo);
-    // }
-    // return propertyInfo;
-    return new OnDemandPropertyInfo(this.target, key);
+    let propertyInfo = this.properties.get(key);
+    if (!propertyInfo) {
+      propertyInfo = new OnDemandPropertyInfo(this.target, key);
+      this.properties.set(key, propertyInfo);
+    }
+    return propertyInfo;
   }
 
   /**

@@ -65,7 +65,7 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
   protected getType(): Function | undefined {
     // get metadata from parent property, typescript store this meta in property level
     const params = this.parent.parameterTypes;
-    if (Array.isArray(params) && params.length) {
+    if (Array.isArray(params)) {
       return params[this.index];
     }
     return;

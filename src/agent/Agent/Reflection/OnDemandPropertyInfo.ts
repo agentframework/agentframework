@@ -18,11 +18,8 @@ import { MemberKinds } from './MemberKinds';
 import { PropertyInfo } from './PropertyInfo';
 import { ParameterInfo } from './ParameterInfo';
 import { MemberInfo } from './MemberInfo';
-import { Attribute } from '../Attribute';
 import { GetOwnPropertyAnnotation, Property } from '../../../dependencies/core';
-import { AddAttributeToProperty } from '../../../dependencies/core';
 import { Once } from '../Decorators/Once/Once';
-import { HasInterceptor } from '../CustomInterceptor';
 
 // import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
 // import { OnDemandPropertyGetterInfo } from './OnDemandPropertyGetterInfo';
@@ -210,7 +207,4 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
     return params;
   }
 
-  addAttribute<A4 extends Attribute>(attribute: A4): void {
-    AddAttributeToProperty(attribute, this.target, this.key, undefined, HasInterceptor(attribute));
-  }
 }

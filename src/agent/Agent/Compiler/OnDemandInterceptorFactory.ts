@@ -23,7 +23,7 @@ import { MemberInfo } from '../Reflection/MemberInfo';
  * @ignore
  * @hidden
  */
-export class ChainFactory {
+export class OnDemandInterceptorFactory {
   static addInterceptors<T extends MemberInfo>(
     target: Invocation<T>,
     attributes: ReadonlyArray<Attribute>
