@@ -47,8 +47,7 @@ export class OnDemandParameterInterceptor implements PropertyInterceptor {
   constructor(readonly parent: PropertyInfo) {}
 
   get interceptor(): PropertyInterceptor | undefined {
-    const invocations = this.invocations;
-    if (invocations && invocations.size) {
+    if (this.invocations) {
       return this;
     }
     return;
@@ -59,23 +58,24 @@ export class OnDemandParameterInterceptor implements PropertyInterceptor {
    */
   get invocations(): ReadonlyMap<number, ParameterInvocation> | undefined {
     const invocations = new Map<number, ParameterInvocation>();
-    const parameters = this.parent.getParameters();
-    for (const parameter of parameters) {
-      const idx = parameter.index;
-      const interceptors = parameter.ownInterceptors;
-      if (interceptors) {
-        const origin = new MethodParameterInvocation(parameter);
-        invocations.set(idx, OnDemandInterceptorFactory.addInterceptors(origin, interceptors));
+    if (this.parent.hasParameter()) {
+      const parameters = this.parent.getParameters();
+      for (const parameter of parameters) {
+        const idx = parameter.index;
+        const interceptors = parameter.ownInterceptors;
+        if (interceptors) {
+          const origin = new MethodParameterInvocation(parameter);
+          invocations.set(idx, OnDemandInterceptorFactory.addInterceptors(origin, interceptors));
+        }
       }
     }
     return Once(this, 'invocations', invocations.size ? invocations : undefined);
   }
 
   intercept(target: PropertyInvocation, params: Array<any>, receiver: any): any {
-    const invocations = this.invocations!;
     // convert params into array to make params modifiable
     const parameters = Array.prototype.slice.call(params, 0);
-    for (const [idx, invocation] of invocations.entries()) {
+    for (const [idx, invocation] of this.invocations!.entries()) {
       parameters[idx] = invocation.invoke(params, receiver);
     }
     return target.invoke(parameters, receiver);

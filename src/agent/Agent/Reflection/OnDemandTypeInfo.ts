@@ -230,10 +230,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   getOwnProperty(key: string | symbol): PropertyInfo | undefined {
     const type = this.typeAnnotation;
-    if (!type) {
-      return;
-    }
-    if (type.properties && type.properties.has(key)) {
+    if (type && type.properties && type.properties.has(key)) {
       return this.property(key);
     }
     return;
@@ -260,12 +257,8 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   getOwnProperties(): ReadonlyArray<PropertyInfo> {
     const found = new Array<PropertyInfo>();
     const type = this.typeAnnotation;
-    if (!type) {
-      return found;
-    }
-    const properties = type.properties;
-    if (properties) {
-      for (const key of properties.keys()) {
+    if (type && type.properties) {
+      for (const key of type.properties.keys()) {
         found.push(this.property(key));
       }
     }
@@ -282,12 +275,8 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   findOwnProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): ReadonlyArray<PropertyInfo> {
     const found = new Array<PropertyInfo>();
     const type = this.typeAnnotation;
-    if (!type) {
-      return found;
-    }
-    const properties = type.properties;
-    if (properties) {
-      for (const key of properties.keys()) {
+    if (type && type.properties) {
+      for (const key of type.properties.keys()) {
         const property = this.property(key);
         if (filter(property, filterCriteria)) {
           found.push(property);
