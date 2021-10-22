@@ -54,9 +54,6 @@ export class OnDemandInvocationFactory {
     invocation: Invocation<T>,
     property: PropertyInfo
   ): Invocation<T> {
-    if (property.version) {
-      return OnDemandInterceptorFactory.addInterceptors(invocation, property.ownInterceptors);
-    }
-    return invocation;
+    return OnDemandInterceptorFactory.addInterceptors(invocation, property.ownInterceptors);
   }
 }
