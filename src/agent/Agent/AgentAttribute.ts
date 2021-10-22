@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { ClassAttribute } from './TypeAttributes';
-import { ClassInvocation } from './TypeInvocations';
+import { TypeInvocation } from './TypeInvocations';
 import { ClassInterceptor } from './TypeInterceptors';
 import { UpgradeAgentProperties } from './Compiler/OnDemandCompiler';
 import { FindExtendedClass } from './FindExtendedClass';
@@ -22,16 +22,12 @@ import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory'
 import { ClassConstructors, ClassConstructorState } from './Knowledges/ClassConstructors';
 import { RememberType } from './Knowledges/Types';
 import { Arguments } from './Arguments';
-import { CONSTRUCTOR } from './WellKnown';
-import { PropertyInfo } from './Reflection/PropertyInfo';
 import { ClassMembers } from './Knowledges/ClassMembers';
 
 /**
  * This attribute is for upgrade class to agent
  */
 export class AgentAttribute implements ClassAttribute, ClassInterceptor {
-  constructor(readonly type?: Function) {}
-
   get interceptor(): ClassInterceptor {
     return this;
   }
@@ -39,49 +35,11 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
   /**
    * Create type hook (called after javascript loaded)
    */
-  intercept(target: ClassInvocation, params: any, receiver: Function): Function {
+  intercept(target: TypeInvocation, params: any, receiver: Function): Function {
     const [, type, state] = params;
-
-    let newReceiver = (state.target = Reflect.construct(type, [receiver, state]));
+    const newReceiver = (state.target = Reflect.construct(type, [receiver, state]));
     RememberType(newReceiver, receiver);
-
-    newReceiver = state.receiver = target.invoke<Function>(params, newReceiver);
-
-    // console.log('newReceiver 1', newReceiver)
-    // newReceiver = Reflect.construct(compiler, [newReceiver, state]);
-    // RememberType(newReceiver, target.design.declaringType);
-    // console.log('newReceiver 2', newReceiver)
-
-    // console.log('newReceiver 1', state.target);
-    // console.log('newReceiver 2', state.receiver);
-
-    // for static decorators
-    // const agentMeta = Wisdom.get(receiver);
-    // console.log('agentMeta', agentMeta);
-    // const hasAgentAttributes = agentMeta && Reflect.ownKeys(agentMeta).some((key) => key !== 'constructor');
-    // if (hasAgentAttributes) {
-    //   const design = target.design;
-    //   const declaringType = design.declaringType;
-    //
-    //   const interceptors = design.findOwnProperties((p) => p.hasInterceptor());
-    //   const properties = new Map<PropertyKey, PropertyInfo>();
-    //
-    //   // note: not all attribute has interceptor
-    //   if (interceptors.length) {
-    //     for (const property of interceptors) {
-    //       properties.set(property.key, property);
-    //     }
-    //   }
-    //
-    //   if (properties.size) {
-    //     // 2. find the proxy class
-    //     const found = FindExtendedClass(declaringType, newReceiver);
-    //     const agent = found[0];
-    //     OnDemandClassCompiler.emit(agent, properties, found[1]);
-    //   }
-    // }
-
-    return newReceiver;
+    return (state.receiver = target.invoke<Function>(params, newReceiver));
   }
 
   /**
@@ -118,59 +76,50 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     // this.target !== target
     // this.target.prototype === target.prototype
     // GetType(this.target) === target
-    const key = this.target;
+    const cacheKey = this.target;
+
+    let invocation: TypeInvocation | undefined;
 
     // check if can reuse constructor invocation
-    let invocation: ClassInvocation | undefined;
-    const ctor: ClassConstructorState | undefined = ClassConstructors.v1.get(key);
-    if (ctor) {
-      const foundInvocation = ctor.invocation;
-      if (ctor.version === foundInvocation.design.property(CONSTRUCTOR).version) {
-        invocation = foundInvocation;
-      }
-    }
-
-    // create new constructor invocation
-    if (!invocation) {
-      // find interceptors from design attributes and create chain for them
-      invocation = OnDemandInvocationFactory.createConstructorInvocation(target);
-      ClassConstructors.v1.set(key, { invocation, version: invocation.design.property(CONSTRUCTOR).version });
-    }
-
-    let properties: ReadonlyArray<PropertyInfo> | undefined;
-    const prop = ClassMembers.v1.get(key);
-    let members: Map<string | symbol, number> | undefined;
-    if (prop) {
-      if (prop.version !== invocation.design.version) {
-        properties = invocation.design.findOwnProperties((p) => p.hasInterceptor());
-        const exists = (members = prop.members);
-        if (exists.size) {
-          // filter changed properties
-          properties = properties.filter((property) => !(exists.get(property.key) === property.version));
-        }
-      }
+    let ctor: ClassConstructorState | undefined = ClassConstructors.v1.get(cacheKey);
+    if (ctor && ctor.version === ctor.design.version) {
+      // can reuse
+      invocation = ctor.invocation;
     } else {
-      properties = invocation.design.findOwnProperties((p) => p.hasInterceptor());
+      // create new constructor invocation
+      // find interceptors from design attributes and create chain for them
+      ctor = OnDemandInvocationFactory.createConstructorInvocation(target);
+      ClassConstructors.v1.set(cacheKey, ctor);
+      invocation = ctor.invocation;
     }
 
-    // check if need upgrade properties
-    if (properties) {
+    const state = ClassMembers.v1.get(cacheKey);
+    const annotation = invocation.design.typeAnnotation;
+    const version = annotation ? annotation.version : 0;
+
+    if (!state || state.version !== version) {
+      const members = (state && state.members) || new Map<string | symbol, number>();
+      // check if got any property with interceptors
+      const properties = members.size
+        ? invocation.design.findOwnProperties((p) => p.intercepted && members.get(p.key) !== p.version)
+        : invocation.design.ownInterceptedProperties;
+
       if (properties.length) {
         // don't generate property interceptor if no extended class
         const found = FindExtendedClass(this.receiver, receiver);
-        // console.log('target', this.receiver, receiver.toString());
-        // console.log('found', found);
-        // quick check, ignore if keys are been declared
-        // ownKeys() >= 1 because constructor is one key always have
-        UpgradeAgentProperties(target.prototype, this.receiver.prototype, properties, found[0] && found[0].prototype);
-        members = properties.reduce((map, property) => {
-          map.set(property.key, property.version);
-          return map;
-        }, members || new Map());
+
+        UpgradeAgentProperties(
+          members,
+          target.prototype,
+          this.receiver.prototype,
+          properties,
+          found[0] && found[0].prototype
+        );
       }
-      ClassMembers.v1.set(key, { version: invocation.design.version, members: members || new Map() });
+      ClassMembers.v1.set(cacheKey, { version, members });
     }
 
+    // generate new class instance
     const agent = invocation.invoke(params, receiver);
 
     // raise error if possible

@@ -17,9 +17,7 @@ import { TypeInfo } from './Reflection/TypeInfo';
 import { PropertyInfo } from './Reflection/PropertyInfo';
 import { ParameterInfo } from './Reflection/ParameterInfo';
 
-export interface AgentInvocation extends Invocation<TypeInfo> {}
-
-export interface ClassInvocation extends Invocation<TypeInfo> {}
+export interface TypeInvocation extends Invocation<TypeInfo> {}
 
 export interface PropertyInvocation extends Invocation<PropertyInfo> {}
 

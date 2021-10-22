@@ -14,8 +14,14 @@ limitations under the License. */
 
 import { PropertyInfo } from './PropertyInfo';
 import { Filter } from './Filter';
+import { Type } from '../../../dependencies/core';
 
 export interface TypeInfo extends PropertyInfo {
+  /**
+   * get type annotation
+   */
+  readonly typeAnnotation: Type | undefined;
+
   /**
    * Access static annotation info
    */
@@ -42,27 +48,32 @@ export interface TypeInfo extends PropertyInfo {
   hasOwnProperties(): boolean;
 
   /**
-   * Find all own properties
+   * Find all annotated properties
    */
   getOwnProperties(): ReadonlyArray<PropertyInfo>;
 
   /**
-   * Find own property by key
+   * Find own annotated property by key
    */
   getOwnProperty(key: PropertyKey): PropertyInfo | undefined;
 
   /**
-   * Find property in own properties or prototype properties by key, results: current -> base -> root -> Object
+   * Find annotated property in own properties or prototype properties by key, results: current -> base -> root -> Object
    */
   getProperty(key: PropertyKey): PropertyInfo | undefined;
 
   /**
-   * Find properties
+   * Find annotated properties
    */
   findOwnProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): ReadonlyArray<PropertyInfo>;
 
   /**
-   * Find properties from own properties or prototype properties, results: current -> middle -> root -> Object
+   * Find intercepted properties
+   */
+  readonly ownInterceptedProperties: ReadonlyArray<PropertyInfo>;
+
+  /**
+   * Find annotated properties from own properties or prototype properties, results: current -> middle -> root -> Object
    */
   findProperties(
     filter: Filter<PropertyInfo>,

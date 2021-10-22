@@ -1,6 +1,6 @@
 import { agent } from '../../../src/dependencies/agent';
 import { decorateMember } from '../../../src/dependencies/agent';
-import { ClassInvocation, ParameterInvocation } from '../../../src/dependencies/agent';
+import { TypeInvocation, ParameterInvocation } from '../../../src/dependencies/agent';
 import { Arguments } from '../../../src/dependencies/agent';
 import { decorateParameter } from '../../../src/dependencies/agent';
 
@@ -11,7 +11,7 @@ describe('4.5. method parameter interceptor', () => {
       class Class412 {
         @decorateMember({
           interceptor: {
-            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
+            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
               return target.invoke(params, receiver);
             },
           },

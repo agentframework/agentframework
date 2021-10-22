@@ -12,11 +12,27 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+import { Annotation } from '../../../dependencies/core';
 import { Class } from '../Arguments';
 import { Design } from '../Design';
 import { Filter } from './Filter';
 
 export interface MemberInfo extends Design {
+  /**
+   * get annotation
+   */
+  readonly annotation: Annotation | undefined;
+
+  /**
+   * Return an array of all the attributes
+   */
+  readonly ownAttributes: ReadonlyArray<object> | undefined;
+
+  /**
+   * Returns all decorated attributes with interceptor
+   */
+  readonly ownInterceptors: ReadonlyArray<object> | undefined;
+
   /**
    * Add attribute to current design, and create annotation if not exists
    */
@@ -47,8 +63,8 @@ export interface MemberInfo extends Design {
    */
   hasOwnInterceptor(): boolean;
 
-  /**
-   * Returns all decorated attributes with interceptor
-   */
-  getOwnInterceptors(): ReadonlyArray<object>;
+  // /**
+  //  * Returns all decorated attributes with interceptor
+  //  */
+  // getOwnInterceptors(): ReadonlyArray<object>;
 }

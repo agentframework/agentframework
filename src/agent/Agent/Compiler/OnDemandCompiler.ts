@@ -25,45 +25,32 @@ import { PropertyInvocation } from '../TypeInvocations';
 import { OnDemandParameterInterceptor } from './Interceptor/OnDemandParameterInterceptor';
 
 export function UpgradeAgentProperties(
-  origin: Function | object,
-  target: Function | object,
+  members: Map<string|symbol, number>,
+  prototype: Function | object,
+  receiver: Function | object,
   properties: ReadonlyArray<PropertyInfo>,
-  receiver?: Function | object
+  cache?: Function | object
 ) {
   // only proxy property contains interceptor
   // property without interceptor is metadata only attribute
   for (const property of properties) {
-    if (receiver) {
+    members.set(property.key, property.version);
+    if (cache) {
       // can skip if property is exists
-      if (Reflect.getOwnPropertyDescriptor(target, property.key)) {
-        Reflect.deleteProperty(receiver, property.key);
+      if (Reflect.getOwnPropertyDescriptor(receiver, property.key)) {
+        Reflect.deleteProperty(cache, property.key);
         continue;
       }
     }
 
-    const descriptor = Reflect.getOwnPropertyDescriptor(origin, property.key);
-    // const descriptor5 = property.descriptor;
-    // if (origin.constructor.name === 'Class4101') {
-    //   console.log('Reflect.getOwnPropertyDescriptor', descriptor?.get?.toString());
-    //   console.log('property.descriptor', descriptor5?.get?.toString());
-    // }
-
-    // if (descriptor2 !== descriptor) {
-    //   console.log('not same', origin, property.key, property.descriptor === descriptor);
-
-    // if (property.descriptor !== descriptor) {
-    //   console.log('A', descriptor?.value?.toString());
-    //   console.log('B', property.descriptor?.value?.toString());
-    // }
-    // }
-
+    const descriptor = Reflect.getOwnPropertyDescriptor(prototype, property.key);
     let newDescriptor: PropertyDescriptor;
     if (descriptor) {
-      newDescriptor = OnDemandCompiler.makeProperty(property, descriptor, receiver || target);
+      newDescriptor = OnDemandCompiler.makeProperty(property, descriptor, cache || receiver);
     } else {
-      newDescriptor = OnDemandCompiler.makeField(property, receiver || target);
+      newDescriptor = OnDemandCompiler.makeField(property, cache || receiver);
     }
-    Reflect.defineProperty(target, property.key, newDescriptor);
+    Reflect.defineProperty(receiver, property.key, newDescriptor);
   }
 }
 

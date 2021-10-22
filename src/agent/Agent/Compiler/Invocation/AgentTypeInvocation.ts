@@ -12,18 +12,26 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Arguments } from '../../Arguments';
-import { ClassInvocation } from '../../TypeInvocations';
 import { TypeInfo } from '../../Reflection/TypeInfo';
+import { TypeInvocation } from '../../TypeInvocations';
+import { RememberType } from '../../Knowledges/Types';
+import { alter } from '../alter';
 
 /**
+ * Upgrade class to agent
+ *
  * @ignore
  * @hidden
  */
-export class ConstructorInvocation implements ClassInvocation {
+export class AgentTypeInvocation implements TypeInvocation {
   constructor(readonly target: Function, readonly design: TypeInfo) {}
 
-  invoke(params: Arguments, receiver: Function): any {
-    return Reflect.construct(this.target, params, receiver);
+  invoke([id]: any, receiver: any): any {
+    // dont do any change if no changes to the target
+    // that means no initializers defined
+    const value = `${id}$`;
+    const newReceiver = alter(class extends receiver {}, 'name', { value });
+    RememberType(newReceiver, this.target);
+    return newReceiver;
   }
 }

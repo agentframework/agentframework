@@ -12,18 +12,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { CONSTRUCTOR } from './WellKnown';
 import { Knowledge } from './Knowledge';
 import { GetProperty } from './Helpers/GetProperty';
 import { AddMetadata } from './Helpers/AddMetadata';
+import { CONSTRUCTOR } from './WellKnown';
+import { Annotation } from './Annotation/Annotation';
 
 /*@__PURE__*/
 export function __metadata(key: string, value: any): Function {
   return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
-    if (targetKey == null) {
-      target = (<Function>target).prototype;
-      targetKey = CONSTRUCTOR;
+    let annotation: Annotation;
+    if (targetKey) {
+      annotation = GetProperty(Knowledge.add(target), targetKey, descriptor);
+    } else {
+      annotation = GetProperty(Knowledge.add((target as Function).prototype), CONSTRUCTOR, descriptor);
     }
-    AddMetadata(GetProperty(Knowledge.add(target), targetKey, descriptor), key, value);
+    AddMetadata(annotation, key, value);
   };
 }

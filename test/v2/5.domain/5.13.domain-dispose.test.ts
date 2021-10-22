@@ -1,5 +1,5 @@
 import { InMemoryDomain } from '../../../src/dependencies/domain';
-import { Arguments, ClassInvocation, initializable, Initializer } from '../../../src/dependencies/agent';
+import { Arguments, TypeInvocation, initializable, Initializer } from '../../../src/dependencies/agent';
 
 describe('5.13. Domain dispose', () => {
   describe('# should able to', () => {
@@ -29,7 +29,7 @@ describe('5.13. Domain dispose', () => {
     it('dispose domain with slow agent', () => {
       @initializable()
       class Agent513D {
-        static [Initializer](target: ClassInvocation, params: Arguments, receiver: Function) {
+        static [Initializer](target: TypeInvocation, params: Arguments, receiver: Function) {
           return new Promise((resolve) => {
             setTimeout(() => {
               resolve(target.invoke(params, receiver));
@@ -45,7 +45,7 @@ describe('5.13. Domain dispose', () => {
     it('dispose domain with disposable slow agent', (done) => {
       @initializable()
       class Agent513E {
-        static [Initializer](target: ClassInvocation, params: Arguments, receiver: Function) {
+        static [Initializer](target: TypeInvocation, params: Arguments, receiver: Function) {
           return new Promise((resolve) => {
             setTimeout(() => {
               resolve(target.invoke(params, receiver));

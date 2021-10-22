@@ -26,6 +26,7 @@ import { Once } from '../Decorators/Once/Once';
 import { Property } from '../../../dependencies/core';
 import { IsAgent } from '../Knowledges/Agents';
 import { GetPropertyAnnotation } from '../../../dependencies/core';
+import { Cache } from '../Decorators/Cache/Cache';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -87,23 +88,6 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo<Type> implements Type
     TypeInfos.v1.set(target, newInfo);
     return newInfo;
   }
-
-  /**
-   * properties cache
-   */
-  // protected properties: Map<PropertyKey, OnDemandPropertyInfo> | undefined;
-
-  // /**
-  //  * Get type version
-  //  */
-  // get version(): number {
-  //   let version = super.version; // constructor version
-  //   for (const property of this.getOwnProperties()) {
-  //     // all property version
-  //     version += property.version;
-  //   }
-  //   return version;
-  // }
 
   get static(): TypeInfo {
     return OnDemandTypeInfo.find(this.declaringType);
@@ -167,14 +151,6 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo<Type> implements Type
    */
   get typeAnnotation(): Type | undefined {
     return Once(this, 'typeAnnotation', this.getTypeAnnotation());
-  }
-
-  /**
-   * Get type version
-   */
-  get version(): number {
-    const annotation = this.typeAnnotation;
-    return annotation ? annotation.version : 0;
   }
 
   /**
@@ -263,6 +239,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo<Type> implements Type
     }
     for (const key of <Array<string | symbol>>Reflect.ownKeys(type.prototype)) {
       if (key === CONSTRUCTOR) {
+        // console.log('found', key)
         continue;
       }
       properties.push(this.property(key));
@@ -315,6 +292,19 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo<Type> implements Type
       }
     }
     return properties;
+  }
+
+  /**
+   * return intercepted properties
+   */
+  get ownInterceptedProperties(): ReadonlyArray<PropertyInfo> {
+    const type = this.typeAnnotation;
+    if (!type || !type.version) {
+      return [];
+    }
+    return Cache(this, 'ownInterceptedProperties', () => {
+      return this.findOwnProperties((p) => p.intercepted);
+    });
   }
 
   /**

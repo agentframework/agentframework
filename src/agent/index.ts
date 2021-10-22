@@ -27,7 +27,7 @@ export { Invocation } from './Agent/Invocation';
 export { Interceptor } from './Agent/Interceptor';
 export { Attribute } from './Agent/Attribute';
 
-export { ClassInvocation } from './Agent/TypeInvocations';
+export { TypeInvocation } from './Agent/TypeInvocations';
 export { ClassInterceptor } from './Agent/TypeInterceptors';
 export { ClassAttribute } from './Agent/TypeAttributes';
 

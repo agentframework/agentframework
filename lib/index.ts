@@ -36,7 +36,7 @@ export { PropertyInfo } from '../src/agent';
 export { TypeInfo } from '../src/agent';
 export { ParameterInfo } from '../src/agent';
 
-export { ClassInvocation } from '../src/agent';
+export { TypeInvocation } from '../src/agent';
 export { ClassInterceptor } from '../src/agent';
 export { ClassAttribute } from '../src/agent';
 

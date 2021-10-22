@@ -24,11 +24,13 @@ import { MemberInfo } from '../Reflection/MemberInfo';
 export class OnDemandInterceptorFactory {
   static addInterceptors<T extends MemberInfo>(
     target: Invocation<T>,
-    attributes: ReadonlyArray<Attribute>
+    attributes: ReadonlyArray<Attribute> | undefined
   ): Invocation<T> {
     // make invocation chain of interceptors
-    for (const attribute of attributes) {
-      target = new OnDemandInterceptorInvocation(target, attribute);
+    if (attributes) {
+      for (const attribute of attributes) {
+        target = new OnDemandInterceptorInvocation(target, attribute);
+      }
     }
     return target;
   }

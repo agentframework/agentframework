@@ -20,6 +20,7 @@ import { ParameterInfo } from './ParameterInfo';
 import { MemberInfo } from './MemberInfo';
 import { GetOwnPropertyAnnotation, Property } from '../../../dependencies/core';
 import { Once } from '../Decorators/Once/Once';
+import { Cache } from '../Decorators/Cache/Cache';
 import { DESIGN_PARAMTYPES, DESIGN_RETURNTYPE, DESIGN_TYPE } from '../WellKnown';
 
 // import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
@@ -99,37 +100,29 @@ export class OnDemandPropertyInfo<A extends Property = Property>
   //   return getter(this, 'getter', new OnDemandPropertyGetterInfo(this.declaringType, this.key));
   // }
 
-  /**
-   * Return true if interceptor annotated on this or parameter
-   */
   hasInterceptor(): boolean {
     const annotation = this.annotation;
     if (!annotation) {
       return false;
     }
     // check property
-    if (this.getOwnInterceptors().length) {
+    if (this.ownInterceptors) {
       return true;
     }
     // check parameter by using OnDemandParameterInfo
-    const parameters = this.getParameters();
-    for (const parameter of parameters) {
-      if (parameter.getOwnInterceptors().length) {
-        return true;
+    const parameters = annotation.parameters;
+    if (parameters && parameters.size) {
+      for (const index of parameters.keys()) {
+        if (this.parameter(index).ownInterceptors) {
+          return true;
+        }
       }
     }
-
-    // check method, getter, setter
-    // if (annotation.value && this.value.hasOwnInterceptor()) {
-    //   return true;
-    // }
-    // if (annotation.getter && this.getter.hasOwnInterceptor()) {
-    //   return true;
-    // }
-    // if (annotation.setter && this.setter.hasOwnInterceptor()) {
-    //   return true;
-    // }
     return false;
+  }
+
+  get intercepted(): boolean {
+    return Cache(this, 'intercepted', () => this.hasInterceptor());
   }
 
   /**

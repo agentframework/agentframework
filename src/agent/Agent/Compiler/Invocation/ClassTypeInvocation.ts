@@ -12,11 +12,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { TypeInvocation } from '../../TypeInvocations';
 import { Arguments } from '../../Arguments';
+import { TypeInvocation } from '../../TypeInvocations';
+import { TypeInfo } from '../../Reflection/TypeInfo';
 
-export type InitializerHandler = () => void;
+/**
+ * @ignore
+ * @hidden
+ */
+export class ClassTypeInvocation implements TypeInvocation {
+  constructor(readonly target: Function, readonly design: TypeInfo) {}
 
-export type StaticInitializerHandler = (target: TypeInvocation, params: Arguments, receiver: Function) => object;
-
-export const Initializer: unique symbol = Symbol.for('AgentFramework.Initializer');
+  invoke(params: Arguments, receiver: Function): any {
+    return Reflect.construct(this.target, params, receiver);
+  }
+}

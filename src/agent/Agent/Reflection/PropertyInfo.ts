@@ -12,10 +12,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+import { Property } from '../../../dependencies/core';
 import { MemberInfo } from './MemberInfo';
 import { ParameterInfo } from './ParameterInfo';
 
 export interface PropertyInfo extends MemberInfo {
+  /**
+   * get annotation
+   */
+  readonly annotation: Property | undefined;
+
   /**
    * Get origin property descriptor
    */
@@ -25,6 +31,13 @@ export interface PropertyInfo extends MemberInfo {
    * Get parameter types
    */
   readonly parameterTypes: ReadonlyArray<any> | undefined;
+
+  /**
+   * Return true if contains any interceptor
+   *
+   * Note: this flags is very important to improve the performance, only proxy the intercepted properties
+   */
+  readonly intercepted: boolean;
 
   /**
    * Returns parameter by key (create if not exist)

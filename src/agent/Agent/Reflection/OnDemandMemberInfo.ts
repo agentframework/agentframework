@@ -111,21 +111,28 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
   /**
    * Return an array of all the attributes
    */
-  protected get ownAttributes(): ReadonlyArray<object> | undefined {
+  get ownAttributes(): ReadonlyArray<object> | undefined {
     const annotation = this.annotation;
-    return Once(this, 'ownAttributes', annotation && annotation.attributes);
+    if (!annotation) {
+      return;
+    }
+    return Cache(this, 'ownAttributes', () => annotation.attributes);
   }
 
   /**
    * Return an array of all the attributes which provide getter interceptor
    */
-  protected get ownInterceptors(): ReadonlyArray<object> | undefined {
+  get ownInterceptors(): ReadonlyArray<object> | undefined {
     const annotation = this.annotation;
-    if (!annotation) {
+    if (!annotation || !annotation.attributes.length) {
       return;
     }
     return Cache(this, 'ownInterceptors', () => {
-      return annotation.attributes.filter(HasInterceptor);
+      const interceptors = annotation.attributes.filter(HasInterceptor);
+      if (interceptors.length) {
+        return interceptors;
+      }
+      return;
     });
   }
 
@@ -162,8 +169,11 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
   getOwnAttribute<A2 extends Attribute>(type: Class<A2>): A2 | undefined {
     const attributes = this.ownAttributes;
     if (attributes) {
-      const results = attributes.filter((a) => a instanceof type);
-      return <A2>results[0];
+      for (const attribute of attributes) {
+        if (attribute instanceof type) {
+          return attribute;
+        }
+      }
     }
     return;
   }
@@ -205,24 +215,21 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    */
   hasOwnInterceptor(): boolean {
     const interceptors = this.ownInterceptors;
-    if (interceptors) {
-      return interceptors.length > 0;
-    }
-    return false;
+    return interceptors !== undefined && interceptors.length > 0;
   }
 
-  /**
-   * Return an array of all the attributes which provide getter interceptor
-   *
-   * @returns {Array<Attribute>}
-   */
-  getOwnInterceptors(): ReadonlyArray<object> {
-    const interceptors = this.ownInterceptors;
-    if (interceptors) {
-      return interceptors;
-    }
-    return [];
-  }
+  // /**
+  //  * Return an array of all the attributes which provide getter interceptor
+  //  *
+  //  * @returns {Array<Attribute>}
+  //  */
+  // getOwnInterceptors(): ReadonlyArray<object> {
+  //   const interceptors = this.ownInterceptors;
+  //   if (interceptors) {
+  //     return interceptors;
+  //   }
+  //   return [];
+  // }
 
   protected hasOwnMetadata(key: string): boolean {
     const annotation = this.annotation;
@@ -248,6 +255,10 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
     if (Reflect['getOwnMetadata']) {
       return Reflect['getOwnMetadata'](key, this.declaringType.prototype, this.key);
     }
+
+    // debugger;
+    // console.log();
+    // console.log('looking for meta', key, ' on', this.target, '.', this.key);
     return;
   }
 }

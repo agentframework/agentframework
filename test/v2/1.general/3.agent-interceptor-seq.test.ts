@@ -220,7 +220,7 @@ describe('1.3. Agent interceptor invoke sequence', () => {
 
       expect(seq).toEqual([]);
 
-      // NOTE: this not working since AgentInvocation is been cached by CreateAgent()
+      // NOTE: this is working since AgentInvocation is not been cached by CreateAgent()
       Reflector(Top13).static.addAttribute({
         id: 13,
         interceptor: {
@@ -252,7 +252,7 @@ describe('1.3. Agent interceptor invoke sequence', () => {
       Reflector(Top13).static.addAttribute({
         id: 14,
         interceptor: {
-          intercept(target: Invocation<Design>, params: Arguments, receiver: unknown): unknown {
+          intercept(target: Invocation, params: Arguments, receiver: unknown): unknown {
             seq.push('beforeTop13-Reflector-2');
             const ret = target.invoke(params, receiver);
             seq.push('afterTop13-Reflector-2');
@@ -264,6 +264,7 @@ describe('1.3. Agent interceptor invoke sequence', () => {
       // console.log('seq 9', seq);
       expect(seq).toEqual([]);
 
+      // debugger;
       const Top2 = CreateAgent(Top13);
 
       expect(IsAgent(Top2)).toBeTrue();

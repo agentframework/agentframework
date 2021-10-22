@@ -1,10 +1,12 @@
 import { Remember } from '../Decorators/Remember/Remember';
-import { ClassInvocation } from '../TypeInvocations';
+import { PropertyInfo } from '../Reflection/PropertyInfo';
+import { TypeInvocation } from '../TypeInvocations';
 
 export interface ClassConstructorState {
   version: number;
+  design: PropertyInfo;
   // constructor
-  invocation: ClassInvocation;
+  invocation: TypeInvocation;
 }
 
 /**
@@ -15,4 +17,3 @@ export class ClassConstructors {
     return Remember('ClassConstructors', this, 'v1', () => new WeakMap<Function, ClassConstructorState>());
   }
 }
-
