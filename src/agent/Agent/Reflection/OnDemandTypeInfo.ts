@@ -298,10 +298,6 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo<Type> implements Type
    * return intercepted properties
    */
   get ownInterceptedProperties(): ReadonlyArray<PropertyInfo> {
-    const type = this.typeAnnotation;
-    if (!type || !type.version) {
-      return [];
-    }
     return Cache(this, 'ownInterceptedProperties', () => {
       return this.findOwnProperties((p) => p.intercepted);
     });

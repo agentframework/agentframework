@@ -93,30 +93,31 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
       invocation = ctor.invocation;
     }
 
-    const state = ClassMembers.v1.get(cacheKey);
     const annotation = invocation.design.typeAnnotation;
-    const version = annotation ? annotation.version : 0;
+    if (annotation && annotation.version) {
+      const version = annotation.version;
+      const state = ClassMembers.v1.get(cacheKey);
+      if (!state || state.version !== version) {
+        const members = (state && state.members) || new Map<string | symbol, number>();
+        // check if got any property with interceptors
+        const properties = members.size
+          ? invocation.design.findOwnProperties((p) => p.intercepted && members.get(p.key) !== p.version)
+          : invocation.design.ownInterceptedProperties;
 
-    if (!state || state.version !== version) {
-      const members = (state && state.members) || new Map<string | symbol, number>();
-      // check if got any property with interceptors
-      const properties = members.size
-        ? invocation.design.findOwnProperties((p) => p.intercepted && members.get(p.key) !== p.version)
-        : invocation.design.ownInterceptedProperties;
+        if (properties.length) {
+          // don't generate property interceptor if no extended class
+          const found = FindExtendedClass(this.receiver, receiver);
 
-      if (properties.length) {
-        // don't generate property interceptor if no extended class
-        const found = FindExtendedClass(this.receiver, receiver);
-
-        UpgradeAgentProperties(
-          members,
-          target.prototype,
-          this.receiver.prototype,
-          properties,
-          found[0] && found[0].prototype
-        );
+          UpgradeAgentProperties(
+            members,
+            target.prototype,
+            this.receiver.prototype,
+            properties,
+            found[0] && found[0].prototype
+          );
+        }
+        ClassMembers.v1.set(cacheKey, { version, members });
       }
-      ClassMembers.v1.set(cacheKey, { version, members });
     }
 
     // generate new class instance

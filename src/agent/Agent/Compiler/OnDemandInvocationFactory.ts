@@ -23,7 +23,9 @@ export class OnDemandInvocationFactory {
     const ctor = design.property(CONSTRUCTOR);
     let chain: Invocation<TypeInfo> = new AgentTypeInvocation(target, design);
     chain = OnDemandInterceptorFactory.addInterceptor(chain, attribute);
-    chain = OnDemandInterceptorFactory.addInterceptors(chain, ctor.ownInterceptors);
+    if (ctor.version) {
+      chain = OnDemandInterceptorFactory.addInterceptors(chain, ctor.ownInterceptors);
+    }
     return chain;
   }
 
@@ -36,10 +38,12 @@ export class OnDemandInvocationFactory {
     const design = OnDemandTypeInfo.find(target.prototype);
     const ctor = design.property(CONSTRUCTOR);
     let chain: Invocation<TypeInfo> = new ClassTypeInvocation(target, design);
-    if (ctor.hasParameter()) {
-      chain = OnDemandInterceptorFactory.addInterceptor(chain, new OnDemandParameterInterceptor(ctor));
+    if (ctor.version) {
+      if (ctor.hasParameter()) {
+        chain = OnDemandInterceptorFactory.addInterceptor(chain, new OnDemandParameterInterceptor(ctor));
+      }
+      chain = OnDemandInterceptorFactory.addInterceptors(chain, ctor.ownInterceptors);
     }
-    chain = OnDemandInterceptorFactory.addInterceptors(chain, ctor.ownInterceptors);
     return { invocation: chain, version: ctor.version, design: ctor };
   }
 
@@ -50,8 +54,9 @@ export class OnDemandInvocationFactory {
     invocation: Invocation<T>,
     property: PropertyInfo
   ): Invocation<T> {
-    let chain = invocation;
-    chain = OnDemandInterceptorFactory.addInterceptors(chain, property.ownInterceptors);
-    return chain;
+    if (property.version) {
+      return OnDemandInterceptorFactory.addInterceptors(invocation, property.ownInterceptors);
+    }
+    return invocation;
   }
 }
