@@ -15,5 +15,6 @@ limitations under the License. */
 import { MemberInfo } from './MemberInfo';
 
 export interface ParameterInfo extends MemberInfo {
+  readonly key: string | symbol;
   readonly index: number;
 }

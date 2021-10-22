@@ -74,6 +74,10 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   protected readonly properties = new Map<PropertyKey, OnDemandPropertyInfo>();
 
+  protected constructor(target: object | Function) {
+    super(target, CONSTRUCTOR);
+  }
+
   /**
    * Get TypeInfo from constructor
    */
@@ -83,7 +87,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
       return info;
     }
     // make type as a property called "constructor"
-    const newInfo = new OnDemandTypeInfo(target, CONSTRUCTOR);
+    const newInfo = new OnDemandTypeInfo(target);
     TypeInfos.v1.set(target, newInfo);
     return newInfo;
   }
@@ -343,16 +347,4 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   addAttribute<A4 extends Attribute>(attribute: A4): void {
     AddAttributeToConstructor(attribute, this.target);
   }
-
-  // protected getOwnMetadata(key: string): any | undefined {
-  //   const annotation = this.annotation;
-  //   if (annotation && annotation.has(key)) {
-  //     return annotation.get(key);
-  //   }
-  //   /* istanbul ignore next */
-  //   if (Reflect['getOwnMetadata']) {
-  //     return Reflect['getOwnMetadata'](key, this.declaringType);
-  //   }
-  //   return;
-  // }
 }

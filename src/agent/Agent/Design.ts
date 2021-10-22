@@ -34,11 +34,6 @@ export interface Design {
   readonly declaringType: Function;
 
   /**
-   * Property key
-   */
-  readonly key: string | symbol;
-
-  /**
    * Property type for this annotation, void = undefined, any = typeof Object
    */
   readonly type: Function | undefined;

@@ -17,6 +17,12 @@ import { MemberInfo } from './MemberInfo';
 import { ParameterInfo } from './ParameterInfo';
 
 export interface PropertyInfo extends MemberInfo {
+
+  /**
+   * Property key
+   */
+  readonly key: string | symbol;
+
   /**
    * get annotation
    */

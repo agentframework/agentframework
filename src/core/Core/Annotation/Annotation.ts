@@ -15,14 +15,19 @@ limitations under the License. */
 /**
  * metadata for a member. key: string, value: any
  */
-export abstract class Annotation extends Map<string, any> {
+export abstract class Annotation {
   /**
-   * version of this annotation
+   * version
    */
-  version: number = 0;
+  v: number = 0;
 
   /**
-   * attributes for this code, sequence is matter
+   * attributes, sequence is matter
    */
-  attributes: Array<any> = [];
+  a?: Array<any>;
+
+  /**
+   * metadata
+   */
+  m?: Map<string, any>;
 }

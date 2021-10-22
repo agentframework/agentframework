@@ -95,7 +95,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
 
     const design = invocation.design;
     const type = design.typeAnnotation;
-    const version = type && type.version;
+    const version = type && type.v;
     if (version) {
       const state = ClassMembers.v1.get(cacheKey);
       if (!state || state.version !== version) {

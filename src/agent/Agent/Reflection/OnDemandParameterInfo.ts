@@ -30,11 +30,11 @@ import { CONSTRUCTOR } from '../WellKnown';
 export class OnDemandParameterInfo extends OnDemandMemberInfo implements ParameterInfo {
   constructor(
     target: object | Function,
-    propertyKey: string | symbol,
+    readonly key: string | symbol,
     readonly index: number,
     protected readonly parent: PropertyInfo
   ) {
-    super(target, propertyKey);
+    super(target);
   }
 
   addAttribute<A4 extends Attribute>(attribute: A4): void {
