@@ -12,12 +12,11 @@ export { Annotation } from './Core/Annotation';
 export { AddAttributeToProperty } from './Core/AddAttribute';
 export { AddAttributeToPropertyParameter } from './Core/AddAttribute';
 
-export { GetKnowledge } from './Core/GetKnowledge';
+export { GetMemory } from './Core/GetMemory';
 
-export { GetOwnAnnotation } from './Core/GetAnnotation';
+export { GetAnnotation } from './Core/GetAnnotation';
 export { GetPropertyAnnotation } from './Core/GetPropertyAnnotation';
-export { GetOwnPropertyAnnotation } from './Core/GetPropertyAnnotation';
-export { GetOwnPropertyParameterAnnotation } from './Core/GetOwnPropertyParameterAnnotation';
+export { GetConstructorAnnotation } from './Core/GetPropertyAnnotation';
 
 /*********************************************************************
  *    (Stability: 1 - Experimental): TSLIB integrate with Metadata

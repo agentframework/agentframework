@@ -29,8 +29,7 @@ export class AgentTypeInvocation implements TypeInvocation {
   invoke([id]: any, receiver: any): any {
     // dont do any change if no changes to the target
     // that means no initializers defined
-    const value = `${id}$`;
-    const newReceiver = alter(class extends receiver {}, 'name', { value });
+    const newReceiver = alter(class extends receiver {}, 'name', { value: `${id}$` });
     RememberType(newReceiver, this.target);
     return newReceiver;
   }

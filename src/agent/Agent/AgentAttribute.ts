@@ -12,6 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+import { Arguments } from './Arguments';
 import { ClassAttribute } from './TypeAttributes';
 import { TypeInvocation } from './TypeInvocations';
 import { ClassInterceptor } from './TypeInterceptors';
@@ -19,10 +20,9 @@ import { UpgradeAgentProperties } from './Compiler/OnDemandCompiler';
 import { FindExtendedClass } from './FindExtendedClass';
 import { AgentFrameworkError } from './AgentFrameworkError';
 import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
-import { ClassConstructors, ClassConstructorState } from './Knowledges/ClassConstructors';
-import { RememberType } from './Knowledges/Types';
-import { Arguments } from './Arguments';
+import { ClassConstructors } from './Knowledges/ClassConstructors';
 import { ClassMembers } from './Knowledges/ClassMembers';
+import { RememberType } from './Knowledges/Types';
 
 /**
  * This attribute is for upgrade class to agent
@@ -81,7 +81,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     let invocation: TypeInvocation | undefined;
 
     // check if can reuse constructor invocation
-    let ctor: ClassConstructorState | undefined = ClassConstructors.v1.get(cacheKey);
+    let ctor = ClassConstructors.v1.get(cacheKey);
     if (ctor && ctor.version === ctor.design.version) {
       // can reuse
       invocation = ctor.invocation;
@@ -93,16 +93,18 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
       invocation = ctor.invocation;
     }
 
-    const annotation = invocation.design.typeAnnotation;
-    if (annotation && annotation.version) {
-      const version = annotation.version;
+    const design = invocation.design;
+    const type = design.typeAnnotation;
+    const version = type && type.version;
+    if (version) {
       const state = ClassMembers.v1.get(cacheKey);
       if (!state || state.version !== version) {
         const members = (state && state.members) || new Map<string | symbol, number>();
+
         // check if got any property with interceptors
         const properties = members.size
-          ? invocation.design.findOwnProperties((p) => p.intercepted && members.get(p.key) !== p.version)
-          : invocation.design.ownInterceptedProperties;
+          ? design.findOwnProperties((p) => p.intercepted && members.get(p.key) !== p.version)
+          : design.findOwnProperties((p) => p.intercepted);
 
         if (properties.length) {
           // don't generate property interceptor if no extended class

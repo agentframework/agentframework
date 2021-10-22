@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { OnDemandPropertyInfo } from './OnDemandPropertyInfo';
 import { MemberKinds } from './MemberKinds';
-import { GetOwnAnnotation, Type } from '../../../dependencies/core';
+import { GetAnnotation, GetConstructorAnnotation, Type } from '../../../dependencies/core';
 import { TypeInfo } from './TypeInfo';
 import { PropertyInfo } from './PropertyInfo';
 import { Filter } from './Filter';
@@ -26,7 +26,6 @@ import { Once } from '../Decorators/Once/Once';
 import { Property } from '../../../dependencies/core';
 import { IsAgent } from '../Knowledges/Agents';
 import { GetPropertyAnnotation } from '../../../dependencies/core';
-import { Cache } from '../Decorators/Cache/Cache';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -69,7 +68,7 @@ export class TypeInfos {
  *
  * Basically a class is a Function. So Type extends from Method
  **/
-export class OnDemandTypeInfo extends OnDemandPropertyInfo<Type> implements TypeInfo {
+export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   /**
    * cached property info
    */
@@ -141,8 +140,12 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo<Type> implements Type
     return prototypes;
   }
 
+  protected getAnnotation(): Property | undefined {
+    return GetConstructorAnnotation(this.target);
+  }
+
   protected getTypeAnnotation(): Type | undefined {
-    return GetOwnAnnotation(this.target);
+    return GetAnnotation(this.target);
   }
 
   /**
@@ -204,7 +207,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo<Type> implements Type
   property(key: string | symbol): OnDemandPropertyInfo {
     let propertyInfo = this.properties.get(key);
     if (!propertyInfo) {
-      propertyInfo = new OnDemandPropertyInfo(this.target, key);
+      propertyInfo = new OnDemandPropertyInfo(this.target, key, this);
       this.properties.set(key, propertyInfo);
     }
     return propertyInfo;
@@ -215,36 +218,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo<Type> implements Type
    */
   hasOwnProperties(): boolean {
     const type = this.typeAnnotation;
-    if (!type) {
-      return false;
-    }
-
-    for (const key of Reflect.ownKeys(type.prototype)) {
-      if (key === CONSTRUCTOR) {
-        continue;
-      }
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Return all own properties
-   */
-  getOwnProperties(): ReadonlyArray<PropertyInfo> {
-    const properties = new Array<PropertyInfo>();
-    const type = this.typeAnnotation;
-    if (!type) {
-      return properties;
-    }
-    for (const key of <Array<string | symbol>>Reflect.ownKeys(type.prototype)) {
-      if (key === CONSTRUCTOR) {
-        // console.log('found', key)
-        continue;
-      }
-      properties.push(this.property(key));
-    }
-    return properties;
+    return type !== undefined && type.properties !== undefined;
   }
 
   /**
@@ -255,8 +229,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo<Type> implements Type
     if (!type) {
       return;
     }
-    const descriptor = Reflect.getOwnPropertyDescriptor(type.prototype, key);
-    if (descriptor) {
+    if (type.properties && type.properties.has(key)) {
       return this.property(key);
     }
     return;
@@ -278,6 +251,24 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo<Type> implements Type
   }
 
   /**
+   * Return all own properties
+   */
+  getOwnProperties(): ReadonlyArray<PropertyInfo> {
+    const found = new Array<PropertyInfo>();
+    const type = this.typeAnnotation;
+    if (!type) {
+      return found;
+    }
+    const properties = type.properties;
+    if (properties) {
+      for (const key of properties.keys()) {
+        found.push(this.property(key));
+      }
+    }
+    return found;
+  }
+
+  /**
    * Returns a filtered array of Property objects of this prototype.
    *
    * @param {Filter<PropertyInfo>} filter
@@ -285,23 +276,31 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo<Type> implements Type
    * @returns {Map<PropertyKey, OnDemandPropertyInfo>}
    */
   findOwnProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): ReadonlyArray<PropertyInfo> {
-    const properties = new Array<PropertyInfo>();
-    for (const property of this.getOwnProperties()) {
-      if (filter(property, filterCriteria)) {
-        properties.push(property);
+    const found = new Array<PropertyInfo>();
+    const type = this.typeAnnotation;
+    if (!type) {
+      return found;
+    }
+    const properties = type.properties;
+    if (properties) {
+      for (const key of properties.keys()) {
+        const property = this.property(key);
+        if (filter(property, filterCriteria)) {
+          found.push(property);
+        }
       }
     }
-    return properties;
+    return found;
   }
 
-  /**
-   * return intercepted properties
-   */
-  get ownInterceptedProperties(): ReadonlyArray<PropertyInfo> {
-    return Cache(this, 'ownInterceptedProperties', () => {
-      return this.findOwnProperties((p) => p.intercepted);
-    });
-  }
+  // /**
+  //  * return intercepted properties
+  //  */
+  // get ownInterceptedProperties(): ReadonlyArray<PropertyInfo> {
+  //   return Cache(this, 'ownInterceptedProperties', () => {
+  //     return this.findOwnProperties((p) => p.intercepted);
+  //   });
+  // }
 
   /**
    * Returns a filtered array of Property objects for all prototype in prototype chain - deep first [root, base, this]

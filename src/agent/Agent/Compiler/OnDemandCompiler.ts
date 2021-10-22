@@ -25,7 +25,7 @@ import { PropertyInvocation } from '../TypeInvocations';
 import { OnDemandParameterInterceptor } from './Interceptor/OnDemandParameterInterceptor';
 
 export function UpgradeAgentProperties(
-  members: Map<string|symbol, number>,
+  members: Map<string | symbol, number>,
   prototype: Function | object,
   receiver: Function | object,
   properties: ReadonlyArray<PropertyInfo>,
@@ -34,16 +34,18 @@ export function UpgradeAgentProperties(
   // only proxy property contains interceptor
   // property without interceptor is metadata only attribute
   for (const property of properties) {
+    // updates version
     members.set(property.key, property.version);
-    if (cache) {
-      // can skip if property is exists
-      if (Reflect.getOwnPropertyDescriptor(receiver, property.key)) {
-        Reflect.deleteProperty(cache, property.key);
-        continue;
-      }
+
+    // can skip if property is exists
+    if (cache && Reflect.getOwnPropertyDescriptor(receiver, property.key)) {
+      Reflect.deleteProperty(cache, property.key);
+      continue;
     }
 
+    // get latest descriptor, design.descriptor is original descriptor
     const descriptor = Reflect.getOwnPropertyDescriptor(prototype, property.key);
+
     let newDescriptor: PropertyDescriptor;
     if (descriptor) {
       newDescriptor = OnDemandCompiler.makeProperty(property, descriptor, cache || receiver);

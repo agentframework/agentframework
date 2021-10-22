@@ -18,10 +18,11 @@ import { MemberKinds } from './MemberKinds';
 import { PropertyInfo } from './PropertyInfo';
 import { ParameterInfo } from './ParameterInfo';
 import { MemberInfo } from './MemberInfo';
-import { GetOwnPropertyAnnotation, Property } from '../../../dependencies/core';
+import { Property } from '../../../dependencies/core';
 import { Once } from '../Decorators/Once/Once';
 import { Cache } from '../Decorators/Cache/Cache';
 import { DESIGN_PARAMTYPES, DESIGN_RETURNTYPE, DESIGN_TYPE } from '../WellKnown';
+import { TypeInfo } from './TypeInfo';
 
 // import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
 // import { OnDemandPropertyGetterInfo } from './OnDemandPropertyGetterInfo';
@@ -32,17 +33,19 @@ import { DESIGN_PARAMTYPES, DESIGN_RETURNTYPE, DESIGN_TYPE } from '../WellKnown'
  * kind = MemberKinds.Prosperty + (Method | Field | Getter | Setter)
  *
  */
-export class OnDemandPropertyInfo<A extends Property = Property>
-  extends OnDemandMemberInfo<A>
-  implements PropertyInfo, MemberInfo
-{
+export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implements PropertyInfo, MemberInfo {
   /**
    * cached parameter info
    */
   protected readonly parameters = new Map<number, OnDemandParameterInfo>();
 
-  protected getAnnotation(): A | undefined {
-    return GetOwnPropertyAnnotation(this.target, this.key);
+  constructor(target: object | Function, propertyKey: string | symbol, protected readonly parent?: TypeInfo) {
+    super(target, propertyKey);
+  }
+
+  protected getAnnotation(): Property | undefined {
+    const annotation = this.parent && this.parent.typeAnnotation;
+    return annotation && annotation.properties && annotation.properties.get(this.key);
   }
 
   protected getName(): string {
@@ -111,7 +114,7 @@ export class OnDemandPropertyInfo<A extends Property = Property>
     }
     // check parameter by using OnDemandParameterInfo
     const parameters = annotation.parameters;
-    if (parameters && parameters.size) {
+    if (parameters) {
       for (const index of parameters.keys()) {
         if (this.parameter(index).ownInterceptors) {
           return true;
@@ -144,7 +147,7 @@ export class OnDemandPropertyInfo<A extends Property = Property>
    */
   hasParameter(): boolean {
     const annotation = this.annotation;
-    if (annotation && annotation.parameters && annotation.parameters.size) {
+    if (annotation && annotation.parameters) {
       return true;
     }
     return false;
@@ -181,13 +184,10 @@ export class OnDemandPropertyInfo<A extends Property = Property>
   getParameters(): ReadonlyArray<ParameterInfo> {
     const params = new Array<ParameterInfo>();
     const annotation = this.annotation;
-    if (annotation && annotation.parameters && annotation.parameters.size) {
-      const indices: Array<number> = [];
-      for (const index of annotation.parameters.keys()) {
-        indices.unshift(index);
-      }
-      for (const index of indices) {
-        params.push(this.parameter(index));
+    const parameters = annotation && annotation.parameters;
+    if (parameters) {
+      for (const index of parameters.keys()) {
+        params.unshift(this.parameter(index));
       }
     }
     return params;

@@ -67,10 +67,10 @@ export interface TypeInfo extends PropertyInfo {
    */
   findOwnProperties(filter: Filter<PropertyInfo>, filterCriteria?: any): ReadonlyArray<PropertyInfo>;
 
-  /**
-   * Find intercepted properties
-   */
-  readonly ownInterceptedProperties: ReadonlyArray<PropertyInfo>;
+  // /**
+  //  * Find intercepted properties
+  //  */
+  // readonly ownInterceptedProperties: ReadonlyArray<PropertyInfo>;
 
   /**
    * Find annotated properties from own properties or prototype properties, results: current -> middle -> root -> Object

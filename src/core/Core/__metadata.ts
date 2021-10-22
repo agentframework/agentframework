@@ -15,8 +15,8 @@ limitations under the License. */
 import { Knowledge } from './Knowledge';
 import { GetProperty } from './Helpers/GetProperty';
 import { AddMetadata } from './Helpers/AddMetadata';
-import { CONSTRUCTOR } from './WellKnown';
 import { Annotation } from './Annotation/Annotation';
+import { GetConstructor } from './Helpers/GetConstructor';
 
 /*@__PURE__*/
 export function __metadata(key: string, value: any): Function {
@@ -25,7 +25,7 @@ export function __metadata(key: string, value: any): Function {
     if (targetKey) {
       annotation = GetProperty(Knowledge.add(target), targetKey, descriptor);
     } else {
-      annotation = GetProperty(Knowledge.add((target as Function).prototype), CONSTRUCTOR, descriptor);
+      annotation = GetConstructor(Knowledge.add((target as Function).prototype));
     }
     AddMetadata(annotation, key, value);
   };

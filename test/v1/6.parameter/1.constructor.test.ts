@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { agent, decorateParameter } from '../../../src/dependencies/agent';
+import { agent, decorateParameter, Reflector } from '../../../src/dependencies/agent';
 import { InjectParameterAttribute } from '../1.attributes/InjectAttribute';
 
 class Connection1611 {
@@ -18,7 +18,7 @@ class MongoDB1611 {
   connection!: Connection1611;
   user: string;
   constructor(user: string, @decorateParameter(new InjectParameterAttribute()) conn?: Connection1611) {
-    expect(conn instanceof Connection1611).toBeTruthy();
+    expect(conn).toBeInstanceOf(Connection1611);
     // console.log('MongoDB(', arguments, ')');
     this.user = user;
     if (conn) {
@@ -35,8 +35,8 @@ class Redis1611 {
     @decorateParameter(new InjectParameterAttribute()) conn1?: Connection1611,
     @decorateParameter(new InjectParameterAttribute()) conn2?: Connection1611
   ) {
-    expect(conn1 instanceof Connection1611).toBeTruthy();
-    expect(conn2 instanceof Connection1611).toBeTruthy();
+    expect(conn1 instanceof Connection1611).toBeTrue();
+    expect(conn2 instanceof Connection1611).toBeTrue();
     expect(conn1).not.toBe(conn2);
     // console.log('Redis(', arguments, ')');
     this.user = user;
@@ -45,6 +45,10 @@ class Redis1611 {
 
 describe('Initializer for Constructor Parameter', () => {
   describe('# should able to', () => {
+    it('get version', () => {
+      expect(Reflector(MongoDB1611).version).toBe(1);
+    });
+
     it('create with injected connection', () => {
       expect(Connection1611.count).toBe(0);
       const db = new MongoDB1611('test', 'default' as any);

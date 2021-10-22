@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AddAttributeToProperty, Annotation } from '../../../dependencies/core';
+import { AddAttributeToConstructor, AddAttributeToProperty, Annotation } from '../../../dependencies/core';
 import { Attribute } from '../Attribute';
 import { MemberInfo } from './MemberInfo';
 import { Filter } from './Filter';
@@ -20,6 +20,7 @@ import { Class } from '../Arguments';
 import { Once } from '../Decorators/Once/Once';
 import { HasInterceptor } from '../CustomInterceptor';
 import { Cache } from '../Decorators/Cache/Cache';
+import { CONSTRUCTOR } from '../WellKnown';
 
 /**
  * Access and store attribute and metadata for reflection
@@ -28,7 +29,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
   /**
    * create member
    */
-  constructor(readonly target: object | Function, readonly key: string | symbol) {}
+  constructor(readonly target: object | Function, readonly key: string | symbol, protected readonly parent?: MemberInfo) {}
 
   /**
    * Get name implementation, can be override by divided class
@@ -142,7 +143,11 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    * @param {Attribute} attribute
    */
   addAttribute<A4 extends Attribute>(attribute: A4): void {
-    AddAttributeToProperty(attribute, this.target, this.key);
+    if (this.key === CONSTRUCTOR) {
+      AddAttributeToConstructor(attribute, this.target);
+    } else {
+      AddAttributeToProperty(attribute, this.target, this.key);
+    }
   }
 
   /**

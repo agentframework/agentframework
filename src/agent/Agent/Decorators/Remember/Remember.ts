@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // the memorize can be used on both class getter or static getter
-import { GetKnowledge } from '../../../../dependencies/core';
+import { GetMemory } from '../../../../dependencies/core';
 import { alter } from '../../Compiler/alter';
 import { decorateMember } from '../../Decorate/decorateMember';
 import { PropertyInvocation } from '../../TypeInvocations';
@@ -26,7 +26,7 @@ export function remember(key: string): MethodDecorator {
   return decorateMember({
     interceptor: {
       intercept(target: PropertyInvocation, params: Arguments, receiver: object): unknown {
-        const knowledge = GetKnowledge();
+        const knowledge = GetMemory();
         const id = key + '.' + target.design.name;
         let value = knowledge.get(id);
         if (!value) {
@@ -58,7 +58,7 @@ export function remember(key: string): MethodDecorator {
 }
 
 export function Remember<T>(key: string, target: object | Function, targetKey: string | symbol, valueFn: () => T): T {
-  const knowledge = GetKnowledge();
+  const knowledge = GetMemory();
   const id = key + '.' + String(targetKey);
   let value = knowledge.get(id);
   if ('undefined' === typeof value) {

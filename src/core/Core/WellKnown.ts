@@ -15,14 +15,14 @@ limitations under the License. */
 /**
  * @internal
  */
-export const CONSTRUCTOR = 'constructor';
+export const CONSTRUCTOR: string | symbol = 'constructor';
 
 /**
  * @internal
  */
-export const METADATA = 'metadata';
+export const METADATA: string = 'metadata';
 
 /**
  * @internal
  */
-export const NOW = 'now';
+export const NOW: string = 'now';

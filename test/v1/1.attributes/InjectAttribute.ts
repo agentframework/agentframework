@@ -33,11 +33,11 @@ export class InjectParameterAttribute implements Attribute, ParameterInterceptor
     return this;
   }
 
-  intercept(target: ParameterInvocation, parameters: Arguments, receiver: any): any {
+  intercept(target: ParameterInvocation, params: Arguments, receiver: any): any {
     // console.log('inject parameter', target.design, '===>', parameters, 'function', target.invoke.toString());
     if (target.design.type) {
-      return Reflect.construct(target.design.type, parameters);
+      return Reflect.construct(target.design.type, params);
     }
-    return target.invoke(parameters, receiver);
+    return target.invoke(params, receiver);
   }
 }

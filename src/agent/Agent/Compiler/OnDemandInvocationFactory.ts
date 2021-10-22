@@ -7,7 +7,6 @@ import { PropertyInfo } from '../Reflection/PropertyInfo';
 import { Invocation } from '../Invocation';
 import { TypeInfo } from '../Reflection/TypeInfo';
 import { OnDemandParameterInterceptor } from './Interceptor/OnDemandParameterInterceptor';
-import { CONSTRUCTOR } from '../WellKnown';
 import { OnDemandTypeInfo } from '../Reflection/OnDemandTypeInfo';
 import { ClassConstructorState } from '../Knowledges/ClassConstructors';
 
@@ -20,11 +19,10 @@ export class OnDemandInvocationFactory {
    */
   static createAgentInvocation(target: Function, attribute: Attribute): TypeInvocation {
     const design: TypeInfo = OnDemandTypeInfo.find(target);
-    const ctor = design.property(CONSTRUCTOR);
     let chain: Invocation<TypeInfo> = new AgentTypeInvocation(target, design);
     chain = OnDemandInterceptorFactory.addInterceptor(chain, attribute);
-    if (ctor.version) {
-      chain = OnDemandInterceptorFactory.addInterceptors(chain, ctor.ownInterceptors);
+    if (design.version) {
+      chain = OnDemandInterceptorFactory.addInterceptors(chain, design.ownInterceptors);
     }
     return chain;
   }
@@ -36,15 +34,14 @@ export class OnDemandInvocationFactory {
    */
   static createConstructorInvocation(target: Function): ClassConstructorState {
     const design = OnDemandTypeInfo.find(target.prototype);
-    const ctor = design.property(CONSTRUCTOR);
     let chain: Invocation<TypeInfo> = new ClassTypeInvocation(target, design);
-    if (ctor.version) {
-      if (ctor.hasParameter()) {
-        chain = OnDemandInterceptorFactory.addInterceptor(chain, new OnDemandParameterInterceptor(ctor));
+    if (design.version) {
+      if (design.hasParameter()) {
+        chain = OnDemandInterceptorFactory.addInterceptor(chain, new OnDemandParameterInterceptor(design));
       }
-      chain = OnDemandInterceptorFactory.addInterceptors(chain, ctor.ownInterceptors);
+      chain = OnDemandInterceptorFactory.addInterceptors(chain, design.ownInterceptors);
     }
-    return { invocation: chain, version: ctor.version, design: ctor };
+    return { invocation: chain, version: design.version, design: design };
   }
 
   /**

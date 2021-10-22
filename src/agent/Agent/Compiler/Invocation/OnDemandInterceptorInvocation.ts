@@ -16,10 +16,11 @@ import { Invocation } from '../../Invocation';
 import { Design } from '../../Design';
 import { Attribute } from '../../Attribute';
 import { GetInterceptor } from '../../CustomInterceptor';
-import { Once } from '../../Decorators/Once/Once';
+// import { Once } from '../../Decorators/Once/Once';
 import { INVOKE } from '../../WellKnown';
 import { Arguments } from '../../Arguments';
 import { alter } from '../alter';
+import { Interceptor } from '../../Interceptor';
 
 /**
  * invocation wrapper for interceptor, reduce callstack if no interceptor found from attribute
@@ -28,18 +29,19 @@ import { alter } from '../alter';
  * @hidden
  */
 export class OnDemandInterceptorInvocation<T extends Design = Design> implements Invocation<T> {
+  /**
+   * the interceptor of the attribute
+   */
+  protected interceptor: Interceptor | undefined;
+
   constructor(readonly next: Invocation<T>, readonly attribute: Attribute) {}
 
   get design(): T {
     return this.next.design;
   }
 
-  get interceptor() {
-    return Once(this, 'interceptor', GetInterceptor(this.attribute));
-  }
-
   invoke(params: Arguments, receiver: any): any {
-    const interceptor = this.interceptor;
+    const interceptor = this.interceptor || GetInterceptor(this.attribute);
     if (interceptor) {
       return interceptor.intercept(this.next, params, receiver);
     }

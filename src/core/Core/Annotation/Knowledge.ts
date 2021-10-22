@@ -12,12 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { CONSTRUCTOR, NOW } from '../WellKnown';
+import { NOW } from '../WellKnown';
 import { GetProperty } from '../Helpers/GetProperty';
 import { alter } from '../Helpers/alter';
 import { AddMetadata } from '../Helpers/AddMetadata';
 import { Type } from './Type';
 import { Annotation } from './Annotation';
+import { GetConstructor } from '../Helpers/GetConstructor';
 
 /**
  * Use WeakMap to prevent memory leak
@@ -71,7 +72,7 @@ export class Knowledge extends WeakMap<Function | object, any> {
           if (targetKey) {
             annotation = GetProperty(self.add(target), targetKey, descriptor);
           } else {
-            annotation = GetProperty(self.add((<Function>target).prototype), CONSTRUCTOR, descriptor);
+            annotation = GetConstructor(self.add((<Function>target).prototype));
           }
           AddMetadata(annotation, key, value);
           return metadata(key, value)(target, targetKey, descriptor);
@@ -84,7 +85,7 @@ export class Knowledge extends WeakMap<Function | object, any> {
           if (targetKey) {
             annotation = GetProperty(self.add(target), targetKey, descriptor);
           } else {
-            annotation = GetProperty(self.add((<Function>target).prototype), CONSTRUCTOR, descriptor);
+            annotation = GetConstructor(self.add((<Function>target).prototype));
           }
           AddMetadata(annotation, key, value);
         };

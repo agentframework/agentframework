@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import {
+  AddAttributeToConstructorParameter,
   AddAttributeToPropertyParameter,
-  GetOwnPropertyParameterAnnotation,
   Annotation,
 } from '../../../dependencies/core';
 import { MemberKinds } from './MemberKinds';
@@ -22,6 +22,7 @@ import { ParameterInfo } from './ParameterInfo';
 import { PropertyInfo } from './PropertyInfo';
 import { Attribute } from '../Attribute';
 import { OnDemandMemberInfo } from './OnDemandMemberInfo';
+import { CONSTRUCTOR } from '../WellKnown';
 
 /**
  * Parameter
@@ -39,11 +40,16 @@ export class OnDemandParameterInfo extends OnDemandMemberInfo implements Paramet
   addAttribute<A4 extends Attribute>(attribute: A4): void {
     // if the attribute provide a getInterceptor, that means this property may need inject
     // we don't call getInterceptor or getInitializer until user new() the agent class.
-    AddAttributeToPropertyParameter(attribute, this.target, this.key, this.index);
+    if (this.key === CONSTRUCTOR) {
+      AddAttributeToConstructorParameter(attribute, this.target, this.index);
+    } else {
+      AddAttributeToPropertyParameter(attribute, this.target, this.key, this.index);
+    }
   }
 
   protected getAnnotation(): Annotation | undefined {
-    return GetOwnPropertyParameterAnnotation(this.target, this.key, this.index);
+    const annotation = this.parent.annotation;
+    return annotation && annotation.parameters && annotation.parameters.get(this.index);
   }
 
   protected getName(): string {
