@@ -19,11 +19,12 @@ import { UpgradeAgentProperties } from './Compiler/OnDemandCompiler';
 import { FindExtendedClass } from './FindExtendedClass';
 import { AgentFrameworkError } from './AgentFrameworkError';
 import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
-import { ClassConstructors, ClassConstructorState, ClassMembers } from './Knowledges/ClassInvocations';
+import { ClassConstructors, ClassConstructorState } from './Knowledges/ClassConstructors';
 import { RememberType } from './Knowledges/Types';
 import { Arguments } from './Arguments';
 import { CONSTRUCTOR } from './WellKnown';
 import { PropertyInfo } from './Reflection/PropertyInfo';
+import { ClassMembers } from './Knowledges/ClassMembers';
 
 /**
  * This attribute is for upgrade class to agent
@@ -137,15 +138,15 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     }
 
     let properties: ReadonlyArray<PropertyInfo> | undefined;
-
     const prop = ClassMembers.v1.get(key);
     let members: Map<string | symbol, number> | undefined;
     if (prop) {
       if (prop.version !== invocation.design.version) {
         properties = invocation.design.findOwnProperties((p) => p.hasInterceptor());
-        const m = (members = prop.members);
-        if (m.size) {
-          properties = properties.filter((property) => !(m.get(property.key) === property.version));
+        const exists = (members = prop.members);
+        if (exists.size) {
+          // filter changed properties
+          properties = properties.filter((property) => !(exists.get(property.key) === property.version));
         }
       }
     } else {

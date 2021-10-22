@@ -90,6 +90,17 @@ describe('1.5. Property interceptor invoke sequence', () => {
           seq.push('Hello-' + name);
         }
 
+        @decorateMember({
+          id: 3,
+          interceptor: {
+            intercept(target: Invocation<Design>, params: Arguments, receiver: unknown): unknown {
+              seq.push('beforeWorld');
+              const ret = target.invoke(params, receiver);
+              seq.push('afterWorld');
+              return ret;
+            },
+          },
+        })
         world() {
           seq.push('world');
         }
@@ -175,7 +186,6 @@ describe('1.5. Property interceptor invoke sequence', () => {
       expect(seq).toEqual([]);
       top3.hello();
       const top3HelloSeq = [
-
         'beforeHello4',
         'beforeHello3',
         'beforeHello1',
@@ -192,7 +202,7 @@ describe('1.5. Property interceptor invoke sequence', () => {
         'afterHello2',
         'afterHello1',
         'afterHello3',
-        'afterHello4'
+        'afterHello4',
       ];
       expect(seq).not.toEqual(top1HelloSeq); // invocation is been cached
       expect(seq).toEqual(top3HelloSeq);
@@ -218,7 +228,7 @@ describe('1.5. Property interceptor invoke sequence', () => {
         'afterHello2',
         'afterHello1',
         'afterHello3',
-        'afterHello4'
+        'afterHello4',
       ];
       expect(seq).not.toEqual(top1HelloSeq); // invocation is been cached
       expect(seq).toEqual(top4HelloSeq);
@@ -253,7 +263,7 @@ describe('1.5. Property interceptor invoke sequence', () => {
 
       seq = [];
       top21.world();
-      expect(seq).toEqual(['world']);
+      expect(seq).toEqual(['beforeWorld', 'world', 'afterWorld']);
     });
   });
 });
