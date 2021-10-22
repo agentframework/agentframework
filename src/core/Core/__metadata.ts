@@ -24,6 +24,6 @@ export function __metadata(key: string, value: any): Function {
       target = (<Function>target).prototype;
       targetKey = CONSTRUCTOR;
     }
-    AddMetadata(GetProperty(Knowledge.add(target), target, targetKey, descriptor), key, value);
+    AddMetadata(GetProperty(Knowledge.add(target), targetKey, descriptor), key, value);
   };
 }

@@ -1,7 +1,3 @@
 import { Annotation } from './Annotation';
 
-export class Parameter extends Annotation {
-  constructor(readonly parent: Annotation) {
-    super();
-  }
-}
+export class Parameter extends Annotation {}

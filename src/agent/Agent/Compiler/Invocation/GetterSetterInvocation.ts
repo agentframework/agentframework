@@ -22,7 +22,6 @@ import { Arguments } from '../../Arguments';
  * @hidden
  */
 export class GetterSetterInvocation implements PropertyInvocation {
-  version: number = 0;
 
   constructor(readonly design: PropertyInfo, readonly values = new WeakMap<any, any>()) {}
 

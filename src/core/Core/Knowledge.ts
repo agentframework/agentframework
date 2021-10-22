@@ -14,27 +14,31 @@ limitations under the License. */
 
 import { METADATA } from './WellKnown';
 import { adapter } from './Annotation/adapter';
+import { Type } from './Annotation/Type';
 
 @adapter(Reflect, METADATA)
 export class Knowledge {
   /* istanbul ignore next */
   static has(key: Function | object): boolean {
     /* placeholder::wisdom.has */
-    return false;
+    throw new TypeError('NotImplemented');
   }
 
   /* istanbul ignore next */
-  static get(key: Function | object): any {
+  static get(key: Function | object): any | undefined {
     /* placeholder::wisdom.get */
+    throw new TypeError('NotImplemented');
   }
 
   /* istanbul ignore next */
-  static set(key: Function | object, value: any): any {
+  static set(key: Function | object, value: Type): any {
     /* placeholder::wisdom.set */
+    throw new TypeError('NotImplemented');
   }
 
   /* istanbul ignore next */
   static add(key: Function | object): any {
     /* placeholder::wisdom.add */
+    throw new TypeError('NotImplemented');
   }
 }

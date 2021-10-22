@@ -13,7 +13,6 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { TypeInfo } from '../../Reflection/TypeInfo';
-import { ClassInvocation } from '../../TypeInvocations';
 import { OnDemandTypeInfo } from '../../Reflection/OnDemandTypeInfo';
 import { RememberType } from '../../Knowledges/Types';
 import { alter } from '../alter';
@@ -24,7 +23,7 @@ import { alter } from '../alter';
  * @ignore
  * @hidden
  */
-export class AgentInvocation implements ClassInvocation {
+export class AgentInvocation implements AgentInvocation {
   version: number = 0;
 
   constructor(readonly target: Function, readonly design: TypeInfo = OnDemandTypeInfo.find(target)) {}

@@ -1,7 +1,9 @@
 /*********************************************************************
  *   (Stability: 2 - Stable) Annotation
  *********************************************************************/
+export { Type } from './Core/Type';
 export { Property } from './Core/Property';
+export { Parameter } from './Core/Parameter';
 export { Annotation } from './Core/Annotation';
 
 /*********************************************************************

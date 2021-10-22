@@ -19,9 +19,11 @@ import { UpgradeAgentProperties } from './Compiler/OnDemandCompiler';
 import { FindExtendedClass } from './FindExtendedClass';
 import { AgentFrameworkError } from './AgentFrameworkError';
 import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
-import { ClassInvocations } from './Knowledges/ClassInvocations';
+import { ClassConstructors, ClassConstructorState, ClassMembers } from './Knowledges/ClassInvocations';
 import { RememberType } from './Knowledges/Types';
 import { Arguments } from './Arguments';
+import { CONSTRUCTOR } from './WellKnown';
+import { PropertyInfo } from './Reflection/PropertyInfo';
 
 /**
  * This attribute is for upgrade class to agent
@@ -92,9 +94,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
 
     // cache the constructor invocation
     // so do not support change annotation after first time created the type
-
-    // console.log('this.a', this.receiver === target);
-    // console.log('target', target.name, '--->', this.receiver);
+    // NOTE: new created agent will apply the latest annotations
 
     // NOTE: Static Constructor support, deep first
     // for (const ctor of FindStaticConstructors(target.prototype)) {
@@ -117,36 +117,57 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     // this.target !== target
     // this.target.prototype === target.prototype
     // GetType(this.target) === target
-    let invocation: ClassInvocation | undefined = ClassInvocations.v1.get(this.target);
-    // console.log('☀️ ☀️ ☀️', target.name, receiver.name);
+    const key = this.target;
 
-    if (invocation) {
-      if (invocation.design.version !== invocation.version) {
-        // console.log('test', invocation.design.version, '+', InvocationFactory.class.version, '=', invocation.version);
-        // invalidate cache
-        invocation = undefined;
+    // check if can reuse constructor invocation
+    let invocation: ClassInvocation | undefined;
+    const ctor: ClassConstructorState | undefined = ClassConstructors.v1.get(key);
+    if (ctor) {
+      const foundInvocation = ctor.invocation;
+      if (ctor.version === foundInvocation.design.property(CONSTRUCTOR).version) {
+        invocation = foundInvocation;
       }
     }
 
-    // analysis this object
+    // create new constructor invocation
     if (!invocation) {
       // find interceptors from design attributes and create chain for them
-      invocation = OnDemandInvocationFactory.createClassInvocation(target);
+      invocation = OnDemandInvocationFactory.createConstructorInvocation(target);
+      ClassConstructors.v1.set(key, { invocation, version: invocation.design.property(CONSTRUCTOR).version });
+    }
 
-      ClassInvocations.v1.set(this.target, invocation);
+    let properties: ReadonlyArray<PropertyInfo> | undefined;
 
-      // upgrade properties
-      const properties = invocation.design.findOwnProperties((p) => p.hasInterceptor());
+    const prop = ClassMembers.v1.get(key);
+    let members: Map<string | symbol, number> | undefined;
+    if (prop) {
+      if (prop.version !== invocation.design.version) {
+        properties = invocation.design.findOwnProperties((p) => p.hasInterceptor());
+        const m = (members = prop.members);
+        if (m.size) {
+          properties = properties.filter((property) => !(m.get(property.key) === property.version));
+        }
+      }
+    } else {
+      properties = invocation.design.findOwnProperties((p) => p.hasInterceptor());
+    }
 
-      // don't generate property interceptor if no extended class
+    // check if need upgrade properties
+    if (properties) {
       if (properties.length) {
+        // don't generate property interceptor if no extended class
         const found = FindExtendedClass(this.receiver, receiver);
         // console.log('target', this.receiver, receiver.toString());
         // console.log('found', found);
         // quick check, ignore if keys are been declared
         // ownKeys() >= 1 because constructor is one key always have
         UpgradeAgentProperties(target.prototype, this.receiver.prototype, properties, found[0] && found[0].prototype);
+        members = properties.reduce((map, property) => {
+          map.set(property.key, property.version);
+          return map;
+        }, members || new Map());
       }
+      ClassMembers.v1.set(key, { version: invocation.design.version, members: members || new Map() });
     }
 
     const agent = invocation.invoke(params, receiver);

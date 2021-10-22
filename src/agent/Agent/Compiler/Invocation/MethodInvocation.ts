@@ -20,7 +20,6 @@ import { Arguments } from '../../Arguments';
  * invoke without interceptors, better performance
  */
 export class MethodInvocation implements PropertyInvocation {
-  version: number = 0;
 
   constructor(readonly target: Function, readonly design: PropertyInfo) {}
 

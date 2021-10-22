@@ -31,13 +31,16 @@ import { DESIGN_PARAMTYPES, DESIGN_RETURNTYPE, DESIGN_TYPE } from '../WellKnown'
  * kind = MemberKinds.Prosperty + (Method | Field | Getter | Setter)
  *
  */
-export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implements PropertyInfo, MemberInfo {
+export class OnDemandPropertyInfo<A extends Property = Property>
+  extends OnDemandMemberInfo<A>
+  implements PropertyInfo, MemberInfo
+{
   /**
    * cached parameter info
    */
   protected readonly parameters = new Map<number, OnDemandParameterInfo>();
 
-  protected getAnnotation(): Property | undefined {
+  protected getAnnotation(): A | undefined {
     return GetOwnPropertyAnnotation(this.target, this.key);
   }
 

@@ -6,9 +6,7 @@ import { Parameter } from './Parameter';
  */
 export class Property extends Annotation {
   descriptor?: PropertyDescriptor;
-
   parameters?: Map<number, Parameter>;
-
   constructor(readonly target: object | Function, descriptor?: PropertyDescriptor) {
     super();
     descriptor && (this.descriptor = descriptor);

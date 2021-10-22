@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { OnDemandPropertyInfo } from './OnDemandPropertyInfo';
 import { MemberKinds } from './MemberKinds';
-import { GetOwnAnnotation } from '../../../dependencies/core';
+import { GetOwnAnnotation, Type } from '../../../dependencies/core';
 import { TypeInfo } from './TypeInfo';
 import { PropertyInfo } from './PropertyInfo';
 import { Filter } from './Filter';
@@ -68,7 +68,7 @@ export class TypeInfos {
  *
  * Basically a class is a Function. So Type extends from Method
  **/
-export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
+export class OnDemandTypeInfo extends OnDemandPropertyInfo<Type> implements TypeInfo {
   /**
    * cached property info
    */
@@ -157,6 +157,26 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     return prototypes;
   }
 
+  protected getTypeAnnotation(): Type | undefined {
+    return GetOwnAnnotation(this.target);
+  }
+
+  /**
+   * @sealed
+   * Get metadata object, undefined if not annotated.
+   */
+  get typeAnnotation(): Type | undefined {
+    return Once(this, 'typeAnnotation', this.getTypeAnnotation());
+  }
+
+  /**
+   * Get type version
+   */
+  get version(): number {
+    const annotation = this.typeAnnotation;
+    return annotation ? annotation.version : 0;
+  }
+
   /**
    * Constructor always have property descriptor
    */
@@ -218,12 +238,12 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Return true if any properties annotated on this type
    */
   hasOwnProperties(): boolean {
-    const annotations = GetOwnAnnotation(this.target);
-    if (!annotations) {
+    const type = this.typeAnnotation;
+    if (!type) {
       return false;
     }
 
-    for (const key of Reflect.ownKeys(annotations)) {
+    for (const key of Reflect.ownKeys(type.prototype)) {
       if (key === CONSTRUCTOR) {
         continue;
       }
@@ -237,11 +257,11 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   getOwnProperties(): ReadonlyArray<PropertyInfo> {
     const properties = new Array<PropertyInfo>();
-    const annotations = GetOwnAnnotation(this.target);
-    if (!annotations) {
+    const type = this.typeAnnotation;
+    if (!type) {
       return properties;
     }
-    for (const key of <Array<string | symbol>>Reflect.ownKeys(annotations)) {
+    for (const key of <Array<string | symbol>>Reflect.ownKeys(type.prototype)) {
       if (key === CONSTRUCTOR) {
         continue;
       }
@@ -254,11 +274,11 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Get own property, return undefined if not exists
    */
   getOwnProperty(key: string | symbol): PropertyInfo | undefined {
-    const annotations = GetOwnAnnotation(this.target);
-    if (!annotations) {
+    const type = this.typeAnnotation;
+    if (!type) {
       return;
     }
-    const descriptor = Reflect.getOwnPropertyDescriptor(annotations, key);
+    const descriptor = Reflect.getOwnPropertyDescriptor(type.prototype, key);
     if (descriptor) {
       return this.property(key);
     }
@@ -339,15 +359,15 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     AddAttributeToConstructor(attribute, this.target);
   }
 
-  protected getOwnMetadata(key: string): any | undefined {
-    const annotation = this.annotation;
-    if (annotation && annotation.has(key)) {
-      return annotation.get(key);
-    }
-    /* istanbul ignore next */
-    if (Reflect['getOwnMetadata']) {
-      return Reflect['getOwnMetadata'](key, this.declaringType);
-    }
-    return;
-  }
+  // protected getOwnMetadata(key: string): any | undefined {
+  //   const annotation = this.annotation;
+  //   if (annotation && annotation.has(key)) {
+  //     return annotation.get(key);
+  //   }
+  //   /* istanbul ignore next */
+  //   if (Reflect['getOwnMetadata']) {
+  //     return Reflect['getOwnMetadata'](key, this.declaringType);
+  //   }
+  //   return;
+  // }
 }

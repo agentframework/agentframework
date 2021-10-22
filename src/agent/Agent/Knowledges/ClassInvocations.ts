@@ -1,15 +1,30 @@
 import { Remember } from '../Decorators/Remember/Remember';
 import { ClassInvocation } from '../TypeInvocations';
 
-export interface ClassInvocationCache {
+export interface ClassConstructorState {
+  version: number;
+  // constructor
   invocation: ClassInvocation;
 }
 
 /**
  * Gets or sets invocations of giving type (to improve both `new Class()` perf and bootstrap perf)
  */
-export class ClassInvocations {
+export class ClassConstructors {
   static get v1() {
-    return Remember('ClassInvocations', this, 'v1', () => new WeakMap<Function, ClassInvocation>());
+    return Remember('ClassConstructors', this, 'v1', () => new WeakMap<Function, ClassConstructorState>());
+  }
+}
+
+export interface ClassMemberState {
+  // type version
+  version: number;
+  // properties version
+  members: Map<string | symbol, number>;
+}
+
+export class ClassMembers {
+  static get v1() {
+    return Remember('ClassMembers', this, 'v1', () => new WeakMap<Function, ClassMemberState>());
   }
 }

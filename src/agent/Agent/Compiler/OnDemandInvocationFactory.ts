@@ -7,6 +7,8 @@ import { PropertyInfo } from '../Reflection/PropertyInfo';
 import { Invocation } from '../Invocation';
 import { TypeInfo } from '../Reflection/TypeInfo';
 import { OnDemandParameterInterceptor } from './Interceptor/OnDemandParameterInterceptor';
+import { CONSTRUCTOR } from '../WellKnown';
+import { OnDemandTypeInfo } from '../Reflection/OnDemandTypeInfo';
 
 export class OnDemandInvocationFactory {
   /**
@@ -19,7 +21,6 @@ export class OnDemandInvocationFactory {
     const design = target.design;
     let chain = OnDemandInterceptorFactory.addInterceptor(target, attribute);
     chain = OnDemandInterceptorFactory.addInterceptors(chain, design.getOwnInterceptors());
-    target.version = design.version;
     return chain;
   }
 
@@ -28,15 +29,14 @@ export class OnDemandInvocationFactory {
    *
    * @internal
    */
-  static createClassInvocation(receiver: Function): ClassInvocation {
-    const target = new ConstructorInvocation(receiver);
-    const design = target.design;
-    let chain: ClassInvocation = target;
+  static createConstructorInvocation(receiver: Function): Invocation<TypeInfo> {
+    const type = OnDemandTypeInfo.find(receiver.prototype);
+    const design = type.property(CONSTRUCTOR);
+    let chain: Invocation<TypeInfo> = new ConstructorInvocation(receiver, type);
     if (design.hasParameter()) {
       chain = OnDemandInterceptorFactory.addInterceptor(chain, new OnDemandParameterInterceptor(design));
     }
     chain = OnDemandInterceptorFactory.addInterceptors(chain, design.getOwnInterceptors());
-    target.version = design.version;
     return chain;
   }
 

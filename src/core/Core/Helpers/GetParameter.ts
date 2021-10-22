@@ -22,7 +22,7 @@ export function GetParameter(property: Property, index: number): Parameter {
   const map = property.parameters || (property.parameters = new Map<number, Parameter>());
   let value = map.get(index);
   if (!value) {
-    map.set(index, (value = new Parameter(property)));
+    map.set(index, (value = new Parameter()));
   }
   return value;
 }

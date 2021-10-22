@@ -30,10 +30,6 @@ import { alter } from '../alter';
 export class OnDemandInterceptorInvocation<T extends Design = Design> implements Invocation<T> {
   constructor(readonly next: Invocation<T>, readonly attribute: Attribute) {}
 
-  get version(): number {
-    return this.next.version;
-  }
-
   get design(): T {
     return this.next.design;
   }

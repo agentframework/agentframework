@@ -23,7 +23,7 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 :zap: **Fast:** Use CodeGen to minimize overheads. Faster than es6 Proxy.
 
-:dart: **Efficient:** Well-designed and crafted api only has **1161 SLOC** and **5.6kb** after minzipped.
+:dart: **Efficient:** Well-designed and crafted api only has **1297 SLOC** and **5.6kb** after minzipped.
 
 :recycle: **Clean:** Transparent dynamic proxy. No prototype pollution. No reflect-metadata or any npm dependencies.
 

@@ -10,13 +10,13 @@ describe('Knowledge!', () => {
       class B extends A {}
       class C extends B {}
 
-      const tc: any = knowledge.add(C);
+      const tc: any = knowledge.add(C).prototype;
       tc.ccc = <any>1;
-      const tb: any = knowledge.add(B);
+      const tb: any = knowledge.add(B).prototype;
       tb.bbb = <any>2;
-      const ta: any = knowledge.add(A);
+      const ta: any = knowledge.add(A).prototype;
       ta.aaa = <any>3;
-      const t: any = knowledge.add(Function.prototype);
+      const t: any = knowledge.add(Function.prototype).prototype;
       t.ooo = <any>4;
 
       expect(Reflect.getPrototypeOf(t)).toBeNull();
@@ -49,13 +49,13 @@ describe('Knowledge!', () => {
       class B extends A {}
       class C extends B {}
 
-      const tc: any = knowledge.add(C.prototype);
+      const tc: any = knowledge.add(C.prototype).prototype;
       tc.ccc = <any>1;
-      const tb: any = knowledge.add(B.prototype);
+      const tb: any = knowledge.add(B.prototype).prototype;
       tb.bbb = <any>2;
-      const ta: any = knowledge.add(A.prototype);
+      const ta: any = knowledge.add(A.prototype).prototype;
       ta.aaa = <any>3;
-      const t: any = knowledge.add(Object.prototype);
+      const t: any = knowledge.add(Object.prototype).prototype;
       t.ooo = <any>4;
 
       expect(Reflect.getPrototypeOf(t)).toBeNull();

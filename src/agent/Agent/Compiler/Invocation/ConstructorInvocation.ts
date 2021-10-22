@@ -12,19 +12,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { TypeInfo } from '../../Reflection/TypeInfo';
-import { ClassInvocation } from '../../TypeInvocations';
-import { OnDemandTypeInfo } from '../../Reflection/OnDemandTypeInfo';
 import { Arguments } from '../../Arguments';
+import { ClassInvocation } from '../../TypeInvocations';
+import { TypeInfo } from '../../Reflection/TypeInfo';
 
 /**
  * @ignore
  * @hidden
  */
 export class ConstructorInvocation implements ClassInvocation {
-  version: number = 0;
-
-  constructor(readonly target: Function, readonly design: TypeInfo = OnDemandTypeInfo.find(target.prototype)) {}
+  constructor(readonly target: Function, readonly design: TypeInfo) {}
 
   invoke(params: Arguments, receiver: Function): any {
     return Reflect.construct(this.target, params, receiver);

@@ -16,6 +16,7 @@ import { CONSTRUCTOR, NOW } from '../WellKnown';
 import { GetProperty } from '../Helpers/GetProperty';
 import { alter } from '../Helpers/alter';
 import { AddMetadata } from '../Helpers/AddMetadata';
+import { Type } from './Type';
 
 /**
  * Use WeakMap to prevent memory leak
@@ -74,7 +75,7 @@ export class Knowledge extends WeakMap<Function | object, any> {
             newTarget = target;
             newTargetKey = targetKey!;
           }
-          AddMetadata(GetProperty(self.add(newTarget), newTarget, newTargetKey, descriptor), key, value);
+          AddMetadata(GetProperty(self.add(newTarget), newTargetKey, descriptor), key, value);
           return metadata(key, value)(target, targetKey, descriptor);
         };
       };
@@ -90,7 +91,7 @@ export class Knowledge extends WeakMap<Function | object, any> {
             newTarget = target;
             newTargetKey = targetKey!;
           }
-          AddMetadata(GetProperty(self.add(newTarget), newTarget, newTargetKey, descriptor), key, value);
+          AddMetadata(GetProperty(self.add(newTarget), newTargetKey, descriptor), key, value);
         };
       };
     }
@@ -103,22 +104,22 @@ export class Knowledge extends WeakMap<Function | object, any> {
   /**
    * add a key
    */
-  add(key: Function | object): object {
+  add(key: Function | object): any {
     const found = super.get(key);
     if (found) {
       return found;
     }
 
     if (key === Function.prototype) {
-      const knowledge = Object.create(null);
-      this.set(key, knowledge);
-      return knowledge;
+      const type = new Type(key, Object.create(null));
+      this.set(key, type);
+      return type;
     }
 
     // check parent and build object prototype chain
     const prototype = Reflect.getPrototypeOf(key);
-    const knowledge = Object.create(prototype && this.add(prototype));
-    this.set(key, knowledge);
-    return knowledge;
+    const type = new Type(key, Object.create(prototype && this.add(prototype).prototype));
+    this.set(key, type);
+    return type;
   }
 }

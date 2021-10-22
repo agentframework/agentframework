@@ -1,15 +1,15 @@
 import { Property } from '../Annotation/Property';
+import { Type } from '../Annotation/Type';
 
 /**
  * @internal
  */
 export function GetProperty(
-  knowledge: object,
-  target: object | Function,
+  { target, prototype }: Type,
   key: string | symbol,
   descriptor?: PropertyDescriptor
 ): Property {
-  const propertyDescriptor = Reflect.getOwnPropertyDescriptor(knowledge, key);
+  const propertyDescriptor = Reflect.getOwnPropertyDescriptor(prototype, key);
   let property: Property;
   if (propertyDescriptor) {
     property = propertyDescriptor.value;
@@ -21,7 +21,7 @@ export function GetProperty(
       property.descriptor = descriptor;
     }
   } else {
-    knowledge[key] = property = new Property(target, descriptor);
+    prototype[key] = property = new Property(target, descriptor);
   }
   return property;
 }

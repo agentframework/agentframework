@@ -1,11 +1,12 @@
-import { Annotation } from './Annotation';
 import { GetOwnPropertyAnnotation } from './GetPropertyAnnotation';
+import { Parameter } from './Parameter';
+import { Property } from './Property';
 
-export function GetOwnPropertyParameterAnnotation(
+export function GetOwnPropertyParameterAnnotation<A extends Property = Property>(
   target: object | Function,
   key: string | symbol,
   index: number
-): Annotation | undefined {
-  const property = GetOwnPropertyAnnotation(target, key);
+): Parameter | undefined {
+  const property = GetOwnPropertyAnnotation<A>(target, key);
   return property && property.parameters && property.parameters.get(index);
 }

@@ -4,5 +4,5 @@
 
 **Notable Changes**
 
-- Support decorate interceptor on class members
+- Support decorate interceptor on class prototype
 

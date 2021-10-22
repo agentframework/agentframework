@@ -1,10 +1,9 @@
-import { Knowledge } from './Knowledge';
 import { GetProperty } from './Helpers/GetProperty';
 import { GetParameter } from './Helpers/GetParameter';
 import { AddAttribute } from './Helpers/AddAttribute';
 import { AddVersion } from './Helpers/AddVersion';
 import { CONSTRUCTOR } from './WellKnown';
-import { GetVersion } from './Helpers/GetVersion';
+import { GetType } from './Helpers/GetType';
 
 /**
  * equals Reflector(target).property(property, descriptor).addAttribute(attribute);
@@ -15,10 +14,11 @@ export function AddAttributeToProperty(
   key: string | symbol,
   descriptor?: PropertyDescriptor
 ): void {
-  const knowledge = Knowledge.add(target);
-  const property = GetProperty(knowledge, target, key, descriptor);
+  const type = GetType(target);
+  const property = GetProperty(type, key, descriptor);
   AddAttribute(property, attribute);
   AddVersion(property);
+  AddVersion(type);
 }
 
 /**
@@ -30,13 +30,13 @@ export function AddAttributeToPropertyParameter(
   key: string | symbol,
   parameterIndex: number
 ): void {
-  const version = GetVersion(target);
-  const knowledge = Knowledge.add(target);
-  const property = GetProperty(knowledge, target, key);
+  const type = GetType(target);
+  const property = GetProperty(type, key);
   const parameter = GetParameter(property, parameterIndex);
   AddAttribute(parameter, attribute);
   AddVersion(parameter);
   AddVersion(property);
+  AddVersion(type);
 }
 
 /**

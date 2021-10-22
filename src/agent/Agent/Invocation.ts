@@ -17,11 +17,6 @@ import { Arguments } from './Arguments';
 
 export interface Invocation<T extends Design = Design> {
   /**
-   * Version
-   */
-  version: number;
-
-  /**
    * design
    */
   readonly design: T;
