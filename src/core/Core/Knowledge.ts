@@ -19,26 +19,26 @@ import { Type } from './Annotation/Type';
 @adapter(Reflect, METADATA)
 export class Knowledge {
   /* istanbul ignore next */
+  // @ts-ignore
   static has(key: Function | object): boolean {
-    /* placeholder::wisdom.has */
-    throw new TypeError('NotImplemented');
+    /* placeholder::Knowledge.has */
   }
 
   /* istanbul ignore next */
+  // @ts-ignore
   static get(key: Function | object): any | undefined {
-    /* placeholder::wisdom.get */
-    throw new TypeError('NotImplemented');
+    /* placeholder::Knowledge.get */
   }
 
   /* istanbul ignore next */
+  // @ts-ignore
   static set(key: Function | object, value: Type): any {
-    /* placeholder::wisdom.set */
-    throw new TypeError('NotImplemented');
+    /* placeholder::Knowledge.set */
   }
 
   /* istanbul ignore next */
+  // @ts-ignore
   static add(key: Function | object): any {
-    /* placeholder::wisdom.add */
-    throw new TypeError('NotImplemented');
+    /* placeholder::Knowledge.add */
   }
 }

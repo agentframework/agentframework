@@ -96,10 +96,6 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     return OnDemandTypeInfo.find(this.declaringType);
   }
 
-  get prototype(): TypeInfo {
-    return OnDemandTypeInfo.find(this.declaringType.prototype);
-  }
-
   protected getType(): Function | undefined {
     return this.declaringType;
   }

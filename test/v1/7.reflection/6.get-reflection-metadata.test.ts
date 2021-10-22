@@ -51,10 +51,6 @@ describe('Reflection get metadata ', () => {
       expect(Reflector(MongoDB.prototype)).toBe(Reflector(MongoDB));
     });
 
-    it('Reflector prototype ', () => {
-      expect(Reflector(MongoDB).prototype).toBe(Reflector(MongoDB));
-    });
-
     it('Reflector instance', () => {
       const m = new MongoDB();
       expect(() => {

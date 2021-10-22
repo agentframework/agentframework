@@ -28,11 +28,6 @@ export interface TypeInfo extends PropertyInfo {
   readonly static: TypeInfo;
 
   /**
-   * Access prototype annotation info
-   */
-  readonly prototype: TypeInfo;
-
-  /**
    * Get base type info
    */
   readonly base: TypeInfo | null | undefined;

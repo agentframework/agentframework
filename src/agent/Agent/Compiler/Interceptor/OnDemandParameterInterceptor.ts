@@ -44,7 +44,7 @@ import { Once } from '../../Decorators/Once/Once';
  bottom to up. so we can have the metadata in place
  */
 export class OnDemandParameterInterceptor implements PropertyInterceptor {
-  constructor(readonly parent: PropertyInfo) {}
+  constructor(readonly design: PropertyInfo) {}
 
   get interceptor(): PropertyInterceptor | undefined {
     if (this.invocations) {
@@ -58,15 +58,12 @@ export class OnDemandParameterInterceptor implements PropertyInterceptor {
    */
   get invocations(): ReadonlyMap<number, ParameterInvocation> | undefined {
     const invocations = new Map<number, ParameterInvocation>();
-    if (this.parent.hasParameter()) {
-      const parameters = this.parent.getParameters();
-      for (const parameter of parameters) {
-        const idx = parameter.index;
-        const interceptors = parameter.ownInterceptors;
-        if (interceptors) {
-          const origin = new MethodParameterInvocation(parameter);
-          invocations.set(idx, OnDemandInterceptorFactory.addInterceptors(origin, interceptors));
-        }
+    for (const parameter of this.design.getParameters()) {
+      const idx = parameter.index;
+      const interceptors = parameter.ownInterceptors;
+      if (interceptors) {
+        const origin = new MethodParameterInvocation(parameter);
+        invocations.set(idx, OnDemandInterceptorFactory.addInterceptors(origin, interceptors));
       }
     }
     return Once(this, 'invocations', invocations.size ? invocations : undefined);

@@ -15,8 +15,6 @@ export { AddAttributeToPropertyParameter } from './Core/AddAttribute';
 export { GetMemory } from './Core/GetMemory';
 
 export { GetAnnotation } from './Core/GetAnnotation';
-export { GetPropertyAnnotation } from './Core/GetPropertyAnnotation';
-export { GetConstructorAnnotation } from './Core/GetPropertyAnnotation';
 
 /*********************************************************************
  *    (Stability: 1 - Experimental): TSLIB integrate with Metadata
@@ -27,3 +25,5 @@ export { __metadata } from './Core/__metadata';
 export { __param } from './Core/__param';
 export {AddAttributeToConstructorParameter} from "./Core/AddAttribute";
 export {AddAttributeToConstructor} from "./Core/AddAttribute";
+export {GetConstructorAnnotation} from "./Core/GetAnnotation";
+export {GetPropertyAnnotation} from "./Core/GetAnnotation";
