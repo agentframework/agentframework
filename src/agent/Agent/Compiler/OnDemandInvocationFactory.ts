@@ -32,7 +32,9 @@ export class OnDemandInvocationFactory {
     const target = new ConstructorInvocation(receiver);
     const design = target.design;
     let chain: ClassInvocation = target;
-    chain = OnDemandInterceptorFactory.addInterceptor(chain, new OnDemandParameterInterceptor(design));
+    if (design.hasParameter()) {
+      chain = OnDemandInterceptorFactory.addInterceptor(chain, new OnDemandParameterInterceptor(design));
+    }
     chain = OnDemandInterceptorFactory.addInterceptors(chain, design.getOwnInterceptors());
     target.version = design.version;
     return chain;

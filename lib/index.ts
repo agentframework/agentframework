@@ -99,8 +99,8 @@ export function CreateAgent<T extends Function>(type: T): T {
  *********************************************************************/
 export { AddAttributeToProperty } from '../src/core';
 export { AddAttributeToPropertyParameter } from '../src/core';
-export { AddAttributeToClass } from '../src/core';
-export { AddAttributeToClassConstructorParameter } from '../src/core';
+export { AddAttributeToConstructor } from '../src/core';
+export { AddAttributeToConstructorParameter } from '../src/core';
 
 /*********************************************************************
  *    (Stability: 2 - Stable): TSLIB Re-work

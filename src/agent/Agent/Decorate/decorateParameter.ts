@@ -15,7 +15,7 @@ limitations under the License. */
 // import { Reflector } from '../Reflector';
 import { CanDecorate } from './CanDecorate';
 import { ParameterAttribute } from '../TypeAttributes';
-import { AddAttributeToClassConstructorParameter } from '../../../dependencies/core';
+import { AddAttributeToConstructorParameter } from '../../../dependencies/core';
 import { AddAttributeToPropertyParameter } from '../../../dependencies/core';
 
 /**
@@ -31,7 +31,7 @@ export function decorateParameter<T extends ParameterAttribute>(attribute: T) {
         //   .parameter(parameterIndex)
         //   .addAttribute(attribute);
       } else {
-        AddAttributeToClassConstructorParameter(attribute, (target as Function).prototype, parameterIndex);
+        AddAttributeToConstructorParameter(attribute, (target as Function).prototype, parameterIndex);
         // Reflector(target)
         //   .parameter(parameterIndex)
         //   .addAttribute(attribute);

@@ -140,14 +140,14 @@ class OnDemandCompiler {
       if ('function' === typeof setterFunction) {
         // getter(yes) and setter(yes)
         propertyDescriptor.get = function (this: any) {
-          const getter = new MethodInvocation(property, getterFunction);
+          const getter = new MethodInvocation(getterFunction, property);
           const getterChain = OnDemandInvocationFactory.createPropertyInvocation(getter, property);
           const descriptor = {
             get() {
               return getterChain.invoke([], this);
             },
             set(value: any) {
-              const setter = new MethodInvocation(property, setterFunction);
+              const setter = new MethodInvocation(setterFunction, property);
               const setterChain = OnDemandInvocationFactory.createPropertyInvocation(setter, property);
               descriptor.set = function () {
                 setterChain.invoke(arguments, this);
@@ -161,11 +161,11 @@ class OnDemandCompiler {
           return getterChain.invoke([], this);
         };
         propertyDescriptor.set = function (this: any) {
-          const setter = new MethodInvocation(property, setterFunction);
+          const setter = new MethodInvocation(setterFunction, property);
           const setterChain = OnDemandInvocationFactory.createPropertyInvocation(setter, property);
           const descriptor = {
             get() {
-              const getter = new MethodInvocation(property, getterFunction);
+              const getter = new MethodInvocation(getterFunction, property);
               const getterChain = OnDemandInvocationFactory.createPropertyInvocation(getter, property);
               descriptor.get = function () {
                 return getterChain.invoke([undefined], this);
@@ -184,7 +184,7 @@ class OnDemandCompiler {
       } else {
         // getter(yes), setter(no)
         propertyDescriptor.get = function (this: any) {
-          const getter = new MethodInvocation(property, getterFunction);
+          const getter = new MethodInvocation(getterFunction, property);
           const getterChain = OnDemandInvocationFactory.createPropertyInvocation(getter, property);
           propertyDescriptor.get = function (this: any) {
             return getterChain.invoke([], this);
@@ -196,7 +196,7 @@ class OnDemandCompiler {
     } else if ('function' === typeof setterFunction) {
       // getter(no), setter(yes)
       propertyDescriptor.set = function (this: any) {
-        const setter = new MethodInvocation(property, setterFunction);
+        const setter = new MethodInvocation(setterFunction, property);
         const setterChain = OnDemandInvocationFactory.createPropertyInvocation(setter, property);
         propertyDescriptor.set = function (this: any) {
           return setterChain.invoke(arguments, this);
@@ -206,7 +206,7 @@ class OnDemandCompiler {
       };
     } else if ('function' === typeof defaultValue) {
       propertyDescriptor.value = function (this: any) {
-        let chain: PropertyInvocation = new MethodInvocation(property, defaultValue);
+        let chain: PropertyInvocation = new MethodInvocation(defaultValue, property);
         if (property.hasParameter()) {
           chain = OnDemandInterceptorFactory.addInterceptor(chain, new OnDemandParameterInterceptor(property));
         }

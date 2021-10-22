@@ -1,6 +1,10 @@
 import { Remember } from '../Decorators/Remember/Remember';
 import { ClassInvocation } from '../TypeInvocations';
 
+export interface ClassInvocationCache {
+  invocation: ClassInvocation;
+}
+
 /**
  * Gets or sets invocations of giving type (to improve both `new Class()` perf and bootstrap perf)
  */

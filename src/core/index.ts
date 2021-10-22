@@ -9,8 +9,6 @@ export { Annotation } from './Core/Annotation';
  *********************************************************************/
 export { AddAttributeToProperty } from './Core/AddAttribute';
 export { AddAttributeToPropertyParameter } from './Core/AddAttribute';
-export { AddAttributeToClass } from './Core/AddAttributeToClass';
-export { AddAttributeToClassConstructorParameter } from './Core/AddAttributeToClass';
 
 export { GetKnowledge } from './Core/GetKnowledge';
 
@@ -26,3 +24,5 @@ export { __decorate } from './Core/__decorate';
 export { __agent } from './Core/__agent';
 export { __metadata } from './Core/__metadata';
 export { __param } from './Core/__param';
+export {AddAttributeToConstructorParameter} from "./Core/AddAttribute";
+export {AddAttributeToConstructor} from "./Core/AddAttribute";

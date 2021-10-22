@@ -1,16 +1,15 @@
 import { Annotation } from './Annotation';
+import { Parameter } from './Parameter';
 
 /**
  * @internal
  */
 export class Property extends Annotation {
   descriptor?: PropertyDescriptor;
-  parameters?: Map<number, Annotation>;
-  value?: Annotation;
-  getter?: Annotation;
-  setter?: Annotation;
 
-  constructor(readonly target: object | Function, readonly key: string | symbol, descriptor?: PropertyDescriptor) {
+  parameters?: Map<number, Parameter>;
+
+  constructor(readonly target: object | Function, descriptor?: PropertyDescriptor) {
     super();
     descriptor && (this.descriptor = descriptor);
   }

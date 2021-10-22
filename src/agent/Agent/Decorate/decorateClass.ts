@@ -14,7 +14,7 @@ limitations under the License. */
 
 // import { Reflector } from '../Reflector';
 import { CanDecorate } from './CanDecorate';
-import { AddAttributeToClass } from '../../../dependencies/core';
+import { AddAttributeToConstructor } from '../../../dependencies/core';
 import { Attribute } from '../Attribute';
 
 /**
@@ -24,7 +24,7 @@ export function decorateClass<T extends Attribute>(attribute: T) {
   // upgrade prototype
   return (target: Function): void => {
     if (CanDecorate(attribute, target.prototype)) {
-      AddAttributeToClass(attribute, target.prototype);
+      AddAttributeToConstructor(attribute, target.prototype);
     }
   };
 }

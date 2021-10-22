@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { Attribute } from '../Attribute';
 import { CanDecorate } from './CanDecorate';
-import { AddAttributeToClass, AddAttributeToClassConstructorParameter } from '../../../dependencies/core';
+import { AddAttributeToConstructor, AddAttributeToConstructorParameter } from '../../../dependencies/core';
 import { MemberKinds } from '../Reflection/MemberKinds';
 import { AgentFrameworkError } from '../AgentFrameworkError';
 import { AddAttributeToProperty, AddAttributeToPropertyParameter } from '../../../dependencies/core';
@@ -40,7 +40,7 @@ export function decorate<T extends Attribute>(
           );
         }
         if (CanDecorate(attribute, target, key, descriptorOrIndex)) {
-          AddAttributeToClassConstructorParameter(attribute, (target as Function).prototype, descriptorOrIndex);
+          AddAttributeToConstructorParameter(attribute, (target as Function).prototype, descriptorOrIndex);
           // Reflector(target)
           //   .parameter(descriptor)
           //   .addAttribute(attribute);
@@ -53,7 +53,7 @@ export function decorate<T extends Attribute>(
           );
         }
         if (CanDecorate(attribute, target, key)) {
-          AddAttributeToClass(attribute, (target as Function).prototype);
+          AddAttributeToConstructor(attribute, (target as Function).prototype);
           // Reflector(target)
           //   .addAttribute(attribute);
         }

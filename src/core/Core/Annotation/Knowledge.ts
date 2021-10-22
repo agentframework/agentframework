@@ -13,8 +13,9 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { CONSTRUCTOR, NOW } from '../WellKnown';
-import { GetProperty } from './GetProperty';
+import { GetProperty } from '../Helpers/GetProperty';
 import { alter } from '../Helpers/alter';
+import { AddMetadata } from '../Helpers/AddMetadata';
 
 /**
  * Use WeakMap to prevent memory leak
@@ -73,7 +74,7 @@ export class Knowledge extends WeakMap<Function | object, any> {
             newTarget = target;
             newTargetKey = targetKey!;
           }
-          GetProperty(self.add(newTarget), newTarget, newTargetKey, descriptor).set(key, value);
+          AddMetadata(GetProperty(self.add(newTarget), newTarget, newTargetKey, descriptor), key, value);
           return metadata(key, value)(target, targetKey, descriptor);
         };
       };
@@ -89,7 +90,7 @@ export class Knowledge extends WeakMap<Function | object, any> {
             newTarget = target;
             newTargetKey = targetKey!;
           }
-          GetProperty(self.add(newTarget), newTarget, newTargetKey, descriptor).set(key, value);
+          AddMetadata(GetProperty(self.add(newTarget), newTarget, newTargetKey, descriptor), key, value);
         };
       };
     }

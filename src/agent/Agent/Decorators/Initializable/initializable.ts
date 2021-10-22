@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Initializer } from './Initializer';
-import { AddAttributeToClass } from '../../../../dependencies/core';
+import { AddAttributeToConstructor } from '../../../../dependencies/core';
 import { InitializerAttribute } from './InitializerAttribute';
 import { StaticInitializerAttribute } from './StaticInitializerAttribute';
 
@@ -21,7 +21,7 @@ export function initializable(key?: string | symbol): ClassDecorator {
   return (type: Function): void => {
     // NOTE: Design pattern: Factory method
     // InitializerAttribute must before StaticInitializerAttribute
-    AddAttributeToClass(new InitializerAttribute(key || Initializer), type.prototype);
-    AddAttributeToClass(new StaticInitializerAttribute(key || Initializer), type.prototype);
+    AddAttributeToConstructor(new InitializerAttribute(key || Initializer), type.prototype);
+    AddAttributeToConstructor(new StaticInitializerAttribute(key || Initializer), type.prototype);
   };
 }

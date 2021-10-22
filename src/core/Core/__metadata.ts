@@ -14,17 +14,16 @@ limitations under the License. */
 
 import { CONSTRUCTOR } from './WellKnown';
 import { Knowledge } from './Knowledge';
-import { GetProperty } from './Annotation/GetProperty';
+import { GetProperty } from './Helpers/GetProperty';
+import { AddMetadata } from './Helpers/AddMetadata';
 
 /*@__PURE__*/
-export function __metadata(metadataKey: string, metadataValue: any): Function {
+export function __metadata(key: string, value: any): Function {
   return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
     if (targetKey == null) {
       target = (<Function>target).prototype;
       targetKey = CONSTRUCTOR;
     }
-    const knowledge = Knowledge.add(target);
-    const property = GetProperty(knowledge, target, targetKey, descriptor);
-    property.set(metadataKey, metadataValue);
+    AddMetadata(GetProperty(Knowledge.add(target), target, targetKey, descriptor), key, value);
   };
 }

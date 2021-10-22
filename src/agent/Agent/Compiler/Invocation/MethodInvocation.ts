@@ -22,7 +22,7 @@ import { Arguments } from '../../Arguments';
 export class MethodInvocation implements PropertyInvocation {
   version: number = 0;
 
-  constructor(readonly design: PropertyInfo, readonly target: Function) {}
+  constructor(readonly target: Function, readonly design: PropertyInfo) {}
 
   invoke(params: Arguments, receiver: any): any {
     return Reflect.apply(this.target, receiver, params);

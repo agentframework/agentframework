@@ -1,6 +1,10 @@
 import { Knowledge } from './Knowledge';
-import { GetProperty } from './Annotation/GetProperty';
-import { GetParameter } from './Annotation/GetParameter';
+import { GetProperty } from './Helpers/GetProperty';
+import { GetParameter } from './Helpers/GetParameter';
+import { AddAttribute } from './Helpers/AddAttribute';
+import { AddVersion } from './Helpers/AddVersion';
+import { CONSTRUCTOR } from './WellKnown';
+import { GetVersion } from './Helpers/GetVersion';
 
 /**
  * equals Reflector(target).property(property, descriptor).addAttribute(attribute);
@@ -13,16 +17,8 @@ export function AddAttributeToProperty(
 ): void {
   const knowledge = Knowledge.add(target);
   const property = GetProperty(knowledge, target, key, descriptor);
-  property.attributes.push(attribute);
-  property.version++;
-  // if (interceptable) {
-  //   property.interceptors.push(attribute);
-  //   property.version++;
-  //   if (key !== CONSTRUCTOR) {
-  //     const root = GetProperty(knowledge, target, CONSTRUCTOR, descriptor);
-  //     root.version++;
-  //   }
-  // }
+  AddAttribute(property, attribute);
+  AddVersion(property);
 }
 
 /**
@@ -34,19 +30,29 @@ export function AddAttributeToPropertyParameter(
   key: string | symbol,
   parameterIndex: number
 ): void {
+  const version = GetVersion(target);
   const knowledge = Knowledge.add(target);
   const property = GetProperty(knowledge, target, key);
   const parameter = GetParameter(property, parameterIndex);
-  parameter.attributes.push(attribute);
-  parameter.version++;
-  property.version++;
-  // if (interceptable) {
-  //   parameter.interceptors.push(attribute);
-  //   parameter.version++;
-  //   property.version++;
-  //   if (key !== CONSTRUCTOR) {
-  //     const type = GetProperty(knowledge, target, CONSTRUCTOR);
-  //     type.version++;
-  //   }
-  // }
+  AddAttribute(parameter, attribute);
+  AddVersion(parameter);
+  AddVersion(property);
+}
+
+/**
+ * equals Reflector(target).addAttribute(attribute);
+ */
+export function AddAttributeToConstructor(attribute: object, target: object | Function): void {
+  AddAttributeToProperty(attribute, target, CONSTRUCTOR);
+}
+
+/**
+ * equals Reflector(target).parameter(parameterIndex).addAttribute(attribute);
+ */
+export function AddAttributeToConstructorParameter(
+  attribute: object,
+  target: object | Function,
+  parameterIndex: number
+): void {
+  AddAttributeToPropertyParameter(attribute, target, CONSTRUCTOR, parameterIndex);
 }

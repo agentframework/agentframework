@@ -12,17 +12,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Property } from './Property';
-import { Annotation } from './Annotation';
+import { Property } from '../Annotation/Property';
+import { Parameter } from '../Annotation/Parameter';
 
 /**
  * @internal
  */
-export function GetParameter(property: Property, index: number): Annotation {
-  const map = property.parameters || (property.parameters = new Map<number, Annotation>());
+export function GetParameter(property: Property, index: number): Parameter {
+  const map = property.parameters || (property.parameters = new Map<number, Parameter>());
   let value = map.get(index);
   if (!value) {
-    map.set(index, (value = new Annotation()));
+    map.set(index, (value = new Parameter(property)));
   }
   return value;
 }

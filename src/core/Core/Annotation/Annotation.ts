@@ -15,7 +15,7 @@ limitations under the License. */
 /**
  * metadata for a member. key: string, value: any
  */
-export class Annotation extends Map<string, any> {
+export abstract class Annotation extends Map<string, any> {
   /**
    * version of this annotation
    */
@@ -24,5 +24,5 @@ export class Annotation extends Map<string, any> {
   /**
    * attributes for this code, sequence is matter
    */
-  readonly attributes: Array<any> = [];
+  attributes: Array<any> = [];
 }

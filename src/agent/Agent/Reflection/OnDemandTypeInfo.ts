@@ -20,7 +20,7 @@ import { PropertyInfo } from './PropertyInfo';
 import { Filter } from './Filter';
 import { Attribute } from '../Attribute';
 import { Remember } from '../Decorators/Remember/Remember';
-import { AddAttributeToClass } from '../../../dependencies/core';
+import { AddAttributeToConstructor } from '../../../dependencies/core';
 import { CONSTRUCTOR } from '../WellKnown';
 import { Once } from '../Decorators/Once/Once';
 import { Property } from '../../../dependencies/core';
@@ -336,7 +336,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   }
 
   addAttribute<A4 extends Attribute>(attribute: A4): void {
-    AddAttributeToClass(attribute, this.target);
+    AddAttributeToConstructor(attribute, this.target);
   }
 
   protected getOwnMetadata(key: string): any | undefined {
