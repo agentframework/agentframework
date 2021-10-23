@@ -13,11 +13,11 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { AgentFrameworkError } from '../../AgentFrameworkError';
-import { ClassInterceptor } from '../../TypeInterceptors';
+import { TypeInterceptor } from '../../TypeInterceptors';
 import { TypeInvocation } from '../../TypeInvocations';
 import { Arguments } from '../../Arguments';
 
-export class StaticInitializerAttribute implements ClassInterceptor {
+export class StaticInitializerAttribute implements TypeInterceptor {
   constructor(readonly key: PropertyKey) {}
 
   get interceptor() {

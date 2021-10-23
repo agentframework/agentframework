@@ -1,8 +1,8 @@
 /* tslint:disable */
 
-import { AgentAttribute } from '../../../src/dependencies/agent';
+import { OnDemandAgentAttribute } from '../../../src/dependencies/agent';
 
-export class BadAgentChecker extends AgentAttribute {
+export class BadAgentChecker extends OnDemandAgentAttribute {
   beforeDecorate(
     target: Object | Function,
     targetKey?: string | symbol,

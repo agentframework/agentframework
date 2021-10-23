@@ -17,7 +17,7 @@ import { TypeInfo } from './Reflection/TypeInfo';
 import { PropertyInfo } from './Reflection/PropertyInfo';
 import { ParameterInfo } from './Reflection/ParameterInfo';
 
-export interface ClassInterceptor extends Interceptor<TypeInfo> {}
+export interface TypeInterceptor extends Interceptor<TypeInfo> {}
 
 export interface PropertyInterceptor extends Interceptor<PropertyInfo> {}
 

@@ -5,7 +5,6 @@ import { TypeInvocation } from '../TypeInvocations';
 export interface ClassConstructorState {
   version: number;
   design: PropertyInfo;
-  // constructor
   invocation: TypeInvocation;
 }
 

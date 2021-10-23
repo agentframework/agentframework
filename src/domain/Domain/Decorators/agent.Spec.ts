@@ -1,5 +1,5 @@
 /* tslint:disable */
-import { AgentAttribute, CreateAgent, IsAgent, Reflector } from '../../../dependencies/agent';
+import { OnDemandAgentAttribute, CreateAgent, IsAgent, Reflector } from '../../../dependencies/agent';
 import { agent } from '../../../dependencies/domain';
 
 @agent()
@@ -55,7 +55,7 @@ describe('Domain @agent() decorator', () => {
     it('get agent attribute', () => {
       // AgentAttribute is only used in compile agent phase
       // AgentAttribute is not a metadata for agent class
-      const items = Reflector(MongoDB).getOwnAttributes(AgentAttribute);
+      const items = Reflector(MongoDB).getOwnAttributes(OnDemandAgentAttribute);
       expect(items.length).toBe(0);
     });
   });

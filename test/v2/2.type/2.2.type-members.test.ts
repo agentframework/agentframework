@@ -234,9 +234,11 @@ describe('2.2. Type members', () => {
         run() {}
       }
       expect(Reflector(ClassTest22).version).toBe(0);
+      expect(Reflector(ClassTest22).property('constructor').version).toBe(0);
       Reflector(ClassTest22).property('constructor').addAttribute({ id: 'ClassTest22' });
       expect(Reflector(ClassTest22).hasOwnAttribute()).toBeTrue();
-      expect(Reflector(ClassTest22).version).toBe(1);
+      expect(Reflector(ClassTest22).version).toBe(0);
+      expect(Reflector(ClassTest22).property('constructor').version).toBe(1);
     });
   });
 

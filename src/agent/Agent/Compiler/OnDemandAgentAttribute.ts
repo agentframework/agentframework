@@ -12,23 +12,26 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Arguments } from './Arguments';
-import { ClassAttribute } from './TypeAttributes';
-import { TypeInvocation } from './TypeInvocations';
-import { ClassInterceptor } from './TypeInterceptors';
-import { UpgradeAgentProperties } from './Compiler/OnDemandCompiler';
-import { FindExtendedClass } from './FindExtendedClass';
-import { AgentFrameworkError } from './AgentFrameworkError';
-import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
-import { ClassConstructors } from './Knowledges/ClassConstructors';
-import { ClassMembers } from './Knowledges/ClassMembers';
-import { RememberType } from './Knowledges/Types';
+import { Arguments } from '../Arguments';
+import { TypeAttribute } from '../TypeAttributes';
+import { TypeInvocation } from '../TypeInvocations';
+import { TypeInterceptor } from '../TypeInterceptors';
+import { UpgradeAgentProperties } from './OnDemandAgentCompiler';
+import { FindExtendedClass } from '../FindExtendedClass';
+import { AgentFrameworkError } from '../AgentFrameworkError';
+import { OnDemandInvocationFactory } from './OnDemandInvocationFactory';
+import { ClassConstructors } from '../Knowledges/ClassConstructors';
+import { ClassMembers } from '../Knowledges/ClassMembers';
+import { RememberType } from '../Knowledges/Types';
 
 /**
  * This attribute is for upgrade class to agent
  */
-export class AgentAttribute implements ClassAttribute, ClassInterceptor {
-  get interceptor(): ClassInterceptor {
+export class OnDemandAgentAttribute implements TypeAttribute, TypeInterceptor {
+  /**
+   * get interceptor
+   */
+  get interceptor(): TypeInterceptor {
     return this;
   }
 
@@ -36,10 +39,14 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
    * Create type hook (called after javascript loaded)
    */
   intercept(target: TypeInvocation, params: any, receiver: Function): Function {
+    //const design = OnDemandTypeInfo.find(target.design.declaringType.prototype);
+    //if (design.annotation?.v || design.typeAnnotation?.v) {
     const [, type, state] = params;
     const newReceiver = (state.target = Reflect.construct(type, [receiver, state]));
     RememberType(newReceiver, receiver);
     return (state.receiver = target.invoke<Function>(params, newReceiver));
+    //}
+    // return receiver;
   }
 
   /**
@@ -76,6 +83,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     // this.target !== target
     // this.target.prototype === target.prototype
     // GetType(this.target) === target
+
     const cacheKey = this.target;
 
     let invocation: TypeInvocation | undefined;
@@ -94,8 +102,7 @@ export class AgentAttribute implements ClassAttribute, ClassInterceptor {
     }
 
     const design = invocation.design;
-    const type = design.typeAnnotation;
-    const version = type && type.v;
+    const version = design.version
     if (version) {
       const state = ClassMembers.v1.get(cacheKey);
       if (!state || state.version !== version) {

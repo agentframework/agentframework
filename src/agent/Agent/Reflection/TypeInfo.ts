@@ -33,6 +33,11 @@ export interface TypeInfo extends PropertyInfo {
   readonly base: TypeInfo | null | undefined;
 
   /**
+   * Type version. includes all properties
+   */
+  readonly version: number;
+
+  /**
    * Returns property by key (create if not exist)
    */
   property(key: PropertyKey): PropertyInfo;

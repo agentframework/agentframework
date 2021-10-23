@@ -15,13 +15,20 @@ limitations under the License. */
 import { Arguments } from '../../Arguments';
 import { TypeInvocation } from '../../TypeInvocations';
 import { TypeInfo } from '../../Reflection/TypeInfo';
+import { PropertyInfo } from '../../Reflection/PropertyInfo';
+import { CONSTRUCTOR } from '../../WellKnown';
+import { OnDemandTypeInfo } from '../../Reflection/OnDemandTypeInfo';
 
 /**
  * @ignore
  * @hidden
  */
 export class ClassTypeInvocation implements TypeInvocation {
-  constructor(readonly target: Function, readonly design: TypeInfo) {}
+  constructor(
+    readonly target: Function,
+    readonly design: TypeInfo = OnDemandTypeInfo.find(target.prototype),
+    readonly property: PropertyInfo = design.property(CONSTRUCTOR)
+  ) {}
 
   invoke(params: Arguments, receiver: Function): any {
     return Reflect.construct(this.target, params, receiver);

@@ -74,7 +74,6 @@ describe('6.4. @transit decorator', () => {
       }
 
       const app = new App644();
-
       expect(() => {
         expect(app.service).toBeUndefined();
       }).toThrowError('UnknownTransitType');

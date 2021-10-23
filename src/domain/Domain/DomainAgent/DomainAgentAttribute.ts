@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AgentAttribute, Arguments, ClassInterceptor, TypeInvocation } from '../../../dependencies/agent';
+import { OnDemandAgentAttribute, Arguments, TypeInterceptor, TypeInvocation } from '../../../dependencies/agent';
 import { RememberSingletonAgent } from '../Helpers/RememberSingletonAgent';
 import { GetSingletonAgent } from '../Helpers/GetSingletonAgent';
 import { DomainLike } from '../DomainLike';
@@ -23,7 +23,7 @@ import { DomainLike } from '../DomainLike';
 // import { Domain } from '../Domain';
 // import { OnDemandClassConstructor } from './DomainAgentConstructor';
 
-export class DomainAgentAttribute extends AgentAttribute implements ClassInterceptor {
+export class DomainAgentAttribute extends OnDemandAgentAttribute implements TypeInterceptor {
   constructor(readonly domain: DomainLike) {
     super();
   }

@@ -7,8 +7,9 @@ import { PropertyInfo } from '../Reflection/PropertyInfo';
 import { Invocation } from '../Invocation';
 import { TypeInfo } from '../Reflection/TypeInfo';
 import { OnDemandParameterInterceptor } from './Interceptor/OnDemandParameterInterceptor';
-import { OnDemandTypeInfo } from '../Reflection/OnDemandTypeInfo';
 import { ClassConstructorState } from '../Knowledges/ClassConstructors';
+import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
+import { MethodInvocation } from './Invocation/MethodInvocation';
 
 export class OnDemandInvocationFactory {
   /**
@@ -18,23 +19,25 @@ export class OnDemandInvocationFactory {
    * @internal
    */
   static createAgentInvocation(target: Function, attribute: Attribute): TypeInvocation {
-    const design: TypeInfo = OnDemandTypeInfo.find(target);
-    let chain: Invocation<TypeInfo> = new AgentTypeInvocation(target, design);
-    chain = OnDemandInterceptorFactory.addInterceptor(chain, attribute);
+    const invocation = new AgentTypeInvocation(target);
+    const design = invocation.property;
+    let chain: Invocation<TypeInfo> = invocation;
     if (design.version) {
       chain = OnDemandInterceptorFactory.addInterceptors(chain, design.ownInterceptors);
     }
+    chain = OnDemandInterceptorFactory.addInterceptor(chain, attribute);
     return chain;
   }
 
-  /**
+  /**s
    * this chain is been cached by caller
    *
    * @internal
    */
   static createConstructorInvocation(target: Function): ClassConstructorState {
-    const design = OnDemandTypeInfo.find(target.prototype);
-    let chain: Invocation<TypeInfo> = new ClassTypeInvocation(target, design);
+    const invocation = new ClassTypeInvocation(target);
+    const design = invocation.property;
+    let chain: Invocation<TypeInfo> = invocation;
     if (design.version) {
       if (design.hasParameter()) {
         chain = OnDemandInterceptorFactory.addInterceptor(chain, new OnDemandParameterInterceptor(design));
@@ -47,10 +50,19 @@ export class OnDemandInvocationFactory {
   /**
    * @internal
    */
-  static createPropertyInvocation<T extends PropertyInfo>(
-    invocation: Invocation<T>,
-    property: PropertyInfo
-  ): Invocation<T> {
-    return OnDemandInterceptorFactory.addInterceptors(invocation, property.ownInterceptors);
+  static createFieldInvocation<T extends PropertyInfo>(property: T, cache: WeakMap<any, any>): Invocation<T> {
+    let chain: Invocation<T> = new GetterSetterInvocation(property, cache);
+    return OnDemandInterceptorFactory.addInterceptors<T>(chain, property.ownInterceptors);
+  }
+
+  /**
+   * @internal
+   */
+  static createPropertyInvocation<T extends PropertyInfo>(method: Function, property: T): Invocation<T> {
+    let chain: Invocation<T> = new MethodInvocation(method, property);
+    if (property.hasParameter()) {
+      chain = OnDemandInterceptorFactory.addInterceptor(chain, new OnDemandParameterInterceptor(property));
+    }
+    return OnDemandInterceptorFactory.addInterceptors(chain, property.ownInterceptors);
   }
 }

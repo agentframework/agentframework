@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AgentFrameworkError, ClassAttribute, CreateAgent } from '../../../dependencies/agent';
+import { AgentFrameworkError, TypeAttribute, CreateAgent } from '../../../dependencies/agent';
 import { DomainAgentAttribute } from './DomainAgentAttribute';
 import { Domain } from '../Domain';
 import { GetDomain } from '../Helpers/GetDomain';
@@ -22,7 +22,7 @@ import { RememberDomainAgent } from '../Helpers/RememberDomainAgent';
 /**
  * This function only called once per domain
  */
-export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, strategy?: ClassAttribute): T {
+export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, strategy?: TypeAttribute): T {
   // check owner domain
   const owner = GetDomain(type);
   if (owner && domain !== owner) {

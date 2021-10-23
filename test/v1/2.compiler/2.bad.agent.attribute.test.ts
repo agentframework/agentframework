@@ -1,7 +1,7 @@
 /* tslint:disable */
 
 import { decorateMember, Interceptor, Attribute, IsAgent } from '../../../src/dependencies/agent';
-import { CreateAgent, AgentAttribute } from '../../../src/dependencies/agent';
+import { CreateAgent, OnDemandAgentAttribute } from '../../../src/dependencies/agent';
 import { InjectAttribute } from '../1.attributes/InjectAttribute';
 
 class Connection {
@@ -23,7 +23,7 @@ class MongoDB extends Database {
   }
 }
 
-class AgentBadInterceptorAttribute extends AgentAttribute implements Attribute {
+class AgentBadInterceptorAttribute extends OnDemandAgentAttribute implements Attribute {
   beforeDecorate(
     target: Object | Function,
     targetKey?: string | symbol,

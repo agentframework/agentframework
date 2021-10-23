@@ -144,8 +144,16 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     return GetConstructorAnnotation(this.target);
   }
 
+  // protected getAnnotation(): Property | undefined {
+  //   return GetAnnotation(this.target);
+  // }
+
   protected getTypeAnnotation(): Type | undefined {
     return GetAnnotation(this.target);
+  }
+
+  get annotation(): Property | undefined {
+    return Once(this, 'annotation', this.getAnnotation());
   }
 
   /**
@@ -154,6 +162,14 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    */
   get typeAnnotation(): Type | undefined {
     return Once(this, 'typeAnnotation', this.getTypeAnnotation());
+  }
+
+  /**
+   * version. 0 means not annotated
+   */
+  get version(): number {
+    const annotation = this.typeAnnotation;
+    return annotation ? annotation.v : 0;
   }
 
   /**
@@ -281,15 +297,6 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
     }
     return found;
   }
-
-  // /**
-  //  * return intercepted properties
-  //  */
-  // get ownInterceptedProperties(): ReadonlyArray<PropertyInfo> {
-  //   return Cache(this, 'ownInterceptedProperties', () => {
-  //     return this.findOwnProperties((p) => p.intercepted);
-  //   });
-  // }
 
   /**
    * Returns a filtered array of Property objects for all prototype in prototype chain - deep first [root, base, this]

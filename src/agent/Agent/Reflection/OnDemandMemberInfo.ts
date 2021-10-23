@@ -28,7 +28,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
   /**
    * create member
    */
-  constructor(readonly target: object | Function) {}
+  protected constructor(readonly target: object | Function) {}
 
   /**
    * Get name implementation, can be override by divided class

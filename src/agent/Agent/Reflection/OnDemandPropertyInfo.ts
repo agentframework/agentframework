@@ -18,7 +18,13 @@ import { MemberKinds } from './MemberKinds';
 import { PropertyInfo } from './PropertyInfo';
 import { ParameterInfo } from './ParameterInfo';
 import { MemberInfo } from './MemberInfo';
-import { AddAttributeToConstructor, AddAttributeToProperty, Property } from '../../../dependencies/core';
+import {
+  AddAttributeToConstructor,
+  AddAttributeToProperty,
+  GetAnnotation,
+  GetConstructorAnnotation,
+  Property,
+} from '../../../dependencies/core';
 import { Once } from '../Decorators/Once/Once';
 import { Cache } from '../Decorators/Cache/Cache';
 import { CONSTRUCTOR, DESIGN_PARAMTYPES, DESIGN_RETURNTYPE, DESIGN_TYPE } from '../WellKnown';
@@ -45,7 +51,10 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
   }
 
   protected getAnnotation(): Property | undefined {
-    const annotation = this.parent && this.parent.typeAnnotation;
+    if (this.key === CONSTRUCTOR) {
+      return GetConstructorAnnotation(this.target);
+    }
+    const annotation = GetAnnotation(this.target);
     return annotation && annotation.properties && annotation.properties.get(this.key);
   }
 

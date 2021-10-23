@@ -1,10 +1,10 @@
-import { decorateClass, Reflector, ClassAttribute, Attribute } from '../../../src/dependencies/agent';
+import { decorateClass, Reflector, TypeAttribute, Attribute } from '../../../src/dependencies/agent';
 import { Class } from '../../../src/dependencies/agent';
 
 /**
  * The tests shows 3 ways to add attribute to a class at design time
  */
-class ControllerAttribute implements ClassAttribute {
+class ControllerAttribute implements TypeAttribute {
   constructor(readonly path: string) {}
 }
 
@@ -12,7 +12,7 @@ function controller(path: string) {
   return decorateClass(new ControllerAttribute(path));
 }
 
-class RoleAttribute implements ClassAttribute {
+class RoleAttribute implements TypeAttribute {
   constructor(readonly role: string) {}
 }
 

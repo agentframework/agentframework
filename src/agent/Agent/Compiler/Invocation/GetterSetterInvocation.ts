@@ -12,18 +12,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { PropertyInvocation } from '../../TypeInvocations';
-import { PropertyInfo } from '../../Reflection/PropertyInfo';
 import { AgentFrameworkError } from '../../AgentFrameworkError';
 import { Arguments } from '../../Arguments';
+import { PropertyInfo } from '../../Reflection/PropertyInfo';
+import { Invocation } from '../../Invocation';
 
 /**
  * @ignore
  * @hidden
  */
-export class GetterSetterInvocation implements PropertyInvocation {
-
-  constructor(readonly design: PropertyInfo, readonly values = new WeakMap<any, any>()) {}
+export class GetterSetterInvocation<T extends PropertyInfo> implements Invocation<T> {
+  constructor(readonly design: T, readonly cache: WeakMap<any, any>) {}
 
   invoke(params: Arguments, receiver: any): any {
     const key = this.design.key;
@@ -37,12 +36,12 @@ export class GetterSetterInvocation implements PropertyInvocation {
       // how to know the value of a field before you create that class
       // return the value from prototype is a good choose? NO, it may cause infinite loops
       // note: GetterSetterInvocation is shared across all instance of same type
-      this.values.set(receiver, params[0]);
+      this.cache.set(receiver, params[0]);
       return params[0];
     } else {
       // note: can not call receiver[key] here because infinite loop
-      if (this.values.has(receiver)) {
-        return this.values.get(receiver);
+      if (this.cache.has(receiver)) {
+        return this.cache.get(receiver);
       }
       // read value from prototype of declaringType
       const prototype = this.design.declaringType.prototype;

@@ -12,10 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+import { alter } from '../alter';
 import { TypeInfo } from '../../Reflection/TypeInfo';
+import { PropertyInfo } from '../../Reflection/PropertyInfo';
 import { TypeInvocation } from '../../TypeInvocations';
 import { RememberType } from '../../Knowledges/Types';
-import { alter } from '../alter';
+import { CONSTRUCTOR } from '../../WellKnown';
+import { OnDemandTypeInfo } from '../../Reflection/OnDemandTypeInfo';
 
 /**
  * Upgrade class to agent
@@ -24,7 +27,11 @@ import { alter } from '../alter';
  * @hidden
  */
 export class AgentTypeInvocation implements TypeInvocation {
-  constructor(readonly target: Function, readonly design: TypeInfo) {}
+  constructor(
+    readonly target: Function,
+    readonly design: TypeInfo = OnDemandTypeInfo.find(target),
+    readonly property: PropertyInfo = design.property(CONSTRUCTOR)
+  ) {}
 
   invoke([id]: any, receiver: any): any {
     // dont do any change if no changes to the target

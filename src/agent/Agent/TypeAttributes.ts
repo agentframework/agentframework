@@ -13,14 +13,14 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Attribute } from './Attribute';
-import { ClassInterceptor, ParameterInterceptor, PropertyInterceptor } from './TypeInterceptors';
+import { TypeInterceptor, ParameterInterceptor, PropertyInterceptor } from './TypeInterceptors';
 
 /**
  * Attribute applies to class
  */
-export interface ClassAttribute extends Attribute {
+export interface TypeAttribute extends Attribute {
   beforeDecorate?(target: Function): boolean;
-  readonly interceptor?: ClassInterceptor;
+  readonly interceptor?: TypeInterceptor;
 }
 
 /**

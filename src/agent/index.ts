@@ -28,8 +28,8 @@ export { Interceptor } from './Agent/Interceptor';
 export { Attribute } from './Agent/Attribute';
 
 export { TypeInvocation } from './Agent/TypeInvocations';
-export { ClassInterceptor } from './Agent/TypeInterceptors';
-export { ClassAttribute } from './Agent/TypeAttributes';
+export { TypeInterceptor } from './Agent/TypeInterceptors';
+export { TypeAttribute } from './Agent/TypeAttributes';
 
 export { ParameterInvocation } from './Agent/TypeInvocations';
 export { ParameterInterceptor } from './Agent/TypeInterceptors';
@@ -81,7 +81,7 @@ export { AgentFrameworkError } from './Agent/AgentFrameworkError';
 /*********************************************************************
  *   (Stability: 1 - Experimental): Custom Agent API
  *********************************************************************/
-export { AgentAttribute } from './Agent/AgentAttribute';
+export { OnDemandAgentAttribute } from './Agent/Compiler/OnDemandAgentAttribute';
 
 /*********************************************************************
  *   (Stability: 1 - Experimental): Getter Decorator: @remember()

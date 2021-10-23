@@ -4,7 +4,7 @@ import { decorateMember, Reflector } from '../../../src/dependencies/agent';
 import { RandomInterceptor } from '../1.attributes/RandomInterceptor';
 import { RoundInterceptor } from '../1.attributes/RoundInterceptor';
 import { MetadataAttribute } from '../1.attributes/MetadataAttribute';
-import { AgentAttribute } from '../../../src/dependencies/agent';
+import { OnDemandAgentAttribute } from '../../../src/dependencies/agent';
 
 class MongoDB {
   @decorateMember(new RandomInterceptor())
@@ -53,7 +53,7 @@ describe('Reflection', () => {
 
   describe('# should not able to', () => {
     it('get agent attribute', () => {
-      expect(Reflector(MongoDB).getOwnAttributes(AgentAttribute).length).toBe(0);
+      expect(Reflector(MongoDB).getOwnAttributes(OnDemandAgentAttribute).length).toBe(0);
     });
 
     it('get agent target', () => {

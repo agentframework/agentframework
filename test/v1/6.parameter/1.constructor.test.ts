@@ -46,7 +46,7 @@ class Redis1611 {
 describe('Initializer for Constructor Parameter', () => {
   describe('# should able to', () => {
     it('get version', () => {
-      expect(Reflector(MongoDB1611).version).toBe(1);
+      expect(Reflector(MongoDB1611).version).toBe(0);
     });
 
     it('create with injected connection', () => {

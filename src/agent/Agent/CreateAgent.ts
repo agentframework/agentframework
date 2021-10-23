@@ -12,8 +12,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AgentAttribute } from './AgentAttribute';
-import { ClassAttribute } from './TypeAttributes';
+import { OnDemandAgentAttribute } from './Compiler/OnDemandAgentAttribute';
+import { TypeAttribute } from './TypeAttributes';
 import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
 import { CanDecorate } from './Decorate/CanDecorate';
 import { AgentFrameworkError } from './AgentFrameworkError';
@@ -26,14 +26,14 @@ import { GetType } from './Knowledges/Types';
  * @param type
  * @param strategy
  */
-export function CreateAgent<T extends Function>(type: T, strategy?: ClassAttribute): T {
+export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribute): T {
   // always create new agent using latest annotation
 
   // 1. get original type if giving type is an agent type
   // target is an agent already
   // set the target to origin type to recreate this
   // so create another proxy from this origin class
-  const attribute = Object.create(strategy || Reflect.construct(AgentAttribute, [type]));
+  const attribute = Object.create(strategy || Reflect.construct(OnDemandAgentAttribute, [type]));
 
   if (!CanDecorate(attribute, type)) {
     throw new AgentFrameworkError('NoCreateAgentPermission');
@@ -41,7 +41,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: ClassAttribu
 
   // ALWAYS create agent from raw type
   const receiver = GetType(type) || type;
-  // classic
+
   // create an invocation for agent type.
   // this chain used to generate agent of this target
   // empty agent

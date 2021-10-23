@@ -12,16 +12,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { PropertyInvocation } from '../../TypeInvocations';
 import { PropertyInfo } from '../../Reflection/PropertyInfo';
 import { Arguments } from '../../Arguments';
+import {Invocation} from "../../Invocation";
 
 /**
  * invoke without interceptors, better performance
  */
-export class MethodInvocation implements PropertyInvocation {
+export class MethodInvocation<T extends PropertyInfo> implements Invocation<T> {
 
-  constructor(readonly target: Function, readonly design: PropertyInfo) {}
+  constructor(readonly target: Function, readonly design: T) {}
 
   invoke(params: Arguments, receiver: any): any {
     return Reflect.apply(this.target, receiver, params);
