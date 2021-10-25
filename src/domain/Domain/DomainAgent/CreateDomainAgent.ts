@@ -19,29 +19,36 @@ import { GetDomain } from '../Helpers/GetDomain';
 import { RememberDomain } from '../Helpers/RememberDomain';
 import { RememberDomainAgent } from '../Helpers/RememberDomainAgent';
 
-/**
- * This function only called once per domain
- */
-export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, strategy?: TypeAttribute): T {
+export function CompileDomainAgent<T extends Function>(domain: Domain, type: T, strategy?: TypeAttribute): T {
   // check owner domain
   const owner = GetDomain(type);
   if (owner && domain !== owner) {
     throw new AgentFrameworkError('NotSupportCreateAgentForOtherDomain');
   }
 
+  // can not use domain.construct here
   const attribute =
     strategy ||
     domain.getAgent(DomainAgentAttribute) ||
     Reflect.construct(domain.getType(DomainAgentAttribute) || DomainAgentAttribute, [domain]);
 
   // upgrade to Agent only if interceptor or initializer found
-  const newCreatedAgent = CreateAgent(type, attribute);
+  return CreateAgent(type, attribute);
+}
 
-  RememberDomain(newCreatedAgent, domain);
-  RememberDomain(newCreatedAgent.prototype, domain);
+/**
+ * This function only called once per domain
+ */
+export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, strategy?: TypeAttribute): T {
 
-  RememberDomainAgent(domain, type, newCreatedAgent);
-  RememberDomainAgent(domain, newCreatedAgent, newCreatedAgent);
+  // upgrade to Agent only if interceptor or initializer found
+  const newCreatedDomainAgent = CompileDomainAgent(domain, type, strategy);
 
-  return newCreatedAgent;
+  RememberDomain(newCreatedDomainAgent, domain);
+  RememberDomain(newCreatedDomainAgent.prototype, domain);
+
+  RememberDomainAgent(domain, type, newCreatedDomainAgent);
+  RememberDomainAgent(domain, newCreatedDomainAgent, newCreatedDomainAgent);
+
+  return newCreatedDomainAgent;
 }

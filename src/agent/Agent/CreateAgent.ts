@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { OnDemandAgentAttribute } from './Compiler/OnDemandAgentAttribute';
+import { AgentAttribute } from './AgentAttribute';
 import { TypeAttribute } from './TypeAttributes';
 import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
 import { CanDecorate } from './Decorate/CanDecorate';
@@ -33,13 +33,14 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // target is an agent already
   // set the target to origin type to recreate this
   // so create another proxy from this origin class
-  const attribute = Object.create(strategy || Reflect.construct(OnDemandAgentAttribute, [type]));
+  const attribute = Object.create(strategy || Reflect.construct(AgentAttribute, [type]));
 
   if (!CanDecorate(attribute, type)) {
     throw new AgentFrameworkError('NoCreateAgentPermission');
   }
 
   // ALWAYS create agent from raw type
+  // this will return the origin type
   const receiver = GetType(type) || type;
 
   // create an invocation for agent type.

@@ -15,13 +15,6 @@ limitations under the License. */
 import { Remember } from '../../dependencies/agent';
 import { Domain } from './Domain';
 
-export class SingletonAgents {
-  // key: class, value: singleton instance
-  static get v1() {
-    return Remember('SingletonAgents', this, 'v1', () => new WeakMap<Function, Function>());
-  }
-}
-
 /**
  * Get domain of giving instance or type
  */

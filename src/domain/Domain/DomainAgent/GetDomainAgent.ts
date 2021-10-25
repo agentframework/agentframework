@@ -16,6 +16,9 @@ import { Domain } from '../Domain';
 import { DomainAgents } from '../DomainKnowledge';
 
 export function GetDomainAgent<T extends Function>(domain: Domain, type: T): T | undefined {
-  const domains = DomainAgents.v1.get(type);
-  return domains ? (domains.get(domain) as T | undefined) : undefined;
+  const agents = DomainAgents.v1.get(type);
+  if (agents) {
+    return agents.get(domain) as T | undefined;
+  }
+  return undefined;
 }

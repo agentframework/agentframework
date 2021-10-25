@@ -12,24 +12,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Arguments, TypeInvocation } from '../../../dependencies/agent';
-import { DomainLike } from '../DomainLike';
+import { Arguments } from '../../../dependencies/agent';
 import { DomainAgentAttribute } from './DomainAgentAttribute';
 
 /**
  * Register agent to domain
  */
 export class RegisterDomainAgentAttribute extends DomainAgentAttribute {
-  constructor(domain: DomainLike) {
-    super(domain);
-  }
+  // register type
+  // intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
+  //   const type = super.intercept(target, params, receiver);
+  //   this.domain.setType(receiver, type);
+  //   return type;
+  // }
 
-  intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
-    const type = super.intercept(target, params, receiver);
-    this.domain.addType(type);
-    return type;
-  }
-
+  // register domain agent after create
   construct<T extends Function>(target: T, params: Arguments, receiver: T): any {
     const agent = super.construct(target, params, receiver);
     this.domain.addAgent(receiver, agent);

@@ -5,7 +5,7 @@ import { RandomInterceptor } from '../1.attributes/RandomInterceptor';
 import { RoundInterceptor } from '../1.attributes/RoundInterceptor';
 import { MetadataAttribute } from '../1.attributes/MetadataAttribute';
 import { AgentChecker } from '../1.attributes/AgentChecker';
-import { OnDemandAgentAttribute, CreateAgent, GetType } from '../../../src/dependencies/agent';
+import { AgentAttribute, CreateAgent, GetType } from '../../../src/dependencies/agent';
 
 @agent()
 @decorateClass(new AgentChecker())
@@ -55,7 +55,7 @@ describe('Decorate Class', () => {
 
   describe('# should not able to', () => {
     it('get agent attribute', () => {
-      const items = Reflector(MongoDB).getOwnAttributes(OnDemandAgentAttribute);
+      const items = Reflector(MongoDB).getOwnAttributes(AgentAttribute);
       expect(items.length).toBe(0);
     });
   });

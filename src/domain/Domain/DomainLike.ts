@@ -48,6 +48,10 @@ export interface DomainLike {
   //  * Check if have type registered
   //  */
   // hasType<T extends AnyClass>(type: T): boolean;
+  /**
+   * Get constructor for current type, return undefined if don't have
+   */
+  getAgentType<T extends Function>(type: T): T | undefined;
 
   /**
    * Get constructor for current type, return undefined if don't have
@@ -83,6 +87,11 @@ export interface DomainLike {
    * Delete type mapping for giving type
    */
   removeType<T extends object>(type: Class<T>): void;
+
+  /**
+   * Replace type
+   */
+  setAgentType<T extends object>(type: Class<T>, replacement: Class<T>): void;
 
   /**
    * Add an agent

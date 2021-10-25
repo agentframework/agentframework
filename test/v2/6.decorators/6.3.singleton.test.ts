@@ -113,7 +113,7 @@ describe('6.3. @singleton decorator', () => {
             intercept(target: PropertyInvocation, params: Arguments, receiver: App635): any {
               // console.log('params[0]', params[0], params[0].constructor.toString());
               expect(params.length).toBe(1);
-              expect(params[0].constructor.name).toBe('Service635');
+              expect(params[0].constructor.name).toBe('Service635$');
               expect(IsAgent(params[0].constructor.prototype)).toBeTrue();
               expect(IsAgent(params[0].constructor)).toBeTrue();
               expect(IsAgent(params[0])).toBeFalse();

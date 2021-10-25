@@ -18,44 +18,12 @@ import { Agent, AgentReference, Params } from './Agent';
 import { Domain } from './Domain';
 import { IsPromise } from './Helpers/IsPromise';
 import { IsObservable } from './Helpers/IsObservable';
-import { CreateDomainAgent } from './DomainAgent/CreateDomainAgent';
+import { CompileDomainAgent, CreateDomainAgent } from './DomainAgent/CreateDomainAgent';
 import { GetDomainAgent } from './DomainAgent/GetDomainAgent';
+import { InMemory } from './InMemory';
+
 // import { DomainKnowledge } from './DomainKnowledge';
 
-class InMemory {
-  static readonly _types = new WeakMap<object, Map<Function, any>>(); // type-type mapping
-  static readonly _agents = new WeakMap<object, Map<AgentReference, any>>(); // type-instance mapping
-  static readonly _incomingAgents = new WeakMap<object, Map<any, Promise<any>>>();
-
-  // type-agent mapping
-  static types(domain: Domain): Map<Function, any> {
-    let value = this._types.get(domain);
-    if (!value) {
-      value = new Map();
-      this._types.set(domain, value);
-    }
-    return value;
-  }
-
-  // type-instance mapping
-  static agents(domain: Domain): Map<AgentReference, any> {
-    let value = this._agents.get(domain);
-    if (!value) {
-      value = new Map();
-      this._agents.set(domain, value);
-    }
-    return value;
-  }
-
-  static incomingAgents(domain: Domain): Map<any, Promise<any>> {
-    let value = this._incomingAgents.get(domain);
-    if (!value) {
-      value = new Map();
-      this._incomingAgents.set(domain, value);
-    }
-    return value;
-  }
-}
 /**
  * In memory domain
  */
@@ -109,6 +77,10 @@ export class InMemoryDomain extends Domain implements Disposable {
   //   return this._types.has(type);
   // }
 
+  getAgentType<T extends Function>(type: T): T | undefined {
+    return InMemory.agentTypes(this).get(type);
+  }
+
   /**
    * Get constructor for current type, return undefined if don't have
    */
@@ -134,6 +106,10 @@ export class InMemoryDomain extends Domain implements Disposable {
   // }
 
   //region Factory
+
+  compile<T extends Function>(target: T): void {
+    CompileDomainAgent(this, this.getType<T>(target) || target);
+  }
 
   /**
    * Create and initial an agent
@@ -289,6 +265,10 @@ export class InMemoryDomain extends Domain implements Disposable {
   setType<T extends object>(type: Class<T>, replacement: Class<T>): void {
     // this._types.add(replacement);
     InMemory.types(this).set(type, replacement);
+  }
+
+  setAgentType<T extends object>(type: Class<T>, replacement: Class<T>): void {
+    InMemory.agentTypes(this).set(type, replacement);
   }
 
   // /**

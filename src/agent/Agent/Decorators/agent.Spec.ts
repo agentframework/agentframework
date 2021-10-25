@@ -1,6 +1,6 @@
 /* tslint:disable */
 import {
-  OnDemandAgentAttribute,
+  AgentAttribute,
   Arguments,
   CreateAgent,
   decorateMember,
@@ -119,7 +119,7 @@ describe('Core @agent() decorator', () => {
     it('get agent attribute', () => {
       // AgentAttribute is only used in compile agent phase
       // AgentAttribute is not a metadata for agent class
-      const items = Reflector(MongoDB).getOwnAttributes(OnDemandAgentAttribute);
+      const items = Reflector(MongoDB).getOwnAttributes(AgentAttribute);
       expect(items.length).toBe(0);
     });
   });

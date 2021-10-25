@@ -6,7 +6,7 @@ import { RoundInterceptor } from '../1.attributes/RoundInterceptor';
 import { MetadataAttribute } from '../1.attributes/MetadataAttribute';
 import { BadAgentChecker } from '../1.attributes/BadAgentChecker';
 import { BadRandomAttribute } from '../1.attributes/BadRandomAttribute';
-import { OnDemandAgentAttribute, CreateAgent } from '../../../src/dependencies/agent';
+import { AgentAttribute, CreateAgent } from '../../../src/dependencies/agent';
 
 @decorateClass(new BadRandomAttribute())
 class MongoDB {
@@ -57,7 +57,7 @@ describe('Decorate class attribute', () => {
 
   describe('# should not able to', () => {
     it('get agent attribute', () => {
-      const items = Reflector(MongoDB).getOwnAttributes(OnDemandAgentAttribute);
+      const items = Reflector(MongoDB).getOwnAttributes(AgentAttribute);
       expect(items.length).toBe(0);
     });
   });

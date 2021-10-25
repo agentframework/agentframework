@@ -2,15 +2,15 @@
 
 import { IsAgent, Reflector, decorateClass } from '../../../src/dependencies/agent';
 import { DisabledMetadataAttribute } from '../1.attributes/DisabledMetadataAttribute';
-import { OnDemandAgentAttribute, CreateAgent } from '../../../src/dependencies/agent';
+import { AgentAttribute, CreateAgent } from '../../../src/dependencies/agent';
 
-class BadAgentAttribute extends OnDemandAgentAttribute {
+class BadAgentAttribute extends AgentAttribute {
   get interceptor() {
     return 1 as any;
   }
 }
 
-class BadAgentAttribute2 extends OnDemandAgentAttribute {
+class BadAgentAttribute2 extends AgentAttribute {
   get interceptor() {
     return undefined as any;
   }
@@ -50,7 +50,7 @@ describe('Decorate Agent', () => {
       @decorateClass(new DisabledMetadataAttribute())
       class SQLServer {}
 
-      const SQL = CreateAgent(SQLServer, new OnDemandAgentAttribute());
+      const SQL = CreateAgent(SQLServer, new AgentAttribute());
       expect(IsAgent(SQL)).toBe(true);
     });
 
@@ -91,7 +91,7 @@ describe('Decorate Agent', () => {
 
   describe('# should not able to', () => {
     it('get agent attribute', () => {
-      const items = Reflector(MySQL).getOwnAttributes(OnDemandAgentAttribute);
+      const items = Reflector(MySQL).getOwnAttributes(AgentAttribute);
       expect(items.length).toBe(1);
     });
   });

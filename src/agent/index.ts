@@ -81,7 +81,7 @@ export { AgentFrameworkError } from './Agent/AgentFrameworkError';
 /*********************************************************************
  *   (Stability: 1 - Experimental): Custom Agent API
  *********************************************************************/
-export { OnDemandAgentAttribute } from './Agent/Compiler/OnDemandAgentAttribute';
+export { AgentAttribute } from './Agent/AgentAttribute';
 
 /*********************************************************************
  *   (Stability: 1 - Experimental): Getter Decorator: @remember()

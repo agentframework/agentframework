@@ -48,9 +48,16 @@ export abstract class Domain implements DomainLike {
   /**
    * Get constructor for current type, return undefined if don't have
    */
+  abstract getAgentType<T extends Function>(type: T): T | undefined;
+
+  /**
+   * Get constructor for current type, return undefined if don't have
+   */
   abstract getType<T extends Function>(type: T): T | undefined;
 
   //region Factory
+  abstract compile<T extends Function>(target: T): void;
+
   /**
    * Inject an agent
    */
@@ -77,6 +84,8 @@ export abstract class Domain implements DomainLike {
    * Delete type mapping for giving type
    */
   abstract removeType<T extends object>(type: Class<T>): void;
+
+  abstract setAgentType<T extends object>(type: Class<T>, replacement: Class<T>): void;
 
   // /**
   //  * Get all registered types in this domain

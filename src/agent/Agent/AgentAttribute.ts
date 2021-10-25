@@ -12,23 +12,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Arguments } from '../Arguments';
-import { TypeAttribute } from '../TypeAttributes';
-import { TypeInvocation } from '../TypeInvocations';
-import { TypeInterceptor } from '../TypeInterceptors';
-import { UpgradeAgentProperties } from './OnDemandAgentCompiler';
-import { FindExtendedClass } from '../FindExtendedClass';
-import { AgentFrameworkError } from '../AgentFrameworkError';
-import { OnDemandInvocationFactory } from './OnDemandInvocationFactory';
-import { ClassConstructors } from '../Knowledges/ClassConstructors';
-import { ClassMembers } from '../Knowledges/ClassMembers';
-import { RememberType } from '../Knowledges/Types';
-import { CONSTRUCTOR } from '../WellKnown';
+import { Arguments } from './Arguments';
+import { TypeAttribute } from './TypeAttributes';
+import { TypeInvocation } from './TypeInvocations';
+import { TypeInterceptor } from './TypeInterceptors';
+import { UpgradeAgentProperties } from './Compiler/OnDemandAgentCompiler';
+import { FindExtendedClass } from './FindExtendedClass';
+import { AgentFrameworkError } from './AgentFrameworkError';
+import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
+import { ClassConstructors } from './Knowledges/ClassConstructors';
+import { ClassMembers } from './Knowledges/ClassMembers';
+import { RememberType } from './Knowledges/Types';
+import { CONSTRUCTOR } from './WellKnown';
 
 /**
  * This attribute is for upgrade class to agent
  */
-export class OnDemandAgentAttribute implements TypeAttribute, TypeInterceptor {
+export class AgentAttribute implements TypeAttribute, TypeInterceptor {
   /**
    * get interceptor
    */
@@ -44,12 +44,9 @@ export class OnDemandAgentAttribute implements TypeAttribute, TypeInterceptor {
     const [, type, state] = params;
     state.type = design;
     state.property = design.property(CONSTRUCTOR);
-    if (state.type.version || state.property.version) {
-      state.target = Reflect.construct(type, [receiver, state]);
-      RememberType(state.target, receiver);
-      return (state.receiver = target.invoke<Function>(params, state.target));
-    }
-    return receiver;
+    const agent = (state.target = Reflect.construct(type, [receiver, state]));
+    RememberType(agent, receiver);
+    return (state.receiver = target.invoke<Function>(params, agent));
   }
 
   /**
