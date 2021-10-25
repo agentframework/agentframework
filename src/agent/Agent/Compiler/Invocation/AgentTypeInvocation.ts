@@ -14,10 +14,8 @@ limitations under the License. */
 
 import { alter } from '../alter';
 import { TypeInfo } from '../../Reflection/TypeInfo';
-import { PropertyInfo } from '../../Reflection/PropertyInfo';
 import { TypeInvocation } from '../../TypeInvocations';
 import { RememberType } from '../../Knowledges/Types';
-import { CONSTRUCTOR } from '../../WellKnown';
 import { OnDemandTypeInfo } from '../../Reflection/OnDemandTypeInfo';
 
 /**
@@ -29,8 +27,7 @@ import { OnDemandTypeInfo } from '../../Reflection/OnDemandTypeInfo';
 export class AgentTypeInvocation implements TypeInvocation {
   constructor(
     readonly target: Function,
-    readonly design: TypeInfo = OnDemandTypeInfo.find(target),
-    readonly property: PropertyInfo = design.property(CONSTRUCTOR)
+    readonly design: TypeInfo = OnDemandTypeInfo.find(target)
   ) {}
 
   invoke([id]: any, receiver: any): any {

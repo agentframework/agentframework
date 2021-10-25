@@ -235,9 +235,6 @@ describe('1.3. Agent interceptor invoke sequence', () => {
 
       const Top = CreateAgent(Top13);
 
-      // console.log('seq 9', seq);
-      expect(IsAgent(Top)).toBeTrue();
-
       expect(seq).toEqual([
         'beforeTop13-Reflector-1',
         'beforeTop13-@deco-1',
@@ -246,6 +243,10 @@ describe('1.3. Agent interceptor invoke sequence', () => {
         'afterTop13-@deco-1',
         'afterTop13-Reflector-1',
       ]);
+
+      // console.log('seq 9', seq);
+      expect(IsAgent(Top)).toBeTrue();
+
       seq = [];
 
       // NOTE: this is working since AgentInvocation is NOT been cached by CreateAgent()
@@ -267,8 +268,6 @@ describe('1.3. Agent interceptor invoke sequence', () => {
       // debugger;
       const Top2 = CreateAgent(Top13);
 
-      expect(IsAgent(Top2)).toBeTrue();
-
       // console.log('seq 10', seq);
       expect(seq).toEqual([
         'beforeTop13-Reflector-2',
@@ -280,6 +279,8 @@ describe('1.3. Agent interceptor invoke sequence', () => {
         'afterTop13-Reflector-1',
         'afterTop13-Reflector-2',
       ]);
+
+      expect(IsAgent(Top2)).toBeTrue();
     });
   });
 });
