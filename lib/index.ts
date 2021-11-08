@@ -55,6 +55,8 @@ export { decorateAgent } from '../src/agent';
 export { decorateClass } from '../src/agent';
 export { decorateMember } from '../src/agent';
 export { decorateParameter } from '../src/agent';
+export { decorateVariable } from '../src/agent';
+export { VariableDecorator } from '../src/agent';
 export { Reflector } from '../src/agent';
 
 /*********************************************************************

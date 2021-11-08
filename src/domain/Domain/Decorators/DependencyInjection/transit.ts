@@ -12,9 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { decorateMember } from '../../../../dependencies/agent';
+import { decorateVariable, VariableDecorator } from '../../../../dependencies/agent';
 import { TransitAttribute } from './TransitAttribute';
 
-export function transit<T extends Function>(type?: T): PropertyDecorator {
-  return decorateMember(new TransitAttribute(type));
+export function transit<T extends Function>(type?: T): VariableDecorator {
+  return decorateVariable(new TransitAttribute(type));
 }

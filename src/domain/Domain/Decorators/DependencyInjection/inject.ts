@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { decorateMember } from '../../../../dependencies/agent';
+import { decorateVariable, VariableDecorator } from '../../../../dependencies/agent';
 import { InjectAttribute } from './InjectAttribute';
 
 /**
@@ -20,6 +20,6 @@ import { InjectAttribute } from './InjectAttribute';
  *
  * @param type
  */
-export function inject(type?: Function): PropertyDecorator {
-  return decorateMember(new InjectAttribute(type));
+export function inject(type?: Function): VariableDecorator {
+  return decorateVariable(new InjectAttribute(type));
 }

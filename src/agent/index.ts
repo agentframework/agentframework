@@ -17,6 +17,7 @@ limitations under the License. */
 /*********************************************************************
  *   (Stability: 2 - Stable) Metadata Interface
  *********************************************************************/
+
 export { Design } from './Agent/Design';
 export { MemberInfo } from './Agent/Reflection/MemberInfo';
 export { PropertyInfo } from './Agent/Reflection/PropertyInfo';
@@ -50,6 +51,8 @@ export { decorateClass } from './Agent/Decorate/decorateClass';
 export { decorateAgent } from './Agent/Decorate/decorateAgent';
 export { decorateMember } from './Agent/Decorate/decorateMember';
 export { decorateParameter } from './Agent/Decorate/decorateParameter';
+export { decorateVariable } from './Agent/Decorate/decorateVariable';
+export { VariableDecorator } from './Agent/Decorators/VariableDecorator';
 export { Reflector } from './Agent/Reflector';
 
 /*********************************************************************

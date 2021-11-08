@@ -12,9 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { decorateMember } from '../../../../dependencies/agent';
+import { decorateVariable, VariableDecorator } from '../../../../dependencies/agent';
 import { SingletonAttribute } from './SingletonAttribute';
 
-export function singleton<T extends Function>(type?: T): PropertyDecorator {
-  return decorateMember(new SingletonAttribute(type));
+export function singleton<T extends Function>(type?: T): VariableDecorator {
+  return decorateVariable(new SingletonAttribute(type));
 }
