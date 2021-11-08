@@ -1,4 +1,11 @@
-import { Arguments, decorate, decorateParameter, MemberKinds, ParameterInvocation, Reflector } from '../../../src';
+import {
+  Arguments,
+  decorate,
+  decorateParameter,
+  MemberKinds,
+  ParameterInvocation,
+  Reflector,
+} from '../../../src/dependencies/agent';
 
 class Data251 {
   constructor(@decorate({ require: 'operator' }, MemberKinds.Parameter) model: Date) {}
@@ -41,14 +48,14 @@ describe('2.5. Type parameters', () => {
   describe('# should able to', () => {
     it('get constructor parameters', () => {
       const type = Reflector(Data251);
-      expect(type.hasInterceptor()).toBeFalse();
+      expect(type.hasOwnInterceptor()).toBeFalse();
 
       const param0 = type.parameter(0);
       expect(param0).toBeTruthy();
       if (param0) {
         expect(param0.type).toBe(Date);
         expect(param0.declaringType).toBe(Data251);
-        expect(param0.kind).toBe(MemberKinds.Parameter);
+        expect(param0.kind).toBe(MemberKinds.ClassParameter);
         expect(param0.key).toBe('constructor');
         expect(param0.index).toBe(0);
         expect(param0.name).toBe('0');

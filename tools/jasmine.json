@@ -1,6 +1,7 @@
 {
   "spec_dir": ".",
-  "spec_files": ["src/**/*.[Ss]pec.ts", "src/**/*.[Tt]est.ts", "test/**/*.[Ss]pec.ts", "test/**/*.[Tt]est.ts"],
+  "spec_files": ["src/**/*.[Ss]pec.ts", "src/**/*.[Tt]est.ts", "test/v1/**/*.[Ss]pec.ts", "test/v2/**/*.[Ss]pec.ts", "test/v1/**/*.[Ss]pec.ts", "test/v2/**/*.[Ss]pec.ts", "test/v1/**/*.[Ss]pec.ts", "test/v2/**/*.[Ss]pec.ts", "test/v1/**/*.[Tt]est.ts", "test/v2/**/*.[Tt]est.ts"],
   "stopSpecOnExpectationFailure": false,
-  "random": false
+  "random": false,
+  "displayDuration": true
 }

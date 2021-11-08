@@ -19,24 +19,6 @@ limitations under the License. */
  *************************************/
 
 /*************************************
- *   Design Pattern: Dependence Injection
- *************************************/
-export { SingletonAttribute } from './Domain/Attributes/SingletonAttribute';
-export { TransitAttribute } from './Domain/Attributes/TransitAttribute';
-export { InjectAttribute } from './Domain/Attributes/InjectAttribute';
-export { singleton } from './Domain/Decorators/singleton';
-export { transit } from './Domain/Decorators/transit';
-export { inject } from './Domain/Decorators/inject';
-export { agent } from './Domain/Decorators/agent';
-
-/*************************************
- *   Design Pattern: Factory Method
- *************************************/
-export { initializable } from './Domain/Decorators/initializable';
-export { Initializer } from './Domain/Symbols';
-export { InitializerHandler, StaticInitializerHandler } from './Domain/Symbols';
-
-/*************************************
  *   Domain
  *************************************/
 export { DomainLike } from './Domain/DomainLike';
@@ -59,10 +41,17 @@ export { InMemoryDomain } from './Domain/InMemoryDomain';
 export { InMemorySubDomain } from './Domain/InMemorySubDomain';
 
 /*************************************
+ *   Design Pattern: Dependence Injection
+ *************************************/
+export { singleton } from './Domain/Decorators/DependencyInjection/singleton';
+export { transit } from './Domain/Decorators/DependencyInjection/transit';
+export { inject } from './Domain/Decorators/DependencyInjection/inject';
+export { agent } from './Domain/Decorators/agent';
+
+/*************************************
  *   Unstable API
  *************************************/
 export { Disposable } from './Domain/Helpers/Disposable';
-export { extensible } from './Domain/Decorators/extensible';
 
 /*************************************
  *   END DOMAIN

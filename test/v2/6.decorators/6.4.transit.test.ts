@@ -1,5 +1,4 @@
-import { InMemoryDomain, agent, transit, Reflector, TransitAttribute } from '../../../src';
-import { CreateAgent } from '../../../src';
+import { CreateAgent, Reflector, agent, transit } from '../../../src/dependencies/agent';
 
 describe('6.4. @transit decorator', () => {
   describe('# should able to', () => {
@@ -22,7 +21,7 @@ describe('6.4. @transit decorator', () => {
       expect(app.service2).toBeInstanceOf(Service641);
       expect(app.service2).not.toBe(app.service);
 
-      expect(Reflector(App641).property('service').hasOwnAttribute(TransitAttribute)).toBeTrue();
+      expect(Reflector(App641).property('service').hasOwnAttribute()).toBeTrue();
     });
 
     it('create agent with domain', () => {
@@ -37,9 +36,9 @@ describe('6.4. @transit decorator', () => {
         readonly service2!: any;
       }
 
-      const domain = new InMemoryDomain();
 
-      const app = domain.construct(App642);
+      const App = CreateAgent(App642);
+      const app = new App();
 
       expect(app.service).toBeInstanceOf(Service642);
       expect(app.service2).toBeInstanceOf(Service642);
@@ -75,7 +74,6 @@ describe('6.4. @transit decorator', () => {
       }
 
       const app = new App644();
-
       expect(() => {
         expect(app.service).toBeUndefined();
       }).toThrowError('UnknownTransitType');

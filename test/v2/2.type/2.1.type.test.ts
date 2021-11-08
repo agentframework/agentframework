@@ -7,9 +7,9 @@ import {
   TypeInfo,
   decorateClass,
   decorateMember,
+  GetType,
   agent,
-  GetAgentType,
-} from '../../../src';
+} from '../../../src/dependencies/agent';
 
 class Storage {}
 
@@ -57,12 +57,16 @@ class AgentApplication extends CloudApplication {}
 
 describe('2.1. Type', () => {
   describe('# should able to', () => {
+    it('get version', () => {
+      expect(Reflector(CloudApplication).version).toBe(0);
+    });
+
     it('get type', () => {
       expect(Reflector(CloudApplication).type).toBe(CloudApplication);
     });
 
     it('get agent type', () => {
-      expect(Reflector(AgentApplication).type).toBe(GetAgentType(AgentApplication)!);
+      expect(Reflector(AgentApplication).type).toBe(GetType(AgentApplication)!);
       expect(Reflector(AgentApplication).type).not.toBe(AgentApplication);
     });
 
@@ -71,7 +75,7 @@ describe('2.1. Type', () => {
     });
 
     it('get agent declaringType', () => {
-      expect(Reflector(AgentApplication).declaringType).toBe(GetAgentType(AgentApplication)!);
+      expect(Reflector(AgentApplication).declaringType).toBe(GetType(AgentApplication)!);
       expect(Reflector(AgentApplication).declaringType).not.toBe(AgentApplication);
     });
 
@@ -168,10 +172,10 @@ describe('2.1. Type', () => {
       const types = Reflector(CloudApplication).findTypes();
       expect(types).toBeInstanceOf(Array);
       expect(types.length).toBe(4);
-      expect(types[0]).toBe(Reflector(CloudApplication));
-      expect(types[1]).toBe(Reflector(Application));
-      expect(types[2]).toBe(Reflector(MiddleLayer));
-      expect(types[3]).toBe(Reflector(BaseLayer));
+      expect(types[0]).toBe(Reflector(BaseLayer));
+      expect(types[1]).toBe(Reflector(MiddleLayer));
+      expect(types[2]).toBe(Reflector(Application));
+      expect(types[3]).toBe(Reflector(CloudApplication));
     });
 
     it('find types using filter function', () => {
@@ -180,8 +184,8 @@ describe('2.1. Type', () => {
       });
       expect(types).toBeInstanceOf(Array);
       expect(types.length).toBe(2);
-      expect(types[0]).toBe(Reflector(MiddleLayer));
-      expect(types[1]).toBe(Reflector(BaseLayer));
+      expect(types[0]).toBe(Reflector(BaseLayer));
+      expect(types[1]).toBe(Reflector(MiddleLayer));
     });
 
     it('find types using filter function with filter criteria', () => {
@@ -191,18 +195,18 @@ describe('2.1. Type', () => {
       const types = Reflector(Application).findTypes(NameEndWith, 'Layer');
       expect(types).toBeInstanceOf(Array);
       expect(types.length).toBe(2);
-      expect(types[0]).toBe(Reflector(MiddleLayer));
-      expect(types[1]).toBe(Reflector(BaseLayer));
+      expect(types[0]).toBe(Reflector(BaseLayer)); // because is been cached
+      expect(types[1]).toBe(Reflector(MiddleLayer)); // because is been cached
     });
 
     it('check attribute', () => {
       const types = Reflector(CloudApplication).findTypes();
       expect(types).toBeInstanceOf(Array);
       expect(types.length).toBe(4);
-      expect(types[0].hasOwnInterceptor()).toBeFalse();
-      expect(types[1].hasOwnInterceptor()).toBeTrue();
-      expect(types[2].hasOwnInterceptor()).toBeFalse();
-      expect(types[3].hasOwnInterceptor()).toBeFalse();
+      expect(types[0].hasOwnInterceptor()).toBeFalse(); // BaseLayer
+      expect(types[1].hasOwnInterceptor()).toBeFalse(); // MiddleLayer
+      expect(types[2].hasOwnInterceptor()).toBeTrue(); // Application
+      expect(types[3].hasOwnInterceptor()).toBeFalse(); // CloudApplication
     });
 
     it('annotate static method', () => {

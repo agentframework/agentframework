@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2015",
-    "lib": ["ES2015", "dom"],
+    "lib": ["ES2015", "ES2015.Iterable", "dom"],
     "module": "commonjs",
+    "moduleResolution": "node",
     "locale": "en-US",
     "strict": true,
     "experimentalDecorators": true,
@@ -17,9 +18,9 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "stripInternal": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "agentframework": ["src/index"]
+      "agentframework": ["src/core/index"]
     }
   },
   "include": ["lib", "src", "test", "tools"],

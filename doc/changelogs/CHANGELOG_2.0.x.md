@@ -1,10 +1,21 @@
 # Agent Framework 2.0.x ChangeLog
 
-## 2021-08-16, Version 2.0.0-rc
+## 2021-11-02, Version 2.0.0
 
 **Notable Changes**
 
--   Remove unstable code
+- Enable version controlled class metadata
+- Improve performance by check version instead of check metadata details
+- Improve performance by skipping non-annotated class
+- Improve performance by add invocation cache
+
+## 2021-08-24, Version 2.0.0-rc.20210824
+
+**Notable Changes**
+
+-   Fix bugs
+-   Clean up code
+-   Add more tests for invocation chain
 
 ## 2021-08-15, Version 2.0.0-dev.20210815
 

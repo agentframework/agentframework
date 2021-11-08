@@ -14,149 +14,100 @@ limitations under the License. */
 
 'use strict';
 
-/*************************************
- *   START CORE
- *************************************/
+/*********************************************************************
+ *   (Stability: 2 - Stable) General Interface
+ *********************************************************************/
+export { AgentFrameworkError } from '../src/agent';
+export { Arguments } from '../src/agent';
+export { Class } from '../src/agent';
+export { Filter } from '../src/agent';
 
-/*************************************
- *   Common
- *************************************/
-export { AgentFrameworkError } from '../src/core/index';
-export { Arguments } from '../src/core/index';
-export { Class } from '../src/core/index';
+/*********************************************************************
+ *   (Stability: 2 - Stable) Metadata
+ *********************************************************************/
+export { MemberKinds } from '../src/agent';
+export { Attribute } from '../src/agent';
+export { Design } from '../src/agent';
+export { Invocation } from '../src/agent';
+export { Interceptor } from '../src/agent';
 
-/*************************************
- *   Metadata Interface
- *************************************/
-export { MemberInfo } from '../src/core/index';
-export { PropertyInfo } from '../src/core/index';
-export { TypeInfo } from '../src/core/index';
-export { ParameterInfo } from '../src/core/index';
-export { Filter } from '../src/core/index';
+export { MemberInfo } from '../src/agent';
+export { PropertyInfo } from '../src/agent';
+export { TypeInfo } from '../src/agent';
+export { ParameterInfo } from '../src/agent';
 
-export { Invocation } from '../src/core/index';
-export { Interceptor } from '../src/core/index';
-export { Attribute } from '../src/core/index';
+export { TypeInvocation } from '../src/agent';
+export { TypeInterceptor } from '../src/agent';
+export { TypeAttribute } from '../src/agent';
 
-export { ClassInvocation } from '../src/core/index';
-export { ClassInterceptor } from '../src/core/index';
-export { ClassAttribute } from '../src/core/index';
+export { PropertyInvocation } from '../src/agent';
+export { PropertyInterceptor } from '../src/agent';
+export { PropertyAttribute } from '../src/agent';
 
-export { ParameterInvocation } from '../src/core/index';
-export { ParameterInterceptor } from '../src/core/index';
-export { ParameterAttribute } from '../src/core/index';
+export { ParameterInvocation } from '../src/agent';
+export { ParameterInterceptor } from '../src/agent';
+export { ParameterAttribute } from '../src/agent';
 
-export { PropertyInvocation } from '../src/core/index';
-export { PropertyInterceptor } from '../src/core/index';
-export { PropertyAttribute } from '../src/core/index';
+/*********************************************************************
+ *   (Stability: 2 - Stable) Advanced Metadata API
+ *********************************************************************/
+export { decorateAgent } from '../src/agent';
+export { decorateClass } from '../src/agent';
+export { decorateMember } from '../src/agent';
+export { decorateParameter } from '../src/agent';
+export { decorateVariable } from '../src/agent';
+export { VariableDecorator } from '../src/agent';
+export { Reflector } from '../src/agent';
 
-/*************************************
- *   Metadata API
- *************************************/
-export { MemberKinds } from '../src/core/index';
+/*********************************************************************
+ *   (Stability: 2 - Stable): Custom Interceptor API
+ *********************************************************************/
+export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/agent';
 
-export { decorate } from '../src/core/index';
-export { decorateClass } from '../src/core/index';
-export { decorateAgent } from '../src/core/index';
-export { decorateMember } from '../src/core/index';
-export { decorateParameter } from '../src/core/index';
+/*********************************************************************
+ *   (Stability: 2 - Stable): Class Decorator: @initializable()
+ *********************************************************************/
+export { initializable } from '../src/agent';
+export { Initializer } from '../src/agent';
+export { InitializerHandler, StaticInitializerHandler } from '../src/agent';
 
-export { Reflector } from '../src/core/index';
+/*********************************************************************
+ *   (Stability: 2 - Stable): Class Decorator: @agent()
+ *********************************************************************/
+export { agent } from '../src/agent';
 
-/*************************************
- *   Custom Interceptor
- *************************************/
-export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/core/index';
+/*********************************************************************
+ *   (Stability: 2 - Stable): Property Decorator: @singleton()
+ *********************************************************************/
+export { singleton } from '../src/agent';
 
-/*************************************
- *   API: Agent
- *************************************/
-export { IsAgent } from '../src/core/index';
+/*********************************************************************
+ *   (Stability: 2 - Stable): Property Decorator: @singleton()
+ *********************************************************************/
+export { transit } from '../src/agent';
 
-/************************************
- *    TSLIB Re-work
- ************************************/
+/*********************************************************************
+ *   (Stability: 2 - Stable): Agent API
+ *********************************************************************/
+export { IsAgent } from '../src/agent';
+export { GetAgentType } from '../src/agent';
+import { CreateAgent as InternalCreateAgent } from '../src/agent';
+export function CreateAgent<T extends Function>(type: T): T {
+  return InternalCreateAgent(type);
+}
+
+/*********************************************************************
+ *   (Stability: 2 - Stable) Low-level Metadata API
+ *********************************************************************/
+export { AddAttributeToProperty } from '../src/core';
+export { AddAttributeToPropertyParameter } from '../src/core';
+export { AddAttributeToConstructor } from '../src/core';
+export { AddAttributeToConstructorParameter } from '../src/core';
+
+/*********************************************************************
+ *    (Stability: 2 - Stable): TSLIB Re-work
+ *********************************************************************/
 /**
  * @internal
  */
-export { __agent, __decorate, __param, __metadata } from '../src/core/index';
-
-
-/*************************************
- *   Unstable API: Agent
- *************************************/
-// export { GetAgentType } from '../src/core/index';
-// export { CreateAgent } from '../src/core/index';
-// export { AgentAttribute } from '../src/core/index';
-
-/*************************************
- *   Unstable API: Attribute
- *************************************/
-// export { CanDecorate } from '../src/core/index';
-// export {
-//   AddAttributeToClass,
-//   AddAttributeToConstructorParameter,
-//   AddAttributeToMethodParameter,
-//   AddAttributeToMember,
-// } from '../src/core/index';
-
-/*************************************
- *   Unstable API: Decorator
- *************************************/
-// export { remember } from '../src/core/index';
-// export { interceptable } from '../src/core/index';
-
-/*************************************
- *   END CORE
- *************************************/
-
-/*************************************
- *   START DOMAIN
- *************************************/
-
-/*************************************
- *   Design Pattern: Dependence Injection
- *************************************/
-export { SingletonAttribute } from '../src/domain/index';
-export { TransitAttribute } from '../src/domain/index';
-export { InjectAttribute } from '../src/domain/index';
-export { singleton } from '../src/domain/index';
-export { transit } from '../src/domain/index';
-export { inject } from '../src/domain/index';
-export { agent } from '../src/domain/index';
-
-/*************************************
- *   Design Pattern: Factory Method
- *************************************/
-export { initializable } from '../src/domain/index';
-export { Initializer } from '../src/domain/index';
-export { InitializerHandler, StaticInitializerHandler } from '../src/domain/index';
-
-/*************************************
- *   Domain
- *************************************/
-// export { DomainLike } from '../src/domain/index';
-// export { Domain } from '../src/domain/index';
-// export { SubDomainLike } from '../src/domain/index';
-//
-// export { GetDomain } from '../src/domain/index';
-// export { GetSystemDomain } from '../src/domain/index';
-// export { IsDomain } from '../src/domain/index';
-
-// export { AgentReference, Params, Agent } from '../src/domain/index';
-
-/*************************************
- *   In Memory Domain Implementation
- *************************************/
-// export { InMemoryDomain } from '../src/domain/index';
-// export { InMemorySubDomain } from '../src/domain/index';
-
-/*************************************
- *   Lifecycle API
- *************************************/
-// export { Disposable } from '../src/domain/index';
-// export { extensible } from '../src/domain/index';
-
-/*************************************
- *   END DOMAIN
- *************************************/
+export { __agent, __decorate, __param, __metadata } from '../src/core';

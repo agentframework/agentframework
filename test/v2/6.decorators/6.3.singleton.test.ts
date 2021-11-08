@@ -1,16 +1,14 @@
 import {
-  InMemoryDomain,
   agent,
   singleton,
   decorateMember,
   Arguments,
   PropertyInvocation,
   Reflector,
-  SingletonAttribute,
   AgentFrameworkError,
   IsAgent,
-} from '../../../src';
-import { CreateAgent } from '../../../src';
+  CreateAgent,
+} from '../../../src/dependencies/agent';
 
 describe('6.3. @singleton decorator', () => {
   describe('# should able to', () => {
@@ -31,7 +29,7 @@ describe('6.3. @singleton decorator', () => {
 
       expect(app.service).toBeInstanceOf(Service631);
       expect(app.service2).toBe(app.service);
-      expect(Reflector(App631).property('service').hasOwnAttribute(SingletonAttribute)).toBeTrue();
+      expect(Reflector(App631).property('service').hasOwnAttribute()).toBeTrue();
     });
 
     it('create singleton agent using domain', () => {
@@ -46,31 +44,29 @@ describe('6.3. @singleton decorator', () => {
         readonly service2!: any;
       }
 
-      const domain = new InMemoryDomain();
-
-      const app = domain.construct(App632);
+      const Agent: typeof App632 = CreateAgent(App632);
+      const app = new Agent();
 
       expect(app.service).toBeInstanceOf(Service632);
       expect(app.service2).toBe(app.service);
     });
 
     it('create singleton agent in domain', () => {
-      class Service632 {
+      class Service633 {
         //
       }
 
-      class App632 extends InMemoryDomain {
+      class App633 {
         @singleton()
-        readonly service!: Service632;
-        @singleton(Service632)
+        readonly service!: Service633;
+        @singleton(Service633)
         readonly service2!: any;
       }
 
-      const domain = new InMemoryDomain();
+      const Agent: typeof App633 = CreateAgent(App633);
+      const app = new Agent();
 
-      const app = domain.construct(App632);
-
-      expect(app.service).toBeInstanceOf(Service632);
+      expect(app.service).toBeInstanceOf(Service633);
       expect(app.service2).toBe(app.service);
     });
   });
@@ -98,18 +94,14 @@ describe('6.3. @singleton decorator', () => {
         readonly service!: Service634;
       }
 
-      const Agent626 = CreateAgent(App634);
+      const Agent = CreateAgent(App634);
 
-      const app626 = new Agent626();
+      const agent = new Agent();
 
-      expect(() => {
-        expect(app626.service).toBeUndefined();
-      }).toThrowError('NoDomainFoundForSingletonInjection');
+      expect(agent.service).toBeDefined();
     });
 
     it('create singleton using invalid receiver', () => {
-      const domain = new InMemoryDomain();
-
       class Service635 {
         //
       }
@@ -127,14 +119,15 @@ describe('6.3. @singleton decorator', () => {
               expect(IsAgent(params[0])).toBeFalse();
               expect(receiver.constructor.name).toBe('App635$');
               // will throw error next line
-              return target.invoke([domain], undefined);
+              return target.invoke([], undefined);
             },
           },
         })
         readonly service!: Service635;
       }
 
-      const app = domain.construct(App635);
+      const Agent: typeof App635 = CreateAgent(App635);
+      const app = new Agent();
 
       expect(() => {
         expect(app.service).toBeUndefined();
@@ -142,8 +135,6 @@ describe('6.3. @singleton decorator', () => {
     });
 
     it('create singleton without domain', () => {
-      const domain = new InMemoryDomain();
-
       class Service636 {
         //
       }
@@ -160,16 +151,16 @@ describe('6.3. @singleton decorator', () => {
         readonly service!: Service636;
       }
 
-      const app = domain.construct(App636);
+      const Agent: typeof App636 = CreateAgent(App636);
+      const app = new Agent();
 
       expect(() => {
         expect(app.service).toBeUndefined();
-      }).toThrowError(AgentFrameworkError, 'NoDomainFoundForSingletonInjection');
+        // this @singleton is from core, so it will not throw error missing domain
+      }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
     });
 
     it('create interceptor on invalid property', () => {
-      const domain = new InMemoryDomain();
-
       class App637 {
         @decorateMember({
           interceptor: {
@@ -197,9 +188,12 @@ describe('6.3. @singleton decorator', () => {
         if (desc) {
           desc.value = null;
         }
-        expect(() => {
-          domain.construct(App637);
-        }).toThrowError(AgentFrameworkError, 'InvalidProperty: App637.run');
+        // expect(() => {
+        const Agent: typeof App637 = CreateAgent(App637);
+        const app = new Agent();
+        expect(app).toBeInstanceOf(Agent);
+        expect(app).toBeInstanceOf(App637);
+        // }).toThrowError(AgentFrameworkError, 'InvalidProperty: App637.run');
       }
     });
   });

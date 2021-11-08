@@ -1,10 +1,10 @@
-import { decorateClass, Reflector, ClassAttribute, Attribute } from '../../../src';
-import { Class } from '../../../src';
+import { decorateClass, Reflector, TypeAttribute, Attribute } from '../../../src/dependencies/agent';
+import { Class } from '../../../src/dependencies/agent';
 
 /**
  * The tests shows 3 ways to add attribute to a class at design time
  */
-class ControllerAttribute implements ClassAttribute {
+class ControllerAttribute implements TypeAttribute {
   constructor(readonly path: string) {}
 }
 
@@ -12,7 +12,7 @@ function controller(path: string) {
   return decorateClass(new ControllerAttribute(path));
 }
 
-class RoleAttribute implements ClassAttribute {
+class RoleAttribute implements TypeAttribute {
   constructor(readonly role: string) {}
 }
 
@@ -34,7 +34,7 @@ describe('3.2. Get class attribute', () => {
     it('get parameters', () => {
       const type = Reflector(UserController321);
       // constructor parameter type is annotated if class got decorator
-      expect(type.getParameterTypes()).toEqual([String]);
+      expect(type.parameterTypes).toEqual([String]);
       // no annotated parameters
       expect(type.getParameters()).toEqual([]);
     });

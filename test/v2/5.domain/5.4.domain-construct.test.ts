@@ -1,4 +1,5 @@
-import { InMemoryDomain, agent } from '../../../src';
+import { InMemoryDomain } from '../../../src/dependencies/domain';
+import { agent } from '../../../src/dependencies/domain';
 
 describe('5.4. Domain construct', () => {
   class A {}

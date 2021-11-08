@@ -1,11 +1,13 @@
 import {
   agent,
   Arguments,
+  CreateAgent,
   decorate,
+  IsAgent,
   ParameterAttribute,
   ParameterInterceptor,
   ParameterInvocation,
-} from '../../../src';
+} from '../../../src/dependencies/agent';
 
 class InjectAttribute implements ParameterAttribute, ParameterInterceptor {
   constructor(readonly type?: any) {}
@@ -73,9 +75,7 @@ describe('2.6. Agent', () => {
       }
       expect(Agent264).toBeDefined();
     });
-  });
 
-  describe('# should not able to', () => {
     it('upgrade type to agent twice', () => {
       @agent()
       @agent()
@@ -83,5 +83,19 @@ describe('2.6. Agent', () => {
 
       expect(Agent265).toBeDefined();
     });
+
+    it('create agent from plain class', () => {
+      class Agent266 {
+        hello() {
+          console.log('hello');
+        }
+      }
+      expect(Agent266).toBeDefined();
+      const A = CreateAgent(Agent266);
+      expect(A).toBeDefined();
+      expect(IsAgent(A)).toBeTrue();
+    });
   });
+
+  describe('# should not able to', () => {});
 });

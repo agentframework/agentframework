@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Class } from '../../dependencies/core';
+import { Class } from '../../dependencies/agent';
 import { DomainLike } from './DomainLike';
 import { Agent, AgentReference, Params } from './Agent';
 import { RememberDomain } from './Helpers/RememberDomain';
@@ -48,9 +48,16 @@ export abstract class Domain implements DomainLike {
   /**
    * Get constructor for current type, return undefined if don't have
    */
+  abstract getAgentType<T extends Function>(type: T): T | undefined;
+
+  /**
+   * Get constructor for current type, return undefined if don't have
+   */
   abstract getType<T extends Function>(type: T): T | undefined;
 
   //region Factory
+  abstract compile<T extends Function>(target: T): void;
+
   /**
    * Inject an agent
    */
@@ -77,6 +84,8 @@ export abstract class Domain implements DomainLike {
    * Delete type mapping for giving type
    */
   abstract removeType<T extends object>(type: Class<T>): void;
+
+  abstract setAgentType<T extends object>(type: Class<T>, replacement: Class<T>): void;
 
   // /**
   //  * Get all registered types in this domain

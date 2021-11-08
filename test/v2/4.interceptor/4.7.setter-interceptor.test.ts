@@ -1,7 +1,7 @@
-import { agent } from '../../../src';
-import { decorateMember } from '../../../src';
-import { ClassInvocation } from '../../../src';
-import { Arguments } from '../../../src';
+import { agent } from '../../../src/dependencies/agent';
+import { decorateMember } from '../../../src/dependencies/agent';
+import { TypeInvocation } from '../../../src/dependencies/agent';
+import { Arguments } from '../../../src/dependencies/agent';
 
 describe('4.7. setter interceptor', () => {
   describe('# should able to', () => {
@@ -11,7 +11,7 @@ describe('4.7. setter interceptor', () => {
         a!: number;
         @decorateMember({
           interceptor: {
-            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
+            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
               return target.invoke([Math.floor(params[0])], receiver);
             },
           },

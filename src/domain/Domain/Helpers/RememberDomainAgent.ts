@@ -16,10 +16,10 @@ import { Domain } from '../Domain';
 import { DomainAgents } from '../DomainKnowledge';
 
 export function RememberDomainAgent(domain: Domain, type: Function, agent: Function): void {
-  let domains = DomainAgents.v1.get(type);
-  if (!domains) {
-    domains = new Map();
-    DomainAgents.v1.set(type, domains);
+  let agents = DomainAgents.v1.get(type);
+  if (!agents) {
+    agents = new Map();
+    DomainAgents.v1.set(type, agents);
   }
-  domains.set(domain, agent);
+  agents.set(domain, agent);
 }

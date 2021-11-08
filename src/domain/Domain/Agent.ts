@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Arguments, Class } from '../../dependencies/core';
+import { Arguments, Class } from '../../dependencies/agent';
 
 // export interface DefaultConstructor<T extends object> extends Class<T> {
 //   new (): T;

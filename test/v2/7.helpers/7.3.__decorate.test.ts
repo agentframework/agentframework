@@ -1,4 +1,4 @@
-import { __decorate } from '../../../src';
+import { __decorate } from '../../../src/dependencies/core';
 
 class ClassA {
   run(): void {}

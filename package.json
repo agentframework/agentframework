@@ -12,7 +12,8 @@
     "cov": "npm run test:coverage && npm run report",
     "dev": "tsmon tools/jasmine.ts --config=tools/jasmine.json",
     "dev:spec": "tsmon tools/jasmine.ts --config=tools/jasmine.spec.json",
-    "build": "tsc --noEmit",
+    "debug": "ndb tsmon tools/jasmine.ts --config=tools/jasmine.debug.json",
+    "build": "tsc --project tsconfig.json --noEmit",
     "test": "ts-node tools/jasmine.ts --config=tools/jasmine.json",
     "test:coverage": "nyc npm run test",
     "report": "open coverage/lcov-report/index.html"

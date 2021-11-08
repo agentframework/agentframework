@@ -1,4 +1,4 @@
-# 11. re-implement __decorate __metadata __param to improve performance
+# 11. re-implement **decorate **metadata \_\_param to improve performance
 
 Date: 2021-08-07
 
@@ -8,12 +8,12 @@ Accepted
 
 ## Context
 
-`__decorate`, `__metadata` and `__param` may contains more than half of total generated js in a large enterprise project.
-Improve the performance will benefit the application.
+`__decorate`, `__metadata` and `__param` may contain more than half of total generated js in a large enterprise project.
+Improve the performance will benefit large project.
 
 ## Decision
 
-Re-Implement the above function with better performance.
+Re-Implement the above function with better performance. By remove the comparison inside loop.
 
 ## Consequences
 

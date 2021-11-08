@@ -24,7 +24,7 @@ export function GetSystemDomain(): Domain {
   }
   const newDomain = Reflect.construct(InMemoryDomain, []);
   Reflect.defineProperty(newDomain, 'name', {
-    value: 'SystemDomain'
+    value: 'SystemDomain',
   });
   domains.set(domains, newDomain);
   return newDomain;

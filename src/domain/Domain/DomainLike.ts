@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Class } from '../../dependencies/core';
+import { Class } from '../../dependencies/agent';
 import { AgentReference, Agent, Params } from './Agent';
 
 /**
@@ -48,6 +48,10 @@ export interface DomainLike {
   //  * Check if have type registered
   //  */
   // hasType<T extends AnyClass>(type: T): boolean;
+  /**
+   * Get constructor for current type, return undefined if don't have
+   */
+  getAgentType<T extends Function>(type: T): T | undefined;
 
   /**
    * Get constructor for current type, return undefined if don't have
@@ -83,6 +87,11 @@ export interface DomainLike {
    * Delete type mapping for giving type
    */
   removeType<T extends object>(type: Class<T>): void;
+
+  /**
+   * Replace type
+   */
+  setAgentType<T extends object>(type: Class<T>, replacement: Class<T>): void;
 
   /**
    * Add an agent

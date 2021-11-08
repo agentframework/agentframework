@@ -1,8 +1,8 @@
-import { agent, GetAgentType } from '../../../src';
-import { decorateMember } from '../../../src';
-import { ClassInvocation } from '../../../src';
-import { Arguments } from '../../../src';
-import { IsAgent } from '../../../src';
+import { agent, GetType } from '../../../src/dependencies/agent';
+import { decorateMember } from '../../../src/dependencies/agent';
+import { TypeInvocation } from '../../../src/dependencies/agent';
+import { Arguments } from '../../../src/dependencies/agent';
+import { IsAgent } from '../../../src/dependencies/agent';
 
 describe('4.3. field interceptor', () => {
   describe('# should able to', () => {
@@ -11,7 +11,7 @@ describe('4.3. field interceptor', () => {
       class Class431 {
         @decorateMember({
           interceptor: {
-            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
+            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
               if (typeof params[0] === 'number') {
                 const newParams = [Math.floor(params[0])];
                 // modify parameters
@@ -43,7 +43,7 @@ describe('4.3. field interceptor', () => {
       class Class432 {
         @decorateMember({
           interceptor: {
-            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
+            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
               if (typeof params[0] === 'number') {
                 const newParams = [Math.floor(params[0])];
                 // modify parameters
@@ -84,11 +84,9 @@ describe('4.3. field interceptor', () => {
       class Class433 {
         @decorateMember({
           interceptor: {
-            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
+            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
               if (typeof params[0] === 'number') {
-                const newParams = [Math.floor(params[0])];
-                // modify parameters
-                return target.invoke(newParams, receiver);
+                return target.invoke([Math.floor(params[0])], receiver);
               }
               return Math.floor(target.invoke(params, receiver));
             },
@@ -116,7 +114,7 @@ describe('4.3. field interceptor', () => {
       class Class434 {
         @decorateMember({
           interceptor: {
-            intercept(target: ClassInvocation, params: Arguments, receiver: any): any {
+            intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
               if (typeof params[0] === 'number') {
                 const newParams = [Math.floor(params[0])];
                 // modify parameters
@@ -129,7 +127,7 @@ describe('4.3. field interceptor', () => {
         total!: number;
       }
 
-      const original = GetAgentType(Class434);
+      const original = GetType(Class434);
       if (original) {
         Reflect.defineProperty(original.prototype, 'total', {
           configurable: true,

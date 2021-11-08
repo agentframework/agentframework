@@ -22,9 +22,9 @@ limitations under the License. */
 //   return CreateAgent(target);
 // }
 
-import { CreateDomainAgent } from '../Agent/CreateDomainAgent';
-import { GetDomainAgent } from '../Agent/GetDomainAgent';
-import { RegisterDomainAgentAttribute } from '../Agent/RegisterDomainAgentAttribute';
+import { CreateDomainAgent } from '../DomainAgent/CreateDomainAgent';
+import { GetDomainAgent } from '../DomainAgent/GetDomainAgent';
+import { RegisterDomainAgentAttribute } from '../DomainAgent/RegisterDomainAgentAttribute';
 import { GetSystemDomain } from '../Helpers/GetSystemDomain';
 
 /**
@@ -33,12 +33,12 @@ import { GetSystemDomain } from '../Helpers/GetSystemDomain';
 export function agent(): ClassDecorator {
   return <F extends Function>(target: F): F => {
     const domain = GetSystemDomain();
+    // todo: should we call getType here?
     const type = domain.getType(target) || target;
     const found = GetDomainAgent(domain, type);
     if (found) {
       return found;
     }
-    domain.addType(<any>type);
-    return CreateDomainAgent(domain, type, new RegisterDomainAgentAttribute(domain));
+    return CreateDomainAgent(domain, type, new RegisterDomainAgentAttribute(domain), 1);
   };
 }

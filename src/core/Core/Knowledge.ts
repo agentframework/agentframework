@@ -12,37 +12,33 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Invocation } from './Interfaces/Invocation';
-import { remember } from './Helpers/Remember';
+import { METADATA } from './WellKnown';
+import { adapter } from './Annotation/adapter';
+import { Type } from './Annotation/Type';
 
-/**
- * Get original type of giving agent
- */
-export class Types {
-  // core
-  // key: Agent Proxy | Agent Constructor | Domain Agent Constructor, value: Original Constructor
-  @remember('Types')
-  static get v1() {
-    return new WeakMap<Function | object, Function | object>();
+@adapter(Reflect, METADATA)
+export class Knowledge {
+  /* istanbul ignore next */
+  // @ts-ignore
+  static has(key: Function | object): boolean {
+    /* placeholder::Knowledge.has */
   }
-}
 
-/**
- * Get invocations of giving type
- */
-export class Invocations {
-  @remember('Invocations')
-  static get v1() {
-    return new WeakMap<Function, Invocation>();
+  /* istanbul ignore next */
+  // @ts-ignore
+  static get(key: Function | object): any | undefined {
+    /* placeholder::Knowledge.get */
   }
-}
 
-/**
- * Get interceptors of giving type
- */
-export class Interceptors {
-  @remember('Interceptors')
-  static get v1() {
-    return new WeakMap<Function, [Function, unknown]>();
+  /* istanbul ignore next */
+  // @ts-ignore
+  static set(key: Function | object, value: Type): any {
+    /* placeholder::Knowledge.set */
+  }
+
+  /* istanbul ignore next */
+  // @ts-ignore
+  static add(key: Function | object): any {
+    /* placeholder::Knowledge.add */
   }
 }

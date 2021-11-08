@@ -1,4 +1,4 @@
-import { __agent } from '../../../src';
+import { __agent } from '../../../src/dependencies/core';
 
 class ClassA {}
 

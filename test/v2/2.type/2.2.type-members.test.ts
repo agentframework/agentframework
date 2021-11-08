@@ -1,4 +1,4 @@
-import { decorateMember, MemberKinds, PropertyInfo, Reflector } from '../../../src';
+import { decorateMember, MemberKinds, PropertyInfo, Reflector } from '../../../src/dependencies/agent';
 
 class Compiler {}
 
@@ -72,6 +72,7 @@ describe('2.2. Type members', () => {
 
     it('get non-exists type meta', () => {
       const ctorOfStandaloneApplication = Reflector(StandaloneApplication);
+      expect(ctorOfStandaloneApplication.findOwnProperties((p) => true)).toEqual([]);
       expect(ctorOfStandaloneApplication).toBeTruthy();
       expect(ctorOfStandaloneApplication.descriptor).toEqual(
         jasmine.objectContaining({
@@ -226,6 +227,18 @@ describe('2.2. Type members', () => {
         static run() {}
       }
       expect(Reflector(StaticMemberTest22).static.property('run').hasOwnAttribute()).toBeTrue();
+    });
+
+    it('add attribute to constructor', () => {
+      class ClassTest22 {
+        run() {}
+      }
+      expect(Reflector(ClassTest22).version).toBe(0);
+      expect(Reflector(ClassTest22).property('constructor').version).toBe(0);
+      Reflector(ClassTest22).property('constructor').addAttribute({ id: 'ClassTest22' });
+      expect(Reflector(ClassTest22).hasOwnAttribute()).toBeTrue();
+      expect(Reflector(ClassTest22).version).toBe(0);
+      expect(Reflector(ClassTest22).property('constructor').version).toBe(1);
     });
   });
 
