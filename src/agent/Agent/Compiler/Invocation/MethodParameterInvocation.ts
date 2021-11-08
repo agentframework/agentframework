@@ -21,7 +21,6 @@ import { Arguments } from '../../Arguments';
  * @hidden
  */
 export class MethodParameterInvocation implements ParameterInvocation {
-
   constructor(readonly design: ParameterInfo) {}
 
   // parameters[0] = value of index

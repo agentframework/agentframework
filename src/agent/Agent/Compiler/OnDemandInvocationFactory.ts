@@ -1,8 +1,5 @@
-import { Attribute } from '../Attribute';
-import { AgentTypeInvocation } from './Invocation/AgentTypeInvocation';
 import { ClassTypeInvocation } from './Invocation/ClassTypeInvocation';
 import { OnDemandInterceptorFactory } from './OnDemandInterceptorFactory';
-import { TypeInvocation } from '../TypeInvocations';
 import { PropertyInfo } from '../Reflection/PropertyInfo';
 import { Invocation } from '../Invocation';
 import { TypeInfo } from '../Reflection/TypeInfo';
@@ -11,6 +8,9 @@ import { ClassConstructorState } from '../Knowledges/ClassConstructors';
 import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
 import { MethodInvocation } from './Invocation/MethodInvocation';
 import { CONSTRUCTOR } from '../WellKnown';
+import { AgentAttribute } from '../AgentAttribute';
+import { AgentTypeInvocation } from './Invocation/AgentTypeInvocation';
+import { TypeInvocation } from '../TypeInvocations';
 
 export class OnDemandInvocationFactory {
   /**
@@ -19,14 +19,17 @@ export class OnDemandInvocationFactory {
    *
    * @internal
    */
-  static createAgentInvocation(target: Function, attribute: Attribute): TypeInvocation {
-    const invocation = new AgentTypeInvocation(target);
-    const design = invocation.design.property(CONSTRUCTOR);
-    let chain: Invocation<TypeInfo> = invocation;
-    if (design.version) {
-      chain = OnDemandInterceptorFactory.addInterceptors(chain, design.ownInterceptors);
-    }
+  static createAgentInvocation<T extends AgentAttribute>(
+    target: Function,
+    design: TypeInfo,
+    attribute: T
+  ): TypeInvocation {
+    let chain: TypeInvocation = new AgentTypeInvocation(target, design);
     chain = OnDemandInterceptorFactory.addInterceptor(chain, attribute);
+    const property = design.property(CONSTRUCTOR);
+    if (property.version) {
+      chain = OnDemandInterceptorFactory.addInterceptors(chain, property.ownInterceptors);
+    }
     return chain;
   }
 
@@ -35,17 +38,13 @@ export class OnDemandInvocationFactory {
    *
    * @internal
    */
-  static createConstructorInvocation(target: Function): ClassConstructorState {
-    const invocation = new ClassTypeInvocation(target);
-    const design = invocation.design.property(CONSTRUCTOR);
-    let chain: Invocation<TypeInfo> = invocation;
-    if (design.version) {
-      if (design.hasParameter()) {
-        chain = OnDemandInterceptorFactory.addInterceptor(chain, new OnDemandParameterInterceptor(design));
-      }
-      chain = OnDemandInterceptorFactory.addInterceptors(chain, design.ownInterceptors);
+  static createConstructorInvocation(target: Function, type: TypeInfo, design: PropertyInfo): ClassConstructorState {
+    let chain: Invocation<TypeInfo> = new ClassTypeInvocation(target, type);
+    if (design.hasParameter()) {
+      chain = OnDemandInterceptorFactory.addInterceptor(chain, new OnDemandParameterInterceptor(design));
     }
-    return { invocation: chain, version: design.version, design: design };
+    chain = OnDemandInterceptorFactory.addInterceptors(chain, design.ownInterceptors);
+    return { invocation: chain, version: design.version };
   }
 
   /**

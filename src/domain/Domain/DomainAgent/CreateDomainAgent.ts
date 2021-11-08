@@ -19,7 +19,12 @@ import { GetDomain } from '../Helpers/GetDomain';
 import { RememberDomain } from '../Helpers/RememberDomain';
 import { RememberDomainAgent } from '../Helpers/RememberDomainAgent';
 
-export function CompileDomainAgent<T extends Function>(domain: Domain, type: T, strategy?: TypeAttribute): T {
+export function CompileDomainAgent<T extends Function>(
+  domain: Domain,
+  type: T,
+  strategy?: TypeAttribute,
+  version?: number
+): T {
   // check owner domain
   const owner = GetDomain(type);
   if (owner && domain !== owner) {
@@ -33,16 +38,20 @@ export function CompileDomainAgent<T extends Function>(domain: Domain, type: T, 
     Reflect.construct(domain.getType(DomainAgentAttribute) || DomainAgentAttribute, [domain]);
 
   // upgrade to Agent only if interceptor or initializer found
-  return CreateAgent(type, attribute);
+  return CreateAgent(type, attribute, version);
 }
 
 /**
  * This function only called once per domain
  */
-export function CreateDomainAgent<T extends Function>(domain: Domain, type: T, strategy?: TypeAttribute): T {
-
+export function CreateDomainAgent<T extends Function>(
+  domain: Domain,
+  type: T,
+  strategy?: TypeAttribute,
+  version?: number
+): T {
   // upgrade to Agent only if interceptor or initializer found
-  const newCreatedDomainAgent = CompileDomainAgent(domain, type, strategy);
+  const newCreatedDomainAgent = CompileDomainAgent(domain, type, strategy, version);
 
   RememberDomain(newCreatedDomainAgent, domain);
   RememberDomain(newCreatedDomainAgent.prototype, domain);

@@ -3,7 +3,7 @@ import { GetParameter } from './Helpers/GetParameter';
 import { AddAttribute } from './Helpers/AddAttribute';
 import { AddVersion } from './Helpers/AddVersion';
 import { Knowledge } from './Knowledge';
-import {GetConstructor} from "./Helpers/GetConstructor";
+import { GetConstructor } from './Helpers/GetConstructor';
 
 /**
  * equals Reflector(target).property(property, descriptor).addAttribute(attribute);

@@ -28,7 +28,6 @@ import { CONSTRUCTOR } from '../WellKnown';
  * Parameter
  */
 export class OnDemandParameterInfo extends OnDemandMemberInfo implements ParameterInfo {
-
   constructor(
     target: object | Function,
     readonly key: string | symbol,

@@ -23,7 +23,8 @@ import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory'
 import { ClassConstructors } from './Knowledges/ClassConstructors';
 import { ClassMembers } from './Knowledges/ClassMembers';
 import { RememberType } from './Knowledges/Types';
-import { CONSTRUCTOR } from './WellKnown';
+import { TypeInfo } from './Reflection/TypeInfo';
+import { PropertyInfo } from './Reflection/PropertyInfo';
 
 /**
  * This attribute is for upgrade class to agent
@@ -39,14 +40,14 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
   /**
    * Create type hook (called after javascript loaded)
    */
-  intercept(target: TypeInvocation, params: any, receiver: Function): Function {
-    const design = target.design.prototype;
-    const [, type, state] = params;
-    state.type = design;
-    state.property = design.property(CONSTRUCTOR);
-    const agent = (state.target = Reflect.construct(type, [receiver, state]));
-    RememberType(agent, receiver);
-    return (state.receiver = target.invoke<Function>(params, agent));
+  intercept(target: TypeInvocation, params: Arguments, receiver: Function): Function {
+    const [, type, state]: any = params;
+    if (state.version) {
+      const agent = (state.target = Reflect.construct(type, [receiver, state]));
+      RememberType(agent, receiver);
+      return (state.receiver = target.invoke<Function>(params, agent));
+    }
+    return (state.receiver = target.invoke<Function>(params, receiver));
   }
 
   /**
@@ -83,40 +84,22 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
     // this.target !== target
     // this.target.prototype === target.prototype
     // GetType(this.target) === target
-
-    const cacheKey = this.target;
-
-    let invocation: TypeInvocation | undefined;
-
-    // check if can reuse constructor invocation
-    let ctor = ClassConstructors.v1.get(cacheKey);
-    if (ctor && ctor.version === ctor.design.version) {
-      // can reuse
-      invocation = ctor.invocation;
-    } else {
-      // create new constructor invocation
-      // find interceptors from design attributes and create chain for them
-      ctor = OnDemandInvocationFactory.createConstructorInvocation(target);
-      ClassConstructors.v1.set(cacheKey, ctor);
-      invocation = ctor.invocation;
-    }
-
-    const design = invocation.design;
-    const version = design.version;
-    if (version) {
-      const state = ClassMembers.v1.get(cacheKey);
-      if (!state || state.version !== version) {
+    const key = this.target;
+    const type: TypeInfo = this.type;
+    const typeVersion = type.version;
+    if (typeVersion) {
+      const state = ClassMembers.v1.get(key);
+      if (!state || state.version !== typeVersion) {
         const members = (state && state.members) || new Map<string | symbol, number>();
 
         // check if got any property with interceptors
         const properties = members.size
-          ? design.findOwnProperties((p) => p.intercepted && members.get(p.key) !== p.version)
-          : design.findOwnProperties((p) => p.intercepted);
+          ? type.findOwnProperties((p) => p.intercepted && members.get(p.key) !== p.version)
+          : type.findOwnProperties((p) => p.intercepted);
 
         if (properties.length) {
           // don't generate property interceptor if no extended class
           const found = FindExtendedClass(this.receiver, receiver);
-
           UpgradeAgentProperties(
             members,
             target.prototype,
@@ -125,18 +108,39 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
             found[0] && found[0].prototype
           );
         }
-        ClassMembers.v1.set(cacheKey, { version, members });
+        ClassMembers.v1.set(key, { version: typeVersion, members });
       }
     }
 
     // generate new class instance
-    const agent = invocation.invoke(params, receiver);
+    const property: PropertyInfo = this.property;
+    const propertyVersion = property.version;
+    if (propertyVersion) {
+      let invocation: TypeInvocation | undefined;
 
-    // raise error if possible
-    if (null === agent || 'object' !== typeof agent) {
-      throw new AgentFrameworkError('ConstructorReturnNonObject');
+      // check if can reuse constructor invocation
+      let ctor = ClassConstructors.v1.get(key);
+      if (ctor && ctor.version === propertyVersion) {
+        // can reuse
+        invocation = ctor.invocation;
+      } else {
+        // create new constructor invocation
+        // find interceptors from design attributes and create chain for them
+        ctor = OnDemandInvocationFactory.createConstructorInvocation(target, this.type, property);
+        ClassConstructors.v1.set(key, ctor);
+        invocation = ctor.invocation;
+      }
+
+      const agent = invocation.invoke(params, receiver);
+
+      // raise error if possible
+      if (null === agent || 'object' !== typeof agent) {
+        throw new AgentFrameworkError('ConstructorReturnNonObject');
+      }
+
+      return agent;
     }
 
-    return agent;
+    return Reflect.construct(target, params, receiver);
   }
 }

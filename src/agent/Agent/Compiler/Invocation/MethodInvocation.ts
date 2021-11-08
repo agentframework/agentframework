@@ -14,13 +14,12 @@ limitations under the License. */
 
 import { PropertyInfo } from '../../Reflection/PropertyInfo';
 import { Arguments } from '../../Arguments';
-import {Invocation} from "../../Invocation";
+import { Invocation } from '../../Invocation';
 
 /**
  * invoke without interceptors, better performance
  */
 export class MethodInvocation<T extends PropertyInfo> implements Invocation<T> {
-
   constructor(readonly target: Function, readonly design: T) {}
 
   invoke(params: Arguments, receiver: any): any {

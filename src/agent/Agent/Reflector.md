@@ -50,6 +50,4 @@
 // Reflector(class).property(key).value.parameters(1).type
 //
 // Reflector(class).property(key).value.parameters(1).hasAttribute(...)
-
-
 ```

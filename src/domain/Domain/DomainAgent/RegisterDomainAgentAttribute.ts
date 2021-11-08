@@ -12,7 +12,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Arguments } from '../../../dependencies/agent';
 import { DomainAgentAttribute } from './DomainAgentAttribute';
 
 /**
@@ -27,7 +26,7 @@ export class RegisterDomainAgentAttribute extends DomainAgentAttribute {
   // }
 
   // register domain agent after create
-  construct<T extends Function>(target: T, params: Arguments, receiver: T): any {
+  construct<T extends Function>(target: T, params: any, receiver: T): any {
     const agent = super.construct(target, params, receiver);
     this.domain.addAgent(receiver, agent);
     return agent;

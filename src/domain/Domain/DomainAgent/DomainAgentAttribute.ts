@@ -32,13 +32,13 @@ export class DomainAgentAttribute extends AgentAttribute implements TypeIntercep
 
   // target: the origin type
   // receiver: intercepted type
-  intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
-    // NOTE: cache agent type in domain
+  intercept(this: any, target: TypeInvocation, params: Arguments, receiver: any): any {
+    // NOTE: check if agent type has cached in domain
     let agent = this.domain.getAgentType(receiver);
     if (!agent) {
       agent = super.intercept(target, params, receiver);
       this.domain.setAgentType(receiver, agent);
     }
-    return target.invoke<any>(params, agent);
+    return target.invoke(params, agent);
   }
 }

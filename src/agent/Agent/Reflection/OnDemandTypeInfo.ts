@@ -100,7 +100,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Access class annotation info
    */
   get prototype(): TypeInfo {
-    return OnDemandTypeInfo.find(this.declaringType.prototype);
+    return Once(this, 'prototype', OnDemandTypeInfo.find(this.declaringType.prototype));
   }
 
   protected getType(): Function | undefined {

@@ -41,7 +41,7 @@ export class OnDemandInterceptorInvocation<T extends Design = Design> implements
   }
 
   invoke(params: Arguments, receiver: any): any {
-    const interceptor = this.interceptor || GetInterceptor(this.attribute);
+    const interceptor = this.interceptor || (this.interceptor = GetInterceptor(this.attribute));
     if (interceptor) {
       return interceptor.intercept(this.next, params, receiver);
     }
@@ -49,11 +49,9 @@ export class OnDemandInterceptorInvocation<T extends Design = Design> implements
     // below code improve chain invocation performance by reduce one function call
     // need after next.invoke()
     // remove this invocation from chain
-    // if (this.next.constructor === this.constructor) {
     const desc = Reflect.getOwnPropertyDescriptor(this.next, INVOKE);
     const value = desc ? desc.value : this.next.invoke.bind(this.next);
     alter(this, INVOKE, { value });
-    // }
     return result;
   }
 }

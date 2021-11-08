@@ -39,6 +39,6 @@ export function agent(): ClassDecorator {
     if (found) {
       return found;
     }
-    return CreateDomainAgent(domain, type, new RegisterDomainAgentAttribute(domain));
+    return CreateDomainAgent(domain, type, new RegisterDomainAgentAttribute(domain), 1);
   };
 }

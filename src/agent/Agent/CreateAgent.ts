@@ -19,14 +19,17 @@ import { CanDecorate } from './Decorate/CanDecorate';
 import { AgentFrameworkError } from './AgentFrameworkError';
 import { RememberAgent } from './Knowledges/Agents';
 import { GetType } from './Knowledges/Types';
+import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
+import { CONSTRUCTOR } from './WellKnown';
 
 /**
  * Create a new agent from attribute, and add into Agent registry
  *
  * @param type
  * @param strategy
+ * @param version
  */
-export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribute): T {
+export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribute, version?: number): T {
   // always create new agent using latest annotation
 
   // 1. get original type if giving type is an agent type
@@ -43,10 +46,18 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // this will return the origin type
   const receiver = GetType(type) || type;
 
+  // Collect information of this target
+  const design = OnDemandTypeInfo.find(receiver);
+  const classDesign = (attribute.type = design.prototype);
+  const classConstructor = (attribute.property = classDesign.property(CONSTRUCTOR));
+
+  // calculate total version according to the information above
+  attribute.version = classDesign.version + classConstructor.version + (version || 0);
+
   // create an invocation for agent type.
   // this chain used to generate agent of this target
   // empty agent
-  const chain = OnDemandInvocationFactory.createAgentInvocation(receiver, attribute);
+  const chain = OnDemandInvocationFactory.createAgentInvocation(receiver, design, attribute);
 
   // create a new type from this invocation, initialize the agent using reflection info
   /* eslint-disable-next-line prefer-rest-params */

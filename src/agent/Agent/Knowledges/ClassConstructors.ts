@@ -1,10 +1,8 @@
 import { Remember } from '../Decorators/Remember/Remember';
-import { PropertyInfo } from '../Reflection/PropertyInfo';
 import { TypeInvocation } from '../TypeInvocations';
 
 export interface ClassConstructorState {
   version: number;
-  design: PropertyInfo;
   invocation: TypeInvocation;
 }
 

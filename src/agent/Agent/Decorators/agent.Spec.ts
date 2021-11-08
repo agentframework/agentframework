@@ -45,6 +45,7 @@ describe('Core @agent() decorator', () => {
       @agent()
       @agent()
       class DoubleClass {}
+
       const DoubleAgent = CreateAgent(DoubleClass);
       expect(DoubleClass).not.toBe(DoubleAgent);
       expect(DoubleAgent).not.toBe(DoubleClass);
