@@ -44,8 +44,11 @@ export { InMemorySubDomain } from './Domain/InMemorySubDomain';
  *   Design Pattern: Dependence Injection
  *************************************/
 export { singleton } from './Domain/Decorators/DependencyInjection/singleton';
+export { SingletonAttribute } from './Domain/Decorators/DependencyInjection/SingletonAttribute';
 export { transit } from './Domain/Decorators/DependencyInjection/transit';
+export { TransitAttribute } from './Domain/Decorators/DependencyInjection/TransitAttribute';
 export { inject } from './Domain/Decorators/DependencyInjection/inject';
+export { InjectAttribute } from './Domain/Decorators/DependencyInjection/InjectAttribute';
 export { agent } from './Domain/Decorators/agent';
 
 /*************************************
