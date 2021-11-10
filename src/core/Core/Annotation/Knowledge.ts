@@ -93,7 +93,7 @@ export class Knowledge extends WeakMap<Function | object, any> {
     }
     // mark the time
     value[NOW] = Date.now();
-    alter(r, key, { value });
+    alter(r, key, value);
     self.set(self, new Map());
   }
 

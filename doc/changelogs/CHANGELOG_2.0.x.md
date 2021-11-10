@@ -1,5 +1,11 @@
 # Agent Framework 2.0.x ChangeLog
 
+## 2021-11-02, Version 2.0.1
+
+**Notable Changes**
+
+- Fixed an issue when more than one version of agentframework used by a project
+
 ## 2021-11-02, Version 2.0.0
 
 **Notable Changes**
