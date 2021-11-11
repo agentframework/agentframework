@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2015",
-    "lib": ["ES2015", "ES2015.Iterable", "dom"],
+    "lib": ["ES2015", "ES2015.Iterable", "ES2015.Collection", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
     "locale": "en-US",
