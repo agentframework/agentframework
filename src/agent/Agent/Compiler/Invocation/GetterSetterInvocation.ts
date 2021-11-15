@@ -25,7 +25,7 @@ export class GetterSetterInvocation<T extends PropertyInfo> implements Invocatio
   constructor(readonly design: T, readonly cache: WeakMap<any, any>) {}
 
   invoke(params: Arguments, receiver: any): any {
-    const key = this.design.key;
+    // const key = this.design.key;
 
     // this is setter
     if (receiver == null) {
@@ -39,18 +39,19 @@ export class GetterSetterInvocation<T extends PropertyInfo> implements Invocatio
       this.cache.set(receiver, params[0]);
       return params[0];
     } else {
-      // note: can not call receiver[key] here because infinite loop
-      if (this.cache.has(receiver)) {
-        return this.cache.get(receiver);
-      }
-      // read value from prototype of declaringType
-      const prototype = this.design.declaringType.prototype;
-      // console.log('getter', receiver, '----', Reflect.has(prototype, key), '-->', Reflect.get(prototype, key));
-      if (Reflect.has(prototype, key)) {
-        // console.log('getter', Reflect.get(this.design.declaringType.prototype, this.design.key));
-        return Reflect.get(prototype, key);
-      }
-      return;
+      return this.cache.get(receiver);
+      // // note: can not call receiver[key] here because infinite loop
+      // if (this.cache.has(receiver)) {
+      //   return this.cache.get(receiver);
+      // }
+      // // read value from prototype of declaringType
+      // const prototype = this.design.declaringType.prototype;
+      // // console.log('getter', receiver, '----', Reflect.has(prototype, key), '-->', Reflect.get(prototype, key));
+      // if (Reflect.has(prototype, key)) {
+      //   // console.log('getter', Reflect.get(this.design.declaringType.prototype, this.design.key));
+      //   return Reflect.get(prototype, key);
+      // }
+      // return;
     }
   }
 }

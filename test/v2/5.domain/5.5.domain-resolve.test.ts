@@ -106,34 +106,36 @@ describe('5.5. Domain resolve', () => {
       domain.dispose();
     });
 
-    it('resolve pending agent', async (done) => {
-      class Async {
-        constructor() {
-          return <any>new Promise((resolve, reject) => {
-            setTimeout(() => {
-              resolve({});
-            }, 0);
-          });
+    it('resolve pending agent', () => {
+      return new Promise(async (done: Function) => {
+        class Async {
+          constructor() {
+            return <any>new Promise((resolve, reject) => {
+              setTimeout(() => {
+                resolve({});
+              }, 0);
+            });
+          }
         }
-      }
 
-      class Pending {
-        constructor() {
-          return <any>new Promise((resolve, reject) => {
-            setTimeout(() => {
-              resolve({
-                dispose() {
-                  done();
-                },
-              });
-            }, 0);
-          });
+        class Pending {
+          constructor() {
+            return <any>new Promise((resolve, reject) => {
+              setTimeout(() => {
+                resolve({
+                  dispose() {
+                    done();
+                  },
+                });
+              }, 0);
+            });
+          }
         }
-      }
-      const domain = new InMemoryDomain();
-      await expectAsync(domain.resolve(Async)).toBeResolved();
-      await expectAsync(domain.resolve(Pending)).toBeResolved();
-      domain.dispose();
+        const domain = new InMemoryDomain();
+        await expectAsync(domain.resolve(Async)).toBeResolved();
+        await expectAsync(domain.resolve(Pending)).toBeResolved();
+        domain.dispose();
+      });
     });
 
     it('resolve Observable', async () => {

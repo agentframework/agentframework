@@ -4,7 +4,6 @@ import {
   PropertyInvocation,
   Reflector,
   AgentFrameworkError,
-  IsAgent,
   CreateAgent,
 } from '../../../src/dependencies/agent';
 import { InMemoryDomain, agent, singleton } from '../../../src/dependencies/domain';
@@ -112,19 +111,19 @@ describe('5.9. Domain @singleton decorator', () => {
       }
 
       class App595 {
+
+        @decorateMember({
+          interceptor: {
+            intercept(target: PropertyInvocation, params: Arguments, receiver: App595): any {
+              return target.invoke(params, undefined);
+            },
+          },
+        })
         @singleton()
         @decorateMember({
           interceptor: {
             intercept(target: PropertyInvocation, params: Arguments, receiver: App595): any {
-              // console.log('params[0]', params[0], params[0].constructor.toString());
-              expect(params.length).toBe(1);
-              expect(params[0].constructor.name).toBe('Service595$');
-              expect(IsAgent(params[0].constructor.prototype)).toBeTrue();
-              expect(IsAgent(params[0].constructor)).toBeTrue();
-              expect(IsAgent(params[0])).toBeFalse();
-              expect(receiver.constructor.name).toBe('App595$');
-              // will throw error next line
-              return target.invoke([domain], undefined);
+              return target.invoke(params, undefined);
             },
           },
         })
@@ -149,7 +148,7 @@ describe('5.9. Domain @singleton decorator', () => {
         @decorateMember({
           interceptor: {
             intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
-              return target.invoke([receiver], undefined);
+              return target.invoke([new Service596()], receiver);
             },
           },
         })
@@ -161,7 +160,7 @@ describe('5.9. Domain @singleton decorator', () => {
 
       expect(() => {
         expect(app.service).toBeUndefined();
-      }).toThrowError(AgentFrameworkError, 'NoDomainFoundForSingletonInjection');
+      }).toThrowError(AgentFrameworkError, 'NotAllowModifySingletonVariable');
     });
 
     it('create interceptor on invalid property', () => {
@@ -217,7 +216,6 @@ describe('5.9. Domain @singleton decorator', () => {
         expect(() => {
           ins.run();
         }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
-
       }
     });
   });

@@ -21,20 +21,23 @@ import {
 } from '../../../../dependencies/agent';
 import { GetDomainFromInvocation } from '../../Helpers/GetDomainFromInvocation';
 
-// import { GetDomain } from '../Helpers/GetDomain';
-
 export class SingletonAttribute implements PropertyAttribute, PropertyInterceptor {
-  private readonly type?: Function;
-
-  constructor(type?: Function) {
-    this.type = type;
-  }
+  constructor(readonly type?: Function) {}
 
   get interceptor() {
     return this;
   }
 
   intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
+    if (params.length) {
+      throw new AgentFrameworkError('NotAllowModifySingletonVariable');
+    }
+
+    let value: object | undefined = target.invoke(params, receiver);
+    if (typeof value !== 'undefined') {
+      return value;
+    }
+
     const customType = this.type;
     const designType = target.design && target.design.type;
     const type = customType || designType;
@@ -43,15 +46,14 @@ export class SingletonAttribute implements PropertyAttribute, PropertyIntercepto
       throw new AgentFrameworkError('UnknownSingletonType');
     }
 
-    // console.log('singleton', type, 'receiver', receiver);
     // if this object created by domain, the last argument is domain itself
-    // console.log('find domain for type', receiver)
     const domain = GetDomainFromInvocation(target, params, receiver);
     if (!domain) {
+      // console.log('singleton', type, 'receiver', receiver);
       throw new AgentFrameworkError('NoDomainFoundForSingletonInjection');
     }
 
-    const value =
+    value =
       (customType && domain.getAgent(customType)) ||
       (designType && domain.getAgent(designType)) ||
       domain.construct(type, params);

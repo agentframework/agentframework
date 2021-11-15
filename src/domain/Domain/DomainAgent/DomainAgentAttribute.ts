@@ -41,4 +41,19 @@ export class DomainAgentAttribute extends AgentAttribute implements TypeIntercep
     }
     return target.invoke(params, agent);
   }
+  //
+  // construct<T extends Function>(target: T, params: Arguments, receiver: T): any {
+  //
+  //   const instance = super.construct(target, params, receiver);
+  //
+  //   const initializer = Reflect.get(instance, Initializer);
+  //   if (initializer) {
+  //     if ('function' !== typeof initializer) {
+  //       throw new AgentFrameworkError('InitializerIsNotFunction');
+  //     }
+  //     Reflect.apply(initializer, instance, params);
+  //   }
+  //
+  //   return instance;
+  // }
 }

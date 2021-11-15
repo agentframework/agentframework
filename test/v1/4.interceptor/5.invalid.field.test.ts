@@ -62,7 +62,7 @@ describe('Interceptor on Field', () => {
       });
 
       expect(agent).toBeTruthy();
-      expect(agent.bar).toBe(3);
+      expect(agent.bar).toBeNaN();
       agent.bar = 1.52412423;
       expect(agent.bar).toBe(2);
     });

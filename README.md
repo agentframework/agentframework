@@ -137,7 +137,7 @@ console.log('Is it create from the ProjectA class?', project instanceof ProjectA
 -   [x] EPIC: Provide access to intercepted property value in constructor
 -   [x] PERFORMANCE: Metadata only attribute, attribute without interceptor
 -   [x] PERFORMANCE: Pre-compile class member interceptors to improve method call performance
--   [x] PERFORMANCE: Cache class constructor interceptors to faster initialize new class instance staring from second time.
+-   [x] PERFORMANCE: ConstructOnce class constructor interceptors to faster initialize new class instance staring from second time.
 -   [x] PERFORMANCE: Remove interceptor for @agent attribute to improve performance
 -   [x] PERFORMANCE: Do not add proxy if the agent don't have interceptor
 -   [x] PERFORMANCE: Remove ES6 Proxy if don't have field interceptor

@@ -34,14 +34,19 @@ export class TransitAttribute implements PropertyAttribute, PropertyInterceptor 
   }
 
   intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
+    if (params.length) {
+      throw new AgentFrameworkError('NotAllowModifyTransitVariable');
+    }
+
+    let value: object | undefined = target.invoke(params, receiver);
+    if (typeof value !== 'undefined') {
+      return value;
+    }
     const type = this.type || (target.design && target.design.type);
     if (!type) {
       throw new AgentFrameworkError('UnknownTransitType');
     }
-
-    // if this object created by domain, the last argument is domain itself
     const domain = GetDomainFromInvocation(target, params, receiver);
-    let value;
     if (domain) {
       // console.log('get type', typeof receiver, type.name)
       value = domain.construct(type, params, true);

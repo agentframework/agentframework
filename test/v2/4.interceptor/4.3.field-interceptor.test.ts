@@ -115,7 +115,7 @@ describe('4.3. field interceptor', () => {
         @decorateMember({
           interceptor: {
             intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
-              if (typeof params[0] === 'number') {
+              if (params.length) {
                 const newParams = [Math.floor(params[0])];
                 // modify parameters
                 return target.invoke(newParams, receiver);
@@ -139,9 +139,9 @@ describe('4.3. field interceptor', () => {
 
       const setter = new Class434();
       expect(setter).toBeInstanceOf(Class434);
-      expect(setter.total).toBe(999);
-      expect(setter.total).toBe(999);
-      expect(setter.total).toBe(999);
+      expect(setter.total).toBeNaN();
+      expect(setter.total).toBeNaN();
+      expect(setter.total).toBeNaN();
       setter.total = 3.5;
       expect(setter.total).toBe(3);
       setter.total = 4.5;

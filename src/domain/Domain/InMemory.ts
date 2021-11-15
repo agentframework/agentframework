@@ -7,6 +7,7 @@ export class InMemory {
   private readonly agents = new Map<AgentReference, any>(); // type-instance mapping
   private readonly incomingAgents = new Map<AgentReference, Promise<any>>(); // type-instance mapping (Promise)
   private static readonly domains = new WeakMap<object, InMemory>();
+  
   private static domain(domain: Domain): InMemory {
     let value = this.domains.get(domain);
     if (!value) {

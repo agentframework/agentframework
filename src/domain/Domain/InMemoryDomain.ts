@@ -222,8 +222,8 @@ export class InMemoryDomain extends Domain implements Disposable {
         // InitializeDomainAgent(type, newCreated);
         return Promise.resolve(newCreated);
       }
-    } catch (err) {
-      return Promise.reject(err);
+    } catch (e: any) {
+      return Promise.reject(e);
     }
   }
   //endregion

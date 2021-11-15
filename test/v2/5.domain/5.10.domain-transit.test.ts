@@ -80,5 +80,21 @@ describe('5.10. @transit decorator', () => {
         expect(app.service).toBeUndefined();
       }).toThrowError('UnknownTransitType');
     });
+
+    it('modify transit value', () => {
+      class Service5105 {}
+
+      @agent()
+      class App5105 {
+        @transit()
+        service?: Service5105;
+      }
+
+      const app = new App5105();
+
+      expect(() => {
+        app.service = new Service5105();
+      }).toThrowError('NotAllowModifyTransitVariable');
+    });
   });
 });

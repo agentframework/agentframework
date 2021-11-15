@@ -20,6 +20,7 @@ describe('5.8. Domain @inject decorator', () => {
       const app = new App581();
 
       expect(app.service).toBe(service);
+      expect(app.service).toBe(service); // cached
 
       expect(Reflector(App581).property('service').hasOwnAttribute()).toBeTrue();
     });
@@ -112,6 +113,22 @@ describe('5.8. Domain @inject decorator', () => {
       expect(() => {
         expect(app586.service).toBeUndefined();
       }).toThrowError('DomainNotFound: Service586');
+    });
+
+    it('modify inject value', () => {
+      class Service586 {}
+
+      @agent()
+      class App586 {
+        @inject()
+        service?: Service586;
+      }
+
+      const app = new App586();
+
+      expect(() => {
+        app.service = new Service586();
+      }).toThrowError('NotAllowModifyTransitVariable');
     });
   });
 });
