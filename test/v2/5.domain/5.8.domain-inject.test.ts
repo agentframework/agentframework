@@ -128,7 +128,7 @@ describe('5.8. Domain @inject decorator', () => {
 
       expect(() => {
         app.service = new Service586();
-      }).toThrowError('NotAllowModifyTransitVariable');
+      }).toThrowError('NotAllowModifyInjectVariable');
     });
   });
 });
