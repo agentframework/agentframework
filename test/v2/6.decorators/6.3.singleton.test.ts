@@ -6,7 +6,6 @@ import {
   PropertyInvocation,
   Reflector,
   AgentFrameworkError,
-  IsAgent,
   CreateAgent,
 } from '../../../src/dependencies/agent';
 
@@ -112,12 +111,12 @@ describe('6.3. @singleton decorator', () => {
           interceptor: {
             intercept(target: PropertyInvocation, params: Arguments, receiver: App635): any {
               // console.log('params[0]', params[0], params[0].constructor.toString());
-              expect(params.length).toBe(1);
-              expect(params[0].constructor.name).toBe('Service635$');
-              expect(IsAgent(params[0].constructor.prototype)).toBeTrue();
-              expect(IsAgent(params[0].constructor)).toBeTrue();
-              expect(IsAgent(params[0])).toBeFalse();
-              expect(receiver.constructor.name).toBe('App635$');
+              // expect(params.length).toBe(1);
+              // expect(params[0].constructor.name).toBe('Service635$');
+              // expect(IsAgent(params[0].constructor.prototype)).toBeTrue();
+              // expect(IsAgent(params[0].constructor)).toBeTrue();
+              // expect(IsAgent(params[0])).toBeFalse();
+              // expect(receiver.constructor.name).toBe('App635$');
               // will throw error next line
               return target.invoke([], undefined);
             },
@@ -157,7 +156,7 @@ describe('6.3. @singleton decorator', () => {
       expect(() => {
         expect(app.service).toBeUndefined();
         // this @singleton is from core, so it will not throw error missing domain
-      }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
+      }).toThrowError(AgentFrameworkError, 'NotAllowModifySingletonVariable');
     });
 
     it('create interceptor on invalid property', () => {

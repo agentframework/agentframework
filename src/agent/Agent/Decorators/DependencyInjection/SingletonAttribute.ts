@@ -32,6 +32,15 @@ export class SingletonAttribute implements PropertyInterceptor {
   }
 
   intercept(target: PropertyInvocation, params: Arguments, receiver: any): any {
+    if (params.length) {
+      throw new AgentFrameworkError('NotAllowModifySingletonVariable');
+    }
+
+    const value: object | undefined = target.invoke(params, receiver);
+    if (typeof value !== 'undefined') {
+      return value;
+    }
+
     const customType = this.type;
     const designType = target.design && target.design.type;
     const type = customType || designType;

@@ -70,7 +70,7 @@ describe('Core @singleton() decorator', () => {
   });
 
   describe('# should not able to', () => {
-    it('create transit agent with unknown type', () => {
+    it('create singleton agent with unknown type', () => {
       @agent()
       class CoreSingletonDecoratorApp2 {
         @singleton()
@@ -82,6 +82,21 @@ describe('Core @singleton() decorator', () => {
       expect(() => {
         expect(app.service).toBeUndefined();
       }).toThrowError('UnknownSingletonType');
+    });
+
+    it('change singleton agent', () => {
+      class CoreSingletonService3 {}
+      @agent()
+      class CoreSingletonDecoratorApp3 {
+        @singleton()
+        service?: CoreSingletonService3;
+      }
+
+      const app = new CoreSingletonDecoratorApp3();
+
+      expect(() => {
+        app.service = new CoreSingletonService3();
+      }).toThrowError('NotAllowModifySingletonVariable');
     });
   });
 });

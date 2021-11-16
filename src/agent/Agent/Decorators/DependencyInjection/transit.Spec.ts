@@ -48,5 +48,20 @@ describe('Core @transit() decorator', () => {
         expect(app.service).toBeUndefined();
       }).toThrowError('UnknownTransitType');
     });
+
+    it('change transit agent', () => {
+      class CoreTransitService3 {}
+      @agent()
+      class CoreTransitDecoratorApp3 {
+        @transit()
+        service?: CoreTransitService3;
+      }
+
+      const app = new CoreTransitDecoratorApp3();
+
+      expect(() => {
+        app.service = new CoreTransitService3();
+      }).toThrowError('NotAllowModifyTransitVariable');
+    });
   });
 });
