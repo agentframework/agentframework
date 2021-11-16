@@ -26,12 +26,12 @@ export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
     return Once(this, 'parent', GetDomain(this.constructor) || GetSystemDomain());
   }
 
-  getOwnType<T extends Function>(type: T): T | undefined {
-    return super.getType<T>(type);
-  }
-
   getAgentType<T extends Function>(type: T): T | undefined {
     return super.getAgentType<T>(type) || this.parent.getAgentType<T>(type);
+  }
+
+  getOwnType<T extends Function>(type: T): T | undefined {
+    return super.getType<T>(type);
   }
 
   getType<T extends Function>(type: T): T | undefined {

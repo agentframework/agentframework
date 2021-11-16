@@ -32,28 +32,22 @@ export class DomainAgentAttribute extends AgentAttribute implements TypeIntercep
 
   // target: the origin type
   // receiver: intercepted type
-  intercept(this: any, target: TypeInvocation, params: Arguments, receiver: any): any {
+  intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
     // NOTE: check if agent type has cached in domain
-    let agent = this.domain.getAgentType(receiver);
-    if (!agent) {
-      agent = super.intercept(target, params, receiver);
-      this.domain.setAgentType(receiver, agent);
+    let type = this.domain.getAgentType(receiver);
+    if (!type) {
+      type = super.intercept(target, params, receiver);
+      this.domain.setAgentType(receiver, type);
     }
-    return target.invoke(params, agent);
+    return target.invoke(params, type);
   }
-  //
+
   // construct<T extends Function>(target: T, params: Arguments, receiver: T): any {
-  //
   //   const instance = super.construct(target, params, receiver);
-  //
   //   const initializer = Reflect.get(instance, Initializer);
-  //   if (initializer) {
-  //     if ('function' !== typeof initializer) {
-  //       throw new AgentFrameworkError('InitializerIsNotFunction');
-  //     }
+  //   if ('function' === typeof initializer) {
   //     Reflect.apply(initializer, instance, params);
   //   }
-  //
   //   return instance;
   // }
 }

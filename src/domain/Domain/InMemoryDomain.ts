@@ -116,6 +116,7 @@ export class InMemoryDomain extends Domain implements Disposable {
    */
   construct<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Agent<T> {
     const register = !transit;
+
     if (register) {
       const exists = this.getAgent(target);
       if (exists !== undefined) {

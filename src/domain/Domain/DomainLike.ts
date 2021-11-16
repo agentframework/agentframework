@@ -24,6 +24,11 @@ export interface DomainLike {
    */
   name: string;
 
+  /**
+   * compile agent
+   */
+  compile<T extends Function>(target: T): void;
+
   // /**
   //  * Check if have agent
   //  */

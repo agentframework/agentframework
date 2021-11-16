@@ -8,9 +8,9 @@ import { ClassConstructorState } from '../Knowledges/ClassConstructors';
 import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
 import { MethodInvocation } from './Invocation/MethodInvocation';
 import { CONSTRUCTOR } from '../WellKnown';
-import { AgentAttribute } from '../AgentAttribute';
 import { AgentTypeInvocation } from './Invocation/AgentTypeInvocation';
 import { TypeInvocation } from '../TypeInvocations';
+import { Attribute } from '../Attribute';
 
 export class OnDemandInvocationFactory {
   /**
@@ -19,11 +19,7 @@ export class OnDemandInvocationFactory {
    *
    * @internal
    */
-  static createAgentInvocation<T extends AgentAttribute>(
-    target: Function,
-    design: TypeInfo,
-    attribute: T
-  ): TypeInvocation {
+  static createAgentInvocation(target: Function, design: TypeInfo, attribute: Attribute): TypeInvocation {
     let chain: TypeInvocation = new AgentTypeInvocation(target, design);
     chain = OnDemandInterceptorFactory.addInterceptor(chain, attribute);
     const property = design.property(CONSTRUCTOR);

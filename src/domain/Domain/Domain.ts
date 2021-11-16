@@ -56,6 +56,9 @@ export abstract class Domain implements DomainLike {
   abstract getType<T extends Function>(type: T): T | undefined;
 
   //region Factory
+  /**
+   * compile domain agent
+   */
   abstract compile<T extends Function>(target: T): void;
 
   /**
@@ -85,6 +88,9 @@ export abstract class Domain implements DomainLike {
    */
   abstract removeType<T extends object>(type: Class<T>): void;
 
+  /**
+   * Set agent type
+   */
   abstract setAgentType<T extends object>(type: Class<T>, replacement: Class<T>): void;
 
   // /**

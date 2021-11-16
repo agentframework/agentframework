@@ -6,8 +6,9 @@ export class InMemory {
   private readonly agentTypes = new Map<Function, any>(); // type-AgentType mapping
   private readonly agents = new Map<AgentReference, any>(); // type-instance mapping
   private readonly incomingAgents = new Map<AgentReference, Promise<any>>(); // type-instance mapping (Promise)
+
   private static readonly domains = new WeakMap<object, InMemory>();
-  
+
   private static domain(domain: Domain): InMemory {
     let value = this.domains.get(domain);
     if (!value) {
@@ -21,6 +22,16 @@ export class InMemory {
   static types(domain: Domain): Map<Function, any> {
     return this.domain(domain).types;
   }
+
+  // static typeCache = new Map<Function, WeakMap<Domain, any>>();
+  // static type(type: Function): WeakMap<Domain, any> {
+  //   let map = this.typeCache.get(type);
+  //   if (!map) {
+  //     map = new WeakMap<Domain, any>();
+  //     this.typeCache.set(type, map);
+  //   }
+  //   return map;
+  // }
 
   // type-instance mapping
   static agents(domain: Domain): Map<AgentReference, any> {

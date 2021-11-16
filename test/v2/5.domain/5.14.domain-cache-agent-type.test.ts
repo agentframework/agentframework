@@ -20,11 +20,11 @@ describe('5.14. Domain cache agent type', () => {
       // cache WebRequest
       root.compile(WebRequest);
 
-      const domain = root.construct(InMemorySubDomain);
-      expect(domain.parent).toBe(root);
+      const sub = root.construct(InMemorySubDomain);
+      expect(sub.parent).toBe(root);
 
-      const wr1 = domain.construct(WebRequest, [], true);
-      const wr2 = domain.construct(WebRequest, [], true);
+      const wr1 = sub.construct(WebRequest, [], true);
+      const wr2 = sub.construct(WebRequest, [], true);
 
       expect(wr1).not.toBe(wr2);
 
