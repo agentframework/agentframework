@@ -154,9 +154,18 @@ console.log('Is it create from the ProjectA class?', project instanceof ProjectA
 -   [x] COMPATIBILITY: Revise Agent Options
 -   [x] COMPATIBILITY: Revise Domain Interface (Domain is been completely moved to 2.0)
 
+
+## Special Thanks To:
+
+[<img src="https://user-images.githubusercontent.com/1542425/147318909-dbfbde6b-d182-4f99-bbcc-f899823d4adb.png" alt="" width="150">](https://www.jetbrains.com)
+
+[JetBrains](https://www.jetbrains.com/), creators of the IntelliJ IDEA, supports AgentFramework with one of their [Open Source Licenses](https://www.jetbrains.com/opensource/). IntelliJ IDEA is the recommended IDE for working with AgentFramework.
+
+
 ## License
 
-Copyright 2021 Ling Zhang
+Copyright 2021 Ling Zhang!
+
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
