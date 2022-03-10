@@ -31,7 +31,7 @@ export class DomainAgentAttribute extends AgentAttribute implements TypeIntercep
   // }
 
   // target: the origin type
-  // receiver: intercepted type
+  // receiver: upgraded agent type
   intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
     // NOTE: check if agent type has cached in domain
     let type = this.domain.getAgentType(receiver);

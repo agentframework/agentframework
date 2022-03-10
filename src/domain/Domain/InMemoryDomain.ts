@@ -366,6 +366,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     _incomingAgents.clear();
     _agents.clear();
     InMemory.types(this).clear();
+    InMemory.agentTypes(this).clear();
     this.disposed = true;
   }
 }

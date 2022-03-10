@@ -1,5 +1,5 @@
 import { AgentReference } from './Agent';
-import { Domain } from './Domain';
+import { DomainLike } from './DomainLike';
 
 export class InMemory {
   private readonly types = new Map<Function, any>(); // type-type mapping
@@ -9,7 +9,7 @@ export class InMemory {
 
   private static readonly domains = new WeakMap<object, InMemory>();
 
-  private static domain(domain: Domain): InMemory {
+  private static domain(domain: DomainLike): InMemory {
     let value = this.domains.get(domain);
     if (!value) {
       value = new InMemory();
@@ -18,31 +18,23 @@ export class InMemory {
     return value;
   }
 
-  // type-agent mapping
-  static types(domain: Domain): Map<Function, any> {
+  // type-type mapping
+  static types(domain: DomainLike): Map<Function, any> {
     return this.domain(domain).types;
   }
 
-  // static typeCache = new Map<Function, WeakMap<Domain, any>>();
-  // static type(type: Function): WeakMap<Domain, any> {
-  //   let map = this.typeCache.get(type);
-  //   if (!map) {
-  //     map = new WeakMap<Domain, any>();
-  //     this.typeCache.set(type, map);
-  //   }
-  //   return map;
-  // }
-
-  // type-instance mapping
-  static agents(domain: Domain): Map<AgentReference, any> {
-    return this.domain(domain).agents;
-  }
-
-  static agentTypes(domain: Domain): Map<Function, any> {
+  // type-agent mapping
+  static agentTypes(domain: DomainLike): Map<Function, any> {
     return this.domain(domain).agentTypes;
   }
 
-  static incomingAgents(domain: Domain): Map<AgentReference, Promise<any>> {
+  // type-instance mapping
+  static agents(domain: DomainLike): Map<AgentReference, any> {
+    return this.domain(domain).agents;
+  }
+
+  // type-promise<instance> mapping
+  static incomingAgents(domain: DomainLike): Map<AgentReference, Promise<any>> {
     return this.domain(domain).incomingAgents;
   }
 }
