@@ -27,6 +27,14 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 :recycle: **Clean:** Transparent dynamic proxy. No prototype pollution. No reflect-metadata or any npm dependencies.
 
+## Supported Environment
+
+| Platform       | Version                                                                             |
+| -------------- | ----------------------------------------------------------------------------------- |
+| Node.js        | 17, 16, 15, 14, 12, 10, 8                                                           |
+| TypeScript     | 4.6, 4.5, 4.4, 4.3, 4.2, 4.1, 4.0, 3.9, 3.8, 3.7, 3.6, 3.5, 3.4, 3.3, 3.2, 3.1, 3.0 |
+
+
 ## Changelog
 
 | Date       | Version                                                | Status      |
@@ -137,7 +145,7 @@ console.log('Is it create from the ProjectA class?', project instanceof ProjectA
 -   [x] EPIC: Provide access to intercepted property value in constructor
 -   [x] PERFORMANCE: Metadata only attribute, attribute without interceptor
 -   [x] PERFORMANCE: Pre-compile class member interceptors to improve method call performance
--   [x] PERFORMANCE: ConstructOnce class constructor interceptors to faster initialize new class instance staring from second time.
+-   [x] PERFORMANCE: Caching class constructor interceptors to reduce future class instance creation time.
 -   [x] PERFORMANCE: Remove interceptor for @agent attribute to improve performance
 -   [x] PERFORMANCE: Do not add proxy if the agent don't have interceptor
 -   [x] PERFORMANCE: Remove ES6 Proxy if don't have field interceptor
@@ -164,7 +172,7 @@ console.log('Is it create from the ProjectA class?', project instanceof ProjectA
 
 ## License
 
-Copyright 2021 Ling Zhang!
+Copyright 2022 Ling Zhang!
 
 
 Licensed under the Apache License, Version 2.0 (the "License");

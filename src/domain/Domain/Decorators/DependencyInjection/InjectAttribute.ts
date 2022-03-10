@@ -49,7 +49,6 @@ export class InjectAttribute implements PropertyAttribute, PropertyInterceptor {
     }
 
     value = domain.getAgent(type);
-
     if (typeof value === 'undefined') {
       throw new AgentFrameworkError('InjectInstanceNotExists: ' + type.name);
     }
