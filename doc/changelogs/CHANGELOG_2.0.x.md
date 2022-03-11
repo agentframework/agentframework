@@ -1,5 +1,11 @@
 # Agent Framework 2.0.x ChangeLog
 
+## 2022-03-11, Version 2.0.2
+
+**Notable Changes**
+
+- Fixed an infinite loops bug when using interceptor on class field
+
 ## 2021-11-02, Version 2.0.1
 
 **Notable Changes**
