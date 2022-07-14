@@ -127,7 +127,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     // find extended type
     const type = this.getType<T>(target) || target;
 
-    // find domainAgent
+    // find or create DomainAgent
     const domainAgent = GetDomainAgent(this, type) || CreateDomainAgent(this, type);
 
     // console.log('construct', target.name, 'from', type.name);
@@ -165,68 +165,67 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Create and initial an agent asynchronously
    */
-  resolve<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>> {
-    try {
-      const _incomingAgents = InMemory.incomingAgents(this);
-      const register = !transit;
+  async resolve<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>> {
+
+    // domain cache for promise type
+    const _incomingAgents = InMemory.incomingAgents(this);
+    const register = !transit;
+    if (register) {
+      const exists = this.getAgent(target);
+      if (exists !== undefined) {
+        return Promise.resolve(exists);
+      }
+      const pending = _incomingAgents.get(target);
+      if (pending) {
+        return <Promise<Agent<T>>>pending;
+      }
+    }
+
+    // find extended type
+    const type = this.getType<T>(target) || target;
+
+    // find domainAgent
+    const domainAgent = GetDomainAgent(this, type) || CreateDomainAgent(this, type);
+
+    // initialize agent class
+    const newCreated = Reflect.construct(domainAgent, params || []);
+
+    if (IsPromise<Agent<T>>(newCreated)) {
       if (register) {
-        const exists = this.getAgent(target);
-        if (exists !== undefined) {
-          return Promise.resolve(exists);
-        }
-        const pending = _incomingAgents.get(target);
-        if (pending) {
-          return <Promise<Agent<T>>>pending;
-        }
+        _incomingAgents.set(type, newCreated);
       }
-
-      // find extended type
-      const type = this.getType<T>(target) || target;
-
-      // find domainAgent
-      const domainAgent = GetDomainAgent(this, type) || CreateDomainAgent(this, type);
-
-      // initialize agent class
-      const newCreated = Reflect.construct(domainAgent, params || []);
-
-      if (IsPromise<Agent<T>>(newCreated)) {
-        if (register) {
-          _incomingAgents.set(type, newCreated);
-        }
-        return newCreated.then(
-          (agent) => {
-            // no need register instance with domain
-            // if (agent === target) {
-            //   RememberDomain(instance, this);
-            // }
-            if (register) {
-              this.addAgent(type, agent);
-              _incomingAgents.delete(type);
-            }
-            // InitializeDomainAgent(type, newCreatedAgent);
-            return agent;
-          },
-          (err) => {
-            if (!transit) {
-              _incomingAgents.delete(type);
-            }
-            throw err;
+      return newCreated.then(
+        (agent) => {
+          // no need register instance with domain
+          // if (agent === target) {
+          //   RememberDomain(instance, this);
+          // }
+          if (register) {
+            this.addAgent(type, agent);
+            _incomingAgents.delete(type);
           }
-        );
-      } else if (IsObservable(newCreated)) {
-        // TODO: add observable support later version
-        throw new AgentFrameworkError('NotSupportResolveObservableObject');
-      } else {
-        // no need register instance with domain
-        // DomainCore.SetDomain(newCreated, this);
-        if (!transit) this.addAgent(type, newCreated);
-        // InitializeDomainAgent(type, newCreated);
-        return Promise.resolve(newCreated);
-      }
-    } catch (e: any) {
-      return Promise.reject(e);
+          // InitializeDomainAgent(type, newCreatedAgent);
+          return agent;
+        },
+        (err) => {
+          if (!transit) {
+            _incomingAgents.delete(type);
+          }
+          return Promise.reject(err);
+        }
+      );
+    } else if (IsObservable(newCreated)) {
+      // TODO: add observable support later version
+      return Promise.reject(new AgentFrameworkError('NotSupportResolveObservableObject'));
+    } else {
+      // no need register instance with domain
+      // DomainCore.SetDomain(newCreated, this);
+      if (!transit) this.addAgent(type, newCreated);
+      // InitializeDomainAgent(type, newCreated);
+      return Promise.resolve(newCreated);
     }
   }
+
   //endregion
 
   //region Manage Type / Instance in this Domain
