@@ -25,16 +25,17 @@ limitations under the License. */
 import { CreateDomainAgent } from '../DomainAgent/CreateDomainAgent';
 import { GetDomainAgent } from '../DomainAgent/GetDomainAgent';
 import { RegisterDomainAgentAttribute } from '../DomainAgent/RegisterDomainAgentAttribute';
-import { GetSystemDomain } from '../Helpers/GetSystemDomain';
+import { GetGlobalDomain } from '../Helpers/GetGlobalDomain';
 
 /**
  * Define an agent
  */
 export function agent(): ClassDecorator {
   return <F extends Function>(target: F): F => {
-    const domain = GetSystemDomain();
+    const domain = GetGlobalDomain();
     // todo: should we call getType here?
     const type = domain.getType(target) || target;
+    // note: type always exists, domain may not exists. so use type as 1st key
     const found = GetDomainAgent(domain, type);
     if (found) {
       return found;

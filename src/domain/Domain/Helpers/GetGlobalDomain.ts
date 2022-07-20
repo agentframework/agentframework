@@ -16,7 +16,7 @@ import { InMemoryDomain } from '../InMemoryDomain';
 import { Domain } from '../Domain';
 import { Domains } from '../DomainKnowledge';
 
-export function GetSystemDomain(): Domain {
+export function GetGlobalDomain(): Domain {
   const domains = Domains.v1;
   const existDomain = domains.get(domains);
   if (existDomain) {
@@ -24,7 +24,7 @@ export function GetSystemDomain(): Domain {
   }
   const newDomain = Reflect.construct(InMemoryDomain, []);
   Reflect.defineProperty(newDomain, 'name', {
-    value: 'SystemDomain',
+    value: 'GlobalDomain',
   });
   domains.set(domains, newDomain);
   return newDomain;
