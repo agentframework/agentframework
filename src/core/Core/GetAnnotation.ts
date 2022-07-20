@@ -3,10 +3,16 @@ import { Type } from './Type';
 import { Property } from './Property';
 import { CONSTRUCTOR } from './WellKnown';
 
+/**
+ * @internal
+ */
 export function GetAnnotation(target: object | Function): Type | undefined {
   return Knowledge.get(target);
 }
 
+/**
+ * @internal
+ */
 export function GetConstructorAnnotation<A extends Property = Property>(target: object | Function): A | undefined {
   const type: Type | undefined = Knowledge.get(target);
   if (!type) {
@@ -19,6 +25,9 @@ export function GetConstructorAnnotation<A extends Property = Property>(target: 
   return property.value;
 }
 
+/**
+ * @internal
+ */
 export function GetPropertyAnnotation<A extends Property = Property>(
   target: object | Function,
   key: string | symbol

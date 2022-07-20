@@ -26,13 +26,15 @@ export function remember(key: string): MethodDecorator {
   return decorateMember({
     interceptor: {
       intercept(target: PropertyInvocation, params: Arguments, receiver: object): unknown {
-        const knowledge = GetMemory();
+        const memory = GetMemory();
         const id = key + '.' + target.design.name;
-        let value = knowledge.get(id);
-        if (!value) {
-          knowledge.set(id, (value = target.invoke(params, receiver)));
+        if (memory.has(id)) {
+          return memory.get(id);
+        } else {
+          const value = target.invoke(params, receiver);
+          memory.set(id, value);
+          return value;
         }
-        return value;
       },
     },
   });
@@ -58,13 +60,15 @@ export function remember(key: string): MethodDecorator {
 }
 
 export function Remember<T>(key: string, target: object | Function, targetKey: string | symbol, valueFn: () => T): T {
-  const knowledge = GetMemory();
+  const memory = GetMemory();
   const id = key + '.' + String(targetKey);
-  let value = knowledge.get(id);
-  if ('undefined' === typeof value) {
-    value = valueFn();
-    knowledge.set(id, value);
+  if (memory.has(id)) {
+    const value = memory.get(id);
+    alter(target, targetKey, { value });
+    return value;
+  } else {
+    const value = valueFn();
+    memory.set(id, value);
+    return value;
   }
-  alter(target, targetKey, { value });
-  return value;
 }
