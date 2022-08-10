@@ -22,7 +22,7 @@ export interface DomainLike {
   /**
    * Name of the domain
    */
-  name: string;
+  // name: string;
 
   // /**
   //  * compile agent

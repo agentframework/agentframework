@@ -20,12 +20,12 @@ limitations under the License. */
 export { AgentFrameworkError } from '../src/agent';
 export { Arguments } from '../src/agent';
 export { Class } from '../src/agent';
-export { Filter } from '../src/agent';
 
 /*********************************************************************
  *   (Stability: 2 - Stable) Metadata
  *********************************************************************/
 export { MemberKinds } from '../src/agent';
+export { Filter } from '../src/agent';
 export { Attribute } from '../src/agent';
 export { Design } from '../src/agent';
 export { Invocation } from '../src/agent';
@@ -65,6 +65,12 @@ export { Reflector } from '../src/agent';
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/agent';
 
 /*********************************************************************
+ *   (Stability: 2 - Stable): Agent Helper API
+ *********************************************************************/
+export { IsAgent } from '../src/agent';
+export { GetAgentType } from '../src/agent';
+
+/*********************************************************************
  *   (Stability: 2 - Stable): Class Decorator: @initializable()
  *********************************************************************/
 export { initializable } from '../src/agent';
@@ -74,35 +80,44 @@ export { InitializerHandler, StaticInitializerHandler } from '../src/agent';
 /*********************************************************************
  *   (Stability: 2 - Stable): Class Decorator: @agent()
  *********************************************************************/
-export { agent } from '../src/agent';
+export { agent } from '../src/domain';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Property Decorator: @singleton()
  *********************************************************************/
-export { singleton } from '../src/agent';
+export { singleton } from '../src/domain';
 
 /*********************************************************************
- *   (Stability: 2 - Stable): Property Decorator: @singleton()
+ *   (Stability: 2 - Stable): Property Decorator: @transit()
  *********************************************************************/
-export { transit } from '../src/agent';
+export { transit } from '../src/domain';
 
 /*********************************************************************
- *   (Stability: 2 - Stable): Agent API
+ *    (Stability: 2 - Stable) Domain General Interface
  *********************************************************************/
-export { IsAgent } from '../src/agent';
-export { GetAgentType } from '../src/agent';
-import { CreateAgent as InternalCreateAgent } from '../src/agent';
-export function CreateAgent<T extends Function>(type: T): T {
-  return InternalCreateAgent(type);
-}
+export { AgentReference } from '../src/domain';
+export { Params  } from '../src/domain';
+export { Agent } from '../src/domain';
 
 /*********************************************************************
- *   (Stability: 2 - Stable) Low-level Metadata API
+ *    (Stability: 1 - Experimental) Domain Interface
  *********************************************************************/
-export { AddAttributeToProperty } from '../src/core';
-export { AddAttributeToPropertyParameter } from '../src/core';
-export { AddAttributeToConstructor } from '../src/core';
-export { AddAttributeToConstructorParameter } from '../src/core';
+export { DomainLike } from '../src/domain';
+export { SubDomainLike } from '../src/domain';
+export { Domain } from '../src/domain';
+
+/*********************************************************************
+ *    (Stability: 2 - Stable) Domain Helper API
+ *********************************************************************/
+export { GetDomain } from '../src/domain';
+export { GetGlobalDomain } from '../src/domain';
+export { IsDomain } from '../src/domain';
+
+/*********************************************************************
+ *    (Stability: 1 - Experimental) Domain implementation
+ *********************************************************************/
+export { InMemoryDomain } from '../src/domain';
+export { InMemorySubDomain } from '../src/domain';
 
 /*********************************************************************
  *    (Stability: 2 - Stable): TSLIB Re-work
