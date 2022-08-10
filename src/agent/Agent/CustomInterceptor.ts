@@ -41,7 +41,7 @@ export function RemoveCustomInterceptor(type: Function): void {
  */
 export function HasInterceptor(attribute: object): boolean {
   // we can not use attribute['interceptor'] because the interceptor maybe a getter field
-  // the Reflect.has() will checks the key on all prototypes of the attribute
+  // the Reflect.has() will check the key on all prototypes of that attribute
   if (Reflect.has(attribute, 'interceptor')) {
     return true;
   }

@@ -19,7 +19,7 @@ import { GetDomain } from '../Helpers/GetDomain';
 import { RememberDomain } from '../Helpers/RememberDomain';
 import { RememberDomainAgent } from '../Helpers/RememberDomainAgent';
 
-export function CompileDomainAgent<T extends Function>(
+export function CreateDomainAgent<T extends Function>(
   domain: Domain,
   type: T,
   strategy?: TypeAttribute,
@@ -44,18 +44,20 @@ export function CompileDomainAgent<T extends Function>(
 /**
  * This function only called once per domain
  */
-export function CreateDomainAgent<T extends Function>(
+export function CreateAndRegisterDomainAgent<T extends Function>(
   domain: Domain,
   type: T,
   strategy?: TypeAttribute,
   version?: number
 ): T {
   // upgrade to Agent only if interceptor or initializer found
-  const newCreatedDomainAgent = CompileDomainAgent(domain, type, strategy, version);
+  const newCreatedDomainAgent = CreateDomainAgent(domain, type, strategy, version);
 
+  // able to use agent to find domain
   RememberDomain(newCreatedDomainAgent, domain);
   RememberDomain(newCreatedDomainAgent.prototype, domain);
 
+  // able to list all agent in a domain
   RememberDomainAgent(domain, type, newCreatedDomainAgent);
   RememberDomainAgent(domain, newCreatedDomainAgent, newCreatedDomainAgent);
 
