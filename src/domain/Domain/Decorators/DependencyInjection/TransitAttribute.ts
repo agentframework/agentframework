@@ -13,21 +13,16 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import {
+  Arguments,
+  AgentFrameworkError,
   PropertyInvocation,
   PropertyInterceptor,
   PropertyAttribute,
-  Arguments,
-  AgentFrameworkError,
 } from '../../../../dependencies/agent';
 import { GetDomainFromInvocation } from '../../Helpers/GetDomainFromInvocation';
-import { Domain } from '../../Domain';
 
 export class TransitAttribute implements PropertyAttribute, PropertyInterceptor {
-  private readonly type?: Function;
-
-  constructor(type?: Function) {
-    this.type = type;
-  }
+  constructor(readonly type?: Function) {}
 
   get interceptor() {
     return this;
@@ -38,21 +33,24 @@ export class TransitAttribute implements PropertyAttribute, PropertyInterceptor 
       throw new AgentFrameworkError('NotAllowModifyTransitVariable');
     }
 
-    let value: object | undefined = target.invoke(params, receiver);
+    const value: object | undefined = target.invoke(params, receiver);
     if (typeof value !== 'undefined') {
       return value;
     }
+
     const type = this.type || (target.design && target.design.type);
     if (!type) {
       throw new AgentFrameworkError('UnknownTransitType');
     }
+
     const domain = GetDomainFromInvocation(target, params, receiver);
-    if (domain) {
-      // console.log('get type', typeof receiver, type.name)
-      value = domain.construct(type, params, true);
-    } else {
-      value = Domain.construct(type, params);
+    if (!domain) {
+      // console.log('singleton', type, 'receiver', receiver);
+      throw new AgentFrameworkError('NoDomainFoundForTransitInjection');
     }
-    return target.invoke([value], receiver);
+
+    const newValue = domain.construct(type, params, true);
+
+    return target.invoke([newValue], receiver);
   }
 }

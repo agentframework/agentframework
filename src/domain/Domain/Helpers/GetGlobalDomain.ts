@@ -16,6 +16,9 @@ import { InMemoryDomain } from '../InMemoryDomain';
 import { Domain } from '../Domain';
 import { Domains } from '../DomainKnowledge';
 
+/**
+ * Get global domain. The domain for all domains.
+ */
 export function GetGlobalDomain(): Domain {
   const domains = Domains.v1;
   const existDomain = domains.get(domains);

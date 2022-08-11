@@ -16,27 +16,36 @@ import { Interceptor } from './Interceptor';
 import { CustomInterceptors } from './Knowledges/CustomInterceptors';
 
 /**
+ * Use custom interceptor to overwrite the default attribute interceptor
+ * Provide a kind of ability to extend attribute functionality.
+ */
+
+/**
+ * @public
  * Set custom interceptor for giving type of attribute
  */
-export function SetCustomInterceptor(type: Function, custom: Function, meta?: unknown): void {
-  CustomInterceptors.v1.set(type, [custom, meta]);
+export function SetCustomInterceptor(attribute: Function, custom: Function, meta?: unknown): void {
+  CustomInterceptors.v1.set(attribute, [custom, meta]);
 }
 
 /**
+ * @public
  * Get custom interceptor
  */
-export function GetCustomInterceptor(type: Function): [Function, unknown?] | undefined {
-  return CustomInterceptors.v1.get(type);
+export function GetCustomInterceptor(attribute: Function): [Function, unknown?] | undefined {
+  return CustomInterceptors.v1.get(attribute);
 }
 
 /**
- * Remove custom interceptor
+ * @public
+ * Remove custom interceptor for specified attribute
  */
-export function RemoveCustomInterceptor(type: Function): void {
-  CustomInterceptors.v1.delete(type);
+export function RemoveCustomInterceptor(attribute: Function): void {
+  CustomInterceptors.v1.delete(attribute);
 }
 
 /**
+ * @internal
  * Return true if giving attribute has interceptor
  */
 export function HasInterceptor(attribute: object): boolean {
@@ -50,6 +59,7 @@ export function HasInterceptor(attribute: object): boolean {
 }
 
 /**
+ * @internal
  * Get interceptor for giving type of attribute
  */
 export function GetInterceptor(attribute: object): Interceptor | undefined {

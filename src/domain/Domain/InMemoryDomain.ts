@@ -18,10 +18,9 @@ import { Agent, AgentReference, Params } from './Agent';
 import { Domain } from './Domain';
 import { IsPromise } from './Helpers/IsPromise';
 import { IsObservable } from './Helpers/IsObservable';
-import { CreateDomainAgent, CreateAndRegisterDomainAgent } from './DomainAgent/CreateAndRegisterDomainAgent';
+import { CreateDomainAgent, CreateAndRememberDomainAgent } from './DomainAgent/CreateAndRememberDomainAgent';
 import { GetDomainAgent } from './DomainAgent/GetDomainAgent';
 import { InMemory } from './InMemory';
-
 // import { DomainKnowledge } from './DomainKnowledge';
 
 /**
@@ -98,6 +97,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   //   }
   //   return <P>resolvedType;
   // }
+
   // /**
   //  * Get agent
   //  */
@@ -108,7 +108,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   //region Factory
 
   /**
-   * compile agent
+   * compile agent. compiled agent will reduce time to construct the same agent in this domain or sub-domains
    */
   compile<T extends Function>(target: T): void {
     CreateDomainAgent(this, this.getType<T>(target) || target);
@@ -131,7 +131,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     const type = this.getType<T>(target) || target;
 
     // find or create DomainAgent
-    const domainAgent = GetDomainAgent(this, type) || CreateAndRegisterDomainAgent(this, type);
+    const domainAgent = GetDomainAgent(this, type) || CreateAndRememberDomainAgent(this, type);
 
     // console.log('construct', target.name, 'from', type.name);
     // initialize agent class
@@ -187,7 +187,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     const type = this.getType<T>(target) || target;
 
     // find domainAgent
-    const domainAgent = GetDomainAgent(this, type) || CreateAndRegisterDomainAgent(this, type);
+    const domainAgent = GetDomainAgent(this, type) || CreateAndRememberDomainAgent(this, type);
 
     // initialize agent class
     const newCreated = Reflect.construct(domainAgent, params || []);

@@ -20,7 +20,7 @@ import { GetDomain } from './GetDomain';
 /**
  * Find domain from invocation or parameters
  *
- * DomainReference don't have construct or resolve, so it will never create new instance
+ * DomainReference don't have constructed or resolved, so it will never create new instance
  */
 export function GetDomainFromInvocation(
   target: Invocation,
