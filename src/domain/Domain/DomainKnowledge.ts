@@ -16,6 +16,7 @@ import { Remember } from '../../dependencies/agent';
 import { Domain } from './Domain';
 
 /**
+ * @private
  * Get domain of giving instance or type
  */
 export class Domains {
@@ -29,6 +30,7 @@ export class Domains {
 }
 
 /**
+ * @private
  * Get agent of giving domain and type
  */
 export class DomainAgents {

@@ -30,12 +30,12 @@ import { CONSTRUCTOR } from './WellKnown';
  * @param version
  */
 export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribute, version?: number): T {
-  // always create new agent using latest annotation
+  // always create new agent using the latest annotation
 
   // 1. get original type if giving type is an agent type
   // target is an agent already
   // set the target to origin type to recreate this
-  // so create another proxy from this origin class
+  // creates another proxy from this origin class
   const attribute = Object.create(strategy || Reflect.construct(AgentAttribute, [type]));
 
   if (!CanDecorate(attribute, type)) {

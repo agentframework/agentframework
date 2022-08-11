@@ -14,10 +14,10 @@ limitations under the License. */
 
 import {
   Arguments,
+  AgentFrameworkError,
   PropertyInvocation,
   PropertyInterceptor,
   PropertyAttribute,
-  AgentFrameworkError,
 } from '../../../../dependencies/agent';
 import { GetDomainFromInvocation } from '../../Helpers/GetDomainFromInvocation';
 
@@ -33,15 +33,12 @@ export class SingletonAttribute implements PropertyAttribute, PropertyIntercepto
       throw new AgentFrameworkError('NotAllowModifySingletonVariable');
     }
 
-    let value: object | undefined = target.invoke(params, receiver);
+    const value: object | undefined = target.invoke(params, receiver);
     if (typeof value !== 'undefined') {
       return value;
     }
 
-    const customType = this.type;
-    const designType = target.design && target.design.type;
-    const type = customType || designType;
-
+    const type = this.type || (target.design && target.design.type);
     if (!type) {
       throw new AgentFrameworkError('UnknownSingletonType');
     }
@@ -53,11 +50,8 @@ export class SingletonAttribute implements PropertyAttribute, PropertyIntercepto
       throw new AgentFrameworkError('NoDomainFoundForSingletonInjection');
     }
 
-    value =
-      (customType && domain.getAgent(customType)) ||
-      (designType && domain.getAgent(designType)) ||
-      domain.construct(type, params);
+    const newValue = domain.construct(type, params);
 
-    return target.invoke([value], receiver);
+    return target.invoke([newValue], receiver);
   }
 }

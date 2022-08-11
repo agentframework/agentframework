@@ -22,7 +22,7 @@ limitations under the License. */
 //   return CreateAgent(target);
 // }
 
-import { CreateAndRegisterDomainAgent } from '../DomainAgent/CreateAndRegisterDomainAgent';
+import { CreateAndRememberDomainAgent } from '../DomainAgent/CreateAndRememberDomainAgent';
 import { GetDomainAgent } from '../DomainAgent/GetDomainAgent';
 import { RegisterDomainAgentAttribute } from '../DomainAgent/RegisterDomainAgentAttribute';
 import { GetGlobalDomain } from '../Helpers/GetGlobalDomain';
@@ -33,14 +33,17 @@ import { GetGlobalDomain } from '../Helpers/GetGlobalDomain';
 export function agent(): ClassDecorator {
   return <F extends Function>(target: F): F => {
     const domain = GetGlobalDomain();
-    // todo: should we call getType here?
+    // TODO: should we call getType here?
+    // why? domain can overwrite the type
+    // why not? slowness+1
+    // (remember: any additional feature will impact performance)
     const type = domain.getType(target) || target;
-    // note: type always exists, domain may not exists. so use type as 1st key
+    // note: type always exists, domain may not exist. so use type as 1st key
     const found = GetDomainAgent(domain, type);
     if (found) {
       return found;
     }
     // call RegisterDomainAgentAttribute to register agent instance into Domain
-    return CreateAndRegisterDomainAgent(domain, type, new RegisterDomainAgentAttribute(domain), 1);
+    return CreateAndRememberDomainAgent(domain, type, new RegisterDomainAgentAttribute(domain), 1);
   };
 }

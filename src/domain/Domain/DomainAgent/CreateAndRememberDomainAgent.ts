@@ -44,7 +44,7 @@ export function CreateDomainAgent<T extends Function>(
 /**
  * This function only called once per domain
  */
-export function CreateAndRegisterDomainAgent<T extends Function>(
+export function CreateAndRememberDomainAgent<T extends Function>(
   domain: Domain,
   type: T,
   strategy?: TypeAttribute,
