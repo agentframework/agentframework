@@ -12,90 +12,36 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Class } from '../../dependencies/agent';
-import { AgentReference, Agent } from './Agent';
+import { Agent, AgentReference } from './Agent';
 
 /**
  * A remote domain reference
  */
 export interface DomainLike {
+
   /**
-   * Name of the domain
+   * Get constructor for the specified type, return undefined if not exists
    */
-  // name: string;
-
-  // /**
-  //  * compile agent
-  //  */
-  // compile<T extends Function>(target: T): void;
-
-  // /**
-  //  * Check if have agent
-  //  */
-  // hasAgent<T extends AgentIdentifier>(type: T): boolean;
+  getType<T extends Function>(type: T): T | undefined;
 
   /**
-   * Get instance of giving type, return undefined if don't have
-   */
-  getAgent<T extends AgentReference>(type: T): Agent<T> | undefined;
-
-  /**
-   * Get constructor for current type, return undefined if don't have
+   * Get agent constructor for the specified type, return undefined if not exists
    */
   getAgentType<T extends Function>(type: T): T | undefined;
 
   /**
-   * Get constructor for current type, return undefined if don't have
+   * Get domain agent constructor for the specified type, return undefined if not exists
    */
-  getType<T extends Function>(type: T): T | undefined;
-
-  // /**
-  //  * Get constructor for current type, throw an error if don't have
-  //  */
-  // getTypeOrThrow<T extends AnyClass, P extends T>(type: T): P;
-
-  // /**
-  //  * Inject an agent
-  //  */
-  // construct<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Agent<T>;
-
-  // /**
-  //  * Resolve and inject an agent using factory method
-  //  */
-  // resolve<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>>;
-
-  // /**
-  //  * Register a new type, without rewrite any existing types
-  //  */
-  // addType<T extends object>(type: Class<T>): void;
-
-  // /**
-  //  * Replace type
-  //  */
-  // setType<T extends object>(type: Class<T>, replacement: Class<T>): void;
-
-  // /**
-  //  * Delete type mapping for giving type
-  //  */
-  // removeType<T extends object>(type: Class<T>): void;
+  getDomainAgentType<T extends Function>(type: T): T | undefined;
 
   /**
-   * Replace type
+   * Get instance of the specified type, return undefined if not exists
    */
-  setAgentType<T extends object>(type: Class<T>, replacement: Class<T>): void;
-
-  /**
-   * Add an agent
-   */
-  addAgent<T extends AgentReference>(type: T, agent: Agent<T>): void;
-
+  getAgent<T extends AgentReference>(type: T): Agent<T> | undefined;
+  //
   // /**
-  //  * Set agent instance
+  //  * Add an agent
   //  */
-  // setAgent<T extends AgentReference>(type: T, agent: Agent<T>): void;
-
-  // /**
-  //  * Delete agent. do nothing if agent not match
-  //  */
-  // removeAgent<T extends AgentReference>(type: T, agent: Agent<T>): boolean;
+  // addAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void;
+  //
 }

@@ -13,10 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Domain } from '../Domain';
-import { DomainAgents } from '../DomainKnowledge';
+import { DomainDomainAgentTypes } from '../DomainKnowledge';
 
-export function GetDomainAgent<T extends Function>(domain: Domain, type: T): T | undefined {
-  const agents = DomainAgents.v1.get(type);
+export function GetDomainDomainAgentType<T extends Function>(domain: Domain, type: T): T | undefined {
+  const agents = DomainDomainAgentTypes.v1.get(type);
   if (agents) {
     return agents.get(domain) as T | undefined;
   }

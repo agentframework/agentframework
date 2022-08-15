@@ -19,9 +19,12 @@ import { Domain } from './Domain';
 import { IsPromise } from './Helpers/IsPromise';
 import { IsObservable } from './Helpers/IsObservable';
 import { CreateDomainAgent, CreateAndRememberDomainAgent } from './DomainAgent/CreateAndRememberDomainAgent';
-import { GetDomainAgent } from './DomainAgent/GetDomainAgent';
 import { InMemory } from './InMemory';
-// import { DomainKnowledge } from './DomainKnowledge';
+import { RememberDomainType } from './Helpers/RememberDomainType';
+import { GetDomainType } from './Helpers/GetDomainType';
+import { GetDomainDomainAgentType } from './Helpers/GetDomainDomainAgentType';
+import { ForgetDomainType } from './Helpers/ForgetDomainType';
+import { GetDomainAgentType } from './Helpers/GetDomainAgentType';
 
 /**
  * In memory domain
@@ -51,40 +54,20 @@ export class InMemoryDomain extends Domain implements Disposable {
   //   return this._singletons.has(type);
   // }
 
-  /**
-   * Get agent of giving type, return undefined if don't have
-   */
   getAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined {
     return InMemory.agents(this).get(identifier);
   }
 
-  // /**
-  //  * Get agent of giving type, throw an error if don't have
-  //  */
-  // getInstanceOrThrow<T extends AgentIdentifier>(type: T): Agent<T> {
-  //   const agent = this.getInstance(type);
-  //   if (!agent) {
-  //     throw new AgentNotFoundError(type);
-  //   }
-  //   return agent;
-  // }
-
-  // /**
-  //  * Check if have type registered
-  //  */
-  // hasType<T extends AnyClass>(type: T): boolean {
-  //   return this._types.has(type);
-  // }
-
-  getAgentType<T extends Function>(type: T): T | undefined {
-    return InMemory.agentTypes(this).get(type);
+  getDomainAgentType<T extends Function>(type: T): T | undefined {
+    return GetDomainDomainAgentType(this, type);
   }
 
-  /**
-   * Get constructor for current type, return undefined if don't have
-   */
+  getAgentType<T extends Function>(type: T): T | undefined {
+    return GetDomainAgentType(this, type);
+  }
+
   getType<T extends Function>(type: T): T | undefined {
-    return InMemory.types(this).get(type);
+    return GetDomainType(this, type);
   }
 
   // /**
@@ -108,7 +91,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   //region Factory
 
   /**
-   * compile agent. compiled agent will reduce time to construct the same agent in this domain or sub-domains
+   * compile agent. the compiled agent will reduce time to construct the same agent in this domain or sub-domains
    */
   compile<T extends Function>(target: T): void {
     CreateDomainAgent(this, this.getType<T>(target) || target);
@@ -127,11 +110,11 @@ export class InMemoryDomain extends Domain implements Disposable {
       }
     }
 
-    // find extended type
+    // find the mapped type if exists
     const type = this.getType<T>(target) || target;
 
     // find or create DomainAgent
-    const domainAgent = GetDomainAgent(this, type) || CreateAndRememberDomainAgent(this, type);
+    const domainAgent = GetDomainDomainAgentType(this, type) || CreateAndRememberDomainAgent(this, type);
 
     // console.log('construct', target.name, 'from', type.name);
     // initialize agent class
@@ -142,7 +125,6 @@ export class InMemoryDomain extends Domain implements Disposable {
     // note: to prevent human mistake
     // do not allow construct promise or observable using constructor
     if (IsPromise(agent)) {
-      // drop agent
       throw new AgentFrameworkError('NotAllowConstructPromiseObject');
     }
 
@@ -170,8 +152,8 @@ export class InMemoryDomain extends Domain implements Disposable {
    */
   async resolve<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>> {
     // domain cache for promise type
-    const _incomingAgents = InMemory.incomingAgents(this);
     const register = !transit;
+    const _incomingAgents = InMemory.incomingAgents(this);
     if (register) {
       const exists = this.getAgent(target);
       if (exists !== undefined) {
@@ -187,7 +169,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     const type = this.getType<T>(target) || target;
 
     // find domainAgent
-    const domainAgent = GetDomainAgent(this, type) || CreateAndRememberDomainAgent(this, type);
+    const domainAgent = GetDomainDomainAgentType(this, type) || CreateAndRememberDomainAgent(this, type);
 
     // initialize agent class
     const newCreated = Reflect.construct(domainAgent, params || []);
@@ -210,7 +192,7 @@ export class InMemoryDomain extends Domain implements Disposable {
           return agent;
         },
         (err) => {
-          if (!transit) {
+          if (register) {
             _incomingAgents.delete(type);
           }
           return Promise.reject(err);
@@ -236,9 +218,8 @@ export class InMemoryDomain extends Domain implements Disposable {
    */
   addType<T extends object>(type: Class<T>): void {
     let ctor: Function | null | undefined = type;
-    const types = InMemory.types(this);
-    while (ctor && !types.has(ctor) && Function.prototype !== ctor) {
-      types.set(ctor, type);
+    while (ctor && Function.prototype !== ctor) {
+      RememberDomainType(this, ctor, type);
       ctor = Reflect.getPrototypeOf(ctor) as Function;
     }
   }
@@ -266,11 +247,7 @@ export class InMemoryDomain extends Domain implements Disposable {
    */
   setType<T extends object>(type: Class<T>, replacement: Class<T>): void {
     // this._types.add(replacement);
-    InMemory.types(this).set(type, replacement);
-  }
-
-  setAgentType<T extends object>(type: Class<T>, replacement: Class<T>): void {
-    InMemory.agentTypes(this).set(type, replacement);
+    RememberDomainType(this, type, replacement, true);
   }
 
   // /**
@@ -312,7 +289,7 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Delete type mapping for giving type
    */
   removeType<T extends object>(type: Class<T>): void {
-    InMemory.types(this).delete(type);
+    ForgetDomainType(this, type);
   }
 
   /**
@@ -347,12 +324,13 @@ export class InMemoryDomain extends Domain implements Disposable {
     if (this.disposed) {
       return;
     }
+    this.disposed = true;
+    this.disposing = true;
     const _incomingAgents = InMemory.incomingAgents(this);
     const _agents = InMemory.agents(this);
-    this.disposing = true;
     for (const promise of _incomingAgents.values()) {
       promise.then((agent) => {
-        if (typeof agent === 'object' && agent != null && typeof agent.dispose === 'function') {
+        if (typeof agent === 'object' && agent != null && typeof agent['dispose'] === 'function') {
           // TODO: only dispose the agent of current domain
           agent.dispose();
         }
@@ -366,8 +344,5 @@ export class InMemoryDomain extends Domain implements Disposable {
     }
     _incomingAgents.clear();
     _agents.clear();
-    InMemory.types(this).clear();
-    InMemory.agentTypes(this).clear();
-    this.disposed = true;
   }
 }

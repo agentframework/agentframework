@@ -9,12 +9,13 @@ Accepted
 ## Context
 
 At very beginning the Domain API to get an instance of class is called `Domain.getAgent`.
-But later i was confused and change to `Domain.getInstance`.
+But later I was confused and change to `Domain.getInstance`.
 Now I realized this mistake and change back to `getAgent` again.
 
 ## Decision
 
-An instance of class should called agent in AOP
+An instance of class should call Agent in AOP
+The type of agent should call AgentType
 
 ## Consequences
 

@@ -23,8 +23,8 @@ limitations under the License. */
 // }
 
 import { CreateAndRememberDomainAgent } from '../DomainAgent/CreateAndRememberDomainAgent';
-import { GetDomainAgent } from '../DomainAgent/GetDomainAgent';
 import { RegisterDomainAgentAttribute } from '../DomainAgent/RegisterDomainAgentAttribute';
+import { GetDomainDomainAgentType } from '../Helpers/GetDomainDomainAgentType';
 import { GetGlobalDomain } from '../Helpers/GetGlobalDomain';
 
 /**
@@ -34,12 +34,13 @@ export function agent(): ClassDecorator {
   return <F extends Function>(target: F): F => {
     const domain = GetGlobalDomain();
     // TODO: should we call getType here?
-    // why? domain can overwrite the type
-    // why not? slowness+1
+    // why do? so domain can overwrite the type
+    // why do not? so more slow
     // (remember: any additional feature will impact performance)
     const type = domain.getType(target) || target;
+
     // note: type always exists, domain may not exist. so use type as 1st key
-    const found = GetDomainAgent(domain, type);
+    const found = GetDomainDomainAgentType(domain, type);
     if (found) {
       return found;
     }

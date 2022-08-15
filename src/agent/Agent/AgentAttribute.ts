@@ -51,7 +51,7 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
   }
 
   /**
-   * Constructor hook (called when user construct the class)
+   * Constructor hook (called when user constructs the class)
    */
   construct<T extends Function>(this: any, target: T, params: Arguments, receiver: T): any {
     // GEN 1: this.design.type = origin type
