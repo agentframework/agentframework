@@ -13,10 +13,11 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { AgentAttribute, Arguments, TypeInterceptor, TypeInvocation } from '../../../dependencies/agent';
-import { DomainLike } from '../DomainLike';
+import { Domain } from '../Domain';
+import { RememberDomainAgentType } from '../Helpers/RememberDomainAgentType';
 
 export class DomainAgentAttribute extends AgentAttribute implements TypeInterceptor {
-  constructor(readonly domain: DomainLike) {
+  constructor(readonly domain: Domain) {
     super();
   }
 
@@ -33,11 +34,11 @@ export class DomainAgentAttribute extends AgentAttribute implements TypeIntercep
   // target: the origin type
   // receiver: upgraded agent type
   intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
-    // NOTE: check if agent type has cached in domain
+    // NOTE: check if the agent's type has cached in domain or parent domain
     let type = this.domain.getAgentType(receiver);
     if (!type) {
       type = super.intercept(target, params, receiver);
-      this.domain.setAgentType(receiver, type);
+      RememberDomainAgentType(this.domain, receiver, type);
     }
     return target.invoke(params, type);
   }

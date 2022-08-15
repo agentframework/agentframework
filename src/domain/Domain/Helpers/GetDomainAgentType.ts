@@ -12,17 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { DomainLike } from './DomainLike';
-import { Agent, AgentReference } from './Agent';
+import { Domain } from '../Domain';
+import { DomainAgentTypes } from '../DomainKnowledge';
 
-export interface SubDomainLike extends DomainLike {
-  /**
-   * the parent domain of current domain
-   */
-  readonly domain: DomainLike;
-
-  /**
-   * get own agent
-   */
-  getOwnAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined;
+export function GetDomainAgentType<T extends Function>(domain: Domain, type: T): T | undefined {
+  const agentTypes = DomainAgentTypes.v1.get(type);
+  if (agentTypes) {
+    return agentTypes.get(domain) as T | undefined;
+  }
+  return undefined;
 }

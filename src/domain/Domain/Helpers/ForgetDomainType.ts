@@ -12,17 +12,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { DomainLike } from './DomainLike';
-import { Agent, AgentReference } from './Agent';
+import { Domain } from '../Domain';
+import { DomainTypes } from '../DomainKnowledge';
 
-export interface SubDomainLike extends DomainLike {
-  /**
-   * the parent domain of current domain
-   */
-  readonly domain: DomainLike;
-
-  /**
-   * get own agent
-   */
-  getOwnAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined;
+export function ForgetDomainType(domain: Domain, type: Function): void {
+  let types = DomainTypes.v1.get(type);
+  if (!types) {
+    types = new Map();
+    DomainTypes.v1.set(type, types);
+  }
+  types.delete(domain);
 }

@@ -13,13 +13,19 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Domain } from '../Domain';
-import { DomainAgents } from '../DomainKnowledge';
+import { DomainTypes } from '../DomainKnowledge';
 
-export function RememberDomainAgent(domain: Domain, type: Function, agent: Function): void {
-  let agents = DomainAgents.v1.get(type)
-  if (!agents) {
-    agents = new Map();
-    DomainAgents.v1.set(type, agents);
+export function RememberDomainType(domain: Domain, type: Function, replacement: Function, replace?: boolean): void {
+  let types = DomainTypes.v1.get(type);
+  if (!types) {
+    types = new WeakMap();
+    DomainTypes.v1.set(type, types);
   }
-  agents.set(domain, agent);
+  if (types.has(domain)) {
+    if (replace) {
+      types.set(domain, replacement);
+    }
+  } else {
+    types.set(domain, replacement);
+  }
 }

@@ -17,7 +17,7 @@ import { DomainAgentAttribute } from './DomainAgentAttribute';
 import { Domain } from '../Domain';
 import { GetDomain } from '../Helpers/GetDomain';
 import { RememberDomain } from '../Helpers/RememberDomain';
-import { RememberDomainAgent } from '../Helpers/RememberDomainAgent';
+import { RememberDomainDomainAgentType } from '../Helpers/RememberDomainDomainAgentType';
 
 export function CreateDomainAgent<T extends Function>(
   domain: Domain,
@@ -58,8 +58,8 @@ export function CreateAndRememberDomainAgent<T extends Function>(
   RememberDomain(newCreatedDomainAgent.prototype, domain);
 
   // able to list all agent in a domain
-  RememberDomainAgent(domain, type, newCreatedDomainAgent);
-  RememberDomainAgent(domain, newCreatedDomainAgent, newCreatedDomainAgent);
+  RememberDomainDomainAgentType(domain, type, newCreatedDomainAgent);
+  RememberDomainDomainAgentType(domain, newCreatedDomainAgent, newCreatedDomainAgent);
 
   return newCreatedDomainAgent;
 }

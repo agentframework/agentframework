@@ -21,21 +21,21 @@ import { GetGlobalDomain } from './Helpers/GetGlobalDomain';
 import { Once } from '../../dependencies/agent';
 
 export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
-  get parent(): DomainLike {
+  get domain(): DomainLike {
     // GetDomain(this) will return this. So must use GetDomain(this.constructor)
-    return Once(this, 'parent', GetDomain(this.constructor) || GetGlobalDomain());
-  }
-
-  getAgentType<T extends Function>(type: T): T | undefined {
-    return super.getAgentType<T>(type) || this.parent.getAgentType<T>(type);
-  }
-
-  getOwnType<T extends Function>(type: T): T | undefined {
-    return super.getType<T>(type);
+    return Once(this, 'domain', GetDomain(this.constructor) || GetGlobalDomain());
   }
 
   getType<T extends Function>(type: T): T | undefined {
-    return super.getType<T>(type) || this.parent.getType<T>(type);
+    return super.getType<T>(type) || this.domain.getType<T>(type);
+  }
+
+  getAgentType<T extends Function>(type: T): T | undefined {
+    return super.getAgentType<T>(type) || this.domain.getAgentType<T>(type);
+  }
+
+  getDomainAgentType<T extends Function>(type: T): T | undefined {
+    return;
   }
 
   getOwnAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined {
@@ -43,6 +43,6 @@ export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
   }
 
   getAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined {
-    return super.getAgent<T>(identifier) || this.parent.getAgent<T>(identifier);
+    return super.getAgent<T>(identifier) || this.domain.getAgent<T>(identifier);
   }
 }

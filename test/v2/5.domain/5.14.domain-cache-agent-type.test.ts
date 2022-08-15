@@ -31,15 +31,15 @@ describe('5.14. Domain cache agent type', () => {
       expect(sub0).not.toBe(root);
 
       const sub1 = root.construct(InMemorySubDomain, [], true);
-      expect(sub1.parent).toBe(root);
+      expect(sub1.domain).toBe(root);
       const wr1 = sub1.construct(AppWebRequest);
 
       const sub2 = root.construct(InMemorySubDomain, [], true);
-      expect(sub2.parent).toBe(root);
+      expect(sub2.domain).toBe(root);
       const wr2 = sub2.construct(AppWebRequest);
 
       const sub3 = root.construct(InMemorySubDomain);
-      expect(sub3.parent).toBe(root);
+      expect(sub3.domain).toBe(root);
       const wr3 = sub3.construct(AppWebRequest, [], true);
 
       expect(wr1).not.toBe(wr2);

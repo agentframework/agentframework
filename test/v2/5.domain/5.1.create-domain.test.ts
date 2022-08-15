@@ -32,12 +32,12 @@ describe('5.1. Create domain', () => {
     it('create sub domain', () => {
       const domain1 = new InMemorySubDomain();
       const domain2 = new InMemorySubDomain();
-      expect(domain1.parent).toBe(domain2.parent);
+      expect(domain1.domain).toBe(domain2.domain);
     });
 
     it('create sub domain', () => {
       const domain1 = new InMemorySubDomain();
-      expect(domain1.parent).toBe(GetGlobalDomain());
+      expect(domain1.domain).toBe(GetGlobalDomain());
     });
   });
 });
