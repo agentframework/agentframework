@@ -2,8 +2,8 @@ import { AgentReference } from './Agent';
 import { DomainLike } from './DomainLike';
 
 export class InMemory {
-  private readonly agents = new Map<AgentReference, any>(); // type-instance mapping
-  private readonly incomingAgents = new Map<AgentReference, Promise<any>>(); // type-instance mapping (Promise)
+  private readonly identifiers = new Map<AgentReference, any>(); // type-instance mapping
+  private readonly futures = new Map<AgentReference, Promise<any>>(); // type-instance mapping (Promise)
 
   private static readonly domains = new WeakMap<object, InMemory>();
 
@@ -18,11 +18,11 @@ export class InMemory {
 
   // type-instance mapping
   static agents(domain: DomainLike): Map<AgentReference, any> {
-    return this.domain(domain).agents;
+    return this.domain(domain).identifiers;
   }
 
   // type-promise<instance> mapping
   static incomingAgents(domain: DomainLike): Map<AgentReference, Promise<any>> {
-    return this.domain(domain).incomingAgents;
+    return this.domain(domain).futures;
   }
 }

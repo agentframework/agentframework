@@ -39,7 +39,7 @@ export function agent(): ClassDecorator {
     // (remember: any additional feature will impact performance)
     const type = domain.getType(target) || target;
 
-    // note: type always exists, domain may not exist. so use type as 1st key
+    // note: Type always exists, domain may not exist. so use Type as 1st key
     const found = GetDomainDomainAgentType(domain, type);
     if (found) {
       return found;
