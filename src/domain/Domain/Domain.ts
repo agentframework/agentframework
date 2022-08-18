@@ -40,12 +40,19 @@ export abstract class Domain implements DomainLike {
     return Reflect.construct(target, params);
   }
 
+  /**
+   * Get instance of the specified type, return undefined if not exists
+   */
   abstract getAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined;
 
-  abstract getDomainAgentType<T extends Function>(type: T): T | undefined;
-
+  /**
+   * Get agent constructor for the specified type, return undefined if not exists
+   */
   abstract getAgentType<T extends Function>(type: T): T | undefined;
 
+  /**
+   * Get constructor for the specified type, return undefined if not exists
+   */
   abstract getType<T extends Function>(type: T): T | undefined;
 
   //region Factory
@@ -84,7 +91,7 @@ export abstract class Domain implements DomainLike {
   /**
    * Add an agent
    */
-  abstract addAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void;
+  abstract addAgent<T extends AgentReference>(agent: Agent<T>): void;
 
   /**
    * Set agent instance
@@ -92,17 +99,8 @@ export abstract class Domain implements DomainLike {
   abstract setAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void;
 
   /**
-   * Delete agent. do nothing if agent not match
+   * Delete agent. do nothing if identifier not exits
    */
   abstract removeAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): boolean;
 
-  // /**
-  //  * Replace agent, throw error if origin agent not match
-  //  */
-  // abstract replaceAgent<T extends AgentIdentifier>(identifier: T, origin: Agent<T>, replace: Agent<T>): void;
-
-  // /**
-  //  * Get all registered agents in this domain
-  //  */
-  // abstract getAgents(): Iterable<any>;
 }

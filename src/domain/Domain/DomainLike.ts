@@ -19,29 +19,23 @@ import { Agent, AgentReference } from './Agent';
  */
 export interface DomainLike {
 
-  /**
-   * Get constructor for the specified type, return undefined if not exists
-   */
-  getType<T extends Function>(type: T): T | undefined;
-
-  /**
-   * Get agent constructor for the specified type, return undefined if not exists
-   */
-  getAgentType<T extends Function>(type: T): T | undefined;
-
-  /**
-   * Get domain agent constructor for the specified type, return undefined if not exists
-   */
-  getDomainAgentType<T extends Function>(type: T): T | undefined;
+  // /**
+  //  * Get constructor for the specified type, return undefined if not exists
+  //  */
+  // getType<T extends Function>(type: T): T | undefined;
+  //
+  // /**
+  //  * Get agent constructor for the specified type, return undefined if not exists
+  //  */
+  // getAgentType<T extends Function>(type: T): T | undefined;
+  //
+  // /**
+  //  * Get domain agent constructor for the specified type, return undefined if not exists
+  //  */
+  // getDomainAgentType<T extends Function>(type: T): T | undefined;
 
   /**
    * Get instance of the specified type, return undefined if not exists
    */
   getAgent<T extends AgentReference>(type: T): Agent<T> | undefined;
-  //
-  // /**
-  //  * Add an agent
-  //  */
-  // addAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void;
-  //
 }

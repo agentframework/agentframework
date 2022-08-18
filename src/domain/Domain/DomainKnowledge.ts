@@ -14,7 +14,6 @@ limitations under the License. */
 
 import { Remember } from '../../dependencies/agent';
 import { Domain } from './Domain';
-import { DomainLike } from './DomainLike';
 
 /**
  * @private
@@ -37,7 +36,7 @@ export class Domains {
 export class DomainTypes {
   // key: Original Constructor, value: WeakMap<Domain, Replacement Constructor>
   static get v1() {
-    return Remember('DomainTypes', this, 'v1', () => new WeakMap<Function, WeakMap<DomainLike, Function>>());
+    return Remember('DomainTypes', this, 'v1', () => new WeakMap<Function, WeakMap<object, Function>>());
   }
 }
 
@@ -48,10 +47,9 @@ export class DomainTypes {
 export class DomainAgentTypes {
   // key: Original Constructor, value: WeakMap<Domain, Agent Constructor>
   static get v1() {
-    return Remember('DomainAgentTypes', this, 'v1', () => new WeakMap<Function, WeakMap<DomainLike, Function>>());
+    return Remember('DomainAgentTypes', this, 'v1', () => new WeakMap<Function, WeakMap<object, Function>>());
   }
 }
-
 
 /**
  * @private
@@ -60,6 +58,6 @@ export class DomainAgentTypes {
 export class DomainDomainAgentTypes {
   // key: Original Constructor, value: WeakMap<Domain, Domain Agent Constructor>
   static get v1() {
-    return Remember('DomainDomainAgentTypes', this, 'v1', () => new WeakMap<Function, WeakMap<DomainLike, Function>>());
+    return Remember('DomainDomainAgentTypes', this, 'v1', () => new WeakMap<Function, WeakMap<object, Function>>());
   }
 }
