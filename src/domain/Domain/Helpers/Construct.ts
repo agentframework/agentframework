@@ -1,6 +1,6 @@
 // import { Agent, AgentIdentifier, AgentParameters } from '../ClassConstructor';
 // import { GetDomain } from './GetDomain';
-// import { GetSystemDomain } from './GetSystemDomain';
+// import { GetGlobalDomain } from './GetGlobalDomain';
 //
 // export function Construct<T extends AgentIdentifier>(
 //   source: Function,
@@ -21,7 +21,7 @@
 //   //   }
 //   // }
 //
-//   const domain = GetDomain(source) || GetSystemDomain();
+//   const domain = GetDomain(source) || GetGlobalDomain();
 //   // find instance from target
 //   return domain.construct(target, params, transit);
 // }
