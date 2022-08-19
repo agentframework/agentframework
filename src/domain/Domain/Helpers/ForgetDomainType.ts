@@ -16,10 +16,8 @@ import { Domain } from '../Domain';
 import { DomainTypes } from '../DomainKnowledge';
 
 export function ForgetDomainType(domain: Domain, type: Function): void {
-  let types = DomainTypes.v1.get(type);
-  if (!types) {
-    types = new Map();
-    DomainTypes.v1.set(type, types);
+  const types = DomainTypes.v1.get(type);
+  if (types) {
+    types.delete(domain);
   }
-  types.delete(domain);
 }
