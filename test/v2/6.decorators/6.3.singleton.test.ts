@@ -176,16 +176,16 @@ describe('6.3. @singleton decorator', () => {
       const config = Reflect.getOwnPropertyDescriptor(App637.prototype, 'run');
 
       if (config) {
-        config.value = null;
+        config.value = undefined;
         Reflect.defineProperty(App637.prototype, 'run', config);
         // console.log('config', Reflect.getOwnPropertyDescriptor(App637.prototype, 'run'));
 
         const plain = new App637();
-        expect(plain.run).toBeNull();
+        expect(plain.run).toBeUndefined();
 
         const desc = Reflector(App637).property('run').descriptor;
         if (desc) {
-          desc.value = null;
+          desc.value = undefined;
         }
         // expect(() => {
         const Agent: typeof App637 = CreateAgent(App637);

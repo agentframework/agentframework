@@ -182,16 +182,16 @@ describe('5.9. Domain @singleton decorator', () => {
       const config = Reflect.getOwnPropertyDescriptor(App597.prototype, 'run');
 
       if (config) {
-        config.value = null;
+        config.value = undefined;
         Reflect.defineProperty(App597.prototype, 'run', config);
         // console.log('config', Reflect.getOwnPropertyDescriptor(App597.prototype, 'run'));
 
         const plain = new App597();
-        expect(plain.run).toBeNull();
+        expect(plain.run).toBeUndefined();
 
         const desc = Reflector(App597).property('run').descriptor;
         if (desc) {
-          desc.value = null;
+          desc.value = undefined;
         }
         const ins = domain.construct(App597);
         expect(ins).toBeInstanceOf(App597);
