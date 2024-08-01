@@ -128,10 +128,10 @@ console.log('Is it create from the ProjectA class?', project instanceof ProjectA
 -   [x] COMPATIBILITY: Revise error types and message
 -   [x] COMPATIBILITY: Revise Domain interface
 -   [x] COMPATIBILITY: Revise embedded decorators
--   [ ] EPIC: Abstract data layer - mongodb 4.x
--   [ ] EPIC: Cross architecture web application development (Server, Serverless)
--   [ ] EPIC: Serverless support - AWS Lambda, Google Cloud Function, Azure Function, Alicloud Function Computing
--   [ ] EPIC: Bot development (Telegram)
+-   [ ] Enterprise: Abstract data layer - mongodb 4.x
+-   [ ] Enterprise: Cross architecture web application development (Server, Serverless)
+-   [ ] Enterprise: Serverless support - AWS Lambda, Google Cloud Function, Azure Function, Alicloud Function Computing
+-   [ ] Enterprise: Bot development (Telegram)
 -   [ ] Other: Example and references
 -   [ ] Other: docs.agentframework.com
 -   [ ] Other: agentframework.com
@@ -175,7 +175,7 @@ console.log('Is it create from the ProjectA class?', project instanceof ProjectA
 
 ## License
 
-Copyright 2022 Ling Zhang!
+Copyright 2024 Ling Zhang!
 
 
 Licensed under the Apache License, Version 2.0 (the "License");
