@@ -1,4 +1,4 @@
-name: Node.js Tests on Ubuntu for Node 14,16,18
+name: Node.js 14,16,18 Tests on Ubuntu
 
 on: [push]
 
