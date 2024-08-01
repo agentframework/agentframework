@@ -42,8 +42,5 @@
   "bugs": {
     "url": "https://github.com/agentframework/agentframework/issues"
   },
-  "homepage": "https://github.com/agentframework/agentframework#readme",
-  "dependencies": {
-    "typescript": "^5.5.4"
-  }
+  "homepage": "https://github.com/agentframework/agentframework#readme"
 }
