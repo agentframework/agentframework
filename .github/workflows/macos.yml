@@ -1,4 +1,4 @@
-name: MacOS 10.15 Tests
+name: MacOS 14 Tests
 
 on: [push]
 
