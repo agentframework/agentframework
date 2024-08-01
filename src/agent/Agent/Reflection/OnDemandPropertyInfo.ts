@@ -229,7 +229,9 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
     }
 
     /* istanbul ignore next */
+    // @ts-ignore
     if (Reflect['getOwnMetadata']) {
+      // @ts-ignore
       return Reflect['getOwnMetadata'](key, this.declaringType.prototype, this.key);
     }
 

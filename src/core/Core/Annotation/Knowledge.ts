@@ -54,6 +54,7 @@ export class Knowledge extends WeakMap<Function | object, any> {
     // ===============================================================================
     const r = reflect;
     /* istanbul ignore next */
+    // @ts-ignore
     const metadata: Function | undefined = r[key] && r[key].bind(r);
     const self = this;
     //
@@ -92,6 +93,7 @@ export class Knowledge extends WeakMap<Function | object, any> {
       };
     }
     // mark the time
+    // @ts-ignore
     value[NOW] = Date.now();
     alter(r, key, value);
     self.set(self, new Map());

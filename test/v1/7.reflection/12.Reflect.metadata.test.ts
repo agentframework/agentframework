@@ -6,6 +6,7 @@
 describe('Reflect metadata', () => {
   describe('# should able to', () => {
     it('metadata', () => {
+      // @ts-ignore
       expect(Reflect['metadata']).toBeTruthy();
     });
 

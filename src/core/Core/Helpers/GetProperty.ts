@@ -18,6 +18,7 @@ export function GetProperty(type: Type, key: string | symbol, descriptor?: Prope
   } else {
     property = new Property(type.target, descriptor);
     map.set(key, property);
+    // @ts-ignore
     type.prototype[key] = property;
   }
   return property;

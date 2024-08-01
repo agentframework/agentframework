@@ -9,6 +9,7 @@ export function GetConstructor({ target, prototype }: Type): Property {
   if (propertyDescriptor) {
     property = propertyDescriptor.value;
   } else {
+    // @ts-ignore
     prototype[key] = property = new Property(target);
   }
   return property;
