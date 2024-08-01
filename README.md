@@ -31,16 +31,19 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 | Platform       | Version                                                                             |
 | -------------- | ----------------------------------------------------------------------------------- |
-| Node.js        | 22, 20, 18, 16, 14, 12, 10, 8                                                           |
-| TypeScript     | 4.7, 4.6, 4.5, 4.4, 4.3, 4.2, 4.1, 4.0, 3.9, 3.8, 3.7, 3.6, 3.5, 3.4, 3.3, 3.2, 3.1, 3.0 |
+| Node.js        | 22, 20, 18, 16, 14, 12, 10, 8 |
+| TypeScript 5.x | 5.5.4, 5.4.5, 5.3.3, 5.2.2, 5.1.6, 5.0.4 |
+| TypeScript 4.x | 4.7.2, 4.6.3, 4.5.5, 4.4.4, 4.3.5, 4.2.4, 4.1.5, 4.0.5 |
+| TypeScript 3.x | 3.9.7, 3.8.3, 3.7.5, 3.6.5, 3.5.1, 3.4.5, 3.3.4000, 3.2.4, 3.1.6, 3.0.3 |
+
 
 
 ## Changelog
 
 | Date       | Version                                                | Status      |
 | ---------- | ------------------------------------------------------ | ----------- |
-| 2022-03-11 | [2.0.2](doc/changelogs/CHANGELOG_2.0.x.md)             | Stable      |
-| 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)             | Maintenance |
+| 2024-08-01 | [2.0.3](doc/changelogs/CHANGELOG_2.0.x.md)             | Stable      |
+| 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)             | EOL         |
 | 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)            | EOL 		|
 | 2017-06-30 | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md)            | EOL         |
 | 2016-11-03 | [0.2.28](doc/changelogs/CHANGELOG_0.2.x.md)            | EOL         |

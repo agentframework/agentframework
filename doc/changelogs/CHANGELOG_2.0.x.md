@@ -1,5 +1,12 @@
 # Agent Framework 2.0.x ChangeLog
 
+## 2024-08-01, Version 2.0.3
+
+**Notable Changes**
+
+- Update support for typescript 5.x
+
+
 ## 2022-03-11, Version 2.0.2
 
 **Notable Changes**
