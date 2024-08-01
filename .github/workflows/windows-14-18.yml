@@ -1,4 +1,4 @@
-name: Node.js Tests on Windows
+name: Node.js Tests on Windows for Node 14,16,18
 
 on: [push]
 

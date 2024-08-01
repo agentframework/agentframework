@@ -1,4 +1,4 @@
-name: Node.js Tests on Ubuntu
+name: Node.js Tests on Ubuntu for node 20,22
 
 on: [push]
 
