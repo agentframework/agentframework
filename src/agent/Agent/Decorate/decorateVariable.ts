@@ -34,12 +34,10 @@ export function decorateVariable<T extends Attribute>(attribute: T): VariableDec
           AddAttributeToConstructorParameter(attribute, (target as Function).prototype, parameterIndex);
         }
       } else {
-        if (targetKey != null) {
-          AddAttributeToProperty(attribute, target, targetKey, parameterIndex);
-        }
-        else {
-          console.log('WARNING: unsupported attribute found. T:', target, 'K:', targetKey, 'I:',parameterIndex);
-        }
+        // when parameterIndex = PropertyDescriptor
+        // so targetKey = string | symbol
+        // targetKey never undefined
+        AddAttributeToProperty(attribute, target, targetKey!, parameterIndex);
       }
     }
   };
