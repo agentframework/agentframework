@@ -5,7 +5,7 @@
 **Notable Changes**
 
 - Update support for typescript 5.x
-
+- Fixed VariableDecorator signature
 
 ## 2022-03-11, Version 2.0.2
 
