@@ -20,12 +20,12 @@ limitations under the License. */
 export { AgentFrameworkError } from '../src/agent';
 export { Arguments } from '../src/agent';
 export { Class } from '../src/agent';
-export { Filter } from '../src/agent';
 
 /*********************************************************************
  *   (Stability: 2 - Stable) Metadata
  *********************************************************************/
 export { MemberKinds } from '../src/agent';
+export { Filter } from '../src/agent';
 export { Attribute } from '../src/agent';
 export { Design } from '../src/agent';
 export { Invocation } from '../src/agent';

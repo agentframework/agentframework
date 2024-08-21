@@ -11,9 +11,12 @@ export { Annotation } from './Core/Annotation';
  *********************************************************************/
 export { AddAttributeToProperty } from './Core/AddAttribute';
 export { AddAttributeToPropertyParameter } from './Core/AddAttribute';
+export { AddAttributeToConstructorParameter } from './Core/AddAttribute';
+export { AddAttributeToConstructor } from './Core/AddAttribute';
 
+export { GetConstructorAnnotation } from './Core/GetAnnotation';
+export { GetPropertyAnnotation } from './Core/GetAnnotation';
 export { GetMemory } from './Core/GetMemory';
-
 export { GetAnnotation } from './Core/GetAnnotation';
 
 /*********************************************************************
@@ -23,7 +26,3 @@ export { __decorate } from './Core/__decorate';
 export { __agent } from './Core/__agent';
 export { __metadata } from './Core/__metadata';
 export { __param } from './Core/__param';
-export { AddAttributeToConstructorParameter } from './Core/AddAttribute';
-export { AddAttributeToConstructor } from './Core/AddAttribute';
-export { GetConstructorAnnotation } from './Core/GetAnnotation';
-export { GetPropertyAnnotation } from './Core/GetAnnotation';
