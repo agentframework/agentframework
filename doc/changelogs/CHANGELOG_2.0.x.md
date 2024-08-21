@@ -1,5 +1,11 @@
 # Agent Framework 2.0.x ChangeLog
 
+## 2024-08-21, Version 2.0.4
+
+**Notable Changes**
+
+- Allow remember false/0/null/undefined values
+
 ## 2024-08-01, Version 2.0.3
 
 **Notable Changes**
