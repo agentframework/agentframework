@@ -87,7 +87,7 @@ export { AgentFrameworkError } from './Agent/AgentFrameworkError';
 export { AgentAttribute } from './Agent/AgentAttribute';
 
 /*********************************************************************
- *   (Stability: 1 - Experimental): Getter Decorator: @remember()
+ *   (Stability: 1 - Experimental): Getter Decorator: @once()
  *********************************************************************/
 export { once, Once } from './Agent/Decorators/Once/Once';
 

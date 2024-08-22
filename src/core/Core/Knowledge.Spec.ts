@@ -7,6 +7,7 @@ describe('Knowledge!', () => {
       expect(KnowledgeStatic.id).toBeInstanceOf(String);
       expect(KnowledgeStatic.version).toBeInstanceOf(String);
       expect(KnowledgeStatic.timestamp).toBeInstanceOf(String);
+      expect(KnowledgeStatic.commit).toBeInstanceOf(String);
       // console.log('Knowledge', Knowledge);
       // const name = KnowledgeStatic.id + '@' + KnowledgeStatic.version;
       // expect(Knowledge[Symbol.for('Deno.symbols.customInspect')]()).toBe(name);
