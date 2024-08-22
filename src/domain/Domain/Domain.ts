@@ -34,13 +34,6 @@ export abstract class Domain implements DomainLike {
   }
 
   /**
-   * Construct a new instance
-   */
-  static construct<T extends Function>(target: T, params: Params<T>): Agent<T> {
-    return Reflect.construct(target, params);
-  }
-
-  /**
    * Get instance of the specified type, return undefined if not exists
    */
   abstract getAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined;

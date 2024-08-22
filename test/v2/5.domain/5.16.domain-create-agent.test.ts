@@ -27,7 +27,7 @@ describe('5.16. Domain create agent', () => {
       const domain = GetGlobalDomain();
       expect(domain).toBeTruthy();
 
-      const DomainAgentType5161 = CreateDomainAgent(DomainAgent5161);
+      const DomainAgentType5161 = CreateDomainAgent(domain, DomainAgent5161);
       expect(DomainAgentType5161).toBeTruthy();
 
       const type = Reflector(DomainAgentType5161);
