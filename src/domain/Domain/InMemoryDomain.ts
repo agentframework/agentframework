@@ -18,13 +18,14 @@ import { Agent, AgentReference, Params } from './Agent';
 import { Domain } from './Domain';
 import { IsPromise } from './Helpers/IsPromise';
 import { IsObservable } from './Helpers/IsObservable';
-import { CreateDomainAgent, CreateAndRememberDomainAgent } from './DomainAgent/CreateAndRememberDomainAgent';
+import { CreateDomainAgent } from './DomainAgent/CreateDomainAgent';
 import { InMemory } from './InMemory';
 import { RememberDomainType } from './Helpers/RememberDomainType';
 import { GetDomainType } from './Helpers/GetDomainType';
 import { GetDomainDomainAgentType } from './Helpers/GetDomainDomainAgentType';
 import { ForgetDomainType } from './Helpers/ForgetDomainType';
 import { GetDomainAgentType } from './Helpers/GetDomainAgentType';
+import {CompileDomainAgent} from "./DomainAgent/CompileDomainAgent";
 
 /**
  * In memory domain
@@ -62,7 +63,7 @@ export class InMemoryDomain extends Domain implements Disposable {
    * compile agent. the compiled agent will reduce time to construct the same agent in this domain or sub-domains
    */
   compile<T extends Function>(target: T): void {
-    CreateDomainAgent(this, this.getType<T>(target) || target);
+    CompileDomainAgent(this, this.getType<T>(target) || target);
   }
 
   /**
@@ -82,7 +83,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     }
 
     // find or create DomainAgent
-    const agentType = GetDomainDomainAgentType(this, type) || CreateAndRememberDomainAgent(this, type);
+    const agentType = GetDomainDomainAgentType(this, type) || CreateDomainAgent(this, type);
 
     // console.log('construct', target.name, 'from', type.name);
     // initialize agent class
@@ -136,7 +137,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     }
 
     // find domainAgent
-    const domainAgent = GetDomainDomainAgentType(this, type) || CreateAndRememberDomainAgent(this, type);
+    const domainAgent = GetDomainDomainAgentType(this, type) || CreateDomainAgent(this, type);
 
     // initialize agent class
     const newCreated = Reflect.construct(domainAgent, params || []);

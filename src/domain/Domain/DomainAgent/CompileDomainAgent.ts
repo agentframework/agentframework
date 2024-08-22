@@ -12,14 +12,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AgentFrameworkError, TypeAttribute, CreateAgent } from '../../../dependencies/agent';
-import { DomainAgentAttribute } from './DomainAgentAttribute';
 import { Domain } from '../Domain';
 import { GetDomain } from '../Helpers/GetDomain';
-import { RememberDomain } from '../Helpers/RememberDomain';
-import { RememberDomainDomainAgentType } from '../Helpers/RememberDomainDomainAgentType';
+import { DomainAgentAttribute } from './DomainAgentAttribute';
+import { TypeAttribute, AgentFrameworkError, CreateAgent } from '../../../dependencies/agent';
 
-export function CreateDomainAgent<T extends Function>(
+export function CompileDomainAgent<T extends Function>(
   domain: Domain,
   type: T,
   strategy?: TypeAttribute,
@@ -39,27 +37,4 @@ export function CreateDomainAgent<T extends Function>(
 
   // upgrade to Agent only if interceptor or initializer found
   return CreateAgent(type, attribute, version);
-}
-
-/**
- * This function only called once per domain
- */
-export function CreateAndRememberDomainAgent<T extends Function>(
-  domain: Domain,
-  type: T,
-  strategy?: TypeAttribute,
-  version?: number
-): T {
-  // upgrade to Agent only if interceptor or initializer found
-  const newCreatedDomainAgent = CreateDomainAgent(domain, type, strategy, version);
-
-  // able to use agent to find domain
-  RememberDomain(newCreatedDomainAgent, domain);
-  RememberDomain(newCreatedDomainAgent.prototype, domain);
-
-  // able to list all agent in a domain
-  RememberDomainDomainAgentType(domain, type, newCreatedDomainAgent);
-  RememberDomainDomainAgentType(domain, newCreatedDomainAgent, newCreatedDomainAgent);
-
-  return newCreatedDomainAgent;
 }

@@ -22,7 +22,7 @@ limitations under the License. */
 //   return CreateAgent(target);
 // }
 
-import { CreateAndRememberDomainAgent } from '../DomainAgent/CreateAndRememberDomainAgent';
+import { CreateDomainAgent } from '../DomainAgent/CreateDomainAgent';
 import { RegisterDomainAgentAttribute } from '../DomainAgent/RegisterDomainAgentAttribute';
 import { GetDomainDomainAgentType } from '../Helpers/GetDomainDomainAgentType';
 import { GetGlobalDomain } from '../Helpers/GetGlobalDomain';
@@ -45,6 +45,6 @@ export function agent(): ClassDecorator {
       return found;
     }
     // call RegisterDomainAgentAttribute to register agent instance into Domain
-    return CreateAndRememberDomainAgent(domain, type, new RegisterDomainAgentAttribute(domain), 1);
+    return CreateDomainAgent(domain, type, new RegisterDomainAgentAttribute(domain), 1);
   };
 }

@@ -33,6 +33,7 @@ export { Domain } from './Domain/Domain';
 export { GetDomain } from './Domain/Helpers/GetDomain';
 export { GetGlobalDomain } from './Domain/Helpers/GetGlobalDomain';
 export { IsDomain } from './Domain/Helpers/IsDomain';
+export { CreateDomainAgent } from './Domain/DomainAgent/CreateDomainAgent';
 
 /*************************************
  *   In Memory Domain Implementation

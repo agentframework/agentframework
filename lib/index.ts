@@ -65,12 +65,6 @@ export { Reflector } from '../src/agent';
 export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/agent';
 
 /*********************************************************************
- *   (Stability: 2 - Stable): Agent Helper API
- *********************************************************************/
-export { IsAgent } from '../src/agent';
-export { GetAgentType } from '../src/agent';
-
-/*********************************************************************
  *   (Stability: 2 - Stable): Class Decorator: @initializable()
  *********************************************************************/
 export { initializable } from '../src/agent';
@@ -93,18 +87,21 @@ export { singleton } from '../src/domain';
 export { transit } from '../src/domain';
 
 /*********************************************************************
+ *   (Stability: 2 - Stable): Agent Helper API
+ *********************************************************************/
+export { IsAgent } from '../src/agent';
+export { GetAgentType } from '../src/agent';
+import { CreateDomainAgent, GetGlobalDomain } from '../src/domain';
+export function CreateAgent<T extends Function>(type: T): T {
+  return CreateDomainAgent(GetGlobalDomain(), type);
+}
+
+/*********************************************************************
  *    (Stability: 2 - Stable) Domain General Interface
  *********************************************************************/
 export { AgentReference } from '../src/domain';
-export { Params  } from '../src/domain';
+export { Params } from '../src/domain';
 export { Agent } from '../src/domain';
-
-/*********************************************************************
- *    (Stability: 1 - Experimental) Domain Interface
- *********************************************************************/
-export { DomainLike } from '../src/domain';
-export { SubDomainLike } from '../src/domain';
-export { Domain } from '../src/domain';
 
 /*********************************************************************
  *    (Stability: 2 - Stable) Domain Helper API
@@ -114,7 +111,14 @@ export { GetGlobalDomain } from '../src/domain';
 export { IsDomain } from '../src/domain';
 
 /*********************************************************************
- *    (Stability: 1 - Experimental) Domain implementation
+ *    (Stability: 1 - Experimental) Domain Interface
+ *********************************************************************/
+export { DomainLike } from '../src/domain';
+export { SubDomainLike } from '../src/domain';
+export { Domain } from '../src/domain';
+
+/*********************************************************************
+ *    (Stability: 1 - Experimental) In memory Domain implementation
  *********************************************************************/
 export { InMemoryDomain } from '../src/domain';
 export { InMemorySubDomain } from '../src/domain';
