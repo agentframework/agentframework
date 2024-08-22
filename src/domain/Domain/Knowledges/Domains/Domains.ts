@@ -12,8 +12,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Remember } from '../../dependencies/agent';
-import { Domain } from './Domain';
+import { Remember } from '../../../../dependencies/agent';
+import { Domain } from '../../Domain';
 
 /**
  * @private
@@ -30,34 +30,21 @@ export class Domains {
 }
 
 /**
- * @private
- * Map a type to another type
+ * Get parent domain for current object
+ *
+ * @param key
  */
-export class DomainTypes {
-  // key: Original Constructor, value: WeakMap<Domain, Replacement Constructor>
-  static get v1() {
-    return Remember('DomainTypes', this, 'v1', () => new WeakMap<Function, WeakMap<object, Function>>());
-  }
+export function GetDomain(key: Function | object): Domain | undefined {
+  return Domains.v1.get(key);
 }
 
 /**
- * @private
- * Map a type to another type
+ * `true` if target object is a domain
  */
-export class DomainAgentTypes {
-  // key: Original Constructor, value: WeakMap<Domain, Agent Constructor>
-  static get v1() {
-    return Remember('DomainAgentTypes', this, 'v1', () => new WeakMap<Function, WeakMap<object, Function>>());
-  }
+export function IsDomain(target: object): target is Domain {
+  return target && Domains.v1.get(target) === target;
 }
 
-/**
- * @private
- * Get agent of giving domain and type
- */
-export class DomainDomainAgentTypes {
-  // key: Original Constructor, value: WeakMap<Domain, Domain Agent Constructor>
-  static get v1() {
-    return Remember('DomainDomainAgentTypes', this, 'v1', () => new WeakMap<Function, WeakMap<object, Function>>());
-  }
+export function RememberDomain(key: object | Function, domain: Domain): void {
+  Domains.v1.set(key, domain);
 }

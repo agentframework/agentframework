@@ -1,4 +1,4 @@
-/* Copyright 2016 Ling Zhang
+/* Copyright 2024 Ling Zhang
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -12,20 +12,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Domain } from '../Domain';
-import { DomainTypes } from '../DomainKnowledge';
+import { Remember } from '../../../../dependencies/agent';
 
-export function RememberDomainType(domain: Domain, type: Function, replacement: Function, replace?: boolean): void {
-  let types = DomainTypes.v1.get(type);
-  if (!types) {
-    types = new WeakMap();
-    DomainTypes.v1.set(type, types);
-  }
-  if (types.has(domain)) {
-    if (replace) {
-      types.set(domain, replacement);
-    }
-  } else {
-    types.set(domain, replacement);
+/**
+ * @private
+ * Map a type to another type
+ */
+export class DomainTypes {
+  // key: Original Constructor, value: WeakMap<Domain, Replacement Constructor>
+  static get v1() {
+    return Remember('DomainTypes', this, 'v1', () => new WeakMap<Function, WeakMap<object, Function>>());
   }
 }

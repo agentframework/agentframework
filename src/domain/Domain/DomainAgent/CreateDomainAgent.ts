@@ -14,9 +14,9 @@ limitations under the License. */
 
 import { TypeAttribute } from '../../../dependencies/agent';
 import { Domain } from '../Domain';
-import { RememberDomain } from '../Helpers/RememberDomain';
-import { RememberDomainDomainAgentType } from '../Helpers/RememberDomainDomainAgentType';
+import { RememberDomainDomainAgentType } from '../Knowledges/DomainDomainAgentTypes/RememberDomainDomainAgentType';
 import { CompileDomainAgent } from './CompileDomainAgent';
+import { RememberDomain } from '../Knowledges/Domains/Domains';
 
 /**
  * This function only called once per domain

@@ -12,23 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { InMemoryDomain } from '../InMemoryDomain';
-import { Domain } from '../Domain';
-import { Domains } from '../DomainKnowledge';
+import { Domain } from '../../Domain';
+import { DomainAgentTypes } from '../DomainAgentTypes/DomainAgentTypes';
 
-/**
- * Get global domain. The domain for all domains.
- */
-export function GetGlobalDomain(): Domain {
-  const domains = Domains.v1;
-  const existDomain = domains.get(domains);
-  if (existDomain) {
-    return existDomain;
+export function GetDomainAgentType<T extends Function>(domain: Domain, type: T): T | undefined {
+  const agentTypes = DomainAgentTypes.v1.get(type);
+  if (agentTypes) {
+    return agentTypes.get(domain) as T | undefined;
   }
-  const newDomain = Reflect.construct(InMemoryDomain, []);
-  Reflect.defineProperty(newDomain, 'name', {
-    value: 'GlobalDomain',
-  });
-  domains.set(domains, newDomain);
-  return newDomain;
+  return undefined;
 }

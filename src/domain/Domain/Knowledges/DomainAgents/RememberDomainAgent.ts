@@ -1,4 +1,4 @@
-/* Copyright 2016 Ling Zhang
+/* Copyright 2024 Ling Zhang
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -12,12 +12,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Domains } from '../DomainKnowledge';
-import { Domain } from '../Domain';
+import { Agent, AgentReference } from '../../Agent';
+import { DomainLike } from '../../DomainLike';
+import { DomainAgents } from './DomainAgents';
 
-/**
- * `true` if target object is a domain
- */
-export function IsDomain(target: object): target is Domain {
-  return target && Domains.v1.get(target) === target;
+export function GetDomainAgent<T extends AgentReference>(domain: DomainLike, identifier: T): Agent<T> | undefined {
+  const map = DomainAgents.v1.get(domain);
+  if (map) {
+    return map.get(identifier);
+  }
+  return undefined
 }
+

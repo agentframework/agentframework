@@ -12,10 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-// import { AnyClass } from '../ClassConstructor';
-// import { Domain } from '../Domain';
-// import { Domains } from '../DomainKnowledge';
-//
-// export function SetDomain(type: AnyClass<Domain>): void {
-//   Domains.v1.set(type, type.prototype);
-// }
+import { Domain } from '../../Domain';
+import { DomainDomainAgentTypes } from './DomainDomainAgentTypes';
+
+export function GetDomainDomainAgentType<T extends Function>(domain: Domain, type: T): T | undefined {
+  const types = DomainDomainAgentTypes.v1.get(type);
+  if (types) {
+    return types.get(domain) as T | undefined;
+  }
+  return undefined;
+}

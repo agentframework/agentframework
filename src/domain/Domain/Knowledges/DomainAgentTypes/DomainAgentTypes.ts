@@ -1,4 +1,4 @@
-/* Copyright 2016 Ling Zhang
+/* Copyright 2024 Ling Zhang
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -12,14 +12,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Domain } from '../Domain';
-import { Domains } from '../DomainKnowledge';
+import { Remember } from '../../../../dependencies/agent';
 
 /**
- * Get parent domain for current object
- *
- * @param key
+ * @private
+ * Map a type to another type
  */
-export function GetDomain(key: Function | object): Domain | undefined {
-  return Domains.v1.get(key);
+export class DomainAgentTypes {
+  // key: Original Constructor, value: WeakMap<Domain, Agent Constructor>
+  static get v1() {
+    return Remember('DomainAgentTypes', this, 'v1', () => new WeakMap<Function, WeakMap<object, Function>>());
+  }
 }

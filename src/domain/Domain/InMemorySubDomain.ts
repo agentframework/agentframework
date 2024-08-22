@@ -13,15 +13,14 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { InMemoryDomain } from './InMemoryDomain';
-import { GetDomain } from './Helpers/GetDomain';
 import { Agent, AgentReference } from './Agent';
 import { SubDomainLike } from './SubDomainLike';
-import { GetGlobalDomain } from './Helpers/GetGlobalDomain';
 import { Once } from '../../dependencies/agent';
 import { Domain } from './Domain';
+import { GetDomain } from './Knowledges/Domains/Domains';
+import { GetGlobalDomain } from './GetGlobalDomain';
 
 export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
-
   get domain(): Domain {
     // GetDomain(this) will return this. So must use GetDomain(this.constructor)
     return Once(this, 'domain', GetDomain(this.constructor) || GetGlobalDomain());

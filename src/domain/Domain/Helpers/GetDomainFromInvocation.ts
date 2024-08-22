@@ -15,7 +15,7 @@ limitations under the License. */
 import { Arguments, Invocation } from '../../../dependencies/agent';
 // import { IsDomain } from './IsDomain';
 import { Domain } from '../Domain';
-import { GetDomain } from './GetDomain';
+import { GetDomain } from '../Knowledges/Domains/Domains';
 
 /**
  * Find domain from invocation or parameters

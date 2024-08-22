@@ -12,13 +12,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Domain } from '../Domain';
-import { DomainDomainAgentTypes } from '../DomainKnowledge';
+import { DomainLike } from '../../DomainLike';
+import { DomainAgentTypes } from './DomainAgentTypes';
 
-export function GetDomainDomainAgentType<T extends Function>(domain: Domain, type: T): T | undefined {
-  const types = DomainDomainAgentTypes.v1.get(type);
-  if (types) {
-    return types.get(domain) as T | undefined;
+export function RememberDomainAgentType(domain: DomainLike, type: Function, agentType: Function): void {
+  let types = DomainAgentTypes.v1.get(type);
+  if (!types) {
+    types = new WeakMap();
+    DomainAgentTypes.v1.set(type, types);
   }
-  return undefined;
+  types.set(domain, agentType);
 }

@@ -30,9 +30,6 @@ export { DomainLike } from './Domain/DomainLike';
 export { SubDomainLike } from './Domain/SubDomainLike';
 export { Domain } from './Domain/Domain';
 
-export { GetDomain } from './Domain/Helpers/GetDomain';
-export { GetGlobalDomain } from './Domain/Helpers/GetGlobalDomain';
-export { IsDomain } from './Domain/Helpers/IsDomain';
 export { CreateDomainAgent } from './Domain/DomainAgent/CreateDomainAgent';
 
 /*************************************
@@ -56,6 +53,9 @@ export { agent } from './Domain/Decorators/agent';
  *   Unstable API
  *************************************/
 export { Disposable } from './Domain/Helpers/Disposable';
+export {GetDomain} from "./Domain/Knowledges/Domains/Domains";
+export {IsDomain} from "./Domain/Knowledges/Domains/Domains";
+export {GetGlobalDomain} from "./Domain/GetGlobalDomain";
 
 /*************************************
  *   END DOMAIN

@@ -19,18 +19,34 @@ import { Domain } from './Domain';
 import { IsPromise } from './Helpers/IsPromise';
 import { IsObservable } from './Helpers/IsObservable';
 import { CreateDomainAgent } from './DomainAgent/CreateDomainAgent';
-import { InMemory } from './InMemory';
-import { RememberDomainType } from './Helpers/RememberDomainType';
-import { GetDomainType } from './Helpers/GetDomainType';
-import { GetDomainDomainAgentType } from './Helpers/GetDomainDomainAgentType';
-import { ForgetDomainType } from './Helpers/ForgetDomainType';
-import { GetDomainAgentType } from './Helpers/GetDomainAgentType';
-import {CompileDomainAgent} from "./DomainAgent/CompileDomainAgent";
+import { InMemory } from './Knowledges/InMemory';
+import { RememberDomainType } from './Knowledges/DomainTypes/RememberDomainType';
+import { GetDomainType } from './Knowledges/DomainTypes/GetDomainType';
+import { GetDomainDomainAgentType } from './Knowledges/DomainDomainAgentTypes/GetDomainDomainAgentType';
+import { ForgetDomainType } from './Knowledges/DomainTypes/ForgetDomainType';
+import { GetDomainAgentType } from './Knowledges/DomainDomainAgentTypes/GetDomainAgentType';
+import { CompileDomainAgent } from './DomainAgent/CompileDomainAgent';
+import { RememberDomain } from './Knowledges/Domains/Domains';
+import {
+  DisposeDomainAgents,
+  ForgetDomainAgent,
+  GetDomainAgent,
+  RememberDomainAgent,
+  SetDomainAgent,
+} from './Knowledges/DomainAgents/GetDomainAgent';
 
 /**
  * In memory domain
  */
 export class InMemoryDomain extends Domain implements Disposable {
+  /**
+   * default constructor
+   */
+  constructor() {
+    super();
+    RememberDomain(this, this);
+  }
+
   /**
    * Return true if this domain disposed
    */
@@ -46,7 +62,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   getAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined {
     // const agent = InMemory.agents(this).get(identifier);
     // console.log('getAgent', InMemory.agents(this), '<----', identifier, '<----', agent);
-    return InMemory.agents(this).get(identifier);
+    return GetDomainAgent(this, identifier);
   }
 
   getAgentType<T extends Function>(type: T): T | undefined {
@@ -70,7 +86,6 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Create and initial an agent
    */
   construct<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Agent<T> {
-
     // find the mapped type if exists
     const type = this.getType<T>(target) || target;
     const register = !transit;
@@ -197,19 +212,14 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Add an agent
    */
   addAgent<T extends AgentReference>(agent: Agent<T>): void {
-    const _agents = InMemory.agents(this);
-    let ctor: Function | null | undefined = agent.constructor;
-    while (ctor && !_agents.has(ctor) && Function.prototype !== ctor) {
-      _agents.set(ctor, agent);
-      ctor = Reflect.getPrototypeOf(ctor) as Function;
-    }
+    RememberDomainAgent(this, agent);
   }
 
   /**
    * Set agent instance
    */
   setAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void {
-    InMemory.agents(this).set(identifier, agent);
+    SetDomainAgent(this, identifier, agent);
   }
 
   /**
@@ -259,13 +269,7 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Delete agent. do nothing if agent not match
    */
   removeAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): boolean {
-    const _agents = InMemory.agents(this);
-    if (_agents.has(identifier) && _agents.get(identifier) === agent) {
-      _agents.delete(identifier);
-      // do not dispose because this agent may used by others
-      return true;
-    }
-    return false;
+    return ForgetDomainAgent(this, identifier, agent);
   }
   //endregion
 
@@ -297,14 +301,7 @@ export class InMemoryDomain extends Domain implements Disposable {
         }
       });
     }
-    const _identifiers = InMemory.agents(this);
-    for (const agent of _identifiers.values()) {
-      if (typeof agent === 'object' && agent != null && typeof agent.dispose === 'function') {
-        //  TODO: only dispose the agent of current domain
-        agent.dispose();
-      }
-    }
-    _incomingAgents.clear();
-    _identifiers.clear();
+
+    DisposeDomainAgents(this);
   }
 }

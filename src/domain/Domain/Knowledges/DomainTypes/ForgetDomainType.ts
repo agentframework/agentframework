@@ -12,13 +12,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Domain } from '../Domain';
-import { DomainTypes } from '../DomainKnowledge';
+import { Domain } from '../../Domain';
+import { DomainTypes } from './DomainTypes';
 
-export function GetDomainType<T extends Function>(domain: Domain, type: T): T | undefined {
+export function ForgetDomainType(domain: Domain, type: Function): void {
   const types = DomainTypes.v1.get(type);
   if (types) {
-    return types.get(domain) as T | undefined;
+    types.delete(domain);
   }
-  return undefined;
 }

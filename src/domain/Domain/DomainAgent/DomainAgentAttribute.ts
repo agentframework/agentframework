@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { AgentAttribute, Arguments, TypeInterceptor, TypeInvocation } from '../../../dependencies/agent';
 import { Domain } from '../Domain';
-import { RememberDomainAgentType } from '../Helpers/RememberDomainAgentType';
+import { RememberDomainAgentType } from '../Knowledges/DomainAgentTypes/RememberDomainAgentType';
 
 export class DomainAgentAttribute extends AgentAttribute implements TypeInterceptor {
   constructor(readonly domain: Domain) {

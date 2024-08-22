@@ -1,4 +1,4 @@
-/* Copyright 2016 Ling Zhang
+/* Copyright 2024 Ling Zhang
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -12,14 +12,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Domain } from '../Domain';
-import { DomainDomainAgentTypes } from '../DomainKnowledge';
+import { Remember } from '../../../../dependencies/agent';
 
-export function RememberDomainDomainAgentType(domain: Domain, type: Function, agent: Function): void {
-  let agents = DomainDomainAgentTypes.v1.get(type)
-  if (!agents) {
-    agents = new WeakMap();
-    DomainDomainAgentTypes.v1.set(type, agents);
+/**
+ * @private
+ * Get agent of giving domain and type
+ */
+export class DomainDomainAgentTypes {
+  // key: Original Constructor, value: WeakMap<Domain, Domain Agent Constructor>
+  static get v1() {
+    return Remember('DomainDomainAgentTypes', this, 'v1', () => new WeakMap<Function, WeakMap<object, Function>>());
   }
-  agents.set(domain, agent);
 }

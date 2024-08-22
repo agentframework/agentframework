@@ -15,7 +15,6 @@ limitations under the License. */
 import { Class } from '../../dependencies/agent';
 import { DomainLike } from './DomainLike';
 import { Agent, AgentReference, Params } from './Agent';
-import { RememberDomain } from './Helpers/RememberDomain';
 
 /**
  * Domain is a container of types and agents
@@ -25,13 +24,6 @@ export abstract class Domain implements DomainLike {
    * Get domain name
    */
   abstract readonly name: string;
-
-  /**
-   * default constructor
-   */
-  constructor() {
-    RememberDomain(this, this);
-  }
 
   /**
    * Get instance of the specified type, return undefined if not exists
@@ -95,5 +87,4 @@ export abstract class Domain implements DomainLike {
    * Delete agent. do nothing if identifier not exits
    */
   abstract removeAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): boolean;
-
 }

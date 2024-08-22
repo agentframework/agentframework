@@ -13,9 +13,9 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Domain } from '../Domain';
-import { GetDomain } from '../Helpers/GetDomain';
 import { DomainAgentAttribute } from './DomainAgentAttribute';
 import { TypeAttribute, AgentFrameworkError, CreateAgent } from '../../../dependencies/agent';
+import { GetDomain } from '../Knowledges/Domains/Domains';
 
 export function CompileDomainAgent<T extends Function>(
   domain: Domain,
