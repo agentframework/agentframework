@@ -12,13 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Domain } from '../Domain';
 import { DomainAgentAttribute } from './DomainAgentAttribute';
 import { TypeAttribute, AgentFrameworkError, CreateAgent } from '../../../dependencies/agent';
 import { GetDomain } from '../Knowledges/Domains/Domains';
+import { DomainLike } from '../DomainLike';
 
 export function CompileDomainAgent<T extends Function>(
-  domain: Domain,
+  domain: DomainLike,
   type: T,
   strategy?: TypeAttribute,
   version?: number

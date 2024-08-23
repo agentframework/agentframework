@@ -12,23 +12,24 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Domain } from './Domain';
 import { InMemoryDomain } from './InMemoryDomain';
 import { Domains } from './Knowledges/Domains/Domains';
+import { DomainLike } from './DomainLike';
 
 /**
  * Get global domain. The domain for all domains.
  */
-export function GetGlobalDomain(): Domain {
-  const domains = Domains.v1;
-  const existDomain = domains.get(domains);
+export function GetGlobalDomain(): DomainLike {
+  const domain = Domains.v1;
+  const existDomain = domain.get(domain);
   if (existDomain) {
     return existDomain;
   }
+
   const newDomain = Reflect.construct(InMemoryDomain, []);
   Reflect.defineProperty(newDomain, 'name', {
-    value: 'GlobalDomain',
+    value: '.',
   });
-  domains.set(domains, newDomain);
+  domain.set(domain, newDomain);
   return newDomain;
 }

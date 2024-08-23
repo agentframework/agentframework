@@ -26,4 +26,3 @@ export class DomainAgents {
     return Remember('DomainAgents', this, 'v1', () => new WeakMap<DomainLike, Map<AgentReference, any>>());
   }
 }
-

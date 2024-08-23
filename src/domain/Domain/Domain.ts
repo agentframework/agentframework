@@ -18,6 +18,10 @@ import { Agent, AgentReference, Params } from './Agent';
 
 /**
  * Domain is a container of types and agents
+ *
+ * 1. use to manage the agents
+ * 2. use to do type mapping
+ * 3. use to inject
  */
 export abstract class Domain implements DomainLike {
   /**
@@ -40,7 +44,6 @@ export abstract class Domain implements DomainLike {
    */
   abstract getType<T extends Function>(type: T): T | undefined;
 
-  //region Factory
   /**
    * compile domain agent
    */
@@ -55,8 +58,6 @@ export abstract class Domain implements DomainLike {
    * Resolve and inject an agent using factory method
    */
   abstract resolve<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>>;
-
-  //endregion
 
   /**
    * Register a new type, without rewrite any existing types

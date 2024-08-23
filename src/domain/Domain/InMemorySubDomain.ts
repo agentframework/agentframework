@@ -16,12 +16,12 @@ import { InMemoryDomain } from './InMemoryDomain';
 import { Agent, AgentReference } from './Agent';
 import { SubDomainLike } from './SubDomainLike';
 import { Once } from '../../dependencies/agent';
-import { Domain } from './Domain';
 import { GetDomain } from './Knowledges/Domains/Domains';
 import { GetGlobalDomain } from './GetGlobalDomain';
+import { DomainLike } from './DomainLike';
 
 export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
-  get domain(): Domain {
+  get domain(): DomainLike {
     // GetDomain(this) will return this. So must use GetDomain(this.constructor)
     return Once(this, 'domain', GetDomain(this.constructor) || GetGlobalDomain());
   }

@@ -20,6 +20,26 @@ import { Class } from '../../dependencies/agent';
  */
 export interface DomainLike {
   /**
+   * Get domain name
+   */
+  readonly name: string;
+
+  /**
+   * Get instance of the specified type, return undefined if not exists
+   */
+  getAgent<T extends AgentReference>(type: T): Agent<T> | undefined;
+
+  /**
+   * Get agent constructor for the specified type, return undefined if not exists
+   */
+  getAgentType<T extends Function>(type: T): T | undefined;
+
+  /**
+   * Get constructor for the specified type, return undefined if not exists
+   */
+  getType<T extends Function>(type: T): T | undefined;
+
+  /**
    * Compile domain agent
    */
   compile<T extends Function>(target: T): void;
@@ -40,19 +60,14 @@ export interface DomainLike {
   addType<T extends object>(type: Class<T>): void;
 
   /**
-   * Delete type mapping for giving type
-   */
-  removeType<T extends object>(type: Class<T>): void;
-
-  /**
    * Replace type
    */
   setType<T extends object>(type: Class<T>, replacement: Class<T>): void;
 
   /**
-   * Get constructor for the specified type, return undefined if not exists
+   * Delete type mapping for giving type
    */
-  getType<T extends Function>(type: T): T | undefined;
+  removeType<T extends object>(type: Class<T>): void;
 
   /**
    * Add an agent
@@ -60,17 +75,12 @@ export interface DomainLike {
   addAgent<T extends AgentReference>(agent: Agent<T>): void;
 
   /**
-   * Delete agent. do nothing if identifier not exits
-   */
-  removeAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): boolean;
-
-  /**
    * Set agent instance
    */
   setAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void;
 
   /**
-   * Get instance of the specified type, return undefined if not exists
+   * Delete agent. do nothing if identifier not exits
    */
-  getAgent<T extends AgentReference>(type: T): Agent<T> | undefined;
+  removeAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): boolean;
 }

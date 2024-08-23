@@ -13,11 +13,11 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { AgentAttribute, Arguments, TypeInterceptor, TypeInvocation } from '../../../dependencies/agent';
-import { Domain } from '../Domain';
 import { RememberDomainAgentType } from '../Knowledges/DomainAgentTypes/RememberDomainAgentType';
+import { DomainLike } from '../DomainLike';
 
 export class DomainAgentAttribute extends AgentAttribute implements TypeInterceptor {
-  constructor(readonly domain: Domain) {
+  constructor(readonly domain: DomainLike) {
     super();
   }
 

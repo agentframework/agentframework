@@ -12,10 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Domain } from '../../Domain';
 import { DomainTypes } from './DomainTypes';
+import { DomainLike } from '../../DomainLike';
 
-export function RememberDomainType(domain: Domain, type: Function, replacement: Function, replace?: boolean): void {
+export function RememberDomainType(domain: DomainLike, type: Function, replacement: Function, replace?: boolean): void {
   let types = DomainTypes.v1.get(type);
   if (!types) {
     types = new WeakMap();

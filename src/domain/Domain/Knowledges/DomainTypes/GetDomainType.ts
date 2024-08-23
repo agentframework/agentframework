@@ -12,10 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Domain } from '../../Domain';
 import { DomainTypes } from './DomainTypes';
+import { DomainLike } from '../../DomainLike';
 
-export function GetDomainType<T extends Function>(domain: Domain, type: T): T | undefined {
+export function GetDomainType<T extends Function>(domain: DomainLike, type: T): T | undefined {
   const types = DomainTypes.v1.get(type);
   if (types) {
     return types.get(domain) as T | undefined;

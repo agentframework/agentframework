@@ -21,6 +21,5 @@ export function GetDomainAgent<T extends AgentReference>(domain: DomainLike, ide
   if (map) {
     return map.get(identifier);
   }
-  return undefined
+  return undefined;
 }
-

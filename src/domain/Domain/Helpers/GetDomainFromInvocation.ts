@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { Arguments, Invocation } from '../../../dependencies/agent';
 // import { IsDomain } from './IsDomain';
-import { Domain } from '../Domain';
+import { DomainLike } from '../DomainLike';
 import { GetDomain } from '../Knowledges/Domains/Domains';
 
 /**
@@ -26,7 +26,7 @@ export function GetDomainFromInvocation(
   target: Invocation,
   params: Arguments,
   receiver: Function | object
-): Domain | undefined {
+): DomainLike | undefined {
   // console.log('find domain', typeof receiver, receiver, 'params', params);
   const found = GetDomain(receiver) || (receiver && GetDomain(receiver.constructor));
   if (found) {

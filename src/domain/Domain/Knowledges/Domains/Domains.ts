@@ -12,8 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Remember } from '../../../../dependencies/agent';
-import { Domain } from '../../Domain';
+import { DomainLike } from '../../DomainLike';
 
 /**
  * @private
@@ -24,9 +23,7 @@ export class Domains {
   // key: Agent Type Prototype,   value: Domain instance
   // key: Domain instance,        value: Domain instance
   // key: Domain Type Prototype,  value: Domain Type Prototype
-  static get v1() {
-    return Remember('Domains', this, 'v1', () => new WeakMap<Function | object, Domain | undefined>());
-  }
+  static v1 = new WeakMap<Function | object, DomainLike | undefined>();
 }
 
 /**
@@ -34,17 +31,17 @@ export class Domains {
  *
  * @param key
  */
-export function GetDomain(key: Function | object): Domain | undefined {
+export function GetDomain(key: Function | object): DomainLike | undefined {
   return Domains.v1.get(key);
 }
 
 /**
  * `true` if target object is a domain
  */
-export function IsDomain(target: object): target is Domain {
+export function IsDomain(target: object): target is DomainLike {
   return target && Domains.v1.get(target) === target;
 }
 
-export function RememberDomain(key: object | Function, domain: Domain): void {
+export function RememberDomain(key: object | Function, domain: DomainLike): void {
   Domains.v1.set(key, domain);
 }

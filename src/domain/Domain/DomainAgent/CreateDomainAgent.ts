@@ -13,16 +13,16 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { TypeAttribute } from '../../../dependencies/agent';
-import { Domain } from '../Domain';
 import { RememberDomainDomainAgentType } from '../Knowledges/DomainDomainAgentTypes/RememberDomainDomainAgentType';
 import { CompileDomainAgent } from './CompileDomainAgent';
 import { RememberDomain } from '../Knowledges/Domains/Domains';
+import { DomainLike } from '../DomainLike';
 
 /**
  * This function only called once per domain
  */
 export function CreateDomainAgent<T extends Function>(
-  domain: Domain,
+  domain: DomainLike,
   type: T,
   strategy?: TypeAttribute,
   version?: number
