@@ -13,6 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { DomainLike } from '../../DomainLike';
+import { Remember } from '../../../../dependencies/agent';
 
 /**
  * @private
@@ -23,16 +24,16 @@ export class Domains {
   // key: Agent Type Prototype,   value: Domain instance
   // key: Domain instance,        value: Domain instance
   // key: Domain Type Prototype,  value: Domain Type Prototype
-  static v1 = new WeakMap<Function | object, DomainLike | undefined>();
+  static get v1() {
+    return Remember('Domains', this, 'v1', () => new WeakMap<Function | object, DomainLike | undefined>());
+  }
 }
 
 /**
- * Get parent domain for current object
  *
- * @param key
  */
-export function GetDomain(key: Function | object): DomainLike | undefined {
-  return Domains.v1.get(key);
+export function RememberDomain(key: object | Function, domain: DomainLike): void {
+  Domains.v1.set(key, domain);
 }
 
 /**
@@ -42,6 +43,9 @@ export function IsDomain(target: object): target is DomainLike {
   return target && Domains.v1.get(target) === target;
 }
 
-export function RememberDomain(key: object | Function, domain: DomainLike): void {
-  Domains.v1.set(key, domain);
+/**
+ * Get parent domain for current object
+ */
+export function GetDomain(key: Function | object): DomainLike | undefined {
+  return Domains.v1.get(key);
 }

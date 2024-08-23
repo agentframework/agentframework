@@ -19,7 +19,7 @@ import { DomainLike } from '../DomainLike';
  * In Memory is going to remove, in order to make full tree shakeable library
  */
 export class InMemory {
-  // private readonly identifiers = new Map<AgentReference, any>(); // type-instance mapping
+  private readonly identifiers = new Map<AgentReference, any>(); // type-instance mapping
   private readonly futures = new Map<AgentReference, Promise<any>>(); // type-instance mapping (Promise)
 
   private static readonly domains = new WeakMap<object, InMemory>();
@@ -34,9 +34,9 @@ export class InMemory {
   }
 
   // type-instance mapping
-  // static agents(domain: DomainLike): Map<AgentReference, any> {
-  //   return this.domain(domain).identifiers;
-  // }
+  static agents(domain: DomainLike): Map<AgentReference, any> {
+    return this.domain(domain).identifiers;
+  }
 
   // type-promise<instance> mapping
   static incomingAgents(domain: DomainLike): Map<AgentReference, Promise<any>> {

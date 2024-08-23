@@ -53,9 +53,9 @@ export { agent } from './Domain/Decorators/agent';
  *   Unstable API
  *************************************/
 export { Disposable } from './Domain/Helpers/Disposable';
-export { GetDomain } from './Domain/Knowledges/Domains/Domains';
 export { IsDomain } from './Domain/Knowledges/Domains/Domains';
-export { GetGlobalDomain } from './Domain/GetGlobalDomain';
+export { GetDomain } from './Domain/Knowledges/Domains/Domains';
+export { GetGlobalDomain } from './Domain/Knowledges/Domains/GetGlobalDomain';
 
 /*************************************
  *   END DOMAIN

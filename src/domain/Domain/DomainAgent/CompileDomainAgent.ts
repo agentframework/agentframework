@@ -14,8 +14,8 @@ limitations under the License. */
 
 import { DomainAgentAttribute } from './DomainAgentAttribute';
 import { TypeAttribute, AgentFrameworkError, CreateAgent } from '../../../dependencies/agent';
-import { GetDomain } from '../Knowledges/Domains/Domains';
 import { DomainLike } from '../DomainLike';
+import { GetDomain } from '../Knowledges/Domains/Domains';
 
 export function CompileDomainAgent<T extends Function>(
   domain: DomainLike,

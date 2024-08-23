@@ -26,7 +26,6 @@ import { GetDomainDomainAgentType } from './Knowledges/DomainDomainAgentTypes/Ge
 import { ForgetDomainType } from './Knowledges/DomainTypes/ForgetDomainType';
 import { GetDomainAgentType } from './Knowledges/DomainDomainAgentTypes/GetDomainAgentType';
 import { CompileDomainAgent } from './DomainAgent/CompileDomainAgent';
-import { RememberDomain } from './Knowledges/Domains/Domains';
 import {
   DisposeDomainAgents,
   ForgetDomainAgent,
@@ -39,14 +38,6 @@ import {
  * In memory domain
  */
 export class InMemoryDomain extends Domain implements Disposable {
-  /**
-   * default constructor
-   */
-  constructor() {
-    super();
-    RememberDomain(this, this);
-  }
-
   /**
    * Return true if this domain disposed
    */

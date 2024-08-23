@@ -15,6 +15,7 @@ limitations under the License. */
 import { Class } from '../../dependencies/agent';
 import { DomainLike } from './DomainLike';
 import { Agent, AgentReference, Params } from './Agent';
+import { RememberDomain } from './Knowledges/Domains/Domains';
 
 /**
  * Domain is a container of types and agents
@@ -24,6 +25,17 @@ import { Agent, AgentReference, Params } from './Agent';
  * 3. use to inject
  */
 export abstract class Domain implements DomainLike {
+  /**
+   *
+   */
+  static construct<T extends Function>(target: T, params: Params<T>): Agent<T> {
+    return Reflect.construct(target, params);
+  }
+
+  constructor() {
+    RememberDomain(this, this);
+  }
+
   /**
    * Get domain name
    */
