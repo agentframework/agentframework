@@ -13,7 +13,6 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Agent, AgentReference, Params } from './Agent';
-import { Class } from '../../dependencies/agent';
 
 /**
  * A remote domain reference
@@ -57,17 +56,17 @@ export interface DomainLike {
   /**
    * Register a new type, without rewrite any existing types
    */
-  addType<T extends object>(type: Class<T>): void;
+  addType(type: Function): void;
 
   /**
    * Replace type
    */
-  setType<T extends object>(type: Class<T>, replacement: Class<T>): void;
+  setType(type: Function, replacement: Function): void;
 
   /**
    * Delete type mapping for giving type
    */
-  removeType<T extends object>(type: Class<T>): void;
+  removeType(type: Function): void;
 
   /**
    * Add an agent

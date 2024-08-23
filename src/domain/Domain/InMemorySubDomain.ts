@@ -18,7 +18,7 @@ import { Agent, AgentReference } from './Agent';
 import { SubDomainLike } from './SubDomainLike';
 import { DomainLike } from './DomainLike';
 import { GetDomain } from './Knowledges/Domains/Domains';
-import { GetGlobalDomain } from './Knowledges/Domains/GetGlobalDomain';
+import { GetGlobalDomain } from './Knowledges/GetGlobalDomain';
 
 export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
   get domain(): DomainLike {

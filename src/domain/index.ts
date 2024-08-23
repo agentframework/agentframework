@@ -55,7 +55,7 @@ export { agent } from './Domain/Decorators/agent';
 export { Disposable } from './Domain/Helpers/Disposable';
 export { IsDomain } from './Domain/Knowledges/Domains/Domains';
 export { GetDomain } from './Domain/Knowledges/Domains/Domains';
-export { GetGlobalDomain } from './Domain/Knowledges/Domains/GetGlobalDomain';
+export { GetGlobalDomain } from './Domain/Knowledges/GetGlobalDomain';
 
 /*************************************
  *   END DOMAIN

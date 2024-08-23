@@ -25,7 +25,7 @@ limitations under the License. */
 import { CreateDomainAgent } from '../DomainAgent/CreateDomainAgent';
 import { RegisterDomainAgentAttribute } from '../DomainAgent/RegisterDomainAgentAttribute';
 import { GetDomainDomainAgentType } from '../Knowledges/DomainDomainAgentTypes/GetDomainDomainAgentType';
-import { GetGlobalDomain } from '../Knowledges/Domains/GetGlobalDomain';
+import { GetGlobalDomain } from '../Knowledges/GetGlobalDomain';
 
 /**
  * Define an agent

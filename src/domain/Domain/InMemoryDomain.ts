@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AgentFrameworkError, Class } from '../../dependencies/agent';
+import { AgentFrameworkError } from '../../dependencies/agent';
 import { Disposable } from './Helpers/Disposable';
 import { Agent, AgentReference, Params } from './Agent';
 import { Domain } from './Domain';
@@ -24,7 +24,7 @@ import { RememberDomainType } from './Knowledges/DomainTypes/RememberDomainType'
 import { GetDomainType } from './Knowledges/DomainTypes/GetDomainType';
 import { GetDomainDomainAgentType } from './Knowledges/DomainDomainAgentTypes/GetDomainDomainAgentType';
 import { ForgetDomainType } from './Knowledges/DomainTypes/ForgetDomainType';
-import { GetDomainAgentType } from './Knowledges/DomainDomainAgentTypes/GetDomainAgentType';
+import { GetDomainAgentType } from './Knowledges/DomainAgentTypes/GetDomainAgentType';
 import { CompileDomainAgent } from './DomainAgent/CompileDomainAgent';
 import {
   DisposeDomainAgents,
@@ -93,7 +93,7 @@ export class InMemoryDomain extends Domain implements Disposable {
 
     // console.log('construct', target.name, 'from', type.name);
     // initialize agent class
-    const agent = Reflect.construct(agentType, params || []);
+    const agent = Reflect.construct(agentType, params || []) as Agent<T>;
 
     // console.log('AGENT ====>', agent.constructor.name);
 
@@ -146,7 +146,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     const domainAgent = GetDomainDomainAgentType(this, type) || CreateDomainAgent(this, type);
 
     // initialize agent class
-    const newCreated = Reflect.construct(domainAgent, params || []);
+    const newCreated = Reflect.construct(domainAgent, params || []) as Promise<Agent<T>>;
 
     if (IsPromise<Agent<T>>(newCreated)) {
       if (register) {
@@ -191,7 +191,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Register type
    */
-  addType<T extends object>(type: Class<T>): void {
+  addType(type: Function): void {
     let ctor: Function | null | undefined = type;
     while (ctor && Function.prototype !== ctor) {
       RememberDomainType(this, ctor, type);
@@ -202,7 +202,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Add an agent
    */
-  addAgent<T extends AgentReference>(agent: Agent<T>): void {
+  addAgent<T extends Function>(agent: Agent<T>): void {
     RememberDomainAgent(this, agent);
   }
 
@@ -216,7 +216,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Replace type
    */
-  setType<T extends object>(type: Class<T>, replacement: Class<T>): void {
+  setType(type: Function, replacement: Function): void {
     // this._types.add(replacement);
     RememberDomainType(this, type, replacement, true);
   }
@@ -252,7 +252,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Delete type mapping for giving type
    */
-  removeType<T extends object>(type: Class<T>): void {
+  removeType(type: Function): void {
     ForgetDomainType(this, type);
   }
 

@@ -12,7 +12,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Class } from '../../dependencies/agent';
 import { DomainLike } from './DomainLike';
 import { Agent, AgentReference, Params } from './Agent';
 import { RememberDomain } from './Knowledges/Domains/Domains';
@@ -74,17 +73,17 @@ export abstract class Domain implements DomainLike {
   /**
    * Register a new type, without rewrite any existing types
    */
-  abstract addType<T extends object>(type: Class<T>): void;
+  abstract addType(type: Function): void;
 
   /**
    * Replace type
    */
-  abstract setType<T extends object>(type: Class<T>, replacement: Class<T>): void;
+  abstract setType(type: Function, replacement: Function): void;
 
   /**
    * Delete type mapping for giving type
    */
-  abstract removeType<T extends object>(type: Class<T>): void;
+  abstract removeType(type: Function): void;
 
   /**
    * Add an agent
