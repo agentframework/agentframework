@@ -25,10 +25,12 @@ describe('5.5. Domain resolve', () => {
     }
   }
 
+  let n = Date.now();
+
   class P {
     constructor() {
       return <any>new Promise((resolve, reject) => {
-        resolve({});
+        resolve({ _timestamp: n++ });
       });
     }
   }
@@ -113,7 +115,7 @@ describe('5.5. Domain resolve', () => {
             return <any>new Promise((resolve, reject) => {
               setTimeout(() => {
                 resolve({});
-              }, 0);
+              }, 100);
             });
           }
         }
@@ -127,10 +129,11 @@ describe('5.5. Domain resolve', () => {
                     done();
                   },
                 });
-              }, 0);
+              }, 100);
             });
           }
         }
+
         const domain = new InMemoryDomain();
         await expectAsync(domain.resolve(Async)).toBeResolved();
         await expectAsync(domain.resolve(Pending)).toBeResolved();

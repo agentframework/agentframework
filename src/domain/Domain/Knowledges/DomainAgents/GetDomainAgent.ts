@@ -65,7 +65,7 @@ export function SetDomainAgent<T extends AgentReference>(domain: DomainLike, ide
 export function RememberDomainAgent<T extends AgentReference>(domain: DomainLike, identifier: T, agent: Agent<T>): void {
   const _agents = GetOrCreateDomainAgents(domain);
   if (typeof identifier === 'function') {
-    let ctor: Function | null | undefined = agent.constructor;
+    let ctor: Function | null | undefined = identifier;
     while (ctor && !_agents.has(ctor) && Function.prototype !== ctor) {
       _agents.set(ctor, agent);
       ctor = Reflect.getPrototypeOf(ctor) as Function;

@@ -46,6 +46,11 @@ describe('5.10. @transit decorator', () => {
       expect(app.service2).not.toBe(app.service);
     });
 
+
+  });
+
+  describe('# should not able to', () => {
+
     it('create agent without Domain', () => {
       class Service5103 {}
 
@@ -60,13 +65,14 @@ describe('5.10. @transit decorator', () => {
 
       const app626 = new Agent626();
 
-      expect(app626.service).toBeInstanceOf(Service5103);
-      expect(app626.service2).toBeInstanceOf(Service5103);
-      expect(app626.service2).not.toBe(app626.service);
-    });
-  });
+      expect(()=> {
+        expect(app626.service).toBeInstanceOf(Service5103);
+        expect(app626.service2).toBeInstanceOf(Service5103);
+        expect(app626.service2).not.toBe(app626.service);
+      }).toThrowError('NoDomainFoundForTransitInjection');
 
-  describe('# should not able to', () => {
+    });
+
     it('create transit agent with unknown type', () => {
       @agent()
       class App5104 {
