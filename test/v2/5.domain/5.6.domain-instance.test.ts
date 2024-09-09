@@ -5,7 +5,7 @@ describe('5.6. Domain instance', () => {
 
   describe('# should able to', () => {
     it('add instance', () => {
-      domain.setAgent('VERSION', 1);
+      domain.addAgent('VERSION', 1);
     });
 
     it('get instance', () => {

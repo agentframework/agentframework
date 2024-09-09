@@ -27,7 +27,7 @@ import { VariableDecorator } from '../Decorators/VariableDecorator';
 export function decorateVariable<T extends Attribute>(attribute: T): VariableDecorator {
   return (
     target: Object,
-    targetKey: string | symbol | undefined,
+    targetKey?: string | symbol | undefined,
     parameterIndex?: PropertyDescriptor | number
   ): void => {
     if (CanDecorate(attribute, target, targetKey, parameterIndex)) {

@@ -7,7 +7,7 @@ import {
   SingletonAttribute,
   InjectAttribute,
   CreateDomainAgent,
-  GetGlobalDomain,
+  GetSystemDomain
 } from '../../../src/dependencies/domain';
 
 describe('5.16. Domain create agent', () => {
@@ -24,7 +24,7 @@ describe('5.16. Domain create agent', () => {
         readonly t3?: Service5161;
       }
 
-      const domain = GetGlobalDomain();
+      const domain = GetSystemDomain();
       expect(domain).toBeTruthy();
 
       const DomainAgentType5161 = CreateDomainAgent(domain, DomainAgent5161);

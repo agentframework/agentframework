@@ -22,7 +22,11 @@ import {
 import { GetDomainFromInvocation } from '../../Helpers/GetDomainFromInvocation';
 
 export class TransitAttribute implements PropertyAttribute, PropertyInterceptor {
-  constructor(readonly type?: Function) {}
+  private readonly type?: Function;
+
+  constructor(type?: Function) {
+    this.type = type;
+  }
 
   get interceptor() {
     return this;

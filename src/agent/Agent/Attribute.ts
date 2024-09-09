@@ -30,7 +30,7 @@ export interface Attribute extends Object {
    */
   beforeDecorate?(
     target: object | Function,
-    key: string | symbol | undefined,
+    key?: string | symbol | undefined,
     descriptor?: PropertyDescriptor | number
   ): boolean;
 

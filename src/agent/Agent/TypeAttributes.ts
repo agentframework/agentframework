@@ -35,7 +35,7 @@ export interface PropertyAttribute extends Attribute {
  * Attribute applies to class parameter
  */
 export interface ParameterAttribute extends Attribute {
-  beforeDecorate?(target: Function, key?: undefined, index?: number): boolean;
+  beforeDecorate?(target: Function, key: undefined, index: number): boolean;
   readonly interceptor?: ParameterInterceptor;
 }
 

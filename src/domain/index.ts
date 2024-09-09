@@ -21,6 +21,7 @@ limitations under the License. */
 /*************************************
  *   Class
  *************************************/
+
 export { AgentReference, Params, Agent } from './Domain/Agent';
 
 /*************************************
@@ -55,7 +56,7 @@ export { agent } from './Domain/Decorators/agent';
 export { Disposable } from './Domain/Helpers/Disposable';
 export { IsDomain } from './Domain/Knowledges/Domains/Domains';
 export { GetDomain } from './Domain/Knowledges/Domains/Domains';
-export { GetGlobalDomain } from './Domain/Knowledges/GetGlobalDomain';
+export { GetSystemDomain } from './Domain/Helpers/GetSystemDomain';
 
 /*************************************
  *   END DOMAIN

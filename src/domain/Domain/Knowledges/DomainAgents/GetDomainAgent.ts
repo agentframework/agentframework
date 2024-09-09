@@ -34,11 +34,7 @@ export function GetDomainAgent<T extends AgentReference>(domain: DomainLike, ide
   return undefined;
 }
 
-export function ForgetDomainAgent<T extends Function>(
-  domain: DomainLike,
-  identifier: AgentReference,
-  agent: Agent<T>
-): boolean {
+export function ForgetDomainAgent<T extends AgentReference>(domain: DomainLike, identifier: T, agent: Agent<T>): boolean {
   const _agents = DomainAgents.v1.get(domain);
   if (_agents && _agents.has(identifier) && _agents.get(identifier) === agent) {
     _agents.delete(identifier);
@@ -61,16 +57,20 @@ export function DisposeDomainAgents(domain: DomainLike): void {
   }
 }
 
-export function SetDomainAgent<T extends Function>(domain: DomainLike, identifier: AgentReference, agent: Agent<T>): void {
+export function SetDomainAgent<T extends AgentReference>(domain: DomainLike, identifier: T, agent: Agent<T>): void {
   const _agents = GetOrCreateDomainAgents(domain);
   _agents.set(identifier, agent);
 }
 
-export function RememberDomainAgent<T extends Function>(domain: DomainLike, agent: Agent<T>): void {
+export function RememberDomainAgent<T extends AgentReference>(domain: DomainLike, identifier: T, agent: Agent<T>): void {
   const _agents = GetOrCreateDomainAgents(domain);
-  let ctor: Function | null | undefined = agent.constructor;
-  while (ctor && !_agents.has(ctor) && Function.prototype !== ctor) {
-    _agents.set(ctor, agent);
-    ctor = Reflect.getPrototypeOf(ctor) as Function;
+  if (typeof identifier === 'function') {
+    let ctor: Function | null | undefined = agent.constructor;
+    while (ctor && !_agents.has(ctor) && Function.prototype !== ctor) {
+      _agents.set(ctor, agent);
+      ctor = Reflect.getPrototypeOf(ctor) as Function;
+    }
+  } else {
+    _agents.set(identifier, agent);
   }
 }

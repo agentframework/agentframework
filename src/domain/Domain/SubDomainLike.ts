@@ -17,9 +17,14 @@ import { Agent, AgentReference } from './Agent';
 
 export interface SubDomainLike extends DomainLike {
   /**
-   * the parent domain of current domain
+   * the parent domain
    */
-  readonly domain: DomainLike;
+  readonly parent: DomainLike;
+
+  /**
+   * get own type
+   */
+  getOwnType<T extends Function>(type: T): T | undefined;
 
   /**
    * get own agent

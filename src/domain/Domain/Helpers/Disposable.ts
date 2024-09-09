@@ -14,6 +14,11 @@ limitations under the License. */
 
 export interface Disposable {
   /**
+   * Return true if this domain been disposing
+   */
+  readonly disposing?: boolean;
+
+  /**
    * Return true if this domain been disposed
    */
   readonly disposed?: boolean;

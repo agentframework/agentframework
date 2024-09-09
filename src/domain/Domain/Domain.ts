@@ -24,13 +24,17 @@ import { RememberDomain } from './Knowledges/Domains/Domains';
  * 3. use to inject
  */
 export abstract class Domain implements DomainLike {
+
   /**
-   *
+   * Construct a new instance
    */
   static construct<T extends Function>(target: T, params: Params<T>): Agent<T> {
     return Reflect.construct(target, params);
   }
 
+  /**
+   * default constructor
+   */
   constructor() {
     RememberDomain(this, this);
   }
@@ -41,17 +45,17 @@ export abstract class Domain implements DomainLike {
   abstract readonly name: string;
 
   /**
-   * Get instance of the specified type, return undefined if not exists
+   * Get agent of giving type, return undefined if don't have
    */
   abstract getAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined;
 
   /**
-   * Get agent constructor for the specified type, return undefined if not exists
+   * Get constructor for current type, return undefined if don't have
    */
   abstract getAgentType<T extends Function>(type: T): T | undefined;
 
   /**
-   * Get constructor for the specified type, return undefined if not exists
+   * Get constructor for current type, return undefined if don't have
    */
   abstract getType<T extends Function>(type: T): T | undefined;
 
@@ -85,10 +89,15 @@ export abstract class Domain implements DomainLike {
    */
   abstract removeType(type: Function): void;
 
+  ///**
+  // * Set agent type
+  // */
+  //abstract setAgentType(type: Function, replacement: Function): void;
+
   /**
    * Add an agent
    */
-  abstract addAgent<T extends AgentReference>(agent: Agent<T>): void;
+  abstract addAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void;
 
   /**
    * Set agent instance
@@ -96,7 +105,7 @@ export abstract class Domain implements DomainLike {
   abstract setAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void;
 
   /**
-   * Delete agent. do nothing if identifier not exits
+   * Delete agent. do nothing if agent not match
    */
   abstract removeAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): boolean;
 }

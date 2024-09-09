@@ -91,9 +91,9 @@ export { transit } from '../src/domain';
  *********************************************************************/
 export { IsAgent } from '../src/agent';
 export { GetAgentType } from '../src/agent';
-import { CreateDomainAgent, GetGlobalDomain } from '../src/domain';
+import { CreateDomainAgent, GetSystemDomain } from '../src/domain';
 export function CreateAgent<T extends Function>(type: T): T {
-  return CreateDomainAgent(GetGlobalDomain(), type);
+  return CreateDomainAgent(GetSystemDomain(), type);
 }
 
 /*********************************************************************
@@ -107,7 +107,7 @@ export { Agent } from '../src/domain';
  *    (Stability: 2 - Stable) Domain Helper API
  *********************************************************************/
 export { GetDomain } from '../src/domain';
-export { GetGlobalDomain } from '../src/domain';
+export { GetSystemDomain } from '../src/domain';
 export { IsDomain } from '../src/domain';
 
 /*********************************************************************

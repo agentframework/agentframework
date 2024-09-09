@@ -25,14 +25,14 @@ limitations under the License. */
 import { CreateDomainAgent } from '../DomainAgent/CreateDomainAgent';
 import { RegisterDomainAgentAttribute } from '../DomainAgent/RegisterDomainAgentAttribute';
 import { GetDomainDomainAgentType } from '../Knowledges/DomainDomainAgentTypes/GetDomainDomainAgentType';
-import { GetGlobalDomain } from '../Knowledges/GetGlobalDomain';
+import { GetSystemDomain } from '../Helpers/GetSystemDomain';
 
 /**
  * Define an agent
  */
 export function agent(): ClassDecorator {
   return <F extends Function>(target: F): F => {
-    const domain = GetGlobalDomain();
+    const domain = GetSystemDomain();
     // TODO: should we call getType here?
     // why do? so domain can overwrite the type
     // why do not? so more slow

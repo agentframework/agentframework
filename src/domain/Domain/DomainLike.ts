@@ -19,9 +19,14 @@ import { Agent, AgentReference, Params } from './Agent';
  */
 export interface DomainLike {
   /**
-   * Get domain name
+   * Name of the domain
    */
   readonly name: string;
+
+  /**
+   * Compile domain agent
+   */
+  compile<T extends Function>(target: T): void;
 
   /**
    * Get instance of the specified type, return undefined if not exists
@@ -29,19 +34,15 @@ export interface DomainLike {
   getAgent<T extends AgentReference>(type: T): Agent<T> | undefined;
 
   /**
-   * Get agent constructor for the specified type, return undefined if not exists
+   * Get constructor for current type, return undefined if don't have
    */
   getAgentType<T extends Function>(type: T): T | undefined;
 
   /**
-   * Get constructor for the specified type, return undefined if not exists
+   * Get constructor for current type, return undefined if don't have
    */
   getType<T extends Function>(type: T): T | undefined;
 
-  /**
-   * Compile domain agent
-   */
-  compile<T extends Function>(target: T): void;
 
   /**
    * Inject an agent
@@ -71,7 +72,7 @@ export interface DomainLike {
   /**
    * Add an agent
    */
-  addAgent<T extends AgentReference>(agent: Agent<T>): void;
+  addAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void;
 
   /**
    * Set agent instance
@@ -79,7 +80,7 @@ export interface DomainLike {
   setAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void;
 
   /**
-   * Delete agent. do nothing if identifier not exits
+   * Delete agent. do nothing if agent not match
    */
   removeAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): boolean;
 }

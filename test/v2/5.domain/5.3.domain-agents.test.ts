@@ -47,12 +47,12 @@ describe('5.3. Domain agent', () => {
 
     it('add agent', () => {
       const domain = new InMemoryDomain();
-      domain.setAgent(A, new A());
-      domain.setAgent(C, new B());
-      domain.setAgent(C, new C());
-      domain.setAgent(D, new D());
+      domain.addAgent(A, new A());
+      domain.addAgent(C, new B());
+      domain.addAgent(C, new C());
+      domain.addAgent(D, new D());
       expect(domain.getAgent(A)).toBeInstanceOf(A);
-      expect(domain.getAgent(B)).toBeUndefined();
+      expect(domain.getAgent(B)).toBeInstanceOf(B);
       expect(domain.getAgent(C)).toBeInstanceOf(B);
       expect(domain.getAgent(D)).toBeInstanceOf(C);
       domain.dispose();
@@ -76,7 +76,7 @@ describe('5.3. Domain agent', () => {
     it('remove agent', () => {
       const domain = new InMemoryDomain();
       const agent = new B();
-      domain.addAgent(agent);
+      domain.addAgent(B, agent);
       domain.removeAgent(A, agent);
       expect(domain.getAgent(A)).toBeUndefined();
       expect(domain.getAgent(B)).toBeInstanceOf(B);
@@ -87,7 +87,7 @@ describe('5.3. Domain agent', () => {
     it('remove non-existing agent', () => {
       const domain = new InMemoryDomain();
       const agent = new B();
-      domain.addAgent(agent);
+      domain.addAgent(B, agent);
       domain.removeAgent(A, new A());
       expect(domain.getAgent(A)).toBeInstanceOf(B);
       expect(domain.getAgent(B)).toBeInstanceOf(B);
@@ -97,7 +97,7 @@ describe('5.3. Domain agent', () => {
     it('has agent', () => {
       const domain = new InMemoryDomain();
       const agent = new B();
-      domain.addAgent(agent);
+      domain.addAgent(B, agent);
       expect(domain.getAgent(A)).toBe(agent);
       expect(domain.getAgent(B)).toBe(agent);
       expect(domain.getAgent(C)).toBeUndefined();
@@ -107,7 +107,7 @@ describe('5.3. Domain agent', () => {
     it('get agent', () => {
       const domain = new InMemoryDomain();
       const agent = new B();
-      domain.addAgent(agent);
+      domain.addAgent(B, agent);
       expect(domain.getAgent(A)).toBeInstanceOf(B);
       expect(domain.getAgent(B)).toBeInstanceOf(B);
       expect(domain.getAgent(C)).toBeUndefined();
@@ -118,7 +118,7 @@ describe('5.3. Domain agent', () => {
       const domain = new InMemoryDomain();
       const sd = domain.construct(InMemorySubDomain);
       const agent = new B();
-      domain.addAgent(agent);
+      domain.addAgent(B, agent);
       expect(sd.getOwnAgent(B)).toBeUndefined();
       expect(domain.getAgent(A)).toBeInstanceOf(B);
       expect(domain.getAgent(B)).toBeInstanceOf(B);

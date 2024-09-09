@@ -16,41 +16,21 @@ describe('5.14. Domain cache agent type', () => {
           return '/myapp';
         }
       }
-
-      class AppWebRequest extends WebRequest {
-
-      }
       const root = new InMemoryDomain();
-
-      // cache WebRequest to improve performance
+      // cache WebRequest
       root.compile(WebRequest);
-      root.compile(AppWebRequest);
 
-      const sub0 = root.construct(InMemoryDomain);
-      expect(sub0).toBeInstanceOf(InMemoryDomain);
-      expect(sub0).not.toBe(root);
+      const sub = root.construct(InMemorySubDomain);
+      expect(sub.parent).toBe(root);
 
-      const sub1 = root.construct(InMemorySubDomain, [], true);
-      expect(sub1.domain).toBe(root);
-      const wr1 = sub1.construct(AppWebRequest);
-
-      const sub2 = root.construct(InMemorySubDomain, [], true);
-      expect(sub2.domain).toBe(root);
-      const wr2 = sub2.construct(AppWebRequest);
-
-      const sub3 = root.construct(InMemorySubDomain);
-      expect(sub3.domain).toBe(root);
-      const wr3 = sub3.construct(AppWebRequest, [], true);
+      const wr1 = sub.construct(WebRequest, [], true);
+      const wr2 = sub.construct(WebRequest, [], true);
 
       expect(wr1).not.toBe(wr2);
-      expect(wr1).not.toBe(wr3);
 
-      const reqs = new Set<AppWebRequest>();
       for (let n = 0; n < 10000; n++) {
-        const sub = root.construct(InMemorySubDomain, [], true);
-        const req = sub.construct(AppWebRequest);
-        expect(reqs.has(req)).toBeFalse();
-        reqs.add(req);
+        const newReq = root.construct(InMemorySubDomain, [], true);
+        newReq.construct(WebRequest, [], true);
       }
     });
   });

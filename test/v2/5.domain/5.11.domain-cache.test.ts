@@ -23,10 +23,7 @@ describe('5.11. Domain agent cache', () => {
       expect(seq).toEqual([]);
 
       expect(seq).toEqual([]);
-
-
       const r1 = domain.construct(WebRequest511);
-
       expect(r1).toBeInstanceOf(WebRequest511);
       const r1_seq = ['beforeWebRequest1', 'afterWebRequest1'];
       expect(seq).toEqual(r1_seq);
@@ -42,18 +39,21 @@ describe('5.11. Domain agent cache', () => {
         },
       });
 
-      const r1_seq_updated = ['beforeWebRequest2', 'beforeWebRequest1', 'afterWebRequest1', 'afterWebRequest2'];
+      const r1_seq_updated = [
+        'beforeWebRequest2',
+        'beforeWebRequest1',
+        'afterWebRequest1',
+        'afterWebRequest2'
+      ];
 
       // make some changes to the interceptor
       seq = [];
-
       const r1_ref = domain.construct(WebRequest511); // cached, not call interceptor
       expect(seq).toEqual([]);
       expect(r1_ref).toBe(r1);
 
       // make some changes to the interceptor
       const r1_new = domain.construct(WebRequest511, [], true); // cached, not call interceptor
-
       expect(seq).toEqual(r1_seq_updated);
       expect(r1_new).not.toBe(r1);
 

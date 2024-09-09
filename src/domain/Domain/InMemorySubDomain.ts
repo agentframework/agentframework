@@ -18,27 +18,33 @@ import { Agent, AgentReference } from './Agent';
 import { SubDomainLike } from './SubDomainLike';
 import { DomainLike } from './DomainLike';
 import { GetDomain } from './Knowledges/Domains/Domains';
-import { GetGlobalDomain } from './Knowledges/GetGlobalDomain';
+import { GetSystemDomain } from '../../../../framework/src/domain';
 
 export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
-  get domain(): DomainLike {
+
+  get parent(): DomainLike {
     // GetDomain(this) will return this. So must use GetDomain(this.constructor)
-    return Once(this, 'domain', GetDomain(this.constructor) || GetGlobalDomain());
+    return Once(this, 'parent', GetDomain(this.constructor) || GetSystemDomain());
   }
 
-  getType<T extends Function>(type: T): T | undefined {
-    return super.getType<T>(type) || this.domain.getType<T>(type);
-  }
-
-  getAgentType<T extends Function>(type: T): T | undefined {
-    return super.getAgentType<T>(type) || this.domain.getAgentType<T>(type);
+  getOwnType<T extends Function>(type: T): T | undefined {
+    return super.getType<T>(type);
   }
 
   getOwnAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined {
     return super.getAgent<T>(identifier);
   }
 
-  getAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined {
-    return super.getAgent<T>(identifier) || this.domain.getAgent<T>(identifier);
+  getType<T extends Function>(type: T): T | undefined {
+    return super.getType<T>(type) || this.parent.getType<T>(type);
   }
+
+  getAgentType<T extends Function>(type: T): T | undefined {
+    return super.getAgentType<T>(type) || this.parent.getAgentType<T>(type);
+  }
+
+  getAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined {
+    return super.getAgent<T>(identifier) || this.parent.getAgent<T>(identifier);
+  }
+
 }

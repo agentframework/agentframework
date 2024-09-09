@@ -52,15 +52,17 @@ describe('5.10. @transit decorator', () => {
       class App5103 {
         @transit()
         readonly service!: Service5103;
+        @transit()
+        readonly service2!: Service5103;
       }
 
       const Agent626 = CreateAgent(App5103);
 
       const app626 = new Agent626();
 
-      expect(() => {
-        expect(app626.service).toBeUndefined();
-      }).toThrowError('NoDomainFoundForTransitInjection');
+      expect(app626.service).toBeInstanceOf(Service5103);
+      expect(app626.service2).toBeInstanceOf(Service5103);
+      expect(app626.service2).not.toBe(app626.service);
     });
   });
 

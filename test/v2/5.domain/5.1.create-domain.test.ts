@@ -1,4 +1,5 @@
-import { InMemoryDomain, Domain, IsDomain, InMemorySubDomain, GetGlobalDomain } from '../../../src/dependencies/domain';
+import { InMemoryDomain, Domain, IsDomain, InMemorySubDomain } from '../../../src/dependencies/domain';
+import {GetSystemDomain} from "../../../../framework/src/domain";
 
 describe('5.1. Create domain', () => {
   describe('# should able to', () => {
@@ -32,12 +33,12 @@ describe('5.1. Create domain', () => {
     it('create sub domain', () => {
       const domain1 = new InMemorySubDomain();
       const domain2 = new InMemorySubDomain();
-      expect(domain1.domain).toBe(domain2.domain);
+      expect(domain1.parent).toBe(domain2.parent);
     });
 
     it('create sub domain', () => {
       const domain1 = new InMemorySubDomain();
-      expect(domain1.domain).toBe(GetGlobalDomain());
+      expect(domain1.parent).toBe(GetSystemDomain());
     });
   });
 });

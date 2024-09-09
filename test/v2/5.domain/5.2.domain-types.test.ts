@@ -84,6 +84,7 @@ describe('5.2. Domain type', () => {
       sd.addType(C);
       domain.addType(D);
       expect(domain.getType(A)).toBe(A);
+      expect(sd.getOwnType(B)).toBe(C);
       expect(domain.getType(B)).toBe(B);
       expect(domain.getType(C)).toBeUndefined();
       expect(sd.getType(A)).toBe(C);

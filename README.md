@@ -9,7 +9,6 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 </p>
 
 <p align="center">
-  <a href="https://travis-ci.org/agentframework/agentframework"><img src="https://travis-ci.org/agentframework/agentframework.svg?branch=main"></a>
   <a href="https://coveralls.io/github/agentframework/agentframework?branch=main"><img src="https://coveralls.io/repos/github/agentframework/agentframework/badge.svg?branch=main"></a>
   <a href="https://www.codacy.com/app/agentframework/agentframework"><img src="https://api.codacy.com/project/badge/Grade/5101dc6abfd04608b7f61636245dab05?branch=main"></a>
   <a href="https://bundlephobia.com/result?p=agentframework"><img src="https://img.shields.io/bundlephobia/minzip/agentframework.svg"></a>
@@ -19,7 +18,7 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 ---
 
-:lollipop: **Modernize:** 100% for TypeScript. Side-effect free tree shaking compatible with [ES2015](https://unpkg.com/agentframework/).
+:lollipop: **Modernize:** 100% for TypeScript. Side-effect free tree shaking compatible since [ES2015](https://unpkg.com/agentframework/).
 
 :zap: **Fast:** Use CodeGen to minimize overheads. Faster than es6 Proxy.
 
@@ -42,8 +41,8 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 | Date       | Version                                                | Status      |
 | ---------- | ------------------------------------------------------ | ----------- |
-| 2022-07-20 | [2.1.0](doc/changelogs/CHANGELOG_2.1.x.md)             | Stable      |
-| 2024-08-08 | [2.0.3](doc/changelogs/CHANGELOG_2.0.x.md)             | Maintenance |
+| 2022-07-20 | [2.1.2](doc/changelogs/CHANGELOG_2.1.x.md)             | Stable      |
+| 2024-08-21 | [2.0.4](doc/changelogs/CHANGELOG_2.0.x.md)           | Maintenance |
 | 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)             | EOL         |
 | 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)            | EOL 		|
 | 2017-06-30 | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md)            | EOL         |

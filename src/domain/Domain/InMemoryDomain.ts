@@ -44,6 +44,11 @@ export class InMemoryDomain extends Domain implements Disposable {
   disposed?: boolean;
 
   /**
+   * Return true if this domain disposing
+   */
+  disposing?: boolean;
+
+  /**
    * Domain name
    */
   get name(): string {
@@ -89,17 +94,18 @@ export class InMemoryDomain extends Domain implements Disposable {
     }
 
     // find or create DomainAgent
-    const agentType = GetDomainDomainAgentType(this, type) || CreateDomainAgent(this, type);
+    const domainAgent = GetDomainDomainAgentType(this, type) || CreateDomainAgent(this, type);
 
     // console.log('construct', target.name, 'from', type.name);
     // initialize agent class
-    const agent = Reflect.construct(agentType, params || []) as Agent<T>;
+    const agent = Reflect.construct(domainAgent, params || []) as Agent<T>;
 
     // console.log('AGENT ====>', agent.constructor.name);
 
     // note: to prevent human mistake
     // do not allow construct promise or observable using constructor
     if (IsPromise(agent)) {
+      // drop agent
       throw new AgentFrameworkError('NotAllowConstructPromiseObject');
     }
 
@@ -114,8 +120,7 @@ export class InMemoryDomain extends Domain implements Disposable {
 
     if (register) {
       // register agent to domain only if not transit
-      this.addAgent(agent);
-      this.setAgent(type, agent);
+      this.addAgent(type, agent);
     }
 
     // InitializeDomainAgent(type, agent);
@@ -159,8 +164,7 @@ export class InMemoryDomain extends Domain implements Disposable {
           //   RememberDomain(instance, this);
           // }
           if (register) {
-            this.addAgent(agent);
-            this.setAgent(type, agent);
+            this.addAgent(type, agent);
             _incomingAgents.delete(type);
           }
           // InitializeDomainAgent(type, newCreatedAgent);
@@ -179,7 +183,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     } else {
       // no need register instance with domain
       // DomainCore.SetDomain(newCreated, this);
-      if (!transit) this.addAgent(newCreated);
+      if (!transit) this.addAgent(type, newCreated);
       // InitializeDomainAgent(type, newCreated);
       return Promise.resolve(newCreated);
     }
@@ -202,8 +206,8 @@ export class InMemoryDomain extends Domain implements Disposable {
   /**
    * Add an agent
    */
-  addAgent<T extends Function>(agent: Agent<T>): void {
-    RememberDomainAgent(this, agent);
+  addAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void {
+    RememberDomainAgent(this, identifier, agent);
   }
 
   /**
@@ -279,10 +283,10 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Dispose this domain and all created agents
    */
   dispose(): void {
-    if (this.disposed) {
+    if (this.disposing || this.disposed) {
       return;
     }
-    this.disposed = true;
+    this.disposing = true;
     const _incomingAgents = InMemory.incomingAgents(this);
     for (const promise of _incomingAgents.values()) {
       promise.then((agent) => {
@@ -294,5 +298,6 @@ export class InMemoryDomain extends Domain implements Disposable {
     }
 
     DisposeDomainAgents(this);
+    this.disposed = true;
   }
 }

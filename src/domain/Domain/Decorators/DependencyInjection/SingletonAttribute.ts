@@ -38,7 +38,10 @@ export class SingletonAttribute implements PropertyAttribute, PropertyIntercepto
       return value;
     }
 
-    const type = this.type || (target.design && target.design.type);
+    const customType = this.type;
+    const designType = target.design && target.design.type;
+    const type = customType || designType;
+
     if (!type) {
       throw new AgentFrameworkError('UnknownSingletonType');
     }
@@ -50,7 +53,11 @@ export class SingletonAttribute implements PropertyAttribute, PropertyIntercepto
       throw new AgentFrameworkError('NoDomainFoundForSingletonInjection');
     }
 
-    const newValue = domain.construct(type, params);
+    // try to look more agents
+    const newValue =
+      (customType && domain.getAgent(customType)) ||
+      (designType && domain.getAgent(designType)) ||
+      domain.construct(type, params);
 
     return target.invoke([newValue], receiver);
   }
