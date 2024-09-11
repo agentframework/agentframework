@@ -1,11 +1,11 @@
-import { InMemoryDomain, Domain, IsDomain, InMemorySubDomain } from '../../../src/dependencies/domain';
-import {GetSystemDomain} from "../../../../framework/src/domain";
+import { InMemoryDomain, IsDomain, InMemorySubDomain } from '../../../src/dependencies/domain';
+import { GetSystemDomain } from '../../../../framework/src/domain';
 
 describe('5.1. Create domain', () => {
   describe('# should able to', () => {
     it('create domain', () => {
       const domain = new InMemoryDomain();
-      expect(domain).toBeInstanceOf(Domain);
+      expect(IsDomain(domain)).toBeTruthy();
       expect(domain.constructor.name).toBe('InMemoryDomain');
       expect(domain.name).toBe('InMemoryDomain');
       expect(IsDomain(domain)).toBeTrue();
@@ -19,7 +19,7 @@ describe('5.1. Create domain', () => {
     it('create domain', () => {
       const domain = new InMemoryDomain();
       const subdomain = domain.construct(InMemorySubDomain);
-      expect(subdomain).toBeInstanceOf(Domain);
+      expect(IsDomain(subdomain)).toBeTrue();
       expect(subdomain.constructor.name).toBe('InMemorySubDomain$');
       expect(subdomain.name).toBe('InMemorySubDomain$');
       expect(IsDomain(subdomain)).toBeTrue();

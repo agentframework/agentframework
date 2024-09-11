@@ -13,10 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { InMemoryDomain } from '../InMemoryDomain';
-import { Domain } from '../Domain';
 import { Domains } from '../Knowledges/Domains/Domains';
+import { DomainLike } from '../DomainLike';
 
-export function GetSystemDomain(): Domain {
+export function GetSystemDomain(): DomainLike {
   const domains = Domains.v1;
   const existDomain = domains.get(domains);
   if (existDomain) {
