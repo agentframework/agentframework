@@ -36,15 +36,17 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // target is an agent already
   // set the target to origin type to recreate this
   // creates another proxy from this origin class
-  const attribute = Object.create(strategy || Reflect.construct(AgentAttribute, [type]));
-
-  if (!CanDecorate(attribute, type)) {
-    throw new AgentFrameworkError('NoCreateAgentPermission');
-  }
 
   // ALWAYS create agent from raw type
   // this will return the origin type
   const receiver = GetType(type) || type;
+
+  // create a cache layer for strategy
+  const attribute = strategy ? Object.create(strategy) : Reflect.construct(AgentAttribute, [type, receiver, version]);
+
+  if (!CanDecorate(attribute, type)) {
+    throw new AgentFrameworkError('NoCreateAgentPermission');
+  }
 
   // Collect information of this target
   const design = OnDemandTypeInfo.find(receiver);
@@ -60,8 +62,16 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   const chain = OnDemandInvocationFactory.createAgentInvocation(receiver, design, attribute);
 
   // create a new type from this invocation, initialize the agent using reflection info
+  const id = receiver.name;
+  if (!id) {
+    throw new AgentFrameworkError('InvalidType');
+  }
+
   /* eslint-disable-next-line prefer-rest-params */
-  const newReceiver = chain.invoke<T>([receiver.name, Proxy, attribute], receiver);
+  const newReceiver = chain.invoke<T>(
+    [[id, `class ${id}$ extends ${id}`], attribute, Proxy, Function],
+    receiver
+  );
 
   // register new agent map to old type
   // key: Agent proxy, value: origin type

@@ -40,19 +40,20 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
   /**
    * Create type hook (called after javascript loaded)
    */
-  intercept(target: TypeInvocation, params: Arguments, receiver: Function): Function {
-    const [, type, state]: any = params;
+  intercept(target: TypeInvocation, params: any, receiver: Function): Function {
+    const [id, state, type] = params;
     if (state.version) {
       // WARNING: assume other interceptor is return Function object
       const agent = (state.target = <Function>Reflect.construct(type, [receiver, state]));
       RememberType(agent, receiver);
+      id.push('native ');
       return (state.receiver = target.invoke<Function>(params, agent));
     }
     return (state.receiver = target.invoke<Function>(params, receiver));
   }
 
   /**
-   * Constructor hook (called when user construct the class)
+   * Constructor hook (called when user construct the class and got any interceptor)
    */
   construct<T extends Function>(this: any, target: T, params: Arguments, receiver: T): any {
     // GEN 1: this.design.type = origin type
