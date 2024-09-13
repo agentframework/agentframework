@@ -1,0 +1,11 @@
+{
+  "name": "benchmarks",
+  "private": true,
+  "scripts": {
+    "bench": "vitest bench",
+    "check-bundle-size": "vitest --update"
+  },
+  "dependencies": {
+    "vitest": "^2.0.5"
+  }
+}

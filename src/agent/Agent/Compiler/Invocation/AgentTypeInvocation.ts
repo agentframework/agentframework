@@ -36,10 +36,8 @@ export class AgentTypeInvocation implements TypeInvocation {
   // }
 
   invoke([[id, code, data], , , type]: any, receiver: Function): any {
-    //const code = `return class ${name}$ extends ${name}`;
-    //const agent = target.invoke<Function>([Function, name, code, 'agent code'], newTarget);
-    //return Reflect.construct(compiler, [name, code + ` { /* [${data}] */ }`])(receiver);
-    const agent = Reflect.construct(type, [id, `return ${code} { /*[${(data || '') + 'code'}]*/ }`]) as Function;
+    // TODO: cache the agent function
+    const agent = Reflect.construct(type, [id, `return ${code} {\n}`]) as Function;
     const newReceiver = Reflect.apply(agent, this, [receiver]) as Function;
     // console.log();
     // console.log('==>>>', newReceiver.toString(), newReceiver);

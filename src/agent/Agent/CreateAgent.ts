@@ -59,19 +59,20 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // create an invocation for agent type.
   // this chain used to generate agent of this target
   // empty agent
+  // TODO: cache the chain to improve performance
   const chain = OnDemandInvocationFactory.createAgentInvocation(receiver, design, attribute);
 
   // create a new type from this invocation, initialize the agent using reflection info
   const id = receiver.name;
+  console.log('ID:=>>>', id, receiver.toString());
+
+  // TODO: validate the id for the class
   if (!id) {
-    throw new AgentFrameworkError('InvalidType');
+    throw new AgentFrameworkError('InvalidTypeName');
   }
 
   /* eslint-disable-next-line prefer-rest-params */
-  const newReceiver = chain.invoke<T>(
-    [[id, `class ${id}$ extends ${id}`], attribute, Proxy, Function],
-    receiver
-  );
+  const newReceiver = chain.invoke<T>([[id, `class ${id}$ extends ${id}`], attribute, Proxy, Function], receiver);
 
   // register new agent map to old type
   // key: Agent proxy, value: origin type

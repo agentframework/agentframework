@@ -86,15 +86,13 @@ describe('Compiler', () => {
       expect(db).toBeInstanceOf(Redis$);
       expect(Redis$.prototype).toBeInstanceOf(Redis);
     });
-
-    it('new create agent without name', () => {
-      const RedisAgent = CreateAgent(NoNameRedis);
-      const redis$ = new RedisAgent();
-      expect(redis$).toBeInstanceOf(RedisAgent);
-      expect(redis$).toBeInstanceOf(NoNameRedis);
-      expect(RedisAgent.prototype).toBeInstanceOf(NoNameRedis);
-    });
   });
 
-  describe('# should no able to', () => {});
+  describe('# should no able to', () => {
+    it('new create agent without name', () => {
+      expect(() => {
+        CreateAgent(NoNameRedis);
+      }).toThrowError('InvalidTypeName');
+    });
+  });
 });
