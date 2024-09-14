@@ -33,7 +33,7 @@ export class SingletonAttribute implements PropertyAttribute, PropertyIntercepto
       throw new AgentFrameworkError('NotAllowModifySingletonVariable');
     }
 
-    let value: object | undefined = target.invoke(params, receiver);
+    const value: object | undefined = target.invoke(params, receiver);
     if (typeof value !== 'undefined') {
       return value;
     }
@@ -53,11 +53,12 @@ export class SingletonAttribute implements PropertyAttribute, PropertyIntercepto
       throw new AgentFrameworkError('NoDomainFoundForSingletonInjection');
     }
 
-    value =
+    // try to look more agents
+    const newValue =
       (customType && domain.getAgent(customType)) ||
       (designType && domain.getAgent(designType)) ||
       domain.construct(type, params);
 
-    return target.invoke([value], receiver);
+    return target.invoke([newValue], receiver);
   }
 }

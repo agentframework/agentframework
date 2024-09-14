@@ -1,5 +1,5 @@
 /* tslint:disable */
-import { decorateMember, agent, IsAgent, Interceptor, TypeInvocation, Arguments } from '../../dependencies/agent';
+import { decorateMember, agent, IsAgent, TypeInvocation, Arguments, TypeInterceptor } from '../../dependencies/agent';
 import { CreateAgent } from './CreateAgent';
 import { TransitAttribute } from './Decorators/DependencyInjection/TransitAttribute';
 
@@ -39,8 +39,8 @@ const NoNameRedis = (function () {
   return class {};
 })();
 
-class CustomAgentAttribute implements Interceptor {
-  get interceptor(): Interceptor {
+class CustomAgentAttribute implements TypeInterceptor {
+  get interceptor(): TypeInterceptor {
     return this;
   }
   intercept(target: TypeInvocation, parameters: Arguments, receiver: any): any {

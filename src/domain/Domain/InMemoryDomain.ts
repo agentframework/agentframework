@@ -115,17 +115,16 @@ export class InMemoryDomain extends Domain implements Disposable {
    * Create and initial an agent
    */
   construct<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Agent<T> {
+    // find the mapped type if exists
+    const type = this.getType<T>(target) || target;
     const register = !transit;
 
     if (register) {
-      const exists = this.getAgent(target);
+      const exists = this.getAgent(type);
       if (exists !== undefined) {
         return exists;
       }
     }
-
-    // find extended type
-    const type = this.getType<T>(target) || target;
 
     // find or create DomainAgent
     const domainAgent = GetDomainAgent(this, type) || CreateDomainAgent(this, type);

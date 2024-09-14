@@ -12,7 +12,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Class } from '../../dependencies/agent';
 import { AgentReference, Agent, Params } from './Agent';
 
 /**
@@ -22,7 +21,7 @@ export interface DomainLike {
   /**
    * Name of the domain
    */
-  name: string;
+  readonly name: string;
 
   /**
    * compile agent
@@ -81,22 +80,22 @@ export interface DomainLike {
   /**
    * Register a new type, without rewrite any existing types
    */
-  addType<T extends object>(type: Class<T>): void;
+  addType(type: Function): void;
 
   /**
    * Replace type
    */
-  setType<T extends object>(type: Class<T>, replacement: Class<T>): void;
+  setType(type: Function, replacement: Function): void;
 
   /**
    * Delete type mapping for giving type
    */
-  removeType<T extends object>(type: Class<T>): void;
+  removeType(type: Function): void;
 
   /**
    * Replace type
    */
-  setAgentType<T extends object>(type: Class<T>, replacement: Class<T>): void;
+  setAgentType(type: Function, replacement: Function): void;
 
   /**
    * Add an agent

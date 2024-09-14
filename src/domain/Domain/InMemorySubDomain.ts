@@ -21,11 +21,12 @@ import { GetSystemDomain } from './Helpers/GetSystemDomain';
 import { Once } from '../../dependencies/agent';
 
 export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
+
   get parent(): DomainLike {
     // GetDomain(this) will return this. So must use GetDomain(this.constructor)
     return Once(this, 'parent', GetDomain(this.constructor) || GetSystemDomain());
   }
-
+  
   getAgentType<T extends Function>(type: T): T | undefined {
     return super.getAgentType<T>(type) || this.parent.getAgentType<T>(type);
   }

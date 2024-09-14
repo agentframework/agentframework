@@ -14,13 +14,13 @@ limitations under the License. */
 
 import { AgentFrameworkError, TypeAttribute, CreateAgent } from '../../../dependencies/agent';
 import { DomainAgentAttribute } from './DomainAgentAttribute';
-import { Domain } from '../Domain';
+import { DomainLike } from '../DomainLike';
 import { GetDomain } from '../Helpers/GetDomain';
 import { RememberDomain } from '../Helpers/RememberDomain';
 import { RememberDomainAgent } from '../Helpers/RememberDomainAgent';
 
 export function CompileDomainAgent<T extends Function>(
-  domain: Domain,
+  domain: DomainLike,
   type: T,
   strategy?: TypeAttribute,
   version?: number
@@ -45,7 +45,7 @@ export function CompileDomainAgent<T extends Function>(
  * This function only called once per domain
  */
 export function CreateDomainAgent<T extends Function>(
-  domain: Domain,
+  domain: DomainLike,
   type: T,
   strategy?: TypeAttribute,
   version?: number
@@ -53,9 +53,11 @@ export function CreateDomainAgent<T extends Function>(
   // upgrade to Agent only if interceptor or initializer found
   const newCreatedDomainAgent = CompileDomainAgent(domain, type, strategy, version);
 
+  // able to use agent to find domain
   RememberDomain(newCreatedDomainAgent, domain);
   RememberDomain(newCreatedDomainAgent.prototype, domain);
 
+  // able to list all agent in a domain
   RememberDomainAgent(domain, type, newCreatedDomainAgent);
   RememberDomainAgent(domain, newCreatedDomainAgent, newCreatedDomainAgent);
 

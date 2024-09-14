@@ -35,10 +35,12 @@ export function agent(): ClassDecorator {
     const domain = GetSystemDomain();
     // todo: should we call getType here?
     const type = domain.getType(target) || target;
+    // note: Type always there, domain may not exist. so use Type as primary key
     const found = GetDomainAgent(domain, type);
     if (found) {
       return found;
     }
+    // call RegisterDomainAgentAttribute to register agent instance into Domain
     return CreateDomainAgent(domain, type, new RegisterDomainAgentAttribute(domain), 1);
   };
 }

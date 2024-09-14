@@ -19,20 +19,18 @@ limitations under the License. */
  *************************************/
 
 /*************************************
- *   Domain
- *************************************/
-export { DomainLike } from './Domain/DomainLike';
-export { Domain } from './Domain/Domain';
-export { SubDomainLike } from './Domain/SubDomainLike';
-
-export { GetDomain } from './Domain/Helpers/GetDomain';
-export { GetSystemDomain } from './Domain/Helpers/GetSystemDomain';
-export { IsDomain } from './Domain/Helpers/IsDomain';
-
-/*************************************
  *   Class
  *************************************/
 export { AgentReference, Params, Agent } from './Domain/Agent';
+
+/*************************************
+ *   Domain
+ *************************************/
+export { DomainLike } from './Domain/DomainLike';
+export { SubDomainLike } from './Domain/SubDomainLike';
+export { Domain } from './Domain/Domain';
+
+
 
 /*************************************
  *   In Memory Domain Implementation
@@ -55,6 +53,9 @@ export { agent } from './Domain/Decorators/agent';
  *   Unstable API
  *************************************/
 export { Disposable } from './Domain/Helpers/Disposable';
+export { GetDomain } from './Domain/Helpers/GetDomain';
+export { GetSystemDomain } from './Domain/Helpers/GetSystemDomain';
+export { IsDomain } from './Domain/Helpers/IsDomain';
 
 /*************************************
  *   END DOMAIN

@@ -12,19 +12,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Class } from '../../dependencies/agent';
 import { DomainLike } from './DomainLike';
 import { Agent, AgentReference, Params } from './Agent';
 import { RememberDomain } from './Helpers/RememberDomain';
 
 /**
  * Domain is a container of types and agents
+ *
+ * 1. use to manage the agents
+ * 2. use to do type mapping
+ * 3. use to inject
  */
 export abstract class Domain implements DomainLike {
+
   /**
-   * Get domain name
+   * Construct a new instance
    */
-  abstract readonly name: string;
+  static construct<T extends Function>(target: T, params: Params<T>): Agent<T> {
+    return Reflect.construct(target, params);
+  }
 
   /**
    * default constructor
@@ -34,11 +40,9 @@ export abstract class Domain implements DomainLike {
   }
 
   /**
-   * Construct a new instance
+   * Get domain name
    */
-  static construct<T extends Function>(target: T, params: Params<T>): Agent<T> {
-    return Reflect.construct(target, params);
-  }
+  abstract readonly name: string;
 
   /**
    * Get agent of giving type, return undefined if don't have
@@ -55,7 +59,6 @@ export abstract class Domain implements DomainLike {
    */
   abstract getType<T extends Function>(type: T): T | undefined;
 
-  //region Factory
   /**
    * compile domain agent
    */
@@ -71,27 +74,25 @@ export abstract class Domain implements DomainLike {
    */
   abstract resolve<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>>;
 
-  //endregion
-
   /**
    * Register a new type, without rewrite any existing types
    */
-  abstract addType<T extends object>(type: Class<T>): void;
+  abstract addType(type: Function): void;
 
   /**
    * Replace type
    */
-  abstract setType<T extends object>(type: Class<T>, replacement: Class<T>): void;
+  abstract setType(type: Function, replacement: Function): void;
 
   /**
    * Delete type mapping for giving type
    */
-  abstract removeType<T extends object>(type: Class<T>): void;
+  abstract removeType(type: Function): void;
 
   /**
    * Set agent type
    */
-  abstract setAgentType<T extends object>(type: Class<T>, replacement: Class<T>): void;
+  abstract setAgentType(type: Function, replacement: Function): void;
 
   // /**
   //  * Get all registered types in this domain

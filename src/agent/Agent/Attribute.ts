@@ -28,7 +28,11 @@ export interface Attribute extends Object {
    * @param {PropertyDescriptor} descriptor
    * @returns {boolean}
    */
-  beforeDecorate?(target: object | Function, key?: string | symbol, descriptor?: PropertyDescriptor | number): boolean;
+  beforeDecorate?(
+    target: object | Function,
+    key?: string | symbol | undefined,
+    descriptor?: PropertyDescriptor | number
+  ): boolean;
 
   /**
    * Get an interceptor for this attribute
