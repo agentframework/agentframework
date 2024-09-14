@@ -42,7 +42,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   const target = GetType(type) || type;
 
   // create a cache layer for strategy
-  const attribute = strategy ? Object.create(strategy) : Reflect.construct(AgentAttribute, [type, receiver, version]);
+  const attribute = strategy ? Object.create(strategy) : Reflect.construct(AgentAttribute, [type, target, version]);
 
   if (!CanDecorate(attribute, type)) {
     throw new AgentFrameworkError('NoCreateAgentPermission');
