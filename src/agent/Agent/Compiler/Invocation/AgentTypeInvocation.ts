@@ -15,7 +15,7 @@ limitations under the License. */
 import { TypeInfo } from '../../Reflection/TypeInfo';
 import { TypeInvocation } from '../../TypeInvocations';
 import { RememberType } from '../../Knowledges/Types';
-// import { alter } from '../alter';
+import { Arguments } from '../../Arguments';
 
 /**
  * Upgrade class to agent
@@ -26,21 +26,8 @@ import { RememberType } from '../../Knowledges/Types';
 export class AgentTypeInvocation implements TypeInvocation {
   constructor(readonly target: Function, readonly design: TypeInfo) {}
 
-  // invoke([id]: any, receiver: any): any {
-  //   // dont do any change if no changes to the target
-  //   // that means no initializers defined
-  //   const newReceiver = alter(class extends receiver {}, 'name', { value: `${id}$` });
-  //   console.log('newReceiver', newReceiver.toString(), newReceiver);
-  //   RememberType(newReceiver, this.target);
-  //   return newReceiver;
-  // }
-
-  invoke([[id, code, data], , , type]: any, receiver: Function): any {
-    // TODO: cache the agent function
-    const agent = Reflect.construct(type, [id, `return ${code} {\n}`]) as Function;
-    const newReceiver = Reflect.apply(agent, this, [receiver]) as Function;
-    // console.log();
-    // console.log('==>>>', newReceiver.toString(), newReceiver);
+  invoke([, agent]: Arguments, receiver: unknown): any {
+    const newReceiver = Reflect.construct(agent, [receiver]) as Function;
     RememberType(newReceiver, this.target);
     return newReceiver;
   }

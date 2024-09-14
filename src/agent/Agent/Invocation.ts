@@ -15,11 +15,11 @@ limitations under the License. */
 import { Design } from './Design';
 import { Arguments } from './Arguments';
 
-export interface Invocation<D extends Design = Design> {
+export interface Invocation<T extends Design = Design> {
   /**
    * design
    */
-  readonly design: D;
+  readonly design: T;
 
   /**
    * call next function
