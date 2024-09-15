@@ -73,10 +73,10 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
 
   // make the proxy
   // performance test result shows the cached function has the best performance than native code
-  const proxy = Function(id, `return class ${id}$ extends ${id} {}`);
+  const agent = Function(id, `return class ${id}$ extends ${id} {}`);
 
   /* eslint-disable-next-line prefer-rest-params */
-  const newReceiver = chain.invoke<T>([attribute, proxy, Proxy], target);
+  const newReceiver = chain.invoke<T>([attribute, agent, Proxy], target);
 
   // register new agent map to old type
   // key: Agent proxy, value: origin type
