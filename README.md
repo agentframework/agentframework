@@ -26,6 +26,10 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 :recycle: **Clean:** Transparent dynamic proxy. No prototype pollution. No reflect-metadata or any npm dependencies.
 
+## AgentFramework's Commitment to Metaprogramming
+
+The release of [TypeScript 5](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/), with its removal of `--emitDecoratorMetadata`, presents a challenge for metaprogramming. However, AgentFramework will continue to provide metadata in future versions and apply all possible workarounds to maintain its availability.
+
 ## Official Supported Environment
 
 | Platform       | Version                                                                             |
