@@ -49,8 +49,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   }
 
   // Collect information of this target
-  const design = OnDemandTypeInfo.find(target);
-  const classDesign = (attribute.type = design.prototype);
+  const classDesign = (attribute.type = OnDemandTypeInfo.find(target.prototype));
   const classConstructor = (attribute.property = classDesign.property(CONSTRUCTOR));
 
   // calculate total version according to the information above
@@ -59,7 +58,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // create an invocation for agent type.
   // this chain used to generate agent of this target
   // empty agent
-  const chain = OnDemandInvocationFactory.createAgentInvocation(target, design, attribute);
+  const chain = OnDemandInvocationFactory.createAgentInvocation(target, classDesign, classConstructor, attribute);
 
   // create a new type from this invocation, initialize the agent using reflection info
   /* eslint-disable-next-line prefer-rest-params */

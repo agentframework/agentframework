@@ -7,7 +7,6 @@ import { OnDemandParameterInterceptor } from './Interceptor/OnDemandParameterInt
 import { ClassConstructorState } from '../Knowledges/ClassConstructors';
 import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
 import { MethodInvocation } from './Invocation/MethodInvocation';
-import { CONSTRUCTOR } from '../WellKnown';
 import { AgentTypeInvocation } from './Invocation/AgentTypeInvocation';
 import { TypeInvocation } from '../TypeInvocations';
 import { Attribute } from '../Attribute';
@@ -19,12 +18,11 @@ export class OnDemandInvocationFactory {
    *
    * @internal
    */
-  static createAgentInvocation(target: Function, design: TypeInfo, attribute: Attribute): TypeInvocation {
-    let chain: TypeInvocation = new AgentTypeInvocation(target, design);
+  static createAgentInvocation(target: Function, type: TypeInfo, design: PropertyInfo, attribute: Attribute): TypeInvocation {
+    let chain: TypeInvocation = new AgentTypeInvocation(target, type);
     chain = OnDemandInterceptorFactory.addInterceptor(chain, attribute);
-    const property = design.property(CONSTRUCTOR);
-    if (property.version) {
-      chain = OnDemandInterceptorFactory.addInterceptors(chain, property.ownInterceptors);
+    if (design.version) {
+      chain = OnDemandInterceptorFactory.addInterceptors(chain, design.ownInterceptors);
     }
     return chain;
   }
