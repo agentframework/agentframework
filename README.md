@@ -28,7 +28,7 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 
 ## AgentFramework's Commitment to Metaprogramming
 
-The release of [TypeScript 5](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/), with its removal of `--emitDecoratorMetadata`, presents a challenge for metaprogramming. However, AgentFramework will continue to provide metadata in future versions and apply all possible workarounds to maintain its availability.
+The release of [TypeScript 5](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/), which is not compatible with the `--emitDecoratorMetadata` option, poses a challenge for metaprogramming. However, AgentFramework remains committed to its original vision and will continue to provide metadata in future versions without modify our `Reflector` api, and applying all possible solutions and efforts to ensure its availability.
 
 ## Official Supported Environment
 
