@@ -23,7 +23,7 @@ import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
 import { CONSTRUCTOR } from './WellKnown';
 
 /**
- * Create a new agent from attribute, and add into Agent registry
+ * Create a new agent from attribute, and add into Agent registry, do not cache anything
  *
  * @param type
  * @param strategy
@@ -49,16 +49,22 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   }
 
   // Collect information of this target
-  const classDesign = (attribute.type = OnDemandTypeInfo.find(target.prototype));
+  const staticDesign = OnDemandTypeInfo.find(target);
+  const classDesign = (attribute.type = staticDesign.prototype);
   const classConstructor = (attribute.property = classDesign.property(CONSTRUCTOR));
 
   // calculate total version according to the information above
   attribute.version = classDesign.version + classConstructor.version + (version || 0);
 
+  //console.log('design1', staticDesign)
+  //console.log('design2', staticDesign.property(CONSTRUCTOR))
+  //console.log('design3', staticDesign.prototype)
+  //console.log('design4', staticDesign.prototype.property(CONSTRUCTOR))
+
   // create an invocation for agent type.
   // this chain used to generate agent of this target
   // empty agent
-  const chain = OnDemandInvocationFactory.createAgentInvocation(target, classDesign, classConstructor, attribute);
+  const chain = OnDemandInvocationFactory.createAgentInvocation(target, staticDesign, attribute);
 
   // create a new type from this invocation, initialize the agent using reflection info
   /* eslint-disable-next-line prefer-rest-params */
