@@ -41,8 +41,8 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // this will return the origin type
   const target = GetType(type) || type;
 
-  // create a cache layer for strategy
-  const attribute = strategy ? Object.create(strategy) : Reflect.construct(AgentAttribute, [type, target, version]);
+  // create a cache layer for strategy, just in case
+  const attribute = strategy ? Object.create(strategy) : Reflect.construct(AgentAttribute, [target, type, version]);
 
   if (!CanDecorate(attribute, type)) {
     throw new AgentFrameworkError('NoCreateAgentPermission');
@@ -51,7 +51,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // Collect information of this target
   const design = OnDemandTypeInfo.find(target);
   const classDesign = (attribute.type = design.prototype);
-  const classConstructor = (attribute.property = classDesign.property(CONSTRUCTOR));
+  const classConstructor = (attribute.property = design.property(CONSTRUCTOR));
 
   // calculate total version according to the information above
   attribute.version = classDesign.version + classConstructor.version + (version || 0);
@@ -60,7 +60,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // this chain used to generate agent of this target
   // empty agent
   // TODO: cache the chain to improve performance
-  const chain = OnDemandInvocationFactory.createAgentInvocation(target, design, attribute);
+  const chain = OnDemandInvocationFactory.createAgentInvocation(target, classDesign, classConstructor, attribute);
 
   // create a new type from this invocation, initialize the agent using reflection info
   const id = target.name;
@@ -73,10 +73,33 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
 
   // make the proxy
   // performance test result shows the cached function has the best performance than native code
-  const agent = Function(id, `return class ${id}$ extends ${id} {}`);
+  const agent = Function(
+    `$${id}`,
+    '$',
+    '$$',
+    `
+class ${id}1 extends $${id} {
+  static {
+    console.log('  static of class')
+  }
+  constructor(...params) {
+    // call static constructor for once
+    console.log('ctor of class')
+    return $$(super(...$($${id}, ${id}1, ${id}$, params)));
+    //return super(...params);
+  }
+}
+class ${id}$ extends ${id}1 { /*[generated code]*/ }
+return ${id}$`
+  );
+
+  console.log('before newReceiver');
 
   /* eslint-disable-next-line prefer-rest-params */
   const newReceiver = chain.invoke<T>([attribute, agent, Proxy], target);
+
+  console.log('after newReceiver', newReceiver.toString());
+  // console.log(Reflector(newReceiver))
 
   // register new agent map to old type
   // key: Agent proxy, value: origin type

@@ -30,6 +30,10 @@ export function decorateVariable<T extends Attribute>(attribute: T): VariableDec
     targetKey?: string | symbol | undefined,
     parameterIndex?: PropertyDescriptor | number
   ): void => {
+    console.log('decorateVariable', target.constructor, targetKey)
+
+    Reflect.set(target,'_timestamp' , Date.now())
+
     if (CanDecorate(attribute, target, targetKey, parameterIndex)) {
       if (typeof parameterIndex === 'number') {
         if (targetKey != null) {

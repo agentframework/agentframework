@@ -17,14 +17,16 @@ import { TypeAttribute } from './TypeAttributes';
 import { TypeInvocation } from './TypeInvocations';
 import { TypeInterceptor } from './TypeInterceptors';
 import { UpgradeAgentProperties } from './Compiler/OnDemandAgentCompiler';
-import { FindExtendedClass } from './FindExtendedClass';
 import { AgentFrameworkError } from './AgentFrameworkError';
 import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
 import { ClassConstructors } from './Knowledges/ClassConstructors';
 import { ClassMembers } from './Knowledges/ClassMembers';
-import { RememberType } from './Knowledges/Types';
+// import { RememberType } from './Knowledges/Types';
 import { TypeInfo } from './Reflection/TypeInfo';
 import { PropertyInfo } from './Reflection/PropertyInfo';
+import { RememberType } from './Knowledges/Types';
+import {FindExtendedClass} from "./FindExtendedClass";
+// import { FindExtendedClass } from './FindExtendedClass';
 
 /**
  * This attribute is for upgrade class to agent
@@ -42,8 +44,10 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
    */
   intercept(target: TypeInvocation, params: Arguments, receiver: Function): Function {
     const [state, , type] = params;
-    if (state.version) {
+    if (state.version && false) {
       // WARNING: assume other interceptor is return Function object
+      // const agenty = Function(id, `return class ${id}$ extends ${id} {}`);
+      //
       const agent = (state.target = Reflect.construct(type, [receiver, state]) as Function);
       RememberType(agent, receiver);
       return (state.receiver = target.invoke<Function>(params, agent));
@@ -51,15 +55,41 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
     return (state.receiver = target.invoke<Function>(params, receiver));
   }
 
-  compile<T extends Function>(target: T): T {
-    const name = target.name;
-    return Function(name, `return class ${name}$ extends ${name} {}`)(target);
+  upgrade(target: Function, proxy: Function, cache: Function, type: TypeInfo) {
+    // console.log('upgrade target', target)
+    // console.log('upgrade proxy', target)
+    // console.log('upgrade cache', target)
+
+    const typeVersion = type.version;
+    // console.log('upgrade 0', typeVersion, '=', target, proxy, cache, type);
+    // console.log('upgrade 1', type);
+    // console.log('upgrade 21', Reflector(target));
+    // console.log('upgrade 22', Reflector(proxy));
+    // console.log('upgrade 23', Reflector(cache));
+    if (typeVersion) {
+      const state = ClassMembers.v1.get(target);
+      if (!state || state.version !== typeVersion) {
+        const members = (state && state.members) || new Map<string | symbol, number>();
+
+        // check if got any property with interceptors
+        const properties = members.size
+          ? type.findOwnProperties((p) => p.intercepted && members.get(p.key) !== p.version)
+          : type.findOwnProperties((p) => p.intercepted);
+
+        if (properties.length) {
+          // don't generate property interceptor if no extended class
+          UpgradeAgentProperties(members, target.prototype, proxy.prototype, properties, cache.prototype);
+        }
+        ClassMembers.v1.set(target, { version: typeVersion, members });
+      }
+    }
   }
 
   /**
    * Constructor hook (called when user construct the class and got any interceptor)
    */
   construct<T extends Function>(this: any, target: T, params: Arguments, receiver: T): any {
+    console.log('Should not happen')
     // GEN 1: this.design.type = origin type
     // GEN 2: this.receiver = intercepted type
     //        target === receiver
@@ -137,6 +167,8 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
         invocation = ctor.invocation;
       }
 
+      console.log('need upgrade', target, receiver);
+
       const agent = invocation.invoke(params, receiver);
 
       // raise error if possible
@@ -147,6 +179,7 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
       return agent;
     }
 
+    console.log('no need upgrade', target, receiver);
     return Reflect.construct(target, params, receiver);
   }
 }
