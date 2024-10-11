@@ -1,4 +1,4 @@
-# Original Code compiled using TypeScript 4
+# Original Code compiled using TypeScript 5
 
 ```javascript
 "use strict";
