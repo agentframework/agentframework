@@ -49,9 +49,10 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   }
 
   // Collect information of this target
-  const design = OnDemandTypeInfo.find(target);
-  const classDesign = (attribute.type = design.prototype);
-  const classConstructor = (attribute.property = design.property(CONSTRUCTOR));
+  const typeDesign = OnDemandTypeInfo.find(target);
+  const typeConstructor = typeDesign.property(CONSTRUCTOR);
+  const classDesign = (attribute.type = typeDesign.prototype);
+  const classConstructor = (attribute.property = typeDesign.property(CONSTRUCTOR));
 
   // calculate total version according to the information above
   attribute.version = classDesign.version + classConstructor.version + (version || 0);
@@ -60,7 +61,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // this chain used to generate agent of this target
   // empty agent
   // TODO: cache the chain to improve performance
-  const chain = OnDemandInvocationFactory.createAgentInvocation(target, classDesign, classConstructor, attribute);
+  const chain = OnDemandInvocationFactory.createAgentInvocation(target, typeDesign, typeConstructor, attribute);
 
   // create a new type from this invocation, initialize the agent using reflection info
   const id = target.name;
@@ -78,13 +79,15 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
     '$',
     '$$',
     `
+let class_${id}_initialized = false;
 class ${id}1 extends $${id} {
-  static {
-    console.log('  static of class')
-  }
   constructor(...params) {
-    // call static constructor for once
-    console.log('ctor of class')
+    if (!class_${id}_initialized) {
+      $$$($${id}, ${id}1, ${id}$);
+      console.log('static ctor for ${id}$');
+      // call static constructor for once
+      class_${id}_initialized = true;
+    }
     return $$(super(...$($${id}, ${id}1, ${id}$, params)));
     //return super(...params);
   }

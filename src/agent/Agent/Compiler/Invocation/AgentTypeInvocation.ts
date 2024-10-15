@@ -25,10 +25,13 @@ import { AgentAttribute } from '../../AgentAttribute';
  * @hidden
  */
 export class AgentTypeInvocation implements TypeInvocation {
-  constructor(readonly target: Function, readonly design: TypeInfo) {}
+  constructor(readonly target: Function, readonly design: TypeInfo) { }
 
   invoke([attribute, agent]: Arguments, receiver: unknown): any {
-    const design = this.design;
+    const design = this.design.prototype;
+    function init(this: AgentAttribute, target: any, proxy: any, cache: any): void {
+      this.upgrade(target, proxy, cache, design);
+    }
     function before(this: AgentAttribute, target: any, proxy: any, cache: any, params: any): any {
       // console.log('target', target);
       console.log('proxy', proxy);
@@ -40,7 +43,7 @@ export class AgentTypeInvocation implements TypeInvocation {
       // console.log('a', a);
       return a;
     }
-    const newReceiver = Reflect.construct(agent, [receiver, before.bind(attribute), after.bind(attribute)]) as Function;
+    const newReceiver = Reflect.construct(agent, [receiver, init.bind(attribute), before.bind(attribute), after.bind(attribute)]) as Function;
     RememberType(newReceiver, this.target);
     return newReceiver;
   }
