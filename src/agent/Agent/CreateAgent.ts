@@ -74,7 +74,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
 
   // make the proxy
   // performance test result shows the cached function has the best performance than native code
-  const agent = Function(`$${id}`, 'i', 'b', 'a',
+  const agent = Function(`$${id}`, 'i', 'b',
     `let l;
     class ${id} extends $${id} {
       constructor(...params) {
@@ -82,13 +82,14 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
         l = !0;
         i && i($${id}, ${id}, ${id}$);
         }
-        return Reflect.construct($${id}, params, ${id}$);
+        return b($${id}, ${id}, ${id}$, params);
+        //return Reflect.construct($${id}, params, ${id}$);
         //return a(super(...b($${id}, ${id}, ${id}$, params)));
       }
     }
     class ${id}$ extends ${id} { /* [generated code] */ };
-    const n = new ${id}$()
-    console.log('ok', n, typeof n, Reflect.getPrototypeOf(n).constructor.toString());
+    //const n = new ${id}$()
+    //console.log('ok', n, typeof n, Reflect.getPrototypeOf(n).constructor.toString());
     return ${id}$`);
 
   // console.log('before newReceiver');
