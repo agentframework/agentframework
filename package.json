@@ -1,6 +1,6 @@
 {
   "name": "agentframework",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "sideEffects": false,
   "engines": {
     "node": ">=8",

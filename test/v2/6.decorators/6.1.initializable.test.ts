@@ -268,7 +268,7 @@ describe('6.1. @initializable decorator', () => {
       class App623 {
         static [Initializer]() {}
       }
-      expect(() => {
+      expect((): any => {
         new App623();
       }).toThrowError('ConstructorReturnNonObject');
     });
@@ -281,7 +281,7 @@ describe('6.1. @initializable decorator', () => {
           return 1;
         }
       }
-      expect(() => {
+      expect((): any => {
         new App623();
       }).toThrowError('ConstructorReturnNonObject');
     });
@@ -292,7 +292,7 @@ describe('6.1. @initializable decorator', () => {
       class App624 {
         [Initializer] = 1;
       }
-      expect(() => {
+      expect((): any => {
         new App624();
       }).toThrowError('InitializerIsNotFunction');
     });

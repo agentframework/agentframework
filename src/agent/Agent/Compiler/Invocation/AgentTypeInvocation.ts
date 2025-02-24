@@ -27,16 +27,18 @@ import { AgentAttribute } from '../../AgentAttribute';
 export class AgentTypeInvocation implements TypeInvocation {
   constructor(readonly target: Function, readonly design: TypeInfo) { }
 
-  invoke([attribute, agent]: Arguments, receiver: unknown): any {
+  invoke([attribute, agent, Proxy]: Arguments, receiver: unknown): any {
+    // we don't use Proxt, but use customize class
     const design = this.design.prototype;
     function init(this: AgentAttribute, target: any, proxy: any, cache: any): void {
+      console.log('init', arguments);
       this.upgrade(target, proxy, cache, design);
     }
     function before(this: AgentAttribute, target: any, proxy: any, cache: any, params: any): any {
       // console.log('target', target);
-      console.log('proxy', proxy);
-      this.upgrade(target, proxy, cache, design);
-      console.log('cache', cache);
+      //console.log('proxy', proxy);
+      //this.upgrade(target, proxy, cache, design);
+      //console.log('cache', cache);
       return params;
     }
     function after(a: any): any {

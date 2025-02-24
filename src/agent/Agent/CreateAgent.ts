@@ -23,7 +23,7 @@ import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
 import { CONSTRUCTOR } from './WellKnown';
 
 /**
- * Create a new agent from attribute, and add into Agent registry
+ * Create a new agent from attribute, and add into Agent registry. Always return a new Agent type
  *
  * @param type
  * @param strategy
@@ -41,7 +41,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // this will return the origin type
   const target = GetType(type) || type;
 
-  // create a cache layer for strategy, just in case
+  // create a cache layer for strategy to store extra arguments
   const attribute = strategy ? Object.create(strategy) : Reflect.construct(AgentAttribute, [target, type, version]);
 
   if (!CanDecorate(attribute, type)) {
@@ -74,29 +74,24 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
 
   // make the proxy
   // performance test result shows the cached function has the best performance than native code
-  const agent = Function(
-    `$${id}`,
-    '$',
-    '$$',
-    `
-let class_${id}_initialized = false;
-class ${id}1 extends $${id} {
-  constructor(...params) {
-    if (!class_${id}_initialized) {
-      $$$($${id}, ${id}1, ${id}$);
-      console.log('static ctor for ${id}$');
-      // call static constructor for once
-      class_${id}_initialized = true;
+  const agent = Function(`$${id}`, 'i', 'b', 'a',
+    `let l;
+    class ${id} extends $${id} {
+      constructor(...params) {
+        if (!l) {
+        l = !0;
+        i && i($${id}, ${id}, ${id}$);
+        }
+        return Reflect.construct($${id}, params, ${id}$);
+        //return a(super(...b($${id}, ${id}, ${id}$, params)));
+      }
     }
-    return $$(super(...$($${id}, ${id}1, ${id}$, params)));
-    //return super(...params);
-  }
-}
-class ${id}$ extends ${id}1 { /*[generated code]*/ }
-return ${id}$`
-  );
+    class ${id}$ extends ${id} { /* [generated code] */ };
+    const n = new ${id}$()
+    console.log('ok', n, typeof n, Reflect.getPrototypeOf(n).constructor.toString());
+    return ${id}$`);
 
-  console.log('before newReceiver');
+  // console.log('before newReceiver');
 
   /* eslint-disable-next-line prefer-rest-params */
   const newReceiver = chain.invoke<T>([attribute, agent, Proxy], target);

@@ -10,6 +10,17 @@ export class InitializerAttribute implements TypeInterceptor {
     return this;
   }
 
+  after(target: TypeInvocation, params: Arguments, receiver: any) {
+    const initializer = Reflect.get(receiver, this.key);
+    if (initializer) {
+      if ('function' !== typeof initializer) {
+        throw new AgentFrameworkError('InitializerIsNotFunction');
+      }
+      Reflect.apply(initializer, receiver, params);
+    }
+    return receiver;
+  }
+
   intercept(target: TypeInvocation, params: Arguments, receiver: any) {
     // after create instance, call custom Initializer
     const instance = target.invoke<object>(params, receiver);
