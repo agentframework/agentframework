@@ -27,25 +27,22 @@ import { AgentAttribute } from '../../AgentAttribute';
 export class AgentTypeInvocation implements TypeInvocation {
   constructor(readonly target: Function, readonly design: TypeInfo) { }
 
-  invoke([attribute, agent, Proxy]: Arguments, receiver: unknown): any {
-    // we don't use Proxt, but use customize class
+  invoke([attribute, agent, Proxy]: Arguments, receiver: any): any {
+    // we don't use Proxy, but use customize class
     const design = this.design.prototype;
-    function init(this: AgentAttribute, target: any, proxy: any, cache: any): void {
+    function init(this: AgentAttribute, target: any, proxy: any, cache: any, params: any, receiver: any): void {
       console.log('init', arguments);
       this.upgrade(target, proxy, cache, design);
     }
-    function before(this: AgentAttribute, target: any, proxy: any, cache: any, params: any): any {
+    function construct(this: AgentAttribute, target: any, proxy: any, cache: any, params: any, receiver1: any): any {
       // console.log('target', target);
-      //console.log('proxy', proxy);
-      //this.upgrade(target, proxy, cache, design);
-      //console.log('cache', cache);
-      return params;
+      // console.log('proxy', proxy);
+      // this.upgrade(target, proxy, cache, design);
+      // console.log('cache', cache);
+      //console.log('same', receiver === receiver1, receiver, receiver1)
+      return this.construct(target, params, receiver1);
     }
-    function after(a: any): any {
-      // console.log('a', a);
-      return a;
-    }
-    const newReceiver = Reflect.construct(agent, [receiver, init.bind(attribute), before.bind(attribute), after.bind(attribute)]) as Function;
+    const newReceiver = Reflect.construct(agent, [receiver, init.bind(attribute), construct.bind(attribute), ], receiver) as Function;
     RememberType(newReceiver, this.target);
     return newReceiver;
   }

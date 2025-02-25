@@ -25,8 +25,7 @@ import { ClassMembers } from './Knowledges/ClassMembers';
 import { TypeInfo } from './Reflection/TypeInfo';
 import { PropertyInfo } from './Reflection/PropertyInfo';
 import { RememberType } from './Knowledges/Types';
-import {FindExtendedClass} from "./FindExtendedClass";
-// import { FindExtendedClass } from './FindExtendedClass';
+// import { FindExtendedClass } from "./FindExtendedClass";
 
 /**
  * This attribute is for upgrade class to agent
@@ -89,69 +88,16 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
    * Constructor hook (called when user construct the class and got any interceptor)
    */
   construct<T extends Function>(this: any, target: T, params: Arguments, receiver: T): any {
-    console.log('Should not happen')
-    // GEN 1: this.design.type = origin type
-    // GEN 2: this.receiver = intercepted type
-    //        target === receiver
-    // GEN 3: newTarget = Proxy
 
-    // cache the constructor invocation
-    // so do not support change annotation after first time created the type
-    // NOTE: new created agent will apply the latest annotations
-
-    // NOTE: Static Constructor support, deep first
-    // for (const ctor of FindStaticConstructors(target.prototype)) {
-    //   console.log('ctor', ctor, ctor.name);
-    //   // mark before call to make sure the constructor never call again
-    //   Core.MarkStaticConstructor(ctor);
-    //
-    //   // skip system type
-    //   if (Core.IsSystemType(ctor)) {
-    //     break;
-    //   }
-    //
-    //   // check if have static constructor
-    //   const descriptor = Reflect.getOwnPropertyDescriptor(ctor, ctor.name);
-    //   if (descriptor && typeof descriptor.value == 'function') {
-    //     Reflect.apply(descriptor.value, ctor, []);
-    //   }
-    // }
-
-    // this.target !== target
-    // this.target.prototype === target.prototype
-    // GetType(this.target) === target
-    const key = this.target;
-    const type: TypeInfo = this.type;
-    const typeVersion = type.version;
-    if (typeVersion) {
-      const state = ClassMembers.v1.get(key);
-      if (!state || state.version !== typeVersion) {
-        const members = (state && state.members) || new Map<string | symbol, number>();
-
-        // check if got any property with interceptors
-        const properties = members.size
-          ? type.findOwnProperties((p) => p.intercepted && members.get(p.key) !== p.version)
-          : type.findOwnProperties((p) => p.intercepted);
-
-        if (properties.length) {
-          // don't generate property interceptor if no extended class
-          const found = FindExtendedClass(this.receiver, receiver);
-          UpgradeAgentProperties(
-            members,
-            target.prototype,
-            this.receiver.prototype,
-            properties,
-            found[0] && found[0].prototype
-          );
-        }
-        ClassMembers.v1.set(key, { version: typeVersion, members });
-      }
-    }
+    const key = target;
 
     // generate new class instance
     const property: PropertyInfo = this.property;
+
+    console.log('property key', key, property)
+
     const propertyVersion = property.version;
-    if (propertyVersion) {
+    if (true || propertyVersion) {
       let invocation: TypeInvocation | undefined;
 
       // check if can reuse constructor invocation
@@ -179,7 +125,6 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
       return agent;
     }
 
-    console.log('no need upgrade', target, receiver);
     return Reflect.construct(target, params, receiver);
   }
 }

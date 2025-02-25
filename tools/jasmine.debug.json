@@ -1,6 +1,6 @@
 {
   "spec_dir": ".",
-  "spec_files": ["test/v2/5.domain/5.5.domain-resolve.test.ts"],
+  "spec_files": ["test/v2/6.decorators/6.1.initializable-error.test.ts"],
   "stopSpecOnExpectationFailure": false,
   "random": false
 }

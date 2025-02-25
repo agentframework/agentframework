@@ -48,6 +48,8 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
     throw new AgentFrameworkError('NoCreateAgentPermission');
   }
 
+  debugger;
+
   // Collect information of this target
   const typeDesign = OnDemandTypeInfo.find(target);
   const typeConstructor = typeDesign.property(CONSTRUCTOR);
@@ -79,12 +81,10 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
     class ${id} extends $${id} {
       constructor(...params) {
         if (!l) {
-        l = !0;
-        i && i($${id}, ${id}, ${id}$);
+          l = !0;
+          i && i($${id}, ${id}, ${id}$, params, new.target);
         }
-        return b($${id}, ${id}, ${id}$, params);
-        //return Reflect.construct($${id}, params, ${id}$);
-        //return a(super(...b($${id}, ${id}, ${id}$, params)));
+        return b($${id}, ${id}, ${id}$, params, new.target);
       }
     }
     class ${id}$ extends ${id} { /* [generated code] */ };
