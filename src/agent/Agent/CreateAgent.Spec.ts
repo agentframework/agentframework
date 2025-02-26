@@ -90,7 +90,7 @@ describe('Compiler', () => {
 
   describe('# should no able to', () => {
     it('new create agent without name', () => {
-      expect(() => {
+      expect((): any => {
         CreateAgent(NoNameRedis);
       }).toThrowError('InvalidTypeName');
     });

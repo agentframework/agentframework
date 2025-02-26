@@ -27,22 +27,20 @@ import { AgentAttribute } from '../../AgentAttribute';
 export class AgentTypeInvocation implements TypeInvocation {
   constructor(readonly target: Function, readonly design: TypeInfo) { }
 
-  invoke([attribute, agent, Proxy]: Arguments, receiver: any): any {
+  invoke([attribute, agent]: Arguments, receiver: any): any {
     // we don't use Proxy, but use customize class
-    const design = this.design.prototype;
-    function init(this: AgentAttribute, target: any, proxy: any, cache: any, params: any, receiver: any): void {
-      console.log('init', arguments);
-      this.upgrade(target, proxy, cache, design);
-    }
     function construct(this: AgentAttribute, target: any, proxy: any, cache: any, params: any, receiver1: any): any {
       // console.log('target', target);
       // console.log('proxy', proxy);
       // this.upgrade(target, proxy, cache, design);
       // console.log('cache', cache);
-      //console.log('same', receiver === receiver1, receiver, receiver1)
-      return this.construct(target, params, receiver1);
+      // console.log('same', receiver === target, receiver, receiver1)
+      if (this.construct) {
+        return this.construct(target, params, receiver1, proxy, cache);
+      }
+      return Reflect.construct(target, params, receiver1);
     }
-    const newReceiver = Reflect.construct(agent, [receiver, init.bind(attribute), construct.bind(attribute), ], receiver) as Function;
+    const newReceiver = Reflect.construct(agent, [receiver, construct.bind(attribute), ], receiver) as Function;
     RememberType(newReceiver, this.target);
     return newReceiver;
   }

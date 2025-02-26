@@ -21,11 +21,9 @@ import { AgentFrameworkError } from './AgentFrameworkError';
 import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
 import { ClassConstructors } from './Knowledges/ClassConstructors';
 import { ClassMembers } from './Knowledges/ClassMembers';
-// import { RememberType } from './Knowledges/Types';
-import { TypeInfo } from './Reflection/TypeInfo';
 import { PropertyInfo } from './Reflection/PropertyInfo';
 import { RememberType } from './Knowledges/Types';
-// import { FindExtendedClass } from "./FindExtendedClass";
+import { TypeInfo } from "./Reflection/TypeInfo";
 
 /**
  * This attribute is for upgrade class to agent
@@ -42,29 +40,24 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
    * Create type hook (called after javascript loaded)
    */
   intercept(target: TypeInvocation, params: Arguments, receiver: Function): Function {
-    const [state, , type] = params;
-    if (state.version && false) {
+    const [state, , proxy] = params;
+    if (state.version) {
       // WARNING: assume other interceptor is return Function object
-      // const agenty = Function(id, `return class ${id}$ extends ${id} {}`);
-      //
-      const agent = (state.target = Reflect.construct(type, [receiver, state]) as Function);
+      const agent = (state.target = Reflect.construct(proxy, [receiver, {}]) as Function);
       RememberType(agent, receiver);
       return (state.receiver = target.invoke<Function>(params, agent));
     }
     return (state.receiver = target.invoke<Function>(params, receiver));
   }
 
-  upgrade(target: Function, proxy: Function, cache: Function, type: TypeInfo) {
-    // console.log('upgrade target', target)
-    // console.log('upgrade proxy', target)
-    // console.log('upgrade cache', target)
 
+  /**
+   * Constructor hook (called when user construct the class and got any interceptor)
+   */
+  construct<T extends Function>(this: any, target: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
+    const key = target;
+    const type: TypeInfo = this.type;
     const typeVersion = type.version;
-    // console.log('upgrade 0', typeVersion, '=', target, proxy, cache, type);
-    // console.log('upgrade 1', type);
-    // console.log('upgrade 21', Reflector(target));
-    // console.log('upgrade 22', Reflector(proxy));
-    // console.log('upgrade 23', Reflector(cache));
     if (typeVersion) {
       const state = ClassMembers.v1.get(target);
       if (!state || state.version !== typeVersion) {
@@ -82,22 +75,11 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
         ClassMembers.v1.set(target, { version: typeVersion, members });
       }
     }
-  }
-
-  /**
-   * Constructor hook (called when user construct the class and got any interceptor)
-   */
-  construct<T extends Function>(this: any, target: T, params: Arguments, receiver: T): any {
-
-    const key = target;
 
     // generate new class instance
     const property: PropertyInfo = this.property;
-
-    console.log('property key', key, property)
-
     const propertyVersion = property.version;
-    if (true || propertyVersion) {
+    if (propertyVersion) {
       let invocation: TypeInvocation | undefined;
 
       // check if can reuse constructor invocation
@@ -112,8 +94,6 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
         ClassConstructors.v1.set(key, ctor);
         invocation = ctor.invocation;
       }
-
-      console.log('need upgrade', target, receiver);
 
       const agent = invocation.invoke(params, receiver);
 

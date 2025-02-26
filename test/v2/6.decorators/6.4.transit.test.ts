@@ -10,7 +10,7 @@ describe('6.4. @transit decorator', () => {
         //
       }
 
-      console.log('app1', Service641)
+      //console.log('app1', Service641)
 
       @agent()
       class App641 {
@@ -20,17 +20,17 @@ describe('6.4. @transit decorator', () => {
         readonly service2!: any;
       }
 
-      console.log('app2', App641)
+      //console.log('app2', App641)
 
       const app = new App641();
 
-      console.log('app4', Reflector(App641))
+      //console.log('app4', Reflector(App641))
 
-      console.log('app5', app)
+      //console.log('app5', app)
 
       let base: any = App641.prototype;
       while(base) {
-        console.log('--->', base, Reflector(base));
+        //console.log('--->', base, Reflector(base));
 
         base = Reflect.getPrototypeOf(base);
       }

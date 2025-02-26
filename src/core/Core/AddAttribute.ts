@@ -43,7 +43,6 @@ export function AddAttributeToPropertyParameter(
  * equals Reflector(target).addAttribute(attribute);
  */
 export function AddAttributeToConstructor(attribute: object, target: object | Function): void {
-  debugger;
   const type = Knowledge.add(target);
   const ctor = GetConstructor(type);
   AddAttribute(ctor, attribute);

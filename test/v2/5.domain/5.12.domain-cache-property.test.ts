@@ -45,10 +45,12 @@ describe('5.12. Domain agent property cache', () => {
       seq = [];
       const domain1 = new InMemoryDomain();
       expect(seq).toEqual([]);
+      debugger;
       const req1_d1 = domain1.construct(WebRequest);
       expect(seq).toEqual([]);
 
       seq = [];
+
       req1_d1.invoke('example.com');
       // console.log('r1', seq);
       const cached1 = ['beforeInvoke', 'beforeInvokeParameter', 'afterInvokeParameter', 'invoke', 'afterInvoke'];

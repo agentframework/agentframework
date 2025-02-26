@@ -48,13 +48,11 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
     throw new AgentFrameworkError('NoCreateAgentPermission');
   }
 
-  debugger;
-
   // Collect information of this target
   const typeDesign = OnDemandTypeInfo.find(target);
   const typeConstructor = typeDesign.property(CONSTRUCTOR);
   const classDesign = (attribute.type = typeDesign.prototype);
-  const classConstructor = (attribute.property = typeDesign.property(CONSTRUCTOR));
+  const classConstructor = (attribute.property = classDesign.property(CONSTRUCTOR));
 
   // calculate total version according to the information above
   attribute.version = classDesign.version + classConstructor.version + (version || 0);
@@ -76,28 +74,23 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
 
   // make the proxy
   // performance test result shows the cached function has the best performance than native code
-  const agent = Function(`$${id}`, 'i', 'b',
-    `let l;
-    class ${id} extends $${id} {
+  const agent = Function(`$${id}`, 'c',
+    `class ${id} extends $${id} {
       constructor(...params) {
-        if (!l) {
-          l = !0;
-          i && i($${id}, ${id}, ${id}$, params, new.target);
-        }
-        return b($${id}, ${id}, ${id}$, params, new.target);
+        return c($${id}, ${id}, ${id}$, params, new.target);
       }
     }
     class ${id}$ extends ${id} { /* [generated code] */ };
-    //const n = new ${id}$()
-    //console.log('ok', n, typeof n, Reflect.getPrototypeOf(n).constructor.toString());
     return ${id}$`);
+
+  //const proxy = Function(id, `return class ${id}$ extends ${id} { /*[generated code]*/ }`);
 
   // console.log('before newReceiver');
 
   /* eslint-disable-next-line prefer-rest-params */
   const newReceiver = chain.invoke<T>([attribute, agent, Proxy], target);
 
-  console.log('after newReceiver', newReceiver.toString());
+  // console.log('after newReceiver', newReceiver.toString());
   // console.log(Reflector(newReceiver))
 
   // register new agent map to old type
