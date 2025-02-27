@@ -1,18 +1,16 @@
-/**
- * Copyright (c) 2016 Ling Zhang
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at:
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is provided on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/* Copyright 2016 Ling Zhang
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. */
 
 import { AgentAttribute } from './AgentAttribute';
 import { TypeAttribute } from './TypeAttributes';
@@ -49,15 +47,19 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
     throw new AgentFrameworkError('InvalidTypeName');
   }
 
-  // Step 3: Validate the strategy type.
-  // Ensure the provided strategy is an instance of `AgentAttribute`.
-  if (strategy && !(strategy instanceof AgentAttribute)) {
-    throw new AgentFrameworkError('InvalidAgentStrategy');
-  }
-
-  // Step 4: Create a strategy instance.
+  // Step 3: Create a strategy instance.
   // If a strategy is provided, create a copy of it; otherwise, construct a new `AgentAttribute`.
-  const attribute = strategy ? Object.create(strategy) : Reflect.construct(AgentAttribute, [target, type, version]);
+  let attribute;
+  if (strategy) {
+    // Step 4: Validate the strategy type. (if have)
+    // Ensure the provided strategy is an instance of `AgentAttribute`.
+    if (!Reflect.has(strategy, 'construct')) {
+      throw new AgentFrameworkError('InvalidAgentStrategy');
+    }
+    attribute = Object.create(strategy);
+  } else {
+    attribute = Reflect.construct(AgentAttribute, [target, type, version]);
+  }
 
   // Step 5: Check if decoration is allowed.
   // If decoration is not permitted, throw an error.

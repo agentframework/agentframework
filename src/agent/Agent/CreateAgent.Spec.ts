@@ -109,7 +109,6 @@ describe('Compiler', () => {
       expect((): any => {
         CreateAgent(MongoDB, new InvalidCustomAgentAttribute());
       }).toThrowError('InvalidAgentStrategy');
-
     });
   });
 });
