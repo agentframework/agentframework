@@ -26,8 +26,8 @@ export class RegisterDomainAgentAttribute extends DomainAgentAttribute {
   // }
 
   // register domain agent after create
-  construct<T extends Function>(target: T, params: any, receiver: T, proxy: T, cache: T): any {
-    const agent = super.construct(target, params, receiver, proxy, cache);
+  construct<T extends Function>(type: T, params: any, receiver: T, proxy: T, cache: T): any {
+    const agent = super.construct(type, params, receiver, proxy, cache);
     this.domain.addAgent(receiver, agent);
     return agent;
   }

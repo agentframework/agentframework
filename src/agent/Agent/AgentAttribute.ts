@@ -40,14 +40,13 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
    * Create type hook (called after javascript loaded)
    */
   intercept(target: TypeInvocation, params: Arguments, receiver: Function): Function {
-    // return (target.invoke<Function>(params, receiver));
-    const [state] = params;
+    const [state, , agent] = params;
     if (state.version) {
       // WARNING: assume other interceptor is return Function object
       // const Proxy = Function(state.name, `return class ${state.name}$ extends ${state.name} { /* [proxy code] */ };`);
-      const agent = (state.target = Reflect.construct(Proxy, [receiver, {}]) as Function);
-      RememberType(agent, receiver);
-      return (state.receiver = target.invoke<Function>(params, agent));
+      const newReceiver = (state.target = Reflect.construct(agent, [receiver, {}]) as Function);
+      RememberType(newReceiver, receiver);
+      return (state.receiver = target.invoke<Function>(params, newReceiver));
     }
     return (state.receiver = target.invoke<Function>(params, receiver));
   }
@@ -55,27 +54,28 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
   /**
    * Constructor hook (called when user construct the class and got any interceptor)
    */
-  construct<T extends Function>(this: any, target: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
+  construct<T extends Function>(this: any, type: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
 
-    const key = target;
-    const type: TypeInfo = this.type;
+    // build agent type
 
-    const typeVersion = type.version;
+    const design: TypeInfo = this.type;
+
+    const typeVersion = design.version;
     if (typeVersion) {
-      const state = ClassMembers.v1.get(target);
+      const state = ClassMembers.v1.get(type);
       if (!state || state.version !== typeVersion) {
         const members = (state && state.members) || new Map<string | symbol, number>();
 
         // check if got any property with interceptors
         const properties = members.size
-          ? type.findOwnProperties((p) => p.intercepted && members.get(p.key) !== p.version)
-          : type.findOwnProperties((p) => p.intercepted);
+          ? design.findOwnProperties((p) => p.intercepted && members.get(p.key) !== p.version)
+          : design.findOwnProperties((p) => p.intercepted);
 
         if (properties.length) {
           // don't generate property interceptor if no extended class
-          UpgradeAgentProperties(members, target.prototype, proxy.prototype, properties, cache.prototype);
+          UpgradeAgentProperties(members, type.prototype, proxy.prototype, properties, cache.prototype);
         }
-        ClassMembers.v1.set(target, { version: typeVersion, members });
+        ClassMembers.v1.set(type, { version: typeVersion, members });
       }
     }
 
@@ -86,15 +86,15 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
       let invocation: TypeInvocation | undefined;
 
       // check if can reuse constructor invocation
-      let ctor = ClassConstructors.v1.get(key);
+      let ctor = ClassConstructors.v1.get(type);
       if (ctor && ctor.version === propertyVersion) {
         // can reuse
         invocation = ctor.invocation;
       } else {
         // create new constructor invocation
         // find interceptors from design attributes and create chain for them
-        ctor = OnDemandInvocationFactory.createConstructorInvocation(target, this.type, property);
-        ClassConstructors.v1.set(key, ctor);
+        ctor = OnDemandInvocationFactory.createConstructorInvocation(type, design, property);
+        ClassConstructors.v1.set(type, ctor);
         invocation = ctor.invocation;
       }
 
@@ -108,6 +108,6 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
       return agent;
     }
 
-    return Reflect.construct(target, params, receiver);
+    return Reflect.construct(type, params, receiver);
   }
 }

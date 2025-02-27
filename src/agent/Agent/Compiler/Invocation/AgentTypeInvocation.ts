@@ -26,9 +26,9 @@ import { Arguments } from '../../Arguments';
 export class AgentTypeInvocation implements TypeInvocation {
   constructor(readonly target: Function, readonly design: TypeInfo) { }
 
-  invoke([attribute, agent]: Arguments, receiver: any): any {
+  invoke([state, agent]: Arguments, receiver: any): any {
     // we don't use Proxy, but use customize class
-    const newReceiver = Reflect.construct(agent, [receiver, attribute], receiver) as Function;
+    const newReceiver = Reflect.construct(agent, [receiver, state]) as Function;
     RememberType(newReceiver, this.target);
     return newReceiver;
   }
