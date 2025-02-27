@@ -16,7 +16,6 @@ import { TypeInfo } from '../../Reflection/TypeInfo';
 import { TypeInvocation } from '../../TypeInvocations';
 import { RememberType } from '../../Knowledges/Types';
 import { Arguments } from '../../Arguments';
-import { AgentAttribute } from '../../AgentAttribute';
 
 /**
  * Upgrade class to agent
@@ -29,13 +28,7 @@ export class AgentTypeInvocation implements TypeInvocation {
 
   invoke([attribute, agent]: Arguments, receiver: any): any {
     // we don't use Proxy, but use customize class
-    function construct(this: AgentAttribute, target: any, proxy: any, cache: any, params: any, newTarget: any): any {
-      if (this.construct) {
-        return this.construct(target, params, newTarget, proxy, cache);
-      }
-      return Reflect.construct(target, params, newTarget);
-    }
-    const newReceiver = Reflect.construct(agent, [receiver, construct.bind(attribute)], receiver) as Function;
+    const newReceiver = Reflect.construct(agent, [receiver, attribute], receiver) as Function;
     RememberType(newReceiver, this.target);
     return newReceiver;
   }

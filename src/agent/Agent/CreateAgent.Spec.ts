@@ -1,5 +1,13 @@
 /* tslint:disable */
-import { decorateMember, agent, IsAgent, TypeInvocation, Arguments, TypeInterceptor } from '../../dependencies/agent';
+import {
+  decorateMember,
+  agent,
+  IsAgent,
+  TypeInvocation,
+  Arguments,
+  TypeInterceptor,
+  AgentAttribute,
+} from '../../dependencies/agent';
 import { CreateAgent } from './CreateAgent';
 import { TransitAttribute } from './Decorators/DependencyInjection/TransitAttribute';
 
@@ -39,7 +47,9 @@ const NoNameRedis = (function () {
   return class {};
 })();
 
-class CustomAgentAttribute implements TypeInterceptor {
+class CustomAgentAttribute extends AgentAttribute {}
+
+class InvalidCustomAgentAttribute {
   get interceptor(): TypeInterceptor {
     return this;
   }
@@ -93,6 +103,13 @@ describe('Compiler', () => {
       expect((): any => {
         CreateAgent(NoNameRedis);
       }).toThrowError('InvalidTypeName');
+    });
+
+    it('create using invalid factory', () => {
+      expect((): any => {
+        CreateAgent(MongoDB, new InvalidCustomAgentAttribute());
+      }).toThrowError('InvalidAgentStrategy');
+
     });
   });
 });

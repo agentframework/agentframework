@@ -19,8 +19,8 @@ export function GetAgentConstructor(agent: string): Function {
   if (!ctor) {
     ctor = Function(
       `$${agent}`,
-      'c',
-      `class ${agent} extends $${agent}{\nconstructor(...p){\nreturn c($${agent},${agent},${agent}$,p,new.target);\n}\n}` +
+      'a',
+      `class ${agent} extends $${agent}{\nconstructor(...p){\nreturn a.construct($${agent},p,new.target,${agent},${agent}$);\n}\n}` +
         `class ${agent}$ extends ${agent} { /* [generated code] */ };` +
         `return ${agent}$;`
     );

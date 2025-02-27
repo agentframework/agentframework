@@ -1,6 +1,6 @@
 {
   "spec_dir": ".",
-  "spec_files": ["test/v2/5.domain/5.11.domain-cache.test.ts"],
+  "spec_files": ["test/v2/5.domain/5.12.domain-cache-property.test.ts"],
   "stopSpecOnExpectationFailure": false,
   "random": false
 }

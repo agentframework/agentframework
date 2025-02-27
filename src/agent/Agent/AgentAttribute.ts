@@ -22,8 +22,8 @@ import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory'
 import { ClassConstructors } from './Knowledges/ClassConstructors';
 import { ClassMembers } from './Knowledges/ClassMembers';
 import { PropertyInfo } from './Reflection/PropertyInfo';
+import { TypeInfo } from './Reflection/TypeInfo';
 import { RememberType } from './Knowledges/Types';
-import { TypeInfo } from "./Reflection/TypeInfo";
 
 /**
  * This attribute is for upgrade class to agent
@@ -40,23 +40,26 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
    * Create type hook (called after javascript loaded)
    */
   intercept(target: TypeInvocation, params: Arguments, receiver: Function): Function {
-    const [state, , proxy] = params;
+    // return (target.invoke<Function>(params, receiver));
+    const [state] = params;
     if (state.version) {
       // WARNING: assume other interceptor is return Function object
-      const agent = (state.target = Reflect.construct(proxy, [receiver, {}]) as Function);
+      // const Proxy = Function(state.name, `return class ${state.name}$ extends ${state.name} { /* [proxy code] */ };`);
+      const agent = (state.target = Reflect.construct(Proxy, [receiver, {}]) as Function);
       RememberType(agent, receiver);
       return (state.receiver = target.invoke<Function>(params, agent));
     }
     return (state.receiver = target.invoke<Function>(params, receiver));
   }
 
-
   /**
    * Constructor hook (called when user construct the class and got any interceptor)
    */
   construct<T extends Function>(this: any, target: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
+
     const key = target;
     const type: TypeInfo = this.type;
+
     const typeVersion = type.version;
     if (typeVersion) {
       const state = ClassMembers.v1.get(target);
