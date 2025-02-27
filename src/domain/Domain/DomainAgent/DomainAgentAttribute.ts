@@ -40,7 +40,7 @@ export class DomainAgentAttribute extends AgentAttribute implements TypeIntercep
       type = super.intercept(target, params, receiver);
       RememberDomainAgentType(this.domain, receiver, type);
     }
-    return target.invoke(params, type);
+    return type;
   }
 
   // construct<T extends Function>(target: T, params: Arguments, receiver: T): any {

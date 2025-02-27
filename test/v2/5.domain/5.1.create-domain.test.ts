@@ -1,5 +1,5 @@
-import { InMemoryDomain, IsDomain, InMemorySubDomain } from '../../../src/dependencies/domain';
-import { GetSystemDomain } from '../../../../framework/src/domain';
+import {InMemoryDomain, IsDomain, InMemorySubDomain, GetSystemDomain} from '../../../src/dependencies/domain';
+
 
 describe('5.1. Create domain', () => {
   describe('# should able to', () => {

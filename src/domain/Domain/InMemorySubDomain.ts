@@ -12,13 +12,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Once } from '../../dependencies/agent';
-import { InMemoryDomain } from './InMemoryDomain';
-import { Agent, AgentReference } from './Agent';
-import { SubDomainLike } from './SubDomainLike';
-import { DomainLike } from './DomainLike';
-import { GetDomain } from './Knowledges/Domains/Domains';
-import { GetSystemDomain } from '../../../../framework/src/domain';
+import {Once} from '../../dependencies/agent';
+import {InMemoryDomain} from './InMemoryDomain';
+import {Agent, AgentReference} from './Agent';
+import {SubDomainLike} from './SubDomainLike';
+import {DomainLike} from './DomainLike';
+import {GetDomain} from './Knowledges/Domains/Domains';
+import {GetSystemDomain} from "./Helpers/GetSystemDomain";
+
 
 export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
 

@@ -24,7 +24,8 @@
     "url": "git+https://github.com/agentframework/agentframework.git"
   },
   "prettier": {
-    "printWidth": 120,
+    "bracketSpacing": true,
+    "printWidth": 60,
     "singleQuote": true
   },
   "keywords": [
