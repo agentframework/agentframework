@@ -21,7 +21,6 @@ limitations under the License. */
 /*************************************
  *   Class
  *************************************/
-
 export { AgentReference, Params, Agent } from './Domain/Agent';
 
 /*************************************

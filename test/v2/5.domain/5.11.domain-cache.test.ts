@@ -6,7 +6,8 @@ describe('5.11. Domain agent cache', () => {
     it('cache domain agent in same domain', () => {
       let seq: string[] = [];
 
-      const domain = new InMemoryDomain();
+      const domain1 = new InMemoryDomain();
+      const domain2 = new InMemoryDomain();
 
       @decorateClass({
         get interceptor() {
@@ -20,19 +21,27 @@ describe('5.11. Domain agent cache', () => {
           }
         }
       })
-      class WebRequest511 { /* [original code] */
+      class WebRequest511 {
+        /* [original code] */
       }
 
-      expect(Reflect.getPrototypeOf(WebRequest511)?.toString()).toEqual(`function () { [native code] }`);
+      class WebResponse511 extends WebRequest511 {
+        /* [extended code] */
+      }
 
+      const proto = Reflect.getPrototypeOf(WebRequest511);
+      expect(proto).toBeDefined();
+      if (proto) {
+        expect(proto.toString()).toEqual(`function () { [native code] }`);
+      }
       expect(seq).toEqual([]);
-      const r1 = domain.construct(WebRequest511);
+      const r1 = domain1.construct(WebRequest511);
       expect(seq).toEqual(['beforeWebRequest1', 'afterWebRequest1']);
-      const r2 = domain.construct(WebRequest511);
+      const r2 = domain1.construct(WebRequest511);
       expect(seq).toEqual(['beforeWebRequest1', 'afterWebRequest1']);
-      const r3 = domain.construct(WebRequest511, [], true);
+      const r3 = domain1.construct(WebRequest511, [], true);
       expect(seq).toEqual(['beforeWebRequest1', 'afterWebRequest1', 'beforeWebRequest1', 'afterWebRequest1']);
-      const r4 = domain.construct(WebRequest511, [], true);
+      const r4 = domain1.construct(WebRequest511, [], true);
       expect(seq).toEqual(['beforeWebRequest1', 'afterWebRequest1', 'beforeWebRequest1', 'afterWebRequest1', 'beforeWebRequest1', 'afterWebRequest1']);
 
       // validate type
@@ -52,6 +61,14 @@ describe('5.11. Domain agent cache', () => {
       expect(r1).not.toBe(r3);
       expect(r1).not.toBe(r4);
       expect(r3).not.toBe(r4);
+
+      const d2r1 = domain2.construct(WebRequest511);
+      expect(d2r1).not.toBe(r1);
+      expect(d2r1).toBeInstanceOf(WebRequest511);
+
+      const d2r2 = domain2.construct(WebResponse511);
+      expect(d2r2).toBeInstanceOf(WebRequest511);
+      expect(d2r2).toBeInstanceOf(WebResponse511);
 
       // Object got constructor
       // Class got prototype

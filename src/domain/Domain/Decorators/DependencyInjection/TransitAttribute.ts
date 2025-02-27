@@ -41,12 +41,10 @@ export class TransitAttribute implements PropertyAttribute, PropertyInterceptor 
     if (typeof value !== 'undefined') {
       return value;
     }
-
     const type = this.type || (target.design && target.design.type);
     if (!type) {
       throw new AgentFrameworkError('UnknownTransitType');
     }
-
     const domain = GetDomainFromInvocation(target, params, receiver);
     if (!domain) {
       // console.log('singleton', type, 'receiver', receiver);

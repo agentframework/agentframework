@@ -12,17 +12,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import {Once} from '../../dependencies/agent';
-import {InMemoryDomain} from './InMemoryDomain';
-import {Agent, AgentReference} from './Agent';
-import {SubDomainLike} from './SubDomainLike';
-import {DomainLike} from './DomainLike';
-import {GetDomain} from './Knowledges/Domains/Domains';
-import {GetSystemDomain} from "./Helpers/GetSystemDomain";
-
+import { Once } from '../../dependencies/agent';
+import { InMemoryDomain } from './InMemoryDomain';
+import { Agent, AgentReference } from './Agent';
+import { SubDomainLike } from './SubDomainLike';
+import { DomainLike } from './DomainLike';
+import { GetDomain } from './Knowledges/Domains/Domains';
+import { GetSystemDomain } from './Helpers/GetSystemDomain';
 
 export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
-
   get parent(): DomainLike {
     // GetDomain(this) will return this. So must use GetDomain(this.constructor)
     return Once(this, 'parent', GetDomain(this.constructor) || GetSystemDomain());
@@ -47,5 +45,4 @@ export class InMemorySubDomain extends InMemoryDomain implements SubDomainLike {
   getAgent<T extends AgentReference>(identifier: T): Agent<T> | undefined {
     return super.getAgent<T>(identifier) || this.parent.getAgent<T>(identifier);
   }
-
 }

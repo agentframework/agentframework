@@ -7,6 +7,7 @@ const B = Function('A', 'return class B extends A {}');
 describe('create-class', () => {
 
   bench('native', () => {
+    // @ts-ignore
     class B extends A {}
   });
 
@@ -24,7 +25,9 @@ describe('create-class', () => {
 
   bench('prototype', ()=> {
     const B = new Function()
+    // @ts-ignore
     Reflect.setPrototypeOf(B, A);
+    // @ts-ignore
     Reflect.setPrototypeOf(B.prototype, A.prototype);
   });
 

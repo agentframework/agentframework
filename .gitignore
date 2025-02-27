@@ -5,6 +5,7 @@
 release/
 coverage/
 node_modules/
+benchmarks/node_modules/
 yarn.lock
 package-lock.json
 *.log

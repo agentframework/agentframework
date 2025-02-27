@@ -21,6 +21,7 @@ import { RememberAgent } from './Knowledges/Agents';
 import { GetType } from './Knowledges/Types';
 import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
 import { CONSTRUCTOR } from './WellKnown';
+import {GetAgentConstructor} from "./Knowledges/AgentConstructors";
 
 /**
  * Create a new agent from attribute, and add into Agent registry. Always return a new Agent type
@@ -40,6 +41,13 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // ALWAYS create agent from raw type
   // this will return the origin type
   const target = GetType(type) || type;
+
+  // create a new type from this invocation, initialize the agent using reflection info
+  const n = target.name;
+  // TODO: validate the id for the class
+  if (!n) {
+    throw new AgentFrameworkError('InvalidTypeName');
+  }
 
   // create a cache layer for strategy to store extra arguments
   const attribute = strategy ? Object.create(strategy) : Reflect.construct(AgentAttribute, [target, type, version]);
@@ -63,35 +71,8 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // TODO: cache the chain to improve performance
   const chain = OnDemandInvocationFactory.createAgentInvocation(target, typeDesign, typeConstructor, attribute);
 
-  // create a new type from this invocation, initialize the agent using reflection info
-  const id = target.name;
-  // console.log('ID:=>>>', id, receiver.toString());
-
-  // TODO: validate the id for the class
-  if (!id) {
-    throw new AgentFrameworkError('InvalidTypeName');
-  }
-
-  // make the proxy
-  // performance test result shows the cached function has the best performance than native code
-  const agent = Function(`$${id}`, 'c',
-    `class ${id} extends $${id} {
-      constructor(...params) {
-        return c($${id}, ${id}, ${id}$, params, new.target);
-      }
-    }
-    class ${id}$ extends ${id} { /* [generated code] */ };
-    return ${id}$`);
-
-  //const proxy = Function(id, `return class ${id}$ extends ${id} { /*[generated code]*/ }`);
-
-  // console.log('before newReceiver');
-
   /* eslint-disable-next-line prefer-rest-params */
-  const newReceiver = chain.invoke<T>([attribute, agent, Proxy], target);
-
-  // console.log('after newReceiver', newReceiver.toString());
-  // console.log(Reflector(newReceiver))
+  const newReceiver = chain.invoke<T>([attribute, GetAgentConstructor(n), Proxy], target);
 
   // register new agent map to old type
   // key: Agent proxy, value: origin type

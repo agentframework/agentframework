@@ -1,0 +1,31 @@
+ ✓ agent/create-class.bench.ts (5) 5609ms
+   ✓ create-class (5) 5606ms
+     name                   hz     min      max    mean     p75     p99    p995    p999      rme  samples
+   · native         541,512.76  0.0007  26.8596  0.0018  0.0008  0.0034  0.0038  0.0238  ±26.03%   272372
+   · eval           475,290.69  0.0010  18.3678  0.0021  0.0011  0.0038  0.0040  0.0219  ±18.04%   238896
+   · func           280,047.37  0.0015  45.4911  0.0036  0.0016  0.0044  0.0046  0.0216  ±26.38%   140024
+   · func (cached)  717,927.91  0.0007  31.5721  0.0014  0.0008  0.0034  0.0037  0.0214  ±17.33%   358964   fastest
+   · prototype      232,107.19  0.0024  11.7617  0.0043  0.0026  0.0055  0.0067  0.0438  ±13.53%   116054   slowest
+ ✓ agent/new-class.bench.ts (3) 28187ms
+   ✓ new-class (3) 28184ms
+     name                 hz     min      max    mean     p75     p99    p995    p999      rme  samples
+   · func       8,997,372.60  0.0001  10.2402  0.0001  0.0001  0.0001  0.0001  0.0001  ±10.66%  4498687   fastest
+   · prototype  8,014,158.04  0.0001  11.0647  0.0001  0.0001  0.0001  0.0001  0.0001  ±11.85%  4019044
+   · native     6,967,991.50  0.0001  21.4333  0.0001  0.0001  0.0001  0.0001  0.0002  ±17.90%  3483996   slowest
+
+
+ BENCH  Summary
+
+  func (cached) - agent/create-class.bench.ts > create-class
+    1.33x faster than native
+    1.51x faster than eval
+    2.56x faster than func
+    3.09x faster than prototype
+
+  func - agent/new-class.bench.ts > new-class
+    1.12x faster than prototype
+    1.29x faster than native
+
+
+ PASS  Waiting for file changes...
+       press h to show help, press q to quit

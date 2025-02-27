@@ -29,18 +29,13 @@ export class AgentTypeInvocation implements TypeInvocation {
 
   invoke([attribute, agent]: Arguments, receiver: any): any {
     // we don't use Proxy, but use customize class
-    function construct(this: AgentAttribute, target: any, proxy: any, cache: any, params: any, receiver1: any): any {
-      // console.log('target', target);
-      // console.log('proxy', proxy);
-      // this.upgrade(target, proxy, cache, design);
-      // console.log('cache', cache);
-      // console.log('same', receiver === target, receiver, receiver1)
+    function construct(this: AgentAttribute, target: any, proxy: any, cache: any, params: any, newTarget: any): any {
       if (this.construct) {
-        return this.construct(target, params, receiver1, proxy, cache);
+        return this.construct(target, params, newTarget, proxy, cache);
       }
-      return Reflect.construct(target, params, receiver1);
+      return Reflect.construct(target, params, newTarget);
     }
-    const newReceiver = Reflect.construct(agent, [receiver, construct.bind(attribute), ], receiver) as Function;
+    const newReceiver = Reflect.construct(agent, [receiver, construct.bind(attribute)], receiver) as Function;
     RememberType(newReceiver, this.target);
     return newReceiver;
   }
