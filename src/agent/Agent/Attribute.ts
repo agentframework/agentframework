@@ -15,31 +15,30 @@ limitations under the License. */
 import { Interceptor } from './Interceptor';
 
 /**
- * Attribute. extend from Object is required for type checking of { } attribute
+ * Represents an attribute.
  */
 export interface Attribute extends Object {
   /**
-   * Before decoration hook. Return false to stop decorate this attribute to a class
+   * Hook executed before decoration.
+   * If this method returns `false`, the attribute will not be applied to the class.
    *
-   * NOTE: we must define something on the interface
+   * NOTE: The interface must define at least one member;
+   * otherwise, TypeScript will treat it as an empty type.
    *
-   * @param {Object | Function} target
-   * @param {string | Symbol} key
-   * @param {PropertyDescriptor} descriptor
-   * @returns {boolean}
+   * @param {Object | Function} target The target object or constructor function
+   * @param {string | Symbol} key The property key (optional)
+   * @param {PropertyDescriptor} descriptor The property descriptor or an index (optional)
+   * @returns {boolean} boolean indicating whether to proceed with decoration (`false` to abort)
+   *
    */
   beforeDecorate?(
     target: object | Function,
-    key?: string | symbol | undefined,
+    key?: string | symbol,
     descriptor?: PropertyDescriptor | number
   ): boolean;
 
   /**
-   * Get an interceptor for this attribute
-   *
-   * @param target
-   * @param params
-   * @param receiver
+   * The interceptor associated with this attribute.
    */
   readonly interceptor?: Interceptor;
 }

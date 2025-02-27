@@ -21,7 +21,7 @@ import { RememberAgent } from './Knowledges/Agents';
 import { GetType } from './Knowledges/Types';
 import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
 import { CONSTRUCTOR } from './WellKnown';
-import {GetAgentConstructor} from "./Knowledges/AgentConstructors";
+import { GetAgentConstructor } from './Knowledges/AgentConstructors';
 
 /**
  * Create a new agent from attribute, and add into Agent registry. Always return a new Agent type
@@ -67,6 +67,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
 
   // create an invocation for agent type.
   // this chain used to generate agent of this target
+  // decorateAgent() will add interceptor into this chain
   // empty agent
   // TODO: cache the chain to improve performance
   const chain = OnDemandInvocationFactory.createAgentInvocation(target, typeDesign, typeConstructor, attribute);
