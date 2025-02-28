@@ -21,9 +21,9 @@ export function GetAgentProxy(agent: string): Function {
       `$${agent}`,
       'a',
       `class ${agent} extends $${agent}{\nconstructor(...p){` +
-        `return a.construct($${agent},p,new.target,${agent},${agent}$);\n}\n}` +
-        `class ${agent}$ extends ${agent} { /* [generated code] */ };` +
-        `return ${agent}$;`
+      `return a.construct($${agent},p,new.target,${agent},${agent}$);\n}\n}` +
+      `class ${agent}$ extends ${agent} { /* [generated code] */ };` +
+      `return ${agent}$;`
     );
     AgentProxy.v1.set(agent, ctor);
   }

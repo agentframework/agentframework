@@ -13,13 +13,14 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Attribute } from './Attribute';
-import { TypeInterceptor, ParameterInterceptor, PropertyInterceptor } from './TypeInterceptors';
+import { ParameterInterceptor, PropertyInterceptor, TypeInterceptor } from './TypeInterceptors';
 
 /**
  * Attribute applies to class
  */
 export interface TypeAttribute extends Attribute {
   beforeDecorate?(target: Function): boolean;
+
   readonly interceptor?: TypeInterceptor;
 }
 
@@ -28,6 +29,7 @@ export interface TypeAttribute extends Attribute {
  */
 export interface PropertyAttribute extends Attribute {
   beforeDecorate?(target: object, key: string | symbol): boolean;
+
   readonly interceptor?: PropertyInterceptor;
 }
 
@@ -36,6 +38,7 @@ export interface PropertyAttribute extends Attribute {
  */
 export interface ParameterAttribute extends Attribute {
   beforeDecorate?(target: Function, key: undefined, index: number): boolean;
+
   readonly interceptor?: ParameterInterceptor;
 }
 

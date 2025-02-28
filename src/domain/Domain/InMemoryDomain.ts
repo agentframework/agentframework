@@ -266,6 +266,7 @@ export class InMemoryDomain extends Domain implements Disposable {
   removeAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): boolean {
     return ForgetDomainAgent(this, identifier, agent);
   }
+
   //endregion
 
   // public beforeDecorate(attribute: IAttribute, target: Function): boolean {

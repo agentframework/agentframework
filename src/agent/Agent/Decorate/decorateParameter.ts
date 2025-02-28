@@ -15,8 +15,7 @@ limitations under the License. */
 // import { Reflector } from '../Reflector';
 import { CanDecorate } from './CanDecorate';
 import { ParameterAttribute } from '../TypeAttributes';
-import { AddAttributeToConstructorParameter } from '../../../dependencies/core';
-import { AddAttributeToPropertyParameter } from '../../../dependencies/core';
+import { AddAttributeToConstructorParameter, AddAttributeToPropertyParameter } from '../../../dependencies/core';
 
 /**
  * Decorate class method parameter

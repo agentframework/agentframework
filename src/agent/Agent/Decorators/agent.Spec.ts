@@ -1,5 +1,6 @@
 /* tslint:disable */
 import {
+  agent,
   AgentAttribute,
   Arguments,
   CreateAgent,
@@ -9,7 +10,6 @@ import {
   Invocation,
   IsAgent,
   Reflector,
-  agent,
 } from '../../../dependencies/agent';
 
 @agent()
@@ -44,7 +44,8 @@ describe('Core @agent() decorator', () => {
     it('double agent', () => {
       @agent()
       @agent()
-      class DoubleClass {}
+      class DoubleClass {
+      }
 
       const DoubleAgent = CreateAgent(DoubleClass);
       expect(DoubleClass).not.toBe(DoubleAgent);

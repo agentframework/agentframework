@@ -82,7 +82,7 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
           // don't generate property interceptor if no extended class
           UpgradeAgentProperties(members, type.prototype, proxy.prototype, properties, cache.prototype);
         }
-        ClassMembers.v1.set(type, {version: typeVersion, members});
+        ClassMembers.v1.set(type, { version: typeVersion, members });
       }
     }
 

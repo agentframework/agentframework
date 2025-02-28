@@ -34,7 +34,8 @@ export class OnDemandInterceptorInvocation<T extends Design = Design> implements
    */
   protected interceptor: Interceptor | undefined;
 
-  constructor(readonly next: Invocation<T>, readonly attribute: Attribute) {}
+  constructor(readonly next: Invocation<T>, readonly attribute: Attribute) {
+  }
 
   get design(): T {
     return this.next.design;

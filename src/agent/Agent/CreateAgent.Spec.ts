@@ -1,12 +1,12 @@
 /* tslint:disable */
 import {
-  decorateMember,
   agent,
-  IsAgent,
-  TypeInvocation,
-  Arguments,
-  TypeInterceptor,
   AgentAttribute,
+  Arguments,
+  decorateMember,
+  IsAgent,
+  TypeInterceptor,
+  TypeInvocation,
 } from '../../dependencies/agent';
 import { CreateAgent } from './CreateAgent';
 import { TransitAttribute } from './Decorators/DependencyInjection/TransitAttribute';
@@ -14,6 +14,7 @@ import { TransitAttribute } from './Decorators/DependencyInjection/TransitAttrib
 class Connection {
   static count = 0;
   state = 'offline';
+
   constructor() {
     Connection.count++;
   }
@@ -44,15 +45,18 @@ class Redis extends Database {
 }
 
 const NoNameRedis = (function () {
-  return class {};
+  return class {
+  };
 })();
 
-class CustomAgentAttribute extends AgentAttribute {}
+class CustomAgentAttribute extends AgentAttribute {
+}
 
 class InvalidCustomAgentAttribute {
   get interceptor(): TypeInterceptor {
     return this;
   }
+
   intercept(target: TypeInvocation, parameters: Arguments, receiver: any): any {
     return target.invoke<Function>(parameters, receiver);
   }

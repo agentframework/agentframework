@@ -32,7 +32,7 @@ export function decorateVariable<T extends Attribute>(attribute: T): VariableDec
   ): void => {
     //console.log('decorateVariable', target.constructor, targetKey)
 
-    Reflect.set(target, '_timestamp' , Date.now())
+    Reflect.set(target, '_timestamp', Date.now());
 
     if (CanDecorate(attribute, target, targetKey, parameterIndex)) {
       if (typeof parameterIndex === 'number') {

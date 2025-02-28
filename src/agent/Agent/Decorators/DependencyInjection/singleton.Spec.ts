@@ -1,4 +1,4 @@
-import { GetType, Reflector, agent, singleton, GetAgentType } from '../../../../dependencies/agent';
+import { agent, GetAgentType, GetType, Reflector, singleton } from '../../../../dependencies/agent';
 import { SingletonAttribute } from './SingletonAttribute';
 
 describe('Core @singleton() decorator', () => {
@@ -85,7 +85,9 @@ describe('Core @singleton() decorator', () => {
     });
 
     it('change singleton agent', () => {
-      class CoreSingletonService3 {}
+      class CoreSingletonService3 {
+      }
+
       @agent()
       class CoreSingletonDecoratorApp3 {
         @singleton()

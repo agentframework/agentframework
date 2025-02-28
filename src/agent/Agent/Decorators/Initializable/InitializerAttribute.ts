@@ -4,7 +4,8 @@ import { TypeInvocation } from '../../TypeInvocations';
 import { Arguments } from '../../Arguments';
 
 export class InitializerAttribute implements TypeInterceptor {
-  constructor(readonly key: PropertyKey) {}
+  constructor(readonly key: PropertyKey) {
+  }
 
   get interceptor() {
     return this;

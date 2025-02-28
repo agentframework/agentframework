@@ -3,6 +3,7 @@
  */
 export interface Arguments extends Iterable<any> {
   [index: number]: any;
+
   length: number;
 }
 

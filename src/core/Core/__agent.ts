@@ -15,6 +15,7 @@ limitations under the License. */
 /**
  * Helper function for class decoration
  */
+
 /*@__PURE__*/
 export function __agent(decorators: Function[], target: object | Function): any {
   for (let i = decorators.length - 1; i >= 0; i--) {

@@ -13,16 +13,17 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import {
-  PropertyAttribute,
-  PropertyInvocation,
-  PropertyInterceptor,
-  Arguments,
   AgentFrameworkError,
+  Arguments,
+  PropertyAttribute,
+  PropertyInterceptor,
+  PropertyInvocation,
 } from '../../../../dependencies/agent';
 import { GetDomainFromInvocation } from '../../Helpers/GetDomainFromInvocation';
 
 export class InjectAttribute implements PropertyAttribute, PropertyInterceptor {
-  constructor(readonly type?: Function) {}
+  constructor(readonly type?: Function) {
+  }
 
   get interceptor() {
     return this;

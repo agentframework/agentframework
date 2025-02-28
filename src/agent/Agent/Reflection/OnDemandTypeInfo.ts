@@ -14,18 +14,22 @@ limitations under the License. */
 
 import { OnDemandPropertyInfo } from './OnDemandPropertyInfo';
 import { MemberKinds } from './MemberKinds';
-import { GetAnnotation, GetConstructorAnnotation, Type } from '../../../dependencies/core';
+import {
+  AddAttributeToConstructor,
+  GetAnnotation,
+  GetConstructorAnnotation,
+  GetPropertyAnnotation,
+  Property,
+  Type
+} from '../../../dependencies/core';
 import { TypeInfo } from './TypeInfo';
 import { PropertyInfo } from './PropertyInfo';
 import { Filter } from './Filter';
 import { Attribute } from '../Attribute';
 import { Remember } from '../Decorators/Remember/Remember';
-import { AddAttributeToConstructor } from '../../../dependencies/core';
 import { CONSTRUCTOR } from '../WellKnown';
 import { Once } from '../Decorators/Once/Once';
-import { Property } from '../../../dependencies/core';
 import { IsAgent } from '../Knowledges/Agents';
-import { GetPropertyAnnotation } from '../../../dependencies/core';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}

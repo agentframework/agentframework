@@ -23,21 +23,21 @@ import { Once } from '../../Decorators/Once/Once';
 
 /**
  let MongoDB = class MongoDB {
-  constructor(user, conn) {
-    this.user = user;
-    if (conn) {
-      this.connection = conn;
-    }
-  }
+ constructor(user, conn) {
+ this.user = user;
+ if (conn) {
+ this.connection = conn;
+ }
+ }
  };
  __decorate([
-   lib_1.decorateClassField(new InjectAttribute_1.InjectAttribute()),
-   __metadata("design:type", Database)
+ lib_1.decorateClassField(new InjectAttribute_1.InjectAttribute()),
+ __metadata("design:type", Database)
  ], MongoDB.prototype, "database", void 0);
  MongoDB = __decorate([
-   lib_1.agent(),
-   __param(1, lib_1.decorateParameter(new InjectAttribute_1.InjectAttribute())),
-   __metadata("design:paramtypes", [String, Connection])
+ lib_1.agent(),
+ __param(1, lib_1.decorateParameter(new InjectAttribute_1.InjectAttribute())),
+ __metadata("design:paramtypes", [String, Connection])
  ], MongoDB);
 
  SO, we don't know the parameters type when decorate agent or decorate parameter
@@ -46,7 +46,8 @@ import { Once } from '../../Decorators/Once/Once';
  bottom to up. so we can have the metadata in place
  */
 export class OnDemandParameterInterceptor implements PropertyInterceptor {
-  constructor(readonly design: PropertyInfo) {}
+  constructor(readonly design: PropertyInfo) {
+  }
 
   get interceptor(): PropertyInterceptor | undefined {
     if (this.invocations) {

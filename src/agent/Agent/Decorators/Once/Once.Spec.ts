@@ -5,6 +5,7 @@ describe('Once!', () => {
   describe('# should able to', () => {
     it('get same value', () => {
       let n = 0;
+
       @agent()
       class Store1 {
         @once()

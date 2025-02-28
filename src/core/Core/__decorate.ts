@@ -15,6 +15,7 @@ limitations under the License. */
 /**
  * Helper function for class member decoration
  */
+
 /*@__PURE__*/
 export function __decorate(
   decorators: Function[],

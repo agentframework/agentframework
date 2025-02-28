@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { DomainAgentAttribute } from './DomainAgentAttribute';
-import { TypeAttribute, AgentFrameworkError, CreateAgent } from '../../../dependencies/agent';
+import { AgentFrameworkError, CreateAgent, TypeAttribute } from '../../../dependencies/agent';
 import { DomainLike } from '../DomainLike';
 import { GetDomain } from '../Knowledges/Domains/Domains';
 

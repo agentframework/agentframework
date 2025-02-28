@@ -1,4 +1,4 @@
-import { Reflector, agent, transit } from '../../../../dependencies/agent';
+import { agent, Reflector, transit } from '../../../../dependencies/agent';
 import { TransitAttribute } from './TransitAttribute';
 
 describe('Core @transit() decorator', () => {
@@ -50,7 +50,9 @@ describe('Core @transit() decorator', () => {
     });
 
     it('change transit agent', () => {
-      class CoreTransitService3 {}
+      class CoreTransitService3 {
+      }
+
       @agent()
       class CoreTransitDecoratorApp3 {
         @transit()

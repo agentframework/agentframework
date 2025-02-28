@@ -22,7 +22,8 @@ import { Invocation } from '../../Invocation';
  * @hidden
  */
 export class GetterSetterInvocation<T extends PropertyInfo> implements Invocation<T> {
-  constructor(readonly design: T, readonly cache: WeakMap<any, any>) {}
+  constructor(readonly design: T, readonly cache: WeakMap<any, any>) {
+  }
 
   invoke(params: Arguments, receiver: any): any {
     // const key = this.design.key;
