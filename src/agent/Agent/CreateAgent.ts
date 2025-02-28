@@ -21,8 +21,8 @@ import { RememberAgent } from './Knowledges/Agents';
 import { GetType } from './Knowledges/Types';
 import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
 import { CONSTRUCTOR } from './WellKnown';
-import { GetAgentProxy } from './Knowledges/AgentProxy';
-import { AgentTypeState } from './AgentTypeState';
+import { GetAgentType } from './Knowledges/AgentType';
+import { CreateAgentConfiguration } from './CreateAgentConfiguration';
 
 
 /**
@@ -51,7 +51,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
 
   // Step 3: Create a strategy instance.
   // If a strategy is provided, create a copy of it; otherwise, construct a new `AgentAttribute`.
-  let attribute: AgentTypeState;
+  let attribute: CreateAgentConfiguration;
   if (strategy) {
     // Step 4: Validate the strategy type. (if have)
     // Ensure the provided strategy is an instance of `AgentAttribute`.
@@ -61,7 +61,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
       attribute = Object.create(strategy);
     }
   } else {
-    attribute = Reflect.construct(AgentAttribute, [target, type, version]);
+    attribute = Reflect.construct(AgentAttribute, [target, type]);
   }
 
   // Step 5: Check if decoration is allowed.
@@ -70,7 +70,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
     throw new AgentFrameworkError('NoCreateAgentPermission');
   }
 
-  // Step 6: Collect metadata and type information.
+  // Step 6: Retrieve metadata and type information.
   const typeDesign = OnDemandTypeInfo.find(target);
   const typeConstructor = typeDesign.property(CONSTRUCTOR);
 
@@ -86,7 +86,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   const chain = OnDemandInvocationFactory.createAgentInvocation(target, typeDesign, typeConstructor, attribute);
 
   /* eslint-disable-next-line prefer-rest-params */
-  const newReceiver = chain.invoke<T>([attribute, GetAgentProxy(n), Proxy], target);
+  const newReceiver = chain.invoke<T>([attribute, target, GetAgentType(n), Proxy], target);
 
   // Step 9: Register the newly created agent type.
   // This mapping associates the new agent proxy with its original type.

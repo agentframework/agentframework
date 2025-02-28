@@ -1,10 +1,13 @@
 import { Remember } from '../Decorators/Remember/Remember';
+import { PropertyInfo } from '../Reflection/PropertyInfo';
 
 export interface ClassMemberState {
   // type version
   version: number;
   // properties version
   members: Map<string | symbol, number>;
+  // properties
+  properties: readonly PropertyInfo[];
 }
 
 export class ClassMembers {

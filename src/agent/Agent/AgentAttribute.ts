@@ -23,8 +23,8 @@ import { ClassConstructors } from './Knowledges/ClassConstructors';
 import { ClassMembers } from './Knowledges/ClassMembers';
 import { PropertyInfo } from './Reflection/PropertyInfo';
 import { TypeInfo } from './Reflection/TypeInfo';
-import { RememberType } from './Knowledges/Types';
 import { CONSTRUCTOR } from './WellKnown';
+import { CreateAgentConfiguration } from './CreateAgentConfiguration';
 
 /**
  * This attribute is for upgrade class to agent
@@ -41,53 +41,48 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
    * Create type hook (called after javascript loaded)
    */
   intercept(target: TypeInvocation, params: Arguments, receiver: Function): Function {
-    const [state, , agent] = params;
+    const [state]: [CreateAgentConfiguration] = params as any;
 
     const classDesign = (state.type = target.design.prototype);
     const classConstructor = (state.property = classDesign.property(CONSTRUCTOR));
-
     state.version += classDesign.version + classConstructor.version;
 
-    if (state.version) {
-      // WARNING: assume other interceptor is return Function object
-      // const Proxy = Function(state.name, `return class ${state.name}$ extends ${state.name} { /* [proxy code] */ };`);
-      const newReceiver = (state.target = Reflect.construct(agent, [receiver, {}]) as Function);
-      RememberType(newReceiver, receiver);
-      return (state.receiver = target.invoke<Function>(params, newReceiver));
-    }
-
-    return (state.receiver = target.invoke<Function>(params, receiver));
+    return target.invoke<Function>(params, receiver);
   }
 
   /**
    * Constructor hook (called when user construct the class and got any interceptor)
+   *
+   * @param type do not touch
+   * @param params do not touch
+   * @param receiver do not touch
+   * @param proxy allow to touch
+   * @param cache allow to touch
    */
-  construct<T extends Function>(this: any, type: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
+  construct<T extends Function>(state: CreateAgentConfiguration, type: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
 
     // build agent type
-    const design: TypeInfo = this.type;
+    const design: TypeInfo = state.type;
 
+    // build properties
     const typeVersion = design.version;
     if (typeVersion) {
-      const state = ClassMembers.v1.get(type);
+      let state = ClassMembers.v1.get(type);
       if (!state || state.version !== typeVersion) {
-        const members = (state && state.members) || new Map<string | symbol, number>();
-
-        // check if got any property with interceptors
-        const properties = members.size
-          ? design.findOwnProperties((p) => p.intercepted && members.get(p.key) !== p.version)
-          : design.findOwnProperties((p) => p.intercepted);
-
-        if (properties.length) {
-          // don't generate property interceptor if no extended class
-          UpgradeAgentProperties(members, type.prototype, proxy.prototype, properties, cache.prototype);
-        }
-        ClassMembers.v1.set(type, { version: typeVersion, members });
+        state = {
+          version: typeVersion,
+          members: state?.members || new Map<string | symbol, number>(),
+          properties: design.findOwnProperties((p) => p.intercepted),
+        };
+        ClassMembers.v1.set(type, state);
+      }
+      if (state.properties.length) {
+        UpgradeAgentProperties(state.members, type.prototype, proxy.prototype, state.properties, cache.prototype);
       }
     }
 
     // generate new class instance
-    const property: PropertyInfo = this.property;
+    const property: PropertyInfo = state.property;
     const propertyVersion = property.version;
     if (propertyVersion) {
       let invocation: TypeInvocation | undefined;

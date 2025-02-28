@@ -13,6 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { DomainAgentAttribute } from './DomainAgentAttribute';
+import { CreateAgentConfiguration } from '../../../agent/Agent/CreateAgentConfiguration';
 
 /**
  * Register agent to domain
@@ -26,8 +27,8 @@ export class RegisterDomainAgentAttribute extends DomainAgentAttribute {
   // }
 
   // register domain agent after create
-  construct<T extends Function>(type: T, params: any, receiver: T, proxy: T, cache: T): any {
-    const agent = super.construct(type, params, receiver, proxy, cache);
+  construct<T extends Function>(state: CreateAgentConfiguration, type: T, params: any, receiver: T, proxy: T, cache: T): any {
+    const agent = super.construct(state, type, params, receiver, proxy, cache);
     this.domain.addAgent(receiver, agent);
     return agent;
   }

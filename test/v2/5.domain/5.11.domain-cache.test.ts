@@ -74,7 +74,7 @@ describe('5.11. Domain agent cache', () => {
       // Class got prototype
 
       // validate inherit
-      expect(r1.constructor.toString()).toEqual('class WebRequest511$ extends WebRequest511 { /* [generated code] */ }');
+      expect(r1.constructor.toString()).toEqual('class WebRequest511$ extends WebRequest511 { /* [generated agent] */ }');
       expect(Reflect.getPrototypeOf(r1)).toEqual(WebRequest511.prototype);
       expect(Reflect.getPrototypeOf(r2)).toEqual(WebRequest511.prototype);
 

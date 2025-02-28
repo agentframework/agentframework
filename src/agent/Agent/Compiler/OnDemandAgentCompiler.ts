@@ -21,18 +21,20 @@ import { PropertyInfo } from '../Reflection/PropertyInfo';
 export function UpgradeAgentProperties(
   members: Map<string | symbol, number>,
   prototype: Function | object,
-  receiver: Function | object,
+  proxy: Function | object,
   properties: ReadonlyArray<PropertyInfo>,
   cache?: Function | object
-) {
+): number {
+  let version = 0;
   // only proxy property contains interceptor
   // property without interceptor is metadata only attribute
   for (const property of properties) {
     // updates version
+    version += property.version;
     members.set(property.key, property.version);
 
     // can skip if property is exists
-    if (cache && Reflect.getOwnPropertyDescriptor(receiver, property.key)) {
+    if (cache && Reflect.getOwnPropertyDescriptor(proxy, property.key)) {
       Reflect.deleteProperty(cache, property.key);
       continue;
     }
@@ -42,12 +44,14 @@ export function UpgradeAgentProperties(
 
     let newDescriptor: PropertyDescriptor;
     if (descriptor) {
-      newDescriptor = OnDemandAgentCompiler.makeProperty(property, descriptor, cache || receiver);
+      newDescriptor = OnDemandAgentCompiler.makeProperty(property, descriptor, cache || proxy);
     } else {
-      newDescriptor = OnDemandAgentCompiler.makeField(property, cache || receiver);
+      newDescriptor = OnDemandAgentCompiler.makeField(property, cache || proxy);
     }
-    Reflect.defineProperty(receiver, property.key, newDescriptor);
+    Reflect.defineProperty(proxy, property.key, newDescriptor);
   }
+
+  return version;
 }
 
 class OnDemandAgentCompiler {
@@ -87,7 +91,7 @@ class OnDemandAgentCompiler {
   static makeProperty(
     property: PropertyInfo,
     descriptor: PropertyDescriptor,
-    receiver: Function | object
+    proxy: Function | object
   ): PropertyDescriptor {
     const key = property.key;
     let propertyDescriptor = Object.create(descriptor);
@@ -104,14 +108,14 @@ class OnDemandAgentCompiler {
         // ************************
         propertyDescriptor.get = function (this: any) {
           const getterChain = OnDemandInvocationFactory.createPropertyInvocation(getterFunction, property);
-          propertyDescriptor.get = function () {
+          propertyDescriptor.get = function (this: any) {
             return getterChain.invoke([], this);
           };
           const setterChain = OnDemandInvocationFactory.createPropertyInvocation(setterFunction, property);
-          propertyDescriptor.set = function () {
+          propertyDescriptor.set = function (this: any) {
             setterChain.invoke(arguments, this);
           };
-          alter(receiver, key, propertyDescriptor);
+          alter(proxy, key, propertyDescriptor);
           return getterChain.invoke([], this);
         };
         propertyDescriptor.set = function (this: any) {
@@ -123,7 +127,7 @@ class OnDemandAgentCompiler {
           propertyDescriptor.set = function () {
             setterChain.invoke(arguments, this);
           };
-          alter(receiver, key, propertyDescriptor);
+          alter(proxy, key, propertyDescriptor);
           return setterChain.invoke(arguments, this);
         };
       } else {
@@ -135,7 +139,7 @@ class OnDemandAgentCompiler {
           propertyDescriptor.get = function (this: any) {
             return getterChain.invoke([], this);
           };
-          alter(receiver, key, propertyDescriptor);
+          alter(proxy, key, propertyDescriptor);
           return getterChain.invoke([], this);
         };
       }
@@ -148,7 +152,7 @@ class OnDemandAgentCompiler {
         propertyDescriptor.set = function (this: any) {
           return setterChain.invoke(arguments, this);
         };
-        alter(receiver, key, propertyDescriptor);
+        alter(proxy, key, propertyDescriptor);
         return setterChain.invoke(arguments, this);
       };
     } else if ('function' === typeof defaultValue) {
@@ -160,11 +164,11 @@ class OnDemandAgentCompiler {
         propertyDescriptor.value = function (this: any) {
           return methodChain.invoke(arguments, this);
         };
-        alter(receiver, key, propertyDescriptor);
+        alter(proxy, key, propertyDescriptor);
         return methodChain.invoke(arguments, this);
       };
     } else {
-      propertyDescriptor = this.makeField(property, receiver);
+      propertyDescriptor = this.makeField(property, proxy);
     }
 
     // console.log('descriptor', descriptor);
