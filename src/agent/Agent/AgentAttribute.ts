@@ -24,6 +24,7 @@ import { ClassMembers } from './Knowledges/ClassMembers';
 import { PropertyInfo } from './Reflection/PropertyInfo';
 import { TypeInfo } from './Reflection/TypeInfo';
 import { RememberType } from './Knowledges/Types';
+import { CONSTRUCTOR } from './WellKnown';
 
 /**
  * This attribute is for upgrade class to agent
@@ -41,6 +42,12 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
    */
   intercept(target: TypeInvocation, params: Arguments, receiver: Function): Function {
     const [state, , agent] = params;
+
+    const classDesign = (state.type = target.design.prototype);
+    const classConstructor = (state.property = classDesign.property(CONSTRUCTOR));
+
+    state.version += classDesign.version + classConstructor.version;
+
     if (state.version) {
       // WARNING: assume other interceptor is return Function object
       // const Proxy = Function(state.name, `return class ${state.name}$ extends ${state.name} { /* [proxy code] */ };`);
@@ -48,6 +55,7 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
       RememberType(newReceiver, receiver);
       return (state.receiver = target.invoke<Function>(params, newReceiver));
     }
+
     return (state.receiver = target.invoke<Function>(params, receiver));
   }
 
@@ -57,7 +65,6 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
   construct<T extends Function>(this: any, type: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
 
     // build agent type
-
     const design: TypeInfo = this.type;
 
     const typeVersion = design.version;
@@ -75,7 +82,7 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
           // don't generate property interceptor if no extended class
           UpgradeAgentProperties(members, type.prototype, proxy.prototype, properties, cache.prototype);
         }
-        ClassMembers.v1.set(type, { version: typeVersion, members });
+        ClassMembers.v1.set(type, {version: typeVersion, members});
       }
     }
 

@@ -15,7 +15,7 @@ Now I realized this mistake and change back to `getAgent` again.
 ## Decision
 
 An instance of class should call Agent in AOP
-The type of agent should call AgentType
+The type of agent (class) should call AgentType
 
 ## Consequences
 
