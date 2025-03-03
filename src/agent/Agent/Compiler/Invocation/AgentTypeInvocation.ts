@@ -27,8 +27,8 @@ export class AgentTypeInvocation implements TypeInvocation {
   constructor(readonly target: Function, readonly design: TypeInfo) {
   }
 
-  invoke([state, target, agent]: Arguments, receiver: any): any {
-    const newReceiver = Reflect.construct(agent, [state, target]) as Function;
+  invoke(params: Arguments, receiver: any): any {
+    const newReceiver = Reflect.construct(receiver, params) as Function;
     RememberType(newReceiver, this.target);
     return newReceiver;
   }

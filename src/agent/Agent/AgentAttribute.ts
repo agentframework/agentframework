@@ -25,6 +25,7 @@ import { PropertyInfo } from './Reflection/PropertyInfo';
 import { TypeInfo } from './Reflection/TypeInfo';
 import { CONSTRUCTOR } from './WellKnown';
 import { CreateAgentConfiguration } from './CreateAgentConfiguration';
+import { AgentTypeInvocation } from './Compiler/Invocation/AgentTypeInvocation';
 
 /**
  * This attribute is for upgrade class to agent
@@ -38,20 +39,20 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
   }
 
   /**
-   * Create type hook (called after javascript loaded)
+   * Create agent type hook (called after javascript loaded)
+   *
+   * @param target
+   * @param params
+   * @param receiver
    */
-  intercept(target: TypeInvocation, params: Arguments, receiver: Function): Function {
-    const [state]: [CreateAgentConfiguration] = params as any;
-
-    const classDesign = (state.type = target.design.prototype);
-    const classConstructor = (state.property = classDesign.property(CONSTRUCTOR));
-    state.version += classDesign.version + classConstructor.version;
-
-    return target.invoke<Function>(params, receiver);
+  intercept(this: CreateAgentConfiguration, target: AgentTypeInvocation, params: Arguments, receiver: any): Function {
+    const classDesign = (this.type = target.design.prototype);
+    this.property = classDesign.property(CONSTRUCTOR)
+    return target.invoke(params, receiver);
   }
 
   /**
-   * Constructor hook (called when user construct the class and got any interceptor)
+   * Create agent hook (called when user construct the class and got any interceptor)
    *
    * @param type do not touch
    * @param params do not touch
@@ -59,30 +60,30 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
    * @param proxy allow to touch
    * @param cache allow to touch
    */
-  construct<T extends Function>(state: CreateAgentConfiguration, type: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
+  construct<T extends Function>(this: CreateAgentConfiguration, type: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
 
     // build agent type
-    const design: TypeInfo = state.type;
+    const design: TypeInfo = this.type;
 
     // build properties
     const typeVersion = design.version;
     if (typeVersion) {
-      let state = ClassMembers.v1.get(type);
-      if (!state || state.version !== typeVersion) {
-        state = {
+      let cm = ClassMembers.v1.get(type);
+      if (!cm || cm.version !== typeVersion) {
+        cm = {
           version: typeVersion,
-          members: state?.members || new Map<string | symbol, number>(),
+          members: cm?.members || new Map<string | symbol, number>(),
           properties: design.findOwnProperties((p) => p.intercepted),
         };
-        ClassMembers.v1.set(type, state);
+        ClassMembers.v1.set(type, cm);
       }
-      if (state.properties.length) {
-        UpgradeAgentProperties(state.members, type.prototype, proxy.prototype, state.properties, cache.prototype);
+      if (cm.properties.length) {
+        UpgradeAgentProperties(cm.members, type.prototype, proxy.prototype, cm.properties, cache.prototype);
       }
     }
 
     // generate new class instance
-    const property: PropertyInfo = state.property;
+    const property: PropertyInfo = this.property;
     const propertyVersion = property.version;
     if (propertyVersion) {
       let invocation: TypeInvocation | undefined;

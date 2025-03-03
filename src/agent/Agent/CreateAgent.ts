@@ -13,7 +13,6 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { AgentAttribute } from './AgentAttribute';
-import { TypeAttribute } from './TypeAttributes';
 import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
 import { CanDecorate } from './Decorate/CanDecorate';
 import { AgentFrameworkError } from './AgentFrameworkError';
@@ -21,9 +20,9 @@ import { RememberAgent } from './Knowledges/Agents';
 import { GetType } from './Knowledges/Types';
 import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
 import { CONSTRUCTOR } from './WellKnown';
-import { GetAgentType } from './Knowledges/AgentType';
 import { CreateAgentConfiguration } from './CreateAgentConfiguration';
-
+import { CreateAgentType } from './Knowledges/AgentType';
+import { TypeAttribute } from './TypeAttributes';
 
 /**
  * Creates a new agent type from giving class type with specified attribute and registers it in the Agent registry.
@@ -73,20 +72,21 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // Step 6: Retrieve metadata and type information.
   const typeDesign = OnDemandTypeInfo.find(target);
   const typeConstructor = typeDesign.property(CONSTRUCTOR);
+  const agentType = CreateAgentType(n);
 
   // Step 7: Compute the agent version.
   // The version is derived from class metadata and the provided version parameter.
-  attribute.name = n;
-  attribute.version = (version || 0);
+  // attribute.name = n;
+  // attribute.version = (version || 0);
 
   // Step 8: Create an invocation chain for the agent.
   // The invocation chain is responsible for managing agent creation and interceptors.
   // `decorateAgent()` will insert interceptors into this chain.
-  // TODO: Cache the invocation chain to improve performance.
+  // TODO: Cache the invocation chain to improve performance. key: typeConstructor + attribute
   const chain = OnDemandInvocationFactory.createAgentInvocation(target, typeDesign, typeConstructor, attribute);
 
   /* eslint-disable-next-line prefer-rest-params */
-  const newReceiver = chain.invoke<T>([attribute, target, GetAgentType(n), Proxy], target);
+  const newReceiver = chain.invoke<T>([attribute, target, type], agentType);
 
   // Step 9: Register the newly created agent type.
   // This mapping associates the new agent proxy with its original type.

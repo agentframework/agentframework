@@ -14,14 +14,14 @@ export class AgentType {
  *  Performance test result shows the cached function has the best performance than native code
  *  cache function by id. id is the primary key
  */
-export function GetAgentType(agent: string): Function {
+export function CreateAgentType(agent: string): Function {
   let ctor = AgentType.v1.get(agent);
   if (!ctor) {
     ctor = Function(
       'a',
       `$${agent}`,
       `class ${agent} extends $${agent}{\nconstructor(...p){` +
-      `return a.construct(a,$${agent},p,new.target,${agent},${agent}$);\n}\n}` +
+      `return a.construct($${agent},p,new.target,${agent},${agent}$);\n}\n}` +
       `class ${agent}$ extends ${agent} { /* [generated agent] */ };` +
       `return ${agent}$;`
     );
