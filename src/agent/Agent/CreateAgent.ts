@@ -50,14 +50,15 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
 
   // Step 3: Create a strategy instance.
   // If a strategy is provided, create a copy of it; otherwise, construct a new `AgentAttribute`.
+
   let attribute: CreateAgentConfiguration;
   if (strategy) {
     // Step 4: Validate the strategy type. (if have)
     // Ensure the provided strategy is an instance of `AgentAttribute`.
-    if (!Reflect.has(strategy, 'construct')) {
-      throw new AgentFrameworkError('InvalidAgentStrategy');
-    } else {
+    if (Reflect.has(strategy, 'construct')) {
       attribute = Object.create(strategy);
+    } else {
+      throw new AgentFrameworkError('InvalidAgentStrategy');
     }
   } else {
     attribute = Reflect.construct(AgentAttribute, [target, type, version]);
@@ -73,8 +74,6 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   const typeDesign = OnDemandTypeInfo.find(target);
   const typeConstructor = typeDesign.property(CONSTRUCTOR);
   const agent = CreateAgentType(id);
-  attribute.type = typeDesign.prototype;
-  attribute.property = attribute.type.property(CONSTRUCTOR);
 
   // Step 7: Create an invocation chain for the agentType.
   // The invocation chain is responsible for managing agentType creation and interceptors.

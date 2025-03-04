@@ -25,6 +25,8 @@ import { PropertyInfo } from './Reflection/PropertyInfo';
 import { TypeInfo } from './Reflection/TypeInfo';
 import { CreateAgentConfiguration } from './CreateAgentConfiguration';
 import { AgentTypeInvocation } from './Compiler/Invocation/AgentTypeInvocation';
+import { CONSTRUCTOR } from './WellKnown';
+import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
 
 /**
  * This attribute is for upgrade class to agent
@@ -60,7 +62,7 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
   construct<T extends Function>(this: CreateAgentConfiguration, type: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
 
     // build agent type
-    const design: TypeInfo = this.type;
+    const design: TypeInfo = OnDemandTypeInfo.find(type.prototype);
 
     // build properties
     const typeVersion = design.version;
@@ -80,7 +82,7 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
     }
 
     // generate new class instance
-    const property: PropertyInfo = this.property;
+    const property: PropertyInfo = design.property(CONSTRUCTOR);
     const propertyVersion = property.version;
     if (propertyVersion) {
       let invocation: TypeInvocation | undefined;
