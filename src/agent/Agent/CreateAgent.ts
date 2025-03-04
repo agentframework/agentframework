@@ -72,7 +72,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // Step 6: Retrieve metadata and type information.
   const typeDesign = OnDemandTypeInfo.find(target);
   const typeConstructor = typeDesign.property(CONSTRUCTOR);
-  const agentType = CreateAgentType(id);
+  const agent = CreateAgentType(id);
   attribute.type = typeDesign.prototype;
   attribute.property = attribute.type.property(CONSTRUCTOR);
 
@@ -83,7 +83,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   const chain = OnDemandInvocationFactory.createAgentInvocation(target, typeDesign, typeConstructor, attribute);
 
   /* eslint-disable-next-line prefer-rest-params */
-  const newReceiver = chain.invoke<T>([attribute, target], agentType);
+  const newReceiver = chain.invoke<T>([attribute, target], agent);
 
   // Step 8: Register the newly created agentType type.
   // This mapping associates the new agentType proxy with its original type.
