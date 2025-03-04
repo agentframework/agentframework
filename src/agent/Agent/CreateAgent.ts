@@ -50,7 +50,6 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
 
   // Step 3: Create a strategy instance.
   // If a strategy is provided, create a copy of it; otherwise, construct a new `AgentAttribute`.
-
   let attribute: CreateAgentConfiguration;
   if (strategy) {
     // Step 4: Validate the strategy type. (if have)
@@ -73,7 +72,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // Step 6: Retrieve metadata and type information.
   const typeDesign = OnDemandTypeInfo.find(target);
   const typeConstructor = typeDesign.property(CONSTRUCTOR);
-  const agent = CreateAgentType(id);
+  const receiver = CreateAgentType(id);
 
   // Step 7: Create an invocation chain for the agentType.
   // The invocation chain is responsible for managing agentType creation and interceptors.
@@ -82,7 +81,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   const chain = OnDemandInvocationFactory.createAgentInvocation(target, typeDesign, typeConstructor, attribute);
 
   /* eslint-disable-next-line prefer-rest-params */
-  const newReceiver = chain.invoke<T>([attribute, target], agent);
+  const newReceiver = chain.invoke<T>([attribute, target], receiver);
 
   // Step 8: Register the newly created agentType type.
   // This mapping associates the new agentType proxy with its original type.
