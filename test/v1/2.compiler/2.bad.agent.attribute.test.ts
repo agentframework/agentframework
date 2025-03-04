@@ -1,12 +1,19 @@
 /* tslint:disable */
 
-import { decorateMember, Interceptor, Attribute } from '../../../src/dependencies/agent';
-import { CreateAgent, AgentAttribute } from '../../../src/dependencies/agent';
+import {
+  AgentAttribute,
+  Attribute,
+  CreateAgent,
+  decorateMember,
+  Interceptor,
+  IsAgent
+} from '../../../src/dependencies/agent';
 import { InjectAttribute } from '../1.attributes/InjectAttribute';
 
 class Connection {
   static count = 0;
   state = 'offline';
+
   constructor() {
     Connection.count++;
   }
@@ -38,13 +45,12 @@ class AgentBadInterceptorAttribute extends AgentAttribute implements Attribute {
 }
 
 describe('Compiler got Bad AgentAttribute', () => {
-  describe('# should not able to', () => {
+  describe('# should able to', () => {
     it('create agent', () => {
-      expect(()=>{
-        const MongoDB$ = CreateAgent(MongoDB, new AgentBadInterceptorAttribute());
-        const mongo = new MongoDB$();
-        expect(mongo).toBeInstanceOf(MongoDB)
-      }).toThrowError();
+      const MongoDB$ = CreateAgent(MongoDB, new AgentBadInterceptorAttribute());
+      expect(IsAgent(MongoDB$)).toBeTrue();
+      const mongo = new MongoDB$();
+      expect(mongo).toBeInstanceOf(MongoDB);
     });
   });
 });

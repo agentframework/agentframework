@@ -19,10 +19,10 @@ import { AgentFrameworkError } from './AgentFrameworkError';
 import { RememberAgent } from './Knowledges/Agents';
 import { GetType } from './Knowledges/Types';
 import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
-import { CONSTRUCTOR } from './WellKnown';
 import { CreateAgentConfiguration } from './CreateAgentConfiguration';
-import { CreateAgentType } from './Knowledges/AgentType';
 import { TypeAttribute } from './TypeAttributes';
+import { CONSTRUCTOR } from './WellKnown';
+import { CreateAgentType } from './Knowledges/AgentTypes';
 
 /**
  * Creates a new agent type from giving class type with specified attribute and registers it in the Agent registry.
@@ -34,17 +34,17 @@ import { TypeAttribute } from './TypeAttributes';
  * @returns A newly created Agent type.
  */
 export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribute, version?: number): T {
-  // Always create a new agent using the latest annotations.
+  // Always create a new agentType using the latest annotations.
 
-  // Step 1: Retrieve the original type if the given type is already an agent.
-  // If `type` is an agent, extract its original class.
-  // This ensures we always create an agent from the raw, unproxied class.
+  // Step 1: Retrieve the original type if the given type is already an agentType.
+  // If `type` is an agentType, extract its original class.
+  // This ensures we always create an agentType from the raw, unproxied class.
   const target = GetType(type) || type;
 
   // Step 2: Validate the class name.
-  // A valid agent must have a name; otherwise, throw an error.
-  const n = target.name;
-  if (!n) {
+  // A valid agentType must have a name; otherwise, throw an error.
+  const id = target.name;
+  if (!id) {
     throw new AgentFrameworkError('InvalidTypeName');
   }
 
@@ -60,7 +60,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
       attribute = Object.create(strategy);
     }
   } else {
-    attribute = Reflect.construct(AgentAttribute, [target, type]);
+    attribute = Reflect.construct(AgentAttribute, [target, type, version]);
   }
 
   // Step 5: Check if decoration is allowed.
@@ -72,24 +72,21 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   // Step 6: Retrieve metadata and type information.
   const typeDesign = OnDemandTypeInfo.find(target);
   const typeConstructor = typeDesign.property(CONSTRUCTOR);
-  const agentType = CreateAgentType(n);
+  const agentType = CreateAgentType(id);
+  attribute.type = typeDesign.prototype;
+  attribute.property = attribute.type.property(CONSTRUCTOR);
 
-  // Step 7: Compute the agent version.
-  // The version is derived from class metadata and the provided version parameter.
-  // attribute.name = n;
-  // attribute.version = (version || 0);
-
-  // Step 8: Create an invocation chain for the agent.
-  // The invocation chain is responsible for managing agent creation and interceptors.
+  // Step 7: Create an invocation chain for the agentType.
+  // The invocation chain is responsible for managing agentType creation and interceptors.
   // `decorateAgent()` will insert interceptors into this chain.
   // TODO: Cache the invocation chain to improve performance. key: typeConstructor + attribute
   const chain = OnDemandInvocationFactory.createAgentInvocation(target, typeDesign, typeConstructor, attribute);
 
   /* eslint-disable-next-line prefer-rest-params */
-  const newReceiver = chain.invoke<T>([attribute, target, type], agentType);
+  const newReceiver = chain.invoke<T>([attribute, target], agentType);
 
-  // Step 9: Register the newly created agent type.
-  // This mapping associates the new agent proxy with its original type.
+  // Step 8: Register the newly created agentType type.
+  // This mapping associates the new agentType proxy with its original type.
   RememberAgent(target, newReceiver);
 
   return newReceiver;

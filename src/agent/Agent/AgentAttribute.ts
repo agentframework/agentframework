@@ -23,7 +23,6 @@ import { ClassConstructors } from './Knowledges/ClassConstructors';
 import { ClassMembers } from './Knowledges/ClassMembers';
 import { PropertyInfo } from './Reflection/PropertyInfo';
 import { TypeInfo } from './Reflection/TypeInfo';
-import { CONSTRUCTOR } from './WellKnown';
 import { CreateAgentConfiguration } from './CreateAgentConfiguration';
 import { AgentTypeInvocation } from './Compiler/Invocation/AgentTypeInvocation';
 
@@ -41,13 +40,11 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
   /**
    * Create agent type hook (called after javascript loaded)
    *
-   * @param target
-   * @param params
-   * @param receiver
+   * @param target do not touch
+   * @param params do not touch
+   * @param receiver do not touch
    */
   intercept(this: CreateAgentConfiguration, target: AgentTypeInvocation, params: Arguments, receiver: any): Function {
-    const classDesign = (this.type = target.design.prototype);
-    this.property = classDesign.property(CONSTRUCTOR)
     return target.invoke(params, receiver);
   }
 
