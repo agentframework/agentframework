@@ -19,7 +19,7 @@ import {
   PropertyInterceptor,
   PropertyInvocation,
 } from '../../../../dependencies/agent';
-import { GetDomainFromInvocation } from '../../Helpers/GetDomainFromInvocation';
+import { GetDomainFromIntercept } from '../../Helpers/GetDomainFromIntercept';
 
 export class TransitAttribute implements PropertyAttribute, PropertyInterceptor {
   private readonly type?: Function;
@@ -45,7 +45,7 @@ export class TransitAttribute implements PropertyAttribute, PropertyInterceptor 
     if (!type) {
       throw new AgentFrameworkError('UnknownTransitType');
     }
-    const domain = GetDomainFromInvocation(target, params, receiver);
+    const domain = GetDomainFromIntercept(target, params, receiver);
     if (!domain) {
       // console.log('singleton', type, 'receiver', receiver);
       throw new AgentFrameworkError('NoDomainFoundForTransitInjection');

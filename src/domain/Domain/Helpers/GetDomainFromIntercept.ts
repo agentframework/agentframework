@@ -22,7 +22,7 @@ import { GetDomain } from '../Knowledges/Domains/Domains';
  *
  * DomainReference don't have construct or resolve, so it will never create new instance
  */
-export function GetDomainFromInvocation(
+export function GetDomainFromIntercept(
   target: Invocation,
   params: Arguments,
   receiver: Function | object

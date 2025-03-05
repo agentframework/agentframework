@@ -19,7 +19,7 @@ import {
   PropertyInterceptor,
   PropertyInvocation,
 } from '../../../../dependencies/agent';
-import { GetDomainFromInvocation } from '../../Helpers/GetDomainFromInvocation';
+import { GetDomainFromIntercept } from '../../Helpers/GetDomainFromIntercept';
 
 export class InjectAttribute implements PropertyAttribute, PropertyInterceptor {
   constructor(readonly type?: Function) {
@@ -44,7 +44,7 @@ export class InjectAttribute implements PropertyAttribute, PropertyInterceptor {
       throw new AgentFrameworkError('UnknownInjectType');
     }
 
-    const domain = GetDomainFromInvocation(target, params, receiver);
+    const domain = GetDomainFromIntercept(target, params, receiver);
     if (!domain) {
       throw new AgentFrameworkError('DomainNotFound: ' + type.name);
     }

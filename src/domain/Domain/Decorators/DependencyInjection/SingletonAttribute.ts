@@ -19,7 +19,7 @@ import {
   PropertyInterceptor,
   PropertyInvocation,
 } from '../../../../dependencies/agent';
-import { GetDomainFromInvocation } from '../../Helpers/GetDomainFromInvocation';
+import { GetDomainFromIntercept } from '../../Helpers/GetDomainFromIntercept';
 
 export class SingletonAttribute implements PropertyAttribute, PropertyInterceptor {
   constructor(readonly type?: Function) {
@@ -48,7 +48,7 @@ export class SingletonAttribute implements PropertyAttribute, PropertyIntercepto
     }
 
     // if this object created by domain, the last argument is domain itself
-    const domain = GetDomainFromInvocation(target, params, receiver);
+    const domain = GetDomainFromIntercept(target, params, receiver);
     if (!domain) {
       // console.log('singleton', type, 'receiver', receiver);
       throw new AgentFrameworkError('NoDomainFoundForSingletonInjection');
