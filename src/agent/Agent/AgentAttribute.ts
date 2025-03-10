@@ -23,7 +23,6 @@ import { ClassConstructors } from './Knowledges/ClassConstructors';
 import { ClassMembers } from './Knowledges/ClassMembers';
 import { PropertyInfo } from './Reflection/PropertyInfo';
 import { TypeInfo } from './Reflection/TypeInfo';
-import { CreateAgentConfiguration } from './CreateAgentConfiguration';
 import { AgentTypeInvocation } from './Compiler/Invocation/AgentTypeInvocation';
 import { CONSTRUCTOR } from './WellKnown';
 import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
@@ -46,7 +45,7 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
    * @param params do not touch
    * @param receiver do not touch
    */
-  intercept(this: CreateAgentConfiguration, target: AgentTypeInvocation, params: Arguments, receiver: any): Function {
+  intercept(target: AgentTypeInvocation, params: Arguments, receiver: any): Function {
     return target.invoke(params, receiver);
   }
 
@@ -59,7 +58,7 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
    * @param proxy allow to touch
    * @param cache allow to touch
    */
-  construct<T extends Function>(this: CreateAgentConfiguration, type: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
+  construct<T extends Function>(type: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
 
     // build agent type
     const design: TypeInfo = OnDemandTypeInfo.find(type.prototype);
@@ -69,6 +68,7 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
     if (typeVersion) {
       let cm = ClassMembers.v1.get(type);
       if (!cm || cm.version !== typeVersion) {
+        // find prototype until agent or null
         cm = {
           version: typeVersion,
           members: cm?.members || new Map<string | symbol, number>(),

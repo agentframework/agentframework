@@ -19,7 +19,6 @@ import { AgentFrameworkError } from './AgentFrameworkError';
 import { RememberAgent } from './Knowledges/Agents';
 import { GetType } from './Knowledges/Types';
 import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
-import { CreateAgentConfiguration } from './CreateAgentConfiguration';
 import { TypeAttribute } from './TypeAttributes';
 import { CONSTRUCTOR } from './WellKnown';
 import { CreateAgentType } from './Knowledges/AgentTypes';
@@ -50,7 +49,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
 
   // Step 3: Create a strategy instance.
   // If a strategy is provided, create a copy of it; otherwise, construct a new `AgentAttribute`.
-  let attribute: CreateAgentConfiguration;
+  let attribute: AgentAttribute;
   if (strategy) {
     // Step 4: Validate the strategy type. (if have)
     // Ensure the provided strategy is an instance of `AgentAttribute`.
