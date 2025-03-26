@@ -21,8 +21,7 @@ import { TypeInfo } from '../../Reflection/TypeInfo';
  * @hidden
  */
 export class ClassTypeInvocation implements TypeInvocation {
-  constructor(readonly target: Function, readonly design: TypeInfo) {
-  }
+  constructor(readonly target: Function, readonly design: TypeInfo) {}
 
   invoke(params: Arguments, receiver: Function): any {
     return Reflect.construct(this.target, params, receiver);

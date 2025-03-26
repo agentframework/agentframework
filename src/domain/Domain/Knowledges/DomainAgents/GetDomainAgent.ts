@@ -34,7 +34,11 @@ export function GetDomainAgent<T extends AgentReference>(domain: DomainLike, ide
   return undefined;
 }
 
-export function ForgetDomainAgent<T extends AgentReference>(domain: DomainLike, identifier: T, agent: Agent<T>): boolean {
+export function ForgetDomainAgent<T extends AgentReference>(
+  domain: DomainLike,
+  identifier: T,
+  agent: Agent<T>
+): boolean {
   const _agents = DomainAgents.v1.get(domain);
   if (_agents && _agents.has(identifier) && _agents.get(identifier) === agent) {
     _agents.delete(identifier);
@@ -62,7 +66,11 @@ export function SetDomainAgent<T extends AgentReference>(domain: DomainLike, ide
   _agents.set(identifier, agent);
 }
 
-export function RememberDomainAgent<T extends AgentReference>(domain: DomainLike, identifier: T, agent: Agent<T>): void {
+export function RememberDomainAgent<T extends AgentReference>(
+  domain: DomainLike,
+  identifier: T,
+  agent: Agent<T>
+): void {
   const _agents = GetOrCreateDomainAgents(domain);
   if (typeof identifier === 'function') {
     let ctor: Function | null | undefined = identifier;

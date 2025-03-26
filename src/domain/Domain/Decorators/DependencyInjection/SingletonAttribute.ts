@@ -22,8 +22,7 @@ import {
 import { GetDomainFromIntercept } from '../../Helpers/GetDomainFromIntercept';
 
 export class SingletonAttribute implements PropertyAttribute, PropertyInterceptor {
-  constructor(readonly type?: Function) {
-  }
+  constructor(readonly type?: Function) {}
 
   get interceptor() {
     return this;

@@ -15,14 +15,11 @@ describe('Knowledge!', () => {
     });
 
     it('get static class property from wisdom type', () => {
-      class A {
-      }
+      class A {}
 
-      class B extends A {
-      }
+      class B extends A {}
 
-      class C extends B {
-      }
+      class C extends B {}
 
       const tc: any = Knowledge.add(C).prototype;
       tc.ccc = 1;
@@ -57,14 +54,11 @@ describe('Knowledge!', () => {
     });
 
     it('get class property from wisdom type', () => {
-      class A {
-      }
+      class A {}
 
-      class B extends A {
-      }
+      class B extends A {}
 
-      class C extends B {
-      }
+      class C extends B {}
 
       const tc: any = Knowledge.add(C.prototype).prototype;
       tc.ccc = <any>1;

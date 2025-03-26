@@ -17,14 +17,11 @@ import { TypeInfo } from './Reflection/TypeInfo';
 import { PropertyInfo } from './Reflection/PropertyInfo';
 import { ParameterInfo } from './Reflection/ParameterInfo';
 
-export interface TypeInvocation extends Invocation<TypeInfo> {
-}
+export interface TypeInvocation extends Invocation<TypeInfo> {}
 
-export interface PropertyInvocation extends Invocation<PropertyInfo> {
-}
+export interface PropertyInvocation extends Invocation<PropertyInfo> {}
 
-export interface ParameterInvocation extends Invocation<ParameterInfo> {
-}
+export interface ParameterInvocation extends Invocation<ParameterInfo> {}
 
 // export interface MethodInvocation extends Invocation {
 //   /**

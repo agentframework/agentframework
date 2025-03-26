@@ -21,9 +21,9 @@ export function CreateAgentType(a: string): Function {
       'Reflect',
       `$${a}`,
       `class ${a} extends $${a} {\nconstructor(..._) {` +
-      `return Reflect.construct($${a},_,new.target,${a},${a}$);\n}\n}` +
-      `class ${a}$ extends ${a} { /* [generated agent] */ };` +
-      `return ${a}$;`
+        `return Reflect.construct($${a},_,new.target,${a},${a}$);\n}\n}` +
+        `class ${a}$ extends ${a} { /* [generated agent] */ };` +
+        `return ${a}$;`
     );
     AgentTypes.v1.set(a, ctor);
   }

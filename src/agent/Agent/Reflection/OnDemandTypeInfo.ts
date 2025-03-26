@@ -20,7 +20,7 @@ import {
   GetConstructorAnnotation,
   GetPropertyAnnotation,
   Property,
-  Type
+  Type,
 } from '../../../dependencies/core';
 import { TypeInfo } from './TypeInfo';
 import { PropertyInfo } from './PropertyInfo';

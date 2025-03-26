@@ -1,25 +1,19 @@
 import { FindExtendedClass } from './FindExtendedClass';
 
 describe('FindExtendedClass', () => {
-  class Base {
-  }
+  class Base {}
 
-  class Middle extends Base {
-  }
+  class Middle extends Base {}
 
-  class End extends Middle {
-  }
+  class End extends Middle {}
 
   const ProxyBase = new Proxy(Base, {});
 
-  class ProxyMiddle extends ProxyBase {
-  }
+  class ProxyMiddle extends ProxyBase {}
 
-  class ProxyEnd extends ProxyMiddle {
-  }
+  class ProxyEnd extends ProxyMiddle {}
 
-  class Some {
-  }
+  class Some {}
 
   describe('# should able to', () => {
     it('get 2 class', () => {

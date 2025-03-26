@@ -31,11 +31,7 @@ export interface Attribute extends Object {
    * @returns {boolean} boolean indicating whether to proceed with decoration (`false` to abort)
    *
    */
-  beforeDecorate?(
-    target: object | Function,
-    key?: string | symbol,
-    descriptor?: PropertyDescriptor | number
-  ): boolean;
+  beforeDecorate?(target: object | Function, key?: string | symbol, descriptor?: PropertyDescriptor | number): boolean;
 
   /**
    * The interceptor associated with this attribute.

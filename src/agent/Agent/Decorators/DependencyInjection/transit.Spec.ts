@@ -50,8 +50,7 @@ describe('Core @transit() decorator', () => {
     });
 
     it('change transit agent', () => {
-      class CoreTransitService3 {
-      }
+      class CoreTransitService3 {}
 
       @agent()
       class CoreTransitDecoratorApp3 {

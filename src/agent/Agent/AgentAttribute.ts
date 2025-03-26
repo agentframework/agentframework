@@ -59,7 +59,6 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
    * @param cache allow to touch
    */
   construct<T extends Function>(type: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
-
     // build agent type
     const design: TypeInfo = OnDemandTypeInfo.find(type.prototype);
 

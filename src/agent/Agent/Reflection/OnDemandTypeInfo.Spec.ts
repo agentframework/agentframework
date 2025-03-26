@@ -1,10 +1,8 @@
 import { OnDemandTypeInfo } from './OnDemandTypeInfo';
 
-class BaseType {
-}
+class BaseType {}
 
-class UserType extends BaseType {
-}
+class UserType extends BaseType {}
 
 describe('OnDemandTypeInfo', () => {
   describe('# should able to', () => {

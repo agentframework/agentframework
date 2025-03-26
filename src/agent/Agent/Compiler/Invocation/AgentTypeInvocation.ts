@@ -24,8 +24,7 @@ import { Arguments } from '../../Arguments';
  * @hidden
  */
 export class AgentTypeInvocation implements TypeInvocation {
-  constructor(readonly target: Function, readonly design: TypeInfo) {
-  }
+  constructor(readonly target: Function, readonly design: TypeInfo) {}
 
   invoke(params: Arguments, receiver: any): any {
     const newReceiver = Reflect.construct(receiver, params) as Function;

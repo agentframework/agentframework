@@ -85,8 +85,7 @@ describe('Core @singleton() decorator', () => {
     });
 
     it('change singleton agent', () => {
-      class CoreSingletonService3 {
-      }
+      class CoreSingletonService3 {}
 
       @agent()
       class CoreSingletonDecoratorApp3 {

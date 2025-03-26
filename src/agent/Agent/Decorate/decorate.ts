@@ -18,7 +18,7 @@ import {
   AddAttributeToConstructor,
   AddAttributeToConstructorParameter,
   AddAttributeToProperty,
-  AddAttributeToPropertyParameter
+  AddAttributeToPropertyParameter,
 } from '../../../dependencies/core';
 import { MemberKinds } from '../Reflection/MemberKinds';
 import { AgentFrameworkError } from '../AgentFrameworkError';

@@ -18,7 +18,12 @@ export class OnDemandInvocationFactory {
    *
    * @internal
    */
-  static createAgentInvocation(target: Function, type: TypeInfo, design: PropertyInfo, attribute: Attribute): TypeInvocation {
+  static createAgentInvocation(
+    target: Function,
+    type: TypeInfo,
+    design: PropertyInfo,
+    attribute: Attribute
+  ): TypeInvocation {
     let chain: TypeInvocation = new AgentTypeInvocation(target, type);
     chain = OnDemandInterceptorFactory.addInterceptor(chain, attribute);
     if (design.version) {

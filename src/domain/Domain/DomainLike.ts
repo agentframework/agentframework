@@ -43,7 +43,6 @@ export interface DomainLike {
    */
   getType<T extends Function>(type: T): T | undefined;
 
-
   /**
    * Inject an agent
    */

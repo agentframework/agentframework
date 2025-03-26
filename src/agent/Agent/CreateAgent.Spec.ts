@@ -45,12 +45,10 @@ class Redis extends Database {
 }
 
 const NoNameRedis = (function () {
-  return class {
-  };
+  return class {};
 })();
 
-class CustomAgentAttribute extends AgentAttribute {
-}
+class CustomAgentAttribute extends AgentAttribute {}
 
 class InvalidCustomAgentAttribute {
   get interceptor(): TypeInterceptor {

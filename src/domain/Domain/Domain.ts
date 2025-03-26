@@ -25,7 +25,6 @@ import { RememberDomain } from './Knowledges/Domains/Domains';
  * 3. Provide injection mechanisms for agent construction and retrieval.
  */
 export abstract class Domain implements DomainLike {
-
   /**
    * Constructs a new agent instance using the given target and parameters.
    *

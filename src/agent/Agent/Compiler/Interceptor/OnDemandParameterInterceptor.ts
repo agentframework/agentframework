@@ -46,8 +46,7 @@ import { Once } from '../../Decorators/Once/Once';
  bottom to up. so we can have the metadata in place
  */
 export class OnDemandParameterInterceptor implements PropertyInterceptor {
-  constructor(readonly design: PropertyInfo) {
-  }
+  constructor(readonly design: PropertyInfo) {}
 
   get interceptor(): PropertyInterceptor | undefined {
     if (this.invocations) {

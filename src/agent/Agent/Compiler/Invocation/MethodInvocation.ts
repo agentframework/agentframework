@@ -20,8 +20,7 @@ import { Invocation } from '../../Invocation';
  * invoke without interceptors, better performance
  */
 export class MethodInvocation<T extends PropertyInfo> implements Invocation<T> {
-  constructor(readonly target: Function, readonly design: T) {
-  }
+  constructor(readonly target: Function, readonly design: T) {}
 
   invoke(params: Arguments, receiver: any): any {
     return Reflect.apply(this.target, receiver, params);
