@@ -12,15 +12,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-// the memorize can be used on both class getter or static getter
 import { GetMemory } from '../../../../dependencies/core';
 import { alter } from '../../Compiler/alter';
 import { decorateMember } from '../../Decorate/decorateMember';
 import { PropertyInvocation } from '../../TypeInvocations';
 import { Arguments } from '../../Arguments';
-
 /**
- * only apply to getter
+ * Decorator: Caches the result of a getter method using a provided key.
+ * Can be applied to both instance and static getters.
  */
 export function remember(key: string): MethodDecorator {
   return decorateMember({
@@ -28,47 +27,40 @@ export function remember(key: string): MethodDecorator {
       intercept(target: PropertyInvocation, params: Arguments, receiver: object): unknown {
         const memory = GetMemory();
         const id = key + '.' + target.design.name;
-        if (memory.has(id)) {
-          return memory.get(id);
-        } else {
-          const value = target.invoke(params, receiver);
-          memory.set(id, value);
-          return value;
-        }
+
+        const cached = memory.get(id);
+        if (cached !== undefined) return cached;
+
+        const resolved = target.invoke(params, receiver);
+        memory.set(id, resolved);
+        return resolved;
       },
     },
   });
-  // return (target: object | Function, targetKey: string | symbol, descriptor: any): any => {
-  //   return {
-  //     get() {
-  //       const receiver = 'function' === typeof target ? target : this;
-  //       let value;
-  //       // note: bulletproof syntax against tools like "terser"
-  //       const knowledge = GetKnowledge();
-  //       const id = key + '.' + String(targetKey);
-  //       value = knowledge.get(id);
-  //       if (!value) {
-  //         const { get } = descriptor;
-  //         knowledge.set(id, (value = Reflect.apply(get, receiver, [])));
-  //       }
-  //       alter(receiver, targetKey, { value });
-  //       return value;
-  //     },
-  //     configurable: true,
-  //   };
-  // };
 }
 
-export function Remember<T>(key: string, target: object | Function, targetKey: string | symbol, valueFn: () => T): T {
+/**
+ * Manually cache and retrieve a value for a property.
+ * Will also patch the property with the resolved value.
+ */
+export function Remember<T>(
+  key: string,
+  target: object | Function,
+  prop: string | symbol,
+  compute: () => T
+): T {
   const memory = GetMemory();
-  const id = key + '.' + String(targetKey);
-  if (memory.has(id)) {
-    const value = memory.get(id);
-    alter(target, targetKey, { value });
-    return value;
-  } else {
-    const value = valueFn();
-    memory.set(id, value);
-    return value;
+  const id = key + '.' + String(prop);
+
+  const cached = memory.get(id);
+  if (cached !== undefined) {
+    alter(target, prop, { value: cached });
+    return cached as T;
   }
+
+  const resolved = compute();
+  memory.set(id, resolved);
+  alter(target, prop, { value: resolved });
+  return resolved;
 }
+

@@ -47,6 +47,8 @@ export { transit } from './Domain/Decorators/DependencyInjection/transit';
 export { TransitAttribute } from './Domain/Decorators/DependencyInjection/TransitAttribute';
 export { inject } from './Domain/Decorators/DependencyInjection/inject';
 export { InjectAttribute } from './Domain/Decorators/DependencyInjection/InjectAttribute';
+export { scoped } from './Domain/Decorators/DependencyInjection/scoped';
+export { ScopedAttribute } from './Domain/Decorators/DependencyInjection/ScopedAttribute';
 export { agent } from './Domain/Decorators/agent';
 
 /*************************************
