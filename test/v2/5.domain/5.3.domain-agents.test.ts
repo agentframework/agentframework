@@ -1,5 +1,5 @@
-import { InMemoryDomain, GetDomain, InMemorySubDomain } from '../../../src/dependencies/domain';
-import { agent } from '../../../src/dependencies/domain';
+import { InMemoryDomain, GetDomain, InMemorySubDomain } from '../../../packages/dependencies/domain';
+import { agent } from '../../../packages/dependencies/domain';
 
 describe('5.3. Domain agent', () => {
   class A {}

@@ -1,13 +1,13 @@
+import { agent } from 'agentframework';
 import {
   Arguments,
   CreateAgent,
+  decorateAgent,
   Design,
   Invocation,
   IsAgent,
   Reflector,
-  decorateAgent,
-} from '../../../src/dependencies/agent';
-import { agent } from '../../../src/dependencies/agent';
+} from '../../../packages/dependencies/agent';
 
 describe('1.3. Agent interceptor invoke sequence', () => {
   describe('# should able to', () => {
@@ -214,7 +214,8 @@ describe('1.3. Agent interceptor invoke sequence', () => {
           },
         },
       })
-      class Top13 extends Middle131 {}
+      class Top13 extends Middle131 {
+      }
 
       // console.log('seq 8', seq);
 

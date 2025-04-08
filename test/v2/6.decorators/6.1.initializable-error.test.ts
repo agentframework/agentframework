@@ -1,4 +1,4 @@
-import { Initializer, initializable, agent } from '../../../src/dependencies/agent';
+import { Initializer, initializable, agent } from 'agentframework';
 
 describe('6.1. @initializable decorator', () => {
   describe('# should not able to', () => {

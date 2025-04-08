@@ -17,81 +17,96 @@ limitations under the License. */
 /*********************************************************************
  *   (Stability: 2 - Stable) General Interface
  *********************************************************************/
-export { AgentFrameworkError } from '../src/agent';
-export { Arguments } from '../src/agent';
-export { Class } from '../src/agent';
+export { AgentFrameworkError } from '../packages/agent';
+export { Arguments } from '../packages/agent';
+export { Class } from '../packages/agent';
 
 /*********************************************************************
  *   (Stability: 2 - Stable) Metadata
  *********************************************************************/
-export { MemberKinds } from '../src/agent';
-export { Filter } from '../src/agent';
-export { Attribute } from '../src/agent';
-export { Design } from '../src/agent';
-export { Invocation } from '../src/agent';
-export { Interceptor } from '../src/agent';
+export { MemberKinds } from '../packages/agent';
+export { Filter } from '../packages/agent';
+export { Attribute } from '../packages/agent';
+export { Design } from '../packages/agent';
+export { Invocation } from '../packages/agent';
+export { Interceptor } from '../packages/agent';
 
-export { MemberInfo } from '../src/agent';
-export { PropertyInfo } from '../src/agent';
-export { TypeInfo } from '../src/agent';
-export { ParameterInfo } from '../src/agent';
+export { MemberInfo } from '../packages/agent';
+export { PropertyInfo } from '../packages/agent';
+export { TypeInfo } from '../packages/agent';
+export { ParameterInfo } from '../packages/agent';
 
-export { TypeInvocation } from '../src/agent';
-export { TypeInterceptor } from '../src/agent';
-export { TypeAttribute } from '../src/agent';
+export { TypeInvocation } from '../packages/agent';
+export { TypeInterceptor } from '../packages/agent';
+export { TypeAttribute } from '../packages/agent';
 
-export { PropertyInvocation } from '../src/agent';
-export { PropertyInterceptor } from '../src/agent';
-export { PropertyAttribute } from '../src/agent';
+export { PropertyInvocation } from '../packages/agent';
+export { PropertyInterceptor } from '../packages/agent';
+export { PropertyAttribute } from '../packages/agent';
 
-export { ParameterInvocation } from '../src/agent';
-export { ParameterInterceptor } from '../src/agent';
-export { ParameterAttribute } from '../src/agent';
+export { ParameterInvocation } from '../packages/agent';
+export { ParameterInterceptor } from '../packages/agent';
+export { ParameterAttribute } from '../packages/agent';
 
 /*********************************************************************
  *   (Stability: 2 - Stable) Advanced Metadata API
  *********************************************************************/
-export { decorateAgent } from '../src/agent';
-export { decorateClass } from '../src/agent';
-export { decorateMember } from '../src/agent';
-export { decorateParameter } from '../src/agent';
-export { decorateVariable } from '../src/agent';
-export { VariableDecorator } from '../src/agent';
-export { Reflector } from '../src/agent';
+export { decorateAgent } from '../packages/agent';
+export { decorateClass } from '../packages/agent';
+export { decorateMember } from '../packages/agent';
+export { decorateParameter } from '../packages/agent';
+export { decorateVariable } from '../packages/agent';
+export { VariableDecorator } from '../packages/agent';
+export { Reflector } from '../packages/agent';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Custom Interceptor API
  *********************************************************************/
-export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../src/agent';
+export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../packages/agent';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Class Decorator: @initializable()
  *********************************************************************/
-export { initializable } from '../src/agent';
-export { Initializer } from '../src/agent';
-export { InitializerHandler, StaticInitializerHandler } from '../src/agent';
+export { initializable } from '../packages/dependencies/decorators';
+export { Initializer } from '../packages/dependencies/decorators';
+export { InitializerHandler, StaticInitializerHandler } from '../packages/dependencies/decorators';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Class Decorator: @agent()
  *********************************************************************/
-export { agent } from '../src/domain';
+export { agent } from '../packages/dependencies/decorators';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Property Decorator: @singleton()
  *********************************************************************/
-export { singleton } from '../src/domain';
+export { singleton } from '../packages/dependencies/decorators';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Property Decorator: @transit()
  *********************************************************************/
-export { transit } from '../src/domain';
+export { transit } from '../packages/dependencies/decorators';
+
+/*********************************************************************
+ *   (Stability: 1 - Experimental): Getter Decorator: @once()
+ *********************************************************************/
+export { once } from '../packages/dependencies/decorators';
+
+/*********************************************************************
+ *   (Stability: 1 - Experimental): Getter Decorator: @remember()
+ *********************************************************************/
+export { remember } from '../packages/dependencies/decorators';
+
+/*********************************************************************
+ *   (Stability: 1 - Experimental): Class Decorator: @exclusive()
+ *********************************************************************/
+export { exclusive } from '../packages/dependencies/decorators';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Agent Helper API
  *********************************************************************/
-export { IsAgent } from '../src/agent';
-export { GetAgentType } from '../src/agent';
-import { CreateDomainAgent, GetSystemDomain } from '../src/domain';
+export { IsAgent } from '../packages/agent';
+export { GetAgentType } from '../packages/agent';
+import { CreateDomainAgent, GetSystemDomain } from '../packages/domain';
 export function CreateAgent<T extends Function>(type: T): T {
   return CreateDomainAgent(GetSystemDomain(), type);
 }
@@ -99,29 +114,29 @@ export function CreateAgent<T extends Function>(type: T): T {
 /*********************************************************************
  *    (Stability: 2 - Stable) Domain General Interface
  *********************************************************************/
-export { AgentReference } from '../src/domain';
-export { Params } from '../src/domain';
-export { Agent } from '../src/domain';
+export { AgentReference } from '../packages/domain';
+export { Params } from '../packages/domain';
+export { Agent } from '../packages/domain';
 
 /*********************************************************************
  *    (Stability: 2 - Stable) Domain Helper API
  *********************************************************************/
-export { GetDomain } from '../src/domain';
-export { GetSystemDomain } from '../src/domain';
-export { IsDomain } from '../src/domain';
+export { GetDomain } from '../packages/domain';
+export { GetSystemDomain } from '../packages/domain';
+export { IsDomain } from '../packages/domain';
 
 /*********************************************************************
  *    (Stability: 1 - Experimental) Domain Interface
  *********************************************************************/
-export { DomainLike } from '../src/domain';
-export { SubDomainLike } from '../src/domain';
-export { Domain } from '../src/domain';
+export { DomainLike } from '../packages/domain';
+export { SubDomainLike } from '../packages/domain';
+export { Domain } from '../packages/domain';
 
 /*********************************************************************
  *    (Stability: 1 - Experimental) In memory Domain implementation
  *********************************************************************/
-export { InMemoryDomain } from '../src/domain';
-export { InMemorySubDomain } from '../src/domain';
+export { InMemoryDomain } from '../packages/domain';
+export { InMemorySubDomain } from '../packages/domain';
 
 /*********************************************************************
  *    (Stability: 2 - Stable): TSLIB Re-work
@@ -129,4 +144,4 @@ export { InMemorySubDomain } from '../src/domain';
 /**
  * @internal
  */
-export { __agent, __decorate, __param, __metadata } from '../src/core';
+export { __agent, __decorate, __param, __metadata } from '../packages/core';

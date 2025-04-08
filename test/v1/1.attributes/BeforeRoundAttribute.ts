@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Arguments, Attribute, Interceptor, Invocation  } from '../../../src/dependencies/agent';
+import { Arguments, Attribute, Interceptor, Invocation  } from '../../../packages/dependencies/agent';
 
 export class BeforeRoundAttribute implements Attribute, Interceptor {
   beforeDecorate(

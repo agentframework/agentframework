@@ -1,11 +1,13 @@
 /* tslint:disable */
-
-import { CreateAgent, GetType, IsAgent, agent } from '../../../src/dependencies/agent';
+import { agent } from 'agentframework';
+import { CreateAgent, GetType, IsAgent } from '../../../packages/dependencies/agent';
 
 @agent()
-class AgentClass {}
+class AgentClass {
+}
 
-class NormalClass {}
+class NormalClass {
+}
 
 describe('Reflection Helper', () => {
   describe('# should able to', () => {

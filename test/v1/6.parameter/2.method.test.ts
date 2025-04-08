@@ -1,17 +1,26 @@
 /* tslint:disable */
-
-import { agent, decorateParameter, Attribute, Interceptor, Invocation, decorateMember, Arguments } from '../../../src/dependencies/agent';
-import {InjectAttribute, InjectParameterAttribute} from '../1.attributes/InjectAttribute';
+import { agent } from 'agentframework';
+import {
+  Arguments,
+  Attribute,
+  decorateMember,
+  decorateParameter,
+  Interceptor,
+  Invocation
+} from '../../../packages/dependencies/agent';
+import { InjectAttribute, InjectParameterAttribute } from '../1.attributes/InjectAttribute';
 
 class Connection {
   static count = 0;
   state = 'offline';
+
   constructor() {
     Connection.count++;
   }
 }
 
-class Database {}
+class Database {
+}
 
 class TypeChecker implements Attribute, Interceptor {
   get interceptor(): Interceptor {
@@ -40,6 +49,7 @@ class MongoDB {
   connection!: Connection;
 
   user: string;
+
   constructor(user: string) {
     // console.log('MongoDB(', arguments, ')');
     expect(arguments.length).toBe(1);

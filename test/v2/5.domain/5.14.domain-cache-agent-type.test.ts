@@ -1,5 +1,5 @@
-import { InMemoryDomain, InMemorySubDomain } from '../../../src/domain';
-import { Arguments, decorateMember, PropertyInvocation } from '../../../src/agent';
+import { InMemoryDomain, InMemorySubDomain } from '../../../packages/domain';
+import { Arguments, decorateMember, PropertyInvocation } from '../../../packages/agent';
 
 describe('5.14. Domain cache agent type', () => {
   describe('# should able to', () => {

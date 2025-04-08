@@ -1,4 +1,4 @@
-import { InMemoryDomain, transit } from '../../../src/dependencies/domain';
+import { InMemoryDomain, transit } from '../../../packages/dependencies/domain';
 
 describe('Hello world!', () => {
   describe('# should able to', () => {

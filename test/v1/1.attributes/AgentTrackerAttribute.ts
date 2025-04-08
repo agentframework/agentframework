@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Arguments, TypeInvocation, Interceptor, MemberKinds, AgentAttribute } from '../../../src/dependencies/agent';
+import { Arguments, TypeInvocation, Interceptor, MemberKinds, AgentAttribute } from '../../../packages/dependencies/agent';
 
 export class AgentTrackerAttribute extends AgentAttribute implements Interceptor {
   get interceptor(): Interceptor {

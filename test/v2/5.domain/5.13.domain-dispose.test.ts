@@ -1,5 +1,6 @@
-import { InMemoryDomain } from '../../../src/dependencies/domain';
-import { Arguments, TypeInvocation, initializable, Initializer } from '../../../src/dependencies/agent';
+import { InMemoryDomain } from '../../../packages/dependencies/domain';
+import { Arguments, TypeInvocation } from '../../../packages/dependencies/agent';
+import { initializable, Initializer } from 'agentframework';
 
 describe('5.13. Domain dispose', () => {
   describe('# should able to', () => {
@@ -9,7 +10,9 @@ describe('5.13. Domain dispose', () => {
     });
 
     it('dispose domain with agent', () => {
-      class Agent513B {}
+      class Agent513B {
+      }
+
       const domain = new InMemoryDomain();
       domain.construct(Agent513B);
       domain.dispose();
@@ -21,6 +24,7 @@ describe('5.13. Domain dispose', () => {
           done();
         }
       }
+
       const domain = new InMemoryDomain();
       domain.construct(Agent513C);
       domain.dispose();
@@ -37,6 +41,7 @@ describe('5.13. Domain dispose', () => {
           });
         }
       }
+
       const domain = new InMemoryDomain();
       domain.resolve(Agent513D);
       domain.dispose();
@@ -52,10 +57,12 @@ describe('5.13. Domain dispose', () => {
             }, 0);
           });
         }
+
         dispose() {
           done();
         }
       }
+
       const domain = new InMemoryDomain();
       domain.resolve(Agent513E);
       domain.dispose();

@@ -7,7 +7,7 @@ import {
   decorateMember,
   Interceptor,
   IsAgent
-} from '../../../src/dependencies/agent';
+} from '../../../packages/dependencies/agent';
 import { InjectAttribute } from '../1.attributes/InjectAttribute';
 
 class Connection {

@@ -1,8 +1,16 @@
 /* tslint:disable */
 
-import { agent, decorate, decorateMember, decorateParameter, IsAgent, Reflector, MemberKinds } from '../../../src/dependencies/agent';
+import { agent } from 'agentframework';
+import {
+  CreateAgent,
+  decorate,
+  decorateMember,
+  decorateParameter,
+  IsAgent,
+  MemberKinds,
+  Reflector
+} from '../../../packages/dependencies/agent';
 import { RoundInterceptor } from '../1.attributes/RoundInterceptor';
-import { CreateAgent } from '../../../src/dependencies/agent';
 
 @agent()
 class Calculator {

@@ -18,7 +18,8 @@
     "stripInternal": true,
     "baseUrl": "./",
     "paths": {
-      "agentframework": ["src/core/index"]
+      "agentframework": ["lib/index"],
+      "@agentframework/*": ["./packages/dependencies/*"]
     }
   },
   "include": ["lib", "src", "test", "tools"],

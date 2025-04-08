@@ -1,4 +1,6 @@
-import { decorateMember, Invocation, Arguments, agent, decorateAgent, Reflector } from '../../../src/dependencies/agent';
+import { agent } from 'agentframework'
+import { decorateMember, Invocation, Arguments, decorateAgent, Reflector } from '../../../packages/dependencies/agent';
+
 
 describe('6.8. @interceptable decorator', () => {
   describe('# should able to', () => {

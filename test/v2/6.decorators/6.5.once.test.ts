@@ -1,4 +1,5 @@
-import { Once, once } from '../../../src/dependencies/agent';
+import { once } from 'agentframework';
+import { Once } from '../../../packages/agent/Agent/Helpers/Once';
 
 describe('6.5. @once helper', () => {
   describe('# should able to', () => {
@@ -9,6 +10,7 @@ describe('6.5. @once helper', () => {
       static get random() {
         return n++;
       }
+
       static get stats() {
         return Once(this, 'stats', n++);
       }
@@ -19,6 +21,7 @@ describe('6.5. @once helper', () => {
       static get random() {
         return n++;
       }
+
       static get stats() {
         return Once(this, 'stats', this.random);
       }

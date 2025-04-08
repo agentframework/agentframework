@@ -1,13 +1,13 @@
+import { agent } from 'agentframework';
 import {
   Arguments,
-  Design,
-  Invocation,
-  Reflector,
   CreateAgent,
   decorateMember,
   decorateParameter,
-  agent,
-} from '../../../src/dependencies/agent';
+  Design,
+  Invocation,
+  Reflector
+} from '../../../packages/dependencies/agent';
 
 describe('1.5. Property interceptor invoke sequence', () => {
   describe('# should able to', () => {
@@ -62,7 +62,6 @@ describe('1.5. Property interceptor invoke sequence', () => {
             },
           })
           name?: string,
-
           @decorateParameter({
             id: 2,
             interceptor: {

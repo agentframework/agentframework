@@ -1,11 +1,12 @@
 /* tslint:disable */
-
-import { agent, decorateMember, decorateParameter } from '../../../src/dependencies/agent';
-import {InjectAttribute, InjectParameterAttribute} from '../1.attributes/InjectAttribute';
+import { agent } from 'agentframework';
+import { decorateMember, decorateParameter } from '../../../packages/dependencies/agent';
+import { InjectAttribute, InjectParameterAttribute } from '../1.attributes/InjectAttribute';
 
 class Connection {
   static count = 0;
   state = 'offline';
+
   constructor() {
     // expect(arguments.length).toBe(2);
     // expect(arguments[0]).toBe('test');
@@ -20,6 +21,7 @@ class Connection {
 class Database {
   static count = 0;
   state = 'offline';
+
   constructor() {
     // console.log('Database(', arguments, ')');
     // expect(arguments.length).toBe(2);
@@ -36,6 +38,7 @@ class MongoDB {
   database!: Database;
   connection!: Connection;
   user: string;
+
   constructor(user: string, @decorateParameter(new InjectParameterAttribute()) conn?: Connection) {
     // expect(arguments.length).toBe(2);
     // expect(user).toBe('test');

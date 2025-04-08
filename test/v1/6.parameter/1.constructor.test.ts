@@ -1,11 +1,12 @@
 /* tslint:disable */
-
-import { agent, decorateParameter, Reflector } from '../../../src/dependencies/agent';
+import { agent } from 'agentframework';
+import { decorateParameter, Reflector } from '../../../packages/dependencies/agent';
 import { InjectParameterAttribute } from '../1.attributes/InjectAttribute';
 
 class Connection1611 {
   static count = 0;
   state = 'offline';
+
   constructor() {
     expect(typeof arguments[0]).toBe('string');
     // console.log('Connection(', arguments[0], ')');
@@ -17,6 +18,7 @@ class Connection1611 {
 class MongoDB1611 {
   connection!: Connection1611;
   user: string;
+
   constructor(user: string, @decorateParameter(new InjectParameterAttribute()) conn?: Connection1611) {
     expect(conn).toBeInstanceOf(Connection1611);
     // console.log('MongoDB(', arguments, ')');
@@ -30,6 +32,7 @@ class MongoDB1611 {
 @agent()
 class Redis1611 {
   user: string;
+
   constructor(
     user: string,
     @decorateParameter(new InjectParameterAttribute()) conn1?: Connection1611,

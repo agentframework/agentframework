@@ -1,13 +1,17 @@
-import { Remember, remember } from '../../../src/dependencies/agent';
+import { remember } from 'agentframework';
+import { Remember } from '../../../packages/core/Core/Remember';
+
 
 describe('6.6. @remember helper', () => {
   describe('# should able to', () => {
     let n = 1;
+
     class Class661 {
       @remember('Test') // no effect because no @agent()
       static get random() {
         return n++;
       }
+
       static get stats() {
         return Remember('Test', this, 'stats', () => n++);
       }
@@ -18,6 +22,7 @@ describe('6.6. @remember helper', () => {
       static get random() {
         return n++;
       }
+
       static get stats() {
         return Remember('Test', this, 'stats', () => n++);
       }

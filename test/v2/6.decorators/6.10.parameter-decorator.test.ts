@@ -1,4 +1,4 @@
-import { decorateMember, decorateParameter, MemberKinds, Reflector } from '../../../src/dependencies/agent';
+import { decorateMember, decorateParameter, MemberKinds, Reflector } from '../../../packages/dependencies/agent';
 
 describe('6.10. Parameter decorator', () => {
   describe('# should able to', () => {

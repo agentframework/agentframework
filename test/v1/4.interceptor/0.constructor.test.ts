@@ -1,7 +1,6 @@
 /* tslint:disable */
-
+import { agent } from 'agentframework';
 import {
-  agent,
   decorate,
   decorateMember,
   decorateParameter,
@@ -13,7 +12,7 @@ import {
   MemberKinds,
   decorateClass,
   CreateAgent,
-} from '../../../src/dependencies/agent';
+} from '../../../packages/dependencies/agent';
 import { RoundInterceptor } from '../1.attributes/RoundInterceptor';
 
 class AgentChecker implements Attribute, Interceptor {

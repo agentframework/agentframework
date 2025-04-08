@@ -1,4 +1,4 @@
-import { MemberKinds } from '../../src/dependencies/agent';
+import { MemberKinds } from '../../packages/dependencies/agent';
 
 export const ClassField = MemberKinds.Property; // | MemberKinds.Field;
 export const ClassMethod = MemberKinds.Property; //| MemberKinds.Method;

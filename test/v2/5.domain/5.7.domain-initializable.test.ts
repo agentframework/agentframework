@@ -1,6 +1,6 @@
-import { InMemoryDomain } from '../../../src/dependencies/domain';
-import { Arguments, TypeInvocation } from '../../../src/dependencies/agent';
-import { CreateAgent, Initializer, initializable, agent } from '../../../src/dependencies/agent';
+import { InMemoryDomain } from '../../../packages/dependencies/domain';
+import { Arguments, CreateAgent, TypeInvocation } from '../../../packages/dependencies/agent';
+import { agent, initializable, Initializer } from 'agentframework';
 
 describe('5.7. Domain @initializable decorator', () => {
   describe('# should able to', () => {
@@ -11,6 +11,7 @@ describe('5.7. Domain @initializable decorator', () => {
       @initializable()
       class App571 {
         public name1: string | undefined;
+
         static get [Initializer]() {
           // console.log('this outside', this.name);
           return function (this: any, target: TypeInvocation, params: Arguments, receiver: typeof App571) {
@@ -22,6 +23,7 @@ describe('5.7. Domain @initializable decorator', () => {
           };
         }
       }
+
       const app1 = new App571(); //domain.construct(App571);
       expect(app1).toBeInstanceOf(App571);
       expect(app1.name1).toBe('App571$');
@@ -41,16 +43,19 @@ describe('5.7. Domain @initializable decorator', () => {
       class Root572 {
         name: string | undefined;
         root: string | undefined;
+
         [Initializer]() {
           this.root = 'Root572$';
           this.name = this.root;
         }
 
-        hello() {}
+        hello() {
+        }
       }
 
       class Base572 extends Root572 {
         base: string | undefined;
+
         [Initializer]() {
           super[Initializer]();
           this.base = 'Base572$';
@@ -76,6 +81,7 @@ describe('5.7. Domain @initializable decorator', () => {
           this.name = this.service;
         }
       }
+
       const domain = new InMemoryDomain();
 
       const app1 = domain.construct(App572);
@@ -117,6 +123,7 @@ describe('5.7. Domain @initializable decorator', () => {
       class Root573 {
         name: string | undefined;
         root: string | undefined;
+
         [Initializer]() {
           this.root = 'Root573$';
           this.name = this.root;
@@ -125,6 +132,7 @@ describe('5.7. Domain @initializable decorator', () => {
 
       class Base573 extends Root573 {
         base: string | undefined;
+
         [Initializer]() {
           super[Initializer]();
           this.base = 'Base573$';
@@ -166,6 +174,7 @@ describe('5.7. Domain @initializable decorator', () => {
 
     it('create class without initializer', () => {
       const domain = new InMemoryDomain();
+
       // @initializable()
       class App574 {
         name: string | undefined = 'App574';
@@ -179,9 +188,11 @@ describe('5.7. Domain @initializable decorator', () => {
 
     it('create slow static initializable agent', async () => {
       const domain = new InMemoryDomain();
+
       @initializable()
       class App575 {
         public name1: string | undefined;
+
         static [Initializer](target: TypeInvocation, params: Arguments, receiver: typeof App575) {
           const app = target.invoke<App575>(params, receiver);
           app.name1 = 'App575$';
@@ -192,6 +203,7 @@ describe('5.7. Domain @initializable decorator', () => {
           });
         }
       }
+
       const app1 = domain.resolve(App575);
       const app2 = domain.resolve(App575);
       expect(app1 === app2).toBeFalse();
@@ -204,9 +216,11 @@ describe('5.7. Domain @initializable decorator', () => {
 
     it('create slow static initializable agent after dispose', async () => {
       const domain = new InMemoryDomain();
+
       @initializable()
       class App576 {
         public name1: string | undefined;
+
         static [Initializer](target: TypeInvocation, params: Arguments, receiver: typeof App576) {
           const app = target.invoke<App576>(params, receiver);
           app.name1 = 'App576$';
@@ -216,10 +230,12 @@ describe('5.7. Domain @initializable decorator', () => {
             }, 100);
           });
         }
+
         dispose() {
           this.name1 = undefined;
         }
       }
+
       const promise1 = domain.resolve(App576);
       const promise2 = domain.resolve(App576);
       expect(promise1 === promise2).toBeFalse();
@@ -235,10 +251,12 @@ describe('5.7. Domain @initializable decorator', () => {
   describe('# should not able to', () => {
     it('create agent with invalid class initializer', () => {
       const domain = new InMemoryDomain();
+
       @initializable()
       class App621 {
         static [Initializer] = {};
       }
+
       expect(() => {
         domain.construct(App621);
       }).toThrowError('ClassInitializerIsNotFunction');
@@ -246,12 +264,14 @@ describe('5.7. Domain @initializable decorator', () => {
 
     it('create agent with null class initializer', () => {
       const domain = new InMemoryDomain();
+
       @initializable()
       class App622 {
         static [Initializer]() {
           return null;
         }
       }
+
       expect(() => {
         domain.construct(App622);
       }).toThrowError('ConstructorReturnNonObject');
@@ -261,8 +281,10 @@ describe('5.7. Domain @initializable decorator', () => {
       @agent()
       @initializable()
       class App623 {
-        static [Initializer]() {}
+        static [Initializer]() {
+        }
       }
+
       expect(() => {
         new App623();
       }).toThrowError('ConstructorReturnNonObject');
@@ -276,6 +298,7 @@ describe('5.7. Domain @initializable decorator', () => {
           return 1;
         }
       }
+
       expect(() => {
         new App623();
       }).toThrowError('ConstructorReturnNonObject');

@@ -1,15 +1,18 @@
-import { ParameterAttribute, HasInterceptor, GetInterceptor } from '../../../src/dependencies/agent';
+import { agent } from 'agentframework';
 import {
-  decorateParameter,
-  ParameterInterceptor,
-  Reflector,
-  ParameterInvocation,
   Arguments,
-  agent,
-} from '../../../src/dependencies/agent';
+  decorateParameter,
+  GetInterceptor,
+  HasInterceptor,
+  ParameterAttribute,
+  ParameterInterceptor,
+  ParameterInvocation,
+  Reflector
+} from '../../../packages/dependencies/agent';
 
 class OptionalAttribute implements ParameterAttribute {
-  constructor(readonly type: any) {}
+  constructor(readonly type: any) {
+  }
 }
 
 function optional(type: any) {
@@ -17,22 +20,26 @@ function optional(type: any) {
 }
 
 class InjectAttribute implements ParameterAttribute, ParameterInterceptor {
-  constructor(readonly type: any) {}
+  constructor(readonly type: any) {
+  }
 
   get interceptor() {
     return this;
   }
+
   intercept(target: ParameterInvocation, params: Arguments, receiver: any): any {
     return target.invoke(params, receiver);
   }
 }
 
-class UserRepository {}
+class UserRepository {
+}
 
 const inject = decorateParameter(new InjectAttribute(UserRepository));
 
 class Base34 {
-  constructor(p?: UserRepository) {}
+  constructor(p?: UserRepository) {
+  }
 }
 
 @agent()
@@ -55,15 +62,20 @@ class UserController34 extends Controller34 {
     super(p);
   }
 
-  listAllUser(user: UserRepository, @optional(UserRepository) id?: any) {}
+  listAllUser(user: UserRepository, @optional(UserRepository) id?: any) {
+  }
 
-  addUser(id: any, @inject user: UserRepository) {}
+  addUser(id: any, @inject user: UserRepository) {
+  }
 
-  getUser(@decorateParameter(new InjectAttribute(UserRepository)) users: UserRepository) {}
+  getUser(@decorateParameter(new InjectAttribute(UserRepository)) users: UserRepository) {
+  }
 
-  updateUser(@decorateParameter({ role: 'user' }) users: UserRepository) {}
+  updateUser(@decorateParameter({ role: 'user' }) users: UserRepository) {
+  }
 
-  deprecatedMethod() {}
+  deprecatedMethod() {
+  }
 }
 
 describe('3.6. Get parameter attributes', () => {
@@ -143,6 +155,7 @@ describe('3.6. Get parameter attributes', () => {
       function InstanceOf(attr: any, criteria: any) {
         return attr instanceof criteria;
       }
+
       const property = Reflector(UserController34).property('listAllUser');
       expect(property.parameter(0).findOwnAttributes(InstanceOf, OptionalAttribute).length).toBe(0);
       expect(property.parameter(1).findOwnAttributes(InstanceOf, OptionalAttribute).length).toBe(1);

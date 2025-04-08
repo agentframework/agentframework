@@ -1,5 +1,5 @@
+import { agent } from 'agentframework';
 import {
-  agent,
   Arguments,
   CreateAgent,
   decorate,
@@ -7,13 +7,16 @@ import {
   ParameterAttribute,
   ParameterInterceptor,
   ParameterInvocation,
-} from '../../../src/dependencies/agent';
+} from '../../../packages/dependencies/agent';
 
 class InjectAttribute implements ParameterAttribute, ParameterInterceptor {
-  constructor(readonly type?: any) {}
+  constructor(readonly type?: any) {
+  }
+
   get interceptor() {
     return this;
   }
+
   intercept(target: ParameterInvocation, params: Arguments, receiver: any): any {
     return target.invoke(params, receiver);
   }
@@ -23,20 +26,26 @@ function inject(type?: any) {
   return decorate(new InjectAttribute(type));
 }
 
-class Data {}
+class Data {
+}
+
 describe('2.6. Agent', () => {
   describe('# should able to', () => {
     it('upgrade type to agent', () => {
       @agent()
-      class Agent261 {}
+      class Agent261 {
+      }
+
       expect(Agent261).toBeDefined();
     });
 
     it('upgrade type with constructor parameter', () => {
       @agent()
       class Agent262 {
-        constructor(@inject(Data) data1: any, @inject() data2: Data) {}
+        constructor(@inject(Data) data1: any, @inject() data2: Data) {
+        }
       }
+
       expect(Agent262).toBeDefined();
     });
 
@@ -50,8 +59,10 @@ describe('2.6. Agent', () => {
         data2!: Data;
 
         @inject(Data)
-        data3() {}
+        data3() {
+        }
       }
+
       expect(Agent263).toBeDefined();
     });
 
@@ -65,21 +76,26 @@ describe('2.6. Agent', () => {
         data2!: Data;
 
         @inject(Data)
-        data3(@inject(Data) data: any) {}
+        data3(@inject(Data) data: any) {
+        }
 
         @inject(Data)
-        data4(@inject() data: Data) {}
+        data4(@inject() data: Data) {
+        }
 
         @inject(Data)
-        data5(@inject() data1: Data, @inject(Data) data2: any) {}
+        data5(@inject() data1: Data, @inject(Data) data2: any) {
+        }
       }
+
       expect(Agent264).toBeDefined();
     });
 
     it('upgrade type to agent twice', () => {
       @agent()
       @agent()
-      class Agent265 {}
+      class Agent265 {
+      }
 
       expect(Agent265).toBeDefined();
     });
@@ -90,6 +106,7 @@ describe('2.6. Agent', () => {
           console.log('hello');
         }
       }
+
       expect(Agent266).toBeDefined();
       const A = CreateAgent(Agent266);
       expect(A).toBeDefined();
@@ -97,5 +114,6 @@ describe('2.6. Agent', () => {
     });
   });
 
-  describe('# should not able to', () => {});
+  describe('# should not able to', () => {
+  });
 });

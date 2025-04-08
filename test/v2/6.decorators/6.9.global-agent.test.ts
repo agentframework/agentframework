@@ -1,4 +1,4 @@
-// import { Agent, Arguments, Invocation, Reflector, agent } from '../../../src/dependencies/agent';
+// import { Agent, Arguments, Invocation, Reflector, agent } from '../../../packages/dependencies/agent';
 //
 // describe('6.9. Global Agent', () => {
 //   describe('# should able to', () => {

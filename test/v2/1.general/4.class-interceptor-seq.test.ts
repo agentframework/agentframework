@@ -1,3 +1,4 @@
+import { agent } from 'agentframework';
 import {
   Arguments,
   decorateClass,
@@ -5,8 +6,7 @@ import {
   Design,
   Invocation,
   Reflector,
-} from '../../../src/dependencies/agent';
-import { agent } from '../../../src/dependencies/agent';
+} from '../../../packages/dependencies/agent';
 
 describe('1.4. Class interceptor invoke sequence', () => {
   describe('# should able to', () => {

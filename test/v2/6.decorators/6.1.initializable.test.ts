@@ -1,5 +1,5 @@
-import { Arguments, TypeInvocation } from '../../../src/dependencies/agent';
-import { CreateAgent, Initializer, initializable, agent } from '../../../src/dependencies/agent';
+import { agent, initializable, Initializer } from 'agentframework';
+import { Arguments, CreateAgent, TypeInvocation } from '../../../packages/dependencies/agent';
 
 describe('6.1. @initializable decorator', () => {
   describe('# should able to', () => {
@@ -8,6 +8,7 @@ describe('6.1. @initializable decorator', () => {
       @initializable()
       class App611 {
         public name1: string | undefined;
+
         static get [Initializer]() {
           // console.log('this outside', this.name);
           return function (this: any, target: TypeInvocation, params: Arguments, receiver: typeof App611) {
@@ -40,16 +41,19 @@ describe('6.1. @initializable decorator', () => {
       class Root612 {
         name: string | undefined;
         root: string | undefined;
+
         [Initializer]() {
           this.root = 'Root612$';
           this.name = this.root;
         }
 
-        hello() {}
+        hello() {
+        }
       }
 
       class Base612 extends Root612 {
         base: string | undefined;
+
         [Initializer]() {
           super[Initializer]();
           this.base = 'Base612$';
@@ -115,6 +119,7 @@ describe('6.1. @initializable decorator', () => {
       class Root613 {
         name: string | undefined;
         root: string | undefined;
+
         [Initializer]() {
           this.root = 'Root613$';
           this.name = this.root;
@@ -123,6 +128,7 @@ describe('6.1. @initializable decorator', () => {
 
       class Base613 extends Root613 {
         base: string | undefined;
+
         [Initializer]() {
           this.base = 'Base613$';
           this.name = this.base;
@@ -175,6 +181,7 @@ describe('6.1. @initializable decorator', () => {
       @initializable()
       class App615 {
         public name1: string | undefined;
+
         static [Initializer](target: TypeInvocation, params: Arguments, receiver: typeof App615) {
           const app = target.invoke<App615>(params, receiver);
           app.name1 = 'App615$';
@@ -204,6 +211,7 @@ describe('6.1. @initializable decorator', () => {
       @initializable()
       class App616 {
         public name1: string | undefined;
+
         static [Initializer](target: TypeInvocation, params: Arguments, receiver: typeof App616) {
           const app = target.invoke<App616>(params, receiver);
           app.name1 = 'App616$';
@@ -213,10 +221,12 @@ describe('6.1. @initializable decorator', () => {
             }, 100);
           });
         }
+
         dispose() {
           this.name1 = undefined;
         }
       }
+
       const app1 = new App616();
       const app2 = new App616();
       expect(app1).toBeInstanceOf(Promise);
@@ -244,7 +254,8 @@ describe('6.1. @initializable decorator', () => {
       class App621 {
         static [Initializer] = {};
       }
-      expect(():any => {
+
+      expect((): any => {
         new App621();
       }).toThrowError('ClassInitializerIsNotFunction');
     });
@@ -257,7 +268,8 @@ describe('6.1. @initializable decorator', () => {
           return null;
         }
       }
-      expect(():any => {
+
+      expect((): any => {
         new App622();
       }).toThrowError('ConstructorReturnNonObject');
     });
@@ -266,8 +278,10 @@ describe('6.1. @initializable decorator', () => {
       @agent()
       @initializable()
       class App623 {
-        static [Initializer]() {}
+        static [Initializer]() {
+        }
       }
+
       expect((): any => {
         new App623();
       }).toThrowError('ConstructorReturnNonObject');
@@ -281,6 +295,7 @@ describe('6.1. @initializable decorator', () => {
           return 1;
         }
       }
+
       expect((): any => {
         new App623();
       }).toThrowError('ConstructorReturnNonObject');
@@ -292,6 +307,7 @@ describe('6.1. @initializable decorator', () => {
       class App624 {
         [Initializer] = 1;
       }
+
       expect((): any => {
         new App624();
       }).toThrowError('InitializerIsNotFunction');

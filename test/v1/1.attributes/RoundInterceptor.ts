@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Interceptor, Invocation, Attribute, Arguments } from '../../../src/dependencies/agent';
+import { Interceptor, Invocation, Attribute, Arguments } from '../../../packages/dependencies/agent';
 
 function rounder(num: any): number {
   return 'number' === typeof num ? Math.round(num) : NaN;

@@ -1,11 +1,18 @@
 /* tslint:disable */
-
-import { agent, decorateClass, decorateMember, IsAgent, Reflector } from '../../../src/dependencies/agent';
+import { agent } from 'agentframework';
+import {
+  AgentAttribute,
+  CreateAgent,
+  decorateClass,
+  decorateMember,
+  GetType,
+  IsAgent,
+  Reflector
+} from '../../../packages/dependencies/agent';
 import { RandomInterceptor } from '../1.attributes/RandomInterceptor';
 import { RoundInterceptor } from '../1.attributes/RoundInterceptor';
 import { MetadataAttribute } from '../1.attributes/MetadataAttribute';
 import { AgentChecker } from '../1.attributes/AgentChecker';
-import { AgentAttribute, CreateAgent, GetType } from '../../../src/dependencies/agent';
 
 @agent()
 @decorateClass(new AgentChecker())
@@ -27,7 +34,8 @@ class MongoDB {
   }
 
   @decorateMember(new RoundInterceptor())
-  round(): any {}
+  round(): any {
+  }
 }
 
 describe('Decorate Class', () => {

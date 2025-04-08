@@ -1,8 +1,11 @@
-import { agent } from '../../../src/dependencies/agent';
-import { decorateClass } from '../../../src/dependencies/agent';
-import { TypeInvocation, ParameterInvocation } from '../../../src/dependencies/agent';
-import { Arguments } from '../../../src/dependencies/agent';
-import { decorateParameter } from '../../../src/dependencies/agent';
+import { agent } from 'agentframework';
+import {
+  Arguments,
+  decorateClass,
+  decorateParameter,
+  ParameterInvocation,
+  TypeInvocation
+} from '../../../packages/dependencies/agent';
 
 describe('4.4. constructor parameter interceptor', () => {
   describe('# should able to', () => {
@@ -25,7 +28,8 @@ describe('4.4. constructor parameter interceptor', () => {
             },
           })
           readonly a: number
-        ) {}
+        ) {
+        }
       }
 
       const instance = new Class411(3.5);

@@ -1,10 +1,10 @@
 // /* tslint:disable */
+import { agent } from 'agentframework';
 import {
-  agent,
   CreateAgent,
   decorateMember, GetAgentType,
   IsAgent
-} from '../../../src/dependencies/agent';
+} from '../../../packages/dependencies/agent';
 import { InjectAttribute } from '../1.attributes/InjectAttribute';
 
 class Connection {

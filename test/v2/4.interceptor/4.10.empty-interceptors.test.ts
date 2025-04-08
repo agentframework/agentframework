@@ -1,10 +1,12 @@
-import { agent, Arguments, decorateMember, Invocation, once, Design } from '../../../src/dependencies/agent';
+import { agent, once } from 'agentframework';
+import { Arguments, decorateMember, Design, Invocation } from '../../../packages/dependencies/agent';
 
 describe('4.10. Empty interceptors', () => {
   describe('# should able to', () => {
     it('intercept class constructor', () => {
       let n1 = 0,
         n2 = 0;
+
       @agent()
       class Class4101 {
         @once()

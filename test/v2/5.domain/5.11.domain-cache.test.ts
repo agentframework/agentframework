@@ -1,5 +1,5 @@
-import {InMemoryDomain} from '../../../src/dependencies/domain';
-import {Arguments, decorateClass, Design, Invocation} from '../../../src/dependencies/agent';
+import {InMemoryDomain} from '../../../packages/dependencies/domain';
+import {Arguments, decorateClass, Design, Invocation} from '../../../packages/dependencies/agent';
 
 describe('5.11. Domain agent cache', () => {
   describe('# should able to', () => {

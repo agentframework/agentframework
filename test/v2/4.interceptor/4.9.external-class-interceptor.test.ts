@@ -1,22 +1,25 @@
+import { agent } from 'agentframework';
 import {
   Arguments,
-  agent,
-  TypeInvocation,
-  decorateMember,
-  SetCustomInterceptor,
-  Reflector,
   decorateClass,
+  decorateMember,
   GetCustomInterceptor,
+  Reflector,
   RemoveCustomInterceptor,
-} from '../../../src/dependencies/agent';
+  SetCustomInterceptor,
+  TypeInvocation,
+} from '../../../packages/dependencies/agent';
 
 describe('4.9. External interceptor', () => {
   describe('# should able to', () => {
-    class RoundMethod491 {}
+    class RoundMethod491 {
+    }
 
     it('intercept class member constructor using external interceptor', () => {
       class RoundMethodInterceptor491 {
-        constructor(round491: RoundMethod491) {}
+        constructor(round491: RoundMethod491) {
+        }
+
         intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
           return target.invoke([Math.floor(params[0])], receiver);
         }
@@ -29,7 +32,8 @@ describe('4.9. External interceptor', () => {
       @agent()
       @decorateClass(new RoundMethod491())
       class Class491 {
-        constructor(public a: number) {}
+        constructor(public a: number) {
+        }
 
         @decorateMember(new RoundMethod491())
         Method491(a: number) {
@@ -50,6 +54,7 @@ describe('4.9. External interceptor', () => {
         get interceptor() {
           return this;
         }
+
         intercept(target: TypeInvocation, params: Arguments, receiver: any): any {
           return target.invoke([Math.floor(params[0])], receiver);
         }
@@ -58,7 +63,8 @@ describe('4.9. External interceptor', () => {
       @agent()
       @decorateClass(new RoundMethod492())
       class Class492 {
-        constructor(public a: number) {}
+        constructor(public a: number) {
+        }
 
         @decorateMember(new RoundMethod492())
         Method492(a: number) {
@@ -80,7 +86,8 @@ describe('4.9. External interceptor', () => {
       @agent()
       @decorateClass(new RoundMethod491())
       class Class493 {
-        constructor(public a: number) {}
+        constructor(public a: number) {
+        }
 
         @decorateMember(new RoundMethod491())
         Method493(a: number) {

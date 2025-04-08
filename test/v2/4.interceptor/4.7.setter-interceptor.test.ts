@@ -1,7 +1,7 @@
-import { agent } from '../../../src/dependencies/agent';
-import { decorateMember } from '../../../src/dependencies/agent';
-import { TypeInvocation } from '../../../src/dependencies/agent';
-import { Arguments } from '../../../src/dependencies/agent';
+import { agent } from 'agentframework';
+import { decorateMember } from '../../../packages/dependencies/agent';
+import { TypeInvocation } from '../../../packages/dependencies/agent';
+import { Arguments } from '../../../packages/dependencies/agent';
 
 describe('4.7. setter interceptor', () => {
   describe('# should able to', () => {

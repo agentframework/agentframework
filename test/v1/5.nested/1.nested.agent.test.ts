@@ -1,10 +1,10 @@
 /* tslint:disable */
-import { agent, decorateClass, decorateMember, IsAgent } from '../../../src/dependencies/agent';
+import { agent } from 'agentframework';
+import { CreateAgent, decorateClass, decorateMember, IsAgent } from '../../../packages/dependencies/agent';
 import { AgentChecker } from '../1.attributes/AgentChecker';
 import { RandomInterceptor } from '../1.attributes/RandomInterceptor';
 import { RoundInterceptor } from '../1.attributes/RoundInterceptor';
 import { MetadataAttribute } from '../1.attributes/MetadataAttribute';
-import { CreateAgent } from '../../../src/dependencies/agent';
 
 @agent()
 @decorateClass(new AgentChecker())
@@ -26,7 +26,8 @@ class Veicle {
   }
 
   @decorateMember(new RoundInterceptor())
-  round(): any {}
+  round(): any {
+  }
 }
 
 class Car extends Veicle {

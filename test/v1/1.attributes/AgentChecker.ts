@@ -1,5 +1,5 @@
 /* tslint:disable */
-import { Arguments, Attribute, Interceptor, TypeInvocation } from '../../../src/dependencies/agent';
+import { Arguments, Attribute, Interceptor, TypeInvocation } from '../../../packages/dependencies/agent';
 
 export class AgentChecker implements Attribute, Interceptor {
   get interceptor(): Interceptor {

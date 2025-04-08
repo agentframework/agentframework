@@ -1,12 +1,12 @@
+import { agent } from 'agentframework';
 import {
-  decorateClass,
   Arguments,
-  agent,
-  TypeInvocation,
-  decorateMember,
   decorateAgent,
+  decorateClass,
+  decorateMember,
   Reflector,
-} from '../../../src/dependencies/agent';
+  TypeInvocation,
+} from '../../../packages/dependencies/agent';
 
 describe('4.1. Class interceptor', () => {
   describe('# should able to', () => {
@@ -20,10 +20,12 @@ describe('4.1. Class interceptor', () => {
         },
       })
       class Class411 {
-        constructor(readonly a: number) {}
+        constructor(readonly a: number) {
+        }
 
         @decorateMember({ role: 'user' })
-        Method411() {}
+        Method411() {
+        }
       }
 
       const instance = new Class411(3.5);
@@ -42,10 +44,12 @@ describe('4.1. Class interceptor', () => {
       })
       @decorateAgent({})
       class Class412 {
-        constructor(readonly a: number) {}
+        constructor(readonly a: number) {
+        }
 
         @decorateMember({ role: 'user' })
-        Method412() {}
+        Method412() {
+        }
       }
 
       const instance = new Class412(3.5);
@@ -57,10 +61,12 @@ describe('4.1. Class interceptor', () => {
       @agent()
       @decorateAgent({})
       class Class413 {
-        constructor(readonly a: number) {}
+        constructor(readonly a: number) {
+        }
 
         @decorateMember({ role: 'user' })
-        Method413() {}
+        Method413() {
+        }
       }
 
       const instance = new Class413(3.5);
@@ -115,6 +121,7 @@ describe('4.1. Class interceptor', () => {
       })
       class Class414 extends Base414 {
         readonly a: number;
+
         constructor(a: number) {
           seq.push('Class414-1');
           super();
@@ -243,6 +250,7 @@ describe('4.1. Class interceptor', () => {
       })
       class Class415 extends Base415 {
         readonly a: number;
+
         constructor(a: number) {
           seq.push('Class415-1');
           super();
@@ -257,7 +265,8 @@ describe('4.1. Class interceptor', () => {
       }
 
       @agent()
-      class End415 extends Class415 {}
+      class End415 extends Class415 {
+      }
 
       // console.log('class', Reflector(Class415).getOwnAttributes());
       // console.log('agent', Reflector(Class415).static.getOwnAttributes());

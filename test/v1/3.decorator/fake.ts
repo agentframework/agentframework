@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Attribute, Interceptor, decorateMember, decorateClass, decorateParameter } from '../../../src/dependencies/agent';
+import { Attribute, Interceptor, decorateMember, decorateClass, decorateParameter } from '../../../packages/dependencies/agent';
 
 export function fakeClassMemberDecorator() {
   return decorateMember(new PropertyDecoratorAttribute());

@@ -1,4 +1,4 @@
-// import { __param } from '../../../src/dependencies/core';
+// import { __param } from '../../../packages/dependencies/core';
 //
 // class ClassA {}
 //

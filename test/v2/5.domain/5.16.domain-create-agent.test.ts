@@ -1,4 +1,4 @@
-import { Reflector } from '../../../src/dependencies/agent';
+import { Reflector } from '../../../packages/dependencies/agent';
 import {
   singleton,
   transit,
@@ -8,7 +8,7 @@ import {
   InjectAttribute,
   CreateDomainAgent,
   GetSystemDomain
-} from '../../../src/dependencies/domain';
+} from '../../../packages/dependencies/domain';
 
 describe('5.16. Domain create agent', () => {
   describe('# should able to', () => {

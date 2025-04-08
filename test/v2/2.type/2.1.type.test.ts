@@ -1,25 +1,28 @@
+import { agent } from 'agentframework';
 import {
   Arguments,
+  decorateClass,
+  decorateMember,
   decorateParameter,
+  GetType,
   MemberKinds,
   ParameterInvocation,
   Reflector,
-  TypeInfo,
-  decorateClass,
-  decorateMember,
-  GetType,
-  agent,
-} from '../../../src/dependencies/agent';
+  TypeInfo
+} from '../../../packages/dependencies/agent';
 
-class Storage {}
+class Storage {
+}
 
-class Compiler {}
+class Compiler {
+}
 
 class BaseLayer {
   constructor(
     @decorateParameter({})
     storage?: Storage
-  ) {}
+  ) {
+  }
 }
 
 class MiddleLayer extends BaseLayer {
@@ -44,7 +47,8 @@ class MiddleLayer extends BaseLayer {
     },
   },
 })
-class Application extends MiddleLayer {}
+class Application extends MiddleLayer {
+}
 
 class CloudApplication extends Application {
   but(): number {
@@ -53,7 +57,8 @@ class CloudApplication extends Application {
 }
 
 @agent()
-class AgentApplication extends CloudApplication {}
+class AgentApplication extends CloudApplication {
+}
 
 describe('2.1. Type', () => {
   describe('# should able to', () => {
@@ -192,6 +197,7 @@ describe('2.1. Type', () => {
       function NameEndWith(type: TypeInfo, filterCriteria: string): boolean {
         return type.name.endsWith(filterCriteria);
       }
+
       const types = Reflector(Application).findTypes(NameEndWith, 'Layer');
       expect(types).toBeInstanceOf(Array);
       expect(types.length).toBe(2);
@@ -212,7 +218,8 @@ describe('2.1. Type', () => {
     it('annotate static method', () => {
       class TempClass21 {
         @decorateMember({ a: 1 })
-        static Create(param: number) {}
+        static Create(param: number) {
+        }
       }
 
       expect(Reflector(TempClass21).static.hasOwnProperties()).toBeTrue();
@@ -220,7 +227,8 @@ describe('2.1. Type', () => {
 
     it('annotate static method parameter', () => {
       class TempClass21 {
-        static Create(@decorateParameter({ a: 1 }) param: number) {}
+        static Create(@decorateParameter({ a: 1 }) param: number) {
+        }
       }
 
       expect(Reflector(TempClass21).static.property('Create').parameter(0).type).toBe(Number);

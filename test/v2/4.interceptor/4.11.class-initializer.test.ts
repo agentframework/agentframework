@@ -1,12 +1,8 @@
-import {
-  AgentFrameworkError,
-  Arguments,
-  TypeInvocation,
-  TypeInterceptor,
-} from '../../../src/dependencies/agent';
+import { AgentFrameworkError, Arguments, TypeInterceptor, TypeInvocation, } from '../../../packages/dependencies/agent';
+import { GetSystemDomain } from '../../../packages/dependencies/domain';
+import { AddAttributeToConstructor } from '../../../packages/dependencies/core';
+
 export const Initializer: unique symbol = Symbol.for('AgentFramework.Initializer');
-import {GetSystemDomain} from "../../../src/dependencies/domain";
-import {AddAttributeToConstructor} from '../../../src/dependencies/core';
 
 class InitializerAttribute implements TypeInterceptor {
   constructor(readonly key: PropertyKey) {
@@ -83,7 +79,7 @@ describe('4.11. Class Initializer', () => {
     it('intercept class constructor', () => {
       const a = new WebRequestIdentity();
       expect(a.status).toBeUndefined();
-      const b = GetSystemDomain().construct(WebRequestIdentity)
+      const b = GetSystemDomain().construct(WebRequestIdentity);
       expect(b.status).toBeTrue();
     });
   });

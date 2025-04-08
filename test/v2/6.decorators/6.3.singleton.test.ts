@@ -1,13 +1,12 @@
+import { agent, singleton } from 'agentframework';
 import {
-  agent,
-  singleton,
   decorateMember,
   Arguments,
   PropertyInvocation,
   Reflector,
   AgentFrameworkError,
   CreateAgent,
-} from '../../../src/dependencies/agent';
+} from '../../../packages/dependencies/agent';
 
 describe('6.3. @singleton decorator', () => {
   describe('# should able to', () => {

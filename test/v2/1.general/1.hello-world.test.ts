@@ -1,5 +1,7 @@
-import { agent, transit, CreateAgent, singleton, decorateVariable } from '../../../src/dependencies/agent';
-import { SingletonAttribute } from '../../../src/agent/Agent/Decorators/DependencyInjection/SingletonAttribute';
+import { agent, singleton, transit } from 'agentframework';
+
+import { SingletonAttribute } from '../../../packages/dependencies/decorators';
+import { CreateAgent, decorateVariable } from '../../../packages/dependencies/agent';
 
 describe('Hello world!', () => {
   describe('# should able to', () => {
@@ -109,7 +111,8 @@ describe('Hello world!', () => {
 
       @agent()
       class ProjectA {
-        constructor(@decorateVariable(new NotAllowed()) readonly component: ComponentA) {}
+        constructor(@decorateVariable(new NotAllowed()) readonly component: ComponentA) {
+        }
 
         test(@decorateVariable(new NotAllowed()) component?: ComponentA) {
           return component;

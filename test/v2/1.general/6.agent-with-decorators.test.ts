@@ -1,4 +1,5 @@
-import { agent, decorateClass, decorateMember, GetType, Reflector } from '../../../src/dependencies/agent';
+import { agent } from 'agentframework';
+import { decorateClass, decorateMember, GetType, Reflector } from '../../../packages/dependencies/agent';
 
 
 describe('1.6. Agent with decorators', () => {
@@ -11,6 +12,7 @@ describe('1.6. Agent with decorators', () => {
         @decorateMember({ type: 'string' })
         name: string | undefined;
       }
+
       const r1 = Reflector(AgentWithDecorators);
       expect(r1.getOwnAttributes().length).toBe(1);
       expect(r1.getOwnProperties().length).toBe(1);
@@ -34,6 +36,7 @@ describe('1.6. Agent with decorators', () => {
         @decorateMember({ type: 'string' })
         name: string | undefined;
       }
+
       const r1 = Reflector(Agent2WithDecorators);
       expect(r1.getOwnAttributes().length).toBe(1);
       expect(r1.getOwnProperties().length).toBe(1);

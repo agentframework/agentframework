@@ -1,5 +1,5 @@
-import { __agent, __decorate, __metadata, __param } from '../../../src/dependencies/core';
-import { MemberKinds, Reflector } from '../../../src/dependencies/agent';
+import { __agent, __decorate, __metadata, __param } from '../../../packages/dependencies/core';
+import { MemberKinds, Reflector } from '../../../packages/dependencies/agent';
 
 class ClassA {
   run(num: Number, name: string): boolean {
