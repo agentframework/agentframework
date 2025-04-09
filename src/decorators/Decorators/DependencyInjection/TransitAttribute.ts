@@ -21,6 +21,7 @@ import {
 } from '@agentframework/agent';
 
 import { GetDomainFromIntercept } from './GetDomainFromIntercept';
+import { GetSystemDomain } from '../../../../packages/domain';
 
 export class TransitAttribute implements PropertyAttribute, PropertyInterceptor {
   constructor(readonly type?: Function) {}
@@ -42,7 +43,7 @@ export class TransitAttribute implements PropertyAttribute, PropertyInterceptor 
     if (!type) {
       throw new AgentFrameworkError('UnknownTransitType');
     }
-    const domain = GetDomainFromIntercept(target, params, receiver);
+    const domain = GetDomainFromIntercept(target, params, receiver) || GetSystemDomain();
     if (!domain) {
       // console.log('singleton', type, 'receiver', receiver);
       throw new AgentFrameworkError('NoDomainFoundForTransitInjection');

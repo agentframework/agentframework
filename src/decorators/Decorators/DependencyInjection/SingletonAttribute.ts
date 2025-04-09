@@ -52,7 +52,7 @@ export class SingletonAttribute implements PropertyAttribute, PropertyIntercepto
     const domain = GetSystemDomain();
     if (!domain) {
       // console.log('singleton', type, 'receiver', receiver);
-      throw new AgentFrameworkError('NoDomainFoundForSingletonInjection');
+      throw new AgentFrameworkError('NoSystemDomainFoundForSingletonInjection');
     }
 
     // try to look more agents

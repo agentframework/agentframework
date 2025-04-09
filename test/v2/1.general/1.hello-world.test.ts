@@ -87,7 +87,6 @@ describe('Hello world!', () => {
       // so the @transit will take effects
       // CreateAgent won't create any domain. so @singleton will not work in this example.
       const ProjectA$ = CreateAgent(ProjectA);
-
       const project = new ProjectA$();
 
       expect(project).toBeInstanceOf(ProjectA);

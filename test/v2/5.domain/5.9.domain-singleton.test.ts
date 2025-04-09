@@ -96,13 +96,22 @@ describe('5.9. Domain @singleton decorator', () => {
         readonly service!: Service594;
       }
 
-      const Agent = CreateAgent(App594);
+      class App594a {
+        @singleton()
+        readonly service!: Service594;
+      }
 
+      const Agent = CreateAgent(App594);
       const agent = new Agent();
 
-      expect(() => {
-        expect(agent.service).toBeUndefined();
-      }).toThrowError('NoDomainFoundForSingletonInjection');
+      const Agent2 = CreateAgent(App594a);
+      const agent2 = new Agent2();
+
+      expect(agent.service).toBeInstanceOf(Service594);
+      expect(agent2.service).toBeInstanceOf(Service594);
+
+      // the instance is same
+      expect(agent.service).toBe(agent2.service);
     });
 
     it('create singleton using invalid receiver', () => {
