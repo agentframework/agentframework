@@ -1,4 +1,5 @@
-import { InMemoryDomain, transit } from '../../../packages/dependencies/domain';
+import { InMemoryDomain } from '../../../packages/dependencies/domain';
+import { transit } from '@agentframework/decorators';
 
 describe('Hello world!', () => {
   describe('# should able to', () => {

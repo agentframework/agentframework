@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // import { Reflector } from '../Reflector';
-import { CanDecorate } from './CanDecorate';
 import { AddAttributeToConstructor } from '../../../../packages/dependencies/core';
+import { CanDecorate } from './CanDecorate';
 import { Attribute } from '../Attribute';
 
 /**

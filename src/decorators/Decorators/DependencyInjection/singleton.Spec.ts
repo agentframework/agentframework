@@ -1,5 +1,5 @@
 import { agent, singleton } from 'agentframework';
-import { GetAgentType, GetType, Reflector } from '../../../../packages/dependencies/agent';
+import { GetAgentType, GetType, Reflector } from '@agentframework/agent';
 import { SingletonAttribute } from './SingletonAttribute';
 
 describe('Core @singleton() decorator', () => {

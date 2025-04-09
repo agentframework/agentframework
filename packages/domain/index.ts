@@ -39,19 +39,6 @@ export { InMemoryDomain } from './Domain/InMemoryDomain';
 export { InMemorySubDomain } from './Domain/InMemorySubDomain';
 
 /*************************************
- *   Design Pattern: Dependence Injection
- *************************************/
-export { singleton } from '../../src/decorators/Decorators/DependencyInjection/singleton';
-export { SingletonAttribute } from '../../src/decorators/Decorators/DependencyInjection/SingletonAttribute';
-export { transit } from '../../src/decorators/Decorators/DependencyInjection/transit';
-export { TransitAttribute } from '../../src/decorators/Decorators/DependencyInjection/TransitAttribute';
-export { inject } from '../../src/decorators/Decorators/DependencyInjection/inject';
-export { InjectAttribute } from '../../src/decorators/Decorators/DependencyInjection/InjectAttribute';
-export { scoped } from '../../src/decorators/Decorators/DependencyInjection/scoped';
-export { ScopedAttribute } from '../../src/decorators/Decorators/DependencyInjection/ScopedAttribute';
-export { agent } from '../../src/decorators/Decorators/agent';
-
-/*************************************
  *   Unstable API
  *************************************/
 export { Disposable } from './Domain/Helpers/Disposable';

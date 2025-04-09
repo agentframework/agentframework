@@ -22,6 +22,6 @@
       "@agentframework/*": ["./packages/dependencies/*"]
     }
   },
-  "include": ["lib", "src", "test", "tools"],
+  "include": ["lib", "packages", "src", "test", "tools"],
   "exclude": ["node_modules"]
 }

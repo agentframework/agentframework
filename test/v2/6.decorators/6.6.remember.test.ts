@@ -1,5 +1,6 @@
-import { remember } from 'agentframework';
-import { Remember } from '../../../packages/core/Core/Remember';
+
+import { Remember } from '../../../packages/dependencies/core';
+import { remember } from '../../../packages/obsoleted/Remember/Remember';
 
 
 describe('6.6. @remember helper', () => {

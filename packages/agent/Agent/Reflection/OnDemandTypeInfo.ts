@@ -21,6 +21,7 @@ import {
   GetPropertyAnnotation,
   Property,
   Type,
+  Remember
 } from '../../../../packages/dependencies/core';
 import { TypeInfo } from './TypeInfo';
 import { PropertyInfo } from './PropertyInfo';
@@ -29,7 +30,6 @@ import { Attribute } from '../Attribute';
 import { CONSTRUCTOR } from '../WellKnown';
 import { IsAgent } from '../Knowledges/Agents';
 import { Once } from '../Helpers/Once';
-import { Remember } from '../../../core/Core/Remember';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}

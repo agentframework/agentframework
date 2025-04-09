@@ -1,5 +1,5 @@
 import { InMemoryDomain } from '../../../packages/dependencies/domain';
-import { agent } from '../../../packages/dependencies/domain';
+import { agent } from '@agentframework/decorators';
 
 describe('5.4. Domain construct', () => {
   class A {}

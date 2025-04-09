@@ -1,12 +1,13 @@
 import {
-  decorateMember,
+  AgentFrameworkError,
   Arguments,
+  CreateAgent,
+  decorateMember,
   PropertyInvocation,
   Reflector,
-  AgentFrameworkError,
-  CreateAgent,
-} from '../../../packages/dependencies/agent';
-import { InMemoryDomain, agent, singleton } from '../../../packages/dependencies/domain';
+} from '@agentframework/agent';
+import { InMemoryDomain } from '@agentframework/domain';
+import { agent, singleton } from '@agentframework/decorators';
 
 describe('5.9. Domain @singleton decorator', () => {
   describe('# should able to', () => {
@@ -87,7 +88,8 @@ describe('5.9. Domain @singleton decorator', () => {
     });
 
     it('create singleton agent without Domain', () => {
-      class Service594 {}
+      class Service594 {
+      }
 
       class App594 {
         @singleton()

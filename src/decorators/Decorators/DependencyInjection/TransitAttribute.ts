@@ -18,8 +18,9 @@ import {
   PropertyAttribute,
   PropertyInterceptor,
   PropertyInvocation,
-} from '../../../../packages/dependencies/agent';
-import { GetDomainFromIntercept } from '../../../../packages/domain/Domain/Helpers/GetDomainFromIntercept';
+} from '@agentframework/agent';
+
+import { GetDomainFromIntercept } from './GetDomainFromIntercept';
 
 export class TransitAttribute implements PropertyAttribute, PropertyInterceptor {
   constructor(readonly type?: Function) {}
@@ -52,3 +53,4 @@ export class TransitAttribute implements PropertyAttribute, PropertyInterceptor 
     return target.invoke([newValue], receiver);
   }
 }
+

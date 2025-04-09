@@ -92,11 +92,6 @@ export { transit } from '../packages/dependencies/decorators';
 export { once } from '../packages/dependencies/decorators';
 
 /*********************************************************************
- *   (Stability: 1 - Experimental): Getter Decorator: @remember()
- *********************************************************************/
-export { remember } from '../packages/dependencies/decorators';
-
-/*********************************************************************
  *   (Stability: 1 - Experimental): Class Decorator: @exclusive()
  *********************************************************************/
 export { exclusive } from '../packages/dependencies/decorators';

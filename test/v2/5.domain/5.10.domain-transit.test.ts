@@ -1,5 +1,6 @@
-import { InMemoryDomain, agent, transit } from '../../../packages/dependencies/domain';
+import { InMemoryDomain } from '../../../packages/dependencies/domain';
 import { CreateAgent, Reflector } from '../../../packages/dependencies/agent';
+import { agent, transit } from '@agentframework/decorators';
 
 describe('5.10. @transit decorator', () => {
   describe('# should able to', () => {
@@ -52,7 +53,8 @@ describe('5.10. @transit decorator', () => {
   describe('# should not able to', () => {
 
     it('create agent without Domain', () => {
-      class Service5103 {}
+      class Service5103 {
+      }
 
       class App5103 {
         @transit()
@@ -65,7 +67,7 @@ describe('5.10. @transit decorator', () => {
 
       const app626 = new Agent626();
 
-      expect(()=> {
+      expect(() => {
         expect(app626.service).toBeInstanceOf(Service5103);
         expect(app626.service2).toBeInstanceOf(Service5103);
         expect(app626.service2).not.toBe(app626.service);
@@ -88,7 +90,8 @@ describe('5.10. @transit decorator', () => {
     });
 
     it('modify transit value', () => {
-      class Service5105 {}
+      class Service5105 {
+      }
 
       @agent()
       class App5105 {

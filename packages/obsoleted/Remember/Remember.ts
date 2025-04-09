@@ -11,11 +11,9 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
+import { Arguments, decorateMember, PropertyInvocation } from '../../agent';
+import { GetMemory, SetMemory } from '../../core/Core/Remember';
 
-import { GetMemory, SetMemory } from '../../../../packages/dependencies/core';
-import { decorateMember } from '../../../../packages/agent/Agent/Decorate/decorateMember';
-import { PropertyInvocation } from '../../../../packages/agent/Agent/TypeInvocations';
-import { Arguments } from '../../../../packages/agent/Agent/Arguments';
 
 /**
  * Decorator: Caches the result of a getter method using a provided key.

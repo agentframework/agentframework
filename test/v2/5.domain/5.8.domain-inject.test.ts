@@ -1,5 +1,6 @@
 import { Reflector, CreateAgent } from '../../../packages/dependencies/agent';
-import { InMemoryDomain, agent, inject } from '../../../packages/dependencies/domain';
+import { InMemoryDomain } from '../../../packages/dependencies/domain';
+import { agent, inject } from '@agentframework/decorators';
 
 describe('5.8. Domain @inject decorator', () => {
   describe('# should able to', () => {

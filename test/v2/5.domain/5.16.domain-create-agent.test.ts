@@ -1,19 +1,20 @@
 import { Reflector } from '../../../packages/dependencies/agent';
+import { CreateDomainAgent, GetSystemDomain } from '../../../packages/dependencies/domain';
 import {
-  singleton,
-  transit,
   inject,
-  TransitAttribute,
-  SingletonAttribute,
   InjectAttribute,
-  CreateDomainAgent,
-  GetSystemDomain
-} from '../../../packages/dependencies/domain';
+  singleton,
+  SingletonAttribute,
+  transit,
+  TransitAttribute,
+} from '@agentframework/decorators';
+
 
 describe('5.16. Domain create agent', () => {
   describe('# should able to', () => {
     it('create domain agent', () => {
-      class Service5161 {}
+      class Service5161 {
+      }
 
       class DomainAgent5161 {
         @transit()
@@ -36,9 +37,9 @@ describe('5.16. Domain create agent', () => {
       expect(type.property('t3').hasOwnAttribute(InjectAttribute));
 
       const domainAgent: DomainAgent5161 = domain.construct(DomainAgentType5161);
-      expect(domainAgent.t1).toBeInstanceOf(Service5161)
-      expect(domainAgent.t2).toBeInstanceOf(Service5161)
-      expect(domainAgent.t3).toBeInstanceOf(Service5161)
+      expect(domainAgent.t1).toBeInstanceOf(Service5161);
+      expect(domainAgent.t2).toBeInstanceOf(Service5161);
+      expect(domainAgent.t3).toBeInstanceOf(Service5161);
     });
   });
 });

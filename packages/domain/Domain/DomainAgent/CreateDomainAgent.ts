@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { TypeAttribute } from '../../../../packages/dependencies/agent';
+import { TypeAttribute } from '@agentframework/agent';
 import { RememberDomainDomainAgentType } from '../Knowledges/DomainDomainAgentTypes/RememberDomainDomainAgentType';
 import { CompileDomainAgent } from './CompileDomainAgent';
 import { RememberDomain } from '../Knowledges/Domains/Domains';

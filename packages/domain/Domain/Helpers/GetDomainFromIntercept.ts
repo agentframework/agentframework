@@ -11,25 +11,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
-
-import { Arguments, Invocation } from '../../../../packages/dependencies/agent';
-import { DomainLike } from '../DomainLike';
-import { GetDomain } from '../Knowledges/Domains/Domains';
-
-/**
- * Find domain from invocation or parameters
- *
- * DomainReference don't have construct or resolve, so it will never create new instance
- */
-export function GetDomainFromIntercept(
-  target: Invocation,
-  params: Arguments,
-  receiver: Function | object
-): DomainLike | undefined {
-  // console.log('find domain', typeof receiver, receiver, 'params', params);
-  const found = GetDomain(receiver) || (receiver && GetDomain(receiver.constructor));
-  if (found) {
-    return found;
-  }
-  return;
-}

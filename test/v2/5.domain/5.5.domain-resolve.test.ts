@@ -1,26 +1,32 @@
-import { agent } from '../../../packages/dependencies/domain';
 import { InMemoryDomain } from '../../../packages/dependencies/domain';
+import { agent } from '@agentframework/decorators';
 
 describe('5.5. Domain resolve', () => {
-  class A {}
+  class A {
+  }
 
   class B extends A {
     disposed: boolean | undefined;
+
     dispose() {
       this.disposed = true;
     }
   }
 
-  class C extends B {}
+  class C extends B {
+  }
 
   @agent()
-  class D extends C {}
+  class D extends C {
+  }
 
   class R {
     constructor() {
       return <any>{
-        lift() {},
-        subscribe() {},
+        lift() {
+        },
+        subscribe() {
+        },
       };
     }
   }

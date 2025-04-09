@@ -16,7 +16,7 @@ export { AddAttributeToConstructor } from './Core/AddAttribute';
 
 export { GetConstructorAnnotation } from './Core/GetAnnotation';
 export { GetPropertyAnnotation } from './Core/GetAnnotation';
-export { Remember, GetMemory, SetMemory } from './Core/Remember';
+export { Remember } from './Core/Remember';
 export { GetAnnotation } from './Core/GetAnnotation';
 
 /*********************************************************************
