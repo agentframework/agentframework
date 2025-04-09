@@ -1,5 +1,4 @@
 /* tslint:disable */
-import { agent } from '../../../lib';
 import { AgentAttribute, Arguments, IsAgent, TypeInterceptor, TypeInvocation, } from '../../../packages/dependencies/agent';
 import { CreateAgent } from './CreateAgent';
 
@@ -22,7 +21,6 @@ class MongoDB extends Database {
   }
 }
 
-@agent()
 class MySQLAgent extends Database {
   run(cmd: any) {
     return 3.1;
