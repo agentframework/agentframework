@@ -1,4 +1,4 @@
-import { alter } from './Helpers/alter';
+import { set } from './Helpers/set';
 import { Knowledge } from './Knowledge';
 
 const memory = Knowledge.get(Knowledge);
@@ -26,12 +26,11 @@ export function Remember<T>(
 
   const cached = memory.get(id);
   if (cached !== undefined) {
-    alter(target, prop, cached);
-    return cached as T;
+
+    return set(target, prop, cached) as T;
   }
 
   const resolved = compute();
   memory.set(id, resolved);
-  alter(target, prop, resolved);
-  return resolved;
+  return set(target, prop, resolved);
 }

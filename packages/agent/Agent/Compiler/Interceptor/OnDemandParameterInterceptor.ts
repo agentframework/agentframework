@@ -20,7 +20,7 @@ import { PropertyInterceptor } from '../../TypeInterceptors';
 import { MethodParameterInvocation } from '../Invocation/MethodParameterInvocation';
 import { OnDemandInterceptorFactory } from '../OnDemandInterceptorFactory';
 
-import { Once } from '../../Helpers/Once';
+import { setIfValue } from '../../Helpers/setIfValue';
 
 /**
  let MongoDB = class MongoDB {
@@ -69,7 +69,7 @@ export class OnDemandParameterInterceptor implements PropertyInterceptor {
         invocations.set(idx, OnDemandInterceptorFactory.addInterceptors(origin, interceptors));
       }
     }
-    return Once(this, 'invocations', invocations.size ? invocations : undefined);
+    return setIfValue(this, 'invocations', invocations.size ? invocations : undefined);
   }
 
   intercept(target: PropertyInvocation, params: Array<any>, receiver: any): any {

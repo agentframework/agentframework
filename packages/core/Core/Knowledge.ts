@@ -13,10 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { METADATA } from './WellKnown';
-import { adapter } from './Annotation/adapter';
+import { patch } from './Helpers/patch';
 import { Type } from './Annotation/Type';
 
-@adapter(Reflect, METADATA)
+@patch(Reflect, METADATA)
 export class Knowledge {
   /* istanbul ignore next */
 

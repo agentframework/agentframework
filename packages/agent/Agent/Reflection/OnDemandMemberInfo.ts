@@ -18,8 +18,8 @@ import { MemberInfo } from './MemberInfo';
 import { Filter } from './Filter';
 import { Class } from '../Arguments';
 import { HasInterceptor } from '../CustomInterceptor';
-import { Cache } from '../Helpers/Cache';
-import { Once } from '../Helpers/Once';
+import { setByVersion } from '../Helpers/setByVersion';
+import { setIfValue } from '../Helpers/setIfValue';
 
 /**
  * Access and store attribute and metadata for reflection
@@ -40,7 +40,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    * Get name
    */
   get name(): string {
-    return Once(this, 'name', this.getName());
+    return setIfValue(this, 'name', this.getName());
   }
 
   /**
@@ -59,7 +59,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    * Get declaring type
    */
   get declaringType(): Function {
-    return Once(this, 'declaringType', this.getDeclaringType());
+    return setIfValue(this, 'declaringType', this.getDeclaringType());
   }
 
   /**
@@ -72,7 +72,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    * Get member kind
    */
   get kind(): number {
-    return Once(this, 'kind', this.getKind());
+    return setIfValue(this, 'kind', this.getKind());
   }
 
   /**
@@ -85,7 +85,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    * Get metadata object, undefined if not annotated.
    */
   get annotation(): A | undefined {
-    return Once(this, 'annotation', this.getAnnotation());
+    return setIfValue(this, 'annotation', this.getAnnotation());
   }
 
   /**
@@ -105,7 +105,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
    * Get type
    */
   get type(): Function | undefined {
-    return Once(this, 'type', this.getType());
+    return setIfValue(this, 'type', this.getType());
   }
 
   /**
@@ -116,7 +116,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
     if (!annotation) {
       return;
     }
-    return Cache(this, 'ownAttributes', () => annotation.a);
+    return setByVersion(this, 'ownAttributes', () => annotation.a);
   }
 
   /**
@@ -127,7 +127,7 @@ export abstract class OnDemandMemberInfo<A extends Annotation = Annotation> impl
     if (!annotation) {
       return;
     }
-    return Cache(this, 'ownInterceptors', () => {
+    return setByVersion(this, 'ownInterceptors', () => {
       const a = annotation.a;
       if (a) {
         const interceptors = a.filter(HasInterceptor);

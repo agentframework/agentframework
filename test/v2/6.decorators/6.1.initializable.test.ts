@@ -1,5 +1,6 @@
-import { agent, initializable, Initializer } from 'agentframework';
+import { agent, initializable } from 'agentframework';
 import { Arguments, CreateAgent, TypeInvocation } from '../../../packages/dependencies/agent';
+import { Initializer } from '../../../packages/domain/Domain/Initializer';
 
 describe('6.1. @initializable decorator', () => {
   describe('# should able to', () => {

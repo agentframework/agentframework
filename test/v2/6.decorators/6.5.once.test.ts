@@ -1,5 +1,6 @@
 import { once } from 'agentframework';
-import { Once } from '../../../packages/agent/Agent/Helpers/Once';
+import { setIfValue } from '../../../packages/agent/Agent/Helpers/setIfValue';
+
 
 describe('6.5. @once helper', () => {
   describe('# should able to', () => {
@@ -12,7 +13,7 @@ describe('6.5. @once helper', () => {
       }
 
       static get stats() {
-        return Once(this, 'stats', n++);
+        return setIfValue(this, 'stats', n++);
       }
     }
 
@@ -23,7 +24,7 @@ describe('6.5. @once helper', () => {
       }
 
       static get stats() {
-        return Once(this, 'stats', this.random);
+        return setIfValue(this, 'stats', this.random);
       }
     }
 

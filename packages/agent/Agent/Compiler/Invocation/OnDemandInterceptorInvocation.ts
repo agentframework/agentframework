@@ -19,7 +19,7 @@ import { GetInterceptor } from '../../CustomInterceptor';
 // import { Once } from '../../Decorators/Once/Once';
 import { INVOKE } from '../../WellKnown';
 import { Arguments } from '../../Arguments';
-import { alter } from '../../Helpers/alter';
+import { set } from '../../Helpers/set';
 import { Interceptor } from '../../Interceptor';
 
 /**
@@ -51,7 +51,7 @@ export class OnDemandInterceptorInvocation<T extends Design = Design> implements
     // remove this invocation from chain
     const desc = Reflect.getOwnPropertyDescriptor(this.next, INVOKE);
     const value = desc ? desc.value : this.next.invoke.bind(this.next);
-    alter(this, INVOKE, { value });
+    set(this, INVOKE, { value });
     return result;
   }
 }

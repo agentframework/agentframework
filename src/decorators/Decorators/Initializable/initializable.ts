@@ -12,8 +12,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AddAttributeToConstructor } from '../../../../packages/dependencies/core';
-import { Initializer } from './Initializer';
+import { AddAttributeToConstructor } from '@agentframework/core';
+import { Initializer } from '@agentframework/domain';
 import { InitializerAttribute } from './InitializerAttribute';
 import { StaticInitializerAttribute } from './StaticInitializerAttribute';
 

@@ -23,6 +23,8 @@ limitations under the License. */
  *************************************/
 export { AgentReference, Params, Agent } from './Domain/Agent';
 
+export { Initializer } from './Domain/Initializer';
+
 /*************************************
  *   Domain
  *************************************/

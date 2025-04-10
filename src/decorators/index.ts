@@ -7,8 +7,6 @@ export { agent } from './Decorators/agent';
  *   (Stability: 2 - Stable): Class Decorator: @initializable()
  *********************************************************************/
 export { initializable } from './Decorators/Initializable/initializable';
-export { Initializer } from './Decorators/Initializable/Initializer';
-export { InitializerHandler, StaticInitializerHandler } from './Decorators/Initializable/Initializer';
 
 /*************************************
  *   (Stability: 2 - Stable): Dependence Injection

@@ -25,11 +25,11 @@ import {
   GetConstructorAnnotation,
   Property,
 } from '../../../../packages/dependencies/core';
-import { Cache } from '../Helpers/Cache';
+import { setByVersion } from '../Helpers/setByVersion';
 import { CONSTRUCTOR, DESIGN_PARAMTYPES, DESIGN_RETURNTYPE, DESIGN_TYPE } from '../WellKnown';
 import { TypeInfo } from './TypeInfo';
 import { Attribute } from '../Attribute';
-import { Once } from '../Helpers/Once';
+import { setIfValue } from '../Helpers/setIfValue';
 
 // import { OnDemandPropertyValueInfo } from './OnDemandPropertyValueInfo';
 // import { OnDemandPropertyGetterInfo } from './OnDemandPropertyGetterInfo';
@@ -135,7 +135,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
   }
 
   get intercepted(): boolean {
-    return Cache(this, 'intercepted', () => this.hasInterceptor());
+    return setByVersion(this, 'intercepted', () => this.hasInterceptor());
   }
 
   /**
@@ -185,7 +185,7 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
    * Returns type of the parameters
    */
   get parameterTypes(): ReadonlyArray<any> | undefined {
-    return Once(this, 'parameterTypes', this.getParameterTypes());
+    return setIfValue(this, 'parameterTypes', this.getParameterTypes());
   }
 
   /**

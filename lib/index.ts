@@ -67,9 +67,8 @@ export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } f
 /*********************************************************************
  *   (Stability: 2 - Stable): Class Decorator: @initializable()
  *********************************************************************/
+export { Initializer } from '../packages/domain';
 export { initializable } from '../packages/dependencies/decorators';
-export { Initializer } from '../packages/dependencies/decorators';
-export { InitializerHandler, StaticInitializerHandler } from '../packages/dependencies/decorators';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Class Decorator: @agent()
@@ -80,6 +79,11 @@ export { agent } from '../packages/dependencies/decorators';
  *   (Stability: 2 - Stable): Property Decorator: @singleton()
  *********************************************************************/
 export { singleton } from '../packages/dependencies/decorators';
+
+/*********************************************************************
+ *   (Stability: 2 - Stable): Property Decorator: @scoped()
+ *********************************************************************/
+export { scoped } from '../packages/dependencies/decorators';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Property Decorator: @transit()

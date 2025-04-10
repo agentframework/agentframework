@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // the once can be used on both class getter or static getter
-import { alter } from '../../../../packages/agent/Agent/Helpers/alter';
+import { set } from '../../../../packages/agent/Agent/Helpers/set';
 import { decorateMember } from '../../../../packages/agent/Agent/Decorate/decorateMember';
 import { Arguments } from '../../../../packages/agent/Agent/Arguments';
 import { PropertyInvocation } from '../../../../packages/agent/Agent/TypeInvocations';
@@ -27,7 +27,7 @@ export function once(): MethodDecorator {
       intercept(target: PropertyInvocation, params: Arguments, receiver: object): unknown {
         const value = target.invoke(params, receiver);
         if ('undefined' !== typeof value) {
-          alter(receiver, target.design.key, { value });
+          set(receiver, target.design.key, { value });
         }
         return value;
       },
@@ -41,7 +41,7 @@ export function once(): MethodDecorator {
   //       const { get } = descriptor;
   //       value = Reflect.apply(get, receiver, []);
   //       if ('undefined' !== typeof value) {
-  //         alter(receiver, targetKey, { value });
+  //         set(receiver, targetKey, { value });
   //       }
   //       return value;
   //     },

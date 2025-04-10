@@ -29,7 +29,7 @@ import { Filter } from './Filter';
 import { Attribute } from '../Attribute';
 import { CONSTRUCTOR } from '../WellKnown';
 import { IsAgent } from '../Knowledges/Agents';
-import { Once } from '../Helpers/Once';
+import { setIfValue } from '../Helpers/setIfValue';
 
 // class TypeIteratorResult {
 //   constructor(readonly done: boolean, readonly value: any) {}
@@ -104,7 +104,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Access class annotation info
    */
   get prototype(): TypeInfo {
-    return Once(this, 'prototype', OnDemandTypeInfo.find(this.declaringType.prototype));
+    return setIfValue(this, 'prototype', OnDemandTypeInfo.find(this.declaringType.prototype));
   }
 
   protected getType(): Function | undefined {
@@ -164,7 +164,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
   }
 
   get annotation(): Property | undefined {
-    return Once(this, 'annotation', this.getAnnotation());
+    return setIfValue(this, 'annotation', this.getAnnotation());
   }
 
   /**
@@ -172,7 +172,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * Get metadata object, undefined if not annotated.
    */
   get typeAnnotation(): Type | undefined {
-    return Once(this, 'typeAnnotation', this.getTypeAnnotation());
+    return setIfValue(this, 'typeAnnotation', this.getTypeAnnotation());
   }
 
   /**
@@ -196,7 +196,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * @cache
    */
   get base(): TypeInfo | null | undefined {
-    return Once(this, 'base', this.getBase());
+    return setIfValue(this, 'base', this.getBase());
   }
 
   /**
@@ -206,7 +206,7 @@ export class OnDemandTypeInfo extends OnDemandPropertyInfo implements TypeInfo {
    * @cache
    */
   get types(): ReadonlyArray<TypeInfo> {
-    return Once(this, 'types', this.getTypes());
+    return setIfValue(this, 'types', this.getTypes());
   }
 
   // /**

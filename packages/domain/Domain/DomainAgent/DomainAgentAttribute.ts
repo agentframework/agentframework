@@ -15,8 +15,11 @@ limitations under the License. */
 import { AgentAttribute, Arguments, TypeInterceptor, TypeInvocation } from '@agentframework/agent';
 import { RememberDomainAgentType } from '../Knowledges/DomainAgentTypes/RememberDomainAgentType';
 import { DomainLike } from '../DomainLike';
+import { Initializer } from '../Initializer';
+
 
 export class DomainAgentAttribute extends AgentAttribute implements TypeInterceptor {
+
   constructor(readonly domain: DomainLike) {
     super();
   }
@@ -39,18 +42,30 @@ export class DomainAgentAttribute extends AgentAttribute implements TypeIntercep
     const [, type] = params as any;
     let newReceiver = this.domain.getAgentType(type);
     if (!newReceiver) {
-      newReceiver = target.invoke(params, receiver);
+      newReceiver =  target.invoke(params, receiver);
       RememberDomainAgentType(this.domain, type, newReceiver);
     }
+
+    // const declaringType = target.design.declaringType;
+    // const initializer = Reflect.get(declaringType, Initializer, receiver);
+    // if (initializer) {
+    //   if ('function' !== typeof initializer) {
+    //     throw new AgentFrameworkError('ClassInitializerIsNotFunction');
+    //   }
+    //   newReceiver =  Reflect.apply(initializer, declaringType, arguments);
+    // } else {
+    //   newReceiver =  target.invoke(params, receiver);
+    // }
+
     return newReceiver;
   }
 
-  // construct<T extends Function>(target: T, params: Arguments, receiver: T): any {
-  //   const instance = super.construct(target, params, receiver);
-  //   const initializer = Reflect.get(instance, Initializer);
-  //   if ('function' === typeof initializer) {
-  //     Reflect.apply(initializer, instance, params);
-  //   }
-  //   return instance;
-  // }
+  construct<T extends Function>(type: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
+    const instance = super.construct(type, params, receiver, proxy, cache);
+    const initializer = Reflect.get(instance, Initializer);
+    if ('function' === typeof initializer) {
+      Reflect.apply(initializer, instance, params);
+    }
+    return instance;
+  }
 }

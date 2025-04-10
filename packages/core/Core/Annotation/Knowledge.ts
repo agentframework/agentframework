@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { NOW } from '../WellKnown';
 import { GetProperty } from '../Helpers/GetProperty';
-import { alter } from '../Helpers/alter';
+import { set } from '../Helpers/set';
 import { AddMetadata } from '../Helpers/AddMetadata';
 import { Type } from './Type';
 import { Annotation } from './Annotation';
@@ -102,7 +102,7 @@ export class Knowledge extends WeakMap<Function | object, any> {
     // mark the time
     // @ts-ignore
     value[NOW] = Date.now();
-    alter(r, key, value);
+    set(r, key, value);
     self.set(self, new Map());
   }
 
