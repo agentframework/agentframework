@@ -22,73 +22,32 @@ export { Arguments } from '../packages/agent';
 export { Class } from '../packages/agent';
 
 /*********************************************************************
- *   (Stability: 2 - Stable) Metadata
- *********************************************************************/
-export { MemberKinds } from '../packages/agent';
-export { Filter } from '../packages/agent';
-export { Attribute } from '../packages/agent';
-export { Design } from '../packages/agent';
-export { Invocation } from '../packages/agent';
-export { Interceptor } from '../packages/agent';
-
-export { MemberInfo } from '../packages/agent';
-export { PropertyInfo } from '../packages/agent';
-export { TypeInfo } from '../packages/agent';
-export { ParameterInfo } from '../packages/agent';
-
-export { TypeInvocation } from '../packages/agent';
-export { TypeInterceptor } from '../packages/agent';
-export { TypeAttribute } from '../packages/agent';
-
-export { PropertyInvocation } from '../packages/agent';
-export { PropertyInterceptor } from '../packages/agent';
-export { PropertyAttribute } from '../packages/agent';
-
-export { ParameterInvocation } from '../packages/agent';
-export { ParameterInterceptor } from '../packages/agent';
-export { ParameterAttribute } from '../packages/agent';
-
-/*********************************************************************
- *   (Stability: 2 - Stable) Advanced Metadata API
- *********************************************************************/
-export { decorateAgent } from '../packages/agent';
-export { decorateClass } from '../packages/agent';
-export { decorateMember } from '../packages/agent';
-export { decorateParameter } from '../packages/agent';
-export { decorateVariable } from '../packages/agent';
-export { VariableDecorator } from '../packages/agent';
-export { Reflector } from '../packages/agent';
-
-/*********************************************************************
- *   (Stability: 2 - Stable): Custom Interceptor API
- *********************************************************************/
-export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../packages/agent';
-
-/*********************************************************************
  *   (Stability: 2 - Stable): Class Decorator: @initializable()
  *********************************************************************/
-export { Initializer } from '../packages/domain';
+export { Initializer, InitializerHandler, StaticInitializerHandler } from '../packages/domain';
 export { initializable } from '../packages/dependencies/decorators';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Class Decorator: @agent()
  *********************************************************************/
 export { agent } from '../packages/dependencies/decorators';
-
 /*********************************************************************
  *   (Stability: 2 - Stable): Property Decorator: @singleton()
  *********************************************************************/
 export { singleton } from '../packages/dependencies/decorators';
+export { SingletonAttribute } from '../packages/dependencies/decorators';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Property Decorator: @scoped()
  *********************************************************************/
 export { scoped } from '../packages/dependencies/decorators';
+export { ScopedAttribute } from '../packages/dependencies/decorators';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Property Decorator: @transit()
  *********************************************************************/
 export { transit } from '../packages/dependencies/decorators';
+export { TransitAttribute } from '../packages/dependencies/decorators';
 
 /*********************************************************************
  *   (Stability: 1 - Experimental): Getter Decorator: @once()

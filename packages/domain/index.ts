@@ -22,8 +22,7 @@ limitations under the License. */
  *   Class
  *************************************/
 export { AgentReference, Params, Agent } from './Domain/Agent';
-
-export { Initializer } from './Domain/Initializer';
+export { Initializer, InitializerHandler, StaticInitializerHandler } from './Domain/Initializer';
 
 /*************************************
  *   Domain

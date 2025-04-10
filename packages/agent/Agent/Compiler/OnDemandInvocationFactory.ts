@@ -29,6 +29,8 @@ export class OnDemandInvocationFactory {
     if (design.version) {
       chain = OnDemandInterceptorFactory.addInterceptors(chain, design.ownInterceptors);
     }
+    chain = OnDemandInterceptorFactory.addInterceptor(chain, attribute)
+
     return chain;
   }
 

@@ -12,20 +12,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Arguments } from './Arguments';
-import { TypeAttribute } from './TypeAttributes';
-import { TypeInvocation } from './TypeInvocations';
-import { TypeInterceptor } from './TypeInterceptors';
-import { UpgradeAgentProperties } from './Compiler/OnDemandAgentCompiler';
 import { AgentFrameworkError } from './AgentFrameworkError';
-import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
+import { AgentTypeInvocation } from './Compiler/Invocation/AgentTypeInvocation';
+import { Arguments } from './Arguments';
+import { CONSTRUCTOR } from './WellKnown';
 import { ClassConstructors } from './Knowledges/ClassConstructors';
 import { ClassMembers } from './Knowledges/ClassMembers';
-import { PropertyInfo } from './Reflection/PropertyInfo';
-import { TypeInfo } from './Reflection/TypeInfo';
-import { AgentTypeInvocation } from './Compiler/Invocation/AgentTypeInvocation';
-import { CONSTRUCTOR } from './WellKnown';
+import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
 import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
+import { PropertyInfo } from './Reflection/PropertyInfo';
+import { TypeAttribute } from './TypeAttributes';
+import { TypeInfo } from './Reflection/TypeInfo';
+import { TypeInterceptor } from './TypeInterceptors';
+import { TypeInvocation } from './TypeInvocations';
+import { UpgradeAgentProperties } from './Compiler/OnDemandAgentCompiler';
 
 /**
  * This attribute is for upgrade class to agent
@@ -64,6 +64,7 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
 
     // build properties
     const typeVersion = design.version;
+    //region create agent type
     if (typeVersion) {
       let cm = ClassMembers.v1.get(type);
       if (!cm || cm.version !== typeVersion) {
@@ -79,10 +80,12 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
         UpgradeAgentProperties(cm.members, type.prototype, proxy.prototype, cm.properties, cache.prototype);
       }
     }
+    //endregion
 
     // generate new class instance
     const property: PropertyInfo = design.property(CONSTRUCTOR);
     const propertyVersion = property.version;
+    //region this type got constructor interceptor
     if (propertyVersion) {
       let invocation: TypeInvocation | undefined;
 
@@ -108,6 +111,7 @@ export class AgentAttribute implements TypeAttribute, TypeInterceptor {
 
       return agent;
     }
+    //endregion
 
     return Reflect.construct(type, params, receiver);
   }

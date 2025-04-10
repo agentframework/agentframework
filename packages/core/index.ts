@@ -16,8 +16,8 @@ export { AddAttributeToConstructor } from './Core/AddAttribute';
 
 export { GetConstructorAnnotation } from './Core/GetAnnotation';
 export { GetPropertyAnnotation } from './Core/GetAnnotation';
-export { Remember } from './Core/Remember';
 export { GetAnnotation } from './Core/GetAnnotation';
+export { Remember } from './Core/Remember';
 
 /*********************************************************************
  *    (Stability: 1 - Experimental): TSLIB integrate with Metadata

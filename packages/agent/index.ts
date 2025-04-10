@@ -17,7 +17,6 @@ limitations under the License. */
 /*********************************************************************
  *   (Stability: 2 - Stable) Metadata Interface
  *********************************************************************/
-
 export { Design } from './Agent/Design';
 export { MemberInfo } from './Agent/Reflection/MemberInfo';
 export { PropertyInfo } from './Agent/Reflection/PropertyInfo';

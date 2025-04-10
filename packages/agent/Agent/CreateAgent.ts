@@ -23,6 +23,7 @@ import { TypeAttribute } from './TypeAttributes';
 import { CONSTRUCTOR } from './WellKnown';
 import { CreateAgentType } from './Knowledges/AgentTypes';
 
+
 /**
  * Creates a new agent type from giving class type with specified attribute and registers it in the Agent registry.
  * Always returns a new Agent type.

@@ -42,7 +42,7 @@ export class DomainAgentAttribute extends AgentAttribute implements TypeIntercep
     const [, type] = params as any;
     let newReceiver = this.domain.getAgentType(type);
     if (!newReceiver) {
-      newReceiver =  target.invoke(params, receiver);
+      newReceiver = target.invoke(params, receiver);
       RememberDomainAgentType(this.domain, type, newReceiver);
     }
 
