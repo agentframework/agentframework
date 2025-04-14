@@ -1,4 +1,4 @@
-// import { DomainModule } from '../Internal/DomainModule';
+// import { DomainModule } from '../Knowledges/DomainModule';
 //
 // export function FindStaticConstructors(target: Function): Array<Function> {
 //   const list = [];
