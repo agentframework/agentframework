@@ -62,7 +62,7 @@ export abstract class Domain implements DomainLike {
    * @param type - The agent type to look up.
    * @returns The constructor function if found, otherwise undefined.
    */
-  abstract getAgentType<T extends Function>(type: T): T | undefined;
+  abstract getAgentClass<T extends Function>(type: T): T | undefined;
 
   /**
    * Retrieves the constructor function for the given type.
@@ -87,7 +87,7 @@ export abstract class Domain implements DomainLike {
    * @param transit - Whether to allow transient injection.
    * @returns The constructed agent instance.
    */
-  abstract construct<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Agent<T>;
+  abstract resolve<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Agent<T>;
 
   /**
    * Resolves and injects an agent using an asynchronous factory method.
@@ -97,7 +97,7 @@ export abstract class Domain implements DomainLike {
    * @param transit - Whether to allow transient injection.
    * @returns A promise resolving to the constructed agent instance.
    */
-  abstract resolve<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>>;
+  abstract resolveAsync<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>>;
 
   /**
    * Registers a new type if it does not already exist.

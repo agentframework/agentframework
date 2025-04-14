@@ -34,19 +34,19 @@ describe('5.4. Domain construct', () => {
   describe('# should able to', () => {
     it('construct agent', () => {
       const domain = new InMemoryDomain();
-      const c = domain.construct(C);
+      const c = domain.resolve(C);
       expect(c).toBeInstanceOf(C);
-      const c1 = domain.construct(C);
+      const c1 = domain.resolve(C);
       expect(c).toBe(c1);
       domain.dispose();
     });
 
     it('construct domain and agent', () => {
       const root = new InMemoryDomain();
-      const domain = root.construct(InMemoryDomain);
-      const c = domain.construct(C);
+      const domain = root.resolve(InMemoryDomain);
+      const c = domain.resolve(C);
       expect(c).toBeInstanceOf(C);
-      const c1 = domain.construct(C);
+      const c1 = domain.resolve(C);
       expect(c).toBe(c1);
       domain.dispose();
     });
@@ -68,11 +68,11 @@ describe('5.4. Domain construct', () => {
 
     it('construct transit type', () => {
       const domain = new InMemoryDomain();
-      const c = domain.construct(C);
+      const c = domain.resolve(C);
       expect(c).toBeInstanceOf(C);
-      const c1 = domain.construct(C, undefined, true);
+      const c1 = domain.resolve(C, undefined, true);
       expect(c).not.toBe(c1);
-      const c2 = domain.construct(C, undefined, true);
+      const c2 = domain.resolve(C, undefined, true);
       expect(c).not.toBe(c2);
       expect(c1).not.toBe(c2);
       domain.dispose();
@@ -81,21 +81,21 @@ describe('5.4. Domain construct', () => {
     it('construct Promise', () => {
       const domain = new InMemoryDomain();
       expect(() => {
-        domain.construct(R);
+        domain.resolve(R);
       }).toThrowError('NotAllowConstructObservableObject');
     });
 
     it('construct Promise', () => {
       const domain = new InMemoryDomain();
       expect(() => {
-        domain.construct(P);
+        domain.resolve(P);
       }).toThrowError('NotAllowConstructPromiseObject');
     });
 
     it('construct agent', () => {
       const domain = new InMemoryDomain();
       expect(() => {
-        domain.construct(D);
+        domain.resolve(D);
       }).toThrowError('NotSupportCreateAgentForOtherDomain');
     });
   });

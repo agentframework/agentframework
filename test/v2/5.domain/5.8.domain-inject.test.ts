@@ -38,9 +38,9 @@ describe('5.8. Domain @inject decorator', () => {
 
       const domain = new InMemoryDomain();
 
-      const service = domain.construct(Service582);
+      const service = domain.resolve(Service582);
 
-      const app = domain.construct(App582);
+      const app = domain.resolve(App582);
 
       expect(app.service).toBe(service);
     });
@@ -78,7 +78,7 @@ describe('5.8. Domain @inject decorator', () => {
 
       const domain = new InMemoryDomain();
 
-      const app = domain.construct(App584);
+      const app = domain.resolve(App584);
 
       expect(() => {
         expect(app.service).toBeUndefined();

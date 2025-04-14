@@ -18,7 +18,7 @@ describe('5.1. Create domain', () => {
 
     it('create domain', () => {
       const domain = new InMemoryDomain();
-      const subdomain = domain.construct(InMemorySubDomain);
+      const subdomain = domain.resolve(InMemorySubDomain);
       expect(IsDomain(subdomain)).toBeTrue();
       expect(subdomain.constructor.name).toBe('InMemorySubDomain$');
       expect(subdomain.name).toBe('InMemorySubDomain$');

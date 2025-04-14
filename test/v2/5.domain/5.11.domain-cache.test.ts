@@ -35,13 +35,13 @@ describe('5.11. Domain agent cache', () => {
         expect(proto.toString()).toEqual(`function () { [native code] }`);
       }
       expect(seq).toEqual([]);
-      const r1 = domain1.construct(WebRequest511);
+      const r1 = domain1.resolve(WebRequest511);
       expect(seq).toEqual(['beforeWebRequest1', 'afterWebRequest1']);
-      const r2 = domain1.construct(WebRequest511);
+      const r2 = domain1.resolve(WebRequest511);
       expect(seq).toEqual(['beforeWebRequest1', 'afterWebRequest1']);
-      const r3 = domain1.construct(WebRequest511, [], true);
+      const r3 = domain1.resolve(WebRequest511, [], true);
       expect(seq).toEqual(['beforeWebRequest1', 'afterWebRequest1', 'beforeWebRequest1', 'afterWebRequest1']);
-      const r4 = domain1.construct(WebRequest511, [], true);
+      const r4 = domain1.resolve(WebRequest511, [], true);
       expect(seq).toEqual(['beforeWebRequest1', 'afterWebRequest1', 'beforeWebRequest1', 'afterWebRequest1', 'beforeWebRequest1', 'afterWebRequest1']);
 
       // validate type
@@ -62,11 +62,11 @@ describe('5.11. Domain agent cache', () => {
       expect(r1).not.toBe(r4);
       expect(r3).not.toBe(r4);
 
-      const d2r1 = domain2.construct(WebRequest511);
+      const d2r1 = domain2.resolve(WebRequest511);
       expect(d2r1).not.toBe(r1);
       expect(d2r1).toBeInstanceOf(WebRequest511);
 
-      const d2r2 = domain2.construct(WebResponse511);
+      const d2r2 = domain2.resolve(WebResponse511);
       expect(d2r2).toBeInstanceOf(WebRequest511);
       expect(d2r2).toBeInstanceOf(WebResponse511);
 

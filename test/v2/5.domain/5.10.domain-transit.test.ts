@@ -40,7 +40,7 @@ describe('5.10. @transit decorator', () => {
 
       const domain = new InMemoryDomain();
 
-      const app = domain.construct(App5102);
+      const app = domain.resolve(App5102);
 
       expect(app.service).toBeInstanceOf(Service5102);
       expect(app.service2).toBeInstanceOf(Service5102);

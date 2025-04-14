@@ -17,7 +17,7 @@ describe('Hello world!', () => {
       }
 
       const domain = new InMemoryDomain();
-      const project = domain.construct(ProjectA);
+      const project = domain.resolve(ProjectA);
 
       expect(project).toBeInstanceOf(ProjectA);
       expect(project.component.name).toBe('Agent Framework');

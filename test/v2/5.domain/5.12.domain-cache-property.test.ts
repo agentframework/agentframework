@@ -46,7 +46,7 @@ describe('5.12. Domain agent property cache', () => {
       const domain1 = new InMemoryDomain();
       expect(seq).toEqual([]);
       debugger;
-      const req1_d1 = domain1.construct(WebRequest);
+      const req1_d1 = domain1.resolve(WebRequest);
       expect(seq).toEqual([]);
 
       seq = [];
@@ -71,7 +71,7 @@ describe('5.12. Domain agent property cache', () => {
 
       // make some changes to the interceptor
       seq = [];
-      const req2_d1 = domain1.construct(WebRequest);
+      const req2_d1 = domain1.resolve(WebRequest);
       expect(seq).toEqual([]);
 
       req2_d1.invoke();
@@ -83,7 +83,7 @@ describe('5.12. Domain agent property cache', () => {
       const domain2 = new InMemoryDomain();
       expect(seq).toEqual([]);
 
-      const req1_d2 = domain2.construct(WebRequest);
+      const req1_d2 = domain2.resolve(WebRequest);
       expect(seq).toEqual([]);
 
       seq = [];
@@ -113,7 +113,7 @@ describe('5.12. Domain agent property cache', () => {
         });
 
       seq = [];
-      const req2_d2 = domain2.construct(WebRequest, [], true);
+      const req2_d2 = domain2.resolve(WebRequest, [], true);
       expect(seq).toEqual([]);
 
       req2_d2.invoke();
@@ -133,7 +133,7 @@ describe('5.12. Domain agent property cache', () => {
       const domain3 = new InMemoryDomain();
       expect(seq).toEqual([]);
       debugger;
-      const req1_d3 = domain3.construct(WebRequest, [], true);
+      const req1_d3 = domain3.resolve(WebRequest, [], true);
       expect(seq).toEqual([]);
 
       seq = [];

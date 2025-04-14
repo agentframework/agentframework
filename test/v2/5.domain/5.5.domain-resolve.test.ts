@@ -52,12 +52,12 @@ describe('5.5. Domain resolve', () => {
   describe('# should able to', () => {
     it('resolve type', async () => {
       const domain = new InMemoryDomain();
-      const c1 = await domain.resolve(C);
+      const c1 = await domain.resolveAsync(C);
       const c = domain.getAgent(C)!;
 
       expect(c1).toBeInstanceOf(C);
       expect(c1).toBe(c);
-      const c2 = await domain.resolve(C);
+      const c2 = await domain.resolveAsync(C);
       expect(c2).toBeInstanceOf(C);
       expect(c2).toBe(c);
       expect(c1).toBe(c2);
@@ -67,17 +67,17 @@ describe('5.5. Domain resolve', () => {
     it('resolve transit type', async () => {
       const domain = new InMemoryDomain();
 
-      const c1 = await domain.resolve(C);
+      const c1 = await domain.resolveAsync(C);
       expect(c1).toBeInstanceOf(C);
 
       const c = domain.getAgent(C)!;
       expect(c1).toBe(c);
 
-      const c2 = await domain.resolve(C, undefined, true);
+      const c2 = await domain.resolveAsync(C, undefined, true);
       expect(c2).toBeInstanceOf(C);
       expect(c2).not.toBe(c);
 
-      const c3 = await domain.resolve(C, undefined, true);
+      const c3 = await domain.resolveAsync(C, undefined, true);
       expect(c3).toBeInstanceOf(C);
 
       expect(c3).not.toBe(c);
@@ -88,29 +88,29 @@ describe('5.5. Domain resolve', () => {
 
     it('resolve Promise', async () => {
       const domain = new InMemoryDomain();
-      const p1 = await domain.resolve(P);
-      const p2 = await domain.resolve(P);
+      const p1 = await domain.resolveAsync(P);
+      const p2 = await domain.resolveAsync(P);
       expect(p1).toBeDefined();
       expect(p2).toBe(p1);
     });
 
     it('resolve Promise with error', async () => {
       const domain = new InMemoryDomain();
-      await expectAsync(domain.resolve(E)).toBeRejectedWithError('not ok');
-      await expectAsync(domain.resolve(E)).toBeRejectedWithError('not ok');
+      await expectAsync(domain.resolveAsync(E)).toBeRejectedWithError('not ok');
+      await expectAsync(domain.resolveAsync(E)).toBeRejectedWithError('not ok');
     });
 
     it('resolve transit Promise', async () => {
       const domain = new InMemoryDomain();
-      const ps = await Promise.all([domain.resolve(P, undefined, true), domain.resolve(P, undefined, true)]);
+      const ps = await Promise.all([domain.resolveAsync(P, undefined, true), domain.resolveAsync(P, undefined, true)]);
       expect(ps.length).toBe(2);
       expect(ps[0]).not.toBe(ps[1]);
     });
 
     it('resolve transit Promise with error', async () => {
       const domain = new InMemoryDomain();
-      await expectAsync(domain.resolve(E, undefined, true)).toBeRejectedWithError('not ok');
-      await expectAsync(domain.resolve(E, undefined, true)).toBeRejectedWithError('not ok');
+      await expectAsync(domain.resolveAsync(E, undefined, true)).toBeRejectedWithError('not ok');
+      await expectAsync(domain.resolveAsync(E, undefined, true)).toBeRejectedWithError('not ok');
       domain.dispose();
     });
 
@@ -141,27 +141,27 @@ describe('5.5. Domain resolve', () => {
         }
 
         const domain = new InMemoryDomain();
-        await expectAsync(domain.resolve(Async)).toBeResolved();
-        await expectAsync(domain.resolve(Pending)).toBeResolved();
+        await expectAsync(domain.resolveAsync(Async)).toBeResolved();
+        await expectAsync(domain.resolveAsync(Pending)).toBeResolved();
         domain.dispose();
       });
     });
 
     it('resolve Observable', async () => {
       const domain = new InMemoryDomain();
-      await expectAsync(domain.resolve(R)).toBeRejectedWithError('NotSupportResolveObservableObject');
+      await expectAsync(domain.resolveAsync(R)).toBeRejectedWithError('NotSupportResolveObservableObject');
     });
 
     it('construct agent', () => {
       const domain = new InMemoryDomain();
       expect(() => {
-        domain.construct(D);
+        domain.resolve(D);
       }).toThrowError('NotSupportCreateAgentForOtherDomain');
     });
 
     it('resolve slow promise', async () => {
       const domain = new InMemoryDomain();
-      await expectAsync(domain.resolve(R)).toBeRejectedWithError('NotSupportResolveObservableObject');
+      await expectAsync(domain.resolveAsync(R)).toBeRejectedWithError('NotSupportResolveObservableObject');
     });
   });
 });

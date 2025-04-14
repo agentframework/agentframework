@@ -13,10 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // the once can be used on both class getter or static getter
-import { set } from '../../../../packages/agent/Agent/Helpers/set';
-import { decorateMember } from '../../../../packages/agent/Agent/Decorate/decorateMember';
-import { Arguments } from '../../../../packages/agent/Agent/Arguments';
-import { PropertyInvocation } from '../../../../packages/agent/Agent/TypeInvocations';
+import { Arguments, decorateMember, PropertyInvocation } from '@agentframework/agent';
 
 /**
  * Run getter only once. only apply to getter or static getter
@@ -27,7 +24,7 @@ export function once(): MethodDecorator {
       intercept(target: PropertyInvocation, params: Arguments, receiver: object): unknown {
         const value = target.invoke(params, receiver);
         if ('undefined' !== typeof value) {
-          set(receiver, target.design.key, { value });
+          Reflect.defineProperty(receiver, target.design.key, { value });
         }
         return value;
       },

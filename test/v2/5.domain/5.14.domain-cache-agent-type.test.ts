@@ -20,17 +20,17 @@ describe('5.14. Domain cache agent type', () => {
       // cache WebRequest
       root.compile(WebRequest);
 
-      const sub = root.construct(InMemorySubDomain);
+      const sub = root.resolve(InMemorySubDomain);
       expect(sub.parent).toBe(root);
 
-      const wr1 = sub.construct(WebRequest, [], true);
-      const wr2 = sub.construct(WebRequest, [], true);
+      const wr1 = sub.resolve(WebRequest, [], true);
+      const wr2 = sub.resolve(WebRequest, [], true);
 
       expect(wr1).not.toBe(wr2);
 
       for (let n = 0; n < 10000; n++) {
-        const newReq = root.construct(InMemorySubDomain, [], true);
-        newReq.construct(WebRequest, [], true);
+        const newReq = root.resolve(InMemorySubDomain, [], true);
+        newReq.resolve(WebRequest, [], true);
       }
     });
   });

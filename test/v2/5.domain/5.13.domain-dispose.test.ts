@@ -14,7 +14,7 @@ describe('5.13. Domain dispose', () => {
       }
 
       const domain = new InMemoryDomain();
-      domain.construct(Agent513B);
+      domain.resolve(Agent513B);
       domain.dispose();
     });
 
@@ -26,7 +26,7 @@ describe('5.13. Domain dispose', () => {
       }
 
       const domain = new InMemoryDomain();
-      domain.construct(Agent513C);
+      domain.resolve(Agent513C);
       domain.dispose();
     });
 
@@ -43,7 +43,7 @@ describe('5.13. Domain dispose', () => {
       }
 
       const domain = new InMemoryDomain();
-      domain.resolve(Agent513D);
+      domain.resolveAsync(Agent513D);
       domain.dispose();
     });
 
@@ -64,7 +64,7 @@ describe('5.13. Domain dispose', () => {
       }
 
       const domain = new InMemoryDomain();
-      domain.resolve(Agent513E);
+      domain.resolveAsync(Agent513E);
       domain.dispose();
     });
   });

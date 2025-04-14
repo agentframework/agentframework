@@ -49,7 +49,7 @@ export class TransitAttribute implements PropertyAttribute, PropertyInterceptor 
       throw new AgentFrameworkError('NoDomainFoundForTransitInjection');
     }
 
-    const newValue = domain.construct(type, params, true);
+    const newValue = domain.resolve(type, params, true);
 
     return target.invoke([newValue], receiver);
   }

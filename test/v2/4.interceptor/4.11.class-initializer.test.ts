@@ -79,7 +79,7 @@ describe('4.11. Class Initializer', () => {
     it('intercept class constructor', () => {
       const a = new WebRequestIdentity();
       expect(a.status).toBeUndefined();
-      const b = GetSystemDomain().construct(WebRequestIdentity);
+      const b = GetSystemDomain().resolve(WebRequestIdentity);
       expect(b.status).toBeTrue();
     });
   });

@@ -84,13 +84,13 @@ describe('5.7. Domain @initializable decorator', () => {
 
       const domain = new InMemoryDomain();
 
-      const app1 = domain.construct(App572);
+      const app1 = domain.resolve(App572);
       expect(app1).toBeInstanceOf(App572);
       expect(app1.root).toBe('Root572$');
       expect(app1.base).toBe('Base572$');
       expect(app1.name).toBe('App572$');
 
-      const svc1 = domain.construct(Service572);
+      const svc1 = domain.resolve(Service572);
       expect(svc1).toBeInstanceOf(Service572);
       expect(svc1.root).toBe('Root572$');
       expect(svc1.base).toBe('Base572$');
@@ -99,13 +99,13 @@ describe('5.7. Domain @initializable decorator', () => {
 
       const domain2 = new InMemoryDomain();
 
-      const app2 = domain2.construct(App572);
+      const app2 = domain2.resolve(App572);
       expect(app2).toBeInstanceOf(App572);
       expect(app2.root).toBe('Root572$');
       expect(app2.base).toBe('Base572$');
       expect(app2.name).toBe('App572$');
 
-      const svc2 = domain2.construct(Service572);
+      const svc2 = domain2.resolve(Service572);
       expect(svc2).toBeInstanceOf(Service572);
 
       expect(svc2.root).toBe('Root572$');
@@ -155,7 +155,7 @@ describe('5.7. Domain @initializable decorator', () => {
 
       const domain = new InMemoryDomain();
 
-      const app1 = await domain.resolve(App573);
+      const app1 = await domain.resolveAsync(App573);
       expect(app1).toBeInstanceOf(App573);
       expect(app1.root).toBe('Root573$');
       expect(app1.base).toBe('Base573$');
@@ -163,7 +163,7 @@ describe('5.7. Domain @initializable decorator', () => {
 
       const domain2 = new InMemoryDomain();
 
-      const app2 = await domain2.resolve(App573);
+      const app2 = await domain2.resolveAsync(App573);
       expect(app2).toBeInstanceOf(App573);
       expect(app2.root).toBe('Root573$');
       expect(app2.base).toBe('Base573$');
@@ -180,7 +180,7 @@ describe('5.7. Domain @initializable decorator', () => {
         name: string | undefined = 'App574';
       }
 
-      const app574 = domain.construct(App574);
+      const app574 = domain.resolve(App574);
 
       expect(app574.name).toBe('App574');
       expect(app574).toBeInstanceOf(App574);
@@ -204,8 +204,8 @@ describe('5.7. Domain @initializable decorator', () => {
         }
       }
 
-      const app1 = domain.resolve(App575);
-      const app2 = domain.resolve(App575);
+      const app1 = domain.resolveAsync(App575);
+      const app2 = domain.resolveAsync(App575);
       expect(app1 === app2).toBeFalse();
       domain.dispose();
       const a1 = await app1;
@@ -236,8 +236,8 @@ describe('5.7. Domain @initializable decorator', () => {
         }
       }
 
-      const promise1 = domain.resolve(App576);
-      const promise2 = domain.resolve(App576);
+      const promise1 = domain.resolveAsync(App576);
+      const promise2 = domain.resolveAsync(App576);
       expect(promise1 === promise2).toBeFalse();
       const a1 = await promise1;
       const a2 = await promise2;
@@ -258,7 +258,7 @@ describe('5.7. Domain @initializable decorator', () => {
       }
 
       expect(() => {
-        domain.construct(App621);
+        domain.resolve(App621);
       }).toThrowError('ClassInitializerIsNotFunction');
     });
 
@@ -273,7 +273,7 @@ describe('5.7. Domain @initializable decorator', () => {
       }
 
       expect(() => {
-        domain.construct(App622);
+        domain.resolve(App622);
       }).toThrowError('ConstructorReturnNonObject');
     });
 

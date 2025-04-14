@@ -14,14 +14,14 @@ limitations under the License. */
 
 import { AddAttributeToConstructor } from '@agentframework/core';
 import { Initializer } from '@agentframework/domain';
-import { InitializerAttribute } from './InitializerAttribute';
+// import { InitializerAttribute } from './InitializerAttribute';
 import { StaticInitializerAttribute } from './StaticInitializerAttribute';
 
 export function initializable(key?: string | symbol): ClassDecorator {
   return (type: Function): void => {
     // NOTE: Design pattern: Factory method
     // InitializerAttribute must before StaticInitializerAttribute
-    AddAttributeToConstructor(new InitializerAttribute(key || Initializer), type.prototype);
+    // AddAttributeToConstructor(new InitializerAttribute(key || Initializer), type.prototype);
     AddAttributeToConstructor(new StaticInitializerAttribute(key || Initializer), type.prototype);
   };
 }

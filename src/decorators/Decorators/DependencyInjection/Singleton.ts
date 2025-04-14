@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { decorateVariable, VariableDecorator } from '@agentframework/agent';
-import { TransitAttribute } from './TransitAttribute';
+import { SingletonAttribute } from './SingletonAttribute';
 
-export function transit<T extends Function>(type?: T): VariableDecorator {
-  return decorateVariable(new TransitAttribute(type));
+export function Singleton<T extends Function>(type?: T): VariableDecorator {
+  return decorateVariable(new SingletonAttribute(type));
 }

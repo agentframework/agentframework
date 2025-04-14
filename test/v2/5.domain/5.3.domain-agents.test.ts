@@ -116,7 +116,7 @@ describe('5.3. Domain agent', () => {
 
     it('get agent from subdomain', () => {
       const domain = new InMemoryDomain();
-      const sd = domain.construct(InMemorySubDomain);
+      const sd = domain.resolve(InMemorySubDomain);
       const agent = new B();
       domain.addAgent(B, agent);
       expect(sd.getOwnAgent(B)).toBeUndefined();

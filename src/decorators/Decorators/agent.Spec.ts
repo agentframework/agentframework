@@ -10,7 +10,7 @@ import {
   Invocation,
   IsAgent,
   Reflector,
-} from '../../../packages/dependencies/agent';
+} from '@agentframework/agent';
 
 @agent()
 class MongoDB {

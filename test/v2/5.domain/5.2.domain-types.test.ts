@@ -78,7 +78,7 @@ describe('5.2. Domain type', () => {
 
     it('get type from subdomain', () => {
       const domain = new InMemoryDomain();
-      const sd = domain.construct(InMemorySubDomain);
+      const sd = domain.resolve(InMemorySubDomain);
       domain.addType(A);
       domain.addType(B);
       sd.addType(C);

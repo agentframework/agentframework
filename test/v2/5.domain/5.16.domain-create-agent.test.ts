@@ -36,7 +36,7 @@ describe('5.16. Domain create agent', () => {
       expect(type.property('t2').hasOwnAttribute(SingletonAttribute));
       expect(type.property('t3').hasOwnAttribute(InjectAttribute));
 
-      const domainAgent: DomainAgent5161 = domain.construct(DomainAgentType5161);
+      const domainAgent: DomainAgent5161 = domain.resolve(DomainAgentType5161);
       expect(domainAgent.t1).toBeInstanceOf(Service5161);
       expect(domainAgent.t2).toBeInstanceOf(Service5161);
       expect(domainAgent.t3).toBeInstanceOf(Service5161);

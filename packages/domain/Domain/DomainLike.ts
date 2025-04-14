@@ -36,7 +36,7 @@ export interface DomainLike {
   /**
    * Get constructor for current type, return undefined if don't have
    */
-  getAgentType<T extends Function>(type: T): T | undefined;
+  getAgentClass<T extends Function>(type: T): T | undefined;
 
   /**
    * Get constructor for current type, return undefined if don't have
@@ -46,12 +46,12 @@ export interface DomainLike {
   /**
    * Inject an agent
    */
-  construct<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Agent<T>;
+  resolve<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Agent<T>;
 
   /**
    * Resolve and inject an agent using factory method
    */
-  resolve<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>>;
+  resolveAsync<T extends Function>(target: T, params?: Params<T>, transit?: boolean): Promise<Agent<T>>;
 
   /**
    * Register a new type, without rewrite any existing types
@@ -69,12 +69,12 @@ export interface DomainLike {
   removeType(type: Function): void;
 
   /**
-   * Add an agent
+   * Add an agent to current domain
    */
   addAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void;
 
   /**
-   * Set agent instance
+   * Replace agent in current domain
    */
   setAgent<T extends AgentReference>(identifier: T, agent: Agent<T>): void;
 

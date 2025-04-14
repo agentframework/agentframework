@@ -58,7 +58,7 @@ export class ScopedAttribute implements PropertyAttribute, PropertyInterceptor {
     const newValue =
       (customType && domain.getAgent(customType)) ||
       (designType && domain.getAgent(designType)) ||
-      domain.construct(type, params);
+      domain.resolve(type, params);
 
     return target.invoke([newValue], receiver);
   }

@@ -306,7 +306,7 @@ describe('6.1. @initializable decorator', () => {
       @agent()
       @initializable()
       class App624 {
-        [Initializer] = 1;
+        [Initializer] = 2;
       }
 
       expect((): any => {

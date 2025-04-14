@@ -22,10 +22,11 @@ limitations under the License. */
 //   return CreateAgent(target);
 // }
 
-import { CreateDomainAgent } from '../../../packages/domain/Domain/DomainAgent/CreateDomainAgent';
+import { CreateDomainAgent, GetSystemDomain } from '@agentframework/domain';
+import {
+  GetDomainDomainAgentType
+} from '../../../packages/domain/Domain/Knowledges/DomainDomainAgentTypes/GetDomainDomainAgentType';
 import { RegisterDomainAgentAttribute } from '../../../packages/domain/Domain/DomainAgent/RegisterDomainAgentAttribute';
-import { GetDomainDomainAgentType } from '../../../packages/domain/Domain/Knowledges/DomainDomainAgentTypes/GetDomainDomainAgentType';
-import { GetSystemDomain } from '../../../packages/domain/Domain/Helpers/GetSystemDomain';
 
 /**
  * Define an agent

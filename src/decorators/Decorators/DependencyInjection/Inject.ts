@@ -13,13 +13,13 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { decorateVariable, VariableDecorator } from '@agentframework/agent';
-import { ScopedAttribute } from './ScopedAttribute';
+import { InjectAttribute } from './InjectAttribute';
 
 /**
  * Inject an existing instance in current domain scope. will be `null` if no matching instance found.
  *
  * @param type
  */
-export function scoped(type?: Function): VariableDecorator {
-  return decorateVariable(new ScopedAttribute(type));
+export function Inject(type?: Function): VariableDecorator {
+  return decorateVariable(new InjectAttribute(type));
 }

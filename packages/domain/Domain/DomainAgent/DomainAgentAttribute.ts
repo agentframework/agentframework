@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AgentAttribute, Arguments, TypeInterceptor, TypeInvocation } from '@agentframework/agent';
+import { AgentAttribute, AgentFrameworkError, Arguments, TypeInterceptor, TypeInvocation } from '@agentframework/agent';
 import { RememberDomainAgentType } from '../Knowledges/DomainAgentTypes/RememberDomainAgentType';
 import { DomainLike } from '../DomainLike';
 import { Initializer } from '../Initializer';
@@ -40,7 +40,7 @@ export class DomainAgentAttribute extends AgentAttribute implements TypeIntercep
     // NOTE: check if the agent's type has cached in domain or parent domain
     //       return the cached agent type if found
     const [, type] = params as any;
-    let newReceiver = this.domain.getAgentType(type);
+    let newReceiver = this.domain.getAgentClass(type);
     if (!newReceiver) {
       newReceiver = target.invoke(params, receiver);
       RememberDomainAgentType(this.domain, type, newReceiver);
@@ -63,8 +63,13 @@ export class DomainAgentAttribute extends AgentAttribute implements TypeIntercep
   construct<T extends Function>(type: T, params: Arguments, receiver: T, proxy: T, cache: T): any {
     const instance = super.construct(type, params, receiver, proxy, cache);
     const initializer = Reflect.get(instance, Initializer);
-    if ('function' === typeof initializer) {
-      Reflect.apply(initializer, instance, params);
+    if (undefined !== initializer) {
+      if ('function' === typeof initializer) {
+        Reflect.apply(initializer, instance, params);
+      }
+      else {
+        throw new AgentFrameworkError('InitializerIsNotFunction');
+      }
     }
     return instance;
   }

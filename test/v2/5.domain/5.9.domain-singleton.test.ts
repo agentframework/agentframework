@@ -45,7 +45,7 @@ describe('5.9. Domain @singleton decorator', () => {
 
       const domain = new InMemoryDomain();
 
-      const app = domain.construct(App592);
+      const app = domain.resolve(App592);
 
       expect(app.service).toBeInstanceOf(Service592);
       expect(app.service2).toBe(app.service);
@@ -65,7 +65,7 @@ describe('5.9. Domain @singleton decorator', () => {
 
       const domain = new InMemoryDomain();
 
-      const app = domain.construct(App593);
+      const app = domain.resolve(App593);
 
       expect(app.service).toBeInstanceOf(Service593);
       expect(app.service2).toBe(app.service);
@@ -141,7 +141,7 @@ describe('5.9. Domain @singleton decorator', () => {
         readonly service!: Service595;
       }
 
-      const app = domain.construct(App595);
+      const app = domain.resolve(App595);
 
       expect(() => {
         expect(app.service).toBeUndefined();
@@ -167,7 +167,7 @@ describe('5.9. Domain @singleton decorator', () => {
         readonly service!: Service596;
       }
 
-      const app = domain.construct(App596);
+      const app = domain.resolve(App596);
 
       expect(() => {
         expect(app.service).toBeUndefined();
@@ -204,7 +204,7 @@ describe('5.9. Domain @singleton decorator', () => {
         if (desc) {
           desc.value = undefined;
         }
-        const ins = domain.construct(App597);
+        const ins = domain.resolve(App597);
         expect(ins).toBeInstanceOf(App597);
 
         const p1 = Reflect.getPrototypeOf(ins);
