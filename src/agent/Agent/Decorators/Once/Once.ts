@@ -41,7 +41,7 @@ export function once(): MethodDecorator {
   //       const { get } = descriptor;
   //       value = Reflect.apply(get, receiver, []);
   //       if ('undefined' !== typeof value) {
-  //         alter(receiver, targetKey, { value });
+  //         set(receiver, targetKey, { value });
   //       }
   //       return value;
   //     },

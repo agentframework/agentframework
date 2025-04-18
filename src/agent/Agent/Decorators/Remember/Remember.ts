@@ -51,7 +51,7 @@ export function remember(key: string): MethodDecorator {
   //         const { get } = descriptor;
   //         knowledge.set(id, (value = Reflect.apply(get, receiver, [])));
   //       }
-  //       alter(receiver, targetKey, { value });
+  //       set(receiver, targetKey, { value });
   //       return value;
   //     },
   //     configurable: true,
