@@ -16,7 +16,7 @@ import {
   AddAttributeToConstructorParameter,
   AddAttributeToPropertyParameter,
   Annotation,
-} from '../../../../packages/dependencies/core';
+} from '@agentframework/core';
 import { MemberKinds } from './MemberKinds';
 import { ParameterInfo } from './ParameterInfo';
 import { PropertyInfo } from './PropertyInfo';

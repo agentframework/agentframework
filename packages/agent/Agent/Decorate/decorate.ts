@@ -19,7 +19,7 @@ import {
   AddAttributeToConstructorParameter,
   AddAttributeToProperty,
   AddAttributeToPropertyParameter,
-} from '../../../../packages/dependencies/core';
+} from '@agentframework/core';
 import { MemberKinds } from '../Reflection/MemberKinds';
 import { AgentFrameworkError } from '../AgentFrameworkError';
 

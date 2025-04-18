@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // import { Reflector } from '../Reflector';
-import { AddAttributeToConstructor } from '../../../../packages/dependencies/core';
+import { AddAttributeToConstructor } from '@agentframework/core';
 import { CanDecorate } from './CanDecorate';
 import { Attribute } from '../Attribute';
 

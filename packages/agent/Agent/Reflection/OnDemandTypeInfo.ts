@@ -22,7 +22,7 @@ import {
   Property,
   Type,
   Remember
-} from '../../../../packages/dependencies/core';
+} from '@agentframework/core';
 import { TypeInfo } from './TypeInfo';
 import { PropertyInfo } from './PropertyInfo';
 import { Filter } from './Filter';

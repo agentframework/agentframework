@@ -18,7 +18,7 @@ import {
   AddAttributeToConstructorParameter,
   AddAttributeToProperty,
   AddAttributeToPropertyParameter,
-} from '../../../../packages/dependencies/core';
+} from '@agentframework/core';
 import { VariableDecorator } from './VariableDecorator';
 
 /**

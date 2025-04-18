@@ -1,5 +1,5 @@
 /* tslint:disable */
-import { AgentAttribute, Arguments, IsAgent, TypeInterceptor, TypeInvocation, } from '../../../packages/dependencies/agent';
+import { AgentAttribute, Arguments, IsAgent, TypeInterceptor, TypeInvocation, } from '../../dependencies/agent';
 import { CreateAgent } from './CreateAgent';
 
 class Connection {

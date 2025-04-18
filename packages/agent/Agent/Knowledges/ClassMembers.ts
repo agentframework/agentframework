@@ -1,4 +1,4 @@
-import { Remember } from '../../../../packages/dependencies/core';
+import { Remember } from '@agentframework/core';
 import { PropertyInfo } from '../Reflection/PropertyInfo';
 
 export interface ClassMemberState {

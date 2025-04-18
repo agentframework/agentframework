@@ -24,7 +24,7 @@ import {
   GetAnnotation,
   GetConstructorAnnotation,
   Property,
-} from '../../../../packages/dependencies/core';
+} from '@agentframework/core';
 import { setByVersion } from '../Helpers/setByVersion';
 import { CONSTRUCTOR, DESIGN_PARAMTYPES, DESIGN_RETURNTYPE, DESIGN_TYPE } from '../WellKnown';
 import { TypeInfo } from './TypeInfo';

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License. */
 //
-// import { Arguments, Reflector } from '../../../dependencies/core';
+// import { Arguments, Reflector } from '@agentframework/core';
 // import { InitializableAttribute } from './InitializableAttribute';
 //
 // /**
