@@ -62,7 +62,7 @@ export abstract class Domain implements DomainLike {
    * @param type - The agent type to look up.
    * @returns The constructor function if found, otherwise undefined.
    */
-  abstract getAgentClass<T extends Function>(type: T): T | undefined;
+  abstract getAgentType<T extends Function>(type: T): T | undefined;
 
   /**
    * Retrieves the constructor function for the given type.

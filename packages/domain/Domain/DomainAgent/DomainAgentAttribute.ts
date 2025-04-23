@@ -40,7 +40,7 @@ export class DomainAgentAttribute extends AgentAttribute implements TypeIntercep
     // NOTE: check if the agent's type has cached in domain or parent domain
     //       return the cached agent type if found
     const [, type] = params as any;
-    let newReceiver = this.domain.getAgentClass(type);
+    let newReceiver = this.domain.getAgentType(type);
     if (!newReceiver) {
       newReceiver = target.invoke(params, receiver);
       RememberDomainAgentType(this.domain, type, newReceiver);

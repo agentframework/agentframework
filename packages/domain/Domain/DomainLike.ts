@@ -36,7 +36,7 @@ export interface DomainLike {
   /**
    * Get constructor for current type, return undefined if don't have
    */
-  getAgentClass<T extends Function>(type: T): T | undefined;
+  getAgentType<T extends Function>(type: T): T | undefined;
 
   /**
    * Get constructor for current type, return undefined if don't have

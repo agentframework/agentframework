@@ -61,7 +61,7 @@ export class InMemoryDomain extends Domain implements Disposable {
     return GetDomainAgent(this, identifier);
   }
 
-  getAgentClass<T extends Function>(type: T): T | undefined {
+  getAgentType<T extends Function>(type: T): T | undefined {
     return GetDomainAgentType(this, type);
   }
 
