@@ -32,7 +32,7 @@ import {
   GetDomainAgent,
   RememberDomainAgent,
   SetDomainAgent,
-} from './Knowledges/DomainAgents/GetDomainAgent';
+} from './Knowledges/DomainAgents/DomainAgentFunctions';
 
 /**
  * In memory domain
