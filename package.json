@@ -9,14 +9,14 @@
   "main": "lib/index.ts",
   "description": "TypeScript that scales",
   "scripts": {
-    "dev": "vitest --config ./tools/vitest.config.mts",
-    "cov": "vitest --coverage --config ./tools/vitest.config.mts",
+    "dev": "vitest --config tools/vitest.config.ts",
+    "cov": "vitest --coverage --config tools/vitest.config.ts",
     "build": "tsc --project tsconfig.json --noEmit",
     "clean": "find src lib test tools -type f -name \"*.js\" -delete",
     "report": "open coverage/index.html",
-    "test": "vitest run --config ./tools/vitest.config.full.mts",
-    "test:spec": "vitest run --config ./tools/vitest.config.spec.mts",
-    "test:coverage": "vitest run --coverage --config ./tools/vitest.config.full.mts"
+    "test": "vitest run --config tools/vitest.config.full.ts",
+    "test:spec": "vitest run --config tools/vitest.config.spec.ts",
+    "test:coverage": "vitest run --coverage --config tools/vitest.config.full.ts"
   },
   "repository": {
     "type": "git",

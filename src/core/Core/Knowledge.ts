@@ -13,7 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 //
 
-import { construct } from './Annotation/adaptor';
+import { Construct } from './Helpers/Construct';
 import { METADATA } from './WellKnown';
 
-export const Knowledge = construct(Reflect, METADATA);
+export const Knowledge = Construct(Reflect, METADATA);
+

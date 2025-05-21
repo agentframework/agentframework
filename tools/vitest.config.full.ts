@@ -13,6 +13,13 @@ export default defineConfig({
   test: {
     environment: 'node',
     globals: true,
-    include: ['src/**/*.[Ss]pec.ts'],
+    coverage: {
+      reporter: ['text', 'html'], // 可选: 'lcov', 'json', 'clover', 'text-summary'
+      include: ['lib', 'src'],
+      exclude: ['node_modules/', 'test/', 'tools/'], // 排除不想计算覆盖率的文件
+      all: true, // 即使文件没有被 import，也会列出覆盖率
+    },
+    // include: ['src/**/*.[Ss]pec.ts', 'test/**/*.[Tt]est.ts'],
+    include: ['src/core/Core/Knowledge.Spec.ts'],
   },
 });
