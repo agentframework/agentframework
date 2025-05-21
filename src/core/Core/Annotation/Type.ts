@@ -1,8 +1,6 @@
-import { Property } from './Property';
+import { Property } from './Property.ts';
 
-export class Type extends Property {
-  properties?: Map<string | symbol, Property>;
-  constructor(readonly target: object | Function, readonly prototype: object) {
-    super(target);
-  }
+export interface Type extends Property {
+  readonly prototype: object;
+  properties?: ReadonlyMap<string | symbol, Property>;
 }

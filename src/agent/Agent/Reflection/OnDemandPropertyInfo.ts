@@ -46,7 +46,11 @@ export class OnDemandPropertyInfo extends OnDemandMemberInfo<Property> implement
    */
   protected readonly parameters = new Map<number, OnDemandParameterInfo>();
 
-  constructor(target: object | Function, readonly key: string | symbol, protected readonly parent?: TypeInfo) {
+  constructor(
+    target: object | Function,
+    readonly key: string | symbol,
+    protected readonly parent?: TypeInfo,
+  ) {
     super(target);
   }
 

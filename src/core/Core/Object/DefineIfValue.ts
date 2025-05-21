@@ -7,4 +7,3 @@ export function DefineIfValue<T>(target: object | Function, key: string | symbol
   }
   return value;
 }
-

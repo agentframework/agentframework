@@ -12,8 +12,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { NOW } from '../WellKnown';
-import { Type } from './Type';
+import { NOW } from './WellKnown.ts';
+import { Type } from './Type.ts';
 
 /**
  * Use WeakMap to prevent memory leak

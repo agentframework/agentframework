@@ -1,3 +1,3 @@
-import { Annotation } from './Annotation';
+import { Annotation } from './Annotation.ts';
 
-export class Parameter extends Annotation {}
+export interface Parameter extends Annotation {}

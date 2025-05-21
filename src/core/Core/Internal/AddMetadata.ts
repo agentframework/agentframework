@@ -1,4 +1,4 @@
-import { Annotation } from '../Annotation/Annotation';
+import { Annotation } from './Annotation.ts';
 
 /**
  * Add metadata

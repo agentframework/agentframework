@@ -11,9 +11,23 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
-//
 
-import { Construct } from './Internal/Construct';
-import { METADATA } from './Internal/WellKnown.ts';
+/**
+ * metadata for a member. key: string, value: any
+ */
+export abstract class Annotation {
+  /**
+   * version
+   */
+  v: number = 0;
 
-export const Knowledge = Construct(Reflect, METADATA);
+  /**
+   * attributes, sequence is matter
+   */
+  a?: Array<any>;
+
+  /**
+   * metadata
+   */
+  m?: Map<string, any>;
+}

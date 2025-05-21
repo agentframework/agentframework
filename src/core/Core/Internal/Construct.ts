@@ -1,7 +1,7 @@
 /**
  * @internal
  */
-import { Knowledge } from '../Annotation/Knowledge';
+import { Knowledge } from './Knowledge.ts';
 import { DefineValue } from '../Object/DefineValue';
 
 export interface Helper extends Record<symbol, any> {
@@ -12,4 +12,3 @@ export function Construct(helper: Helper, helperKey: string): Knowledge {
   const key: unique symbol = Symbol.for(helperKey);
   return helper[key] || DefineValue(helper, key, helper.construct(Knowledge, [helper, helperKey]));
 }
-

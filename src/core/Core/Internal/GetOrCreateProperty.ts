@@ -1,12 +1,12 @@
-import { Property } from '../Annotation/Property';
-import { Type } from '../Annotation/Type';
+import { Property } from './Property.ts';
+import { Type } from './Type.ts';
 
 /**
  * @internal
  */
-export function GetProperty(type: Type, key: string | symbol, descriptor?: PropertyDescriptor): Property {
-  const map = type.properties || (type.properties = new Map<string | symbol, Property>());
-  let property = map.get(key);
+export function GetOrCreateProperty(type: Type, key: string | symbol, descriptor?: PropertyDescriptor): Property {
+  const properties = type.properties || (type.properties = new Map<string | symbol, Property>());
+  let property = properties.get(key);
   if (property) {
     // NOTE1: just in case parameter decorator called at first and decorate property called at second
     // NOTE2: setting metadata will also setting descriptor, metadata call before parameter decorator
@@ -17,8 +17,8 @@ export function GetProperty(type: Type, key: string | symbol, descriptor?: Prope
     }
   } else {
     property = new Property(type.target, descriptor);
-    map.set(key, property);
-    // @ts-ignore
+    // the same property will set to map and also to prototype. so we can have two indexes.
+    properties.set(key, property);
     type.prototype[key] = property;
   }
   return property;

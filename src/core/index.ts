@@ -1,22 +1,22 @@
 /*********************************************************************
  *   (Stability: 2 - Stable) Annotation
  *********************************************************************/
-export { Type } from './Core/Type';
-export { Property } from './Core/Property';
-export { Parameter } from './Core/Parameter';
-export { Annotation } from './Core/Annotation';
+export { Type } from './Core/Annotation/Type.ts';
+export { Property } from './Core/Annotation/Property.ts';
+export { Parameter } from './Core/Annotation/Parameter.ts';
+export { Annotation } from './Core/Annotation/Annotation.ts';
 
 /*********************************************************************
  *   (Stability: 2 - Stable) Annotation API
  *********************************************************************/
-export { AddAttributeToProperty } from './Core/AddAttribute';
-export { AddAttributeToPropertyParameter } from './Core/AddAttribute';
-export { AddAttributeToConstructorParameter } from './Core/AddAttribute';
-export { AddAttributeToConstructor } from './Core/AddAttribute';
+export { AddAttributeToProperty } from './Core/AddAttributeToProperty.ts';
+export { AddAttributeToPropertyParameter } from './Core/AddAttributeToPropertyParameter.ts';
+export { AddAttributeToConstructor } from './Core/AddAttributeToConstructor.ts';
+export { AddAttributeToConstructorParameter } from './Core/AddAttributeToConstructorParameter.ts';
 
-export { GetConstructorAnnotation } from './Core/GetAnnotation';
-export { GetPropertyAnnotation } from './Core/GetAnnotation';
 export { GetAnnotation } from './Core/GetAnnotation';
+export { GetConstructorAnnotation } from './Core/GetConstructorAnnotation.ts';
+export { GetPropertyAnnotation } from './Core/GetPropertyAnnotation.ts';
 
 /*********************************************************************
  *    (Stability: 2 - Stable): Memory API

@@ -1,4 +1,4 @@
-import { Knowledge } from './Knowledge';
+import { Knowledge } from './Knowledge.ts';
 
 describe('Knowledge!', () => {
   describe('# should able to', () => {
