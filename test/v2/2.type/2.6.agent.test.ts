@@ -7,7 +7,7 @@ import {
   ParameterAttribute,
   ParameterInterceptor,
   ParameterInvocation,
-} from '../../../src/dependencies/agent';
+} from '../../../lib/dependencies/agent';
 
 class InjectAttribute implements ParameterAttribute, ParameterInterceptor {
   constructor(readonly type?: any) {}

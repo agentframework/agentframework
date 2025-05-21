@@ -18,7 +18,7 @@ import {
   PropertyAttribute,
   Arguments,
   AgentFrameworkError,
-} from '../../../../dependencies/agent';
+} from '../../../../../lib/dependencies/agent';
 import { GetDomainFromInvocation } from '../../Helpers/GetDomainFromInvocation';
 import { Domain } from '../../Domain';
 

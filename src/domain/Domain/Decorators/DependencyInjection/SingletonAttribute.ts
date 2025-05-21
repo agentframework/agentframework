@@ -18,7 +18,7 @@ import {
   PropertyInterceptor,
   PropertyAttribute,
   AgentFrameworkError,
-} from '../../../../dependencies/agent';
+} from '../../../../../lib/dependencies/agent';
 import { GetDomainFromInvocation } from '../../Helpers/GetDomainFromInvocation';
 
 export class SingletonAttribute implements PropertyAttribute, PropertyInterceptor {

@@ -1,4 +1,4 @@
-import { agent, transit, CreateAgent, singleton, decorateVariable } from '../../../src/dependencies/agent';
+import { agent, transit, CreateAgent, singleton, decorateVariable } from '../../../lib/dependencies/agent';
 import { SingletonAttribute } from '../../../src/agent/Agent/Decorators/DependencyInjection/SingletonAttribute';
 
 describe('Hello world!', () => {

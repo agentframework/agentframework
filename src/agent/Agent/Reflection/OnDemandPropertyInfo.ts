@@ -24,7 +24,7 @@ import {
   GetAnnotation,
   GetConstructorAnnotation,
   Property,
-} from '../../../dependencies/core';
+} from '../../../../lib/dependencies/core';
 import { Once } from '../Decorators/Once/Once';
 import { Cache } from '../Decorators/Cache/Cache';
 import { CONSTRUCTOR, DESIGN_PARAMTYPES, DESIGN_RETURNTYPE, DESIGN_TYPE } from '../WellKnown';

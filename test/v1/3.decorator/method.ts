@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Attribute, Interceptor, Invocation, decorateMember, Arguments } from '../../../src/dependencies/agent';
+import { Attribute, Interceptor, Invocation, decorateMember, Arguments } from '../../../lib/dependencies/agent';
 
 export function methodDecorator() {
   return decorateMember(new MethodDecoratorAttribute());

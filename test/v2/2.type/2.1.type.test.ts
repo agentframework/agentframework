@@ -9,7 +9,7 @@ import {
   decorateMember,
   GetType,
   agent,
-} from '../../../src/dependencies/agent';
+} from '../../../lib/dependencies/agent';
 
 class Storage {}
 

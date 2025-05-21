@@ -1,6 +1,6 @@
-import { InMemoryDomain } from '../../../src/dependencies/domain';
-import { Arguments, TypeInvocation } from '../../../src/dependencies/agent';
-import { CreateAgent, Initializer, initializable, agent } from '../../../src/dependencies/agent';
+import { InMemoryDomain } from '../../../lib/dependencies/domain';
+import { Arguments, TypeInvocation } from '../../../lib/dependencies/agent';
+import { CreateAgent, Initializer, initializable, agent } from '../../../lib/dependencies/agent';
 
 describe('5.7. Domain @initializable decorator', () => {
   describe('# should able to', () => {

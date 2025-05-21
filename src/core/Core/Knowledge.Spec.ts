@@ -3,11 +3,10 @@ import { Knowledge } from './Knowledge';
 describe('Knowledge!', () => {
   describe('# should able to', () => {
     it('get identity', () => {
-      const KnowledgeStatic: any = Knowledge;
-      expect(KnowledgeStatic.id).toBeInstanceOf(String);
-      expect(KnowledgeStatic.version).toBeInstanceOf(String);
-      expect(KnowledgeStatic.timestamp).toBeInstanceOf(String);
-      expect(KnowledgeStatic.commit).toBeInstanceOf(String);
+      expect(typeof Knowledge.id).toBe('string');
+      expect(typeof Knowledge.version).toBe('string');
+      expect(typeof Knowledge.timestamp).toBe('string');
+      expect(typeof Knowledge.commit).toBe('string');
       // console.log('Knowledge', Knowledge);
       // const name = KnowledgeStatic.id + '@' + KnowledgeStatic.version;
       // expect(Knowledge[Symbol.for('Deno.symbols.customInspect')]()).toBe(name);

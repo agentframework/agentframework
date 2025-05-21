@@ -18,7 +18,7 @@ import {
   PropertyInterceptor,
   Arguments,
   AgentFrameworkError,
-} from '../../../../dependencies/agent';
+} from '../../../../../lib/dependencies/agent';
 import { GetDomainFromInvocation } from '../../Helpers/GetDomainFromInvocation';
 
 export class InjectAttribute implements PropertyAttribute, PropertyInterceptor {

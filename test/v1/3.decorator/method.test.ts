@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { agent } from '../../../src/dependencies/agent';
+import { agent } from '../../../lib/dependencies/agent';
 import { methodDecorator } from './method';
 
 describe('Method Decorator', () => {

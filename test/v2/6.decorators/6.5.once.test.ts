@@ -1,4 +1,4 @@
-import { Once, once } from '../../../src/dependencies/agent';
+import { Once, once } from '../../../lib/dependencies/agent';
 
 describe('6.5. @once helper', () => {
   describe('# should able to', () => {

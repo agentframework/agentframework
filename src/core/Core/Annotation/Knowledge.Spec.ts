@@ -1,10 +1,9 @@
 import { Knowledge } from './Knowledge';
-import { METADATA } from '../WellKnown';
 
 describe('Knowledge!', () => {
   describe('# should able to', () => {
     it('get static class property from wisdom type', () => {
-      const knowledge = new Knowledge(Reflect, METADATA);
+      const knowledge = new Knowledge();
 
       class A {}
       class B extends A {}
@@ -43,7 +42,7 @@ describe('Knowledge!', () => {
     });
 
     it('get class property from wisdom type', () => {
-      const knowledge = new Knowledge(Reflect, METADATA);
+      const knowledge = new Knowledge();
 
       class A {}
       class B extends A {}

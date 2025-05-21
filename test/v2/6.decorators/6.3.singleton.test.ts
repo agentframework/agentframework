@@ -7,7 +7,7 @@ import {
   Reflector,
   AgentFrameworkError,
   CreateAgent,
-} from '../../../src/dependencies/agent';
+} from '../../../lib/dependencies/agent';
 
 describe('6.3. @singleton decorator', () => {
   describe('# should able to', () => {

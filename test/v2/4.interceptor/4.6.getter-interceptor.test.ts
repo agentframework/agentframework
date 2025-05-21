@@ -1,7 +1,7 @@
-import { agent } from '../../../src/dependencies/agent';
-import { decorateMember } from '../../../src/dependencies/agent';
-import { TypeInvocation } from '../../../src/dependencies/agent';
-import { Arguments } from '../../../src/dependencies/agent';
+import { agent } from '../../../lib/dependencies/agent';
+import { decorateMember } from '../../../lib/dependencies/agent';
+import { TypeInvocation } from '../../../lib/dependencies/agent';
+import { Arguments } from '../../../lib/dependencies/agent';
 
 describe('4.6. getter interceptor', () => {
   describe('# should able to', () => {

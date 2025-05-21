@@ -1,25 +1,30 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
-    "lib": ["ES2015", "ES2015.Iterable", "ES2015.Collection", "dom"],
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "target": "ES2022",
+    "lib": ["ES2022", "dom"],
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+
     "strict": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noImplicitThis": true,
-    "strictNullChecks": true,
-    "noImplicitReturns": true,
-    "preserveConstEnums": true,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "preserveConstEnums": true,
+    "strictNullChecks": true,
     "stripInternal": true,
+
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": false,
+    "useDefineForClassFields": true,
+
     "baseUrl": "./",
     "paths": {
-      "agentframework": ["src/core/index"]
-    }
+      "agentframework": ["lib/index"],
+      "@agentframework/*": ["lib/dependencies/*"]
+    },
+    "types": ["node", "vitest/globals"]
   },
   "include": ["lib", "src", "test", "tools"],
   "exclude": ["node_modules"]

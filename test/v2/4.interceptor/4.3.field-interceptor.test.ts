@@ -1,8 +1,8 @@
-import { agent, GetType } from '../../../src/dependencies/agent';
-import { decorateMember } from '../../../src/dependencies/agent';
-import { TypeInvocation } from '../../../src/dependencies/agent';
-import { Arguments } from '../../../src/dependencies/agent';
-import { IsAgent } from '../../../src/dependencies/agent';
+import { agent, GetType } from '../../../lib/dependencies/agent';
+import { decorateMember } from '../../../lib/dependencies/agent';
+import { TypeInvocation } from '../../../lib/dependencies/agent';
+import { Arguments } from '../../../lib/dependencies/agent';
+import { IsAgent } from '../../../lib/dependencies/agent';
 
 describe('4.3. field interceptor', () => {
   describe('# should able to', () => {

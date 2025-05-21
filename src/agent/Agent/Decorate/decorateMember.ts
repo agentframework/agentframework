@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { CanDecorate } from './CanDecorate';
 import { Attribute } from '../Attribute';
-import { AddAttributeToProperty } from '../../../dependencies/core';
+import { AddAttributeToProperty } from '../../../../lib/dependencies/core';
 
 /**
  * Decorate class properties (field, getter, setter and methods)

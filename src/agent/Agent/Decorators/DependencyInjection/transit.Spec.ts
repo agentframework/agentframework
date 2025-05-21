@@ -1,4 +1,4 @@
-import { Reflector, agent, transit } from '../../../../dependencies/agent';
+import { Reflector, agent, transit } from '../../../../../lib/dependencies/agent';
 import { TransitAttribute } from './TransitAttribute';
 
 describe('Core @transit() decorator', () => {

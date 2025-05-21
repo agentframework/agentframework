@@ -5,8 +5,8 @@ import {
   Reflector,
   AgentFrameworkError,
   CreateAgent,
-} from '../../../src/dependencies/agent';
-import { InMemoryDomain, agent, singleton } from '../../../src/dependencies/domain';
+} from '../../../lib/dependencies/agent';
+import { InMemoryDomain, agent, singleton } from '../../../lib/dependencies/domain';
 
 describe('5.9. Domain @singleton decorator', () => {
   describe('# should able to', () => {

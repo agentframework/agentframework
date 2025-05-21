@@ -1,9 +1,9 @@
 /* tslint:disable */
 
-import { agent } from '../../../src/dependencies/agent';
-import { decorateParameter, IsAgent, Reflector } from '../../../src/dependencies/agent';
+import { agent } from '../../../lib/dependencies/agent';
+import { decorateParameter, IsAgent, Reflector } from '../../../lib/dependencies/agent';
 import { MetadataAttribute } from '../1.attributes/MetadataAttribute';
-import { CreateAgent } from '../../../src/dependencies/agent';
+import { CreateAgent } from '../../../lib/dependencies/agent';
 
 class Connection {
   static count = 0;

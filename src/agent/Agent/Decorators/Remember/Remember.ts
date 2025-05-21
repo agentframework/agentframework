@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // the memorize can be used on both class getter or static getter
-import { GetMemory } from '../../../../dependencies/core';
+import { GetMemory } from '../../../../../lib/dependencies/core';
 import { alter } from '../../Compiler/alter';
 import { decorateMember } from '../../Decorate/decorateMember';
 import { PropertyInvocation } from '../../TypeInvocations';

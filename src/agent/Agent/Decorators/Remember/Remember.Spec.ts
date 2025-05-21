@@ -1,4 +1,4 @@
-import { agent } from '../../../../dependencies/agent';
+import { agent } from '../../../../../lib/dependencies/agent';
 import { remember } from './Remember';
 
 describe('Remember!', () => {

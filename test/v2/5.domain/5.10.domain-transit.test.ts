@@ -1,5 +1,5 @@
-import { InMemoryDomain, agent, transit } from '../../../src/dependencies/domain';
-import { CreateAgent, Reflector } from '../../../src/dependencies/agent';
+import { InMemoryDomain, agent, transit } from '../../../lib/dependencies/domain';
+import { CreateAgent, Reflector } from '../../../lib/dependencies/agent';
 
 describe('5.10. @transit decorator', () => {
   describe('# should able to', () => {

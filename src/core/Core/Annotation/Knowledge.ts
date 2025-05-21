@@ -13,12 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { NOW } from '../WellKnown';
-import { GetProperty } from '../Helpers/GetProperty';
-import { alter } from '../Helpers/alter';
-import { AddMetadata } from '../Helpers/AddMetadata';
 import { Type } from './Type';
-import { Annotation } from './Annotation';
-import { GetConstructor } from '../Helpers/GetConstructor';
 
 /**
  * Use WeakMap to prevent memory leak
@@ -52,58 +47,11 @@ export class Knowledge extends WeakMap<Function | object, any> {
     return /* replace::release.vcs.commit */ '0000000';
   }
 
-  constructor(reflect: typeof Reflect, key: string) {
+  constructor() {
     super();
-
-    // ===============================================================================
-    // if one day the browser implemented Reflect.metadata. We will reflector all
-    // code related to metadata data in order to have a better performance.
-    // ===============================================================================
-    const r = reflect;
-    /* istanbul ignore next */
     // @ts-ignore
-    const metadata: Function | undefined = r[key] && r[key].bind(r);
-    const self = this;
-    //
-    // target   | property
-    // -----------------------------------------------
-    // Function + undefined     = Constructor
-    // Object   + PropertyKey   = Class member
-    // Function + PropertyKey   = Class static member
-    //
-    let value: Function;
-    if (metadata) {
-      /* istanbul ignore next */
-      value = function (key: string, value: any) {
-        return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
-          let annotation: Annotation;
-          if (targetKey) {
-            annotation = GetProperty(self.add(target), targetKey, descriptor);
-          } else {
-            annotation = GetConstructor(self.add((<Function>target).prototype));
-          }
-          AddMetadata(annotation, key, value);
-          return metadata(key, value)(target, targetKey, descriptor);
-        };
-      };
-    } else {
-      value = function (key: string, value: any) {
-        return function (target: Function | object, targetKey?: string | symbol, descriptor?: PropertyDescriptor) {
-          let annotation: Annotation;
-          if (targetKey) {
-            annotation = GetProperty(self.add(target), targetKey, descriptor);
-          } else {
-            annotation = GetConstructor(self.add((<Function>target).prototype));
-          }
-          AddMetadata(annotation, key, value);
-        };
-      };
-    }
-    // mark the time
-    // @ts-ignore
-    value[NOW] = Date.now();
-    alter(r, key, value);
-    self.set(self, new Map());
+    this[NOW] = Date.now();
+    this.set(this, new Map());
   }
 
   /**

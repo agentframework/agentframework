@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AgentFrameworkError, Class } from '../../dependencies/agent';
+import { AgentFrameworkError, Class } from '../../../lib/dependencies/agent';
 import { Disposable } from './Helpers/Disposable';
 import { Agent, AgentReference, Params } from './Agent';
 import { Domain } from './Domain';

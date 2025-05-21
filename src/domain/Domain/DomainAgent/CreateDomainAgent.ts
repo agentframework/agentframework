@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AgentFrameworkError, TypeAttribute, CreateAgent } from '../../../dependencies/agent';
+import { AgentFrameworkError, TypeAttribute, CreateAgent } from '../../../../lib/dependencies/agent';
 import { DomainAgentAttribute } from './DomainAgentAttribute';
 import { DomainLike } from '../DomainLike';
 import { GetDomain } from '../Helpers/GetDomain';

@@ -1,4 +1,4 @@
-import { GetType, Reflector, agent, singleton, GetAgentType } from '../../../../dependencies/agent';
+import { GetType, Reflector, agent, singleton, GetAgentType } from '../../../../../lib/dependencies/agent';
 import { SingletonAttribute } from './SingletonAttribute';
 
 describe('Core @singleton() decorator', () => {

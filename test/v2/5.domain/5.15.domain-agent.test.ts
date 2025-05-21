@@ -1,4 +1,4 @@
-import { Reflector } from '../../../src/dependencies/agent';
+import { Reflector } from '../../../lib/dependencies/agent';
 import {
   agent,
   singleton,
@@ -7,7 +7,7 @@ import {
   TransitAttribute,
   SingletonAttribute,
   InjectAttribute
-} from '../../../src/dependencies/domain';
+} from '../../../lib/dependencies/domain';
 
 describe('5.15. Domain agent', () => {
   describe('# should able to', () => {

@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { AgentAttribute, Arguments, TypeInterceptor, TypeInvocation } from '../../../dependencies/agent';
+import { AgentAttribute, Arguments, TypeInterceptor, TypeInvocation } from '../../../../lib/dependencies/agent';
 import { DomainLike } from '../DomainLike';
 
 export class DomainAgentAttribute extends AgentAttribute implements TypeInterceptor {

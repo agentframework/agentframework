@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Annotation } from '../../../dependencies/core';
+import { Annotation } from '../../../../lib/dependencies/core';
 import { Class } from '../Arguments';
 import { Design } from '../Design';
 import { Filter } from './Filter';

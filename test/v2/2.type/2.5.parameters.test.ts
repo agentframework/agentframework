@@ -5,7 +5,7 @@ import {
   MemberKinds,
   ParameterInvocation,
   Reflector,
-} from '../../../src/dependencies/agent';
+} from '../../../lib/dependencies/agent';
 
 class Data251 {
   constructor(@decorate({ require: 'operator' }, MemberKinds.Parameter) model: Date) {}

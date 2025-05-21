@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Attribute } from '../../../src/dependencies/agent';
+import { Attribute } from '../../../lib/dependencies/agent';
 
 export class MetadataAttribute implements Attribute {
   beforeDecorate(

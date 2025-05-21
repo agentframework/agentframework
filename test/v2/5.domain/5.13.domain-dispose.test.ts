@@ -1,5 +1,5 @@
-import { InMemoryDomain } from '../../../src/dependencies/domain';
-import { Arguments, TypeInvocation, initializable, Initializer } from '../../../src/dependencies/agent';
+import { InMemoryDomain } from '../../../lib/dependencies/domain';
+import { Arguments, TypeInvocation, initializable, Initializer } from '../../../lib/dependencies/agent';
 
 describe('5.13. Domain dispose', () => {
   describe('# should able to', () => {

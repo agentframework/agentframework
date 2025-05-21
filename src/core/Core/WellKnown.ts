@@ -20,7 +20,7 @@ export const CONSTRUCTOR: string | symbol = 'constructor';
 /**
  * @internal
  */
-export const METADATA: string = 'metadata';
+export const METADATA: string = 'com.agentframework.knowledge';
 
 /**
  * @internal

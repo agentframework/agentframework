@@ -1,5 +1,5 @@
-import { agent } from '../../../src/dependencies/domain';
-import { InMemoryDomain } from '../../../src/dependencies/domain';
+import { agent } from '../../../lib/dependencies/domain';
+import { InMemoryDomain } from '../../../lib/dependencies/domain';
 
 describe('5.5. Domain resolve', () => {
   class A {}

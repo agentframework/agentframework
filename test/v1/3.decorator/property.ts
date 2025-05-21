@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Attribute, decorateMember } from '../../../src/dependencies/agent';
+import { Attribute, decorateMember } from '../../../lib/dependencies/agent';
 
 export function propertyDecorator() {
   return decorateMember(new PropertyAttribute());

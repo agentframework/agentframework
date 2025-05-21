@@ -30,7 +30,7 @@ export function GetConstructorAnnotation<A extends Property = Property>(target: 
  */
 export function GetPropertyAnnotation<A extends Property = Property>(
   target: object | Function,
-  key: string | symbol
+  key: string | symbol,
 ): A | undefined {
   const type: Type = Knowledge.add(target);
   const property = Reflect.get(type.prototype, key);

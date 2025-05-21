@@ -10,7 +10,7 @@ import {
   IsAgent,
   Reflector,
   agent,
-} from '../../../dependencies/agent';
+} from '../../../../lib/dependencies/agent';
 
 @agent()
 class MongoDB {

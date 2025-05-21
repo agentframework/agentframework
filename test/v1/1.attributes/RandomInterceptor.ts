@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Arguments, Attribute, Interceptor, Invocation } from '../../../src/dependencies/agent';
+import { Arguments, Attribute, Interceptor, Invocation } from '../../../lib/dependencies/agent';
 
 export class RandomInterceptor implements Attribute, Interceptor {
   beforeDecorate(

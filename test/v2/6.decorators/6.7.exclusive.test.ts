@@ -1,4 +1,4 @@
-import { exclusive } from '../../../src/dependencies/agent';
+import { exclusive } from '../../../lib/dependencies/agent';
 
 describe('6.7. @exclusive decorator', () => {
   describe('# should able to', () => {

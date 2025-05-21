@@ -1,4 +1,4 @@
-import { CreateAgent, Reflector, agent, transit } from '../../../src/dependencies/agent';
+import { CreateAgent, Reflector, agent, transit } from '../../../lib/dependencies/agent';
 
 describe('6.4. @transit decorator', () => {
   describe('# should able to', () => {

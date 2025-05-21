@@ -16,7 +16,7 @@ import {
   AddAttributeToConstructorParameter,
   AddAttributeToPropertyParameter,
   Annotation,
-} from '../../../dependencies/core';
+} from '../../../../lib/dependencies/core';
 import { MemberKinds } from './MemberKinds';
 import { ParameterInfo } from './ParameterInfo';
 import { PropertyInfo } from './PropertyInfo';

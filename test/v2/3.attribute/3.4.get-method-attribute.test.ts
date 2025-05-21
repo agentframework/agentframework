@@ -1,6 +1,6 @@
-import { PropertyAttribute } from '../../../src/dependencies/agent';
-import { decorateMember } from '../../../src/dependencies/agent';
-import { Arguments, decorateParameter, Invocation, Reflector } from '../../../src/dependencies/agent';
+import { PropertyAttribute } from '../../../lib/dependencies/agent';
+import { decorateMember } from '../../../lib/dependencies/agent';
+import { Arguments, decorateParameter, Invocation, Reflector } from '../../../lib/dependencies/agent';
 
 class MethodAttribute implements PropertyAttribute {
   constructor(readonly method: string, readonly path?: string) {}

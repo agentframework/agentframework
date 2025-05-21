@@ -7,7 +7,7 @@ import {
   ParameterInvocation,
   PropertyInterceptor,
   ParameterInterceptor,
-} from '../../../src/dependencies/agent';
+} from '../../../lib/dependencies/agent';
 
 export class InjectAttribute implements Attribute, PropertyInterceptor {
   get interceptor(): PropertyInterceptor {

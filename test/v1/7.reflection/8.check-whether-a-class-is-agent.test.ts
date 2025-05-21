@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { CreateAgent, GetType, IsAgent, agent } from '../../../src/dependencies/agent';
+import { CreateAgent, GetType, IsAgent, agent } from '../../../lib/dependencies/agent';
 
 @agent()
 class AgentClass {}

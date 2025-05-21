@@ -16,13 +16,21 @@ export { AddAttributeToConstructor } from './Core/AddAttribute';
 
 export { GetConstructorAnnotation } from './Core/GetAnnotation';
 export { GetPropertyAnnotation } from './Core/GetAnnotation';
-export { GetMemory } from './Core/GetMemory';
 export { GetAnnotation } from './Core/GetAnnotation';
+
+/*********************************************************************
+ *    (Stability: 2 - Stable): Memory API
+ *********************************************************************/
+export { Remember, SetMemory, GetMemory } from './Core/Memory';
+
+/*********************************************************************
+ *    (Stability: 2 - Stable): Internal Helper Function
+ *********************************************************************/
+export { DefineValue } from './Core/Object/DefineValue';
+export { DefineIfValue } from './Core/Object/DefineIfValue';
 
 /*********************************************************************
  *    (Stability: 1 - Experimental): TSLIB integrate with Metadata
  *********************************************************************/
-export { __decorate } from './Core/__decorate';
-export { __agent } from './Core/__agent';
-export { __metadata } from './Core/__metadata';
-export { __param } from './Core/__param';
+// export { __esDecorate } from './Core/__esDecorate';
+// export { __runInitializers } from './Core/__runInitializers';

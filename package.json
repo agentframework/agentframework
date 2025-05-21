@@ -1,22 +1,22 @@
 {
   "name": "agentframework",
-  "version": "2.0.4",
+  "version": "3.0.0-dev.20250521",
   "sideEffects": false,
   "engines": {
-    "node": ">=8",
-    "typescript": ">=3"
+    "node": ">=18",
+    "typescript": ">=5"
   },
   "main": "lib/index.ts",
   "description": "TypeScript that scales",
   "scripts": {
-    "cov": "npm run test:coverage && npm run report",
-    "dev": "tsmon tools/jasmine.ts --config=tools/jasmine.json",
-    "dev:spec": "tsmon tools/jasmine.ts --config=tools/jasmine.spec.json",
-    "debug": "ndb tsmon tools/jasmine.ts --config=tools/jasmine.debug.json",
+    "dev": "vitest --config ./tools/vitest.config.mts",
+    "cov": "vitest --coverage --config ./tools/vitest.config.mts",
     "build": "tsc --project tsconfig.json --noEmit",
-    "test": "ts-node tools/jasmine.ts --config=tools/jasmine.json",
-    "test:coverage": "nyc npm run test",
-    "report": "open coverage/lcov-report/index.html"
+    "clean": "find src lib test tools -type f -name \"*.js\" -delete",
+    "report": "open coverage/index.html",
+    "test": "vitest run --config ./tools/vitest.config.full.mts",
+    "test:spec": "vitest run --config ./tools/vitest.config.spec.mts",
+    "test:coverage": "vitest run --coverage --config ./tools/vitest.config.full.mts"
   },
   "repository": {
     "type": "git",

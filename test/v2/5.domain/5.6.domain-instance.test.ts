@@ -1,4 +1,4 @@
-import { InMemoryDomain } from '../../../src/dependencies/domain';
+import { InMemoryDomain } from '../../../lib/dependencies/domain';
 
 describe('5.6. Domain instance', () => {
   const domain = new InMemoryDomain();
