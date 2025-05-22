@@ -12,11 +12,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { TypeInfo } from './Reflection/TypeInfo';
-import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
-import { AgentFrameworkError } from './AgentFrameworkError';
-import { CONSTRUCTOR } from './WellKnown';
-import { GetType } from './Knowledges/Types';
+import { TypeInfo } from '../../core/Core/Reflection/TypeInfo.ts';
+import { OnDemandTypeInfo } from '../../core/Core/Reflection/Internal/OnDemandTypeInfo.ts';
+import { AgentFrameworkError } from './AgentFrameworkError.ts';
+import { GetType } from './Knowledges/Types.ts';
+import { CONSTRUCTOR } from '../../core/Core/WellKnown.ts';
 
 /**
  * Reflector is the interface to access type data from class constructor or class prototype
@@ -35,14 +35,14 @@ import { GetType } from './Knowledges/Types';
 export function Reflector(target: Function | object): TypeInfo {
   if (typeof target === 'function') {
     // make sure get the prototype of origin type
-    return OnDemandTypeInfo.find(GetType(target.prototype) || target.prototype);
+    return OnDemandTypeInfo.from(GetType(target.prototype) || target.prototype);
   } else if (target == null) {
     throw new AgentFrameworkError(`NotSupported: Reflector(null) is not supported`);
   } else if (typeof target === 'object') {
     // if a object hasOwnPropertyDescriptor('constructor') then this object is a prototype
     // instance don't have own constructor property
     if (Reflect.getOwnPropertyDescriptor(target, CONSTRUCTOR)) {
-      return OnDemandTypeInfo.find(GetType(target) || target);
+      return OnDemandTypeInfo.from(GetType(target) || target);
     } else {
       // object without own property constructor consider an instance
       throw new AgentFrameworkError(`NotSupported: Reflector(${target.constructor.name} {}) is not supported`);

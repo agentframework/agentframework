@@ -12,9 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { PropertyInfo } from '../../Reflection/PropertyInfo';
-import { Arguments } from '../../Arguments';
-import { Invocation } from '../../Invocation';
+import { PropertyInfo } from '../../../../core/Core/Reflection/PropertyInfo';
+import { Arguments } from '../../../../core/Core/Interception/Arguments.ts';
+import { Invocation } from '../../../../core/Core/Interception/Invocation.ts';
 
 /**
  * invoke without interceptors, better performance

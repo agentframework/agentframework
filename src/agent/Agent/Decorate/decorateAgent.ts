@@ -15,7 +15,7 @@ limitations under the License. */
 // import { Reflector } from '../Reflector';
 import { CanDecorate } from './CanDecorate';
 import { AddAttributeToConstructor } from '@agentframework/core';
-import { Attribute } from '../Attribute';
+import { Attribute } from '../../../core/Core/Interception/Attribute.ts';
 
 /**
  * Decorate agent with attribute (this attribute will be used for upgrade agent)

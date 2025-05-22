@@ -1,5 +1,5 @@
-import { Remember } from '../Decorators/Remember/Remember';
-import { TypeInvocation } from '../TypeInvocations';
+import { Remember } from '../../../decorator/Decorator/Remember/Remember';
+import { TypeInvocation } from '../../../core/Core/Interception/TypeInvocations.ts';
 
 export interface ClassConstructorState {
   version: number;

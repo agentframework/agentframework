@@ -12,15 +12,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Invocation } from '../../Invocation';
-import { Design } from '../../Design';
-import { Attribute } from '../../Attribute';
-import { GetInterceptor } from '../../CustomInterceptor';
+import { Invocation } from '../../../../core/Core/Interception/Invocation.ts';
+import { Design } from '../../../../core/Core/Interception/Design.ts';
+import { Attribute } from '../../../../core/Core/Interception/Attribute.ts';
+import { GetInterceptor } from '../../../../core/Core/Interception/CustomInterceptor.ts';
 // import { Once } from '../../Decorators/Once/Once';
 import { INVOKE } from '../../WellKnown';
-import { Arguments } from '../../Arguments';
-import { alter } from '../alter';
-import { Interceptor } from '../../Interceptor';
+import { Arguments } from '../../../../core/Core/Interception/Arguments.ts';
+import { Define } from '../Define.ts';
+import { Interceptor } from '../../../../core/Core/Interception/Interceptor.ts';
 
 /**
  * invocation wrapper for interceptor, reduce callstack if no interceptor found from attribute
@@ -51,7 +51,7 @@ export class OnDemandInterceptorInvocation<T extends Design = Design> implements
     // remove this invocation from chain
     const desc = Reflect.getOwnPropertyDescriptor(this.next, INVOKE);
     const value = desc ? desc.value : this.next.invoke.bind(this.next);
-    alter(this, INVOKE, { value });
+    Define(this, INVOKE, { value });
     return result;
   }
 }

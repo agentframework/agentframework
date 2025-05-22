@@ -15,8 +15,8 @@ limitations under the License. */
 // utilize code gen
 
 import { OnDemandInvocationFactory } from './OnDemandInvocationFactory';
-import { alter } from './alter';
-import { PropertyInfo } from '../Reflection/PropertyInfo';
+import { Define } from './Define.ts';
+import { PropertyInfo } from '../../../core/Core/Reflection/PropertyInfo';
 
 export function UpgradeAgentProperties(
   members: Map<string | symbol, number>,
@@ -67,7 +67,7 @@ class OnDemandAgentCompiler {
       descriptor.set = function (this: any) {
         return chain.invoke(arguments, this);
       };
-      alter(receiver, chain.design.key, descriptor);
+      Define(receiver, chain.design.key, descriptor);
       return chain.invoke([], this);
     };
     descriptor.set = function (this: any) {
@@ -78,7 +78,7 @@ class OnDemandAgentCompiler {
       descriptor.set = function (this: any) {
         return chain.invoke(arguments, this);
       };
-      alter(receiver, chain.design.key, descriptor);
+      Define(receiver, chain.design.key, descriptor);
       return chain.invoke(arguments, this);
     };
     return descriptor;
@@ -111,7 +111,7 @@ class OnDemandAgentCompiler {
           propertyDescriptor.set = function () {
             setterChain.invoke(arguments, this);
           };
-          alter(receiver, key, propertyDescriptor);
+          Define(receiver, key, propertyDescriptor);
           return getterChain.invoke([], this);
         };
         propertyDescriptor.set = function (this: any) {
@@ -123,7 +123,7 @@ class OnDemandAgentCompiler {
           propertyDescriptor.set = function () {
             setterChain.invoke(arguments, this);
           };
-          alter(receiver, key, propertyDescriptor);
+          Define(receiver, key, propertyDescriptor);
           return setterChain.invoke(arguments, this);
         };
       } else {
@@ -135,7 +135,7 @@ class OnDemandAgentCompiler {
           propertyDescriptor.get = function (this: any) {
             return getterChain.invoke([], this);
           };
-          alter(receiver, key, propertyDescriptor);
+          Define(receiver, key, propertyDescriptor);
           return getterChain.invoke([], this);
         };
       }
@@ -148,7 +148,7 @@ class OnDemandAgentCompiler {
         propertyDescriptor.set = function (this: any) {
           return setterChain.invoke(arguments, this);
         };
-        alter(receiver, key, propertyDescriptor);
+        Define(receiver, key, propertyDescriptor);
         return setterChain.invoke(arguments, this);
       };
     } else if ('function' === typeof defaultValue) {
@@ -160,7 +160,7 @@ class OnDemandAgentCompiler {
         propertyDescriptor.value = function (this: any) {
           return methodChain.invoke(arguments, this);
         };
-        alter(receiver, key, propertyDescriptor);
+        Define(receiver, key, propertyDescriptor);
         return methodChain.invoke(arguments, this);
       };
     } else {

@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { CanDecorate } from './CanDecorate';
-import { Attribute } from '../Attribute';
+import { Attribute } from '../../../core/Core/Interception/Attribute.ts';
 import { AddAttributeToProperty } from '@agentframework/core';
 
 /**

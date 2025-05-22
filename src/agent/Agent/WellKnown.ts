@@ -11,11 +11,6 @@ export const INVOKE = 'invoke';
 /**
  * @internal
  */
-export const VERSION = 'version';
-
-/**
- * @internal
- */
 export const DESIGN_TYPE = 'design:type';
 
 /**

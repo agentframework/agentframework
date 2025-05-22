@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { CanDecorate } from './CanDecorate';
-import { ParameterAttribute } from '../TypeAttributes';
+import { ParameterAttribute } from '../../../core/Core/Interception/TypeAttributes.ts';
 import { AddAttributeToConstructorParameter } from '@agentframework/core';
 import { AddAttributeToPropertyParameter } from '@agentframework/core';
 

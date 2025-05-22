@@ -18,30 +18,30 @@ limitations under the License. */
  *   (Stability: 2 - Stable) Metadata Interface
  *********************************************************************/
 
-export { Design } from './Agent/Design';
-export { MemberInfo } from './Agent/Reflection/MemberInfo';
-export { PropertyInfo } from './Agent/Reflection/PropertyInfo';
-export { TypeInfo } from './Agent/Reflection/TypeInfo';
-export { ParameterInfo } from './Agent/Reflection/ParameterInfo';
+export { Design } from '../core/Core/Interception/Design.ts';
+export { MemberInfo } from '../core/Core/Reflection/MemberInfo';
+export { PropertyInfo } from '../core/Core/Reflection/PropertyInfo';
+export { TypeInfo } from '../core/Core/Reflection/TypeInfo';
+export { ParameterInfo } from '../core/Core/Reflection/ParameterInfo';
 
-export { Invocation } from './Agent/Invocation';
-export { Interceptor } from './Agent/Interceptor';
-export { Attribute } from './Agent/Attribute';
+export { Invocation } from '../core/Core/Interception/Invocation.ts';
+export { Interceptor } from '../core/Core/Interception/Interceptor.ts';
+export { Attribute } from '../core/Core/Interception/Attribute.ts';
 
-export { TypeInvocation } from './Agent/TypeInvocations';
-export { TypeInterceptor } from './Agent/TypeInterceptors';
-export { TypeAttribute } from './Agent/TypeAttributes';
+export { TypeInvocation } from '../core/Core/Interception/TypeInvocations.ts';
+export { TypeInterceptor } from '../core/Core/Interception/TypeInterceptors.ts';
+export { TypeAttribute } from '../core/Core/Interception/TypeAttributes.ts';
 
-export { ParameterInvocation } from './Agent/TypeInvocations';
-export { ParameterInterceptor } from './Agent/TypeInterceptors';
-export { ParameterAttribute } from './Agent/TypeAttributes';
+export { ParameterInvocation } from '../core/Core/Interception/TypeInvocations.ts';
+export { ParameterInterceptor } from '../core/Core/Interception/TypeInterceptors.ts';
+export { ParameterAttribute } from '../core/Core/Interception/TypeAttributes.ts';
 
-export { PropertyInvocation } from './Agent/TypeInvocations';
-export { PropertyInterceptor } from './Agent/TypeInterceptors';
-export { PropertyAttribute } from './Agent/TypeAttributes';
+export { PropertyInvocation } from '../core/Core/Interception/TypeInvocations.ts';
+export { PropertyInterceptor } from '../core/Core/Interception/TypeInterceptors.ts';
+export { PropertyAttribute } from '../core/Core/Interception/TypeAttributes.ts';
 
-export { Filter } from './Agent/Reflection/Filter';
-export { MemberKinds } from './Agent/Reflection/MemberKinds';
+export { Filter } from '../core/Core/Reflection/Filter';
+export { MemberKinds } from '../core/Core/Reflection/MemberKinds';
 
 /*********************************************************************
  *   (Stability: 2 - Stable) Decoration API
@@ -52,29 +52,29 @@ export { decorateAgent } from './Agent/Decorate/decorateAgent';
 export { decorateMember } from './Agent/Decorate/decorateMember';
 export { decorateParameter } from './Agent/Decorate/decorateParameter';
 export { decorateVariable } from './Agent/Decorate/decorateVariable';
-export { VariableDecorator } from './Agent/Decorators/VariableDecorator';
-export { Reflector } from './Agent/Reflector';
+export { VariableDecorator } from '../decorator/Decorator/VariableDecorator.ts';
+export { Reflector } from './Agent/Reflector.ts';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Class Decorator: @agent()
  *********************************************************************/
-export { agent } from './Agent/Decorators/agent';
-export { singleton } from './Agent/Decorators/DependencyInjection/singleton';
-export { transit } from './Agent/Decorators/DependencyInjection/transit';
+export { agent } from '../decorator/Decorator/agent.ts';
+export { singleton } from '../decorator/Decorator/DependencyInjection/singleton';
+export { transit } from '../decorator/Decorator/DependencyInjection/transit';
 export { CreateAgent } from './Agent/CreateAgent';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Custom Interceptor API
  *********************************************************************/
-export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from './Agent/CustomInterceptor';
-export { HasInterceptor, GetInterceptor } from './Agent/CustomInterceptor';
+export { SetCustomInterceptor, GetCustomInterceptor, RemoveCustomInterceptor } from '../core/Core/Interception/CustomInterceptor.ts';
+export { HasInterceptor, GetInterceptor } from '../core/Core/Interception/CustomInterceptor.ts';
 
 /*********************************************************************
  *   (Stability: 2 - Stable): Class Decorator: @initializable()
  *********************************************************************/
-export { initializable } from './Agent/Decorators/Initializable/initializable';
-export { Initializer } from './Agent/Decorators/Initializable/Initializer';
-export { InitializerHandler, StaticInitializerHandler } from './Agent/Decorators/Initializable/Initializer';
+export { initializable } from '../decorator/Decorator/Initializable/initializable';
+export { Initializer } from '../decorator/Decorator/Initializable/Initializer';
+export { InitializerHandler, StaticInitializerHandler } from '../decorator/Decorator/Initializable/Initializer';
 
 /*********************************************************************
  *   (Stability: 1 - Experimental) Error
@@ -89,17 +89,17 @@ export { AgentAttribute } from './Agent/AgentAttribute';
 /*********************************************************************
  *   (Stability: 1 - Experimental): Getter Decorator: @once()
  *********************************************************************/
-export { once, Once } from './Agent/Decorators/Once/Once';
+export { once } from '../decorator/Decorator/Once/Once';
 
 /*********************************************************************
  *   (Stability: 1 - Experimental): Getter Decorator: @remember()
  *********************************************************************/
-export { remember, Remember } from './Agent/Decorators/Remember/Remember';
+export { remember, Remember } from '../decorator/Decorator/Remember/Remember';
 
 /*********************************************************************
  *   (Stability: 1 - Experimental): Class Decorator: @exclusive()
  *********************************************************************/
-export { exclusive } from './Agent/Decorators/Exclusive/exclusive';
+export { exclusive } from '../decorator/Decorator/Exclusive/exclusive';
 
 /*********************************************************************
  *    (Stability: 1 - Experimental): Agent Helper Functions
@@ -107,8 +107,8 @@ export { exclusive } from './Agent/Decorators/Exclusive/exclusive';
 export { IsAgent } from './Agent/Knowledges/Agents';
 export { GetAgentType } from './Agent/Knowledges/Agents';
 export { GetType } from './Agent/Knowledges/Types';
-export { Class } from './Agent/Arguments';
-export { Arguments } from './Agent/Arguments';
+export { Arguments } from '../core/Core/Interception/Arguments.ts';
+export { Class } from '../core/Core/Interception/Class.ts';
 
 /*************************************
  *   AgentFramework 2 end

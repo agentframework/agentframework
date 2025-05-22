@@ -1,4 +1,4 @@
-import { Remember } from '../Decorators/Remember/Remember';
+import { Remember } from '../../../decorator/Decorator/Remember/Remember';
 
 export interface ClassMemberState {
   // type version

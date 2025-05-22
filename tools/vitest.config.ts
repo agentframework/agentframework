@@ -21,6 +21,6 @@ export default defineConfig({
     },
     // include: ['src/agent/**/*.[Ss]pec.ts'],
     // include: ['test/v3/1.general/**/*.[Tt]est.ts'],
-    include: ['src/core/Core/Knowledge.Spec.ts'],
+    include: ['src/core/**/*.[Ss]pec.ts'],
   },
 });

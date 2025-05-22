@@ -12,9 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Arguments } from '../../Arguments';
-import { TypeInvocation } from '../../TypeInvocations';
-import { TypeInfo } from '../../Reflection/TypeInfo';
+import { Arguments } from '../../../../core/Core/Interception/Arguments.ts';
+import { TypeInvocation } from '../../../../core/Core/Interception/TypeInvocations.ts';
+import { TypeInfo } from '../../../../core/Core/Reflection/TypeInfo';
 
 /**
  * @ignore

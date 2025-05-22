@@ -12,10 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Arguments } from './Arguments';
-import { TypeAttribute } from './TypeAttributes';
-import { TypeInvocation } from './TypeInvocations';
-import { TypeInterceptor } from './TypeInterceptors';
+import { Arguments } from '../../core/Core/Interception/Arguments.ts';
+import { TypeAttribute } from '../../core/Core/Interception/TypeAttributes.ts';
+import { TypeInvocation } from '../../core/Core/Interception/TypeInvocations.ts';
+import { TypeInterceptor } from '../../core/Core/Interception/TypeInterceptors.ts';
 import { UpgradeAgentProperties } from './Compiler/OnDemandAgentCompiler';
 import { FindExtendedClass } from './FindExtendedClass';
 import { AgentFrameworkError } from './AgentFrameworkError';
@@ -23,8 +23,8 @@ import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory'
 import { ClassConstructors } from './Knowledges/ClassConstructors';
 import { ClassMembers } from './Knowledges/ClassMembers';
 import { RememberType } from './Knowledges/Types';
-import { TypeInfo } from './Reflection/TypeInfo';
-import { PropertyInfo } from './Reflection/PropertyInfo';
+import { TypeInfo } from '../../core/Core/Reflection/TypeInfo';
+import { PropertyInfo } from '../../core/Core/Reflection/PropertyInfo';
 
 /**
  * This attribute is for upgrade class to agent

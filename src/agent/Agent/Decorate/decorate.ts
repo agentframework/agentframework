@@ -12,10 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Attribute } from '../Attribute';
+import { Attribute } from '../../../core/Core/Interception/Attribute.ts';
 import { CanDecorate } from './CanDecorate';
 import { AddAttributeToConstructor, AddAttributeToConstructorParameter } from '@agentframework/core';
-import { MemberKinds } from '../Reflection/MemberKinds';
+import { MemberKinds } from '../../../core/Core/Reflection/MemberKinds';
 import { AgentFrameworkError } from '../AgentFrameworkError';
 import { AddAttributeToProperty, AddAttributeToPropertyParameter } from '@agentframework/core';
 

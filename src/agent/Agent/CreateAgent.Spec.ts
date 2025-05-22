@@ -1,7 +1,7 @@
 /* tslint:disable */
 import { decorateMember, agent, IsAgent, TypeInvocation, Arguments, TypeInterceptor } from '../../../lib/dependencies/agent';
 import { CreateAgent } from './CreateAgent';
-import { TransitAttribute } from './Decorators/DependencyInjection/TransitAttribute';
+import { TransitAttribute } from '../../decorator/Decorator/DependencyInjection/TransitAttribute';
 
 class Connection {
   static count = 0;

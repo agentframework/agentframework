@@ -1,33 +1,34 @@
 /*********************************************************************
  *   (Stability: 2 - Stable) Annotation
  *********************************************************************/
-export { Type } from './Core/Metadata/Annotation/Type.ts';
-export { Property } from './Core/Metadata/Annotation/Property.ts';
-export { Parameter } from './Core/Metadata/Annotation/Parameter.ts';
-export { Annotation } from './Core/Metadata/Annotation/Annotation.ts';
+export { Type } from './Core/Meta/Type.ts';
+export { Property } from './Core/Meta/Property.ts';
+export { Parameter } from './Core/Meta/Parameter.ts';
+export { Annotation } from './Core/Meta/Annotation.ts';
 
 /*********************************************************************
  *   (Stability: 2 - Stable) Annotation API
  *********************************************************************/
-export { AddAttributeToProperty } from './Core/Metadata/AddAttributeToProperty.ts';
-export { AddAttributeToPropertyParameter } from './Core/Metadata/AddAttributeToPropertyParameter.ts';
-export { AddAttributeToConstructor } from './Core/Metadata/AddAttributeToConstructor.ts';
-export { AddAttributeToConstructorParameter } from './Core/Metadata/AddAttributeToConstructorParameter.ts';
+export { AddAttributeToProperty } from './Core/Meta/AddAttributeToProperty.ts';
+export { AddAttributeToPropertyParameter } from './Core/Meta/AddAttributeToPropertyParameter.ts';
+export { AddAttributeToConstructor } from './Core/Meta/AddAttributeToConstructor.ts';
+export { AddAttributeToConstructorParameter } from './Core/Meta/AddAttributeToConstructorParameter.ts';
 
-export { GetAnnotation } from './Core/Metadata/GetAnnotation.ts';
-export { GetConstructorAnnotation } from './Core/Metadata/GetConstructorAnnotation.ts';
-export { GetPropertyAnnotation } from './Core/Metadata/GetPropertyAnnotation.ts';
+export { GetAnnotation } from './Core/Meta/GetAnnotation.ts';
+export { GetConstructorAnnotation } from './Core/Meta/GetConstructorAnnotation.ts';
+export { GetPropertyAnnotation } from './Core/Meta/GetPropertyAnnotation.ts';
 
 /*********************************************************************
  *    (Stability: 2 - Stable): Memory API
  *********************************************************************/
-export { Remember, SetMemory, GetMemory } from './Core/Metadata/Memory.ts';
+export { Remember, SetMemory, GetMemory } from './Core/Meta/Memory.ts';
 
 /*********************************************************************
  *    (Stability: 2 - Stable): Internal Helper Function
  *********************************************************************/
-export { DefineValue } from './Core/Metadata/Object/DefineValue';
-export { DefineIfValue } from './Core/Metadata/Object/DefineIfValue';
+export { DefineValue } from './Core/Meta/DefineValue.ts';
+export { DefineIfValue } from './Core/Meta/DefineIfValue.ts';
+export { DefineGetter } from './Core/Meta/DefineGetter.ts';
 
 /*********************************************************************
  *    (Stability: 1 - Experimental): TSLIB integrate with Metadata

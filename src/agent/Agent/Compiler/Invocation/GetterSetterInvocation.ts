@@ -13,9 +13,9 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { AgentFrameworkError } from '../../AgentFrameworkError';
-import { Arguments } from '../../Arguments';
-import { PropertyInfo } from '../../Reflection/PropertyInfo';
-import { Invocation } from '../../Invocation';
+import { Arguments } from '../../../../core/Core/Interception/Arguments.ts';
+import { PropertyInfo } from '../../../../core/Core/Reflection/PropertyInfo';
+import { Invocation } from '../../../../core/Core/Interception/Invocation.ts';
 
 /**
  * @ignore

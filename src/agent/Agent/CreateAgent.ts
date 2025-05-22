@@ -13,13 +13,13 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { AgentAttribute } from './AgentAttribute';
-import { TypeAttribute } from './TypeAttributes';
+import { TypeAttribute } from '../../core/Core/Interception/TypeAttributes.ts';
 import { OnDemandInvocationFactory } from './Compiler/OnDemandInvocationFactory';
 import { CanDecorate } from './Decorate/CanDecorate';
 import { AgentFrameworkError } from './AgentFrameworkError';
 import { RememberAgent } from './Knowledges/Agents';
 import { GetType } from './Knowledges/Types';
-import { OnDemandTypeInfo } from './Reflection/OnDemandTypeInfo';
+import { OnDemandTypeInfo } from '../../core/Core/Reflection/Internal/OnDemandTypeInfo.ts';
 import { CONSTRUCTOR } from './WellKnown';
 
 /**
@@ -49,7 +49,7 @@ export function CreateAgent<T extends Function>(type: T, strategy?: TypeAttribut
   }
 
   // Collect information of this target
-  const staticDesign = OnDemandTypeInfo.find(target);
+  const staticDesign = OnDemandTypeInfo.from(target);
   const classDesign = (attribute.type = staticDesign.prototype);
   const classConstructor = (attribute.property = classDesign.property(CONSTRUCTOR));
 

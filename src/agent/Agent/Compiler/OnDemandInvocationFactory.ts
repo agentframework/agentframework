@@ -1,16 +1,16 @@
 import { ClassTypeInvocation } from './Invocation/ClassTypeInvocation';
 import { OnDemandInterceptorFactory } from './OnDemandInterceptorFactory';
-import { PropertyInfo } from '../Reflection/PropertyInfo';
-import { Invocation } from '../Invocation';
-import { TypeInfo } from '../Reflection/TypeInfo';
+import { PropertyInfo } from '../../../core/Core/Reflection/PropertyInfo';
+import { Invocation } from '../../../core/Core/Interception/Invocation.ts';
+import { TypeInfo } from '../../../core/Core/Reflection/TypeInfo';
 import { OnDemandParameterInterceptor } from './Interceptor/OnDemandParameterInterceptor';
 import { ClassConstructorState } from '../Knowledges/ClassConstructors';
 import { GetterSetterInvocation } from './Invocation/GetterSetterInvocation';
 import { MethodInvocation } from './Invocation/MethodInvocation';
 import { CONSTRUCTOR } from '../WellKnown';
 import { AgentTypeInvocation } from './Invocation/AgentTypeInvocation';
-import { TypeInvocation } from '../TypeInvocations';
-import { Attribute } from '../Attribute';
+import { TypeInvocation } from '../../../core/Core/Interception/TypeInvocations.ts';
+import { Attribute } from '../../../core/Core/Interception/Attribute.ts';
 
 export class OnDemandInvocationFactory {
   /**

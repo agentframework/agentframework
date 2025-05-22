@@ -12,9 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { TypeInfo } from '../../Reflection/TypeInfo';
-import { TypeInvocation } from '../../TypeInvocations';
-import { alter } from '../alter';
+import { TypeInfo } from '../../../../core/Core/Reflection/TypeInfo';
+import { TypeInvocation } from '../../../../core/Core/Interception/TypeInvocations.ts';
+import { Define } from '../Define.ts';
 import { RememberType } from '../../Knowledges/Types';
 
 /**
@@ -29,7 +29,7 @@ export class AgentTypeInvocation implements TypeInvocation {
   invoke([id]: any, receiver: any): any {
     // dont do any change if no changes to the target
     // that means no initializers defined
-    const newReceiver = alter(class extends receiver {}, 'name', { value: `${id}$` });
+    const newReceiver = Define(class extends receiver {}, 'name', { value: `${id}$` });
     RememberType(newReceiver, this.target);
     return newReceiver;
   }

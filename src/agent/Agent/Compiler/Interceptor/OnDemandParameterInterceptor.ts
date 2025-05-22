@@ -14,12 +14,12 @@ limitations under the License. */
 
 'use strict';
 
-import { PropertyInfo } from '../../Reflection/PropertyInfo';
-import { ParameterInvocation, PropertyInvocation } from '../../TypeInvocations';
-import { PropertyInterceptor } from '../../TypeInterceptors';
+import { PropertyInfo } from '../../../../core/Core/Reflection/PropertyInfo';
+import { ParameterInvocation, PropertyInvocation } from '../../../../core/Core/Interception/TypeInvocations.ts';
+import { PropertyInterceptor } from '../../../../core/Core/Interception/TypeInterceptors.ts';
 import { MethodParameterInvocation } from '../Invocation/MethodParameterInvocation';
 import { OnDemandInterceptorFactory } from '../OnDemandInterceptorFactory';
-import { Once } from '../../Decorators/Once/Once';
+import { DefineIfValue } from '../../../../core';
 
 /**
  let MongoDB = class MongoDB {
@@ -68,7 +68,7 @@ export class OnDemandParameterInterceptor implements PropertyInterceptor {
         invocations.set(idx, OnDemandInterceptorFactory.addInterceptors(origin, interceptors));
       }
     }
-    return Once(this, 'invocations', invocations.size ? invocations : undefined);
+    return DefineIfValue(this, 'invocations', invocations.size ? invocations : undefined);
   }
 
   intercept(target: PropertyInvocation, params: Array<any>, receiver: any): any {
