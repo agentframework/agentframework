@@ -13,8 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // the memorize can be used on both class getter or static getter
-import { GetMemory, SetMemory } from '@agentframework/core.ts';
-import { Define } from '../../../agent/Agent/Compiler/Define.ts';
+import { DefineValue, GetMemory, SetMemory } from '@agentframework/core.ts';
 import { decorateMember } from '../../../agent/Agent/Decorate/decorateMember.ts';
 import { PropertyInvocation } from '../../../core/Core/Interception/TypeInvocations.ts';
 import { Arguments } from '../../../core/Core/Interception/Arguments.ts';
@@ -63,7 +62,7 @@ export function Remember<T>(key: string, target: object | Function, targetKey: s
   const id = key + '.' + String(targetKey);
   const memory = GetMemory(id);
   if (memory !== undefined) {
-    Define(target, targetKey, { value: memory });
+    DefineValue(target, targetKey, memory);
     return memory as T;
   } else {
     const value = valueFn();

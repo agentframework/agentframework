@@ -13,10 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // the once can be used on both class getter or static getter
-import {Define} from '../../../agent/Agent/Compiler/Define.ts';
-import {decorateMember} from '../../../agent/Agent/Decorate/decorateMember.ts';
-import {Arguments} from '../../../core/Core/Interception/Arguments.ts';
-import {PropertyInvocation} from '../../../core/Core/Interception/TypeInvocations.ts';
+import { decorateMember } from '../../../agent/Agent/Decorate/decorateMember.ts';
+import { Arguments } from '../../../core/Core/Interception/Arguments.ts';
+import { PropertyInvocation } from '../../../core/Core/Interception/TypeInvocations.ts';
+import { DefineValue } from '../../../core';
 
 /**
  * Run getter only once. only apply to getter or static getter
@@ -27,7 +27,7 @@ export function once(): MethodDecorator {
       intercept(target: PropertyInvocation, params: Arguments, receiver: object): unknown {
         const value = target.invoke(params, receiver);
         if ('undefined' !== typeof value) {
-          Define(receiver, target.design.key, { value });
+          DefineValue(receiver, target.design.key, { value });
         }
         return value;
       },
@@ -49,4 +49,3 @@ export function once(): MethodDecorator {
   //   };
   // };
 }
-
