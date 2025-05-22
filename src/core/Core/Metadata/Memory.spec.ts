@@ -1,4 +1,4 @@
-import { GetMemory, Remember, SetMemory } from './Memory';
+import { GetMemory, Remember, SetMemory } from './Memory.ts';
 
 describe('Remember', () => {
   it('should compute and store value on first call', () => {

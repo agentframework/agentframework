@@ -14,7 +14,7 @@ limitations under the License. */
 
 // import { Reflector } from '../Reflector';
 import { CanDecorate } from './CanDecorate';
-import { AddAttributeToConstructor } from '../../../../lib/dependencies/core';
+import { AddAttributeToConstructor } from '@agentframework/core';
 import { Attribute } from '../Attribute';
 
 /**

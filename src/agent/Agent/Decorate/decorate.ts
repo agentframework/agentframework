@@ -14,10 +14,10 @@ limitations under the License. */
 
 import { Attribute } from '../Attribute';
 import { CanDecorate } from './CanDecorate';
-import { AddAttributeToConstructor, AddAttributeToConstructorParameter } from '../../../../lib/dependencies/core';
+import { AddAttributeToConstructor, AddAttributeToConstructorParameter } from '@agentframework/core';
 import { MemberKinds } from '../Reflection/MemberKinds';
 import { AgentFrameworkError } from '../AgentFrameworkError';
-import { AddAttributeToProperty, AddAttributeToPropertyParameter } from '../../../../lib/dependencies/core';
+import { AddAttributeToProperty, AddAttributeToPropertyParameter } from '@agentframework/core';
 
 /**
  * Decorate attribute to the target, throw if target not allowed

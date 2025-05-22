@@ -1,5 +1,5 @@
-import { DefineValue } from './Object/DefineValue';
-import { Knowledge } from './Knowledge';
+import { DefineValue } from './Object/DefineValue.ts';
+import { Knowledge } from './Knowledge.ts';
 
 // unique memory map
 const MemoryStore: Map<string, unknown> = Knowledge.get(Knowledge);

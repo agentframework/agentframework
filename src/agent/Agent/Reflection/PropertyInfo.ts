@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Property } from '../../../../lib/dependencies/core';
+import { Property } from '@agentframework/core';
 import { MemberInfo } from './MemberInfo';
 import { ParameterInfo } from './ParameterInfo';
 

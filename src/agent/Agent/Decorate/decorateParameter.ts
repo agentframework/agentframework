@@ -12,11 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-// import { Reflector } from '../Reflector';
 import { CanDecorate } from './CanDecorate';
 import { ParameterAttribute } from '../TypeAttributes';
-import { AddAttributeToConstructorParameter } from '../../../../lib/dependencies/core';
-import { AddAttributeToPropertyParameter } from '../../../../lib/dependencies/core';
+import { AddAttributeToConstructorParameter } from '@agentframework/core';
+import { AddAttributeToPropertyParameter } from '@agentframework/core';
 
 /**
  * Decorate class method parameter

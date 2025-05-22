@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // the memorize can be used on both class getter or static getter
-import { GetMemory } from '../../../../../lib/dependencies/core';
+import { GetMemory, SetMemory } from '@agentframework/core';
 import { alter } from '../../Compiler/alter';
 import { decorateMember } from '../../Decorate/decorateMember';
 import { PropertyInvocation } from '../../TypeInvocations';
@@ -26,13 +26,13 @@ export function remember(key: string): MethodDecorator {
   return decorateMember({
     interceptor: {
       intercept(target: PropertyInvocation, params: Arguments, receiver: object): unknown {
-        const memory = GetMemory();
         const id = key + '.' + target.design.name;
-        if (memory.has(id)) {
-          return memory.get(id);
+        const memory = GetMemory(id);
+        if (memory !== undefined) {
+          return memory;
         } else {
           const value = target.invoke(params, receiver);
-          memory.set(id, value);
+          SetMemory(id, value);
           return value;
         }
       },
@@ -60,15 +60,14 @@ export function remember(key: string): MethodDecorator {
 }
 
 export function Remember<T>(key: string, target: object | Function, targetKey: string | symbol, valueFn: () => T): T {
-  const memory = GetMemory();
   const id = key + '.' + String(targetKey);
-  if (memory.has(id)) {
-    const value = memory.get(id);
-    alter(target, targetKey, { value });
-    return value;
+  const memory = GetMemory(id);
+  if (memory !== undefined) {
+    alter(target, targetKey, { value: memory });
+    return memory as T;
   } else {
     const value = valueFn();
-    memory.set(id, value);
+    SetMemory(id, value);
     return value;
   }
 }

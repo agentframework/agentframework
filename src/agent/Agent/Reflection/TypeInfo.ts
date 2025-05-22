@@ -14,7 +14,7 @@ limitations under the License. */
 
 import { PropertyInfo } from './PropertyInfo';
 import { Filter } from './Filter';
-import { Type } from '../../../../lib/dependencies/core';
+import { Type } from '@agentframework/core';
 
 export interface TypeInfo extends PropertyInfo {
   /**

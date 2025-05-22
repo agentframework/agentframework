@@ -1,4 +1,4 @@
-import { Knowledge } from './Knowledge';
+import { Knowledge } from './Knowledge.ts';
 import { Type } from './Annotation/Type.ts';
 
 /**

@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Annotation } from '../../../../lib/dependencies/core';
+import { Annotation } from '@agentframework/core';
 import { Attribute } from '../Attribute';
 import { MemberInfo } from './MemberInfo';
 import { Filter } from './Filter';

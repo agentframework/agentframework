@@ -2,7 +2,7 @@
  * @internal
  */
 import { Knowledge } from './Knowledge.ts';
-import { DefineValue } from '../Object/DefineValue';
+import { DefineValue } from '../Object/DefineValue.ts';
 
 export interface Helper extends Record<symbol, any> {
   construct<T>(target: new (...args: any[]) => T, args: any[]): T;

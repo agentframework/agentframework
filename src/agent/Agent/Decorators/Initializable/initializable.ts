@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { Initializer } from './Initializer';
-import { AddAttributeToConstructor } from '../../../../../lib/dependencies/core';
+import { AddAttributeToConstructor } from '@agentframework/core';
 import { InitializerAttribute } from './InitializerAttribute';
 import { StaticInitializerAttribute } from './StaticInitializerAttribute';
 

@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 //
 
-import { Construct } from './Internal/Construct';
+import { Construct } from './Internal/Construct.ts';
 import { METADATA } from './Internal/WellKnown.ts';
 
 export const Knowledge = Construct(Reflect, METADATA);
