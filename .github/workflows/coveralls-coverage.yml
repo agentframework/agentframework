@@ -13,8 +13,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04]
-        node: [16]
-        ts: [4.7.2]
+        node: [24]
+        ts: [5.8.3]
       fail-fast: false
       max-parallel: 6
     name: ${{ matrix.os }}, Node.js ${{ matrix.node }}, TS ${{ matrix.ts }}
