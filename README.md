@@ -33,24 +33,22 @@ The new [decorator breaking changes](./doc/references/new-decorator-in-typescrip
 
 ## Official Supported Environment
 
-| Platform       | Version                                                                             |
-| -------------- | ----------------------------------------------------------------------------------- |
-| Node.js        | 22, 20, 18, 16, 14, 12, 10, 8 |
-| TypeScript 5.x | 5.5.4, 5.4.5, 5.3.3, 5.2.2, 5.1.6, 5.0.4 |
-| TypeScript 4.x | 4.7.2, 4.6.3, 4.5.5, 4.4.4, 4.3.5, 4.2.4, 4.1.5, 4.0.5 |
+| Platform       | Version                                                                 |
+| -------------- |-------------------------------------------------------------------------|
+| Node.js        | 24, 22, 20, 18, 16, 14, 12, 10, 8                                       |
+| TypeScript 5.x | 5.9.3, 5.8.2, 5.7.3, 5.6.3, 5.5.4, 5.4.5, 5.3.3, 5.2.2, 5.1.6, 5.0.4    |
+| TypeScript 4.x | 4.7.2, 4.6.3, 4.5.5, 4.4.4, 4.3.5, 4.2.4, 4.1.5, 4.0.5                  |
 | TypeScript 3.x | 3.9.7, 3.8.3, 3.7.5, 3.6.5, 3.5.1, 3.4.5, 3.3.4000, 3.2.4, 3.1.6, 3.0.3 |
-
-
 
 ## Changelog
 
-| Date       | Version                                                | Status      |
-| ---------- | ------------------------------------------------------ | ----------- |
-| 2024-08-21 | [2.0.4](doc/changelogs/CHANGELOG_2.0.x.md)             | Stable      |
-| 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)             | EOL         |
-| 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)            | EOL 		|
-| 2017-06-30 | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md)            | EOL         |
-| 2016-11-03 | [0.2.28](doc/changelogs/CHANGELOG_0.2.x.md)            | EOL         |
+| Date        | Version                                     | Status      |
+|-------------|---------------------------------------------| ----------- |
+| 2025-10-06  | [2.0.5](doc/changelogs/CHANGELOG_2.0.x.md)  | Stable      |
+| 2019-02-27  | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)  | EOL         |
+| 2018-12-21  | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md) | EOL 		|
+| 2017-06-30  | [0.5.12](doc/changelogs/CHANGELOG_0.5.x.md) | EOL         |
+| 2016-11-03  | [0.2.28](doc/changelogs/CHANGELOG_0.2.x.md) | EOL         |
 
 ### Install
 
