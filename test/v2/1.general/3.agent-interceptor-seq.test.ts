@@ -246,7 +246,7 @@ describe('1.3. Agent interceptor invoke sequence', () => {
       ]);
 
       // console.log('seq 9', seq);
-      expect(IsAgent(Top)).toBeTrue();
+      expect(IsAgent(Top)).toBe(true);
 
       seq = [];
 
@@ -281,7 +281,7 @@ describe('1.3. Agent interceptor invoke sequence', () => {
         'afterTop13-Reflector-2',
       ]);
 
-      expect(IsAgent(Top2)).toBeTrue();
+      expect(IsAgent(Top2)).toBe(true);
     });
   });
 });

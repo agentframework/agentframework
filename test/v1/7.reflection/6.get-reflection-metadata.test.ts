@@ -28,19 +28,19 @@ describe('Reflection get metadata ', () => {
     });
 
     it('Reflector number', () => {
-      expect(() => {
-        Reflector(<any>1);
-      }).toThrowError(AgentFrameworkError, 'NotSupported: Reflector(number) is not supported');
+      const fn = () => Reflector(<any>1);
+      expect(fn).toThrowError(AgentFrameworkError)
+      expect(fn).toThrowError('NotSupported: Reflector(number) is not supported');
     });
     it('Reflector null', () => {
-      expect(() => {
-        Reflector(<any>null);
-      }).toThrowError(AgentFrameworkError, 'NotSupported: Reflector(null) is not supported');
+      const fn = () => Reflector(<any>null);
+      expect(fn).toThrowError(AgentFrameworkError)
+      expect(fn).toThrowError('NotSupported: Reflector(null) is not supported');
     });
     it('Reflector object', () => {
-      expect(() => {
-        Reflector({});
-      }).toThrowError(AgentFrameworkError, 'NotSupported: Reflector(Object {}) is not supported');
+      const fn = () => Reflector({})
+      expect(fn).toThrowError(AgentFrameworkError)
+      expect(fn).toThrowError('NotSupported: Reflector(Object {}) is not supported');
     });
 
     it('Reflector static', () => {
@@ -53,9 +53,9 @@ describe('Reflection get metadata ', () => {
 
     it('Reflector instance', () => {
       const m = new MongoDB();
-      expect(() => {
-        Reflector(m);
-      }).toThrowError(AgentFrameworkError, 'NotSupported: Reflector(MongoDB {}) is not supported');
+      const fn = () => Reflector(m)
+      expect(fn).toThrowError(AgentFrameworkError)
+      expect(fn).toThrowError('NotSupported: Reflector(MongoDB {}) is not supported')
     });
   });
 });

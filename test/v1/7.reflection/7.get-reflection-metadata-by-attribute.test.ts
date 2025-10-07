@@ -17,7 +17,7 @@ class ClassWithTwoInterceptor {
 describe('Reflection get metadata ', () => {
   describe('# should able to', () => {
     it('detect interceptor', () => {
-      expect(Reflect.has(new RandomInterceptor(), 'interceptor')).toBeTrue();
+      expect(Reflect.has(new RandomInterceptor(), 'interceptor')).toBe(true);
     });
 
     it('detect annotations', () => {

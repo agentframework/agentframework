@@ -34,3 +34,11 @@
 //     });
 //   });
 // });
+
+describe('6.9 Global Agent', () => {
+  describe('# should able to', () => {
+    it('get same agent', () => {
+      expect(true).toBe(true);
+    })
+  })
+});

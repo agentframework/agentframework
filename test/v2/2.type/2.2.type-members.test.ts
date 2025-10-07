@@ -62,12 +62,12 @@ class StaticApplication extends BaseStaticApplication {}
 describe('2.2. Type members', () => {
   describe('# should able to', () => {
     it('check type properties', () => {
-      expect(Reflector(StandaloneApplication).hasOwnProperties()).toBeFalse();
-      expect(Reflector(Compiler).hasOwnProperties()).toBeFalse();
-      expect(Reflector(BaseLayer).hasOwnProperties()).toBeTrue();
-      expect(Reflector(MiddleLayer).hasOwnProperties()).toBeTrue();
-      expect(Reflector(Application).hasOwnProperties()).toBeTrue();
-      expect(Reflector(CloudApplication).hasOwnProperties()).toBeFalse();
+      expect(Reflector(StandaloneApplication).hasOwnProperties()).toBe(false);
+      expect(Reflector(Compiler).hasOwnProperties()).toBe(false);
+      expect(Reflector(BaseLayer).hasOwnProperties()).toBe(true);
+      expect(Reflector(MiddleLayer).hasOwnProperties()).toBe(true);
+      expect(Reflector(Application).hasOwnProperties()).toBe(true);
+      expect(Reflector(CloudApplication).hasOwnProperties()).toBe(false);
     });
 
     it('get non-exists type meta', () => {
@@ -81,10 +81,10 @@ describe('2.2. Type members', () => {
       );
       expect(ctorOfStandaloneApplication.type).toBe(StandaloneApplication);
       expect(ctorOfStandaloneApplication.declaringType).toBe(StandaloneApplication);
-      expect(ctorOfStandaloneApplication.hasOwnAttribute()).toBeFalse();
+      expect(ctorOfStandaloneApplication.hasOwnAttribute()).toBe(false);
       expect(ctorOfStandaloneApplication.parameter(0).type).toBeUndefined();
       ctorOfStandaloneApplication.addAttribute({});
-      expect(ctorOfStandaloneApplication.hasOwnAttribute()).toBeTrue();
+      expect(ctorOfStandaloneApplication.hasOwnAttribute()).toBe(true);
     });
 
     it('get non-exists property', () => {
@@ -93,10 +93,10 @@ describe('2.2. Type members', () => {
       expect(statusPropertyOfCloudApplication.descriptor).toBeUndefined();
       expect(statusPropertyOfCloudApplication.declaringType).toBe(StandaloneApplication);
       expect(statusPropertyOfCloudApplication.type).toBeUndefined();
-      expect(statusPropertyOfCloudApplication.hasOwnAttribute()).toBeFalse();
+      expect(statusPropertyOfCloudApplication.hasOwnAttribute()).toBe(false);
       expect(statusPropertyOfCloudApplication.parameter(0).type).toBeUndefined();
       statusPropertyOfCloudApplication.addAttribute({});
-      expect(statusPropertyOfCloudApplication.hasOwnAttribute()).toBeTrue();
+      expect(statusPropertyOfCloudApplication.hasOwnAttribute()).toBe(true);
       expect(statusPropertyOfCloudApplication.descriptor).toBeUndefined();
     });
 
@@ -226,7 +226,7 @@ describe('2.2. Type members', () => {
         @decorateMember({ a: 1 })
         static run() {}
       }
-      expect(Reflector(StaticMemberTest22).static.property('run').hasOwnAttribute()).toBeTrue();
+      expect(Reflector(StaticMemberTest22).static.property('run').hasOwnAttribute()).toBe(true);
     });
 
     it('add attribute to constructor', () => {
@@ -236,7 +236,7 @@ describe('2.2. Type members', () => {
       expect(Reflector(ClassTest22).version).toBe(0);
       expect(Reflector(ClassTest22).property('constructor').version).toBe(0);
       Reflector(ClassTest22).property('constructor').addAttribute({ id: 'ClassTest22' });
-      expect(Reflector(ClassTest22).hasOwnAttribute()).toBeTrue();
+      expect(Reflector(ClassTest22).hasOwnAttribute()).toBe(true);
       expect(Reflector(ClassTest22).version).toBe(0);
       expect(Reflector(ClassTest22).property('constructor').version).toBe(1);
     });

@@ -25,11 +25,11 @@ class MongoDB {
 describe('Initializer in Parameter', () => {
   describe('# should able to', () => {
     it('detect agent', () => {
-      expect(IsAgent(MongoDB)).toBeTrue();
+      expect(IsAgent(MongoDB)).toBe(true);
     });
 
     it('re-upgrade agent', () => {
-      expect(IsAgent(CreateAgent(MongoDB))).toBeTrue();
+      expect(IsAgent(CreateAgent(MongoDB))).toBe(true);
     });
 
     it('new instance', () => {

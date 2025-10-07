@@ -48,7 +48,7 @@ describe('2.5. Type parameters', () => {
   describe('# should able to', () => {
     it('get constructor parameters', () => {
       const type = Reflector(Data251);
-      expect(type.hasOwnInterceptor()).toBeFalse();
+      expect(type.hasOwnInterceptor()).toBe(false);
 
       const param0 = type.parameter(0);
       expect(param0).toBeTruthy();
@@ -59,9 +59,9 @@ describe('2.5. Type parameters', () => {
         expect(param0.key).toBe('constructor');
         expect(param0.index).toBe(0);
         expect(param0.name).toBe('0');
-        expect(param0.hasOwnInterceptor()).toBeFalse();
+        expect(param0.hasOwnInterceptor()).toBe(false);
         // expect(param0.descriptor).toBeUndefined();
-        // expect(param0.hasInterceptor()).toBeFalse();
+        // expect(param0.hasInterceptor()).toBe(false);
         // expect(param0.getParameters()).toBeInstanceOf(Array);
         // expect(param0.getParameters().length).toBe(0);
       }
@@ -77,7 +77,7 @@ describe('2.5. Type parameters', () => {
         // expect(param0.key).toBe('model');
         // expect(param0.name).toBe('model');
         // expect(param0.descriptor).toBeUndefined();
-        // expect(param0.hasInterceptor()).toBeFalse();
+        // expect(param0.hasInterceptor()).toBe(false);
         // expect(param0.getParameters()).toBeInstanceOf(Array);
         // expect(param0.getParameters().length).toBe(0);
       }
@@ -93,7 +93,7 @@ describe('2.5. Type parameters', () => {
       //   expect(modelField.name).toBe('stop');
       //   expect(modelField.key).toBe('stop');
       //   expect(modelField.descriptor).toBeInstanceOf(Object);
-      //   expect(modelField.hasInterceptor()).toBeFalse();
+      //   expect(modelField.hasInterceptor()).toBe(false);
       //   expect(modelField.getParameters()).toBeInstanceOf(Array);
       //   expect(modelField.getParameters().length).toBe(0);
       // }
@@ -109,8 +109,8 @@ describe('2.5. Type parameters', () => {
     //     expect(resetMethod.name).toBe('reset');
     //     expect(resetMethod.key).toBe('reset');
     //     expect(resetMethod.descriptor).toBeInstanceOf(Object);
-    //     expect(resetMethod.hasInterceptor()).toBeFalse();
-    //     expect(resetMethod.hasParameterInterceptor()).toBeFalse();
+    //     expect(resetMethod.hasInterceptor()).toBe(false);
+    //     expect(resetMethod.hasParameterInterceptor()).toBe(false);
     //     expect(resetMethod.getParameters()).toBeInstanceOf(Array);
     //     expect(resetMethod.getParameters().length).toBe(0);
     //   }
@@ -126,8 +126,8 @@ describe('2.5. Type parameters', () => {
     //     expect(runMethod.type).toBeUndefined();
     //     expect(runMethod.descriptor).toBeInstanceOf(Object);
     //     expect(runMethod.kind).toBe(MemberKinds.Property | MemberKinds.Method);
-    //     expect(runMethod.hasInterceptor()).toBeTrue();
-    //     expect(runMethod.hasParameterInterceptor()).toBeTrue();
+    //     expect(runMethod.hasInterceptor()).toBe(true);
+    //     expect(runMethod.hasParameterInterceptor()).toBe(true);
     //     expect(runMethod.getParameters()).toBeInstanceOf(Array);
     //     expect(runMethod.getParameters().length).toBe(1);
     //   }

@@ -90,19 +90,19 @@ describe('3.6. Get parameter attributes', () => {
 
     it('check interceptor', () => {
       const type = Reflector(UserController34);
-      expect(type.property('listAllUser').hasInterceptor()).toBeFalse();
-      expect(type.property('listAllUser').hasOwnInterceptor()).toBeFalse();
-      expect(type.property('getUser').hasInterceptor()).toBeTrue();
-      expect(type.property('getUser').hasOwnInterceptor()).toBeFalse();
+      expect(type.property('listAllUser').hasInterceptor()).toBe(false);
+      expect(type.property('listAllUser').hasOwnInterceptor()).toBe(false);
+      expect(type.property('getUser').hasInterceptor()).toBe(true);
+      expect(type.property('getUser').hasOwnInterceptor()).toBe(false);
 
-      expect(type.hasInterceptor()).toBeFalse();
-      expect(type.hasOwnInterceptor()).toBeFalse();
+      expect(type.hasInterceptor()).toBe(false);
+      expect(type.hasOwnInterceptor()).toBe(false);
 
-      expect(Reflector(Controller34).hasInterceptor()).toBeTrue(); // has parameter interceptor
-      expect(Reflector(Controller34).hasOwnInterceptor()).toBeFalse(); // don't have ctor interceptor
+      expect(Reflector(Controller34).hasInterceptor()).toBe(true); // has parameter interceptor
+      expect(Reflector(Controller34).hasOwnInterceptor()).toBe(false); // don't have ctor interceptor
 
-      expect(Reflector(Base34).hasInterceptor()).toBeFalse();
-      expect(Reflector(Base34).hasOwnInterceptor()).toBeFalse();
+      expect(Reflector(Base34).hasInterceptor()).toBe(false);
+      expect(Reflector(Base34).hasOwnInterceptor()).toBe(false);
     });
 
     it('get parameter types', () => {
@@ -121,13 +121,13 @@ describe('3.6. Get parameter attributes', () => {
       expect(property.getParameters().length).toBe(1);
 
       expect(property.parameter(0).type).toBe(UserRepository);
-      expect(property.parameter(0).hasOwnAttribute()).toBeFalse();
+      expect(property.parameter(0).hasOwnAttribute()).toBe(false);
       expect(property.parameter(0).findOwnAttributes((a) => a instanceof InjectAttribute)).toEqual([]);
       expect(property.parameter(0).getOwnAttribute(InjectAttribute)).toBeUndefined();
       expect(property.parameter(0).getOwnAttributes(InjectAttribute)).toEqual([]);
 
       expect(property.parameter(1).type).toBe(Object);
-      expect(property.parameter(1).hasOwnAttribute()).toBeTrue();
+      expect(property.parameter(1).hasOwnAttribute()).toBe(true);
       expect(property.parameter(1).findOwnAttributes((a) => a instanceof OptionalAttribute).length).toBe(1);
       expect(property.parameter(1).getOwnAttribute(OptionalAttribute)).toBeInstanceOf(OptionalAttribute);
       expect(property.parameter(1).getOwnAttributes(OptionalAttribute).length).toBe(1);

@@ -25,13 +25,13 @@ describe('Core @transit() decorator', () => {
 
       // test metadata
       const property = Reflector(CoreTransitDecoratorApp1).property('service');
-      expect(property.hasOwnAttribute()).toBeTrue();
-      expect(property.hasOwnAttribute(TransitAttribute)).toBeTrue();
+      expect(property.hasOwnAttribute()).toBe(true);
+      expect(property.hasOwnAttribute(TransitAttribute)).toBe(true);
       expect(property.getOwnAttributes().length).toBe(1);
       expect(property.getOwnAttribute(TransitAttribute)).toBeInstanceOf(TransitAttribute);
       expect(property.getOwnAttribute(TransitAttribute)!.type).toBeUndefined();
-      expect(property.hasOwnInterceptor()).toBeTrue();
-      expect(property.hasOwnInterceptor()).toBeTrue();
+      expect(property.hasOwnInterceptor()).toBe(true);
+      expect(property.hasOwnInterceptor()).toBe(true);
     });
   });
 

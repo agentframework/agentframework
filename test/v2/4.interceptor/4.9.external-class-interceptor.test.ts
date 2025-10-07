@@ -41,7 +41,7 @@ describe('4.9. External interceptor', () => {
         }
       }
 
-      expect(Reflector(Class491).property('Method491').hasOwnInterceptor()).toBeTrue();
+      expect(Reflector(Class491).property('Method491').hasOwnInterceptor()).toBe(true);
 
       const instance = new Class491(7.5);
       expect(instance).toBeInstanceOf(Class491);
@@ -72,7 +72,7 @@ describe('4.9. External interceptor', () => {
         }
       }
 
-      expect(Reflector(Class492).property('Method492').hasOwnInterceptor()).toBeTrue();
+      expect(Reflector(Class492).property('Method492').hasOwnInterceptor()).toBe(true);
 
       const instance = new Class492(7.5);
       expect(instance).toBeInstanceOf(Class492);
@@ -95,7 +95,7 @@ describe('4.9. External interceptor', () => {
         }
       }
 
-      expect(Reflector(Class493).property('Method493').hasOwnInterceptor()).toBeFalse();
+      expect(Reflector(Class493).property('Method493').hasOwnInterceptor()).toBe(false);
 
       const instance = new Class493(7.5);
       expect(instance).toBeInstanceOf(Class493);

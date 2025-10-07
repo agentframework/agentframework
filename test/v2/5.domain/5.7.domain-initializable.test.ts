@@ -206,11 +206,11 @@ describe('5.7. Domain @initializable decorator', () => {
 
       const app1 = domain.resolveAsync(App575);
       const app2 = domain.resolveAsync(App575);
-      expect(app1 === app2).toBeFalse();
+      expect(app1 === app2).toBe(false);
       domain.dispose();
       const a1 = await app1;
       const a2 = await app2;
-      expect(a1 === a2).toBeTrue();
+      expect(a1 === a2).toBe(true);
       expect(a1.name1).toBe('App575$');
     });
 
@@ -238,10 +238,10 @@ describe('5.7. Domain @initializable decorator', () => {
 
       const promise1 = domain.resolveAsync(App576);
       const promise2 = domain.resolveAsync(App576);
-      expect(promise1 === promise2).toBeFalse();
+      expect(promise1 === promise2).toBe(false);
       const a1 = await promise1;
       const a2 = await promise2;
-      expect(a1 === a2).toBeTrue();
+      expect(a1 === a2).toBe(true);
       expect(a1.name1).toBe('App576$');
       domain.dispose();
       expect(a1.name1).toBeUndefined();

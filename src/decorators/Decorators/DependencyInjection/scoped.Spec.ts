@@ -25,13 +25,13 @@ describe('Core @scoped() decorator', () => {
 
       // test metadata
       const property = Reflector(CoreScopedDecoratorApp1).property('service');
-      expect(property.hasOwnAttribute()).toBeTrue();
-      expect(property.hasOwnAttribute(ScopedAttribute)).toBeTrue();
+      expect(property.hasOwnAttribute()).toBe(true);
+      expect(property.hasOwnAttribute(ScopedAttribute)).toBe(true);
       expect(property.getOwnAttributes().length).toBe(1);
       expect(property.getOwnAttribute(ScopedAttribute)).toBeInstanceOf(ScopedAttribute);
       expect(property.getOwnAttribute(ScopedAttribute)!.type).toBeUndefined();
-      expect(property.hasOwnInterceptor()).toBeTrue();
-      expect(property.hasOwnInterceptor()).toBeTrue();
+      expect(property.hasOwnInterceptor()).toBe(true);
+      expect(property.hasOwnInterceptor()).toBe(true);
     });
 
     it('create agent with @scoped()', () => {
@@ -60,13 +60,13 @@ describe('Core @scoped() decorator', () => {
 
       // test metadata
       const property = Reflector(CoreScopedDecoratorApp2).property('service');
-      expect(property.hasOwnAttribute()).toBeTrue();
-      expect(property.hasOwnAttribute(ScopedAttribute)).toBeTrue();
+      expect(property.hasOwnAttribute()).toBe(true);
+      expect(property.hasOwnAttribute(ScopedAttribute)).toBe(true);
       expect(property.getOwnAttributes().length).toBe(1);
       expect(property.getOwnAttribute(ScopedAttribute)).toBeInstanceOf(ScopedAttribute);
       expect(property.getOwnAttribute(ScopedAttribute)!.type).toBeUndefined();
-      expect(property.hasOwnInterceptor()).toBeTrue();
-      expect(property.hasOwnInterceptor()).toBeTrue();
+      expect(property.hasOwnInterceptor()).toBe(true);
+      expect(property.hasOwnInterceptor()).toBe(true);
     });
   });
 

@@ -41,7 +41,7 @@ describe('3.2. Get class attribute', () => {
 
     it('check attribute', () => {
       const type = Reflector(UserController321);
-      expect(type.hasOwnAttribute(ControllerAttribute)).toBeTrue();
+      expect(type.hasOwnAttribute(ControllerAttribute)).toBe(true);
     });
 
     it('get attribute', () => {
@@ -92,7 +92,7 @@ describe('3.2. Get class attribute', () => {
     it('get annotated properties', () => {
       const type = Reflector(UserController321);
       // no annotated property in UserController
-      expect(type.hasOwnProperties()).toBeFalse();
+      expect(type.hasOwnProperties()).toBe(false);
     });
   });
 });

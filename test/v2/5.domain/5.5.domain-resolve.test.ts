@@ -141,8 +141,8 @@ describe('5.5. Domain resolve', () => {
         }
 
         const domain = new InMemoryDomain();
-        await expectAsync(domain.resolveAsync(Async)).toBeResolved();
-        await expectAsync(domain.resolveAsync(Pending)).toBeResolved();
+        await expectAsync(domain.resolveAsync(Async)).toBeResolved()
+        await expectAsync(domain.resolveAsync(Pending)).toBeResolved()
         domain.dispose();
       });
     });

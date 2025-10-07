@@ -36,12 +36,16 @@ An elegant & efficient TypeScript metaprogramming API to build <a target="_blank
 | TypeScript 3.x | 3.9.7, 3.8.3, 3.7.5, 3.6.5, 3.5.1, 3.4.5, 3.3.4000, 3.2.4, 3.1.6, 3.0.3 |
 
 
+5.9.3
+5.8.2
+5.7.3
+5.6.3
 
 ## Changelog
 
 | Date       | Version                                                | Status      |
-| ---------- | ------------------------------------------------------ | ----------- |
-| 2022-07-20 | [2.1.2](doc/changelogs/CHANGELOG_2.1.x.md)             | Stable      |
+|------------| ------------------------------------------------------ | ----------- |
+| 2025-10-06 | [2.1.2](doc/changelogs/CHANGELOG_2.1.x.md)             | Stable      |
 | 2024-08-21 | [2.0.4](doc/changelogs/CHANGELOG_2.0.x.md)           | Maintenance |
 | 2019-02-27 | [1.0.0](doc/changelogs/CHANGELOG_1.0.x.md)             | EOL         |
 | 2018-12-21 | [0.9.23](doc/changelogs/CHANGELOG_0.9.x.md)            | EOL 		|

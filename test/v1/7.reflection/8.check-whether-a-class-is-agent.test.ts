@@ -28,7 +28,7 @@ describe('Reflection Helper', () => {
     });
 
     it('get origin type of an agent', () => {
-      expect(IsAgent(AgentClass)).toBeTrue();
+      expect(IsAgent(AgentClass)).toBe(true);
       const a = GetType(AgentClass);
       expect(a).toBeDefined();
       expect(a).not.toBe(AgentClass);

@@ -16,7 +16,7 @@ describe('3.5. Set class method attribute', () => {
       /*** user code end ***/
       const parameter = Reflector(MyController351).property('listAllUser').parameter(0);
 
-      expect(parameter.hasOwnAttribute()).toBeTrue();
+      expect(parameter.hasOwnAttribute()).toBe(true);
       const mandatoryAttribute = parameter.getOwnAttribute(MandatoryAttribute);
       expect(mandatoryAttribute).toBeTruthy();
       expect(mandatoryAttribute).toBeInstanceOf(MandatoryAttribute);

@@ -23,7 +23,7 @@ describe('5.10. @transit decorator', () => {
       expect(app.service2).toBeInstanceOf(Service5101);
       expect(app.service2).not.toBe(app.service);
 
-      expect(Reflector(App5101).property('service').hasOwnAttribute()).toBeTrue();
+      expect(Reflector(App5101).property('service').hasOwnAttribute()).toBe(true);
     });
 
     it('create agent with domain', () => {
@@ -48,8 +48,7 @@ describe('5.10. @transit decorator', () => {
     });
 
     it('create agent without Domain', () => {
-      class Service5103 {
-      }
+      class Service5103 {}
 
       class App5103 {
         @transit()
@@ -74,15 +73,10 @@ describe('5.10. @transit decorator', () => {
       expect(app626.service).toBeInstanceOf(Service5103);
       expect(app626.service2).toBeInstanceOf(Service5103);
       expect(app626.service2).not.toBe(app626b.service);
-
     });
-
   });
 
   describe('# should not able to', () => {
-
-
-
     it('create transit agent with unknown type', () => {
       @agent()
       class App5104 {
@@ -98,8 +92,7 @@ describe('5.10. @transit decorator', () => {
     });
 
     it('modify transit value', () => {
-      class Service5105 {
-      }
+      class Service5105 {}
 
       @agent()
       class App5105 {
@@ -109,9 +102,10 @@ describe('5.10. @transit decorator', () => {
 
       const app = new App5105();
 
-      expect(() => {
+      const fn = () => {
         app.service = new Service5105();
-      }).toThrowError('NotAllowModifyTransitVariable');
+      };
+      expect(fn).toThrowError('NotAllowModifyTransitVariable');
     });
   });
 });

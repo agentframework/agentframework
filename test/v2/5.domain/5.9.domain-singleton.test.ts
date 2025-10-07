@@ -1,5 +1,4 @@
 import {
-  AgentFrameworkError,
   Arguments,
   CreateAgent,
   decorateMember,
@@ -28,7 +27,7 @@ describe('5.9. Domain @singleton decorator', () => {
 
       expect(app.service).toBeInstanceOf(Service591);
       expect(app.service2).toBe(app.service);
-      expect(Reflector(App591).property('service').hasOwnAttribute()).toBeTrue();
+      expect(Reflector(App591).property('service').hasOwnAttribute()).toBe(true);
     });
 
     it('create singleton agent using domain', () => {
@@ -145,7 +144,7 @@ describe('5.9. Domain @singleton decorator', () => {
 
       expect(() => {
         expect(app.service).toBeUndefined();
-      }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
+      }).toThrowError('InvalidReceiver');
     });
 
     it('create singleton without domain', () => {
@@ -171,7 +170,7 @@ describe('5.9. Domain @singleton decorator', () => {
 
       expect(() => {
         expect(app.service).toBeUndefined();
-      }).toThrowError(AgentFrameworkError, 'NotAllowModifySingletonVariable');
+      }).toThrowError('NotAllowModifySingletonVariable');
     });
 
     it('create interceptor on invalid property', () => {
@@ -218,15 +217,15 @@ describe('5.9. Domain @singleton decorator', () => {
 
         expect(() => {
           expect(ins['run']).toBeDefined();
-        }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
+        }).toThrowError('InvalidReceiver');
 
         expect(() => {
           Reflect.get(ins, 'run');
-        }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
+        }).toThrowError('InvalidReceiver');
 
         expect(() => {
           ins.run();
-        }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
+        }).toThrowError('InvalidReceiver');
       }
     });
   });

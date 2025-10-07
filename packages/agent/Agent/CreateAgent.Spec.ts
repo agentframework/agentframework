@@ -64,7 +64,7 @@ describe('Compiler', () => {
 
     it('create using custom factory', () => {
       const MongoDB$ = CreateAgent(MongoDB, new CustomAgentAttribute());
-      expect(IsAgent(MongoDB$)).toBeTrue();
+      expect(IsAgent(MongoDB$)).toBe(true);
       const db = new MongoDB$();
       expect(db).toBeInstanceOf(MongoDB);
       expect(db).toBeInstanceOf(MongoDB$);
@@ -72,7 +72,7 @@ describe('Compiler', () => {
 
     it('create using decorator', () => {
       const MySQL$ = CreateAgent(MySQLAgent);
-      expect(IsAgent(MySQL$)).toBeTrue();
+      expect(IsAgent(MySQL$)).toBe(true);
       const db = new MySQL$();
       expect(db).not.toBeInstanceOf(MySQLAgent); // MySQLAgent here is another agent
       expect(db).toBeInstanceOf(MySQL$);
@@ -81,10 +81,10 @@ describe('Compiler', () => {
     it('create using custom decorator', () => {
       const Redis$ = CreateAgent(Redis, new CustomAgentAttribute());
       const db = new Redis$();
-      expect(IsAgent(db)).toBeFalse();
-      expect(IsAgent(Reflect.getPrototypeOf(db)!)).toBeTrue();
-      expect(IsAgent(Redis$)).toBeTrue();
-      expect(IsAgent(Reflect.getPrototypeOf(Redis$)!)).toBeFalse();
+      expect(IsAgent(db)).toBe(false);
+      expect(IsAgent(Reflect.getPrototypeOf(db)!)).toBe(true);
+      expect(IsAgent(Redis$)).toBe(true);
+      expect(IsAgent(Reflect.getPrototypeOf(Redis$)!)).toBe(false);
       expect(db).toBeInstanceOf(Redis);
       expect(db).toBeInstanceOf(Redis$);
       expect(Redis$.prototype).toBeInstanceOf(Redis);
@@ -95,13 +95,13 @@ describe('Compiler', () => {
     it('new create agent without name', () => {
       expect((): any => {
         CreateAgent(NoNameRedis);
-      }).toThrowError('InvalidTypeName');
+      }).toThrow('InvalidTypeName');
     });
 
     it('create using invalid factory', () => {
       expect((): any => {
         CreateAgent(MongoDB, new InvalidCustomAgentAttribute());
-      }).toThrowError('InvalidAgentStrategy');
+      }).toThrow('InvalidAgentStrategy');
     });
   });
 });

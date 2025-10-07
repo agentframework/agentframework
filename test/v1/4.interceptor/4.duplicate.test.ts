@@ -22,11 +22,11 @@ class Calculator extends Base {
 describe('Duplicate Interceptors', () => {
   describe('# should able to', () => {
     it('define agent', () => {
-      expect(IsAgent(Calculator)).toBeTrue();
+      expect(IsAgent(Calculator)).toBe(true);
     });
 
     it('re-upgrade agent', () => {
-      expect(IsAgent(CreateAgent(Calculator))).toBeTrue();
+      expect(IsAgent(CreateAgent(Calculator))).toBe(true);
     });
   });
 });

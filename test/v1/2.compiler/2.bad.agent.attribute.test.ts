@@ -48,7 +48,7 @@ describe('Compiler got Bad AgentAttribute', () => {
   describe('# should able to', () => {
     it('create agent', () => {
       const MongoDB$ = CreateAgent(MongoDB, new AgentBadInterceptorAttribute());
-      expect(IsAgent(MongoDB$)).toBeTrue();
+      expect(IsAgent(MongoDB$)).toBe(true);
       const mongo = new MongoDB$();
       expect(mongo).toBeInstanceOf(MongoDB);
     });

@@ -18,7 +18,7 @@
     "stripInternal": true,
     "baseUrl": "./",
     "paths": {
-      "agentframework": ["lib/index"],
+      "agentframework": ["./lib/index"],
       "@agentframework/*": ["./packages/dependencies/*"]
     }
   },

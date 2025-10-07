@@ -13,11 +13,11 @@ class PostgreSQL {
 describe('Invalid Initializer', () => {
   describe('# should able to', () => {
     it('detect agent', () => {
-      expect(IsAgent(PostgreSQL)).toBeTrue();
+      expect(IsAgent(PostgreSQL)).toBe(true);
     });
 
     it('re-upgrade agent', () => {
-      expect(IsAgent(CreateAgent(PostgreSQL))).toBeTrue();
+      expect(IsAgent(CreateAgent(PostgreSQL))).toBe(true);
     });
 
     it('get inject attribute', () => {

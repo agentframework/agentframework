@@ -105,12 +105,12 @@
 //       const fuel = domain.construct(MixedRocketFuel, ['LOX', 'RP-1']);
 //
 //       const fc = domain.construct(Falcon);
-//       expect(fc instanceof Falcon).toBeTrue();
+//       expect(fc instanceof Falcon).toBe(true);
 //       expect(fc.fuel).toBe(fuel);
 //       expect(fc.tags).toEqual(['rocket', 'heavy', 'falcon']);
 //
 //       const dg = domain.construct(Dragon);
-//       expect(dg instanceof Dragon).toBeTrue();
+//       expect(dg instanceof Dragon).toBe(true);
 //       expect(dg.fuel).toBe(fuel);
 //       expect(dg.tags).toEqual(['cargo', 'passenger', 'dragon']);
 //     });

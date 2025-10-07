@@ -10,8 +10,7 @@ describe('5.13. Domain dispose', () => {
     });
 
     it('dispose domain with agent', () => {
-      class Agent513B {
-      }
+      class Agent513B {}
 
       const domain = new InMemoryDomain();
       domain.resolve(Agent513B);
@@ -47,25 +46,28 @@ describe('5.13. Domain dispose', () => {
       domain.dispose();
     });
 
-    it('dispose domain with disposable slow agent', (done) => {
-      @initializable()
-      class Agent513E {
-        static [Initializer](target: TypeInvocation, params: Arguments, receiver: Function) {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              resolve(target.invoke(params, receiver));
-            }, 0);
-          });
-        }
+    it('dispose domain with disposable slow agent', () => {
+      expectAsync(
+        new Promise<void>((resolve) => {
+          @initializable()
+          class Agent513E {
+            static [Initializer](target: TypeInvocation, params: Arguments, receiver: Function) {
+              return new Promise((resolve) => {
+                setTimeout(() => {
+                  resolve(target.invoke(params, receiver));
+                }, 0);
+              });
+            }
 
-        dispose() {
-          done();
-        }
-      }
-
-      const domain = new InMemoryDomain();
-      domain.resolveAsync(Agent513E);
-      domain.dispose();
+            dispose() {
+              resolve();
+            }
+          }
+          const domain = new InMemoryDomain();
+          domain.resolveAsync(Agent513E);
+          domain.dispose();
+        }),
+      ).toBeResolved();
     });
   });
 });

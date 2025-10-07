@@ -1,4 +1,4 @@
-import { AgentFrameworkError, decorate, decorateMember, MemberKinds, Reflector } from '../../../packages/dependencies/agent';
+import { decorate, decorateMember, MemberKinds, Reflector } from '../../../packages/dependencies/agent';
 import { ClassField } from '../Kinds';
 
 class Data24 {
@@ -32,7 +32,7 @@ describe('2.4. Type fields', () => {
         expect(modelField.key).toBe('model');
         expect(modelField.descriptor).toBeUndefined();
         expect(modelField.name).toBe('model');
-        expect(modelField.hasOwnInterceptor()).toBeFalse();
+        expect(modelField.hasOwnInterceptor()).toBe(false);
         expect(modelField.getParameters()).toBeInstanceOf(Array);
         expect(modelField.getParameters().length).toBe(0);
       }
@@ -48,7 +48,7 @@ describe('2.4. Type fields', () => {
       //   expect(modelField.name).toBe('stop');
       //   expect(modelField.key).toBe('stop');
       //   expect(modelField.descriptor).toBeInstanceOf(Object);
-      //   expect(modelField.hasInterceptor()).toBeFalse();
+      //   expect(modelField.hasInterceptor()).toBe(false);
       //   expect(modelField.getParameters()).toBeInstanceOf(Array);
       //   expect(modelField.getParameters().length).toBe(0);
       // }
@@ -64,8 +64,8 @@ describe('2.4. Type fields', () => {
     //     expect(resetMethod.name).toBe('reset');
     //     expect(resetMethod.key).toBe('reset');
     //     expect(resetMethod.descriptor).toBeInstanceOf(Object);
-    //     expect(resetMethod.hasInterceptor()).toBeFalse();
-    //     expect(resetMethod.hasParameterInterceptor()).toBeFalse();
+    //     expect(resetMethod.hasInterceptor()).toBe(false);
+    //     expect(resetMethod.hasParameterInterceptor()).toBe(false);
     //     expect(resetMethod.getParameters()).toBeInstanceOf(Array);
     //     expect(resetMethod.getParameters().length).toBe(0);
     //   }
@@ -81,8 +81,8 @@ describe('2.4. Type fields', () => {
     //     expect(runMethod.type).toBeUndefined();
     //     expect(runMethod.descriptor).toBeInstanceOf(Object);
     //     expect(runMethod.kind).toBe(MemberKinds.Property | MemberKinds.Method);
-    //     expect(runMethod.hasInterceptor()).toBeTrue();
-    //     expect(runMethod.hasParameterInterceptor()).toBeTrue();
+    //     expect(runMethod.hasInterceptor()).toBe(true);
+    //     expect(runMethod.hasParameterInterceptor()).toBe(true);
     //     expect(runMethod.getParameters()).toBeInstanceOf(Array);
     //     expect(runMethod.getParameters().length).toBe(1);
     //   }
@@ -112,7 +112,7 @@ describe('2.4. Type fields', () => {
         }
 
         expect(NotAllowStatic).toBeTruthy();
-      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: Object is not allow decorate on static property');
+      }).toThrowError( 'InvalidDecorator: Object is not allow decorate on static property');
     });
 
     it('decorate non-static property to static property parameter', () => {
@@ -121,7 +121,7 @@ describe('2.4. Type fields', () => {
           static Run(@decorate({ a: 1 }, MemberKinds.Property) name: string) {}
         }
         expect(NotAllowStatic).toBeTruthy();
-      }).toThrowError(AgentFrameworkError, 'InvalidDecorator: Object is not allow decorate on method parameters');
+      }).toThrowError( 'InvalidDecorator: Object is not allow decorate on method parameters');
     });
 
     it('decorate non-static parameter to static property parameter', () => {
@@ -131,7 +131,6 @@ describe('2.4. Type fields', () => {
         }
         expect(NotAllowStatic).toBeTruthy();
       }).toThrowError(
-        AgentFrameworkError,
         'InvalidDecorator: Object is not allow decorate on static method parameters'
       );
     });

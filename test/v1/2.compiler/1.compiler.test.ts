@@ -37,10 +37,10 @@ class MySQL extends Database {
 describe('Compiler', () => {
   describe('# should able to', () => {
     it('create from plain class', () => {
-      expect(IsAgent(MongoDB)).toBeFalse();
+      expect(IsAgent(MongoDB)).toBe(false);
       expect(GetAgentType(MongoDB)).toBeUndefined()
       const MongoDB$ = CreateAgent(MongoDB);
-      expect(IsAgent(MongoDB$)).toBeTrue();
+      expect(IsAgent(MongoDB$)).toBe(true);
       expect(GetAgentType(MongoDB$)).toBe(MongoDB)
 
       const db = new MongoDB$();
@@ -51,14 +51,14 @@ describe('Compiler', () => {
     });
 
     it('create from agent', () => {
-      expect(IsAgent(MySQL)).toBeTrue();
+      expect(IsAgent(MySQL)).toBe(true);
       const $MySQL = GetAgentType(MySQL);
       expect($MySQL).toBeInstanceOf(Function);
       expect($MySQL).not.toBe(MySQL);
       const MySQL$ = CreateAgent(MySQL);
-      expect(IsAgent(MySQL$)).toBeTrue();
-      expect(IsAgent(MySQL)).toBeTrue();
-      expect(IsAgent(GetAgentType(MySQL) || MySQL)).toBeFalse();
+      expect(IsAgent(MySQL$)).toBe(true);
+      expect(IsAgent(MySQL)).toBe(true);
+      expect(IsAgent(GetAgentType(MySQL) || MySQL)).toBe(false);
       const db = new MySQL$();
       expect(db).not.toBeInstanceOf(MySQL);
       expect(db).toBeInstanceOf(MySQL$);

@@ -129,10 +129,10 @@ describe('2.1. Type', () => {
     });
 
     // it('check constructor parameter', () => {
-    //   expect(Reflector(Application).hasParameterInterceptor()).toBeFalse();
-    //   expect(Reflector(MiddleLayer).hasParameterInterceptor()).toBeTrue();
-    //   expect(Reflector(BaseLayer).hasParameterInterceptor()).toBeFalse();
-    //   expect(Reflector(Compiler).hasParameterInterceptor()).toBeFalse();
+    //   expect(Reflector(Application).hasParameterInterceptor()).toBe(false);
+    //   expect(Reflector(MiddleLayer).hasParameterInterceptor()).toBe(true);
+    //   expect(Reflector(BaseLayer).hasParameterInterceptor()).toBe(false);
+    //   expect(Reflector(Compiler).hasParameterInterceptor()).toBe(false);
     // });
 
     it('get constructor parameter', () => {
@@ -209,10 +209,10 @@ describe('2.1. Type', () => {
       const types = Reflector(CloudApplication).findTypes();
       expect(types).toBeInstanceOf(Array);
       expect(types.length).toBe(4);
-      expect(types[0].hasOwnInterceptor()).toBeFalse(); // BaseLayer
-      expect(types[1].hasOwnInterceptor()).toBeFalse(); // MiddleLayer
-      expect(types[2].hasOwnInterceptor()).toBeTrue(); // Application
-      expect(types[3].hasOwnInterceptor()).toBeFalse(); // CloudApplication
+      expect(types[0].hasOwnInterceptor()).toBe(false); // BaseLayer
+      expect(types[1].hasOwnInterceptor()).toBe(false); // MiddleLayer
+      expect(types[2].hasOwnInterceptor()).toBe(true); // Application
+      expect(types[3].hasOwnInterceptor()).toBe(false); // CloudApplication
     });
 
     it('annotate static method', () => {
@@ -222,7 +222,7 @@ describe('2.1. Type', () => {
         }
       }
 
-      expect(Reflector(TempClass21).static.hasOwnProperties()).toBeTrue();
+      expect(Reflector(TempClass21).static.hasOwnProperties()).toBe(true);
     });
 
     it('annotate static method parameter', () => {

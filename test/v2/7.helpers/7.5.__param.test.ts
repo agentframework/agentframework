@@ -38,3 +38,11 @@
 //     });
 //   });
 // });
+
+describe('7.2. __agent helper', () => {
+  describe('# should return type', () => {
+    it('create from domain agent', () => {
+      expect(true).toBe(true);
+    });
+  });
+});

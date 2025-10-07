@@ -23,7 +23,7 @@ describe('5.8. Domain @inject decorator', () => {
       expect(app.service).toBe(service);
       expect(app.service).toBe(service); // cached
 
-      expect(Reflector(App581).property('service').hasOwnAttribute()).toBeTrue();
+      expect(Reflector(App581).property('service').hasOwnAttribute()).toBe(true);
     });
 
     it('create inject agent using domain', () => {

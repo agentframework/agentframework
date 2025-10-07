@@ -80,7 +80,7 @@ describe('4.11. Class Initializer', () => {
       const a = new WebRequestIdentity();
       expect(a.status).toBeUndefined();
       const b = GetSystemDomain().resolve(WebRequestIdentity);
-      expect(b.status).toBeTrue();
+      expect(b.status).toBe(true);
     });
   });
 });

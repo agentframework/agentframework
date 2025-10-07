@@ -41,11 +41,11 @@ class Calculator {
 describe('Interceptor', () => {
   describe('# should able to', () => {
     it('detect agent', () => {
-      expect(IsAgent(Calculator)).toBeTrue();
+      expect(IsAgent(Calculator)).toBe(true);
     });
 
     it('re-upgrade agent', () => {
-      expect(IsAgent(CreateAgent(Calculator))).toBeTrue();
+      expect(IsAgent(CreateAgent(Calculator))).toBe(true);
     });
 
     it('new instance', () => {

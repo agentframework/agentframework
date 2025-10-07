@@ -38,8 +38,8 @@ class Redis1611 {
     @decorateParameter(new InjectParameterAttribute()) conn1?: Connection1611,
     @decorateParameter(new InjectParameterAttribute()) conn2?: Connection1611
   ) {
-    expect(conn1 instanceof Connection1611).toBeTrue();
-    expect(conn2 instanceof Connection1611).toBeTrue();
+    expect(conn1 instanceof Connection1611).toBe(true);
+    expect(conn2 instanceof Connection1611).toBe(true);
     expect(conn1).not.toBe(conn2);
     // console.log('Redis(', arguments, ')');
     this.user = user;

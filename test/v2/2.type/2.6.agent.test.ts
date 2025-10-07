@@ -110,7 +110,7 @@ describe('2.6. Agent', () => {
       expect(Agent266).toBeDefined();
       const A = CreateAgent(Agent266);
       expect(A).toBeDefined();
-      expect(IsAgent(A)).toBeTrue();
+      expect(IsAgent(A)).toBe(true);
     });
   });
 

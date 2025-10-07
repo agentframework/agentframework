@@ -27,7 +27,7 @@ describe('6.3. @singleton decorator', () => {
 
       expect(app.service).toBeInstanceOf(Service631);
       expect(app.service2).toBe(app.service);
-      expect(Reflector(App631).property('service').hasOwnAttribute()).toBeTrue();
+      expect(Reflector(App631).property('service').hasOwnAttribute()).toBe(true);
     });
 
     it('create singleton agent using domain', () => {
@@ -112,9 +112,9 @@ describe('6.3. @singleton decorator', () => {
               // console.log('params[0]', params[0], params[0].constructor.toString());
               // expect(params.length).toBe(1);
               // expect(params[0].constructor.name).toBe('Service635$');
-              // expect(IsAgent(params[0].constructor.prototype)).toBeTrue();
-              // expect(IsAgent(params[0].constructor)).toBeTrue();
-              // expect(IsAgent(params[0])).toBeFalse();
+              // expect(IsAgent(params[0].constructor.prototype)).toBe(true);
+              // expect(IsAgent(params[0].constructor)).toBe(true);
+              // expect(IsAgent(params[0])).toBe(false);
               // expect(receiver.constructor.name).toBe('App635$');
               // will throw error next line
               return target.invoke([], undefined);
@@ -127,9 +127,11 @@ describe('6.3. @singleton decorator', () => {
       const Agent: typeof App635 = CreateAgent(App635);
       const app = new Agent();
 
-      expect(() => {
+      const fn = () => {
         expect(app.service).toBeUndefined();
-      }).toThrowError(AgentFrameworkError, 'InvalidReceiver');
+      };
+      expect(fn).toThrowError(AgentFrameworkError)
+      expect(fn).toThrowError('InvalidReceiver')
     });
 
     it('create singleton without domain', () => {
@@ -155,7 +157,7 @@ describe('6.3. @singleton decorator', () => {
       expect(() => {
         expect(app.service).toBeUndefined();
         // this @singleton is from core, so it will not throw error missing domain
-      }).toThrowError(AgentFrameworkError, 'NotAllowModifySingletonVariable');
+      }).toThrowError(AgentFrameworkError, 'NotAllowModifySingletonVariable')
     });
 
     it('create interceptor on invalid property', () => {

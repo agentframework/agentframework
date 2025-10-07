@@ -53,7 +53,7 @@ describe('4.3. field interceptor', () => {
         value?: number;
       }
 
-      expect(IsAgent(Class432)).toBeTrue();
+      expect(IsAgent(Class432)).toBe(true);
 
       const a1 = new Class432();
       expect(a1.value).toBeNaN();
@@ -92,7 +92,7 @@ describe('4.3. field interceptor', () => {
         value?: number;
       }
 
-      expect(IsAgent(Class433)).toBeTrue();
+      expect(IsAgent(Class433)).toBe(true);
 
       const a1 = new Class433();
       a1.value = 3.99;

@@ -26,7 +26,7 @@ class Bar {
 describe('Interceptor on Field', () => {
   describe('# should able to', () => {
     it('define agent', () => {
-      expect(IsAgent(Calculator)).toBeFalse();
+      expect(IsAgent(Calculator)).toBe(false);
       expect(CreateAgent(Calculator)).toBeTruthy();
     });
 

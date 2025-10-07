@@ -25,13 +25,13 @@ describe('Core @singleton() decorator', () => {
 
       // test metadata
       const property = Reflector(CoreSingletonDecoratorApp1).property('service');
-      expect(property.hasOwnAttribute()).toBeTrue();
-      expect(property.hasOwnAttribute(SingletonAttribute)).toBeTrue();
+      expect(property.hasOwnAttribute()).toBe(true);
+      expect(property.hasOwnAttribute(SingletonAttribute)).toBe(true);
       expect(property.getOwnAttributes().length).toBe(1);
       expect(property.getOwnAttribute(SingletonAttribute)).toBeInstanceOf(SingletonAttribute);
       expect(property.getOwnAttribute(SingletonAttribute)!.type).toBeUndefined();
-      expect(property.hasOwnInterceptor()).toBeTrue();
-      expect(property.hasOwnInterceptor()).toBeTrue();
+      expect(property.hasOwnInterceptor()).toBe(true);
+      expect(property.hasOwnInterceptor()).toBe(true);
     });
 
     it('create agent with @singleton()', () => {
@@ -60,13 +60,13 @@ describe('Core @singleton() decorator', () => {
 
       // test metadata
       const property = Reflector(CoreSingletonDecoratorApp2).property('service');
-      expect(property.hasOwnAttribute()).toBeTrue();
-      expect(property.hasOwnAttribute(SingletonAttribute)).toBeTrue();
+      expect(property.hasOwnAttribute()).toBe(true);
+      expect(property.hasOwnAttribute(SingletonAttribute)).toBe(true);
       expect(property.getOwnAttributes().length).toBe(1);
       expect(property.getOwnAttribute(SingletonAttribute)).toBeInstanceOf(SingletonAttribute);
       expect(property.getOwnAttribute(SingletonAttribute)!.type).toBeUndefined();
-      expect(property.hasOwnInterceptor()).toBeTrue();
-      expect(property.hasOwnInterceptor()).toBeTrue();
+      expect(property.hasOwnInterceptor()).toBe(true);
+      expect(property.hasOwnInterceptor()).toBe(true);
     });
   });
 

@@ -83,7 +83,7 @@ describe('6.8. @interceptable decorator', () => {
         }
       }
 
-      expect(Reflector(App684).static.hasOwnAttribute()).toBeTrue();
+      expect(Reflector(App684).static.hasOwnAttribute()).toBe(true);
     });
   });
 
@@ -99,7 +99,7 @@ describe('6.8. @interceptable decorator', () => {
           return n;
         }
       }
-      expect(Reflector(App685).static.hasOwnAttribute()).toBeFalse();
+      expect(Reflector(App685).static.hasOwnAttribute()).toBe(false);
     });
   });
 });
